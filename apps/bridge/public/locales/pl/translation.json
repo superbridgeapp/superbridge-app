@@ -1,0 +1,81 @@
+{
+  "deposit": "Depozyt",
+  "depositNft": "Depozyt {{tokenId}}",
+  "depositing": "Dokonywanie depozytu",
+  "withdraw": "Wypłata",
+  "withdrawNft": "Wypłata {{tokenId}}",
+  "withdrawing": "Dokonywanie wypłaty",
+  "approving": "Zatwierdzanie",
+  "connectWallet": "Połącz portfel",
+  "switchToApprove": "Przełącz na zatwierdzenie",
+  "switchTo": "Przełącz na {{chain}}",
+  "approve": "Zatwierdź",
+  "approveNft": "Zatwierdź {{tokenId}}",
+  "insufficientFunds": "Niewystarczające środki",
+  "insufficientGas": "Niewystarczające {{symbol}} na opłatę za gaz",
+  "loading": "Ładowanie",
+  "error": "Błąd",
+  "noAccountConnected": "Brak połączonego konta",
+  "save": "Zapisz",
+  "toAddress": "Do adresu",
+  "on": "włącz",
+  "off": "wyłącz",
+  "receiveOnChain": "Odbierz na {{chain}}",
+  "transferTime": "Czas transferu",
+  "availableBalance": "{{amount}} {{symbol}} dostępne",
+  "comingSoon": "Wkrótce dostępne",
+  "sorryAnErrorOccurred": "Przepraszamy! Wystąpił błąd",
+  "about": "O nas",
+  "docs": "Dokumentacja",
+  "from": "Od",
+  "to": "Do",
+
+  "settings": {
+    "settings": "Ustawienia",
+    "withdrawalSettings": "Ustawienia wypłat",
+    "escapeHatchDescription": "Wymuś swoją wypłatę za pomocą transakcji odpornej na cenzurę na Ethereum.",
+    "easyModeDescription": "Pozwól nam obsłużyć dodatkowe transakcje, abyś mógł ustawić i zapomnieć.",
+    "feeBreakdown": "Podział opłat"
+  },
+
+  "activity": {
+    "activity": "Aktywność",
+    "actionNeeded": "Wymagane działanie",
+    "connectWallet": "Proszę podłączyć swój portfel...",
+    "noTransactions": "Brak transakcji..."
+  },
+
+  "tokens": {
+    "tokens": "Tokeny",
+    "nfts": "NFT",
+    "selectToken": "Wybierz token",
+    "noneFound": "Brak wyników"
+  },
+
+  "recipient": {
+    "withdrawDestination": "Cel wypłaty",
+    "depositDestination": "Cel depozytu",
+    "invalidAddress": "Nieprawidłowy adres",
+    "yourChainAddress": "To jest twój adres {{chain}}",
+    "usedBefore": "Konto używane wcześniej",
+    "usedBeforeMultiple": "Konto używane {{count}} razy wcześniej",
+    "newAddress": "Nowy adres - proszę uważać!"
+  },
+
+  "buttons": {
+    "finalize": "Zakończ",
+    "prove": "Udowodnij",
+    "redeem": "Odbierz",
+    "switchChain": "Przełącz łańcuch",
+    "mint": "Mintuj"
+  },
+
+  "fees": {
+    "fees": "Opłaty",
+    "networkFee": "Opłata sieciowa (szacunkowa)",
+    "superbridgeFee": "Opłata Superbridge",
+    "easyModeFee": "Opłata trybu łatwego"
+  },
+
+  "poweredByConduit": "Napędzane przez Conduit"
+}

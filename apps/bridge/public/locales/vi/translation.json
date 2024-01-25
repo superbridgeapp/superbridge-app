@@ -1,0 +1,81 @@
+{
+  "deposit": "Gửi",
+  "depositNft": "Gửi {{tokenId}}",
+  "depositing": "Đang gửi",
+  "withdraw": "Rút",
+  "withdrawNft": "Rút {{tokenId}}",
+  "withdrawing": "Đang rút",
+  "approving": "Đang phê duyệt",
+  "connectWallet": "Kết nối ví",
+  "switchToApprove": "Chuyển sang phê duyệt",
+  "switchTo": "Chuyển sang {{chain}}",
+  "approve": "Phê duyệt",
+  "approveNft": "Phê duyệt {{tokenId}}",
+  "insufficientFunds": "Không đủ tiền",
+  "insufficientGas": "Không đủ {{symbol}} để thanh toán gas",
+  "loading": "Đang tải",
+  "error": "Lỗi",
+  "noAccountConnected": "Không có tài khoản nào được kết nối",
+  "save": "Lưu",
+  "toAddress": "Đến địa chỉ",
+  "on": "Bật",
+  "off": "Tắt",
+  "receiveOnChain": "Nhận trên chuỗi {{chain}}",
+  "transferTime": "Thời gian chuyển khoản",
+  "availableBalance": "{{amount}} {{symbol}} có sẵn",
+  "comingSoon": "Sắp có",
+  "sorryAnErrorOccurred": "Xin lỗi! Đã xảy ra lỗi",
+  "about": "Về chúng tôi",
+  "docs": "Tài liệu",
+  "from": "Từ",
+  "to": "Đến",
+
+  "settings": {
+    "settings": "Cài đặt",
+    "withdrawalSettings": "Cài đặt rút tiền",
+    "escapeHatchDescription": "Bắt buộc rút tiền của bạn qua một giao dịch chống kiểm duyệt trên Ethereum.",
+    "easyModeDescription": "Hãy để chúng tôi xử lý các giao dịch phụ để bạn có thể 'thiết lập và quên'.",
+    "feeBreakdown": "Phân loại phí"
+  },
+
+  "activity": {
+    "activity": "Hoạt động",
+    "actionNeeded": "Cần hành động",
+    "connectWallet": "Vui lòng kết nối ví của bạn...",
+    "noTransactions": "Chưa có giao dịch nào..."
+  },
+
+  "tokens": {
+    "tokens": "Token",
+    "nfts": "NFT",
+    "selectToken": "Chọn một token",
+    "noneFound": "Không tìm thấy kết quả"
+  },
+
+  "recipient": {
+    "withdrawDestination": "Điểm rút tiền",
+    "depositDestination": "Điểm gửi tiền",
+    "invalidAddress": "Địa chỉ không hợp lệ",
+    "yourChainAddress": "Đây là địa chỉ {{chain}} của bạn",
+    "usedBefore": "Tài khoản đã được sử dụng trước đó",
+    "usedBeforeMultiple": "Tài khoản đã được sử dụng {{count}} lần trước đó",
+    "newAddress": "Địa chỉ mới - hãy cẩn thận!"
+  },
+
+  "buttons": {
+    "finalize": "Hoàn tất",
+    "prove": "Chứng minh",
+    "redeem": "Đổi lại",
+    "switchChain": "Chuyển chuỗi",
+    "mint": "Tạo mới"
+  },
+
+  "fees": {
+    "fees": "Phí",
+    "networkFee": "Phí mạng (ước tính)",
+    "superbridgeFee": "Phí Superbridge",
+    "easyModeFee": "Phí chế độ dễ dàng"
+  },
+
+  "poweredByConduit": "Được hỗ trợ bởi Conduit"
+}

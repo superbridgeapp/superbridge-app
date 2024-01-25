@@ -1,0 +1,81 @@
+{
+  "deposit": "입금",
+  "depositNft": "{{tokenId}} 입금",
+  "depositing": "입금 중",
+  "withdraw": "출금",
+  "withdrawNft": "{{tokenId}} 출금",
+  "withdrawing": "출금 중",
+  "approving": "승인 중",
+  "connectWallet": "지갑 연결",
+  "switchToApprove": "승인으로 전환",
+  "switchTo": "{{chain}}로 전환",
+  "approve": "승인",
+  "approveNft": "{{tokenId}} 승인",
+  "insufficientFunds": "자금이 부족합니다",
+  "insufficientGas": "가스를 위한 {{symbol}}이(가) 부족합니다",
+  "loading": "로딩 중",
+  "error": "에러",
+  "noAccountConnected": "계정이 연결되어 있지 않습니다",
+  "save": "저장",
+  "toAddress": "받는 주소",
+  "on": "켜기",
+  "off": "끄기",
+  "receiveOnChain": "{{chain}}에서 수령",
+  "transferTime": "이전 시간",
+  "availableBalance": "{{amount}} {{symbol}} 사용 가능",
+  "comingSoon": "곧 출시 예정",
+  "sorryAnErrorOccurred": "죄송합니다! 오류가 발생했습니다",
+  "about": "소개",
+  "docs": "문서",
+  "from": "보내는 사람",
+  "to": "받는 사람",
+
+  "settings": {
+    "settings": "설정",
+    "withdrawalSettings": "출금 설정",
+    "escapeHatchDescription": "이더리움에서 검열에 저항하는 트랜잭션을 통해 강제로 출금합니다.",
+    "easyModeDescription": "추가 트랜잭션을 처리하도록 하여 '설정 및 잊기'를 설정할 수 있습니다.",
+    "feeBreakdown": "수수료 분해"
+  },
+
+  "activity": {
+    "activity": "활동",
+    "actionNeeded": "필요한 조치",
+    "connectWallet": "지갑을 연결하세요...",
+    "noTransactions": "아직 거래가 없습니다..."
+  },
+
+  "tokens": {
+    "tokens": "토큰",
+    "nfts": "NFT",
+    "selectToken": "토큰 선택",
+    "noneFound": "결과가 없습니다"
+  },
+
+  "recipient": {
+    "withdrawDestination": "출금 목적지",
+    "depositDestination": "입금 목적지",
+    "invalidAddress": "유효하지 않은 주소",
+    "yourChainAddress": "이것은 {{chain}} 주소입니다",
+    "usedBefore": "이전에 사용된 계정",
+    "usedBeforeMultiple": "{{count}} 번 이전에 사용된 계정",
+    "newAddress": "새 주소 - 주의하세요!"
+  },
+
+  "buttons": {
+    "finalize": "완료",
+    "prove": "증명",
+    "redeem": "교환",
+    "switchChain": "체인 전환",
+    "mint": "새로 만들기"
+  },
+
+  "fees": {
+    "fees": "수수료",
+    "networkFee": "네트워크 수수료 (예상)",
+    "superbridgeFee": "슈퍼브릿지 수수료",
+    "easyModeFee": "이지 모드 수수료"
+  },
+
+  "poweredByConduit": "Conduit에서 제공"
+}

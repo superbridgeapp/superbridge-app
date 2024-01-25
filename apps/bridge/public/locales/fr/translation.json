@@ -1,0 +1,81 @@
+{
+  "deposit": "Déposer",
+  "depositNft": "Déposer {{tokenId}}",
+  "depositing": "En cours de dépôt",
+  "withdraw": "Retirer",
+  "withdrawNft": "Retirer {{tokenId}}",
+  "withdrawing": "En cours de retrait",
+  "approving": "Approbation en cours",
+  "connectWallet": "Connecter le portefeuille",
+  "switchToApprove": "Basculer vers l'approbation",
+  "switchTo": "Basculer vers {{chain}}",
+  "approve": "Approuver",
+  "approveNft": "Approuver {{tokenId}}",
+  "insufficientFunds": "Fonds insuffisants",
+  "insufficientGas": "Insuffisant en {{symbol}} pour le gaz",
+  "loading": "Chargement",
+  "error": "Erreur",
+  "noAccountConnected": "Aucun compte connecté",
+  "save": "Enregistrer",
+  "toAddress": "À l'adresse",
+  "on": "Activé",
+  "off": "Désactivé",
+  "receiveOnChain": "Recevoir sur {{chain}}",
+  "transferTime": "Temps de transfert",
+  "availableBalance": "{{amount}} {{symbol}} disponible",
+  "comingSoon": "Prochainement",
+  "sorryAnErrorOccurred": "Désolé ! Une erreur est survenue",
+  "about": "À propos",
+  "docs": "Docs",
+  "from": "De",
+  "to": "À",
+
+  "settings": {
+    "settings": "Paramètres",
+    "withdrawalSettings": "Paramètres de retrait",
+    "escapeHatchDescription": "Forcer votre retrait via une transaction résistante à la censure sur Ethereum.",
+    "easyModeDescription": "Laissez-nous gérer les transactions supplémentaires pour que vous puissiez 'configurer et oublier'.",
+    "feeBreakdown": "Répartition des frais"
+  },
+
+  "activity": {
+    "activity": "Activité",
+    "actionNeeded": "Action nécessaire",
+    "connectWallet": "Veuillez connecter votre portefeuille...",
+    "noTransactions": "Aucune transaction pour le moment..."
+  },
+
+  "tokens": {
+    "tokens": "Jetons",
+    "nfts": "NFT",
+    "selectToken": "Sélectionner un jeton",
+    "noneFound": "Aucun résultat trouvé"
+  },
+
+  "recipient": {
+    "withdrawDestination": "Destination de retrait",
+    "depositDestination": "Destination de dépôt",
+    "invalidAddress": "Adresse non valide",
+    "yourChainAddress": "Ceci est votre adresse {{chain}}",
+    "usedBefore": "Compte déjà utilisé",
+    "usedBeforeMultiple": "Compte utilisé {{count}} fois auparavant",
+    "newAddress": "Nouvelle adresse - veuillez faire attention !"
+  },
+
+  "buttons": {
+    "finalize": "Finaliser",
+    "prove": "Prouver",
+    "redeem": "Racheter",
+    "switchChain": "Changer de chaîne",
+    "mint": "Mint"
+  },
+
+  "fees": {
+    "fees": "Frais",
+    "networkFee": "Frais de réseau (estimé)",
+    "superbridgeFee": "Frais Superbridge",
+    "easyModeFee": "Frais du mode facile"
+  },
+
+  "poweredByConduit": "Propulsé par Conduit"
+}

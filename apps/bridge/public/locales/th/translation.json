@@ -1,0 +1,81 @@
+{
+  "deposit": "ฝากเงิน",
+  "depositNft": "ฝาก {{tokenId}}",
+  "depositing": "กำลังฝาก",
+  "withdraw": "ถอน",
+  "withdrawNft": "ถอน {{tokenId}}",
+  "withdrawing": "กำลังถอน",
+  "approving": "อนุมัติ",
+  "connectWallet": "เชื่อมต่อกระเป๋าเงิน",
+  "switchToApprove": "สลับไปยังการอนุมัติ",
+  "switchTo": "สลับไปยัง {{chain}}",
+  "approve": "อนุมัติ",
+  "approveNft": "อนุมัติ {{tokenId}}",
+  "insufficientFunds": "เงินไม่เพียงพอ",
+  "insufficientGas": "ไม่เพียงพอ {{symbol}} สำหรับค่าแก๊ส",
+  "loading": "กำลังโหลด",
+  "error": "ข้อผิดพลาด",
+  "noAccountConnected": "ไม่ได้เชื่อมต่อบัญชี",
+  "save": "บันทึก",
+  "toAddress": "ไปยังที่อยู่",
+  "on": "เปิด",
+  "off": "ปิด",
+  "receiveOnChain": "รับที่ {{chain}}",
+  "transferTime": "เวลาโอน",
+  "availableBalance": "{{amount}} {{symbol}} ที่ใช้ได้",
+  "comingSoon": "เร็ว ๆ นี้",
+  "sorryAnErrorOccurred": "ขออภัย! มีข้อผิดพลาดเกิดขึ้น",
+  "about": "เกี่ยวกับ",
+  "docs": "เอกสาร",
+  "from": "จาก",
+  "to": "ถึง",
+
+  "settings": {
+    "settings": "การตั้งค่า",
+    "withdrawalSettings": "การตั้งค่าการถอน",
+    "escapeHatchDescription": "บังคับให้ถอนเงินผ่านธุรกรรมที่ต้านการเซ็นเซอร์บน Ethereum",
+    "easyModeDescription": "ปล่อยให้เราจัดการธุรกรรมเพิ่มเติมเพื่อให้คุณสามารถตั้งค่าและลืม",
+    "feeBreakdown": "การแยกค่าธรรมเนียม"
+  },
+
+  "activity": {
+    "activity": "กิจกรรม",
+    "actionNeeded": "ต้องการการกระทำ",
+    "connectWallet": "โปรดเชื่อมต่อกระเป๋าเงินของคุณ...",
+    "noTransactions": "ยังไม่มีธุรกรรม..."
+  },
+
+  "tokens": {
+    "tokens": "โทเค็น",
+    "nfts": "NFTs",
+    "selectToken": "เลือกโทเค็น",
+    "noneFound": "ไม่พบผลลัพธ์"
+  },
+
+  "recipient": {
+    "withdrawDestination": "ปลายทางการถอน",
+    "depositDestination": "ปลายทางการฝาก",
+    "invalidAddress": "ที่อยู่ไม่ถูกต้อง",
+    "yourChainAddress": "นี่คือที่อยู่ {{chain}} ของคุณ",
+    "usedBefore": "บัญชีที่ใช้ก่อน",
+    "usedBeforeMultiple": "บัญชีที่ใช้ {{count}} ครั้งก่อน",
+    "newAddress": "ที่อยู่ใหม่ - โปรดระวัง!"
+  },
+
+  "buttons": {
+    "finalize": "เสร็จสิ้น",
+    "prove": "พิสูจน์",
+    "redeem": "แลกรับ",
+    "switchChain": "สลับเชน",
+    "mint": "สร้าง"
+  },
+
+  "fees": {
+    "fees": "ค่าธรรมเนียม",
+    "networkFee": "ค่าธรรมเนียมเครือข่าย (ประมาณ)",
+    "superbridgeFee": "ค่าธรรมเนียม Superbridge",
+    "easyModeFee": "ค่าธรรมเนียมโหมดง่าย"
+  },
+
+  "poweredByConduit": "ขับเคลื่อนโดย Conduit"
+}

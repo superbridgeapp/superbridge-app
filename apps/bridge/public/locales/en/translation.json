@@ -1,0 +1,81 @@
+{
+  "deposit": "Deposit",
+  "depositNft": "Deposit {{tokenId}}",
+  "depositing": "Depositing",
+  "withdraw": "Withdraw",
+  "withdrawNft": "Withdraw {{tokenId}}",
+  "withdrawing": "Withdrawing",
+  "approving": "Approving",
+  "connectWallet": "Connect wallet",
+  "switchToApprove": "Switch to approve",
+  "switchTo": "Switch to {{chain}}",
+  "approve": "Approve",
+  "approveNft": "Approve {{tokenId}}",
+  "insufficientFunds": "Insufficient funds",
+  "insufficientGas": "Insufficient {{symbol}} for gas",
+  "loading": "Loading",
+  "error": "Error",
+  "noAccountConnected": "No account connected",
+  "save": "Save",
+  "toAddress": "To address",
+  "on": "on",
+  "off": "off",
+  "receiveOnChain": "Receive on {{chain}}",
+  "transferTime": "Transfer time",
+  "availableBalance": "{{amount}} {{symbol}} available",
+  "comingSoon": "Coming soon",
+  "sorryAnErrorOccurred": "Sorry! An error occurred",
+  "about": "About",
+  "docs": "Docs",
+  "from": "From",
+  "to": "To",
+
+  "settings": {
+    "settings": "Settings",
+    "withdrawalSettings": "Withdrawal settings",
+    "escapeHatchDescription": "Force your withdrawal via a censorship resistant transaction on Ethereum.",
+    "easyModeDescription": "Let us handle the extra transactions so you can set 'n forget.",
+    "feeBreakdown": "Fee breakdown"
+  },
+
+  "activity": {
+    "activity": "Activity",
+    "actionNeeded": "Action needed",
+    "connectWallet": "Please connect your wallet…",
+    "noTransactions": "No transactions yet…"
+  },
+
+  "tokens": {
+    "tokens": "Tokens",
+    "nfts": "NFTs",
+    "selectToken": "Select a token",
+    "noneFound": "No results found"
+  },
+
+  "recipient": {
+    "withdrawDestination": "Withdraw destination",
+    "depositDestination": "Deposit destination",
+    "invalidAddress": "Not a valid address",
+    "yourChainAddress": "This is your {{chain}} address",
+    "usedBefore": "Account used before",
+    "usedBeforeMultiple": "Account used {{count}} times before",
+    "newAddress": "New address - please be careful!"
+  },
+
+  "buttons": {
+    "finalize": "Finalize",
+    "prove": "Prove",
+    "redeem": "Redeem",
+    "switchChain": "Switch chain",
+    "mint": "Mint"
+  },
+
+  "fees": {
+    "fees": "Fees",
+    "networkFee": "Network fee (est)",
+    "superbridgeFee": "Superbridge fee",
+    "easyModeFee": "Easy mode fee"
+  },
+
+  "poweredByConduit": "Powered by Conduit"
+}

@@ -1,0 +1,81 @@
+{
+  "deposit": "Deposit",
+  "depositNft": "Deposit {{tokenId}}",
+  "depositing": "Sedang melakukan deposit",
+  "withdraw": "Tarik",
+  "withdrawNft": "Tarik {{tokenId}}",
+  "withdrawing": "Sedang melakukan penarikan",
+  "approving": "Menyetujui",
+  "connectWallet": "Hubungkan dompet",
+  "switchToApprove": "Beralih ke persetujuan",
+  "switchTo": "Beralih ke {{chain}}",
+  "approve": "Menyetujui",
+  "approveNft": "Setujui {{tokenId}}",
+  "insufficientFunds": "Dana tidak mencukupi",
+  "insufficientGas": "Gas tidak mencukupi untuk {{symbol}}",
+  "loading": "Sedang memuat",
+  "error": "Error",
+  "noAccountConnected": "Tidak ada akun yang terhubung",
+  "save": "Simpan",
+  "toAddress": "Ke alamat",
+  "on": "Aktif",
+  "off": "Matikan",
+  "receiveOnChain": "Terima di {{chain}}",
+  "transferTime": "Waktu transfer",
+  "availableBalance": "{{amount}} {{symbol}} tersedia",
+  "comingSoon": "Segera hadir",
+  "sorryAnErrorOccurred": "Maaf! Terjadi kesalahan",
+  "about": "Tentang",
+  "docs": "Dokumen",
+  "from": "Dari",
+  "to": "Ke",
+
+  "settings": {
+    "settings": "Pengaturan",
+    "withdrawalSettings": "Pengaturan penarikan",
+    "escapeHatchDescription": "Paksa penarikan Anda melalui transaksi tahan sensor di Ethereum.",
+    "easyModeDescription": "Biarkan kami mengurus transaksi tambahan sehingga Anda bisa 'atur dan lupakan'.",
+    "feeBreakdown": "Pemecahan biaya"
+  },
+
+  "activity": {
+    "activity": "Aktivitas",
+    "actionNeeded": "Tindakan diperlukan",
+    "connectWallet": "Harap hubungkan dompet Anda...",
+    "noTransactions": "Belum ada transaksi..."
+  },
+
+  "tokens": {
+    "tokens": "Token",
+    "nfts": "NFT",
+    "selectToken": "Pilih token",
+    "noneFound": "Tidak ada hasil yang ditemukan"
+  },
+
+  "recipient": {
+    "withdrawDestination": "Tujuan penarikan",
+    "depositDestination": "Tujuan deposit",
+    "invalidAddress": "Bukan alamat yang valid",
+    "yourChainAddress": "Ini adalah alamat {{chain}} Anda",
+    "usedBefore": "Akun pernah digunakan sebelumnya",
+    "usedBeforeMultiple": "Akun digunakan {{count}} kali sebelumnya",
+    "newAddress": "Alamat baru - harap berhati-hati!"
+  },
+
+  "buttons": {
+    "finalize": "Selesaikan",
+    "prove": "Buktikan",
+    "redeem": "Tebus",
+    "switchChain": "Beralih rantai",
+    "mint": "Mint"
+  },
+
+  "fees": {
+    "fees": "Biaya",
+    "networkFee": "Biaya jaringan (estimasi)",
+    "superbridgeFee": "Biaya Superbridge",
+    "easyModeFee": "Biaya mode mudah"
+  },
+
+  "poweredByConduit": "Ditenagai oleh Conduit"
+}

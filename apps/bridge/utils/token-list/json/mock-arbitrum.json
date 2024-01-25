@@ -1,0 +1,37 @@
+{
+  "name": "Mock Arbitrum Token",
+  "timestamp": "2023-03-17T17:36:19.453Z",
+  "version": {
+    "major": 1,
+    "minor": 0,
+    "patch": 0
+  },
+  "tokens": [
+    {
+      "chainId": 5,
+      "name": "Mock Arbitrum",
+      "address": "0x676e20b8dd26ef024fe8330b948418b3b42ba91b",
+      "symbol": "ARB",
+      "decimals": 18,
+      "logoURI": "https://arbitrum.foundation/logo.png"
+    },
+    {
+      "chainId": 421613,
+      "address": "0x6c96b40b05c595b75e6e1a096979a8108946fc81",
+      "name": "Mock Arbitrum",
+      "symbol": "ARB",
+      "decimals": 18,
+      "logoURI": "https://arbitrum.foundation/logo.png",
+      "extensions": {
+        "bridgeInfo": {
+          "5": {
+            "tokenAddress": "0x676e20b8dd26ef024fe8330b948418b3b42ba91b",
+            "originBridgeAddress": "0x2eC7Bc552CE8E51f098325D2FcF0d3b9d3d2A9a2",
+            "destBridgeAddress": "0x715D99480b77A8d9D603638e593a539E21345FdF"
+          }
+        }
+      }
+    }
+  ],
+  "logoURI": "https://arbitrum.foundation/logo.png"
+}

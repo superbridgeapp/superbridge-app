@@ -1,0 +1,81 @@
+{
+  "deposit": "जमा करें",
+  "depositNft": "{{tokenId}} जमा करें",
+  "depositing": "जमा हो रहा है",
+  "withdraw": "निकालें",
+  "withdrawNft": "{{tokenId}} निकालें",
+  "withdrawing": "निकाल रहा है",
+  "approving": "मंजूरी दे रहा है",
+  "connectWallet": "वॉलेट कनेक्ट करें",
+  "switchToApprove": "मंजूरी पर स्विच करें",
+  "switchTo": "{{chain}} पर स्विच करें",
+  "approve": "मंजूरी देना",
+  "approveNft": "{{tokenId}} को मंजूर करें",
+  "insufficientFunds": "अपर्याप्त धन",
+  "insufficientGas": "गैस के लिए {{symbol}} अपर्याप्त",
+  "loading": "लोड हो रहा है",
+  "error": "त्रुटि",
+  "noAccountConnected": "कोई खाता कनेक्ट नहीं है",
+  "save": "सहेजें",
+  "toAddress": "से पते पर",
+  "on": "चालू",
+  "off": "बंद",
+  "receiveOnChain": "{{chain}} पर प्राप्त करें",
+  "transferTime": "स्थानांतरण समय",
+  "availableBalance": "{{amount}} {{symbol}} उपलब्ध हैं",
+  "comingSoon": "जल्दी ही आ रहा है",
+  "sorryAnErrorOccurred": "माफ़ करें! कोई त्रुटि हुई है",
+  "about": "के बारे में",
+  "docs": "दस्तावेज़",
+  "from": "से",
+  "to": "को",
+
+  "settings": {
+    "settings": "सेटिंग्स",
+    "withdrawalSettings": "निकासी सेटिंग्स",
+    "escapeHatchDescription": "अपने वापसी को एक सेंसरशिप सहनशील लेन-देन के माध्यम से फ़ोर्स करें।",
+    "easyModeDescription": "हमें अतिरिक्त लेन-देनों को संभालने दें ताकि आप 'निर्धारित और भूल जाएं' का उपयोग कर सकें।",
+    "feeBreakdown": "शुल्क विवरण"
+  },
+
+  "activity": {
+    "activity": "गतिविधि",
+    "actionNeeded": "क्रिया की आवश्यकता है",
+    "connectWallet": "कृपया अपना वॉलेट कनेक्ट करें...",
+    "noTransactions": "अबतक कोई लेन-देन नहीं हुआ है..."
+  },
+
+  "tokens": {
+    "tokens": "टोकन",
+    "nfts": "एनएफटी",
+    "selectToken": "टोकन चुनें",
+    "noneFound": "कोई परिणाम नहीं मिला"
+  },
+
+  "recipient": {
+    "withdrawDestination": "निकासी गंतव्य",
+    "depositDestination": "जमा गंतव्य",
+    "invalidAddress": "अमान्य पता",
+    "yourChainAddress": "यह आपका {{chain}} पता है",
+    "usedBefore": "पहले से उपयोग किया गया है",
+    "usedBeforeMultiple": "{{count}} बार पहले से उपयोग किया गया है",
+    "newAddress": "नया पता - कृपया सावधान रहें!"
+  },
+
+  "buttons": {
+    "finalize": "समापन",
+    "prove": "सिद्ध करना",
+    "redeem": "मुक्त करना",
+    "switchChain": "श्रृंगार परिवर्तन करें",
+    "mint": "मिंट"
+  },
+
+  "fees": {
+    "fees": "शुल्क",
+    "networkFee": "नेटवर्क शुल्क (आनुमानित)",
+    "superbridgeFee": "सुपरब्रिज शुल्क",
+    "easyModeFee": "आसान मोड शुल्क"
+  },
+
+  "poweredByConduit": "कन्ड्यूट द्वारा संचालित"
+}

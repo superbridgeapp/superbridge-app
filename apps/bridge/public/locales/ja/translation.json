@@ -1,0 +1,81 @@
+{
+  "deposit": "入金",
+  "depositNft": "{{tokenId}} を入金",
+  "depositing": "入金中",
+  "withdraw": "引き出し",
+  "withdrawNft": "{{tokenId}} を引き出し",
+  "withdrawing": "引き出し中",
+  "approving": "承認中",
+  "connectWallet": "ウォレットに接続",
+  "switchToApprove": "承認に切り替え",
+  "switchTo": "{{chain}} に切り替え",
+  "approve": "承認する",
+  "approveNft": "{{tokenId}} を承認",
+  "insufficientFunds": "資金不足",
+  "insufficientGas": "ガスが不足しています {{symbol}}",
+  "loading": "読み込み中",
+  "error": "エラー",
+  "noAccountConnected": "アカウントが接続されていません",
+  "save": "保存",
+  "toAddress": "送り先アドレス",
+  "on": "オン",
+  "off": "オフ",
+  "receiveOnChain": "{{chain}} で受け取る",
+  "transferTime": "転送時間",
+  "availableBalance": "{{amount}} {{symbol}} 利用可能",
+  "comingSoon": "近日公開",
+  "sorryAnErrorOccurred": "申し訳ありません！エラーが発生しました",
+  "about": "約",
+  "docs": "ドキュメント",
+  "from": "送信元",
+  "to": "送信先",
+
+  "settings": {
+    "settings": "設定",
+    "withdrawalSettings": "引き出し設定",
+    "escapeHatchDescription": "イーサリアム上で検閲に耐えるトランザクションを使用して引き出しを強制します。",
+    "easyModeDescription": "余分なトランザクションを処理させて '設定して忘れる' ことができます。",
+    "feeBreakdown": "手数料の分解"
+  },
+
+  "activity": {
+    "activity": "アクティビティ",
+    "actionNeeded": "アクションが必要です",
+    "connectWallet": "ウォレットを接続してください...",
+    "noTransactions": "まだトランザクションはありません..."
+  },
+
+  "tokens": {
+    "tokens": "トークン",
+    "nfts": "NFT",
+    "selectToken": "トークンを選択",
+    "noneFound": "結果が見つかりませんでした"
+  },
+
+  "recipient": {
+    "withdrawDestination": "引き出し先",
+    "depositDestination": "入金先",
+    "invalidAddress": "有効なアドレスではありません",
+    "yourChainAddress": "これはあなたの {{chain}} アドレスです",
+    "usedBefore": "アカウントは以前使用されました",
+    "usedBeforeMultiple": "アカウントは以前 {{count}} 回使用されました",
+    "newAddress": "新しいアドレス - 注意してください！"
+  },
+
+  "buttons": {
+    "finalize": "完了",
+    "prove": "証明",
+    "redeem": "償還",
+    "switchChain": "チェーンを切り替える",
+    "mint": "ミント"
+  },
+
+  "fees": {
+    "fees": "手数料",
+    "networkFee": "ネットワーク手数料（見積もり）",
+    "superbridgeFee": "スーパーブリッジ手数料",
+    "easyModeFee": "簡単モード手数料"
+  },
+
+  "poweredByConduit": "Conduit によって提供されています"
+}

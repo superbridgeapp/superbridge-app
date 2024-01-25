@@ -1,0 +1,81 @@
+{
+  "deposit": "存款",
+  "depositNft": "存入 {{tokenId}}",
+  "depositing": "存款中",
+  "withdraw": "提款",
+  "withdrawNft": "提取 {{tokenId}}",
+  "withdrawing": "提款中",
+  "approving": "批准中",
+  "connectWallet": "连接钱包",
+  "switchToApprove": "切换到批准",
+  "switchTo": "切换到 {{chain}}",
+  "approve": "批准",
+  "approveNft": "批准 {{tokenId}}",
+  "insufficientFunds": "资金不足",
+  "insufficientGas": "{{symbol}} 不足以支付Gas费",
+  "loading": "加载中",
+  "error": "错误",
+  "noAccountConnected": "未连接任何账户",
+  "save": "保存",
+  "toAddress": "收款地址",
+  "on": "开",
+  "off": "关",
+  "receiveOnChain": "在 {{chain}} 上接收",
+  "transferTime": "转账时间",
+  "availableBalance": "{{amount}} {{symbol}} 可用",
+  "comingSoon": "即将推出",
+  "sorryAnErrorOccurred": "抱歉！发生错误",
+  "about": "关于",
+  "docs": "文档",
+  "from": "从",
+  "to": "到",
+
+  "settings": {
+    "settings": "设置",
+    "withdrawalSettings": "提款设置",
+    "escapeHatchDescription": "通过在以太坊上进行审查抵抗的交易强制提款。",
+    "easyModeDescription": "让我们处理额外的交易，这样您可以设置 '并忘记'。",
+    "feeBreakdown": "费用细目"
+  },
+
+  "activity": {
+    "activity": "活动",
+    "actionNeeded": "需要操作",
+    "connectWallet": "请连接您的钱包...",
+    "noTransactions": "尚无交易..."
+  },
+
+  "tokens": {
+    "tokens": "代币",
+    "nfts": "NFTs",
+    "selectToken": "选择代币",
+    "noneFound": "未找到结果"
+  },
+
+  "recipient": {
+    "withdrawDestination": "提款目的地",
+    "depositDestination": "存款目的地",
+    "invalidAddress": "无效地址",
+    "yourChainAddress": "这是您的 {{chain}} 地址",
+    "usedBefore": "以前使用过的帐户",
+    "usedBeforeMultiple": "帐户以前使用过 {{count}} 次",
+    "newAddress": "新地址 - 请小心！"
+  },
+
+  "buttons": {
+    "finalize": "完成",
+    "prove": "证明",
+    "redeem": "赎回",
+    "switchChain": "切换链",
+    "mint": "铸币"
+  },
+
+  "fees": {
+    "fees": "费用",
+    "networkFee": "网络费用（估算）",
+    "superbridgeFee": "Superbridge 费用",
+    "easyModeFee": "轻松模式费用"
+  },
+
+  "poweredByConduit": "由 Conduit 提供支持"
+}

@@ -1,0 +1,81 @@
+{
+  "deposit": "Depósito",
+  "depositNft": "Depósito {{tokenId}}",
+  "depositing": "Depositando",
+  "withdraw": "Retirar",
+  "withdrawNft": "Retirar {{tokenId}}",
+  "withdrawing": "Retirando",
+  "approving": "Aprobando",
+  "connectWallet": "Conectar billetera",
+  "switchToApprove": "Cambiar a aprobar",
+  "switchTo": "Cambiar a {{chain}}",
+  "approve": "Aprobar",
+  "approveNft": "Aprobar {{tokenId}}",
+  "insufficientFunds": "Fondos insuficientes",
+  "insufficientGas": "Gas insuficiente {{symbol}}",
+  "loading": "Cargando",
+  "error": "Error",
+  "noAccountConnected": "No hay cuenta conectada",
+  "save": "Guardar",
+  "toAddress": "A dirección",
+  "on": "encendido",
+  "off": "apagado",
+  "receiveOnChain": "Recibir en {{chain}}",
+  "transferTime": "Tiempo de transferencia",
+  "availableBalance": "{{amount}} {{symbol}} disponible",
+  "comingSoon": "Próximamente",
+  "sorryAnErrorOccurred": "¡Lo siento! Se produjo un error",
+  "about": "Acerca de",
+  "docs": "Documentos",
+  "from": "De",
+  "to": "A",
+
+  "settings": {
+    "settings": "Configuración",
+    "withdrawalSettings": "Configuración de retiro",
+    "escapeHatchDescription": "Forzar su retiro a través de una transacción resistente a la censura en Ethereum.",
+    "easyModeDescription": "Deje que nos ocupemos de las transacciones adicionales para que pueda configurar y olvidarse.",
+    "feeBreakdown": "Desglose de tarifas"
+  },
+
+  "activity": {
+    "activity": "Actividad",
+    "actionNeeded": "Acción necesaria",
+    "connectWallet": "Por favor, conecte su billetera...",
+    "noTransactions": "Aún no hay transacciones..."
+  },
+
+  "tokens": {
+    "tokens": "Tokens",
+    "nfts": "NFTs",
+    "selectToken": "Seleccionar un token",
+    "noneFound": "No se encontraron resultados"
+  },
+
+  "recipient": {
+    "withdrawDestination": "Destino de retiro",
+    "depositDestination": "Destino de depósito",
+    "invalidAddress": "Dirección no válida",
+    "yourChainAddress": "Esta es tu dirección de {{chain}}",
+    "usedBefore": "Cuenta utilizada anteriormente",
+    "usedBeforeMultiple": "Cuenta utilizada {{count}} veces antes",
+    "newAddress": "Nueva dirección - ¡ten cuidado!"
+  },
+
+  "buttons": {
+    "finalize": "Finalizar",
+    "prove": "Probar",
+    "redeem": "Canjear",
+    "switchChain": "Cambiar cadena",
+    "mint": "Acuñar"
+  },
+
+  "fees": {
+    "fees": "Tarifas",
+    "networkFee": "Tarifa de red (est)",
+    "superbridgeFee": "Tarifa de Superbridge",
+    "easyModeFee": "Tarifa de modo fácil"
+  },
+
+  "poweredByConduit": "Impulsado por Conduit"
+}

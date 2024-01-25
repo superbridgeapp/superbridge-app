@@ -1,0 +1,81 @@
+{
+  "deposit": "إيداع",
+  "depositNft": "إيداع {{tokenId}}",
+  "depositing": "جارٍ الإيداع",
+  "withdraw": "سحب",
+  "withdrawNft": "سحب {{tokenId}}",
+  "withdrawing": "جارٍ السحب",
+  "approving": "جارٍ الموافقة",
+  "connectWallet": "اتصال بالمحفظة",
+  "switchToApprove": "التبديل للموافقة",
+  "switchTo": "التبديل إلى {{chain}}",
+  "approve": "الموافقة",
+  "approveNft": "الموافقة على {{tokenId}}",
+  "insufficientFunds": "أموال غير كافية",
+  "insufficientGas": "كمية {{symbol}} غير كافية للغاز",
+  "loading": "جارٍ التحميل",
+  "error": "خطأ",
+  "noAccountConnected": "لا يوجد حساب متصل",
+  "save": "حفظ",
+  "toAddress": "إلى العنوان",
+  "on": "تشغيل",
+  "off": "إيقاف",
+  "receiveOnChain": "استلام على {{chain}}",
+  "transferTime": "وقت التحويل",
+  "availableBalance": "{{amount}} {{symbol}} متاحة",
+  "comingSoon": "قريباً",
+  "sorryAnErrorOccurred": "عذرًا! حدث خطأ",
+  "about": "حول",
+  "docs": "الوثائق",
+  "from": "من",
+  "to": "إلى",
+
+  "settings": {
+    "settings": "الإعدادات",
+    "withdrawalSettings": "إعدادات السحب",
+    "escapeHatchDescription": "فرض سحبك عبر عملية تحويل مقاومة للرقابة على إيثيريوم.",
+    "easyModeDescription": "دعونا نتعامل مع المزيد من المعاملات حتى تتمكن من 'التعيين والنسيان'.",
+    "feeBreakdown": "تفصيل الرسوم"
+  },
+
+  "activity": {
+    "activity": "النشاط",
+    "actionNeeded": "الإجراء المطلوب",
+    "connectWallet": "يرجى الاتصال بمحفظتك...",
+    "noTransactions": "لا توجد معاملات حتى الآن..."
+  },
+
+  "tokens": {
+    "tokens": "الرموز",
+    "nfts": "NFTs",
+    "selectToken": "اختر رمزًا",
+    "noneFound": "لم يتم العثور على نتائج"
+  },
+
+  "recipient": {
+    "withdrawDestination": "وجهة السحب",
+    "depositDestination": "وجهة الإيداع",
+    "invalidAddress": "عنوان غير صالح",
+    "yourChainAddress": "هذا هو عنوان {{chain}} الخاص بك",
+    "usedBefore": "تم استخدام الحساب من قبل",
+    "usedBeforeMultiple": "تم استخدام الحساب {{count}} مرة من قبل",
+    "newAddress": "عنوان جديد - يرجى الحذر!"
+  },
+
+  "buttons": {
+    "finalize": "إنهاء",
+    "prove": "إثبات",
+    "redeem": "استرداد",
+    "switchChain": "تغيير السلسلة",
+    "mint": "صك"
+  },
+
+  "fees": {
+    "fees": "الرسوم",
+    "networkFee": "رسوم الشبكة (تقديري)",
+    "superbridgeFee": "رسوم Superbridge",
+    "easyModeFee": "رسوم الوضع السهل"
+  },
+
+  "poweredByConduit": "مدعوم بواسطة كوندويت"
+}

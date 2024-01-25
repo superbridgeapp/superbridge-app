@@ -1,0 +1,5 @@
+{
+  "name": "Superbridge",
+  "description": "Bridge ETH and ERC20 tokens into and out of Optimism OP Stack rollups and Arbitrum Nitro rollups",
+  "iconPath": "/img/superbridge/favicon.ico"
+}

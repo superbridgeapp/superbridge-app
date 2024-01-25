@@ -1,0 +1,27 @@
+{
+  "name": "rollbridge",
+  "private": true,
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+  },
+  "dependencies": {
+    "turbo": "^1.10.16",
+    "typescript": "^5.2.2"
+  },
+  "devDependencies": {
+    "@turbo/gen": "^1.10.16",
+    "eslint": "^7.32.0",
+    "eslint-config-custom": "workspace:*",
+    "prettier": "^2.5.1"
+  },
+  "packageManager": "pnpm@8.6.6",
+  "engines": {
+    "node": ">=18"
+  },
+  "resolutions": {
+    "@types/react": "18.2.23"
+  }
+}
