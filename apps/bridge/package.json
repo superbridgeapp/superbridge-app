@@ -48,7 +48,6 @@
     "tailwindcss-animate": "^1.0.7",
     "ts-is-present": "^1.2.2",
     "ts-pattern": "^5.0.6",
-    "ui": "workspace:*",
     "use-debounce": "^10.0.0",
     "viem": "^1.21.4",
     "wagmi": "^1.4.13",
