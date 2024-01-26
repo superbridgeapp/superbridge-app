@@ -11,7 +11,7 @@ export const baseTokens = [
     standardBridgeAddresses: {
       [base.id]: "0x3154Cf16ccdb4C6d922629664174b904d80F2C35",
     },
-    opTokenId: "SEND",
+    opTokenId: "send",
     coinGeckoId: "send-token",
   },
   {
@@ -24,7 +24,7 @@ export const baseTokens = [
     standardBridgeAddresses: {
       [mainnet.id]: "0x4200000000000000000000000000000000000010",
     },
-    opTokenId: "SEND",
+    opTokenId: "send",
     coinGeckoId: "send-token",
   },
 ] as const;
