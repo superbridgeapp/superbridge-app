@@ -103,7 +103,13 @@ export const OpenActivity = ({}) => {
             <Loading />
           </div>
         ))
-        .with({ isError: true }, () => <div>{t("error")}</div>)
+        .with({ isError: true }, () => (
+          <div className="flex grow justify-center h-full px-8 py-8 text-center">
+            <span className="text-zinc-400 text-xs font-bold">
+              {t("activity.error")}
+            </span>
+          </div>
+        ))
         .with(
           { transactions: P.any, pendingTransactions: P.any },
           ({ transactions, pendingTransactions }) => {

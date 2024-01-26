@@ -42,7 +42,8 @@
     "activity": "Activity",
     "actionNeeded": "Action needed",
     "connectWallet": "Please connect your wallet…",
-    "noTransactions": "No transactions yet…"
+    "noTransactions": "No transactions yet…",
+    "error": "Sorry! We're unable to pull your activity feed.\n Please try and refresh the page"
   },
 
   "tokens": {
