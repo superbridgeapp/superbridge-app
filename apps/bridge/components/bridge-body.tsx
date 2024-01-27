@@ -17,7 +17,6 @@ import { useAllowanceNft } from "@/hooks/use-allowance-nft";
 import { useApprove } from "@/hooks/use-approve";
 import { useApproveNft } from "@/hooks/use-approve-nft";
 import { useTokenBalance } from "@/hooks/use-balances";
-import { useBlacklist } from "@/hooks/use-blacklist";
 import { useBridge } from "@/hooks/use-bridge";
 import { useBridgeFee } from "@/hooks/use-bridge-fee";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
@@ -136,7 +135,6 @@ export const BridgeBody = () => {
   const weiAmount = useWeiAmount();
   const token = useSelectedToken();
   const transferTime = useTransferTime();
-  const blacklisted = useBlacklist();
   const { t } = useTranslation();
 
   const [tokensDialog, setTokensDialog] = useState(false);
@@ -312,7 +310,6 @@ export const BridgeBody = () => {
   ].filter(isPresent);
 
   const submitButton = match({
-    blacklisted,
     withdrawing,
     isSubmitting: bridge.write.isLoading,
     account: account.address,
@@ -330,11 +327,6 @@ export const BridgeBody = () => {
     isContractAccount,
     recipient,
   })
-    .with({ blacklisted: true }, () => ({
-      onSubmit: () => {},
-      buttonText: withdrawing ? t("withdraw") : t("deposit"),
-      disabled: false,
-    }))
     .with({ token: P.not(P.nullish), approve: { isLoading: true } }, () => ({
       onSubmit: () => {},
       buttonText: t("approving"),
