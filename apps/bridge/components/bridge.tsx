@@ -15,15 +15,15 @@ export const Bridge = () => {
   return (
     <PageTransition>
       <main
-        className="flex items-start md:items-center pt-16 md:pt-0 justify-center w-screen h-screen fixed inset-0"
+        className="flex items-start justify-center w-screen h-screen fixed inset-0 overflow-y-scroll"
         key="bridgeMain"
       >
-        <div className="w-full px-2 md:w-[420px] aspect-[3/4] relative">
+        <div className="w-full px-2 md:w-[420px] aspect-[3/4] relative mb-24 mt-16 md:mt-24 xl:mt-32">
           <div className="flex flex-col gap-2 md:gap-2 items-center">
             <div
               className={`${
                 deploymentTheme(deployment).bg
-              } mx-auto rounded-[24px] md:rounded-[32px] shadow-sm w-full shrink-0 border border-black/[0.0125] dark:border-white/[0.0125] backdrop-blur-sm`}
+              } mx-auto rounded-[24px] md:rounded-[32px] shadow-sm w-full shrink-0 border border-black/[0.0125] dark:border-white/[0.0125] backdrop-blur-sm `}
             >
               <BridgeHeader />
               <BridgeBody />

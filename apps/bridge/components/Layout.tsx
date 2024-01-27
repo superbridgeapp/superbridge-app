@@ -103,7 +103,7 @@ export function Layout({ Component, pageProps, router }: AppProps) {
             <div className={clsx(theme.bg, "rounded-full shadow-sm")}>
               <Image
                 src={"/img/rollbridge-logo.svg"}
-                width={174}
+                width={144}
                 height={40}
                 alt={"Rollbridge"}
                 draggable={false}
@@ -111,7 +111,7 @@ export function Layout({ Component, pageProps, router }: AppProps) {
               />
               <Image
                 src={"/img/rollbridge-logo-dark.svg"}
-                width={174}
+                width={144}
                 height={40}
                 alt={"Rollbridge"}
                 draggable={false}
@@ -152,12 +152,11 @@ export function Layout({ Component, pageProps, router }: AppProps) {
         <motion.button
           onClick={() => navigate("/")}
           whileHover={{ scale: 1.05 }}
-          // Alex maybe there's a better way to do this I dunno
           animate={{ y: pathname === "/" ? -80 : 0, x: "-50%" }}
           initial={{ y: -60, x: "-50%" }}
-          className={`flex items-center py-0 md:py-3 px-3 md:px-4 h-10 md:h-auto absolute top-3 md:top-6 left-[102px] md:left-1/2 z-10 rounded-full shadow-sm border-black/[0.0125] dark:border-white/[0.0125] ${
-            deploymentTheme(deployment).bg
-          }`}
+          className={`flex items-center py-0 md:py-3 px-3 md:px-4 h-10 md:h-auto absolute top-3 md:top-6  md:left-1/2 z-10 rounded-full shadow-sm border-black/[0.0125] dark:border-white/[0.0125] 
+          ${isSuperbridge ? "left-[102px]" : "left-[84px]"}
+          ${deploymentTheme(deployment).bg}`}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
