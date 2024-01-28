@@ -38,7 +38,6 @@ export const TokenModal = (props: {
               <div
                 className={`${theme.bgMuted} flex p-1 rounded-full transition-colors w-full`}
               >
-                {/* do we need some 'as' or aria stuff on these divs since they're intereactive? */}
                 <div
                   role="button"
                   className={`flex justify-center items-center rounded-full px-3 h-10 cursor-pointer transition-colors duration-200 w-full ${
