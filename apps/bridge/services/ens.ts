@@ -14,8 +14,8 @@ interface ProfileProps {
 }
 
 const urls = [
-  "https://eth.merkle.io",
-  "https://eth.drpc.org",
+  // "https://eth.merkle.io",
+  // "https://eth.drpc.org",
   "https://eth.llamarpc.com",
   "https://cloudflare-eth.com",
 ];
@@ -23,12 +23,7 @@ const urls = [
 const getEnsClient = () =>
   createPublicClient({
     chain: mainnet,
-    transport: fallback(
-      urls.map((url) => http(url)),
-      {
-        rank: { timeout: 1_000 },
-      }
-    ),
+    transport: fallback(urls.map((url) => http(url))),
   });
 
 export const resolveName = async (
