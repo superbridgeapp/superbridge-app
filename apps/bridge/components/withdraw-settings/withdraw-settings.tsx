@@ -28,7 +28,7 @@ export const WithdrawSettings = ({
   const theme = deploymentTheme(deployment);
 
   return (
-    <div className="">
+    <div>
       <h2 className="font-bold pb-4 border-b border-zinc-50 dark:border-zinc-900 p-6">
         {t("settings.withdrawalSettings")}
       </h2>

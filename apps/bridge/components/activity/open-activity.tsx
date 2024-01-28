@@ -42,7 +42,7 @@ export const OpenActivity = ({}) => {
 
   return (
     <main
-      className="flex items-start justify-center w-screen h-screen fixed inset-0 px-2"
+      className="flex items-start justify-center w-screen h-screen fixed inset-0 px-2 md:px-0 py-16 md:py-24 xl:py-32"
       key="bridgeMain"
     >
       <motion.div
@@ -52,7 +52,7 @@ export const OpenActivity = ({}) => {
         transition={{ type: "spring", damping: 12, delay: 0.08 }}
         className={`${
           deploymentTheme(deployment).bg
-        } backdrop-blur z-50 rounded-[32px] max-h-[calc(100vh-204px)] lg:max-h-[540px] self-start mt-16 md:mt-24 xl:mt-32 mb-40 w-screen md:w-[420px] aspect-[3/4] shadow-sm flex flex-col relative overflow-hidden border border-black/[0.0125] dark:border-white/[0.0125]`}
+        } flex flex-col self-start  z-50 relative overflow-hidden rounded-[32px] h-[100vh] max-h-[80vh] min-h-[80vh] md:max-h-[72vh] md:min-h-[72vh] w-screen md:w-[50vw] md:max-w-[420px] aspect-[3/4] backdrop-blur shadow-sm border border-black/[0.0125] dark:border-white/[0.0125]`}
       >
         <div
           className="flex items-center justify-between pl-6 pr-4 py-4 md:py-6 border-b border-zinc-100 dark:border-zinc-800 cursor-pointer z-10"

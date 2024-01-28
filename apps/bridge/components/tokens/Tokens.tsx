@@ -221,7 +221,7 @@ export const FungibleTokenPicker = ({
         </div>
       </div>
 
-      <div className="overflow-y-scroll h-96">
+      <div className="overflow-y-scroll flex flex-col basis-full">
         {match({ filteredTokens })
           // .with(
           //   {
