@@ -52,7 +52,7 @@ export const OpenActivity = ({}) => {
         transition={{ type: "spring", damping: 12, delay: 0.08 }}
         className={`${
           deploymentTheme(deployment).bg
-        } flex flex-col self-start  z-50 relative overflow-hidden rounded-[32px] h-[100vh] max-h-[80vh] min-h-[80vh] md:max-h-[72vh] md:min-h-[72vh] w-screen md:w-[50vw] md:max-w-[420px] aspect-[3/4] backdrop-blur shadow-sm border border-black/[0.0125] dark:border-white/[0.0125]`}
+        } flex flex-col self-start  z-50 relative overflow-hidden rounded-[32px] h-[calc(76dvh)] max-h-[680px]  w-screen md:w-[50vw] md:max-w-[420px] aspect-[3/4] backdrop-blur shadow-sm border border-black/[0.0125] dark:border-white/[0.0125]`}
       >
         <div
           className="flex items-center justify-between pl-6 pr-4 py-4 md:py-6 border-b border-zinc-100 dark:border-zinc-800 cursor-pointer z-10"
