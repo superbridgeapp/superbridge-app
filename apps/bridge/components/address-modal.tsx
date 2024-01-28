@@ -177,7 +177,7 @@ export const AddressModal = ({
                       account: account.address,
                     })
                       .with({ isLoading: true }, () => (
-                        <div className="inline-flex gap-1 px-2 py-1 rounded-full bg-zinc-100 dark:bg-zinc-950">
+                        <div className="inline-flex gap-1 px-2 py-1 rounded-full bg-zinc-100 dark:bg-zinc-900">
                           <span className="text-xs font-medium text-zinc-500">
                             Checking address…
                           </span>
