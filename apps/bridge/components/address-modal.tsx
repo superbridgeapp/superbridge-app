@@ -36,10 +36,14 @@ const Profile = ({
     return null;
   }
 
+  if (showName && !data.name) {
+    return null;
+  }
+
   return (
     <div
       className={clsx(
-        "flex items-center space-x-1 px-2 py-1 border border-zinc-50 rounded-full",
+        "flex items-center space-x-1 px-2 py-1 border border-zinc-50 dark:border-zinc-800 rounded-full",
         data.avatar && "pr-1"
       )}
     >
