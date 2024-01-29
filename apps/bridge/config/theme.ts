@@ -113,11 +113,24 @@ const zoraTheme: Theme = {
 
 const modeTheme: Theme = {
   ...defaultTheme,
+  bg: "bg-zinc-50 dark:bg-zinc-900",
+  bgMuted: "bg-zinc-200/50 dark:bg-white/5",
+  accentBg:
+    "bg-zinc-900 hover:bg-zinc-950 dark:bg-[#DFFE00] dark:hover:bg-[3E4FF52]",
+  screenBg: "bg-[#DFFE00] dark:bg-black",
+  logoSrc: "/img/logo-mode.svg",
+  logoSrcDark: "/img/logo-mode-dark.svg",
+  logoWidth: 134,
+  logoHeight: 40,
+  iconSrc: "/img/icon-mode.svg",
+  l2ChainIcon: "/img/network-mode.svg",
+  screenBgImg:
+    "bg-[url('/img/bg/mode-bg.svg')] bg-repeat opacity-15 dark:opacity-35",
   card: {
     className: "bg-zinc-950",
   },
-  iconSrc: "/img/icon-mode.svg",
-  l2ChainIcon: "/img/network-op mainnet.svg",
+  standaloneLogo: "/img/logo-mode.svg",
+  standaloneLogoDark: "/img/logo-mode-dark.svg",
 };
 
 const aevoTheme: Theme = {
