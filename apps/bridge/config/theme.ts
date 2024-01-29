@@ -148,17 +148,37 @@ const aevoTheme: Theme = {
 const lyraTheme: Theme = {
   ...defaultTheme,
   card: {
-    className: "bg-[#21ECA6]",
+    className: "bg-[#26FAB0]",
   },
   iconSrc: "/img/icon-lyra.svg",
+  screenBg: "bg-[#26FAB0] dark:bg-[#0B1820]",
+  logoSrc: "/img/logo-lyra.svg",
+  logoSrcDark: "/img/logo-lyra-dark.svg",
+  logoWidth: 40,
+  logoHeight: 40,
+  l2ChainIcon: "/img/network-lyra.svg",
+  standaloneLogo: "/img/logo-lyra.svg",
+  standaloneLogoDark: "/img/logo-lyra-dark.svg",
+  screenBgImg:
+    "bg-gradient-to-t from-violet-500 via-violet-500/0 to-violet-500/0 mix-blend-multiply opacity-20",
 };
 
 const orderlyTheme: Theme = {
   ...defaultTheme,
   card: {
-    className: "bg-[#7C3FCB]",
+    className: "bg-gradient-to-t from-[#4D00B1] via-[#7C3FCB] to-[#7C3FCB]",
   },
   iconSrc: "/img/icon-orderly.svg",
+  screenBg: "bg-[#7C3FCB] dark:bg-[#310F6A]",
+  logoSrc: "/img/logo-orderly.svg",
+  logoSrcDark: "/img/logo-orderly-dark.svg",
+  logoWidth: 40,
+  logoHeight: 40,
+  l2ChainIcon: "/img/network-orderly.svg",
+  standaloneLogo: "/img/standalone-logo-orderly.svg",
+  standaloneLogoDark: "/img/standalone-logo-orderly.svg",
+  screenBgImg:
+    "bg-gradient-to-t from-violet-500 via-violet-500/0 to-violet-500/0 mix-blend-multiply opacity-60 dark:opacity-100",
 };
 
 const ancient8Theme: Theme = {
