@@ -131,7 +131,7 @@ export const OpenActivity = ({}) => {
               }
 
               return (
-                <div className="overflow-scroll">
+                <div className="overflow-y-auto overflow-x-hidden">
                   {[
                     ...pendingTransactions,
                     ...transactions,
