@@ -30,12 +30,14 @@ import {
 // import { loadAll } from "@/tsparticles/all"; // if you are going to use `loadAll`, install the "@tsparticles/all" package too.
 // import { loadFull } from "tsparticles"; // if you are going to use `loadFull`, install the "tsparticles" package too.
 import { loadSlim } from "@tsparticles/slim"; // if you are going to use `loadSlim`, install the "@tsparticles/slim" package too.
+import { isDog } from "@/utils/is-dog";
 // import { loadBasic } from "@tsparticles/basic"; // if you are going to use `loadBasic`, install the "@tsparticles/basic" package too.
 
 export function Layout({ Component, pageProps, router }: AppProps) {
   const deployments = useDeployments();
   const navigate = useNavigate();
   const deployment = useConfigState.useDeployment();
+  const stateToken = useConfigState.useToken();
   const displayTransactions = useConfigState.useDisplayTransactions();
   const setSettingsModal = useConfigState.useSetSettingsModal();
   const settingsModal = useConfigState.useSettingsModal();
@@ -143,16 +145,20 @@ export function Layout({ Component, pageProps, router }: AppProps) {
   return (
     <div
       className={clsx(
-        `w-screen h-screen overflow-hidden z-40 relative  bg-[#F4EBD7] dark:bg-[#302D25] transition-colors duration-1000 tracking-tight flex justify-center transform-gpu`
+        "w-screen h-screen overflow-hidden z-40 relative",
+        isDog(deployment, stateToken)
+          ? "bg-[#F4EBD7] dark:bg-[#302D25]"
+          : theme.screenBg,
+        "transition-colors duration-1000 tracking-tight flex justify-center transform-gpu"
       )}
     >
-      {/* isDog transparent */}
-      {/* ${theme.screenBgImg} */}
       <div
-        className={clsx(`inset-0 z-0 fixed transition-all bg-transparent`)}
+        className={clsx(
+          `inset-0 z-0 fixed transition-all bg-transparent`,
+          isDog(deployment, stateToken) ? "bg-transparent" : theme.screenBgImg
+        )}
       />
-      {/* isDog */}
-      {init ? (
+      {isDog(deployment, stateToken) ? (
         <Particles
           id="tsparticles"
           particlesLoaded={particlesLoaded}
