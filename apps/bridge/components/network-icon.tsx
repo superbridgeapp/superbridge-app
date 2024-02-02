@@ -5,6 +5,12 @@ import {
   arbitrumGoerli,
   arbitrumNova,
   arbitrumSepolia,
+  base,
+  baseSepolia,
+  optimism,
+  optimismSepolia,
+  zora,
+  zoraSepolia,
 } from "viem/chains";
 import { Chain } from "wagmi";
 
@@ -12,10 +18,18 @@ import { ChainDto, DeploymentDto } from "@/codegen/model";
 import { chainIcons, deploymentTheme } from "@/config/theme";
 
 const L3_BASE_CHAINS: number[] = [
+  // Orbit
   arbitrum.id,
   arbitrumNova.id,
   arbitrumGoerli.id,
   arbitrumSepolia.id,
+  // OP
+  zora.id,
+  zoraSepolia.id,
+  base.id,
+  baseSepolia.id,
+  optimism.id,
+  optimismSepolia.id,
 ];
 
 export const NetworkIcon = ({
