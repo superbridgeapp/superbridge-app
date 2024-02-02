@@ -18,6 +18,20 @@ import { useConfigState } from "@/state/config";
 
 import { SettingsModal } from "./settings/settings-modal";
 
+// DOGMODE TEMP IMPORTS
+import { useEffect, useMemo, useState } from "react";
+import Particles, { initParticlesEngine } from "@tsparticles/react";
+import {
+  type Container,
+  type ISourceOptions,
+  MoveDirection,
+  OutMode,
+} from "@tsparticles/engine";
+// import { loadAll } from "@/tsparticles/all"; // if you are going to use `loadAll`, install the "@tsparticles/all" package too.
+// import { loadFull } from "tsparticles"; // if you are going to use `loadFull`, install the "tsparticles" package too.
+import { loadSlim } from "@tsparticles/slim"; // if you are going to use `loadSlim`, install the "@tsparticles/slim" package too.
+// import { loadBasic } from "@tsparticles/basic"; // if you are going to use `loadBasic`, install the "@tsparticles/basic" package too.
+
 export function Layout({ Component, pageProps, router }: AppProps) {
   const deployments = useDeployments();
   const navigate = useNavigate();
@@ -29,18 +43,124 @@ export function Layout({ Component, pageProps, router }: AppProps) {
   useInitialise();
 
   const theme = deploymentTheme(deployment);
+
+  // DOGMODE TEMP
+  const [init, setInit] = useState(false);
+
+  // this should be run only once per application lifetime
+  useEffect(() => {
+    initParticlesEngine(async (engine) => {
+      // you can initiate the tsParticles instance (engine) here, adding custom shapes or presets
+      // this loads the tsparticles package bundle, it's the easiest method for getting everything ready
+      // starting from v2 you can add only the features you need reducing the bundle size
+      //await loadAll(engine);
+      //await loadFull(engine);
+      await loadSlim(engine);
+      //await loadBasic(engine);
+    }).then(() => {
+      setInit(true);
+    });
+  }, []);
+
+  const particlesLoaded = async (container?: Container): Promise<void> => {
+    console.log(container);
+  };
+
+  const options: ISourceOptions = useMemo(
+    () => ({
+      particles: {
+        move: {
+          enable: true,
+          speed: { min: 1, max: 6 },
+        },
+        number: {
+          value: 10,
+          max: 20,
+        },
+        opacity: {
+          value: 1,
+        },
+        rotate: {
+          path: true,
+        },
+        shape: {
+          options: {
+            image: [
+              {
+                gif: false,
+                width: 148,
+                height: 198,
+                src: "/img/dog/big-dog.png",
+              },
+              {
+                gif: false,
+                width: 148,
+                height: 112,
+                src: "/img/dog/doge-cool.png",
+              },
+            ],
+            // image: [
+            //   {
+            //     gif: false,
+            //     width: 49,
+            //     height: 49,
+            //     src: "/img/dog/dog-a.png",
+            //   },
+            //   {
+            //     gif: false,
+            //     width: 76,
+            //     height: 26,
+            //     src: "/img/dog/dog-c.png",
+            //   },
+            //   {
+            //     gif: false,
+            //     width: 51,
+            //     height: 54,
+            //     src: "/img/dog/dog-d.png",
+            //   },
+            //   {
+            //     gif: false,
+            //     width: 26,
+            //     height: 23,
+            //     src: "/img/dog/dog-e.png",
+            //   },
+            // ],
+          },
+          type: "image",
+        },
+        size: {
+          value: {
+            min: 16,
+            max: 32,
+          },
+        },
+      },
+    }),
+    []
+  );
+
+  /*${theme.screenBg}*/
   return (
     <div
       className={clsx(
-        `w-screen h-screen overflow-hidden z-40 relative ${theme.screenBg} transition-colors duration-1000 tracking-tight flex justify-center transform-gpu`
+        `w-screen h-screen overflow-hidden z-40 relative  bg-[#F4EBD7] dark:bg-[#302D25] transition-colors duration-1000 tracking-tight flex justify-center transform-gpu`
       )}
     >
+      {/* isDog transparent */}
+      {/* ${theme.screenBgImg} */}
       <div
-        className={clsx(
-          `inset-0 z-0 fixed transition-all  ${theme.screenBgImg}`
-        )}
+        className={clsx(`inset-0 z-0 fixed transition-all bg-transparent`)}
       />
-
+      {/* isDog */}
+      {init ? (
+        <Particles
+          id="tsparticles"
+          particlesLoaded={particlesLoaded}
+          options={options}
+        />
+      ) : (
+        <></>
+      )}
       <nav className="flex flex-row justify-between items-center p-3 md:p-6 fixed top-0 left-0 w-screen z-10">
         <div onClick={() => navigate("/")} className={`cursor-pointer`}>
           {deployments.isLoading ? (
@@ -189,9 +309,7 @@ export function Layout({ Component, pageProps, router }: AppProps) {
           <ClosedActivity key="closeActivityBtn" />
         )}
       </AnimatePresence>
-
       <SettingsModal open={settingsModal} setOpen={setSettingsModal} />
-
       <Footer />
     </div>
   );

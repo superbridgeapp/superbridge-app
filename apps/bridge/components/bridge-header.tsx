@@ -6,6 +6,7 @@ import { useConfigState } from "@/state/config";
 import { dedicatedDeployment } from "@/config/dedicated-deployment";
 import { useToggleWithdrawing } from "@/hooks/use-toggle-withdrawing";
 import { useTranslation } from "react-i18next";
+import BaseDog from "components/basedog";
 
 export const BridgeHeader = () => {
   const withdrawing = useConfigState.useWithdrawing();
@@ -61,7 +62,7 @@ export const BridgeHeader = () => {
         ) : (
           <>
             <div>
-              <Image
+              {/* <Image
                 src={
                   resolvedTheme === "dark" ? theme.logoSrcDark : theme.logoSrc
                 }
@@ -69,7 +70,12 @@ export const BridgeHeader = () => {
                 height={theme.logoHeight}
                 alt="Direction"
                 className="pointer-events-none scale-[0.88] -ml-1 md:scale-100 md:ml-0"
-              />
+              /> */}
+
+              {/* need isDog here and probably AnimatePresence when we hide/show it */}
+              <div className="pointer-events-none scale-[0.88] -ml-1 md:scale-100 md:ml-0">
+                <BaseDog />
+              </div>
             </div>
             <div className="flex items-center space-x-2">
               <div
