@@ -188,13 +188,13 @@ export const SettingsModal = ({ open, setOpen }: SettingsModalProps) => {
                     <SelectValue placeholder={preferredExplorer} />
                   </SelectTrigger>
                   <SelectContent>
-                    {["etherscan", "blockscout"].map((explorer) => (
-                      <SelectItem
-                        key={explorer}
-                        value={explorer}
-                        className="capitalize"
-                      >
-                        {explorer}
+                    {[
+                      { label: "Etherscan", value: "etherscan" },
+                      { label: "Blockscout", value: "blockscout" },
+                      { label: "Once Upon", value: "onceupon" },
+                    ].map(({ label, value }) => (
+                      <SelectItem key={label} value={value}>
+                        {label}
                       </SelectItem>
                     ))}
                   </SelectContent>
