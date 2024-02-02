@@ -7,14 +7,25 @@ export const transactionLink = (tx: string, chain?: Chain | ChainDto) => {
   const preferredExplorer = useSettingsState.getState().preferredExplorer;
 
   const etherscan = chain?.blockExplorers?.etherscan?.url;
+  // @ts-expect-error
+  const onceupon = chain?.blockExplorers?.onceupon?.url;
   const blockscout =
     (chain?.blockExplorers as any)?.blockScout?.url ??
     (chain?.blockExplorers as any)?.blockscout?.url;
+
   const _default = chain?.blockExplorers?.default?.url;
 
-  return preferredExplorer === "etherscan" && etherscan
-    ? `${etherscan}/tx/${tx}`
-    : preferredExplorer === "blockscout" && blockscout
-    ? `${blockscout}/tx/${tx}`
-    : `${_default}/tx/${tx}`;
+  if (preferredExplorer === "etherscan" && etherscan) {
+    return `${etherscan}/tx/${tx}`;
+  }
+
+  if (preferredExplorer === "blockscout" && blockscout) {
+    return `${blockscout}/tx/${tx}`;
+  }
+
+  if (preferredExplorer === "onceupon" && onceupon) {
+    return `${onceupon}/tx/${tx}`;
+  }
+
+  return `${_default}/tx/${tx}`;
 };
