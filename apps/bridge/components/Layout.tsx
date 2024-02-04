@@ -1,9 +1,13 @@
 import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { type ISourceOptions } from "@tsparticles/engine";
+import Particles, { initParticlesEngine } from "@tsparticles/react";
+import { loadSlim } from "@tsparticles/slim";
 import clsx from "clsx";
 import { AnimatePresence, motion } from "framer-motion";
 import { AppProps } from "next/app";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { useEffect, useMemo } from "react";
 
 import { ClosedActivity } from "@/components/activity/closed-activity";
 import { OpenActivity } from "@/components/activity/open-activity";
@@ -15,23 +19,9 @@ import { useDeployments } from "@/hooks/use-deployments";
 import { useInitialise } from "@/hooks/use-initialise";
 import { useNavigate } from "@/hooks/use-navigate";
 import { useConfigState } from "@/state/config";
+import { isDog } from "@/utils/is-dog";
 
 import { SettingsModal } from "./settings/settings-modal";
-
-// DOGMODE TEMP IMPORTS
-import { useEffect, useMemo, useState } from "react";
-import Particles, { initParticlesEngine } from "@tsparticles/react";
-import {
-  type Container,
-  type ISourceOptions,
-  MoveDirection,
-  OutMode,
-} from "@tsparticles/engine";
-// import { loadAll } from "@/tsparticles/all"; // if you are going to use `loadAll`, install the "@tsparticles/all" package too.
-// import { loadFull } from "tsparticles"; // if you are going to use `loadFull`, install the "tsparticles" package too.
-import { loadSlim } from "@tsparticles/slim"; // if you are going to use `loadSlim`, install the "@tsparticles/slim" package too.
-import { isDog } from "@/utils/is-dog";
-// import { loadBasic } from "@tsparticles/basic"; // if you are going to use `loadBasic`, install the "@tsparticles/basic" package too.
 
 export function Layout({ Component, pageProps, router }: AppProps) {
   const deployments = useDeployments();
@@ -46,27 +36,9 @@ export function Layout({ Component, pageProps, router }: AppProps) {
 
   const theme = deploymentTheme(deployment);
 
-  // DOGMODE TEMP
-  const [init, setInit] = useState(false);
-
-  // this should be run only once per application lifetime
   useEffect(() => {
-    initParticlesEngine(async (engine) => {
-      // you can initiate the tsParticles instance (engine) here, adding custom shapes or presets
-      // this loads the tsparticles package bundle, it's the easiest method for getting everything ready
-      // starting from v2 you can add only the features you need reducing the bundle size
-      //await loadAll(engine);
-      //await loadFull(engine);
-      await loadSlim(engine);
-      //await loadBasic(engine);
-    }).then(() => {
-      setInit(true);
-    });
+    initParticlesEngine((engine) => loadSlim(engine));
   }, []);
-
-  const particlesLoaded = async (container?: Container): Promise<void> => {
-    console.log(container);
-  };
 
   const options: ISourceOptions = useMemo(
     () => ({
@@ -121,7 +93,6 @@ export function Layout({ Component, pageProps, router }: AppProps) {
     []
   );
 
-  /*${theme.screenBg}*/
   return (
     <div
       className={clsx(
@@ -136,16 +107,12 @@ export function Layout({ Component, pageProps, router }: AppProps) {
         )}
       />
       {isDog(deployment, stateToken) ? (
-        <Particles
-          id="tsparticles"
-          particlesLoaded={particlesLoaded}
-          options={options}
-        />
+        <Particles id="tsparticles" options={options} />
       ) : (
         <></>
       )}
       <nav className="flex flex-row justify-between items-center p-3 md:p-6 fixed top-0 left-0 w-screen z-10">
-        <div onClick={() => navigate("/")} className={`cursor-pointer`}>
+        <div onClick={() => navigate("/")} className="cursor-pointer">
           {deployments.isLoading ? (
             <></>
           ) : dedicatedDeployment ? (
