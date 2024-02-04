@@ -1,6 +1,16 @@
 import { DeploymentDto } from "@/codegen/model";
 import { Theme } from "@/types/theme";
-import { kroma, pgn } from "viem/chains";
+import {
+  arbitrum,
+  arbitrumGoerli,
+  arbitrumNova,
+  arbitrumSepolia,
+  baseSepolia,
+  kroma,
+  optimismSepolia,
+  pgn,
+  zoraSepolia,
+} from "viem/chains";
 
 import bgArbitrum from "../public/img/bg/grains_bottom.png";
 import bgPgn from "../public/img/bg/pgn.png";
@@ -11,17 +21,20 @@ export const chainIcons: { [chainId: number]: string | undefined } = {
   [1]: "/img/network-ethereum.svg",
   [5]: "/img/network-goerli.svg",
   [11_155_111]: "/img/network-sepolia.svg",
-  [421_613]: "/img/network-arbitrum-one.svg",
-  [421_614]: "/img/network-arbitrum-one.svg",
+  [arbitrumGoerli.id]: "/img/network-arbitrum-one.svg",
+  [arbitrumSepolia.id]: "/img/network-arbitrum-one.svg",
   [17_000]: "/img/network-holesky.png",
-  [42_161]: "/img/network-arbitrum-one.svg",
-  [42_170]: "/img/network-arbitrum-nova.svg",
+  [arbitrum.id]: "/img/network-arbitrum-one.svg",
+  [arbitrumNova.id]: "/img/network-arbitrum-nova.svg",
   [57]: "/img/network-syscoin.png",
   570: "/img/network-rollux.svg",
   [788988]: "/img/network-orb3.svg",
   [pgn.id]: "/img/network-pgn.svg",
   [kroma.id]: "/img/network-kroma.svg",
   1024: "/img/network-parallel.svg",
+  [zoraSepolia.id]: "/img/network-zora.svg",
+  [baseSepolia.id]: "/img/network-base.svg",
+  [optimismSepolia.id]: "/img/network-op mainnet.svg",
 };
 
 const defaultTheme: Theme = {

@@ -55,8 +55,8 @@ importers:
         specifier: ^1.0.7
         version: 1.0.7(@types/react-dom@18.2.4)(@types/react@18.2.23)(react-dom@18.2.0)(react@18.2.0)
       '@rainbow-me/rainbowkit':
-        specifier: ^1.3.3
-        version: 1.3.3(@types/react@18.2.23)(react-dom@18.2.0)(react@18.2.0)(viem@1.21.4)(wagmi@1.4.13)
+        specifier: ^1.3.4
+        version: 1.3.4(@types/react@18.2.23)(react-dom@18.2.0)(react@18.2.0)(viem@1.21.4)(wagmi@1.4.13)
       '@tailwindcss/typography':
         specifier: ^0.5.10
         version: 0.5.10(tailwindcss@3.4.1)
@@ -97,14 +97,14 @@ importers:
         specifier: ^10.18.0
         version: 10.18.0(react-dom@18.2.0)(react@18.2.0)
       i18next:
-        specifier: ^23.7.20
-        version: 23.7.20
+        specifier: ^23.8.2
+        version: 23.8.2
       i18next-browser-languagedetector:
         specifier: ^7.2.0
         version: 7.2.0
       i18next-http-backend:
-        specifier: ^2.4.2
-        version: 2.4.2
+        specifier: ^2.4.3
+        version: 2.4.3
       lottie-react:
         specifier: ^2.4.0
         version: 2.4.0(react-dom@18.2.0)(react@18.2.0)
@@ -125,10 +125,10 @@ importers:
         version: 18.2.0(react@18.2.0)
       react-i18next:
         specifier: ^13.5.0
-        version: 13.5.0(i18next@23.7.20)(react-dom@18.2.0)(react@18.2.0)
+        version: 13.5.0(i18next@23.8.2)(react-dom@18.2.0)(react@18.2.0)
       react-loading-skeleton:
-        specifier: ^3.3.1
-        version: 3.3.1(react@18.2.0)
+        specifier: ^3.4.0
+        version: 3.4.0(react@18.2.0)
       react-lottie-player:
         specifier: ^1.5.6
         version: 1.5.6(react@18.2.0)
@@ -185,8 +185,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/eslint-config-custom
       orval:
-        specifier: ^6.23.0
-        version: 6.23.0(typescript@5.3.3)
+        specifier: ^6.24.0
+        version: 6.24.0(openapi-types@12.1.3)(typescript@5.3.3)
       postcss:
         specifier: ^8.4.33
         version: 8.4.33
@@ -1205,26 +1205,28 @@ packages:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.15.0
 
-  /@orval/angular@6.23.0:
-    resolution: {integrity: sha512-Exm5JF4xNzOApPvxi9V8U5nQwjW4ZiJJpNbuiIl/Oy+slcNL7Q1E83JHJ4pHlmzQPeksubpkPe9tsM5/01GbQw==}
+  /@orval/angular@6.24.0(openapi-types@12.1.3):
+    resolution: {integrity: sha512-ENnwxhbSdYo4d5J5eDspDqF9OrHnf1XYnWWouMGeIHs6l6NBq+AGb6uFEH5pzGPi7Erw5GvXIDbTWFv3W/0Vxw==}
     dependencies:
-      '@orval/core': 6.23.0
+      '@orval/core': 6.24.0(openapi-types@12.1.3)
     transitivePeerDependencies:
       - encoding
+      - openapi-types
       - supports-color
     dev: true
 
-  /@orval/axios@6.23.0:
-    resolution: {integrity: sha512-g0RwiY7DCrPHOxMzb1HMEfNc6n/zOBOv1BzGA7k64BQXw2X/ljoJqtyQrUL+lK7Ablh3pL640TrfzW8UMRfdpg==}
+  /@orval/axios@6.24.0(openapi-types@12.1.3):
+    resolution: {integrity: sha512-VxQgwAo5Djxvpixs15BVY1gMjd49YmjqBfEeQB7PrrY1T1PvVyENgFkBr+hg2QoBdy2LmdMxXDfFig00FNoerQ==}
     dependencies:
-      '@orval/core': 6.23.0
+      '@orval/core': 6.24.0(openapi-types@12.1.3)
     transitivePeerDependencies:
       - encoding
+      - openapi-types
       - supports-color
     dev: true
 
-  /@orval/core@6.23.0:
-    resolution: {integrity: sha512-NLuCtabVUbR2XhKywiZ5+qt8vKnkHTd1lnIFhgtm1jFDyUi0p/pIHz33NJ0I94UkEdxlr+2rDiT9g1eSZC7auA==}
+  /@orval/core@6.24.0(openapi-types@12.1.3):
+    resolution: {integrity: sha512-8pfzviEPuP/hlxj0PGUKphKRjfIVYYKCkWamCiNqmUyVxrL+plQnIYvUf5I9Xol0d+oZ1lG2VNV2v4Gtt/zwXQ==}
     dependencies:
       '@apidevtools/swagger-parser': 10.1.0(openapi-types@12.1.3)
       '@ibm-cloud/openapi-ruleset': 1.14.2
@@ -1244,67 +1246,56 @@ packages:
       lodash.uniqby: 4.7.0
       lodash.uniqwith: 4.5.0
       micromatch: 4.0.5
-      openapi-types: 12.1.3
-      openapi3-ts: 3.2.0
+      openapi3-ts: 4.2.1
       swagger2openapi: 7.0.8
     transitivePeerDependencies:
       - encoding
+      - openapi-types
       - supports-color
     dev: true
 
-  /@orval/mock@6.23.0:
-    resolution: {integrity: sha512-chkXaQgslDF8KwnNOggc320SFWhv1Wu3EFLJf1cpliaYe9n3alvwKedRoTl3ZxvC8dcG3biOoFz4XGZivXktSQ==}
+  /@orval/mock@6.24.0(openapi-types@12.1.3):
+    resolution: {integrity: sha512-7U1Bpa2FmRqGdFZBIf6qAKJ+9z6aF/1LjxHabxkcdChP8jrPLVncCKK/mqwE0/8lntxA28/NR7q4l5NAE/GC8w==}
     dependencies:
-      '@orval/core': 6.23.0
+      '@orval/core': 6.24.0(openapi-types@12.1.3)
       lodash.get: 4.4.2
       lodash.omit: 4.5.0
-      openapi3-ts: 3.2.0
+      openapi3-ts: 4.2.1
     transitivePeerDependencies:
       - encoding
+      - openapi-types
       - supports-color
     dev: true
 
-  /@orval/query@6.23.0:
-    resolution: {integrity: sha512-SSMj+4I8a9TzHfp0oGWvT7sZSmWrN9pmH/NTU7hgmk5cLS4qghTWL6b+nOfB8WRUOPqltnRu/qgDRHx8/xhZHg==}
+  /@orval/query@6.24.0(openapi-types@12.1.3):
+    resolution: {integrity: sha512-I0NCXBdcro7+kgu4UyCM4m/PZPwTBZHHUPiIfhkxkUUzqY2gX0k3Au2sZcHULyEZBB8A2+s42YPEWPGg1yjP7Q==}
     dependencies:
-      '@orval/core': 6.23.0
+      '@orval/core': 6.24.0(openapi-types@12.1.3)
       lodash.omitby: 4.6.0
-      vitest: 0.34.6
-    transitivePeerDependencies:
-      - '@edge-runtime/vm'
-      - '@vitest/browser'
-      - '@vitest/ui'
-      - encoding
-      - happy-dom
-      - jsdom
-      - less
-      - lightningcss
-      - playwright
-      - safaridriver
-      - sass
-      - stylus
-      - sugarss
-      - supports-color
-      - terser
-      - webdriverio
-    dev: true
-
-  /@orval/swr@6.23.0:
-    resolution: {integrity: sha512-BTcUu7hZ1iqMlAY0fjAAleHTujzItBCpY4k9vyLcwsqS3JUimbYLmbaaTeSlbnGLM7TnpKfy7no4P543tU3J0Q==}
-    dependencies:
-      '@orval/core': 6.23.0
     transitivePeerDependencies:
       - encoding
+      - openapi-types
       - supports-color
     dev: true
 
-  /@orval/zod@6.23.0:
-    resolution: {integrity: sha512-8dxFqj1EhJFWfyxd7xedU2YgXC1O+Y56y4jJ2UiZrwXNTstXiQM6A/C4oizvK2Pb8fHiWwUHjwnchpait+KBkA==}
+  /@orval/swr@6.24.0(openapi-types@12.1.3):
+    resolution: {integrity: sha512-13gGIiYE1hg7h/ps/z//ITUcZUQI6e6L7wFaE6+A0EoEuC6z2UXIx+4TV0t43G8S+E8Ow6ZUNjLzeR1GjiRmPA==}
     dependencies:
-      '@orval/core': 6.23.0
+      '@orval/core': 6.24.0(openapi-types@12.1.3)
+    transitivePeerDependencies:
+      - encoding
+      - openapi-types
+      - supports-color
+    dev: true
+
+  /@orval/zod@6.24.0(openapi-types@12.1.3):
+    resolution: {integrity: sha512-EknDRi9Toh635CwDXtyzvwB4bGWw2NvbVHpw0ne7/y7nWsUW7N5+RRi+OAk39q/psFlCZtsI1EJtfyQ6Zr5MzQ==}
+    dependencies:
+      '@orval/core': 6.24.0(openapi-types@12.1.3)
       lodash.uniq: 4.5.0
     transitivePeerDependencies:
       - encoding
+      - openapi-types
       - supports-color
     dev: true
 
@@ -1491,7 +1482,7 @@ packages:
       '@types/react-dom':
         optional: true
     dependencies:
-      '@babel/runtime': 7.23.4
+      '@babel/runtime': 7.23.8
       '@radix-ui/react-primitive': 1.0.3(@types/react-dom@18.2.4)(@types/react@18.2.23)(react-dom@18.2.0)(react@18.2.0)
       '@types/react': 18.2.23
       '@types/react-dom': 18.2.4
@@ -2045,7 +2036,7 @@ packages:
       '@types/react':
         optional: true
     dependencies:
-      '@babel/runtime': 7.23.4
+      '@babel/runtime': 7.23.8
       '@radix-ui/react-use-callback-ref': 1.0.1(@types/react@18.2.23)(react@18.2.0)
       '@types/react': 18.2.23
       react: 18.2.0
@@ -2088,7 +2079,7 @@ packages:
       '@types/react':
         optional: true
     dependencies:
-      '@babel/runtime': 7.23.4
+      '@babel/runtime': 7.23.8
       '@radix-ui/rect': 1.0.1
       '@types/react': 18.2.23
       react: 18.2.0
@@ -2133,11 +2124,11 @@ packages:
   /@radix-ui/rect@1.0.1:
     resolution: {integrity: sha512-fyrgCaedtvMg9NK3en0pnOYJdtfwxUcNolezkNPUsoX57X8oQk+NkqcvzHXD2uKNij6GXmWU9NDru2IWjrO4BQ==}
     dependencies:
-      '@babel/runtime': 7.23.4
+      '@babel/runtime': 7.23.8
     dev: false
 
-  /@rainbow-me/rainbowkit@1.3.3(@types/react@18.2.23)(react-dom@18.2.0)(react@18.2.0)(viem@1.21.4)(wagmi@1.4.13):
-    resolution: {integrity: sha512-IsUlBCy4SZfo6zFEZgPvGr1MLe/rK4sZzoBtYHRPjRqDHTXrYqDsp3ThTIZWh2HSIq0jU5gMA/94mFnT5kwMLA==}
+  /@rainbow-me/rainbowkit@1.3.4(@types/react@18.2.23)(react-dom@18.2.0)(react@18.2.0)(viem@1.21.4)(wagmi@1.4.13):
+    resolution: {integrity: sha512-mGs+PQfl/sZXPlQCXSkfmIpmpHehn/lfIwbY8zFe4NBc+Pa4y1HbKIAdORz+yZbbwC3GFXSkloEFPD9qXd4JQg==}
     engines: {node: '>=12.4'}
     peerDependencies:
       react: '>=17'
@@ -2149,7 +2140,6 @@ packages:
       '@vanilla-extract/dynamic': 2.1.0
       '@vanilla-extract/sprinkles': 1.6.1(@vanilla-extract/css@1.14.0)
       clsx: 2.1.0
-      i18n-js: 4.3.2
       qrcode: 1.5.3
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
@@ -2417,7 +2407,7 @@ packages:
     dependencies:
       '@stoplight/json': 3.21.0
       '@stoplight/path': 1.3.2
-      '@stoplight/types': 13.6.0
+      '@stoplight/types': 13.20.0
       '@types/urijs': 1.19.23
       dependency-graph: 0.11.0
       fast-memoize: 2.5.2
@@ -2602,7 +2592,7 @@ packages:
     engines: {node: '>=10.8'}
     dependencies:
       '@stoplight/ordered-object-literal': 1.0.4
-      '@stoplight/types': 13.6.0
+      '@stoplight/types': 13.20.0
       '@stoplight/yaml-ast-parser': 0.0.48
       tslib: 2.6.2
     dev: true
@@ -4248,10 +4238,6 @@ packages:
       bindings: 1.5.0
     dev: false
 
-  /bignumber.js@9.1.2:
-    resolution: {integrity: sha512-2/mKyZH9K85bzOEfhXDBFZTGd1CTs+5IHpeFQo9luiBG7hghdC851Pj2WAhb6E3R6b9tZj/XKhbg4fum+Kepug==}
-    dev: false
-
   /binary-extensions@2.2.0:
     resolution: {integrity: sha512-jDctJ/IVQbZoJykoeHbhXpOlNBqGNcwXJKJog42E5HDPUwQTSdjCHdihjj0DlnheQ7blbT6dHOafNAiS8ooQKA==}
     engines: {node: '>=8'}
@@ -5748,7 +5734,7 @@ packages:
     peerDependencies:
       eslint: ^3 || ^4 || ^5 || ^6 || ^7 || ^8
     dependencies:
-      '@babel/runtime': 7.23.4
+      '@babel/runtime': 7.23.8
       aria-query: 5.1.3
       array-includes: 3.1.6
       array.prototype.flatmap: 1.3.1
@@ -6749,32 +6735,24 @@ packages:
       ms: 2.1.3
     dev: false
 
-  /i18n-js@4.3.2:
-    resolution: {integrity: sha512-n8gbEbQEueym2/q2yrZk5/xKWjFcKtg3/Escw4JHSVWa8qtKqP8j7se3UjkRbHlO/REqFA0V/MG1q8tEfyHeOA==}
-    dependencies:
-      bignumber.js: 9.1.2
-      lodash: 4.17.21
-      make-plural: 7.3.0
-    dev: false
-
   /i18next-browser-languagedetector@7.2.0:
     resolution: {integrity: sha512-U00DbDtFIYD3wkWsr2aVGfXGAj2TgnELzOX9qv8bT0aJtvPV9CRO77h+vgmHFBMe7LAxdwvT/7VkCWGya6L3tA==}
     dependencies:
       '@babel/runtime': 7.23.4
     dev: false
 
-  /i18next-http-backend@2.4.2:
-    resolution: {integrity: sha512-wKrgGcaFQ4EPjfzBTjzMU0rbFTYpa0S5gv9N/d8WBmWS64+IgJb7cHddMvV+tUkse7vUfco3eVs2lB+nJhPo3w==}
+  /i18next-http-backend@2.4.3:
+    resolution: {integrity: sha512-jo2M03O6n1/DNb51WSQ8PsQ0xEELzLZRdYUTbf17mLw3rVwnJF9hwNgMXvEFSxxb+N8dT+o0vtigA6s5mGWyPA==}
     dependencies:
       cross-fetch: 4.0.0
     transitivePeerDependencies:
       - encoding
     dev: false
 
-  /i18next@23.7.20:
-    resolution: {integrity: sha512-6qykxPpFPuzxC/VlVCXn3JxkHY5VCxf1w+/8Hz+Wxu4ZvfB+m3sbVruJ3C/rDWlE0Z1GCZTR6sBHIx7KGp0yXA==}
+  /i18next@23.8.2:
+    resolution: {integrity: sha512-Z84zyEangrlERm0ZugVy4bIt485e/H8VecGUZkZWrH7BDePG6jT73QdL9EA1tRTTVVMpry/MgWIP1FjEn0DRXA==}
     dependencies:
-      '@babel/runtime': 7.23.4
+      '@babel/runtime': 7.23.8
     dev: false
 
   /iconv-lite@0.4.23:
@@ -7599,6 +7577,7 @@ packages:
 
   /lodash@4.17.21:
     resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
+    dev: true
 
   /lodash@4.17.5:
     resolution: {integrity: sha512-svL3uiZf1RwhH+cWrfZn3A4+U58wbP0tGVTLQPbjplZxZ8ROD9VLuNgsRniTlLe7OlSqR79RUehXgpBW/s0IQw==}
@@ -7707,10 +7686,6 @@ packages:
   /make-error@1.3.6:
     resolution: {integrity: sha512-s8UhlNe7vPKomQhC1qFelMokr/Sc3AgNbso3n74mVPA5LTZwkB9NlXf4XPamLxJE8h0gh73rM94xvwRT2CVInw==}
     dev: true
-
-  /make-plural@7.3.0:
-    resolution: {integrity: sha512-/K3BC0KIsO+WK2i94LkMPv3wslMrazrQhfi5We9fMbLlLjzoOSJWr7TAdupLlDWaJcWxwoNosBkhFDejiu5VDw==}
-    dev: false
 
   /media-query-parser@2.0.2:
     resolution: {integrity: sha512-1N4qp+jE0pL5Xv4uEcwVUhIkwdUO3S/9gML90nqKA7v7FcOS5vUtatfzok9S9U1EJU8dHWlcv95WLnKmmxZI9w==}
@@ -8286,10 +8261,10 @@ packages:
     resolution: {integrity: sha512-N4YtSYJqghVu4iek2ZUvcN/0aqH1kRDuNqzcycDxhOUpg7GdvLa2F3DgS6yBNhInhv2r/6I0Flkn7CqL8+nIcw==}
     dev: true
 
-  /openapi3-ts@3.2.0:
-    resolution: {integrity: sha512-/ykNWRV5Qs0Nwq7Pc0nJ78fgILvOT/60OxEmB3v7yQ8a8Bwcm43D4diaYazG/KBn6czA+52XYy931WFLMCUeSg==}
+  /openapi3-ts@4.2.1:
+    resolution: {integrity: sha512-KL1mKwkZii5ce+tb24KCUmQHyWB/oanG5fzUY35UB+wenWJv4Kr/IWBntpn5R8ODiJcxx13ZDophcpHnLGeIOw==}
     dependencies:
-      yaml: 2.3.2
+      yaml: 2.3.4
     dev: true
 
   /opener@1.5.2:
@@ -8337,18 +8312,18 @@ packages:
       wcwidth: 1.0.1
     dev: true
 
-  /orval@6.23.0(typescript@5.3.3):
-    resolution: {integrity: sha512-elAyEIIpf/1kydP5V33UtONfkuN3v7L8ogzF/eJNzhvv4zsq8TwEADiY8GAw5EyzOiFFF07SSJxtoY4ez1FmFg==}
+  /orval@6.24.0(openapi-types@12.1.3)(typescript@5.3.3):
+    resolution: {integrity: sha512-UH7fyEdFyy7twSH0WR02TL4q2obFjIxv3Q1lQu9jfj+XHm06Hn60nMjd0Qgb4G+RhqqSWQtjTEXAhlFm8fiZlQ==}
     hasBin: true
     dependencies:
       '@apidevtools/swagger-parser': 10.1.0(openapi-types@12.1.3)
-      '@orval/angular': 6.23.0
-      '@orval/axios': 6.23.0
-      '@orval/core': 6.23.0
-      '@orval/mock': 6.23.0
-      '@orval/query': 6.23.0
-      '@orval/swr': 6.23.0
-      '@orval/zod': 6.23.0
+      '@orval/angular': 6.24.0(openapi-types@12.1.3)
+      '@orval/axios': 6.24.0(openapi-types@12.1.3)
+      '@orval/core': 6.24.0(openapi-types@12.1.3)
+      '@orval/mock': 6.24.0(openapi-types@12.1.3)
+      '@orval/query': 6.24.0(openapi-types@12.1.3)
+      '@orval/swr': 6.24.0(openapi-types@12.1.3)
+      '@orval/zod': 6.24.0(openapi-types@12.1.3)
       ajv: 8.12.0
       cac: 6.7.14
       chalk: 4.1.2
@@ -8358,28 +8333,14 @@ packages:
       find-up: 5.0.0
       fs-extra: 11.2.0
       lodash.uniq: 4.5.0
-      openapi-types: 12.1.3
-      openapi3-ts: 3.2.0
+      openapi3-ts: 4.2.1
       string-argv: 0.3.2
       tsconfck: 2.1.1(typescript@5.3.3)
     transitivePeerDependencies:
-      - '@edge-runtime/vm'
-      - '@vitest/browser'
-      - '@vitest/ui'
       - encoding
-      - happy-dom
-      - jsdom
-      - less
-      - lightningcss
-      - playwright
-      - safaridriver
-      - sass
-      - stylus
-      - sugarss
+      - openapi-types
       - supports-color
-      - terser
       - typescript
-      - webdriverio
     dev: true
 
   /os-tmpdir@1.0.2:
@@ -8877,7 +8838,7 @@ packages:
       scheduler: 0.23.0
     dev: false
 
-  /react-i18next@13.5.0(i18next@23.7.20)(react-dom@18.2.0)(react@18.2.0):
+  /react-i18next@13.5.0(i18next@23.8.2)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-CFJ5NDGJ2MUyBohEHxljOq/39NQ972rh1ajnadG9BjTk+UXbHLq4z5DKEbEQBDoIhUmmbuS/fIMJKo6VOax1HA==}
     peerDependencies:
       i18next: '>= 23.2.3'
@@ -8892,7 +8853,7 @@ packages:
     dependencies:
       '@babel/runtime': 7.23.4
       html-parse-stringify: 3.0.1
-      i18next: 23.7.20
+      i18next: 23.8.2
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
     dev: false
@@ -8905,8 +8866,8 @@ packages:
     resolution: {integrity: sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==}
     dev: true
 
-  /react-loading-skeleton@3.3.1(react@18.2.0):
-    resolution: {integrity: sha512-NilqqwMh2v9omN7LteiDloEVpFyMIa0VGqF+ukqp0ncVlYu1sKYbYGX9JEl+GtOT9TKsh04zCHAbavnQ2USldA==}
+  /react-loading-skeleton@3.4.0(react@18.2.0):
+    resolution: {integrity: sha512-1oJEBc9+wn7BbkQQk7YodlYEIjgeR+GrRjD+QXkVjwZN7LGIcAFHrx4NhT7UHGBxNY1+zax3c+Fo6XQM4R7CgA==}
     peerDependencies:
       react: '>=16.8.0'
     dependencies:
@@ -11093,6 +11054,11 @@ packages:
   /yaml@2.3.2:
     resolution: {integrity: sha512-N/lyzTPaJasoDmfV7YTrYCI0G/3ivm/9wdG0aHuheKowWQwGTsK0Eoiw6utmzAnI6pkJa0DUVygvp3spqqEKXg==}
     engines: {node: '>= 14'}
+
+  /yaml@2.3.4:
+    resolution: {integrity: sha512-8aAvwVUSHpfEqTQ4w/KMlf3HcRdt50E5ODIQJBw1fQ5RL34xabzxtUlzTXVqc4rkZsPbvrXKWnABCD7kWSmocA==}
+    engines: {node: '>= 14'}
+    dev: true
 
   /yargs-parser@18.1.3:
     resolution: {integrity: sha512-o50j0JeToy/4K6OZcaQmW6lyXXKhq7csREXcDwk2omFPJEwUNOVtJKvmDr9EI1fAJZUyZcRF7kxGBWmRXudrCQ==}
