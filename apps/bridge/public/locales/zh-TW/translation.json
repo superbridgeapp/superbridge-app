@@ -73,7 +73,7 @@
   "fees": {
     "fees": "費用",
     "networkFee": "網路費用（估算）",
-    "superbridgeFee": "Superbridge 費用",
+    "rollbridgeFee": "Rollbridge 費用",
     "easyModeFee": "輕鬆模式費用"
   },
 

@@ -73,7 +73,7 @@
   "fees": {
     "fees": "手数料",
     "networkFee": "ネットワーク手数料（見積もり）",
-    "superbridgeFee": "スーパーブリッジ手数料",
+    "rollbridgeFee": "スーパーブリッジ手数料",
     "easyModeFee": "簡単モード手数料"
   },
 

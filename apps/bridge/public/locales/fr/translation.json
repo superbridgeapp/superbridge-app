@@ -73,7 +73,7 @@
   "fees": {
     "fees": "Frais",
     "networkFee": "Frais de réseau (estimé)",
-    "superbridgeFee": "Frais Superbridge",
+    "rollbridgeFee": "Frais Rollbridge",
     "easyModeFee": "Frais du mode facile"
   },
 

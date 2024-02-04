@@ -73,7 +73,7 @@
   "fees": {
     "fees": "الرسوم",
     "networkFee": "رسوم الشبكة (تقديري)",
-    "superbridgeFee": "رسوم Superbridge",
+    "rollbridgeFee": "رسوم Rollbridge",
     "easyModeFee": "رسوم الوضع السهل"
   },
 

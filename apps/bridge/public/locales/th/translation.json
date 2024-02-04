@@ -73,7 +73,7 @@
   "fees": {
     "fees": "ค่าธรรมเนียม",
     "networkFee": "ค่าธรรมเนียมเครือข่าย (ประมาณ)",
-    "superbridgeFee": "ค่าธรรมเนียม Superbridge",
+    "rollbridgeFee": "ค่าธรรมเนียม Rollbridge",
     "easyModeFee": "ค่าธรรมเนียมโหมดง่าย"
   },
 

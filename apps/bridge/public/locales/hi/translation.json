@@ -73,7 +73,7 @@
   "fees": {
     "fees": "शुल्क",
     "networkFee": "नेटवर्क शुल्क (आनुमानित)",
-    "superbridgeFee": "सुपरब्रिज शुल्क",
+    "rollbridgeFee": "सुपरब्रिज शुल्क",
     "easyModeFee": "आसान मोड शुल्क"
   },
 

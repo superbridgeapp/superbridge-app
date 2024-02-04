@@ -73,7 +73,7 @@
   "fees": {
     "fees": "Opłaty",
     "networkFee": "Opłata sieciowa (szacunkowa)",
-    "superbridgeFee": "Opłata Superbridge",
+    "rollbridgeFee": "Opłata Rollbridge",
     "easyModeFee": "Opłata trybu łatwego"
   },
 

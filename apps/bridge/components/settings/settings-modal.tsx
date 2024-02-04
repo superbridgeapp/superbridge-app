@@ -67,7 +67,9 @@ export const SettingsModal = ({ open, setOpen }: SettingsModalProps) => {
                       </clipPath>
                     </defs>
                   </svg>
-                  <h3 className="font-bold text-sm">Currency</h3>
+                  <h3 className="font-bold text-sm">
+                    {t("settings.currency")}
+                  </h3>
                 </div>
 
                 <Select onValueChange={setCurrency} value={currency}>
@@ -111,7 +113,9 @@ export const SettingsModal = ({ open, setOpen }: SettingsModalProps) => {
                       </clipPath>
                     </defs>
                   </svg>
-                  <h3 className="font-bold text-sm">Language</h3>
+                  <h3 className="font-bold text-sm">
+                    {t("settings.language")}
+                  </h3>
                 </div>
 
                 <Select
@@ -177,7 +181,9 @@ export const SettingsModal = ({ open, setOpen }: SettingsModalProps) => {
                       </clipPath>
                     </defs>
                   </svg>
-                  <h3 className="font-bold text-sm">Explorer</h3>
+                  <h3 className="font-bold text-sm">
+                    {t("settings.explorer")}
+                  </h3>
                 </div>
 
                 <Select

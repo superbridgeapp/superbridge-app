@@ -73,7 +73,7 @@
   "fees": {
     "fees": "费用",
     "networkFee": "网络费用（估算）",
-    "superbridgeFee": "Superbridge 费用",
+    "rollbridgeFee": "Rollbridge 费用",
     "easyModeFee": "轻松模式费用"
   },
 

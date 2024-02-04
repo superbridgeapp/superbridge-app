@@ -73,7 +73,7 @@
   "fees": {
     "fees": "Phí",
     "networkFee": "Phí mạng (ước tính)",
-    "superbridgeFee": "Phí Superbridge",
+    "rollbridgeFee": "Phí Rollbridge",
     "easyModeFee": "Phí chế độ dễ dàng"
   },
 

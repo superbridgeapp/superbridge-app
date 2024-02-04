@@ -73,7 +73,7 @@
   "fees": {
     "fees": "Biaya",
     "networkFee": "Biaya jaringan (estimasi)",
-    "superbridgeFee": "Biaya Superbridge",
+    "rollbridgeFee": "Biaya Rollbridge",
     "easyModeFee": "Biaya mode mudah"
   },
 

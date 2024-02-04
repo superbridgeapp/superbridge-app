@@ -73,7 +73,7 @@
   "fees": {
     "fees": "수수료",
     "networkFee": "네트워크 수수료 (예상)",
-    "superbridgeFee": "슈퍼브릿지 수수료",
+    "rollbridgeFee": "슈퍼브릿지 수수료",
     "easyModeFee": "이지 모드 수수료"
   },
 
