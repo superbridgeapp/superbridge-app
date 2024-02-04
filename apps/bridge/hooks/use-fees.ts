@@ -14,6 +14,7 @@ import { useSettingsState } from "@/state/settings";
 import { currencySymbolMap } from "@/constants/currency-symbol-map";
 import { configurations } from "@/config/contract-addresses";
 import { ChainDto } from "@/codegen/model";
+import { isSuperbridge } from "@/config/superbridge";
 
 const EASY_MODE_GAS_FEES: { [chainId: number]: number | undefined } = {
   [mainnet.id]: 50,
@@ -91,7 +92,7 @@ export const useFees = (
         })} ${nativeToken?.[1]?.symbol ?? nativeToken?.[57]?.symbol}`,
       },
     },
-    nft
+    isSuperbridge || nft
       ? null
       : {
           name: t("fees.superbridgeFee"),
