@@ -1,9 +1,13 @@
 import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { type ISourceOptions } from "@tsparticles/engine";
+import Particles, { initParticlesEngine } from "@tsparticles/react";
+import { loadSlim } from "@tsparticles/slim";
 import clsx from "clsx";
 import { AnimatePresence, motion } from "framer-motion";
 import { AppProps } from "next/app";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { useEffect, useMemo } from "react";
 
 import { ClosedActivity } from "@/components/activity/closed-activity";
 import { OpenActivity } from "@/components/activity/open-activity";
@@ -15,6 +19,7 @@ import { useDeployments } from "@/hooks/use-deployments";
 import { useInitialise } from "@/hooks/use-initialise";
 import { useNavigate } from "@/hooks/use-navigate";
 import { useConfigState } from "@/state/config";
+import { isDog } from "@/utils/is-dog";
 
 import { SettingsModal } from "./settings/settings-modal";
 
@@ -22,6 +27,7 @@ export function Layout({ Component, pageProps, router }: AppProps) {
   const deployments = useDeployments();
   const navigate = useNavigate();
   const deployment = useConfigState.useDeployment();
+  const stateToken = useConfigState.useToken();
   const displayTransactions = useConfigState.useDisplayTransactions();
   const setSettingsModal = useConfigState.useSetSettingsModal();
   const settingsModal = useConfigState.useSettingsModal();
@@ -29,20 +35,84 @@ export function Layout({ Component, pageProps, router }: AppProps) {
   useInitialise();
 
   const theme = deploymentTheme(deployment);
+
+  useEffect(() => {
+    initParticlesEngine((engine) => loadSlim(engine));
+  }, []);
+
+  const options: ISourceOptions = useMemo(
+    () => ({
+      particles: {
+        move: {
+          enable: true,
+          speed: { min: 1, max: 6 },
+        },
+        number: {
+          value: 10,
+          max: 20,
+        },
+        opacity: {
+          value: 1,
+        },
+        rotate: {
+          path: true,
+        },
+        shape: {
+          options: {
+            image: [
+              {
+                gif: false,
+                width: 148,
+                height: 198,
+                src: "/img/dog/big-dog.png",
+              },
+              {
+                gif: false,
+                width: 148,
+                height: 112,
+                src: "/img/dog/doge-cool.png",
+              },
+              {
+                gif: false,
+                width: 82,
+                height: 25,
+                src: "/img/dog/wow.png",
+              },
+            ],
+          },
+          type: "image",
+        },
+        size: {
+          value: {
+            min: 16,
+            max: 32,
+          },
+        },
+      },
+    }),
+    []
+  );
+
   return (
     <div
       className={clsx(
-        `w-screen h-screen overflow-hidden z-40 relative ${theme.screenBg} transition-colors duration-1000 tracking-tight flex justify-center transform-gpu`
+        theme.screenBg,
+        "w-screen h-screen overflow-hidden z-40 relative transition-colors duration-1000 tracking-tight flex justify-center transform-gpu"
       )}
     >
       <div
         className={clsx(
-          `inset-0 z-0 fixed transition-all  ${theme.screenBgImg}`
+          `inset-0 z-0 fixed transition-all bg-transparent`,
+          isDog(deployment, stateToken) ? "bg-transparent" : theme.screenBgImg
         )}
       />
-
+      {isDog(deployment, stateToken) ? (
+        <Particles id="tsparticles" options={options} />
+      ) : (
+        <></>
+      )}
       <nav className="flex flex-row justify-between items-center p-3 md:p-6 fixed top-0 left-0 w-screen z-10">
-        <div onClick={() => navigate("/")} className={`cursor-pointer`}>
+        <div onClick={() => navigate("/")} className="cursor-pointer">
           {deployments.isLoading ? (
             <></>
           ) : dedicatedDeployment ? (
@@ -189,9 +259,7 @@ export function Layout({ Component, pageProps, router }: AppProps) {
           <ClosedActivity key="closeActivityBtn" />
         )}
       </AnimatePresence>
-
       <SettingsModal open={settingsModal} setOpen={setSettingsModal} />
-
       <Footer />
     </div>
   );
