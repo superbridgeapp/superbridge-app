@@ -100,33 +100,13 @@ export function Layout({ Component, pageProps, router }: AppProps) {
                 height: 112,
                 src: "/img/dog/doge-cool.png",
               },
+              {
+                gif: false,
+                width: 82,
+                height: 25,
+                src: "/img/dog/wow.png",
+              },
             ],
-            // image: [
-            //   {
-            //     gif: false,
-            //     width: 49,
-            //     height: 49,
-            //     src: "/img/dog/dog-a.png",
-            //   },
-            //   {
-            //     gif: false,
-            //     width: 76,
-            //     height: 26,
-            //     src: "/img/dog/dog-c.png",
-            //   },
-            //   {
-            //     gif: false,
-            //     width: 51,
-            //     height: 54,
-            //     src: "/img/dog/dog-d.png",
-            //   },
-            //   {
-            //     gif: false,
-            //     width: 26,
-            //     height: 23,
-            //     src: "/img/dog/dog-e.png",
-            //   },
-            // ],
           },
           type: "image",
         },
@@ -145,11 +125,8 @@ export function Layout({ Component, pageProps, router }: AppProps) {
   return (
     <div
       className={clsx(
-        "w-screen h-screen overflow-hidden z-40 relative",
-        isDog(deployment, stateToken)
-          ? "bg-[#F4EBD7] dark:bg-[#302D25]"
-          : theme.screenBg,
-        "transition-colors duration-1000 tracking-tight flex justify-center transform-gpu"
+        theme.screenBg,
+        "w-screen h-screen overflow-hidden z-40 relative transition-colors duration-1000 tracking-tight flex justify-center transform-gpu"
       )}
     >
       <div
