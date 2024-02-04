@@ -35,7 +35,10 @@
     "withdrawalSettings": "Pengaturan penarikan",
     "escapeHatchDescription": "Paksa penarikan Anda melalui transaksi tahan sensor di Ethereum.",
     "easyModeDescription": "Biarkan kami mengurus transaksi tambahan sehingga Anda bisa 'atur dan lupakan'.",
-    "feeBreakdown": "Pemecahan biaya"
+    "feeBreakdown": "Pemecahan biaya",
+    "currency": "Mata uang",
+    "language": "Bahasa",
+    "explorer": "Penjelajah"
   },
 
   "activity": {

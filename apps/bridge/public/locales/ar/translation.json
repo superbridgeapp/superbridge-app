@@ -35,7 +35,10 @@
     "withdrawalSettings": "إعدادات السحب",
     "escapeHatchDescription": "فرض سحبك عبر عملية تحويل مقاومة للرقابة على إيثيريوم.",
     "easyModeDescription": "دعونا نتعامل مع المزيد من المعاملات حتى تتمكن من 'التعيين والنسيان'.",
-    "feeBreakdown": "تفصيل الرسوم"
+    "feeBreakdown": "تفصيل الرسوم",
+    "currency": "العملة",
+    "language": "لغة",
+    "explorer": "المستكشف"
   },
 
   "activity": {

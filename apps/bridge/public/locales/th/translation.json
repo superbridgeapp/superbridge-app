@@ -35,7 +35,10 @@
     "withdrawalSettings": "การตั้งค่าการถอน",
     "escapeHatchDescription": "บังคับให้ถอนเงินผ่านธุรกรรมที่ต้านการเซ็นเซอร์บน Ethereum",
     "easyModeDescription": "ปล่อยให้เราจัดการธุรกรรมเพิ่มเติมเพื่อให้คุณสามารถตั้งค่าและลืม",
-    "feeBreakdown": "การแยกค่าธรรมเนียม"
+    "feeBreakdown": "การแยกค่าธรรมเนียม",
+    "currency": "สกุลเงิน",
+    "language": "ภาษา",
+    "explorer": "นักสำรวจ"
   },
 
   "activity": {

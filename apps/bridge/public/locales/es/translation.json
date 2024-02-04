@@ -35,7 +35,10 @@
     "withdrawalSettings": "Configuración de retiro",
     "escapeHatchDescription": "Forzar su retiro a través de una transacción resistente a la censura en Ethereum.",
     "easyModeDescription": "Deje que nos ocupemos de las transacciones adicionales para que pueda configurar y olvidarse.",
-    "feeBreakdown": "Desglose de tarifas"
+    "feeBreakdown": "Desglose de tarifas",
+    "currency": "Moneda",
+    "language": "Idioma",
+    "explorer": "Explorador"
   },
 
   "activity": {

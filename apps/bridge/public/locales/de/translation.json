@@ -35,7 +35,10 @@
     "withdrawalSettings": "Auszahlungseinstellungen",
     "escapeHatchDescription": "Zwingen Sie Ihre Auszahlung über eine zensurresistente Transaktion auf Ethereum.",
     "easyModeDescription": "Lassen Sie uns die zusätzlichen Transaktionen erledigen, damit Sie 'Set and Forget' verwenden können.",
-    "feeBreakdown": "Gebühraufschlüsselung"
+    "feeBreakdown": "Gebühraufschlüsselung",
+    "currency": "Währung",
+    "language": "Sprache",
+    "explorer": "Explorer"
   },
 
   "activity": {

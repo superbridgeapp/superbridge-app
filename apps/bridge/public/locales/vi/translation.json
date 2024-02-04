@@ -35,7 +35,10 @@
     "withdrawalSettings": "Cài đặt rút tiền",
     "escapeHatchDescription": "Bắt buộc rút tiền của bạn qua một giao dịch chống kiểm duyệt trên Ethereum.",
     "easyModeDescription": "Hãy để chúng tôi xử lý các giao dịch phụ để bạn có thể 'thiết lập và quên'.",
-    "feeBreakdown": "Phân loại phí"
+    "feeBreakdown": "Phân loại phí",
+    "currency": "Tiền tệ",
+    "language": "Ngôn ngữ",
+    "explorer": "Khám phá viên"
   },
 
   "activity": {
