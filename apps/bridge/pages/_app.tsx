@@ -10,25 +10,18 @@ import { Layout } from "@/components/Layout";
 import { Providers } from "@/components/Providers";
 import { dedicatedDeployment } from "@/config/dedicated-deployment";
 import { isSuperbridge } from "@/config/superbridge";
+import * as metadata from "@/constants/metadata";
 import { UNSTYLED_PAGES } from "@/constants/unstyled-pages";
 
 export default function App(appProps: AppProps) {
-  const title =
-    dedicatedDeployment?.og.title ?? isSuperbridge
-      ? "Superbridge App"
-      : "Rollbridge App";
-  const description =
-    dedicatedDeployment?.og.description ?? isSuperbridge
-      ? "Bridge ETH and ERC20 tokens into and out of the Superchain"
-      : "Bridge ETH and ERC20 tokens into and out of Optimism OP Stack rollups and Arbitrum Nitro rollups";
   return (
     <>
       <Head>
-        <title>{title}</title>
-        <meta name="title" content={title} />
-        <meta property="og:title" content={title} />
-        <meta name="description" content={description} />
-        <meta property="og:description" content={description} />
+        <title>{metadata.title}</title>
+        <meta name="title" content={metadata.title} />
+        <meta property="og:title" content={metadata.title} />
+        <meta name="description" content={metadata.description} />
+        <meta property="og:description" content={metadata.description} />
         <meta
           property="og:url"
           content={
@@ -39,7 +32,7 @@ export default function App(appProps: AppProps) {
         />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
-        <meta property="og:image:alt" content={title} />
+        <meta property="og:image:alt" content={metadata.title} />
         {dedicatedDeployment ? (
           <>
             <meta
@@ -76,8 +69,8 @@ export default function App(appProps: AppProps) {
         <meta name="twitter:creator" content="@superbridgeapp" />
         <meta name="twitter:site" content="@superbridgeapp" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={title} />
-        <meta name="twitter:description" content={description} />
+        <meta name="twitter:title" content={metadata.title} />
+        <meta name="twitter:description" content={metadata.description} />
 
         <link
           rel="shortcut icon"

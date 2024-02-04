@@ -10,13 +10,14 @@ import {
 import { QueryClientProvider } from "@tanstack/react-query";
 import { useTheme } from "next-themes";
 import { useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { WagmiConfig, configureChains, createConfig, mainnet } from "wagmi";
 import { optimism } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
-import { useTranslation } from "react-i18next";
 
 import { ThemeProvider } from "@/components/theme-provider";
 import { chainIcons } from "@/config/theme";
+import * as metadata from "@/constants/metadata";
 import { useDeployments } from "@/hooks/use-deployments";
 import { queryClient } from "@/utils/query-client";
 
@@ -63,7 +64,7 @@ function Web3Provider({ children }: { children: React.ReactNode }) {
     );
 
     const { connectors } = getDefaultWallets({
-      appName: "Superbridge",
+      appName: metadata.title,
       projectId: "50c3481ab766b0e9c611c9356a42987b",
       chains,
     });
@@ -97,8 +98,8 @@ function Web3Provider({ children }: { children: React.ReactNode }) {
             : null
         }
         appInfo={{
-          appName: "Superbridge",
-          learnMoreUrl: "https://superbridge.app/help",
+          appName: metadata.title,
+          learnMoreUrl: "https://docs.rollbridge.app",
         }}
       >
         {children}
