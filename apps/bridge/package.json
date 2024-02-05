@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "codegen": "orval --config ./orval.config.js",
+    "codegen": "rm -r ./codegen && orval --config ./orval.config.js",
     "test": "vitest"
   },
   "dependencies": {
