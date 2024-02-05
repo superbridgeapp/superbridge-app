@@ -310,6 +310,11 @@ export const BridgeBody = () => {
     },
   ].filter(isPresent);
 
+  const onSubmit = async () => {
+    await onWrite();
+    allowance.refetch();
+  };
+
   const submitButton = match({
     disabled: deployment?.name === "orb3-mainnet" && !withdrawing,
     withdrawing,
@@ -444,10 +449,10 @@ export const BridgeBody = () => {
       buttonText: t("insufficientFunds"),
       disabled: true,
     }))
-    .with({ hasInsufficientGas: true }, () => ({
-      onSubmit: async () => {
-        await onWrite();
-        allowance.refetch();
+    .with({ hasInsufficientGas: true }, (d) => ({
+      onSubmit: () => {
+        if (d.withdrawing) openWithdrawalConfirmationModal(true);
+        else onSubmit();
       },
       buttonText: t("insufficientGas", { symbol: "ETH" }),
       // Let's not disable here because people could submit
@@ -456,9 +461,9 @@ export const BridgeBody = () => {
     }))
 
     .otherwise((d) => ({
-      onSubmit: async () => {
-        await onWrite();
-        allowance.refetch();
+      onSubmit: () => {
+        if (d.withdrawing) openWithdrawalConfirmationModal(true);
+        else onSubmit();
       },
       buttonText: d.nft
         ? d.withdrawing
@@ -469,14 +474,6 @@ export const BridgeBody = () => {
         : t("deposit"),
       disabled: false,
     }));
-
-  const onSubmit = () => {
-    if (withdrawing) {
-      openWithdrawalConfirmationModal(true);
-    } else {
-      submitButton.onSubmit();
-    }
-  };
 
   const theme = deploymentTheme(deployment);
   return (
@@ -491,7 +488,7 @@ export const BridgeBody = () => {
         gasEstimate={200_000}
       />
       <AddressModal open={addressDialog} setOpen={setAddressDialog} />
-      <ConfirmWithdrawalModal onConfirm={submitButton.onSubmit} />
+      <ConfirmWithdrawalModal onConfirm={onSubmit} />
       <FromTo />
 
       {token ? (
@@ -677,7 +674,7 @@ export const BridgeBody = () => {
 
       <Button
         disabled={bridge.write.isLoading || submitButton.disabled}
-        onClick={onSubmit}
+        onClick={submitButton.onSubmit}
         className={`flex w-full justify-center rounded-full px-3 py-6 text-sm font-bold leading-6 text-white shadow-sm ${theme.accentText} ${theme.accentBg}`}
       >
         {submitButton.buttonText}
