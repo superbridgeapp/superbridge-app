@@ -141,11 +141,24 @@ export function Footer() {
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" side="bottom">
                 {dedicatedDeployment ? (
-                  <DropdownMenuItem>
-                    <Link href={dedicatedDeployment.footerLink} target="_blank">
-                      {t("about")}
-                    </Link>
-                  </DropdownMenuItem>
+                  <>
+                    <DropdownMenuItem>
+                      <Link
+                        href={dedicatedDeployment.footerLink}
+                        target="_blank"
+                      >
+                        {t("about")}
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <Link
+                        href={"mailto:support@superbridge.app"}
+                        className="font-medium text-sm w-full"
+                      >
+                        Support
+                      </Link>
+                    </DropdownMenuItem>
+                  </>
                 ) : (
                   <>
                     <DropdownMenuItem>
@@ -177,6 +190,14 @@ export function Footer() {
                         className="font-medium text-sm w-full"
                       >
                         x.com
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <Link
+                        href={"mailto:support@superbridge.app"}
+                        className="font-medium text-sm w-full"
+                      >
+                        Support
                       </Link>
                     </DropdownMenuItem>
                   </>
