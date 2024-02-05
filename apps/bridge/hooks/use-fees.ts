@@ -95,7 +95,7 @@ export const useFees = (
     isSuperbridge || nft
       ? null
       : {
-          name: t("fees.superbridgeFee"),
+          name: t("fees.rollbridgeFee"),
           usd: stateTokenUsdPrice
             ? {
                 raw: appliedFee * stateTokenUsdPrice,

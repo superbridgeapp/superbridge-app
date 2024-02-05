@@ -36,7 +36,10 @@
     "withdrawalSettings": "Pengaturan penarikan",
     "escapeHatchDescription": "Paksa penarikan Anda melalui transaksi tahan sensor di Ethereum.",
     "easyModeDescription": "Biarkan kami mengurus transaksi tambahan sehingga Anda bisa 'atur dan lupakan'.",
-    "feeBreakdown": "Pemecahan biaya"
+    "feeBreakdown": "Pemecahan biaya",
+    "currency": "Mata uang",
+    "language": "Bahasa",
+    "explorer": "Penjelajah"
   },
 
   "activity": {
@@ -74,7 +77,7 @@
   "fees": {
     "fees": "Biaya",
     "networkFee": "Biaya jaringan (estimasi)",
-    "superbridgeFee": "Biaya Superbridge",
+    "rollbridgeFee": "Biaya Rollbridge",
     "easyModeFee": "Biaya mode mudah"
   },
 

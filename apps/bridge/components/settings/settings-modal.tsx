@@ -67,7 +67,9 @@ export const SettingsModal = ({ open, setOpen }: SettingsModalProps) => {
                       </clipPath>
                     </defs>
                   </svg>
-                  <h3 className="font-bold text-sm">Currency</h3>
+                  <h3 className="font-bold text-sm">
+                    {t("settings.currency")}
+                  </h3>
                 </div>
 
                 <Select onValueChange={setCurrency} value={currency}>
@@ -111,15 +113,17 @@ export const SettingsModal = ({ open, setOpen }: SettingsModalProps) => {
                       </clipPath>
                     </defs>
                   </svg>
-                  <h3 className="font-bold text-sm">Language</h3>
+                  <h3 className="font-bold text-sm">
+                    {t("settings.language")}
+                  </h3>
                 </div>
 
                 <Select
                   onValueChange={i18n.changeLanguage}
-                  value={i18n.language}
+                  value={i18n.resolvedLanguage}
                 >
                   <SelectTrigger className="max-w-[166px]">
-                    <SelectValue placeholder={i18n.language} />
+                    <SelectValue placeholder={i18n.resolvedLanguage} />
                   </SelectTrigger>
                   <SelectContent>
                     {[
@@ -177,7 +181,9 @@ export const SettingsModal = ({ open, setOpen }: SettingsModalProps) => {
                       </clipPath>
                     </defs>
                   </svg>
-                  <h3 className="font-bold text-sm">Explorer</h3>
+                  <h3 className="font-bold text-sm">
+                    {t("settings.explorer")}
+                  </h3>
                 </div>
 
                 <Select
@@ -188,13 +194,13 @@ export const SettingsModal = ({ open, setOpen }: SettingsModalProps) => {
                     <SelectValue placeholder={preferredExplorer} />
                   </SelectTrigger>
                   <SelectContent>
-                    {["etherscan", "blockscout"].map((explorer) => (
-                      <SelectItem
-                        key={explorer}
-                        value={explorer}
-                        className="capitalize"
-                      >
-                        {explorer}
+                    {[
+                      { label: "Etherscan", value: "etherscan" },
+                      { label: "Blockscout", value: "blockscout" },
+                      { label: "Once Upon", value: "onceupon" },
+                    ].map(({ label, value }) => (
+                      <SelectItem key={label} value={value}>
+                        {label}
                       </SelectItem>
                     ))}
                   </SelectContent>

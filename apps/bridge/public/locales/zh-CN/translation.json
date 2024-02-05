@@ -36,7 +36,10 @@
     "withdrawalSettings": "提款设置",
     "escapeHatchDescription": "通过在以太坊上进行审查抵抗的交易强制提款。",
     "easyModeDescription": "让我们处理额外的交易，这样您可以设置 '并忘记'。",
-    "feeBreakdown": "费用细目"
+    "feeBreakdown": "费用细目",
+    "currency": "货币",
+    "language": "语言",
+    "explorer": "浏览器"
   },
 
   "activity": {
@@ -74,7 +77,7 @@
   "fees": {
     "fees": "费用",
     "networkFee": "网络费用（估算）",
-    "superbridgeFee": "Superbridge 费用",
+    "rollbridgeFee": "Rollbridge 费用",
     "easyModeFee": "轻松模式费用"
   },
 

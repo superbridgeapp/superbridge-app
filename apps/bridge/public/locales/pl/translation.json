@@ -36,7 +36,10 @@
     "withdrawalSettings": "Ustawienia wypłat",
     "escapeHatchDescription": "Wymuś swoją wypłatę za pomocą transakcji odpornej na cenzurę na Ethereum.",
     "easyModeDescription": "Pozwól nam obsłużyć dodatkowe transakcje, abyś mógł ustawić i zapomnieć.",
-    "feeBreakdown": "Podział opłat"
+    "feeBreakdown": "Podział opłat",
+    "currency": "Waluta",
+    "language": "Język",
+    "explorer": "Eksplorator"
   },
 
   "activity": {
@@ -74,7 +77,7 @@
   "fees": {
     "fees": "Opłaty",
     "networkFee": "Opłata sieciowa (szacunkowa)",
-    "superbridgeFee": "Opłata Superbridge",
+    "rollbridgeFee": "Opłata Rollbridge",
     "easyModeFee": "Opłata trybu łatwego"
   },
 

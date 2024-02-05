@@ -99,9 +99,9 @@ export function Footer() {
           <></>
         ) : (
           <div
-            className={`h-10 px-4 gap-3 inline-flex items-center rounded-full transition-all bg-zinc-50 dark:bg-zinc-950/80 border-black/[0.0125] dark:border-white/[0.0125]`}
+            className={`h-10 pl-2.5 pr-3 gap-1 inline-flex items-center rounded-full transition-all bg-zinc-50 dark:bg-zinc-950/80 border-black/[0.0125] dark:border-white/[0.0125]`}
           >
-            {/* <button
+            <button
               className={`text-xs font-medium text-zinc-900 dark:text-zinc-50 transition-all hover:scale-105 inline-flex`}
               onClick={() => setSettingsModal(true)}
             >
@@ -122,7 +122,7 @@ export function Footer() {
                   </clipPath>
                 </defs>
               </svg>
-            </button> */}
+            </button>
 
             <DropdownMenu>
               <DropdownMenuTrigger>

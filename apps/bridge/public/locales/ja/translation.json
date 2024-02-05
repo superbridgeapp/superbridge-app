@@ -36,7 +36,10 @@
     "withdrawalSettings": "引き出し設定",
     "escapeHatchDescription": "イーサリアム上で検閲に耐えるトランザクションを使用して引き出しを強制します。",
     "easyModeDescription": "余分なトランザクションを処理させて '設定して忘れる' ことができます。",
-    "feeBreakdown": "手数料の分解"
+    "feeBreakdown": "手数料の分解",
+    "currency": "通貨",
+    "language": "言語",
+    "explorer": "エクスプローラ"
   },
 
   "activity": {
@@ -74,7 +77,7 @@
   "fees": {
     "fees": "手数料",
     "networkFee": "ネットワーク手数料（見積もり）",
-    "superbridgeFee": "スーパーブリッジ手数料",
+    "rollbridgeFee": "スーパーブリッジ手数料",
     "easyModeFee": "簡単モード手数料"
   },
 

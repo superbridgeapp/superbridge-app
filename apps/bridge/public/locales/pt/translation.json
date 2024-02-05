@@ -36,7 +36,10 @@
     "withdrawalSettings": "Configurações de retirada",
     "escapeHatchDescription": "Force sua retirada por meio de uma transação resistente à censura no Ethereum.",
     "easyModeDescription": "Deixe-nos lidar com as transações extras para que você possa configurar e esquecer.",
-    "feeBreakdown": "Desdobramento de taxas"
+    "feeBreakdown": "Desdobramento de taxas",
+    "currency": "Moeda",
+    "language": "Idioma",
+    "explorer": "Explorador"
   },
 
   "activity": {
@@ -74,7 +77,7 @@
   "fees": {
     "fees": "Taxas",
     "networkFee": "Taxa de rede (estimada)",
-    "superbridgeFee": "Taxa Superbridge",
+    "rollbridgeFee": "Taxa Rollbridge",
     "easyModeFee": "Taxa do modo fácil"
   },
 

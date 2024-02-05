@@ -36,7 +36,10 @@
     "withdrawalSettings": "การตั้งค่าการถอน",
     "escapeHatchDescription": "บังคับให้ถอนเงินผ่านธุรกรรมที่ต้านการเซ็นเซอร์บน Ethereum",
     "easyModeDescription": "ปล่อยให้เราจัดการธุรกรรมเพิ่มเติมเพื่อให้คุณสามารถตั้งค่าและลืม",
-    "feeBreakdown": "การแยกค่าธรรมเนียม"
+    "feeBreakdown": "การแยกค่าธรรมเนียม",
+    "currency": "สกุลเงิน",
+    "language": "ภาษา",
+    "explorer": "นักสำรวจ"
   },
 
   "activity": {
@@ -74,7 +77,7 @@
   "fees": {
     "fees": "ค่าธรรมเนียม",
     "networkFee": "ค่าธรรมเนียมเครือข่าย (ประมาณ)",
-    "superbridgeFee": "ค่าธรรมเนียม Superbridge",
+    "rollbridgeFee": "ค่าธรรมเนียม Rollbridge",
     "easyModeFee": "ค่าธรรมเนียมโหมดง่าย"
   },
 
