@@ -21,6 +21,7 @@ import { useBridge } from "@/hooks/use-bridge";
 import { useBridgeFee } from "@/hooks/use-bridge-fee";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
 import { useIsContractAccount } from "@/hooks/use-is-contract-account";
+import { useNativeToken } from "@/hooks/use-native-token";
 import { useTokenPrice } from "@/hooks/use-prices";
 import { useSelectedToken } from "@/hooks/use-selected-token";
 import { useSwitchChain } from "@/hooks/use-switch-chain";
@@ -155,6 +156,7 @@ export const BridgeBody = () => {
   const addPendingTransaction = usePendingTransactions.useAddTransaction();
   const updatePendingTransactionHash =
     usePendingTransactions.useUpdateTransactionByHash();
+  const nativeToken = useNativeToken();
 
   const track = useBridgeControllerTrack();
 
@@ -454,9 +456,11 @@ export const BridgeBody = () => {
         if (d.withdrawing) openWithdrawalConfirmationModal(true);
         else onSubmit();
       },
-      buttonText: t("insufficientGas", { symbol: "ETH" }),
-      // Let's not disable here because people could submit
-      // with a lower gas in their wallet. A little power-usery but important imo
+      buttonText: t("insufficientGas", {
+        symbol: nativeToken?.[from?.id ?? 0]?.symbol ?? "ETH",
+      }),
+      // Let's not disable here because people could actually submit with
+      // a lower gas price via their wallet. A little power-usery but important imo
       disabled: false,
     }))
 
