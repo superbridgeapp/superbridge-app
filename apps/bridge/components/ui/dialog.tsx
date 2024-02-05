@@ -2,7 +2,6 @@ import * as DialogPrimitive from "@radix-ui/react-dialog";
 import * as React from "react";
 
 import { cn } from "@/utils";
-import { deploymentTheme } from "@/config/theme";
 import { useConfigState } from "@/state/config";
 
 const Dialog = DialogPrimitive.Root;
@@ -34,7 +33,6 @@ const DialogContent = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
 >(({ className, children, ...props }, ref) => {
-  const deployment = useConfigState.useDeployment();
   return (
     <DialogPortal>
       <DialogOverlay />
