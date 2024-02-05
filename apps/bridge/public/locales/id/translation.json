@@ -1,5 +1,6 @@
 {
   "deposit": "Deposit",
+  "depositDisabled": "Deposit dinonaktifkan",
   "depositNft": "Deposit {{tokenId}}",
   "depositing": "Sedang melakukan deposit",
   "withdraw": "Tarik",

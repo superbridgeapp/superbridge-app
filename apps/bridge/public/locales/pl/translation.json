@@ -1,5 +1,6 @@
 {
   "deposit": "Depozyt",
+  "depositDisabled": "Depozyty wyłączone",
   "depositNft": "Depozyt {{tokenId}}",
   "depositing": "Dokonywanie depozytu",
   "withdraw": "Wypłata",

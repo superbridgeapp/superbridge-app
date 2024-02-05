@@ -1,5 +1,6 @@
 {
   "deposit": "إيداع",
+  "depositDisabled": "تعطيل الودائع",
   "depositNft": "إيداع {{tokenId}}",
   "depositing": "جارٍ الإيداع",
   "withdraw": "سحب",

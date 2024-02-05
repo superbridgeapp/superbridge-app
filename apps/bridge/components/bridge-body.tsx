@@ -308,6 +308,7 @@ export const BridgeBody = () => {
   ].filter(isPresent);
 
   const submitButton = match({
+    disabled: deployment?.name === "orb3-mainnet" && !withdrawing,
     withdrawing,
     isSubmitting: bridge.write.isLoading,
     account: account.address,
@@ -325,6 +326,11 @@ export const BridgeBody = () => {
     isContractAccount,
     recipient,
   })
+    .with({ disabled: true }, () => ({
+      onSubmit: () => {},
+      buttonText: t("depositDisabled"),
+      disabled: true,
+    }))
     .with({ token: P.not(P.nullish), approve: { isLoading: true } }, () => ({
       onSubmit: () => {},
       buttonText: t("approving"),

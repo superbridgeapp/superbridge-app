@@ -1,5 +1,6 @@
 {
   "deposit": "入金",
+  "depositDisabled": "入金が無効になっています",
   "depositNft": "{{tokenId}} を入金",
   "depositing": "入金中",
   "withdraw": "引き出し",

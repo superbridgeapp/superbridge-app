@@ -1,5 +1,6 @@
 {
   "deposit": "ฝากเงิน",
+  "depositDisabled": "การฝากถอนถูกปิดใช้งาน",
   "depositNft": "ฝาก {{tokenId}}",
   "depositing": "กำลังฝาก",
   "withdraw": "ถอน",
