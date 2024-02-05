@@ -12,6 +12,9 @@ interface ConfigState {
   withdrawing: boolean;
   toggleWithdrawing: () => void;
 
+  displayWithdrawalModal: boolean;
+  setDisplayWithdrawalModal: (x: boolean) => void;
+
   settingsModal: boolean;
   setSettingsModal: (x: boolean) => void;
 
@@ -94,6 +97,10 @@ const ConfigState = create<ConfigState>()((set) => ({
 
   settingsModal: false,
   setSettingsModal: (settingsModal) => set({ settingsModal }),
+
+  displayWithdrawalModal: false,
+  setDisplayWithdrawalModal: (displayWithdrawalModal) =>
+    set({ displayWithdrawalModal }),
 }));
 
 export const useConfigState = createSelectorHooks(ConfigState);

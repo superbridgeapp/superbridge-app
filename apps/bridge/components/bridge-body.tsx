@@ -42,6 +42,7 @@ import { NftImage } from "./nft";
 import { TokenModal } from "./tokens/Modal";
 import { Button } from "./ui/button";
 import { WithdrawSettingsModal } from "./withdraw-settings/modal";
+import { ConfirmWithdrawalModal } from "./withdrawal-modal";
 
 const RecipientAddress = ({
   openAddressDialog,
@@ -140,6 +141,8 @@ export const BridgeBody = () => {
   const [addressDialog, setAddressDialog] = useState(false);
 
   const deployment = useConfigState.useDeployment();
+  const openWithdrawalConfirmationModal =
+    useConfigState.useSetDisplayWithdrawalModal();
   const withdrawing = useConfigState.useWithdrawing();
   const rawAmount = useConfigState.useRawAmount();
   const stateToken = useConfigState.useToken();
@@ -467,6 +470,14 @@ export const BridgeBody = () => {
       disabled: false,
     }));
 
+  const onSubmit = () => {
+    if (withdrawing) {
+      openWithdrawalConfirmationModal(true);
+    } else {
+      submitButton.onSubmit();
+    }
+  };
+
   const theme = deploymentTheme(deployment);
   return (
     <div className="flex flex-col gap-3 md:gap-4 px-4 pb-4">
@@ -480,6 +491,7 @@ export const BridgeBody = () => {
         gasEstimate={200_000}
       />
       <AddressModal open={addressDialog} setOpen={setAddressDialog} />
+      <ConfirmWithdrawalModal onConfirm={submitButton.onSubmit} />
       <FromTo />
 
       {token ? (
@@ -665,7 +677,7 @@ export const BridgeBody = () => {
 
       <Button
         disabled={bridge.write.isLoading || submitButton.disabled}
-        onClick={submitButton.onSubmit}
+        onClick={onSubmit}
         className={`flex w-full justify-center rounded-full px-3 py-6 text-sm font-bold leading-6 text-white shadow-sm ${theme.accentText} ${theme.accentBg}`}
       >
         {submitButton.buttonText}
