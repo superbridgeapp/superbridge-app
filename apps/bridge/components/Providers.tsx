@@ -81,7 +81,11 @@ function Web3Provider({ children }: { children: React.ReactNode }) {
     <WagmiConfig config={wagmiConfig}>
       <RainbowKitProvider
         chains={chains}
-        locale={i18n.language.includes("zh") ? "zh" : (i18n.language as Locale)}
+        locale={
+          i18n.language.includes("zh")
+            ? "zh"
+            : (i18n.resolvedLanguage as Locale)
+        }
         theme={
           mounted
             ? resolvedTheme === "light"

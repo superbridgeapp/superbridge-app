@@ -120,10 +120,10 @@ export const SettingsModal = ({ open, setOpen }: SettingsModalProps) => {
 
                 <Select
                   onValueChange={i18n.changeLanguage}
-                  value={i18n.language}
+                  value={i18n.resolvedLanguage}
                 >
                   <SelectTrigger className="max-w-[166px]">
-                    <SelectValue placeholder={i18n.language} />
+                    <SelectValue placeholder={i18n.resolvedLanguage} />
                   </SelectTrigger>
                   <SelectContent>
                     {[
