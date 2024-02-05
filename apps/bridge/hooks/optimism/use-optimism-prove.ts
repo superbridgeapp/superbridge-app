@@ -1,16 +1,9 @@
 import { useState } from "react";
 import { Address, Chain } from "viem";
-import {
-  useAccount,
-  useChainId,
-  useNetwork,
-  usePublicClient,
-  useWalletClient,
-} from "wagmi";
+import { useAccount, useNetwork, useWalletClient } from "wagmi";
 
-import { useBridgeControllerGetProveTransactionV2 } from "@/codegen";
+import { useBridgeControllerGetProveTransaction } from "@/codegen";
 import { BridgeWithdrawalDto } from "@/codegen/model";
-import { MessageStatus } from "@/constants";
 import { usePendingTransactions } from "@/state/pending-txs";
 
 import { useSwitchChain } from "../use-switch-chain";
@@ -24,16 +17,14 @@ export function useProveOptimism({
   const wallet = useWalletClient();
   const { chain: activeChain } = useNetwork();
   const setProving = usePendingTransactions.useSetProving();
-  const proveTransaction = useBridgeControllerGetProveTransactionV2(id, {
-    query: { enabled: status === MessageStatus.READY_TO_PROVE },
-  });
+  const getProveTransaction = useBridgeControllerGetProveTransaction();
   const switchChain = useSwitchChain();
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   const onProve = async () => {
-    if (!account.address || !wallet.data || !proveTransaction.data?.data) {
+    if (!account.address || !wallet.data) {
       return;
     }
 
@@ -44,10 +35,10 @@ export function useProveOptimism({
     try {
       setLoading(true);
       setError(null);
-
+      const { data } = await getProveTransaction.mutateAsync({ data: { id } });
       const hash = await wallet.data.sendTransaction({
-        to: proveTransaction.data.data.to as Address,
-        data: proveTransaction.data.data.data as Address,
+        to: data.to as Address,
+        data: data.data as Address,
         chain: deployment.l1 as unknown as Chain,
       });
       setProving(id, hash);
@@ -70,6 +61,5 @@ export function useProveOptimism({
     onProve,
     loading,
     error,
-    disabled: !proveTransaction.data?.data,
   };
 }

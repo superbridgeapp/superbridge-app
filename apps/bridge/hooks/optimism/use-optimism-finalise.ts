@@ -2,24 +2,18 @@ import { useState } from "react";
 import { Address, Chain } from "viem";
 import { useAccount, useNetwork, useWalletClient } from "wagmi";
 
-import { useBridgeControllerGetFinaliseTransactionV2 } from "@/codegen";
+import { useBridgeControllerGetFinaliseTransaction } from "@/codegen";
 import { BridgeWithdrawalDto } from "@/codegen/model";
-import { MessageStatus } from "@/constants";
 import { usePendingTransactions } from "@/state/pending-txs";
 
 import { useSwitchChain } from "../use-switch-chain";
 
-export function useFinaliseOptimism({
-  id,
-  status,
-  deployment,
-}: BridgeWithdrawalDto) {
+export function useFinaliseOptimism({ id, deployment }: BridgeWithdrawalDto) {
   const account = useAccount();
   const wallet = useWalletClient();
   const setFinalising = usePendingTransactions.useSetFinalising();
-  const finaliseTransaction = useBridgeControllerGetFinaliseTransactionV2(id, {
-    query: { enabled: status === MessageStatus.READY_FOR_RELAY },
-  });
+
+  const getFinaliseTransaction = useBridgeControllerGetFinaliseTransaction();
   const { chain: activeChain } = useNetwork();
 
   const switchChain = useSwitchChain();
@@ -28,7 +22,7 @@ export function useFinaliseOptimism({
   const [error, setError] = useState(null);
 
   const onFinalise = async () => {
-    if (!account.address || !wallet.data || !finaliseTransaction.data?.data) {
+    if (!account.address || !wallet.data) {
       return;
     }
 
@@ -40,9 +34,12 @@ export function useFinaliseOptimism({
       setLoading(true);
       setError(null);
 
+      const { data } = await getFinaliseTransaction.mutateAsync({
+        data: { id },
+      });
       const hash = await wallet.data.sendTransaction({
-        to: finaliseTransaction.data.data.to as Address,
-        data: finaliseTransaction.data.data.data as Address,
+        to: data.to as Address,
+        data: data.data as Address,
         chain: deployment.l1 as unknown as Chain,
       });
       setFinalising(id, hash);
@@ -65,6 +62,5 @@ export function useFinaliseOptimism({
     onFinalise,
     loading,
     error,
-    disabled: !finaliseTransaction.data?.data,
   };
 }
