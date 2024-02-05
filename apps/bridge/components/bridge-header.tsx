@@ -1,15 +1,18 @@
 import { useTheme } from "next-themes";
 import Image from "next/image";
-
-import { deploymentTheme } from "@/config/theme";
-import { useConfigState } from "@/state/config";
-import { dedicatedDeployment } from "@/config/dedicated-deployment";
-import { useToggleWithdrawing } from "@/hooks/use-toggle-withdrawing";
 import { useTranslation } from "react-i18next";
+
+import BaseDog from "@/components/basedog";
+import { dedicatedDeployment } from "@/config/dedicated-deployment";
+import { deploymentTheme } from "@/config/theme";
+import { useToggleWithdrawing } from "@/hooks/use-toggle-withdrawing";
+import { useConfigState } from "@/state/config";
+import { isDog } from "@/utils/is-dog";
 
 export const BridgeHeader = () => {
   const withdrawing = useConfigState.useWithdrawing();
   const deployment = useConfigState.useDeployment();
+  const stateToken = useConfigState.useToken();
   const toggleWithdrawing = useToggleWithdrawing();
   const { resolvedTheme } = useTheme();
   const { t } = useTranslation();
@@ -61,15 +64,21 @@ export const BridgeHeader = () => {
         ) : (
           <>
             <div>
-              <Image
-                src={
-                  resolvedTheme === "dark" ? theme.logoSrcDark : theme.logoSrc
-                }
-                width={theme.logoWidth}
-                height={theme.logoHeight}
-                alt="Direction"
-                className="pointer-events-none scale-[0.88] -ml-1 md:scale-100 md:ml-0"
-              />
+              {isDog(deployment, stateToken) ? (
+                <div className="pointer-events-none scale-[0.88] -ml-1 md:scale-100 md:ml-0">
+                  <BaseDog />
+                </div>
+              ) : (
+                <Image
+                  src={
+                    resolvedTheme === "dark" ? theme.logoSrcDark : theme.logoSrc
+                  }
+                  width={theme.logoWidth}
+                  height={theme.logoHeight}
+                  alt="Direction"
+                  className="pointer-events-none scale-[0.88] -ml-1 md:scale-100 md:ml-0"
+                />
+              )}
             </div>
             <div className="flex items-center space-x-2">
               <div

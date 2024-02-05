@@ -1,5 +1,6 @@
 {
   "deposit": "存款",
+  "depositDisabled": "禁用存款",
   "depositNft": "存入 {{tokenId}}",
   "depositing": "存款中",
   "withdraw": "提款",

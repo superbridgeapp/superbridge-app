@@ -1,5 +1,6 @@
 {
   "deposit": "Deposit",
+  "depositDisabled": "Deposits disabled",
   "depositNft": "Deposit {{tokenId}}",
   "depositing": "Depositing",
   "withdraw": "Withdraw",

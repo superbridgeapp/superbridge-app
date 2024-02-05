@@ -1,5 +1,6 @@
 {
   "deposit": "जमा करें",
+  "depositDisabled": "जमा अक्षम",
   "depositNft": "{{tokenId}} जमा करें",
   "depositing": "जमा हो रहा है",
   "withdraw": "निकालें",

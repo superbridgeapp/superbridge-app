@@ -1,5 +1,6 @@
 {
   "deposit": "입금",
+  "depositDisabled": "입금 비활성화",
   "depositNft": "{{tokenId}} 입금",
   "depositing": "입금 중",
   "withdraw": "출금",

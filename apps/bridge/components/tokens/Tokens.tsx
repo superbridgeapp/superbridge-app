@@ -195,29 +195,32 @@ export const FungibleTokenPicker = ({
             "BITCOIN", // HarryPotterObamaSonicInu
             "WBTC",
             "wstETH",
-          ].map((symbol) => {
-            const token = tokens.data.find(
-              (t) => t.token[deployment?.l2.id ?? 0]?.symbol === symbol
-            )?.token;
-            if (!token) {
-              return null;
-            }
-            return (
-              <div
-                key={token[from?.id ?? 0]?.address ?? "0x"}
-                className="border border-zinc-100 dark:border-zinc-800 rounded-full flex items-center space-x-1 px-2 pr-3 py-1  cursor-pointer hover:bg-zinc-200 hover:dark:bg-zinc-800 transition"
-                onClick={() => onClickToken(token)}
-              >
-                <img
-                  src={token[from?.id ?? 0]?.logoURI}
-                  className="h-5 w-5 rounded-full"
-                />
-                <span className="text-sm font-medium inline-flex">
-                  {token[from?.id ?? 0]?.symbol}
-                </span>
-              </div>
-            );
-          })}
+            deployment?.name === "base" && "DOG",
+          ]
+            .filter(Boolean)
+            .map((symbol) => {
+              const token = tokens.data.find(
+                (t) => t.token[deployment?.l2.id ?? 0]?.symbol === symbol
+              )?.token;
+              if (!token) {
+                return null;
+              }
+              return (
+                <div
+                  key={token[from?.id ?? 0]?.address ?? "0x"}
+                  className="border border-zinc-100 dark:border-zinc-800 rounded-full flex items-center space-x-1 px-2 pr-3 py-1  cursor-pointer hover:bg-zinc-200 hover:dark:bg-zinc-800 transition"
+                  onClick={() => onClickToken(token)}
+                >
+                  <img
+                    src={token[from?.id ?? 0]?.logoURI}
+                    className="h-5 w-5 rounded-full"
+                  />
+                  <span className="text-sm font-medium inline-flex">
+                    {token[from?.id ?? 0]?.symbol}
+                  </span>
+                </div>
+              );
+            })}
         </div>
       </div>
 

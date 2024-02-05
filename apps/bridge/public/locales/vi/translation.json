@@ -1,5 +1,6 @@
 {
   "deposit": "Gửi",
+  "depositDisabled": "Không thể gửi tiền",
   "depositNft": "Gửi {{tokenId}}",
   "depositing": "Đang gửi",
   "withdraw": "Rút",

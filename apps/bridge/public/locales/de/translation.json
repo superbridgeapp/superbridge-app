@@ -1,5 +1,6 @@
 {
   "deposit": "Einzahlen",
+  "depositDisabled": "Einzahlungen deaktiviert",
   "depositNft": "{{tokenId}} einzahlen",
   "depositing": "Wird eingezahlt",
   "withdraw": "Abheben",
