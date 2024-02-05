@@ -8,11 +8,7 @@ import { usePendingTransactions } from "@/state/pending-txs";
 
 import { useSwitchChain } from "../use-switch-chain";
 
-export function useProveOptimism({
-  id,
-  status,
-  deployment,
-}: BridgeWithdrawalDto) {
+export function useProveOptimism({ id, deployment }: BridgeWithdrawalDto) {
   const account = useAccount();
   const wallet = useWalletClient();
   const { chain: activeChain } = useNetwork();
