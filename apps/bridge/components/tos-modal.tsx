@@ -18,38 +18,8 @@ export const TosModal = () => {
   return (
     <Dialog open={!hasViewedTos} onOpenChange={() => {}}>
       <DialogContent>
-        <h1 className="font-bold text-2xl pb-4 border-b border-zinc-50 dark:border-zinc-900 p-6">
-          Hello!
-        </h1>
-        <div className="space-y-6 p-6">
-          <div className="flex gap-3 align-start">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="60"
-              height="60"
-              fill="none"
-              viewBox="0 0 60 60"
-              className="w-8 min-w-8 h-8 min-h-8"
-            >
-              <path
-                fill="#CBCCBE"
-                d="M18.44 21.56v1.97h2.12v-2.09c0-6.02 3.54-10.75 9.63-10.75 6.09 0 9.81 4.33 9.81 10.75v2.09h2.12v-1.97c0-7.78-3.88-12.99-11.84-12.99s-11.84 5.06-11.84 12.99z"
-              ></path>
-              <path
-                fill="#666660"
-                d="M13.45 27.1h33.63c.48 0 .91.36.91.88v21.8c0 .48-.42.88-.91.88H13.45c-.48 0-.88-.39-.88-.88v-21.8c0-.51.39-.88.88-.88z"
-              ></path>
-              <path
-                fill="#000"
-                d="M24.14 23.53v-2.09c0-4.15 2-7.17 6.05-7.17 4.45 0 6.24 2.79 6.24 7.17v2.09H24.14zM12.57 49.78v-21.8c0-.51.39-.88.88-.88h33.63c.48 0 .91.36.91.88v21.8c0 .48-.42.88-.91.88H13.45c-.48 0-.88-.39-.88-.88zm-3.57 0c0 2.45 2 4.45 4.45 4.45h33.63c2.48 0 4.48-2 4.48-4.45v-21.8c0-2.45-2-4.45-4.48-4.45h-1.42v-1.97C45.66 11.72 40.21 5 30.31 5h-.06C20.32 5 14.9 11.72 14.9 21.56v1.97h-1.45c-2.45 0-4.45 2-4.45 4.45v21.8zm33.12-28.22v1.97H40v-2.09c0-6.42-3.45-10.75-9.81-10.75s-9.63 4.72-9.63 10.75v2.09h-2.12v-1.97c0-7.93 3.97-12.99 11.84-12.99 7.87 0 11.84 5.21 11.84 12.99z"
-              ></path>
-            </svg>
-            <p className="text-sm">
-              We will <span className="font-bold">NEVER</span> ask you for your
-              private keys or seed phrase.
-            </p>
-          </div>
-
+        <div className="flex flex-col space-y-6 p-6">
+          <h1 className="font-bold text-2xl">Hello!</h1>
           <div className="flex gap-3">
             <svg
               xmlns="http://www.w3.org/2000/svg"
