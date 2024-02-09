@@ -34,6 +34,8 @@ import { useSettingsState } from "@/state/settings";
 import { Theme } from "@/types/theme";
 import { buildPendingTx } from "@/utils/build-pending-tx";
 import { isEth, isNativeToken } from "@/utils/is-eth";
+import { isNativeUsdc } from "@/utils/is-usdc";
+import { DeploymentType } from "@/codegen/model";
 
 import { FromTo } from "./FromTo";
 import { AddressModal } from "./address-modal";
@@ -335,6 +337,11 @@ export const BridgeBody = () => {
     isEth: isEth(token),
     isContractAccount,
     recipient,
+    promptWithdrawalConfirmationModal:
+      withdrawing &&
+      !!stateToken &&
+      !isNativeUsdc(stateToken) &&
+      deployment?.type === DeploymentType.mainnet,
   })
     .with({ disabled: true }, () => ({
       onSubmit: () => {},
@@ -453,7 +460,8 @@ export const BridgeBody = () => {
     }))
     .with({ hasInsufficientGas: true }, (d) => ({
       onSubmit: () => {
-        if (d.withdrawing) openWithdrawalConfirmationModal(true);
+        if (d.promptWithdrawalConfirmationModal)
+          openWithdrawalConfirmationModal(true);
         else onSubmit();
       },
       buttonText: t("insufficientGas", {
@@ -466,7 +474,8 @@ export const BridgeBody = () => {
 
     .otherwise((d) => ({
       onSubmit: () => {
-        if (d.withdrawing) openWithdrawalConfirmationModal(true);
+        if (d.promptWithdrawalConfirmationModal)
+          openWithdrawalConfirmationModal(true);
         else onSubmit();
       },
       buttonText: d.nft
