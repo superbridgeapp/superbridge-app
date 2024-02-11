@@ -2,19 +2,21 @@ import clsx from "clsx";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { P, match } from "ts-pattern";
-import { formatUnits } from "viem";
-import { Chain } from "wagmi";
+import { Address, formatUnits, isAddress } from "viem";
+import { Chain, erc20ABI, useAccount, useContractReads } from "wagmi";
 
+import { L2StandardBridgeAbi } from "@/abis/L2StandardBridge";
+import { OptimismMintableERC20Abi } from "@/abis/OptimismMintableERC20";
 import { ChainDto } from "@/codegen/model";
 import { deploymentTheme } from "@/config/theme";
 import { useTokenBalances } from "@/hooks/use-balances";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
 import { useSelectedToken } from "@/hooks/use-selected-token";
 import { useConfigState } from "@/state/config";
-import { MultiChainToken } from "@/types/token";
-import { isBridgedUsdc, isNativeUsdc } from "@/utils/is-usdc";
+import { MultiChainToken, OptimismToken, Token } from "@/types/token";
+import { isNativeUsdc } from "@/utils/is-usdc";
 
-const Token = ({
+const TokenComponent = ({
   token,
   from,
   balance,
@@ -67,70 +69,181 @@ const Token = ({
   );
 };
 
-// const TokenImport: FC<{
-//   from: Chain;
-//   address: Address;
-// }> = ({ from, address }) => {
-//   const { setToken } = useConfigState();
-//   const account = useAccount();
-//   const tokens = useTokens();
-//   const reads = useContractReads({
-//     allowFailure: true,
-//     contracts: [
-//       { address, abi: erc20ABI, chainId: from.id, functionName: "name" },
-//       { address, abi: erc20ABI, chainId: from.id, functionName: "symbol" },
-//       { address, abi: erc20ABI, chainId: from.id, functionName: "decimals" },
-//       {
-//         address,
-//         abi: erc20ABI,
-//         chainId: from.id,
-//         functionName: "balanceOf",
-//         args: [account?.address ?? "0x"],
-//       },
-//     ],
-//   });
+const TokenImport = ({
+  address,
+  onChooseToken,
+}: {
+  address: Address;
+  onChooseToken: (o: MultiChainToken) => void;
+}) => {
+  const importToken = useConfigState.useImportToken();
 
-//   const importToken = () => {};
+  const deployment = useConfigState.useDeployment();
+  const account = useAccount();
+  const reads = useContractReads({
+    allowFailure: true,
+    contracts: [
+      {
+        address,
+        abi: erc20ABI,
+        chainId: deployment?.l2.id,
+        functionName: "name",
+      },
+      {
+        address,
+        abi: erc20ABI,
+        chainId: deployment?.l2.id,
+        functionName: "symbol",
+      },
+      {
+        address,
+        abi: erc20ABI,
+        chainId: deployment?.l2.id,
+        functionName: "decimals",
+      },
+      {
+        address,
+        abi: erc20ABI,
+        chainId: deployment?.l2.id,
+        functionName: "balanceOf",
+        args: [account?.address ?? "0x"],
+      },
+      {
+        address,
+        abi: OptimismMintableERC20Abi,
+        chainId: deployment?.l2.id,
+        functionName: "BRIDGE",
+      },
+      {
+        address,
+        abi: OptimismMintableERC20Abi,
+        chainId: deployment?.l2.id,
+        functionName: "REMOTE_TOKEN",
+      },
+    ],
+  });
+  const name = reads?.data?.[0].result;
+  const symbol = reads?.data?.[1].result;
+  const decimals = reads?.data?.[2].result;
+  const balance = reads?.data?.[3].result;
+  const L2_BRIDGE = reads?.data?.[4].result;
+  const L1_TOKEN = reads?.data?.[5].result;
 
-//   const token: OptimismToken | false = reads.data?.every(
-//     (x) => x.status === "success"
-//   ) && {
-//     name: reads.data[0].result!,
-//     symbol: reads.data[1].result!,
-//     decimals: reads.data[2].result!,
-//     chainId: from.id,
-//     address,
-//     logoURI: "",
-//   };
+  const reads2 = useContractReads({
+    allowFailure: true,
+    contracts: [
+      {
+        address: L2_BRIDGE,
+        abi: L2StandardBridgeAbi,
+        chainId: deployment?.l2.id,
+        functionName: "OTHER_BRIDGE",
+      },
+    ],
+  });
+  const L1_BRIDGE = reads2?.data?.[0].result as Address | undefined;
 
-//   if (reads.isLoading) {
-//     return <div>Loading...</div>;
-//   }
+  const isValidToken = !!name && !!symbol && typeof decimals === "number";
+  const isOptimismMintableToken = !!L2_BRIDGE && !!L1_BRIDGE && !!L1_TOKEN;
 
-//   if (reads.isError || !token) {
-//     return <div>Error...</div>;
-//   }
+  const onImportToken = () => {
+    if (!deployment || !isValidToken || !isOptimismMintableToken) {
+      return;
+    }
 
-//   return (
-//     <div
-//       className="flex justify-between hover:bg-zinc-50 transition cursor-pointer p-4 rounded-sm"
-//       // onClick={() => setToken(token)}
-//     >
-//       <div className="flex items-center space-x-4">
-//         <img src={token.logoURI} className="h-8 w-8 rounded-full" />
-//         <div className="text-sm font-bold text-left">
-//           <div>{token.name}</div>
-//           <div>{token.symbol}</div>
-//         </div>
-//       </div>
-//       <div>
-//         {/* {parseFloat(
-//           formatUnits(balance, token[from.id]!.decimals)
-//         ).toLocaleString("en", { maximumFractionDigits: 3 })} */}
-//       </div>
-//     </div>
-//   );
-// };
+    const l1Token: OptimismToken = {
+      address: L1_TOKEN,
+      chainId: deployment.l1.id,
+      decimals,
+      name,
+      symbol,
+      opTokenId: `custom-${symbol}`,
+      logoURI: "",
+      standardBridgeAddresses: {
+        [deployment.l2.id]: L1_BRIDGE,
+      },
+    };
+    const l2Token: OptimismToken = {
+      address,
+      chainId: deployment.l2.id,
+      decimals,
+      name,
+      symbol,
+      opTokenId: `custom-${symbol}`,
+      logoURI: "",
+      standardBridgeAddresses: {
+        [deployment.l1.id]: L2_BRIDGE,
+      },
+    };
+    const token: MultiChainToken = {
+      [deployment.l1.id]: l1Token,
+      [deployment.l2.id]: l2Token,
+    };
+
+    importToken(token);
+    onChooseToken(token);
+  };
+
+  if (reads.isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (reads.isError) {
+    return <div>Error...</div>;
+  }
+
+  if (!isValidToken) {
+    return <div>Invalid token</div>;
+  }
+
+  if (!isOptimismMintableToken) {
+    return (
+      <div className="flex justify-between hover:bg-zinc-50 transition cursor-pointer p-4 rounded-sm">
+        <div className="flex items-center space-x-4">
+          <div className="rounded-full bg-zinc-100 text-zinc-800 h-8 w-8 flex items-center justify-center">
+            {symbol.substring(0, 3)}
+          </div>
+          <div className="text-sm font-bold text-left">
+            <div>{name}</div>
+            <div>{symbol}</div>
+          </div>
+        </div>
+        <div>
+          {parseFloat(
+            formatUnits(BigInt(balance ?? "0"), decimals)
+          ).toLocaleString("en", {
+            maximumFractionDigits: 3,
+          })}
+        </div>
+
+        <div>NOT BRIDGEABLE</div>
+      </div>
+    );
+  }
+
+  return (
+    <div
+      className="flex justify-between hover:bg-zinc-50 transition cursor-pointer p-4 rounded-sm"
+      onClick={onImportToken}
+    >
+      <div className="flex items-center space-x-4">
+        <div className="rounded-full bg-zinc-100 text-zinc-800 h-8 w-8 flex items-center justify-center">
+          {symbol.substring(0, 3)}
+        </div>
+        <div className="text-sm font-bold text-left">
+          <div>{name}</div>
+          <div>{symbol}</div>
+        </div>
+      </div>
+      <div>
+        {parseFloat(
+          formatUnits(BigInt(balance ?? "0"), decimals)
+        ).toLocaleString("en", {
+          maximumFractionDigits: 3,
+        })}
+      </div>
+    </div>
+  );
+};
 
 export const FungibleTokenPicker = ({
   setOpen,
@@ -225,18 +338,21 @@ export const FungibleTokenPicker = ({
       </div>
 
       <div className="overflow-y-scroll flex flex-col basis-full">
-        {match({ filteredTokens })
-          // .with(
-          //   {
-          //     filteredTokens: P.when((x) => x.length === 0),
-          //     searchIsToken: true,
-          //   },
-          //   () => (
-          //     <div className="p-4 text-center font-bold text-sm">
-          //       <TokenImport address={search as Address} from={from} />
-          //     </div>
-          //   )
-          // )
+        {match({ filteredTokens, searchIsToken: isAddress(search) })
+          .with(
+            {
+              filteredTokens: P.when((x) => x.length === 0),
+              searchIsToken: true,
+            },
+            () => (
+              <div className="p-4 text-center font-bold text-sm">
+                <TokenImport
+                  address={search as Address}
+                  onChooseToken={onClickToken}
+                />
+              </div>
+            )
+          )
           .with({ filteredTokens: P.when((x) => x.length === 0) }, () => (
             <div className="p-4 text-center font-bold text-sm">
               {t("tokens.noneFound")}
@@ -244,7 +360,7 @@ export const FungibleTokenPicker = ({
           ))
           .with({ filteredTokens: P.when((x) => x.length > 0) }, () =>
             filteredTokens.map(({ token, balance }) => (
-              <Token
+              <TokenComponent
                 key={token[1]?.address ?? token[5]?.address ?? "0x"}
                 token={token}
                 from={from}

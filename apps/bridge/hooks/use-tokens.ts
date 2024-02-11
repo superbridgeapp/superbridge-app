@@ -10,11 +10,12 @@ import { useDeployments } from "./use-deployments";
 export function useAllTokens() {
   const deployment = useConfigState.useDeployment();
   const tokens = useConfigState.useTokens();
+  const importedTokens = useConfigState.useImportedTokens();
   const { deployments } = useDeployments();
 
   return useMemo(
-    () =>
-      tokens.map((t) => {
+    () => [
+      ...tokens.map((t) => {
         if (isNativeToken(t)) {
           const copy = { ...t };
           deployments.forEach((d) => {
@@ -43,7 +44,9 @@ export function useAllTokens() {
         }
         return t;
       }),
-    [deployment, tokens]
+      ...importedTokens,
+    ],
+    [deployment, tokens, importedTokens]
   );
 }
 
