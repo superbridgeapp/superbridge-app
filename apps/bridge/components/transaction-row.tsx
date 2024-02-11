@@ -116,7 +116,7 @@ const FinaliseArbitrum: FC<{
       className="rounded-full"
       onClick={finalise.onFinalise}
       size={"sm"}
-      disabled={finalise.error || finalise.loading || finalise.disabled}
+      disabled={finalise.error || finalise.loading}
     >
       {t("buttons.finalize")}
     </Button>

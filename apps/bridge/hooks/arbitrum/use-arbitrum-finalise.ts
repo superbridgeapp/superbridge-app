@@ -59,6 +59,5 @@ export function useFinaliseArbitrum({ id, deployment }: ArbitrumWithdrawalDto) {
     onFinalise,
     loading,
     error,
-    disabled: !finaliseTransaction.data?.data,
   };
 }
