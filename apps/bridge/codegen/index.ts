@@ -159,7 +159,7 @@ export const bridgeControllerGetProveTransaction = (
  ): Promise<AxiosResponse<TransactionDto>> => {
     
     return axios.post(
-      `/api/bridge/prove`,
+      `/api/bridge/op_prove`,
       idDto,options
     );
   }
@@ -256,7 +256,7 @@ export const bridgeControllerGetFinaliseTransaction = (
  ): Promise<AxiosResponse<TransactionDto>> => {
     
     return axios.post(
-      `/api/bridge/finalise`,
+      `/api/bridge/op_finalise`,
       idDto,options
     );
   }
@@ -348,6 +348,50 @@ export const useBridgeControllerGetArbitrumFinaliseTransaction = <TData = Awaite
 
 
 
+export const bridgeControllerGetArbitrumFinaliseTransactionV2 = (
+    idDto: IdDto, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<TransactionDto>> => {
+    
+    return axios.post(
+      `/api/bridge/arb_finalise`,
+      idDto,options
+    );
+  }
+
+
+
+export const getBridgeControllerGetArbitrumFinaliseTransactionV2MutationOptions = <TError = AxiosError<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerGetArbitrumFinaliseTransactionV2>>, TError,{data: IdDto}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerGetArbitrumFinaliseTransactionV2>>, TError,{data: IdDto}, TContext> => {
+ const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof bridgeControllerGetArbitrumFinaliseTransactionV2>>, {data: IdDto}> = (props) => {
+          const {data} = props ?? {};
+
+          return  bridgeControllerGetArbitrumFinaliseTransactionV2(data,axiosOptions)
+        }
+
+        
+
+
+   return  { mutationFn, ...mutationOptions }}
+
+    export type BridgeControllerGetArbitrumFinaliseTransactionV2MutationResult = NonNullable<Awaited<ReturnType<typeof bridgeControllerGetArbitrumFinaliseTransactionV2>>>
+    export type BridgeControllerGetArbitrumFinaliseTransactionV2MutationBody = IdDto
+    export type BridgeControllerGetArbitrumFinaliseTransactionV2MutationError = AxiosError<unknown>
+
+    export const useBridgeControllerGetArbitrumFinaliseTransactionV2 = <TError = AxiosError<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerGetArbitrumFinaliseTransactionV2>>, TError,{data: IdDto}, TContext>, axios?: AxiosRequestConfig}
+) => {
+
+      const mutationOptions = getBridgeControllerGetArbitrumFinaliseTransactionV2MutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
 export const bridgeControllerGetCctpMintTransaction = (
     id: string, options?: AxiosRequestConfig
  ): Promise<AxiosResponse<TransactionDto>> => {
@@ -401,6 +445,50 @@ export const useBridgeControllerGetCctpMintTransaction = <TData = Awaited<Return
 
 
 
+export const bridgeControllerGetCctpMintTransactionV2 = (
+    idDto: IdDto, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<TransactionDto>> => {
+    
+    return axios.post(
+      `/api/bridge/cctp_mint`,
+      idDto,options
+    );
+  }
+
+
+
+export const getBridgeControllerGetCctpMintTransactionV2MutationOptions = <TError = AxiosError<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerGetCctpMintTransactionV2>>, TError,{data: IdDto}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerGetCctpMintTransactionV2>>, TError,{data: IdDto}, TContext> => {
+ const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof bridgeControllerGetCctpMintTransactionV2>>, {data: IdDto}> = (props) => {
+          const {data} = props ?? {};
+
+          return  bridgeControllerGetCctpMintTransactionV2(data,axiosOptions)
+        }
+
+        
+
+
+   return  { mutationFn, ...mutationOptions }}
+
+    export type BridgeControllerGetCctpMintTransactionV2MutationResult = NonNullable<Awaited<ReturnType<typeof bridgeControllerGetCctpMintTransactionV2>>>
+    export type BridgeControllerGetCctpMintTransactionV2MutationBody = IdDto
+    export type BridgeControllerGetCctpMintTransactionV2MutationError = AxiosError<unknown>
+
+    export const useBridgeControllerGetCctpMintTransactionV2 = <TError = AxiosError<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerGetCctpMintTransactionV2>>, TError,{data: IdDto}, TContext>, axios?: AxiosRequestConfig}
+) => {
+
+      const mutationOptions = getBridgeControllerGetCctpMintTransactionV2MutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
 export const bridgeControllerFiatPrices = (
      options?: AxiosRequestConfig
  ): Promise<AxiosResponse<void>> => {
