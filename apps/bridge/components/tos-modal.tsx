@@ -16,7 +16,6 @@ export const TosModal = () => {
   const theme = deploymentTheme(deployment);
 
   return (
-    // TODO: Prop to hide close x button
     <Dialog open={!hasViewedTos} onOpenChange={() => {}}>
       <DialogContent hideCloseButton>
         <div className="flex flex-col gap-6 p-6 pt-8">
