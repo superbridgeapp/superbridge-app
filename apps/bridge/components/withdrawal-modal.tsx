@@ -104,13 +104,13 @@ export const ConfirmWithdrawalModal = ({
   };
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent hideCloseButton>
+      <DialogContent>
         <div className="flex flex-col p-6 pt-6 md:pt-8">
-          <div className="flex flex-col gap-1">
-            <h1 className="font-bold text-xl md:text-2xl tracking-tight leading-6 md:leading-7">
+          <div className="flex flex-col gap-1 mr-6">
+            <h1 className="font-bold text-2xl md:text-2xl tracking-tight md:leading-7 text-pretty">
               {t("withdrawalModal.title", { rollup: deployment?.l2.name })}
             </h1>
-            <p className="text-sm">
+            <p className="text-sm text-pretty">
               {t(
                 deployment?.family === DeploymentFamily.arbitrum
                   ? "withdrawalModal.arbDescription"
@@ -126,7 +126,7 @@ export const ConfirmWithdrawalModal = ({
             </p>
           </div>
 
-          <div className="flex flex-col gap-1 pt-2">
+          <div className="flex flex-col gap-1 pt-4">
             <div className="justify-end flex items-center px-1">
               <span className="text-zinc-400 font-medium text-[11px]">
                 {t("withdrawalModal.approxFees")}
