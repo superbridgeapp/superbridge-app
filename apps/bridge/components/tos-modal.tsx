@@ -18,7 +18,7 @@ export const TosModal = () => {
   return (
     // TODO: Prop to hide close x button
     <Dialog open={!hasViewedTos} onOpenChange={() => {}}>
-      <DialogContent>
+      <DialogContent hideCloseButton>
         <div className="flex flex-col gap-6 p-6 pt-8">
           <div className="flex flex-col gap-2">
             <h1 className="font-bold text-2xl tracking-tight">

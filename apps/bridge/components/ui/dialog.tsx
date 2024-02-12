@@ -2,7 +2,6 @@ import * as DialogPrimitive from "@radix-ui/react-dialog";
 import * as React from "react";
 
 import { cn } from "@/utils";
-import { useConfigState } from "@/state/config";
 
 const Dialog = DialogPrimitive.Root;
 
@@ -31,7 +30,9 @@ DialogOverlay.displayName = DialogPrimitive.Overlay.displayName;
 
 const DialogContent = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
+  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content> & {
+    hideCloseButton?: boolean;
+  }
 >(({ className, children, ...props }, ref) => {
   return (
     <DialogPortal>
@@ -45,26 +46,28 @@ const DialogContent = React.forwardRef<
         {...props}
       >
         {children}
-        <DialogPrimitive.Close className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            fill="none"
-            viewBox="0 0 24 24"
-            className={"fill-zinc-400"}
-          >
-            <g clipPath="url(#clip0_322_6261)">
-              <path d="M11.991 0C5.381 0 0 5.38 0 11.991c0 6.61 5.38 11.991 11.991 11.991 6.61 0 11.991-5.38 11.991-11.99C23.982 5.38 18.62 0 11.992 0zm2.031 12.526l3.314 3.314c.214.213.321.48.321.748 0 .588-.481 1.069-1.087 1.069a.998.998 0 01-.748-.32l-3.314-3.297a.713.713 0 00-1.016 0l-3.314 3.296c-.196.214-.48.321-.748.321a1.072 1.072 0 01-1.07-1.069c0-.285.09-.552.304-.748l3.314-3.314a.713.713 0 00.213-.517.674.674 0 00-.213-.499L6.664 8.196a1.047 1.047 0 01-.303-.766A1.06 1.06 0 017.43 6.36c.285 0 .552.108.748.322l3.314 3.314c.143.142.32.213.517.213a.647.647 0 00.499-.213l3.314-3.314c.214-.214.48-.321.748-.321.642 0 1.087.517 1.087 1.069 0 .285-.125.552-.32.766l-3.315 3.314a.703.703 0 00-.213.499c0 .178.07.374.213.517z"></path>
-            </g>
-            <defs>
-              <clipPath id="clip0_322_6261">
-                <path fill="#fff" d="M0 0H24V24H0z"></path>
-              </clipPath>
-            </defs>
-          </svg>
-          <span className="sr-only">Close</span>
-        </DialogPrimitive.Close>
+        {props.hideCloseButton ? null : (
+          <DialogPrimitive.Close className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              fill="none"
+              viewBox="0 0 24 24"
+              className={"fill-zinc-400"}
+            >
+              <g clipPath="url(#clip0_322_6261)">
+                <path d="M11.991 0C5.381 0 0 5.38 0 11.991c0 6.61 5.38 11.991 11.991 11.991 6.61 0 11.991-5.38 11.991-11.99C23.982 5.38 18.62 0 11.992 0zm2.031 12.526l3.314 3.314c.214.213.321.48.321.748 0 .588-.481 1.069-1.087 1.069a.998.998 0 01-.748-.32l-3.314-3.297a.713.713 0 00-1.016 0l-3.314 3.296c-.196.214-.48.321-.748.321a1.072 1.072 0 01-1.07-1.069c0-.285.09-.552.304-.748l3.314-3.314a.713.713 0 00.213-.517.674.674 0 00-.213-.499L6.664 8.196a1.047 1.047 0 01-.303-.766A1.06 1.06 0 017.43 6.36c.285 0 .552.108.748.322l3.314 3.314c.143.142.32.213.517.213a.647.647 0 00.499-.213l3.314-3.314c.214-.214.48-.321.748-.321.642 0 1.087.517 1.087 1.069 0 .285-.125.552-.32.766l-3.315 3.314a.703.703 0 00-.213.499c0 .178.07.374.213.517z"></path>
+              </g>
+              <defs>
+                <clipPath id="clip0_322_6261">
+                  <path fill="#fff" d="M0 0H24V24H0z"></path>
+                </clipPath>
+              </defs>
+            </svg>
+            <span className="sr-only">Close</span>
+          </DialogPrimitive.Close>
+        )}
       </DialogPrimitive.Content>
     </DialogPortal>
   );

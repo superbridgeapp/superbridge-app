@@ -64,7 +64,7 @@ export const ConfirmWithdrawalModal = ({
   return (
     // TODO: Prop to hide close x button
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent>
+      <DialogContent hideCloseButton>
         <div className="flex flex-col p-6 pt-6 md:pt-8">
           <div className="flex flex-col gap-1">
             {/* TODO: Insert proper BaseChain and change steps and numbers for Arbitrum */}
