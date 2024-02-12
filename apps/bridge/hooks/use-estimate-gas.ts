@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { EstimateContractGasParameters } from "viem";
-import { usePublicClient } from "wagmi";
+import { usePublicClient, useFeeData } from "wagmi";
 
 export const useEstimateGas = (
   args: EstimateContractGasParameters & { enabled?: boolean }
