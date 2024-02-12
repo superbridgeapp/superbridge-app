@@ -88,7 +88,7 @@ export const WithdrawFees = ({
           </span>
           <span
             className={clsx(
-              "text-[10px]",
+              "text-[10px] leading-4 mt-0.5",
               forceViaL1
                 ? "text-white/60"
                 : "text-zinc-900/30 dark:text-white/30 uppercase"
