@@ -319,6 +319,24 @@ export const BridgeBody = () => {
     allowance.refetch();
   };
 
+  const promptWithdrawalConfirmationModal =
+    withdrawing &&
+    !!stateToken &&
+    !isNativeUsdc(stateToken) &&
+    deployment?.type === DeploymentType.mainnet;
+
+  const handleSubmitClick = () => {
+    if (!nft && weiAmount === BigInt(0)) {
+      return;
+    }
+
+    if (promptWithdrawalConfirmationModal) {
+      openWithdrawalConfirmationModal(true);
+    } else {
+      onSubmit();
+    }
+  };
+
   const submitButton = match({
     disabled: deployment?.name === "orb3-mainnet" && !withdrawing,
     withdrawing,
@@ -337,11 +355,6 @@ export const BridgeBody = () => {
     isEth: isEth(token),
     isContractAccount,
     recipient,
-    promptWithdrawalConfirmationModal:
-      withdrawing &&
-      !!stateToken &&
-      !isNativeUsdc(stateToken) &&
-      deployment?.type === DeploymentType.mainnet,
   })
     .with({ disabled: true }, () => ({
       onSubmit: () => {},
@@ -459,11 +472,7 @@ export const BridgeBody = () => {
       disabled: true,
     }))
     .with({ hasInsufficientGas: true }, (d) => ({
-      onSubmit: () => {
-        if (d.promptWithdrawalConfirmationModal)
-          openWithdrawalConfirmationModal(true);
-        else onSubmit();
-      },
+      onSubmit: handleSubmitClick,
       buttonText: t("insufficientGas", {
         symbol: nativeToken?.[from?.id ?? 0]?.symbol ?? "ETH",
       }),
@@ -472,14 +481,7 @@ export const BridgeBody = () => {
       disabled: false,
     }))
     .otherwise((d) => ({
-      onSubmit: () => {
-        if (!d.nft && weiAmount === BigInt(0)) {
-          return;
-        }
-        if (d.promptWithdrawalConfirmationModal)
-          openWithdrawalConfirmationModal(true);
-        else onSubmit();
-      },
+      onSubmit: handleSubmitClick,
       buttonText: d.nft
         ? d.withdrawing
           ? t("withdrawNft", { tokenId: `#${d.nft.tokenId}` })
