@@ -87,7 +87,7 @@
   "withdrawalModal": {
     "title": "{{rollup}} withdrawals take ~7 days",
     "opDescription": "Withdrawing is a 3 step process, requiring 2 {{base}} transactions.",
-    "arbDescription": "Withdrawing is a 3 step process, requiring 2 {{base}} transactions.",
+    "arbDescription": "Withdrawing is a 2 step process and requires an extra {{base}} transaction.",
     "learnMore": "Learn more",
     "approxFees": "Approx. fees",
     "initiate": "Initiate withdrawal",
