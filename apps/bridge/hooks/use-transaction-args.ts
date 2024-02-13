@@ -75,7 +75,6 @@ export const useTransactionArgs = () => {
     return depositArgs({
       deployment,
       stateToken,
-      proxyBridge: configurations[deployment.name]?.contracts.l1Bridge,
       cctp: { from: l1Cctp, to: l2Cctp },
       recipient,
       weiAmount,
