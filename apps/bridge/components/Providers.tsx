@@ -19,6 +19,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { chainIcons } from "@/config/theme";
 import * as metadata from "@/constants/metadata";
 import { useDeployments } from "@/hooks/use-deployments";
+import { useConfigState } from "@/state/config";
 import { queryClient } from "@/utils/query-client";
 
 // @ts-expect-error
@@ -29,6 +30,7 @@ mainnet.rpcUrls.public.http[0] = "https://eth.llamarpc.com";
 function Web3Provider({ children }: { children: React.ReactNode }) {
   const { deployments } = useDeployments();
   const { resolvedTheme } = useTheme();
+  const deployment = useConfigState.useDeployment();
   const [mounted, setMounted] = useState(false);
   const { i18n } = useTranslation();
 
@@ -42,6 +44,7 @@ function Web3Provider({ children }: { children: React.ReactNode }) {
       deployments.length === 0
         ? [mainnet, optimism]
         : deployments
+            .sort((a) => (a.id === deployment?.id ? -1 : 1))
             .map((d) => {
               if (d.l1.id === mainnet.id) {
                 d.l1.rpcUrls.default.http[0] = "https://eth.llamarpc.com";
@@ -75,7 +78,7 @@ function Web3Provider({ children }: { children: React.ReactNode }) {
       publicClient,
     });
     return { chains, wagmiConfig };
-  }, [deployments]);
+  }, [deployments, deployment]);
 
   return (
     <WagmiConfig config={wagmiConfig}>
