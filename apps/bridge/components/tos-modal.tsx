@@ -87,12 +87,9 @@ export const TosModal = () => {
               various rollups. No funds are held in custody by{" "}
               {isSuperbridge ? "Superbridge" : "Rollbridge"} at any point.{" "}
               <Link
-                href={
-                  isSuperbridge
-                    ? "https://docs.rollbridge.app/superbridge"
-                    : "https://docs.rollbridge.app"
-                }
+                href={"https://docs.rollbridge.app/what-is-bridging"}
                 className="underline"
+                target="_blank"
               >
                 Learn more…
               </Link>
@@ -144,7 +141,7 @@ export const TosModal = () => {
               </Link>
             </p>
           </div>
-          <div className="flex gap-3">
+          {/* <div className="flex gap-3">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="61"
@@ -176,7 +173,7 @@ export const TosModal = () => {
                 Terms &amp; conditions
               </Link>
             </p>
-          </div>
+          </div> */}
           <Button
             className={`flex w-full justify-center rounded-full px-3 py-6 text-sm font-bold leading-6 text-white shadow-sm ${theme.accentText} ${theme.accentBg}`}
             onClick={dismiss}
