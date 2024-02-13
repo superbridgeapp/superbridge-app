@@ -362,15 +362,15 @@ export const ConfirmWithdrawalModal = ({
               {t("withdrawalModal.continue")}
             </Button>
 
-            {isSuperbridge && (
+            {/* TODO: Create guide page and add link */}
+            {/* {isSuperbridge && (
               <Link
                 className={`text-center text-sm font-bold tracking-tight  hover:underline ${theme.textColor}`}
                 href={"#"}
               >
-                {/* TODO: Create guide page and add link */}
                 {t("withdrawalModal.viewAlternateBridges")}
               </Link>
-            )}
+            )} */}
           </div>
         </div>
       </DialogContent>
