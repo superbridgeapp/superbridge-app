@@ -36,7 +36,7 @@
     "withdrawalSettings": "引き出し設定",
     "escapeHatchDescription": "イーサリアム上で検閲に耐えるトランザクションを使用して引き出しを強制します。",
     "easyModeDescription": "余分なトランザクションを処理させて '設定して忘れる' ことができます。",
-    "feeBreakdown": "手数料の分解",
+    "feeBreakdown": "ネットワーク料金",
     "currency": "通貨",
     "language": "言語",
     "explorer": "エクスプローラ"
@@ -75,11 +75,30 @@
   },
 
   "fees": {
-    "fees": "手数料",
-    "networkFee": "ネットワーク手数料（見積もり）",
-    "rollbridgeFee": "スーパーブリッジ手数料",
-    "easyModeFee": "簡単モード手数料"
+    "fees": "ネットワーク料金",
+    "networkGas": "{{chain}} ガス",
+    "easyModeFee": "簡易モードガス"
   },
 
-  "poweredByConduit": "Conduit によって提供されています"
+  "poweredByConduit": "Conduit によって提供されています",
+
+  "withdrawalModal": {
+    "title": "{{rollup}}の引き出しには約7日かかります",
+    "opDescription": "引き出しは、{{base}}トランザクションが2つ必要な3段階のプロセスです。",
+    "arbDescription": "引き出しは2段階のプロセスで、追加の {{base}} トランザクションが必要です。",
+    "learnMore": "詳細",
+    "approxFees": "おおよその手数料",
+    "initiate": "引き出しを開始する",
+    "waitProve": "約2時間待つ",
+    "prove": "{{base}}で証明する",
+    "waitFinalize": "約7日待つ",
+    "finalize": "{{base}}で請求する",
+
+    "opCheckbox1": "引き出しを証明した後、{{base}}で私の資金が請求可能になるまで約7日かかることを理解しています",
+    "arbCheckbox1": "引き出しを証明した後、{{base}}で私の資金が請求可能になるまで約7日かかることを理解しています",
+    "checkbox2": "引き出しが開始されると、加速することやキャンセルすることはできません。",
+
+    "continue": "引き出しを続ける",
+    "viewAlternateBridges": "または代替橋を表示…"
+  }
 }

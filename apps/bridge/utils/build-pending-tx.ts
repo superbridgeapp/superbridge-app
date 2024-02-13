@@ -79,7 +79,7 @@ export const buildPendingTx = (
   }
 
   if (token) {
-    if (isCctpBridgeOperation(deployment, token, withdrawing)) {
+    if (isCctpBridgeOperation(token)) {
       const from = withdrawing ? deployment.l2 : deployment.l1;
       const b: CctpBridgeDto = {
         id: Math.random().toString(),

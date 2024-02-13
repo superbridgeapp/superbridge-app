@@ -21,6 +21,7 @@ import { useBridge } from "@/hooks/use-bridge";
 import { useBridgeFee } from "@/hooks/use-bridge-fee";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
 import { useIsContractAccount } from "@/hooks/use-is-contract-account";
+import { useNativeToken } from "@/hooks/use-native-token";
 import { useTokenPrice } from "@/hooks/use-prices";
 import { useSelectedToken } from "@/hooks/use-selected-token";
 import { useSwitchChain } from "@/hooks/use-switch-chain";
@@ -33,6 +34,8 @@ import { useSettingsState } from "@/state/settings";
 import { Theme } from "@/types/theme";
 import { buildPendingTx } from "@/utils/build-pending-tx";
 import { isEth, isNativeToken } from "@/utils/is-eth";
+import { isNativeUsdc } from "@/utils/is-usdc";
+import { DeploymentType } from "@/codegen/model";
 
 import { FromTo } from "./FromTo";
 import { AddressModal } from "./address-modal";
@@ -42,6 +45,7 @@ import { NftImage } from "./nft";
 import { TokenModal } from "./tokens/Modal";
 import { Button } from "./ui/button";
 import { WithdrawSettingsModal } from "./withdraw-settings/modal";
+import { ConfirmWithdrawalModal } from "./withdrawal-modal";
 
 const RecipientAddress = ({
   openAddressDialog,
@@ -140,6 +144,8 @@ export const BridgeBody = () => {
   const [addressDialog, setAddressDialog] = useState(false);
 
   const deployment = useConfigState.useDeployment();
+  const openWithdrawalConfirmationModal =
+    useConfigState.useSetDisplayWithdrawalModal();
   const withdrawing = useConfigState.useWithdrawing();
   const rawAmount = useConfigState.useRawAmount();
   const stateToken = useConfigState.useToken();
@@ -152,6 +158,7 @@ export const BridgeBody = () => {
   const addPendingTransaction = usePendingTransactions.useAddTransaction();
   const updatePendingTransactionHash =
     usePendingTransactions.useUpdateTransactionByHash();
+  const nativeToken = useNativeToken();
 
   const track = useBridgeControllerTrack();
 
@@ -307,6 +314,29 @@ export const BridgeBody = () => {
     },
   ].filter(isPresent);
 
+  const onSubmit = async () => {
+    await onWrite();
+    allowance.refetch();
+  };
+
+  const promptWithdrawalConfirmationModal =
+    withdrawing &&
+    !!stateToken &&
+    !isNativeUsdc(stateToken) &&
+    deployment?.type === DeploymentType.mainnet;
+
+  const handleSubmitClick = () => {
+    if (!nft && weiAmount === BigInt(0)) {
+      return;
+    }
+
+    if (promptWithdrawalConfirmationModal) {
+      openWithdrawalConfirmationModal(true);
+    } else {
+      onSubmit();
+    }
+  };
+
   const submitButton = match({
     disabled: deployment?.name === "orb3-mainnet" && !withdrawing,
     withdrawing,
@@ -441,22 +471,17 @@ export const BridgeBody = () => {
       buttonText: t("insufficientFunds"),
       disabled: true,
     }))
-    .with({ hasInsufficientGas: true }, () => ({
-      onSubmit: async () => {
-        await onWrite();
-        allowance.refetch();
-      },
-      buttonText: t("insufficientGas", { symbol: "ETH" }),
-      // Let's not disable here because people could submit
-      // with a lower gas in their wallet. A little power-usery but important imo
+    .with({ hasInsufficientGas: true }, (d) => ({
+      onSubmit: handleSubmitClick,
+      buttonText: t("insufficientGas", {
+        symbol: nativeToken?.[from?.id ?? 0]?.symbol ?? "ETH",
+      }),
+      // Let's not disable here because people could actually submit with
+      // a lower gas price via their wallet. A little power-usery but important imo
       disabled: false,
     }))
-
     .otherwise((d) => ({
-      onSubmit: async () => {
-        await onWrite();
-        allowance.refetch();
-      },
+      onSubmit: handleSubmitClick,
       buttonText: d.nft
         ? d.withdrawing
           ? t("withdrawNft", { tokenId: `#${d.nft.tokenId}` })
@@ -480,6 +505,7 @@ export const BridgeBody = () => {
         gasEstimate={200_000}
       />
       <AddressModal open={addressDialog} setOpen={setAddressDialog} />
+      <ConfirmWithdrawalModal onConfirm={onSubmit} />
       <FromTo />
 
       {token ? (
@@ -649,17 +675,11 @@ export const BridgeBody = () => {
 
         {withdrawing ? (
           <WithdrawFees
-            // @ts-expect-error
-            bridgeFee={bridgeFee}
             gasEstimate={200_000}
             openSettings={() => setWithdrawSettingsDialog(true)}
           />
         ) : (
-          <DepositFees
-            // @ts-expect-error
-            bridgeFee={bridgeFee}
-            gasEstimate={200_000}
-          />
+          <DepositFees gasEstimate={200_000} />
         )}
       </div>
 

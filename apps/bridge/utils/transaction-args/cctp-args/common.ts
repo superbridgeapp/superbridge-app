@@ -27,10 +27,6 @@ export type CctpBridgeTxResolver = (
   withdrawing: boolean
 ) => TransactionArgs | undefined;
 
-export const isCctpBridgeOperation = (
-  deployment: DeploymentDto,
-  stateToken: MultiChainToken,
-  withdrawing: boolean
-) => {
+export const isCctpBridgeOperation = (stateToken: MultiChainToken) => {
   return isNativeUsdc(stateToken);
 };

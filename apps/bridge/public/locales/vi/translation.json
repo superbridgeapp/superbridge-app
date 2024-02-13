@@ -36,7 +36,7 @@
     "withdrawalSettings": "Cài đặt rút tiền",
     "escapeHatchDescription": "Bắt buộc rút tiền của bạn qua một giao dịch chống kiểm duyệt trên Ethereum.",
     "easyModeDescription": "Hãy để chúng tôi xử lý các giao dịch phụ để bạn có thể 'thiết lập và quên'.",
-    "feeBreakdown": "Phân loại phí",
+    "feeBreakdown": "Phí mạng",
     "currency": "Tiền tệ",
     "language": "Ngôn ngữ",
     "explorer": "Khám phá viên"
@@ -75,11 +75,30 @@
   },
 
   "fees": {
-    "fees": "Phí",
-    "networkFee": "Phí mạng (ước tính)",
-    "rollbridgeFee": "Phí Rollbridge",
-    "easyModeFee": "Phí chế độ dễ dàng"
+    "fees": "Phí mạng",
+    "networkGas": "Gas {{chain}}",
+    "easyModeFee": "Phí gas chế độ dễ dàng"
   },
 
-  "poweredByConduit": "Được hỗ trợ bởi Conduit"
+  "poweredByConduit": "Được hỗ trợ bởi Conduit",
+
+  "withdrawalModal": {
+    "title": "Rút tiền từ {{rollup}} mất khoảng ~7 ngày",
+    "opDescription": "Việc rút tiền là một quy trình 3 bước, yêu cầu 2 giao dịch {{base}}.",
+    "arbDescription": "Rút tiền là một quy trình 2 bước và yêu cầu một giao dịch {{base}} bổ sung.",
+    "learnMore": "Tìm hiểu thêm",
+    "approxFees": "Phí xấp xỉ",
+    "initiate": "Bắt đầu rút tiền",
+    "waitProve": "Chờ ~2 giờ",
+    "prove": "Chứng minh trên {{base}}",
+    "waitFinalize": "Chờ ~7 ngày",
+    "finalize": "Yêu cầu trên {{base}}",
+
+    "opCheckbox1": "Tôi hiểu rằng mất khoảng ~7 ngày cho đến khi tiền của tôi có thể được yêu cầu trên {{base}} sau khi tôi chứng minh rút tiền của mình",
+    "arbCheckbox1": "Tôi hiểu rằng mất khoảng ~7 ngày cho đến khi tiền của tôi có thể được yêu cầu trên {{base}}",
+    "checkbox2": "Khi một rút tiền được khởi tạo, nó không thể được tăng tốc hoặc hủy bỏ.",
+
+    "continue": "Tiếp tục rút tiền",
+    "viewAlternateBridges": "Hoặc xem cầu khác…"
+  }
 }

@@ -6,7 +6,7 @@ import { optimismWithdrawArgs } from "./optimism-withdraw-args";
 import { WithdrawTxResolver } from "./types";
 
 export const withdrawArgs: WithdrawTxResolver = (args) => {
-  if (isCctpBridgeOperation(args.deployment, args.stateToken, true)) {
+  if (isCctpBridgeOperation(args.stateToken)) {
     return cctpBridgeArgs(args, true);
   }
 

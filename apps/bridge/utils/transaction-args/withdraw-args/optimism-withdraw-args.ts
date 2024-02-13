@@ -8,7 +8,7 @@ import { OptimismPortalAbi } from "@/abis/OptimismPortal";
 
 import { isOptimismToken } from "../../guards";
 import { isEth } from "../../is-eth";
-import { OptimismDeploymentDto, isMainnet, isOptimism } from "../../is-mainnet";
+import { OptimismDeploymentDto, isOptimism } from "../../is-mainnet";
 import { withdrawValue } from "../../withdraw-value";
 import { TransactionArgs, WithdrawTxResolver } from "./types";
 
@@ -23,7 +23,7 @@ const impl = (
   easyMode: boolean
 ): TransactionArgs | undefined => {
   // proxy
-  if (isMainnet(deployment) && proxyBridge) {
+  if (proxyBridge && easyMode) {
     const value = withdrawValue(weiAmount, deployment, l2Token, easyMode);
     if (isEth(l2Token)) {
       return {

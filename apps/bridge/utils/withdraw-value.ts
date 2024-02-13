@@ -1,8 +1,12 @@
 import { P, match } from "ts-pattern";
 import { parseUnits } from "viem";
 
-import { DeploymentDto, DeploymentType } from "@/codegen/model";
-import { FINALIZE_GAS, PROVE_GAS } from "@/constants/gas-limits";
+import { DeploymentDto } from "@/codegen/model";
+import {
+  EASY_MODE_GAS_FEES,
+  FINALIZE_GAS,
+  PROVE_GAS,
+} from "@/constants/gas-limits";
 import { Token } from "@/types/token";
 import { isEth } from "@/utils/is-eth";
 
@@ -14,8 +18,9 @@ export const withdrawValue = (
   token: Token,
   easyMode: boolean
 ) => {
-  const EASY_MODE_GWEI_THRESHOLD =
-    deployment?.type === DeploymentType.mainnet ? "50" : "1";
+  const EASY_MODE_GWEI_THRESHOLD = (
+    EASY_MODE_GAS_FEES[deployment?.l1.id ?? 0] ?? 1
+  ).toString();
 
   let relayCost = BigInt(0);
   if (isOptimism(deployment)) {
