@@ -81,5 +81,25 @@
     "easyModeFee": "Gebühr für den einfachen Modus"
   },
 
-  "poweredByConduit": "Betrieben von Conduit"
+  "poweredByConduit": "Betrieben von Conduit",
+
+  "withdrawalModal": {
+    "title": "{{rollup}} Auszahlungen dauern etwa 7 Tage",
+    "opDescription": "Eine Auszahlung ist ein 3-Schritte-Prozess, der 2 {{base}}-Transaktionen erfordert.",
+    "arbDescription": "Eine Auszahlung ist ein 3-Schritte-Prozess, der 2 {{base}}-Transaktionen erfordert.",
+    "learnMore": "Weitere Informationen",
+    "approxFees": "Ungefähre Gebühren",
+    "initiate": "Auszahlung initiieren",
+    "waitProve": "Warten Sie etwa 2 Stunden",
+    "prove": "Beweisen Sie auf {{base}}",
+    "waitFinalize": "Warten Sie etwa 7 Tage",
+    "finalize": "Anspruch auf {{base}}",
+
+    "opCheckbox1": "Mir ist klar, dass es etwa 7 Tage dauern wird, bis meine Gelder auf {{base}} beanspruchbar sind, nachdem ich meine Auszahlung bewiesen habe.",
+    "arbCheckbox1": "Mir ist klar, dass es etwa 7 Tage dauern wird, bis meine Gelder auf {{base}} beanspruchbar sind.",
+    "checkbox2": "Sobald eine Auszahlung initiiert wurde, kann sie nicht beschleunigt oder abgebrochen werden.",
+
+    "continue": "Mit der Auszahlung fortfahren",
+    "viewAlternateBridges": "Oder alternative Brücken anzeigen…"
+  }
 }

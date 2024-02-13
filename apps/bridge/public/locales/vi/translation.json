@@ -81,5 +81,25 @@
     "easyModeFee": "Phí chế độ dễ dàng"
   },
 
-  "poweredByConduit": "Được hỗ trợ bởi Conduit"
+  "poweredByConduit": "Được hỗ trợ bởi Conduit",
+
+  "withdrawalModal": {
+    "title": "Rút tiền từ {{rollup}} mất khoảng ~7 ngày",
+    "opDescription": "Việc rút tiền là một quy trình 3 bước, yêu cầu 2 giao dịch {{base}}.",
+    "arbDescription": "Việc rút tiền là một quy trình 3 bước, yêu cầu 2 giao dịch {{base}}.",
+    "learnMore": "Tìm hiểu thêm",
+    "approxFees": "Phí xấp xỉ",
+    "initiate": "Bắt đầu rút tiền",
+    "waitProve": "Chờ ~2 giờ",
+    "prove": "Chứng minh trên {{base}}",
+    "waitFinalize": "Chờ ~7 ngày",
+    "finalize": "Yêu cầu trên {{base}}",
+
+    "opCheckbox1": "Tôi hiểu rằng mất khoảng ~7 ngày cho đến khi tiền của tôi có thể được yêu cầu trên {{base}} sau khi tôi chứng minh rút tiền của mình",
+    "arbCheckbox1": "Tôi hiểu rằng mất khoảng ~7 ngày cho đến khi tiền của tôi có thể được yêu cầu trên {{base}}",
+    "checkbox2": "Khi một rút tiền được khởi tạo, nó không thể được tăng tốc hoặc hủy bỏ.",
+
+    "continue": "Tiếp tục rút tiền",
+    "viewAlternateBridges": "Hoặc xem cầu khác…"
+  }
 }

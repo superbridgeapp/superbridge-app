@@ -81,5 +81,25 @@
     "easyModeFee": "이지 모드 수수료"
   },
 
-  "poweredByConduit": "Conduit에서 제공"
+  "poweredByConduit": "Conduit에서 제공",
+
+  "withdrawalModal": {
+    "title": "{{rollup}} 출금은 약 7일이 소요됩니다",
+    "opDescription": "출금은 2 {{base}} 거래가 필요한 3 단계 프로세스입니다.",
+    "arbDescription": "출금은 2 {{base}} 거래가 필요한 3 단계 프로세스입니다.",
+    "learnMore": "자세히 알아보기",
+    "approxFees": "대략적인 수수료",
+    "initiate": "출금 시작",
+    "waitProve": "약 2시간 기다리기",
+    "prove": "{{base}}에서 증명하기",
+    "waitFinalize": "약 7일 기다리기",
+    "finalize": "{{base}}에서 요청하기",
+
+    "opCheckbox1": "출금을 증명한 후 {{base}}에서 내 자금을 청구하는 데 약 7일이 걸릴 것으로 이해합니다",
+    "arbCheckbox1": "{{base}}에서 내 자금을 청구하는 데 약 7일이 걸릴 것으로 이해합니다",
+    "checkbox2": "출금이 시작되면 가속화하거나 취소할 수 없습니다.",
+
+    "continue": "출금 계속하기",
+    "viewAlternateBridges": "또는 대체 다리 보기…"
+  }
 }

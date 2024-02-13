@@ -81,5 +81,25 @@
     "easyModeFee": "Taxa do modo fácil"
   },
 
-  "poweredByConduit": "Desenvolvido por Conduit"
+  "poweredByConduit": "Desenvolvido por Conduit",
+
+  "withdrawalModal": {
+    "title": "Levantamentos de {{rollup}} demoram cerca de 7 dias",
+    "opDescription": "Levantar é um processo de 3 etapas, que requer 2 transações {{base}}.",
+    "arbDescription": "Levantar é um processo de 3 etapas, que requer 2 transações {{base}}.",
+    "learnMore": "Saiba mais",
+    "approxFees": "Taxas aproximadas",
+    "initiate": "Iniciar levantamento",
+    "waitProve": "Aguarde cerca de 2 horas",
+    "prove": "Provar em {{base}}",
+    "waitFinalize": "Aguarde cerca de 7 dias",
+    "finalize": "Reivindicar em {{base}}",
+
+    "opCheckbox1": "Entendo que levará cerca de 7 dias até que meus fundos sejam resgatáveis em {{base}} depois de provar meu levantamento",
+    "arbCheckbox1": "Entendo que levará cerca de 7 dias até que meus fundos sejam resgatáveis em {{base}}",
+    "checkbox2": "Uma vez iniciado um levantamento, não pode ser acelerado ou cancelado.",
+
+    "continue": "Continuar levantamento",
+    "viewAlternateBridges": "Ou veja pontes alternativas…"
+  }
 }

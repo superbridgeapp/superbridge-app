@@ -81,5 +81,25 @@
     "easyModeFee": "Frais du mode facile"
   },
 
-  "poweredByConduit": "Propulsé par Conduit"
+  "poweredByConduit": "Propulsé par Conduit",
+
+  "withdrawalModal": {
+    "title": "Les retraits {{rollup}} prennent environ 7 jours",
+    "opDescription": "Le retrait est un processus en 3 étapes, nécessitant 2 transactions {{base}}.",
+    "arbDescription": "Le retrait est un processus en 3 étapes, nécessitant 2 transactions {{base}}.",
+    "learnMore": "En savoir plus",
+    "approxFees": "Frais approximatifs",
+    "initiate": "Initier le retrait",
+    "waitProve": "Attendre ~2 heures",
+    "prove": "Prouver sur {{base}}",
+    "waitFinalize": "Attendre ~7 jours",
+    "finalize": "Réclamer sur {{base}}",
+
+    "opCheckbox1": "Je comprends qu'il faudra environ 7 jours avant que mes fonds soient récupérables sur {{base}} après avoir prouvé mon retrait",
+    "arbCheckbox1": "Je comprends qu'il faudra environ 7 jours avant que mes fonds soient récupérables sur {{base}}",
+    "checkbox2": "Une fois qu'un retrait est initié, il ne peut pas être accéléré ou annulé.",
+
+    "continue": "Continuer le retrait",
+    "viewAlternateBridges": "Ou voir des ponts alternatifs…"
+  }
 }

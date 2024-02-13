@@ -81,5 +81,25 @@
     "easyModeFee": "輕鬆模式費用"
   },
 
-  "poweredByConduit": "由 Conduit 提供支援"
+  "poweredByConduit": "由 Conduit 提供支援",
+
+  "withdrawalModal": {
+    "title": "{{rollup}} 提款需要大約7天",
+    "opDescription": "提款是一個3步驟的過程，需要2個 {{base}} 交易。",
+    "arbDescription": "提款是一個3步驟的過程，需要2個 {{base}} 交易。",
+    "learnMore": "了解更多",
+    "approxFees": "大約費用",
+    "initiate": "啟動提款",
+    "waitProve": "等待約2小時",
+    "prove": "在 {{base}} 上證明",
+    "waitFinalize": "等待約7天",
+    "finalize": "在 {{base}} 上聲明",
+
+    "opCheckbox1": "我了解，我證明提款後，大約需要7天才能在 {{base}} 上領取我的資金",
+    "arbCheckbox1": "我了解，大約需要7天才能在 {{base}} 上領取我的資金",
+    "checkbox2": "一旦啟動提款，就無法加速或取消。",
+
+    "continue": "繼續提款",
+    "viewAlternateBridges": "或查看其他橋樑…"
+  }
 }

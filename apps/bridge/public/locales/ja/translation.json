@@ -81,5 +81,25 @@
     "easyModeFee": "簡単モード手数料"
   },
 
-  "poweredByConduit": "Conduit によって提供されています"
+  "poweredByConduit": "Conduit によって提供されています",
+
+  "withdrawalModal": {
+    "title": "{{rollup}}の引き出しには約7日かかります",
+    "opDescription": "引き出しは、{{base}}トランザクションが2つ必要な3段階のプロセスです。",
+    "arbDescription": "引き出しは、{{base}}トランザクションが2つ必要な3段階のプロセスです。",
+    "learnMore": "詳細",
+    "approxFees": "おおよその手数料",
+    "initiate": "引き出しを開始する",
+    "waitProve": "約2時間待つ",
+    "prove": "{{base}}で証明する",
+    "waitFinalize": "約7日待つ",
+    "finalize": "{{base}}で請求する",
+
+    "opCheckbox1": "引き出しを証明した後、{{base}}で私の資金が請求可能になるまで約7日かかることを理解しています",
+    "arbCheckbox1": "引き出しを証明した後、{{base}}で私の資金が請求可能になるまで約7日かかることを理解しています",
+    "checkbox2": "引き出しが開始されると、加速することやキャンセルすることはできません。",
+
+    "continue": "引き出しを続ける",
+    "viewAlternateBridges": "または代替橋を表示…"
+  }
 }

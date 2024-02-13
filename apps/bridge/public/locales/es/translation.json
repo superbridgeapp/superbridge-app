@@ -81,5 +81,25 @@
     "easyModeFee": "Tarifa de modo fácil"
   },
 
-  "poweredByConduit": "Impulsado por Conduit"
+  "poweredByConduit": "Impulsado por Conduit",
+
+  "withdrawalModal": {
+    "title": "Las retiradas de {{rollup}} tardan ~7 días",
+    "opDescription": "Retirar es un proceso de 3 pasos, que requiere 2 transacciones {{base}}.",
+    "arbDescription": "Retirar es un proceso de 3 pasos, que requiere 2 transacciones {{base}}.",
+    "learnMore": "Más información",
+    "approxFees": "Tarifas aproximadas",
+    "initiate": "Iniciar retiro",
+    "waitProve": "Esperar ~2 horas",
+    "prove": "Demostrar en {{base}}",
+    "waitFinalize": "Esperar ~7 días",
+    "finalize": "Reclamar en {{base}}",
+
+    "opCheckbox1": "Entiendo que llevará ~7 días hasta que mis fondos sean reclamables en {{base}} después de demostrar mi retiro",
+    "arbCheckbox1": "Entiendo que llevará ~7 días hasta que mis fondos sean reclamables en {{base}}",
+    "checkbox2": "Una vez iniciado un retiro, no se puede acelerar ni cancelar.",
+
+    "continue": "Continuar con el retiro",
+    "viewAlternateBridges": "O ver puentes alternativos…"
+  }
 }
