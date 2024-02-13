@@ -119,8 +119,11 @@ export const ConfirmWithdrawalModal = ({
                   base: deployment?.l1.name,
                 }
               )}{" "}
-              {/* TODO: Create guide page and add link */}
-              <Link href="#" className="underline font-medium">
+              <Link
+                href="https://docs.rollbridge.app/what-is-bridging"
+                className="underline font-medium"
+                target="_blank"
+              >
                 {t("withdrawalModal.learnMore")}
               </Link>
             </p>
