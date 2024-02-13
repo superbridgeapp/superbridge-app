@@ -27,8 +27,9 @@ const Terms = () => {
         <h1 className="font-bold text-2xl">TERMS AND CONDITIONS</h1>
         <p className="text-base">
           Welcome to Superbridge, a website-hosted user interface (the
-          "Interface") provided by Blob Engineering Pte. Ltd. (the "Company",
-          "we", "our", or "us")
+          &quot;Interface&quot;) provided by Blob Engineering Pte. Ltd. (the
+          &quot;Company&quot;, &quot;we&quot;, &quot;our&quot;, or
+          &quot;us&quot;)
           <br />
           <br />
           Please read on to learn the rules and restrictions that govern your
