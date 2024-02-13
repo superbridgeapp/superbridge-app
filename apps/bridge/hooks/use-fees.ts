@@ -26,17 +26,13 @@ const EASY_MODE_GAS_FEES: { [chainId: number]: number | undefined } = {
 
 export const useFees = (
   from: Chain | ChainDto | undefined,
-  bridgeFee: UseQueryResult<bigint, Error>,
   gasEstimate: number
 ) => {
   const deployment = useConfigState.useDeployment();
   const withdrawing = useConfigState.useWithdrawing();
-  const stateToken = useConfigState.useToken();
-  const rawAmount = useConfigState.useRawAmount();
   const forceViaL1 = useConfigState.useForceViaL1();
   const easyMode = useConfigState.useEasyMode();
   const currency = useSettingsState.useCurrency();
-  const nft = useConfigState.useNft();
   const { t } = useTranslation();
 
   const nativeToken = useNativeToken();
@@ -53,13 +49,7 @@ export const useFees = (
     networkFee = parseFloat(formatUnits(gwei, 18));
   }
 
-  const stateTokenUsdPrice = useTokenPrice(stateToken);
   const nativeTokenUsdPrice = useTokenPrice(nativeToken ?? null);
-
-  const fee = parseInt(((bridgeFee.data as bigint) ?? BigInt(0)).toString());
-
-  const parsedRawAmount = parseFloat(rawAmount) || 0;
-  const appliedFee = (fee / 10_000) * parsedRawAmount;
 
   const EASY_MODE_GWEI_THRESHOLD =
     EASY_MODE_GAS_FEES[deployment?.l1.id ?? 0] ?? 1;

@@ -673,17 +673,11 @@ export const BridgeBody = () => {
 
         {withdrawing ? (
           <WithdrawFees
-            // @ts-expect-error
-            bridgeFee={bridgeFee}
             gasEstimate={200_000}
             openSettings={() => setWithdrawSettingsDialog(true)}
           />
         ) : (
-          <DepositFees
-            // @ts-expect-error
-            bridgeFee={bridgeFee}
-            gasEstimate={200_000}
-          />
+          <DepositFees gasEstimate={200_000} />
         )}
       </div>
 

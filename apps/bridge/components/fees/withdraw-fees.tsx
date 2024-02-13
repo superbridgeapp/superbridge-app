@@ -1,23 +1,19 @@
-import { UseQueryResult } from "@tanstack/react-query";
 import clsx from "clsx";
 import Image from "next/image";
 import { useTranslation } from "react-i18next";
-import { Chain, useAccount } from "wagmi";
+import { Chain } from "wagmi";
 
+import { configurations } from "@/config/contract-addresses";
 import { deploymentTheme } from "@/config/theme";
+import { currencySymbolMap } from "@/constants/currency-symbol-map";
 import { useFees } from "@/hooks/use-fees";
 import { useConfigState } from "@/state/config";
-import { Theme } from "@/types/theme";
-import { currencySymbolMap } from "@/constants/currency-symbol-map";
 import { useSettingsState } from "@/state/settings";
-import { configurations } from "@/config/contract-addresses";
 
 export const WithdrawFees = ({
-  bridgeFee,
   gasEstimate,
   openSettings,
 }: {
-  bridgeFee: UseQueryResult<bigint, Error>;
   gasEstimate: number;
   openSettings: () => void;
 }) => {
@@ -25,11 +21,7 @@ export const WithdrawFees = ({
   const forceViaL1 = useConfigState.useForceViaL1();
   const easyMode = useConfigState.useEasyMode();
   const theme = deploymentTheme(deployment);
-  const fees = useFees(
-    deployment?.l2 as unknown as Chain,
-    bridgeFee,
-    gasEstimate
-  );
+  const fees = useFees(deployment?.l2 as unknown as Chain, gasEstimate);
   const { t } = useTranslation();
   const currency = useSettingsState.useCurrency();
 
