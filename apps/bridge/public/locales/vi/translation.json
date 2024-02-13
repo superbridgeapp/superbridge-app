@@ -86,7 +86,7 @@
   "withdrawalModal": {
     "title": "Rút tiền từ {{rollup}} mất khoảng ~7 ngày",
     "opDescription": "Việc rút tiền là một quy trình 3 bước, yêu cầu 2 giao dịch {{base}}.",
-    "arbDescription": "Việc rút tiền là một quy trình 3 bước, yêu cầu 2 giao dịch {{base}}.",
+    "arbDescription": "Rút tiền là một quy trình 2 bước và yêu cầu một giao dịch {{base}} bổ sung.",
     "learnMore": "Tìm hiểu thêm",
     "approxFees": "Phí xấp xỉ",
     "initiate": "Bắt đầu rút tiền",

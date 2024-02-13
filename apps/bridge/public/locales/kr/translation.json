@@ -86,7 +86,7 @@
   "withdrawalModal": {
     "title": "{{rollup}} 출금은 약 7일이 소요됩니다",
     "opDescription": "출금은 2 {{base}} 거래가 필요한 3 단계 프로세스입니다.",
-    "arbDescription": "출금은 2 {{base}} 거래가 필요한 3 단계 프로세스입니다.",
+    "arbDescription": "출금은 2 단계 프로세스이며 추가 {{base}} 거래가 필요합니다.",
     "learnMore": "자세히 알아보기",
     "approxFees": "대략적인 수수료",
     "initiate": "출금 시작",

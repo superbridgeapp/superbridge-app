@@ -86,7 +86,7 @@
   "withdrawalModal": {
     "title": "Levantamentos de {{rollup}} demoram cerca de 7 dias",
     "opDescription": "Levantar é um processo de 3 etapas, que requer 2 transações {{base}}.",
-    "arbDescription": "Levantar é um processo de 3 etapas, que requer 2 transações {{base}}.",
+    "arbDescription": "Sacar é um processo de 2 etapas e requer uma transação adicional de {{base}}.",
     "learnMore": "Saiba mais",
     "approxFees": "Taxas aproximadas",
     "initiate": "Iniciar levantamento",

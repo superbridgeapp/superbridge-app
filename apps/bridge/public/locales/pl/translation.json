@@ -86,7 +86,7 @@
   "withdrawalModal": {
     "title": "Wypłaty z {{rollup}} zajmują około 7 dni",
     "opDescription": "Wypłata to proces 3-stopniowy, który wymaga 2 transakcji {{base}}.",
-    "arbDescription": "Wypłata to proces 3-stopniowy, który wymaga 2 transakcji {{base}}.",
+    "arbDescription": "Wypłata to proces 2-etapowy, który wymaga dodatkowej transakcji {{base}}.",
     "learnMore": "Dowiedz się więcej",
     "approxFees": "Przybliżone opłaty",
     "initiate": "Zainicjuj wypłatę",

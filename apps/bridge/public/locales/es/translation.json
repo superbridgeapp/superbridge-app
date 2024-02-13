@@ -86,7 +86,7 @@
   "withdrawalModal": {
     "title": "Las retiradas de {{rollup}} tardan ~7 días",
     "opDescription": "Retirar es un proceso de 3 pasos, que requiere 2 transacciones {{base}}.",
-    "arbDescription": "Retirar es un proceso de 3 pasos, que requiere 2 transacciones {{base}}.",
+    "arbDescription": "Retirar es un proceso de 2 pasos y requiere una transacción adicional de {{base}}.",
     "learnMore": "Más información",
     "approxFees": "Tarifas aproximadas",
     "initiate": "Iniciar retiro",

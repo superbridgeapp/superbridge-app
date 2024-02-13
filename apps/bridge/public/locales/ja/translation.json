@@ -86,7 +86,7 @@
   "withdrawalModal": {
     "title": "{{rollup}}の引き出しには約7日かかります",
     "opDescription": "引き出しは、{{base}}トランザクションが2つ必要な3段階のプロセスです。",
-    "arbDescription": "引き出しは、{{base}}トランザクションが2つ必要な3段階のプロセスです。",
+    "arbDescription": "引き出しは2段階のプロセスで、追加の {{base}} トランザクションが必要です。",
     "learnMore": "詳細",
     "approxFees": "おおよその手数料",
     "initiate": "引き出しを開始する",

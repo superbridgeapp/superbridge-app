@@ -86,7 +86,7 @@
   "withdrawalModal": {
     "title": "Penarikan {{rollup}} membutuhkan waktu ~7 hari",
     "opDescription": "Penarikan adalah proses 3 langkah, membutuhkan 2 transaksi {{base}}.",
-    "arbDescription": "Penarikan adalah proses 3 langkah, membutuhkan 2 transaksi {{base}}.",
+    "arbDescription": "Penarikan adalah proses 2 langkah dan memerlukan transaksi tambahan {{base}}.",
     "learnMore": "Pelajari lebih lanjut",
     "approxFees": "Biaya perkiraan",
     "initiate": "Memulai penarikan",

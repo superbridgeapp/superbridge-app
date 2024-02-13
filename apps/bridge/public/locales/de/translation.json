@@ -86,7 +86,7 @@
   "withdrawalModal": {
     "title": "{{rollup}} Auszahlungen dauern etwa 7 Tage",
     "opDescription": "Eine Auszahlung ist ein 3-Schritte-Prozess, der 2 {{base}}-Transaktionen erfordert.",
-    "arbDescription": "Eine Auszahlung ist ein 3-Schritte-Prozess, der 2 {{base}}-Transaktionen erfordert.",
+    "arbDescription": "Das Abheben ist ein zweistufiger Prozess und erfordert eine zusätzliche {{base}}-Transaktion.",
     "learnMore": "Weitere Informationen",
     "approxFees": "Ungefähre Gebühren",
     "initiate": "Auszahlung initiieren",

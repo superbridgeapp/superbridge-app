@@ -86,7 +86,7 @@
   "withdrawalModal": {
     "title": "{{rollup}} 提款需大约7天",
     "opDescription": "提款是一个3步骤的过程，需要2个 {{base}} 交易。",
-    "arbDescription": "提款是一个3步骤的过程，需要2个 {{base}} 交易。",
+    "arbDescription": "提款是一个2步骤的过程，需要额外的 {{base}} 交易。",
     "learnMore": "了解更多",
     "approxFees": "大约费用",
     "initiate": "启动提款",
