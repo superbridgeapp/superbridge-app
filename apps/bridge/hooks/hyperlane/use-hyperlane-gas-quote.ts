@@ -33,10 +33,7 @@ export const useHyperlaneGasQuote = () => {
     abi: InterchainGasPaymasterAbi,
     functionName: "quoteGasPayment",
     args: [destinationHyperlaneDomain ?? 0, CCTP_MINT_GAS_COST],
-    enabled:
-      deployment!! &&
-      !!token &&
-      isCctpBridgeOperation(deployment, token, withdrawing),
+    enabled: deployment!! && !!token && isCctpBridgeOperation(token),
     address: hyperlaneAddresses[destinationHyperlaneDomain ?? 0]?.igp ?? "0x",
   });
 };
