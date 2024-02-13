@@ -7,20 +7,16 @@ import { mainnet, useFeeData } from "wagmi";
 import { ChainDto } from "@/codegen/model";
 import { configurations } from "@/config/contract-addresses";
 import { currencySymbolMap } from "@/constants/currency-symbol-map";
-import { FINALIZE_GAS, PROVE_GAS } from "@/constants/gas-limits";
+import {
+  EASY_MODE_GAS_FEES,
+  FINALIZE_GAS,
+  PROVE_GAS,
+} from "@/constants/gas-limits";
 import { useTokenPrice } from "@/hooks/use-prices";
 import { useConfigState } from "@/state/config";
 import { useSettingsState } from "@/state/settings";
 
 import { useNativeToken } from "./use-native-token";
-
-const EASY_MODE_GAS_FEES: { [chainId: number]: number | undefined } = {
-  [mainnet.id]: 50,
-  [arbitrum.id]: 3,
-  [arbitrumNova.id]: 3,
-  [goerli.id]: 1,
-  [sepolia.id]: 1,
-};
 
 export const useFees = (
   from: Chain | ChainDto | undefined,
