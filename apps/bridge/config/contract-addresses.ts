@@ -45,12 +45,6 @@ export const configurations: { [name: string]: NetworkConfig | undefined } = {
       l2Bridge: "0x3A88F50e7B7b039eB67BE5f9E8d15714d9be4b04",
     },
   },
-  ["arbitrum-goerli"]: {
-    contracts: {
-      l1Bridge: "0x2a4755B945390865a1631433411df7bD2522d2b0",
-      l2Bridge: "0xf1a2136656803C536906D93770141cc22617f3e0",
-    },
-  },
   ["arbitrum-one"]: {
     contracts: {
       l1Bridge: "0xFdFb87Be3c5b32e6fe470A6f78f2aA4632398cEf",
