@@ -1,20 +1,18 @@
-import { UseQueryResult } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
 import { isPresent } from "ts-is-present";
 import { Chain, formatUnits, parseUnits } from "viem";
-import { mainnet, useFeeData } from "wagmi";
 import { arbitrum, arbitrumNova, goerli, sepolia } from "viem/chains";
-import { useTranslation } from "react-i18next";
+import { mainnet, useFeeData } from "wagmi";
 
+import { ChainDto } from "@/codegen/model";
+import { configurations } from "@/config/contract-addresses";
+import { currencySymbolMap } from "@/constants/currency-symbol-map";
 import { FINALIZE_GAS, PROVE_GAS } from "@/constants/gas-limits";
 import { useTokenPrice } from "@/hooks/use-prices";
 import { useConfigState } from "@/state/config";
+import { useSettingsState } from "@/state/settings";
 
 import { useNativeToken } from "./use-native-token";
-import { useSettingsState } from "@/state/settings";
-import { currencySymbolMap } from "@/constants/currency-symbol-map";
-import { configurations } from "@/config/contract-addresses";
-import { ChainDto } from "@/codegen/model";
-import { isSuperbridge } from "@/config/superbridge";
 
 const EASY_MODE_GAS_FEES: { [chainId: number]: number | undefined } = {
   [mainnet.id]: 50,
