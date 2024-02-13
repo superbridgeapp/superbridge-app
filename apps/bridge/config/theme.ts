@@ -413,6 +413,26 @@ const hypr: Theme = {
   standaloneLogoDark: "/img/logo-standalone-hypr.svg",
 };
 
+const liskTheme: Theme = {
+  ...defaultTheme,
+  bg: "bg-zinc-50 dark:bg-zinc-900",
+  bgMuted: "bg-zinc-200/50 dark:bg-white/5",
+  screenBg: "bg-[#4070F4] dark:bg-[#17213C]",
+  screenBgImg:
+    "bg-gradient-to-t from-violet-500 via-violet-500/0 to-violet-500/0 mix-blend-lighter opacity-20",
+  logoSrc: "/img/logo-lisk.svg",
+  logoSrcDark: "/img/logo-lisk.svg",
+  logoWidth: 102,
+  logoHeight: 40,
+  iconSrc: "/img/icon-lisk.svg",
+  l2ChainIcon: "/img/network-lisk.png",
+  card: {
+    className: "bg-gradient-to-b from-[#4070F4] to-[#295CE9] ",
+  },
+  standaloneLogo: "/img/logo-standalone-lisk.svg",
+  standaloneLogoDark: "/img/logo-standalone-lisk.svg",
+};
+
 export const themes: { [name: string]: Theme | undefined } = {
   ["base"]: baseTheme,
   ["base-sepolia"]: baseTheme,
@@ -442,6 +462,7 @@ export const themes: { [name: string]: Theme | undefined } = {
   ["lattice-testnet"]: lattice,
   ["orb3-mainnet"]: orb3,
   parallel,
+  ["lisk-sepolia"]: liskTheme,
 };
 
 export const deploymentTheme = (
