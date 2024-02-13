@@ -471,9 +471,11 @@ export const BridgeBody = () => {
       // a lower gas price via their wallet. A little power-usery but important imo
       disabled: false,
     }))
-
     .otherwise((d) => ({
       onSubmit: () => {
+        if (!d.nft && weiAmount === BigInt(0)) {
+          return;
+        }
         if (d.promptWithdrawalConfirmationModal)
           openWithdrawalConfirmationModal(true);
         else onSubmit();
