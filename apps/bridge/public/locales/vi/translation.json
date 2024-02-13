@@ -36,7 +36,7 @@
     "withdrawalSettings": "Cài đặt rút tiền",
     "escapeHatchDescription": "Bắt buộc rút tiền của bạn qua một giao dịch chống kiểm duyệt trên Ethereum.",
     "easyModeDescription": "Hãy để chúng tôi xử lý các giao dịch phụ để bạn có thể 'thiết lập và quên'.",
-    "feeBreakdown": "Phân loại phí",
+    "feeBreakdown": "Phí mạng",
     "currency": "Tiền tệ",
     "language": "Ngôn ngữ",
     "explorer": "Khám phá viên"
@@ -75,10 +75,9 @@
   },
 
   "fees": {
-    "fees": "Phí",
-    "networkFee": "Phí mạng (ước tính)",
-    "rollbridgeFee": "Phí Rollbridge",
-    "easyModeFee": "Phí chế độ dễ dàng"
+    "fees": "Phí mạng",
+    "networkGas": "Gas {{chain}}",
+    "easyModeFee": "Phí gas chế độ dễ dàng"
   },
 
   "poweredByConduit": "Được hỗ trợ bởi Conduit",

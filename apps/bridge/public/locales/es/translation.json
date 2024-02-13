@@ -36,7 +36,7 @@
     "withdrawalSettings": "Configuración de retiro",
     "escapeHatchDescription": "Forzar su retiro a través de una transacción resistente a la censura en Ethereum.",
     "easyModeDescription": "Deje que nos ocupemos de las transacciones adicionales para que pueda configurar y olvidarse.",
-    "feeBreakdown": "Desglose de tarifas",
+    "feeBreakdown": "Tarifas de red",
     "currency": "Moneda",
     "language": "Idioma",
     "explorer": "Explorador"
@@ -75,10 +75,9 @@
   },
 
   "fees": {
-    "fees": "Tarifas",
-    "networkFee": "Tarifa de red (est)",
-    "rollbridgeFee": "Tarifa de Rollbridge",
-    "easyModeFee": "Tarifa de modo fácil"
+    "fees": "Tarifas de red",
+    "networkGas": "Gas {{chain}}",
+    "easyModeFee": "Gas de modo fácil"
   },
 
   "poweredByConduit": "Impulsado por Conduit",

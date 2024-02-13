@@ -36,7 +36,7 @@
     "withdrawalSettings": "提款設定",
     "escapeHatchDescription": "透過在以太坊上進行審查抵抗的交易強制提款。",
     "easyModeDescription": "讓我們處理額外的交易，這樣您可以設定 '並忘記'。",
-    "feeBreakdown": "費用明細",
+    "feeBreakdown": "網路費用",
     "currency": "貨幣",
     "language": "語言",
     "explorer": "探索者"
@@ -75,10 +75,9 @@
   },
 
   "fees": {
-    "fees": "費用",
-    "networkFee": "網路費用（估算）",
-    "rollbridgeFee": "Rollbridge 費用",
-    "easyModeFee": "輕鬆模式費用"
+    "fees": "網路費用",
+    "networkGas": "{{chain}} 氣體",
+    "easyModeFee": "簡易模式氣體"
   },
 
   "poweredByConduit": "由 Conduit 提供支援",

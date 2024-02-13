@@ -78,8 +78,6 @@
   "fees": {
     "fees": "Network fees",
     "networkGas": "{{chain}} gas",
-    "networkFee": "Network fee (est)",
-    "rollbridgeFee": "Rollbridge fee",
     "easyModeFee": "Easy mode gas"
   },
 

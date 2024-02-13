@@ -36,7 +36,7 @@
     "withdrawalSettings": "निकासी सेटिंग्स",
     "escapeHatchDescription": "अपने वापसी को एक सेंसरशिप सहनशील लेन-देन के माध्यम से फ़ोर्स करें।",
     "easyModeDescription": "हमें अतिरिक्त लेन-देनों को संभालने दें ताकि आप 'निर्धारित और भूल जाएं' का उपयोग कर सकें।",
-    "feeBreakdown": "शुल्क विवरण",
+    "feeBreakdown": "नेटवर्क शुल्क",
     "currency": "मुद्रा",
     "language": "भाषा",
     "explorer": "अन्वेषक"
@@ -75,10 +75,9 @@
   },
 
   "fees": {
-    "fees": "शुल्क",
-    "networkFee": "नेटवर्क शुल्क (आनुमानित)",
-    "rollbridgeFee": "सुपरब्रिज शुल्क",
-    "easyModeFee": "आसान मोड शुल्क"
+    "fees": "नेटवर्क शुल्क",
+    "networkGas": "{{chain}} गैस",
+    "easyModeFee": "आसान मोड गैस"
   },
 
   "poweredByConduit": "कन्ड्यूट द्वारा संचालित",

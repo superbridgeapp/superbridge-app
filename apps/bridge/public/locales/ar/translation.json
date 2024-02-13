@@ -36,7 +36,7 @@
     "withdrawalSettings": "إعدادات السحب",
     "escapeHatchDescription": "فرض سحبك عبر عملية تحويل مقاومة للرقابة على إيثيريوم.",
     "easyModeDescription": "دعونا نتعامل مع المزيد من المعاملات حتى تتمكن من 'التعيين والنسيان'.",
-    "feeBreakdown": "تفصيل الرسوم",
+    "feeBreakdown": "رسوم الشبكة",
     "currency": "العملة",
     "language": "لغة",
     "explorer": "المستكشف"
@@ -75,10 +75,9 @@
   },
 
   "fees": {
-    "fees": "الرسوم",
-    "networkFee": "رسوم الشبكة (تقديري)",
-    "rollbridgeFee": "رسوم Rollbridge",
-    "easyModeFee": "رسوم الوضع السهل"
+    "fees": "رسوم الشبكة",
+    "networkGas": "غاز {{chain}}",
+    "easyModeFee": "غاز الوضع السهل"
   },
 
   "poweredByConduit": "مدعوم بواسطة كوندويت",

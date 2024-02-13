@@ -36,7 +36,7 @@
     "withdrawalSettings": "출금 설정",
     "escapeHatchDescription": "이더리움에서 검열에 저항하는 트랜잭션을 통해 강제로 출금합니다.",
     "easyModeDescription": "추가 트랜잭션을 처리하도록 하여 '설정 및 잊기'를 설정할 수 있습니다.",
-    "feeBreakdown": "수수료 분해",
+    "feeBreakdown": "네트워크 수수료",
     "currency": "통화",
     "language": "언어",
     "explorer": "탐색기"
@@ -75,10 +75,9 @@
   },
 
   "fees": {
-    "fees": "수수료",
-    "networkFee": "네트워크 수수료 (예상)",
-    "rollbridgeFee": "슈퍼브릿지 수수료",
-    "easyModeFee": "이지 모드 수수료"
+    "fees": "네트워크 수수료",
+    "networkGas": "{{chain}} 가스",
+    "easyModeFee": "쉬운 모드 가스"
   },
 
   "poweredByConduit": "Conduit에서 제공",
