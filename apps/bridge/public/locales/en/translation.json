@@ -36,7 +36,7 @@
     "withdrawalSettings": "Withdrawal settings",
     "escapeHatchDescription": "Force your withdrawal via a censorship resistant transaction on Ethereum.",
     "easyModeDescription": "Let us handle the extra transactions so you can set 'n forget.",
-    "feeBreakdown": "Fee breakdown",
+    "feeBreakdown": "Network fees",
     "currency": "Currency",
     "language": "Language",
     "explorer": "Explorer"
@@ -76,10 +76,11 @@
   },
 
   "fees": {
-    "fees": "Fees",
+    "fees": "Network fees",
+    "networkGas": "{{chain}} gas",
     "networkFee": "Network fee (est)",
     "rollbridgeFee": "Rollbridge fee",
-    "easyModeFee": "Easy mode fee"
+    "easyModeFee": "Easy mode gas"
   },
 
   "poweredByConduit": "Powered by Conduit",

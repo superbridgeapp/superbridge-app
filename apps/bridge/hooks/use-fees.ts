@@ -71,7 +71,7 @@ export const useFees = (
 
   return [
     {
-      name: t("fees.networkFee"),
+      name: t("fees.networkGas", { chain: from?.name }),
       usd: {
         raw: nativeTokenUsdPrice
           ? networkFee! * nativeTokenUsdPrice
@@ -92,26 +92,6 @@ export const useFees = (
         })} ${nativeToken?.[1]?.symbol ?? nativeToken?.[57]?.symbol}`,
       },
     },
-    isSuperbridge || nft
-      ? null
-      : {
-          name: t("fees.rollbridgeFee"),
-          usd: stateTokenUsdPrice
-            ? {
-                raw: appliedFee * stateTokenUsdPrice,
-                formatted: `${currencySymbolMap[currency]}${(
-                  appliedFee * stateTokenUsdPrice
-                ).toLocaleString("en")}`,
-              }
-            : null,
-          token: {
-            token: null,
-            raw: appliedFee,
-            formatted: `${appliedFee.toLocaleString("en", {
-              maximumFractionDigits: 4,
-            })} ${stateToken?.[from?.id ?? 0]?.symbol}`,
-          },
-        },
     configurations[deployment?.name ?? ""] && withdrawing
       ? {
           name: t("fees.easyModeFee"),
