@@ -24,8 +24,8 @@ const impl = (
 ) => {
   const value = withdrawValue(weiAmount, deployment, l2Token, options.easyMode);
 
-  if (isEth(l2Token)) {
-    if (isMainnet(deployment) && proxyBridge) {
+  if (proxyBridge && options.easyMode) {
+    if (isEth(l2Token)) {
       return {
         approvalAddress: undefined,
         tx: {
@@ -45,24 +45,6 @@ const impl = (
     }
 
     return {
-      approvalAddress: undefined,
-      tx: {
-        to: ARB_SYS,
-        data: encodeFunctionData({
-          abi: ArbSysAbi,
-          functionName: "withdrawEth",
-          args: [
-            recipient, // _to
-          ],
-        }),
-        value,
-        chainId: deployment.l2.id,
-      },
-    };
-  }
-
-  if (isMainnet(deployment) && proxyBridge) {
-    return {
       approvalAddress: proxyBridge,
       tx: {
         to: proxyBridge,
@@ -76,6 +58,24 @@ const impl = (
             l2Token.address, // l1Token
             recipient, // to
             weiAmount, // amount
+          ],
+        }),
+        value,
+        chainId: deployment.l2.id,
+      },
+    };
+  }
+
+  if (isEth(l2Token)) {
+    return {
+      approvalAddress: undefined,
+      tx: {
+        to: ARB_SYS,
+        data: encodeFunctionData({
+          abi: ArbSysAbi,
+          functionName: "withdrawEth",
+          args: [
+            recipient, // _to
           ],
         }),
         value,
