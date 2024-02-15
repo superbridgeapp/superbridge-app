@@ -29,7 +29,6 @@ import { useSwitchChain } from "@/hooks/use-switch-chain";
 import { useActiveTokens } from "@/hooks/use-tokens";
 import { useTransferTime } from "@/hooks/use-transfer-time";
 import { useWeiAmount } from "@/hooks/use-wei-amount";
-import { useWithdrawalsPaused } from "@/hooks/use-withdrawals-paused";
 import { useConfigState } from "@/state/config";
 import { usePendingTransactions } from "@/state/pending-txs";
 import { useSettingsState } from "@/state/settings";
@@ -139,7 +138,6 @@ export const BridgeBody = () => {
   const token = useSelectedToken();
   const transferTime = useTransferTime();
   const { t } = useTranslation();
-  const withdrawalsPaused = useWithdrawalsPaused();
 
   const [tokensDialog, setTokensDialog] = useState(false);
   const [withdrawSettingsDialog, setWithdrawSettingsDialog] = useState(false);
@@ -357,13 +355,7 @@ export const BridgeBody = () => {
     isEth: isEth(token),
     isContractAccount,
     recipient,
-    withdrawalsPaused,
   })
-    .with({ withdrawalsPaused: true, withdrawing: true }, () => ({
-      onSubmit: () => {},
-      buttonText: "Withdrawals paused",
-      disabled: true,
-    }))
     .with({ disabled: true }, () => ({
       onSubmit: () => {},
       buttonText: t("depositDisabled"),
