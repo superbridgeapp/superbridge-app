@@ -14,6 +14,7 @@ export const useWithdrawalsPaused = () => {
         ? (deployment.contractAddresses.optimismPortal as Address)
         : "0x",
     enabled: !!deployment && isOptimism(deployment),
+    chainId: deployment?.l1.id,
   });
 
   return read.data;
