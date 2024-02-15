@@ -36,7 +36,7 @@
     "withdrawalSettings": "إعدادات السحب",
     "escapeHatchDescription": "فرض سحبك عبر عملية تحويل مقاومة للرقابة على إيثيريوم.",
     "easyModeDescription": "دعونا نتعامل مع المزيد من المعاملات حتى تتمكن من 'التعيين والنسيان'.",
-    "feeBreakdown": "تفصيل الرسوم",
+    "feeBreakdown": "رسوم الشبكة",
     "currency": "العملة",
     "language": "لغة",
     "explorer": "المستكشف"
@@ -75,11 +75,30 @@
   },
 
   "fees": {
-    "fees": "الرسوم",
-    "networkFee": "رسوم الشبكة (تقديري)",
-    "rollbridgeFee": "رسوم Rollbridge",
-    "easyModeFee": "رسوم الوضع السهل"
+    "fees": "رسوم الشبكة",
+    "networkGas": "غاز {{chain}}",
+    "easyModeFee": "غاز الوضع السهل"
   },
 
-  "poweredByConduit": "مدعوم بواسطة كوندويت"
+  "poweredByConduit": "مدعوم بواسطة كوندويت",
+
+  "withdrawalModal": {
+    "title": "سحوبات {{rollup}} تستغرق حوالي 7 أيام",
+    "opDescription": "السحب هو عملية مكونة من 3 خطوات، تتطلب 2 معاملات {{base}}.",
+    "arbDescription": "السحب عملية تتكون من خطوتين وتتطلب معاملة إضافية {{base}}.",
+    "learnMore": "معرفة المزيد",
+    "approxFees": "الرسوم التقريبية",
+    "initiate": "بدء عملية السحب",
+    "waitProve": "انتظر حوالي 2 ساعة",
+    "prove": "إثبات على {{base}}",
+    "waitFinalize": "انتظر حوالي 7 أيام",
+    "finalize": "المطالبة على {{base}}",
+
+    "opCheckbox1": "أنا أفهم أنه سيستغرق حوالي 7 أيام حتى يمكن الحصول على أموالي على {{base}} بعد أثبت سحبي",
+    "arbCheckbox1": "أنا أفهم أنه سيستغرق حوالي 7 أيام حتى يمكن الحصول على أموالي على {{base}}",
+    "checkbox2": "بمجرد بدء عملية السحب، لا يمكن تسريعها أو إلغاؤها.",
+
+    "continue": "متابعة السحب",
+    "viewAlternateBridges": "أو عرض الجسور البديلة…"
+  }
 }

@@ -11,6 +11,9 @@ interface SettingsState {
 
   tokenLists: string[];
   setTokenLists: (list: string[]) => void;
+
+  hasViewedTos: boolean;
+  dismissTos: () => void;
 }
 
 const SettingsState = create<SettingsState>()(
@@ -26,6 +29,9 @@ const SettingsState = create<SettingsState>()(
         "https://raw.githubusercontent.com/ethereum-optimism/ethereum-optimism.github.io/master/optimism.tokenlist.json",
       ],
       setTokenLists: (tokenLists) => set({ tokenLists }),
+
+      hasViewedTos: false,
+      dismissTos: () => set({ hasViewedTos: true }),
     }),
     { name: "settings" }
   )

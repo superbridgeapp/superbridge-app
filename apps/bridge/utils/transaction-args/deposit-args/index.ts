@@ -6,7 +6,7 @@ import { optimismDepositArgs } from "./optimism-deposit-args";
 import { DepositTxResolver } from "./types";
 
 export const depositArgs: DepositTxResolver = (args) => {
-  if (isCctpBridgeOperation(args.deployment, args.stateToken, false)) {
+  if (isCctpBridgeOperation(args.stateToken)) {
     return cctpBridgeArgs(args, false);
   }
 

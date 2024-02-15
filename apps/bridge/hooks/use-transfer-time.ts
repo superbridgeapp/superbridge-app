@@ -13,11 +13,7 @@ export const useTransferTime = () => {
   const withdrawing = useConfigState.useWithdrawing();
   const token = useConfigState.useToken();
 
-  if (
-    !!deployment &&
-    !!token &&
-    isCctpBridgeOperation(deployment, token, withdrawing)
-  ) {
+  if (!!deployment && !!token && isCctpBridgeOperation(token)) {
     return QUICK_NETWORKS.includes(deployment.type)
       ? "~ 3 minutes"
       : "~ 15 minutes";

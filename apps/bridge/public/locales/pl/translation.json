@@ -36,7 +36,7 @@
     "withdrawalSettings": "Ustawienia wypłat",
     "escapeHatchDescription": "Wymuś swoją wypłatę za pomocą transakcji odpornej na cenzurę na Ethereum.",
     "easyModeDescription": "Pozwól nam obsłużyć dodatkowe transakcje, abyś mógł ustawić i zapomnieć.",
-    "feeBreakdown": "Podział opłat",
+    "feeBreakdown": "Opłaty sieciowe",
     "currency": "Waluta",
     "language": "Język",
     "explorer": "Eksplorator"
@@ -75,11 +75,30 @@
   },
 
   "fees": {
-    "fees": "Opłaty",
-    "networkFee": "Opłata sieciowa (szacunkowa)",
-    "rollbridgeFee": "Opłata Rollbridge",
-    "easyModeFee": "Opłata trybu łatwego"
+    "fees": "Opłaty sieciowe",
+    "networkGas": "Gaz {{chain}}",
+    "easyModeFee": "Opłata w trybie łatwym"
   },
 
-  "poweredByConduit": "Napędzane przez Conduit"
+  "poweredByConduit": "Napędzane przez Conduit",
+
+  "withdrawalModal": {
+    "title": "Wypłaty z {{rollup}} zajmują około 7 dni",
+    "opDescription": "Wypłata to proces 3-stopniowy, który wymaga 2 transakcji {{base}}.",
+    "arbDescription": "Wypłata to proces 2-etapowy, który wymaga dodatkowej transakcji {{base}}.",
+    "learnMore": "Dowiedz się więcej",
+    "approxFees": "Przybliżone opłaty",
+    "initiate": "Zainicjuj wypłatę",
+    "waitProve": "Poczekaj około 2 godzin",
+    "prove": "Udowodnij na {{base}}",
+    "waitFinalize": "Poczekaj około 7 dni",
+    "finalize": "Zgłoś na {{base}}",
+
+    "opCheckbox1": "Rozumiem, że zajmie to około 7 dni, zanim moje środki będą możliwe do odebrania na {{base}} po udowodnieniu wypłaty",
+    "arbCheckbox1": "Rozumiem, że zajmie to około 7 dni, zanim moje środki będą możliwe do odebrania na {{base}}",
+    "checkbox2": "Po zainicjowaniu wypłaty nie można jej przyspieszyć ani anulować.",
+
+    "continue": "Kontynuuj wypłatę",
+    "viewAlternateBridges": "Lub zobacz alternatywne mosty…"
+  }
 }

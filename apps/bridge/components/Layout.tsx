@@ -22,6 +22,7 @@ import { useConfigState } from "@/state/config";
 import { isDog } from "@/utils/is-dog";
 
 import { SettingsModal } from "./settings/settings-modal";
+import { TosModal } from "./tos-modal";
 
 export function Layout({ Component, pageProps, router }: AppProps) {
   const deployments = useDeployments();
@@ -100,6 +101,7 @@ export function Layout({ Component, pageProps, router }: AppProps) {
         "w-screen h-screen overflow-hidden z-40 relative transition-colors duration-1000 tracking-tight flex justify-center transform-gpu"
       )}
     >
+      <TosModal />
       <div
         className={clsx(
           `inset-0 z-0 fixed transition-all bg-transparent`,

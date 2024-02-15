@@ -24,7 +24,7 @@ export const WithdrawSettings = ({
   const isContractAccount = useIsContractAccount();
   const { t } = useTranslation();
 
-  const fees = useFees(from, bridgeFee, gasEstimate);
+  const fees = useFees(from, gasEstimate);
   const theme = deploymentTheme(deployment);
 
   return (

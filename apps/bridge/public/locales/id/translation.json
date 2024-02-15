@@ -36,7 +36,7 @@
     "withdrawalSettings": "Pengaturan penarikan",
     "escapeHatchDescription": "Paksa penarikan Anda melalui transaksi tahan sensor di Ethereum.",
     "easyModeDescription": "Biarkan kami mengurus transaksi tambahan sehingga Anda bisa 'atur dan lupakan'.",
-    "feeBreakdown": "Pemecahan biaya",
+    "feeBreakdown": "Biaya jaringan",
     "currency": "Mata uang",
     "language": "Bahasa",
     "explorer": "Penjelajah"
@@ -75,11 +75,30 @@
   },
 
   "fees": {
-    "fees": "Biaya",
-    "networkFee": "Biaya jaringan (estimasi)",
-    "rollbridgeFee": "Biaya Rollbridge",
+    "fees": "Biaya jaringan",
+    "networkGas": "Gas {{chain}}",
     "easyModeFee": "Biaya mode mudah"
   },
 
-  "poweredByConduit": "Ditenagai oleh Conduit"
+  "poweredByConduit": "Ditenagai oleh Conduit",
+
+  "withdrawalModal": {
+    "title": "Penarikan {{rollup}} membutuhkan waktu ~7 hari",
+    "opDescription": "Penarikan adalah proses 3 langkah, membutuhkan 2 transaksi {{base}}.",
+    "arbDescription": "Penarikan adalah proses 2 langkah dan memerlukan transaksi tambahan {{base}}.",
+    "learnMore": "Pelajari lebih lanjut",
+    "approxFees": "Biaya perkiraan",
+    "initiate": "Memulai penarikan",
+    "waitProve": "Tunggu ~2 jam",
+    "prove": "Buktikan di {{base}}",
+    "waitFinalize": "Tunggu ~7 hari",
+    "finalize": "Klaim di {{base}}",
+
+    "opCheckbox1": "Saya memahami bahwa akan memakan waktu sekitar 7 hari hingga dana saya dapat diklaim di {{base}} setelah saya membuktikan penarikan saya",
+    "arbCheckbox1": "Saya memahami bahwa akan memakan waktu sekitar 7 hari hingga dana saya dapat diklaim di {{base}}",
+    "checkbox2": "Setelah penarikan diinisiasi, tidak dapat dipercepat atau dibatalkan.",
+
+    "continue": "Lanjutkan penarikan",
+    "viewAlternateBridges": "Atau lihat jembatan alternatif…"
+  }
 }

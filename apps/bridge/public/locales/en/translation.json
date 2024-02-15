@@ -36,7 +36,7 @@
     "withdrawalSettings": "Withdrawal settings",
     "escapeHatchDescription": "Force your withdrawal via a censorship resistant transaction on Ethereum.",
     "easyModeDescription": "Let us handle the extra transactions so you can set 'n forget.",
-    "feeBreakdown": "Fee breakdown",
+    "feeBreakdown": "Network fees",
     "currency": "Currency",
     "language": "Language",
     "explorer": "Explorer"
@@ -76,11 +76,30 @@
   },
 
   "fees": {
-    "fees": "Fees",
-    "networkFee": "Network fee (est)",
-    "rollbridgeFee": "Rollbridge fee",
-    "easyModeFee": "Easy mode fee"
+    "fees": "Network fees",
+    "networkGas": "{{chain}} gas",
+    "easyModeFee": "Easy mode gas"
   },
 
-  "poweredByConduit": "Powered by Conduit"
+  "poweredByConduit": "Powered by Conduit",
+
+  "withdrawalModal": {
+    "title": "{{rollup}} withdrawals take ~7 days",
+    "opDescription": "Withdrawing is a 3 step process, requiring 2 {{base}} transactions.",
+    "arbDescription": "Withdrawing is a 2 step process and requires an extra {{base}} transaction.",
+    "learnMore": "Learn more",
+    "approxFees": "Approx. fees",
+    "initiate": "Initiate withdrawal",
+    "waitProve": "Wait ~2 hours",
+    "prove": "Prove on {{base}}",
+    "waitFinalize": "Wait ~7 days",
+    "finalize": "Claim on {{base}}",
+
+    "opCheckbox1": "I understand it will take ~7 days until my funds are claimable on {{base}} after I prove my withdrawal",
+    "arbCheckbox1": "I understand it will take ~7 days until my funds are claimable on {{base}}",
+    "checkbox2": "Once a withdrawal is initiated it cannot be sped up or cancelled.",
+
+    "continue": "Continue withdraw",
+    "viewAlternateBridges": "Or view alternative bridges…"
+  }
 }

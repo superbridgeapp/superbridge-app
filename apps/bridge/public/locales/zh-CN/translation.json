@@ -36,7 +36,7 @@
     "withdrawalSettings": "提款设置",
     "escapeHatchDescription": "通过在以太坊上进行审查抵抗的交易强制提款。",
     "easyModeDescription": "让我们处理额外的交易，这样您可以设置 '并忘记'。",
-    "feeBreakdown": "费用细目",
+    "feeBreakdown": "网络费用",
     "currency": "货币",
     "language": "语言",
     "explorer": "浏览器"
@@ -75,11 +75,30 @@
   },
 
   "fees": {
-    "fees": "费用",
-    "networkFee": "网络费用（估算）",
-    "rollbridgeFee": "Rollbridge 费用",
-    "easyModeFee": "轻松模式费用"
+    "fees": "网络费用",
+    "networkGas": "{{chain}} 气体",
+    "easyModeFee": "简易模式气体"
   },
 
-  "poweredByConduit": "由 Conduit 提供支持"
+  "poweredByConduit": "由 Conduit 提供支持",
+
+  "withdrawalModal": {
+    "title": "{{rollup}} 提款需大约7天",
+    "opDescription": "提款是一个3步骤的过程，需要2个 {{base}} 交易。",
+    "arbDescription": "提款是一个2步骤的过程，需要额外的 {{base}} 交易。",
+    "learnMore": "了解更多",
+    "approxFees": "大约费用",
+    "initiate": "启动提款",
+    "waitProve": "等待 ~2 小时",
+    "prove": "在 {{base}} 上证明",
+    "waitFinalize": "等待 ~7 天",
+    "finalize": "在 {{base}} 上声明",
+
+    "opCheckbox1": "我理解，我证明提款后，大约需要7天才能在 {{base}} 上领取我的资金",
+    "arbCheckbox1": "我理解，大约需要7天才能在 {{base}} 上领取我的资金",
+    "checkbox2": "一旦启动提款，就无法加速或取消。",
+
+    "continue": "继续提款",
+    "viewAlternateBridges": "或查看其他桥梁…"
+  }
 }
