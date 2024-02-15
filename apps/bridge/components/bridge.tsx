@@ -55,14 +55,13 @@ export const Bridge = () => {
                 </svg>
               </span>
               <span className="font-medium text-zinc-900 dark:text-white text-xs">
-                OP Mainnet withdrawls paused due to planned maintenance for
-                approx 1 hour. For updates follow {""}
+                OP Mainnet withdrawals are currently paused. <br />
                 <Link
-                  href="https://status.optimism.io"
+                  href="OptionalLinkValue"
                   target="_blank"
-                  className="underline"
+                  className="font-medium text-zinc-500 cursor-pointer hover:underline"
                 >
-                  status.optimism.io
+                  More info &amp; updates&hellip;
                 </Link>
               </span>
             </div>
