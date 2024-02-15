@@ -1,5 +1,4 @@
 import { useTranslation } from "react-i18next";
-import Link from "next/link";
 
 import { dedicatedDeployment } from "@/config/dedicated-deployment";
 import { deploymentTheme } from "@/config/theme";

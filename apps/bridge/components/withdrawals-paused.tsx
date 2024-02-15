@@ -39,7 +39,8 @@ export const WithdrawalsPaused = () => {
         </svg>
       </span>
       <span className="font-medium text-zinc-900 dark:text-white text-xs">
-        {deployment?.l2.name} withdrawals are currently paused. <br />
+        Proving and finalizing {deployment?.l2.name} withdrawals is currently
+        paused. <br />
         <Link
           href="https://status.optimism.io/"
           target="_blank"
