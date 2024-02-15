@@ -55,7 +55,9 @@ export const useFees = (
 
   return [
     {
-      name: t("fees.networkGas", { chain: from?.name }),
+      name: t("fees.networkGas", {
+        chain: forceViaL1 && withdrawing ? deployment?.l1.name : from?.name,
+      }),
       usd: {
         raw: nativeTokenUsdPrice
           ? networkFee! * nativeTokenUsdPrice
