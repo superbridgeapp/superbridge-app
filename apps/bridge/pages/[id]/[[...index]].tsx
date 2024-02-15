@@ -7,6 +7,7 @@ import { ErrorPage } from "@/components/ErrorPage";
 import { Loading } from "@/components/Loading";
 import { PageTransition } from "@/components/PageTransition";
 import { Bridge } from "@/components/bridge";
+import { isRollbridge } from "@/config/superbridge";
 import { useConfigState } from "@/state/config";
 
 type PageProps = {
