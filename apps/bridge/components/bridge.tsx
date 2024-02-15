@@ -3,14 +3,17 @@ import { useTranslation } from "react-i18next";
 import { dedicatedDeployment } from "@/config/dedicated-deployment";
 import { deploymentTheme } from "@/config/theme";
 import { useConfigState } from "@/state/config";
+import { useWithdrawalsPaused } from "@/hooks/use-withdrawals-paused";
 
 import { PageTransition } from "./PageTransition";
 import { BridgeBody } from "./bridge-body";
 import { BridgeHeader } from "./bridge-header";
+import { WithdrawalsPaused } from "./withdrawals-paused";
 
 export const Bridge = () => {
   const deployment = useConfigState.useDeployment();
   const { t } = useTranslation();
+  const withdrawalsPaused = useWithdrawalsPaused();
 
   return (
     <PageTransition>
@@ -20,6 +23,8 @@ export const Bridge = () => {
       >
         <div className="w-full px-2 md:px-0  md:w-[420px] aspect-[3/4] relative mb-24 mt-16 md:mt-24 xl:mt-32">
           <div className="flex flex-col gap-2 md:gap-2 items-center">
+            {withdrawalsPaused && <WithdrawalsPaused />}
+
             <div
               className={`${
                 deploymentTheme(deployment).bg

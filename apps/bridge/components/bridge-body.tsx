@@ -10,6 +10,7 @@ import { formatUnits, parseUnits } from "viem";
 import { useAccount, useBalance, useFeeData, useWalletClient } from "wagmi";
 
 import { useBridgeControllerTrack } from "@/codegen";
+import { DeploymentType } from "@/codegen/model";
 import { deploymentTheme } from "@/config/theme";
 import { currencySymbolMap } from "@/constants/currency-symbol-map";
 import { useAllowance } from "@/hooks/use-allowance";
@@ -35,7 +36,6 @@ import { Theme } from "@/types/theme";
 import { buildPendingTx } from "@/utils/build-pending-tx";
 import { isEth, isNativeToken } from "@/utils/is-eth";
 import { isNativeUsdc } from "@/utils/is-usdc";
-import { DeploymentType } from "@/codegen/model";
 
 import { FromTo } from "./FromTo";
 import { AddressModal } from "./address-modal";
