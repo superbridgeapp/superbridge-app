@@ -1,6 +1,20 @@
-import { L1StandardBridgeAbi } from "@/abis/L1StandardBridge";
-import { useContractRead } from "wagmi";
+import { Address, useContractRead } from "wagmi";
+
+import { OptimismPortalAbi } from "@/abis/OptimismPortal";
+import { useConfigState } from "@/state/config";
+import { isOptimism } from "@/utils/is-mainnet";
 
 export const useWithdrawalsPaused = () => {
-  return false;
+  const deployment = useConfigState.useDeployment();
+  const read = useContractRead({
+    abi: OptimismPortalAbi,
+    functionName: "paused",
+    address:
+      !!deployment && isOptimism(deployment)
+        ? (deployment.contractAddresses.optimismPortal as Address)
+        : "0x",
+    enabled: !!deployment && isOptimism(deployment),
+  });
+
+  return read.data;
 };
