@@ -9,7 +9,7 @@ import Head from "next/head";
 import { Layout } from "@/components/Layout";
 import { Providers } from "@/components/Providers";
 import { dedicatedDeployment } from "@/config/dedicated-deployment";
-import { isSuperbridge } from "@/config/superbridge";
+import { isRollbridge, isSuperbridge } from "@/config/superbridge";
 import * as metadata from "@/constants/metadata";
 import { UNSTYLED_PAGES } from "@/constants/unstyled-pages";
 
@@ -37,11 +37,15 @@ export default function App(appProps: AppProps) {
           <>
             <meta
               property="og:image"
-              content={`https://superbridge.app/og/${dedicatedDeployment.name}-og-image.png`}
+              content={`https://superbridge.app/og/${
+                dedicatedDeployment.name
+              }-og-image${isRollbridge ? "-rb" : ""}.png`}
             />
             <meta
               name="twitter:image"
-              content={`https://superbridge.app/og/${dedicatedDeployment.name}-og-image.png`}
+              content={`https://superbridge.app/og/${
+                dedicatedDeployment.name
+              }-og-image${isRollbridge ? "-rb" : ""}.png`}
             />
           </>
         ) : appProps.router.route !== "/[id]/[[...index]]" ? (

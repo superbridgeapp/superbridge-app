@@ -26,11 +26,15 @@ export default function Page(props: PageProps) {
       <Head>
         <meta
           property="og:image"
-          content={`https://superbridge.app/og/${props.id}-og-image.png`}
+          content={`https://superbridge.app/og/${props.id}-og-image${
+            isRollbridge ? "-rb" : ""
+          }.png`}
         />
         <meta
           name="twitter:image"
-          content={`https://superbridge.app/og/${props.id}-og-image.png`}
+          content={`https://superbridge.app/og/${props.id}-og-image${
+            isRollbridge ? "-rb" : ""
+          }.png`}
         />
       </Head>
       <PageTransition>
