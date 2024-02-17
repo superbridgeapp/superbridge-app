@@ -462,6 +462,7 @@ export const themes: { [name: string]: Theme | undefined } = {
   ["lattice-testnet"]: lattice,
   ["orb3-mainnet"]: orb3,
   parallel,
+  ["parallel-chain-oqwzakghzt"]: parallel,
   ["lisk-sepolia"]: liskTheme,
 };
 
