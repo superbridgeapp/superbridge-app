@@ -38,6 +38,18 @@ export const transformIntoOptimismToken = (
     delete token.extensions.baseBridgeAddress;
   }
 
+  // https://github.com/ethereum-optimism/ethereum-optimism.github.io/pull/594 nobridge: true
+  if (token.name === "Seamless") {
+    if (token.chainId === 1) {
+      token.extensions.baseBridgeAddress =
+        "0x3154Cf16ccdb4C6d922629664174b904d80F2C35";
+    }
+    if (token.chainId === base.id) {
+      token.extensions.baseBridgeAddress =
+        "0x4200000000000000000000000000000000000010";
+    }
+  }
+
   const t: OptimismToken = {
     name: token.name,
     chainId: token.chainId,
