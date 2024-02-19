@@ -319,18 +319,18 @@ export const BridgeBody = () => {
     allowance.refetch();
   };
 
-  const promptWithdrawalConfirmationModal =
-    withdrawing &&
-    !!stateToken &&
-    !isNativeUsdc(stateToken) &&
-    deployment?.type === DeploymentType.mainnet;
+  const promptConfirmationModal =
+    isNativeUsdc(stateToken) ||
+    (withdrawing &&
+      !!stateToken &&
+      deployment?.type === DeploymentType.mainnet);
 
   const handleSubmitClick = () => {
     if (!nft && weiAmount === BigInt(0)) {
       return;
     }
 
-    if (promptWithdrawalConfirmationModal) {
+    if (promptConfirmationModal) {
       openWithdrawalConfirmationModal(true);
     } else {
       onSubmit();
