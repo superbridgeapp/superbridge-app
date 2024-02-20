@@ -17,6 +17,7 @@ import * as usdc from "@/utils/token-list/json/usdc";
 import { wsteth } from "@/utils/token-list/json/wsteth";
 import { transformArbitrumTokenList } from "@/utils/token-list/transform-arbitrum-token-list";
 import { transformIntoOptimismToken } from "@/utils/token-list/transform-optimism-token";
+import { seam } from "@/utils/token-list/json/seam";
 
 export const useTokenLists = () => {
   const tokenLists = useSettingsState.useTokenLists();
@@ -65,6 +66,7 @@ export const useTokenLists = () => {
       ...dog,
       ...rollux,
       ...baseTokens,
+      ...seam,
     ].forEach((tok) => {
       if (optimismMultichainTokens[tok.opTokenId]) {
         optimismMultichainTokens[tok.opTokenId][tok.chainId] = tok;
