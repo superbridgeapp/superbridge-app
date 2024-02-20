@@ -33,7 +33,7 @@ export const baseTokens = [
   {
     chainId: mainnet.id,
     address: "0x09395a2A58DB45db0da254c7EAa5AC469D8bDc85",
-    name: "SubQueryToken",
+    name: "SubQuery Network",
     symbol: "SQT",
     decimals: 18,
     logoURI:
@@ -47,7 +47,7 @@ export const baseTokens = [
   {
     chainId: base.id,
     address: "0x858c50C3AF1913b0E849aFDB74617388a1a5340d",
-    name: "SubQueryToken",
+    name: "SubQuery Network",
     symbol: "SQT",
     decimals: 18,
     logoURI:
