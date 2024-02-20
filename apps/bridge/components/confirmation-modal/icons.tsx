@@ -1,26 +1,4 @@
-import clsx from "clsx";
-import Link from "next/link";
-import { useState } from "react";
-import { useTranslation } from "react-i18next";
-import { formatUnits } from "viem";
-import { useFeeData } from "wagmi";
-
-import { DeploymentFamily } from "@/codegen/model";
-import { Checkbox } from "@/components/ui/checkbox";
-import { deploymentTheme } from "@/config/theme";
-import { currencySymbolMap } from "@/constants/currency-symbol-map";
-import { FINALIZE_GAS, PROVE_GAS } from "@/constants/gas-limits";
-import { useFromChain, useToChain } from "@/hooks/use-chain";
-import { useNativeToken } from "@/hooks/use-native-token";
-import { useTokenPrice } from "@/hooks/use-prices";
-import { useConfigState } from "@/state/config";
-import { useSettingsState } from "@/state/settings";
-import { isNativeUsdc } from "@/utils/is-usdc";
-
-import { Button } from "./ui/button";
-import { Dialog, DialogContent } from "./ui/dialog";
-
-const FeesIcon = () => (
+export const FeesIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="60"
@@ -61,7 +39,7 @@ const FeesIcon = () => (
   </svg>
 );
 
-const InitiateIcon = (
+export const InitiateIcon = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="60"
@@ -92,7 +70,69 @@ const InitiateIcon = (
   </svg>
 );
 
-const WaitIcon = (
+export const ApproveIcon = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="60"
+    height="60"
+    fill="none"
+    viewBox="0 0 60 60"
+    className="w-5 min-w-5 h-5 min-h-5"
+  >
+    <g clipPath="url(#clip0_180_472)">
+      <path
+        fill="#FF5"
+        d="M19.56 58.97c-.97 0-1.73-.79-1.73-1.76 0-.3.09-.61.24-.88l12.41-21.28H7.76c-.97 0-1.76-.79-1.76-1.76 0-.48.21-.94.58-1.3L40.03.42c.33-.3.76-.42 1.21-.42C42.33 0 43 .76 43 1.79c0 .33-.06.7-.27 1L27.74 23.92h23.79c.97 0 1.79.73 1.79 1.76 0 .45-.18.94-.54 1.27L20.87 58.49c-.33.33-.82.48-1.3.48h-.01z"
+      ></path>
+      <path
+        fill="#000"
+        d="M11.3 31.85h22.01c.88 0 1.73.67 1.73 1.73 0 .39-.09.7-.36 1.12l-8.99 14.83 22.49-22.4H24.35c-1.03 0-1.76-.64-1.76-1.73 0-.58.24-.94.58-1.36l9.05-11.96L11.3 31.85zm8.26 27.12c-.97 0-1.73-.79-1.73-1.76 0-.3.09-.61.24-.88l12.41-21.28H7.76c-.97 0-1.76-.79-1.76-1.76 0-.48.21-.94.58-1.3L40.03.42c.33-.3.76-.42 1.21-.42C42.33 0 43 .76 43 1.79c0 .33-.06.7-.27 1L27.74 23.92h23.79c.97 0 1.79.73 1.79 1.76 0 .45-.18.94-.54 1.27L20.87 58.49c-.33.33-.82.48-1.3.48h-.01z"
+      ></path>
+    </g>
+    <defs>
+      <clipPath id="clip0_180_472">
+        <path
+          fill="#fff"
+          d="M0 0H47.32V58.97H0z"
+          transform="translate(6)"
+        ></path>
+      </clipPath>
+    </defs>
+  </svg>
+);
+
+export const ReceiveIcon = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="60"
+    height="60"
+    fill="none"
+    viewBox="0 0 60 60"
+    className="w-5 min-w-5 h-5 min-h-5"
+  >
+    <g clipPath="url(#clip0_180_472)">
+      <path
+        fill="#FF5"
+        d="M19.56 58.97c-.97 0-1.73-.79-1.73-1.76 0-.3.09-.61.24-.88l12.41-21.28H7.76c-.97 0-1.76-.79-1.76-1.76 0-.48.21-.94.58-1.3L40.03.42c.33-.3.76-.42 1.21-.42C42.33 0 43 .76 43 1.79c0 .33-.06.7-.27 1L27.74 23.92h23.79c.97 0 1.79.73 1.79 1.76 0 .45-.18.94-.54 1.27L20.87 58.49c-.33.33-.82.48-1.3.48h-.01z"
+      ></path>
+      <path
+        fill="#000"
+        d="M11.3 31.85h22.01c.88 0 1.73.67 1.73 1.73 0 .39-.09.7-.36 1.12l-8.99 14.83 22.49-22.4H24.35c-1.03 0-1.76-.64-1.76-1.73 0-.58.24-.94.58-1.36l9.05-11.96L11.3 31.85zm8.26 27.12c-.97 0-1.73-.79-1.73-1.76 0-.3.09-.61.24-.88l12.41-21.28H7.76c-.97 0-1.76-.79-1.76-1.76 0-.48.21-.94.58-1.3L40.03.42c.33-.3.76-.42 1.21-.42C42.33 0 43 .76 43 1.79c0 .33-.06.7-.27 1L27.74 23.92h23.79c.97 0 1.79.73 1.79 1.76 0 .45-.18.94-.54 1.27L20.87 58.49c-.33.33-.82.48-1.3.48h-.01z"
+      ></path>
+    </g>
+    <defs>
+      <clipPath id="clip0_180_472">
+        <path
+          fill="#fff"
+          d="M0 0H47.32V58.97H0z"
+          transform="translate(6)"
+        ></path>
+      </clipPath>
+    </defs>
+  </svg>
+);
+
+export const WaitIcon = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="60"
@@ -112,7 +152,7 @@ const WaitIcon = (
   </svg>
 );
 
-const FinalizeIcon = (
+export const FinalizeIcon = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="60"
@@ -140,7 +180,7 @@ const FinalizeIcon = (
   </svg>
 );
 
-const ProveIcon = (
+export const ProveIcon = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="60"
@@ -170,249 +210,3 @@ const ProveIcon = (
     </defs>
   </svg>
 );
-
-function LineItem({
-  text,
-  icon,
-  fee,
-  className,
-}: {
-  text: string;
-  icon: any;
-  fee?: string | null;
-  className?: string;
-}) {
-  return (
-    <div
-      className={clsx(
-        "rounded-lg px-3 py-2 justify-between flex items-center",
-        className
-      )}
-    >
-      <div className="flex gap-2 items-center">
-        {icon}
-        <p className="text-sm font-medium">{text}</p>
-      </div>
-      {fee && (
-        <div className="flex gap-2 items-center">
-          <p className="text-xs">{fee}</p>
-          <FeesIcon />
-        </div>
-      )}
-    </div>
-  );
-}
-
-export const ConfirmWithdrawalModal = ({
-  onConfirm,
-}: {
-  onConfirm: () => void;
-}) => {
-  const { t } = useTranslation();
-  const open = useConfigState.useDisplayWithdrawalModal();
-  const setOpen = useConfigState.useSetDisplayWithdrawalModal();
-  const stateToken = useConfigState.useToken();
-  const currency = useSettingsState.useCurrency();
-  const from = useFromChain();
-  const to = useToChain();
-
-  const deployment = useConfigState.useDeployment();
-  const theme = deploymentTheme(deployment);
-
-  const l1FeeData = useFeeData({ chainId: deployment?.l1.id });
-  const l2FeeData = useFeeData({ chainId: deployment?.l2.id });
-
-  const nativeToken = useNativeToken();
-
-  const nativeTokenPrice = useTokenPrice(nativeToken ?? null);
-
-  const initiateCost =
-    (l2FeeData.data?.gasPrice ?? BigInt(0)) * BigInt(200_000);
-  const proveCost = (l1FeeData.data?.gasPrice ?? BigInt(0)) * PROVE_GAS;
-  const finalizeCost = (l1FeeData.data?.gasPrice ?? BigInt(0)) * FINALIZE_GAS;
-
-  const [checkbox1, setCheckbox1] = useState(false);
-  const [checkbox2, setCheckbox2] = useState(false);
-
-  const fee = (n: bigint, maximumFractionDigits: number) => {
-    if (!nativeTokenPrice) {
-      return null;
-    }
-
-    const formattedAmount = parseFloat(formatUnits(n, 18));
-
-    const amount = (nativeTokenPrice * formattedAmount).toLocaleString("en", {
-      maximumFractionDigits,
-    });
-
-    return `${currencySymbolMap[currency]}${amount}`;
-  };
-  return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent>
-        <div className="flex flex-col p-6 pt-6 md:pt-8">
-          <div className="flex flex-col gap-1 mr-6">
-            <h1 className="font-bold text-2xl md:text-2xl tracking-tight md:leading-7 text-pretty">
-              {isNativeUsdc(stateToken)
-                ? "USDC bridges take ~15 minutes"
-                : t("withdrawalModal.title", { rollup: deployment?.l2.name })}
-            </h1>
-            <p className="text-sm text-pretty">
-              {isNativeUsdc(stateToken)
-                ? `USDC bridging requires two transactions to complete, one on the initiating chain (${from?.name}) and one on the destination chain (${to?.name}) 15 minutes later.`
-                : t(
-                    deployment?.family === DeploymentFamily.arbitrum
-                      ? "withdrawalModal.arbDescription"
-                      : "withdrawalModal.opDescription",
-                    {
-                      base: deployment?.l1.name,
-                    }
-                  )}{" "}
-              <Link
-                href={
-                  isNativeUsdc(stateToken)
-                    ? "https://docs.rollbridge.app/what-is-bridging"
-                    : "https://docs.rollbridge.app/native-usdc"
-                }
-                className="underline font-medium"
-                target="_blank"
-              >
-                {t("withdrawalModal.learnMore")}
-              </Link>
-            </p>
-          </div>
-
-          <div className="flex flex-col gap-1 pt-4">
-            <div className="justify-end flex items-center px-1">
-              <span className="text-zinc-400 font-medium text-[11px]">
-                {t("withdrawalModal.approxFees")}
-              </span>
-            </div>
-
-            {isNativeUsdc(stateToken) ? (
-              <>
-                <LineItem
-                  text={"Initiate bridge"}
-                  icon={InitiateIcon}
-                  fee={fee(initiateCost, 4)}
-                />
-                <LineItem
-                  text={"Wait 15 minutes"}
-                  icon={WaitIcon}
-                  fee={fee(initiateCost, 4)}
-                />
-                <LineItem
-                  text={`Finalize bridge on ${to?.name}`}
-                  icon={FinalizeIcon}
-                  className={theme.bgMuted}
-                  fee={fee(finalizeCost, 2)}
-                />
-              </>
-            ) : (
-              <>
-                <LineItem
-                  text={t("withdrawalModal.initiate")}
-                  icon={InitiateIcon}
-                  fee={fee(initiateCost, 4)}
-                />
-
-                {deployment?.family === DeploymentFamily.optimism && (
-                  <>
-                    <LineItem
-                      text={t("withdrawalModal.waitProve")}
-                      icon={WaitIcon}
-                    />
-
-                    <LineItem
-                      text={t("withdrawalModal.prove", {
-                        base: deployment?.l1.name,
-                      })}
-                      icon={ProveIcon}
-                      className={theme.bgMuted}
-                      fee={fee(proveCost, 4)}
-                    />
-                  </>
-                )}
-
-                <LineItem
-                  text={t("withdrawalModal.waitFinalize")}
-                  icon={WaitIcon}
-                />
-
-                <LineItem
-                  text={t("withdrawalModal.finalize", {
-                    base: deployment?.l1.name,
-                  })}
-                  icon={FinalizeIcon}
-                  className={theme.bgMuted}
-                  fee={fee(finalizeCost, 2)}
-                />
-              </>
-            )}
-          </div>
-
-          <div className="flex flex-col gap-2 py-4 md:py-6">
-            <div className="pl-4 flex gap-2">
-              <Checkbox
-                id="timeframe"
-                checked={checkbox1}
-                onCheckedChange={(c) => setCheckbox1(c as boolean)}
-              />
-              <label
-                htmlFor="timeframe"
-                className="text-[11px] text-zinc-500 dark:text-zinc-400 tracking-tighter"
-              >
-                {isNativeUsdc(stateToken)
-                  ? `I understand it will take ~15 minutes until my funds are claimable on ${to?.name}`
-                  : t(
-                      deployment?.family === DeploymentFamily.arbitrum
-                        ? "withdrawalModal.arbCheckbox1"
-                        : "withdrawalModal.opCheckbox1",
-                      {
-                        base: deployment?.l1.name,
-                      }
-                    )}
-              </label>
-            </div>
-            <div className="pl-4 flex gap-2">
-              <Checkbox
-                id="speed"
-                checked={checkbox2}
-                onCheckedChange={(c) => setCheckbox2(c as boolean)}
-              />
-              <label
-                htmlFor="speed"
-                className="text-[11px] text-zinc-500 dark:text-zinc-400 tracking-tighter"
-              >
-                {t("withdrawalModal.checkbox2")}
-              </label>
-            </div>
-          </div>
-
-          <div className="flex flex-col gap-3">
-            <Button
-              className={`flex w-full justify-center rounded-full px-3 py-6 text-sm font-bold leading-6 text-white shadow-sm ${theme.accentText} ${theme.accentBg}`}
-              onClick={() => {
-                onConfirm();
-                setOpen(false);
-              }}
-              disabled={!checkbox1 || !checkbox2}
-            >
-              {t("withdrawalModal.continue")}
-            </Button>
-
-            {/* TODO: Create guide page and add link */}
-            {/* {isSuperbridge && (
-              <Link
-                className={`text-center text-sm font-bold tracking-tight  hover:underline ${theme.textColor}`}
-                href={"#"}
-              >
-                {t("withdrawalModal.viewAlternateBridges")}
-              </Link>
-            )} */}
-          </div>
-        </div>
-      </DialogContent>
-    </Dialog>
-  );
-};

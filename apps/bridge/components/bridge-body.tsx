@@ -45,7 +45,7 @@ import { NftImage } from "./nft";
 import { TokenModal } from "./tokens/Modal";
 import { Button } from "./ui/button";
 import { WithdrawSettingsModal } from "./withdraw-settings/modal";
-import { ConfirmWithdrawalModal } from "./withdrawal-modal";
+import { ConfirmationModal } from "./confirmation-modal";
 
 const RecipientAddress = ({
   openAddressDialog,
@@ -125,7 +125,6 @@ const RecipientAddress = ({
 
 export const BridgeBody = () => {
   const { openConnectModal } = useConnectModal();
-  const isContractAccount = useIsContractAccount();
   const wallet = useWalletClient();
   const account = useAccount();
   const from = useFromChain();
@@ -144,8 +143,7 @@ export const BridgeBody = () => {
   const [addressDialog, setAddressDialog] = useState(false);
 
   const deployment = useConfigState.useDeployment();
-  const openWithdrawalConfirmationModal =
-    useConfigState.useSetDisplayWithdrawalModal();
+  const setConfirmationModal = useConfigState.useSetDisplayConfirmationModal();
   const withdrawing = useConfigState.useWithdrawing();
   const rawAmount = useConfigState.useRawAmount();
   const stateToken = useConfigState.useToken();
@@ -319,22 +317,12 @@ export const BridgeBody = () => {
     allowance.refetch();
   };
 
-  const promptConfirmationModal =
-    isNativeUsdc(stateToken) ||
-    (withdrawing &&
-      !!stateToken &&
-      deployment?.type === DeploymentType.mainnet);
-
   const handleSubmitClick = () => {
     if (!nft && weiAmount === BigInt(0)) {
       return;
     }
 
-    if (promptConfirmationModal) {
-      openWithdrawalConfirmationModal(true);
-    } else {
-      onSubmit();
-    }
+    setConfirmationModal(true);
   };
 
   const submitButton = match({
@@ -353,22 +341,11 @@ export const BridgeBody = () => {
     token,
     nft,
     isEth: isEth(token),
-    isContractAccount,
     recipient,
   })
     .with({ disabled: true }, () => ({
       onSubmit: () => {},
       buttonText: t("depositDisabled"),
-      disabled: true,
-    }))
-    .with({ token: P.not(P.nullish), approve: { isLoading: true } }, () => ({
-      onSubmit: () => {},
-      buttonText: t("approving"),
-      disabled: true,
-    }))
-    .with({ nft: P.not(P.nullish), approveNft: { isLoading: true } }, () => ({
-      onSubmit: () => {},
-      buttonText: t("approving"),
       disabled: true,
     }))
     .with({ account: undefined }, () => ({
@@ -381,57 +358,6 @@ export const BridgeBody = () => {
       buttonText: withdrawing ? t("withdraw") : t("deposit"),
       disabled: true,
     }))
-    .with({ isSubmitting: true }, (d) => ({
-      onSubmit: () => {},
-      buttonText: d.withdrawing ? t("withdrawing") : t("depositing"),
-      disabled: false,
-    }))
-    .with(
-      {
-        allowance: P.when(
-          (allowance) =>
-            typeof allowance !== "undefined" && allowance < weiAmount
-        ),
-        isEth: false,
-        wallet: P.select(),
-      },
-      (wallet) => {
-        // this kind of sucks for forced withdrawals, but we do approvals on the from chain for now
-        if (wallet?.chain.id !== from?.id) {
-          return {
-            onSubmit: () => wallet?.switchChain({ id: from?.id ?? 0 }),
-            buttonText: t("switchToApprove"),
-            disabled: false,
-          };
-        }
-        return {
-          onSubmit: () => approve.write(),
-          buttonText: t("approve"),
-          disabled: false,
-        };
-      }
-    )
-    .with(
-      {
-        nft: P.not(P.nullish),
-        nftAllowance: false,
-      },
-      ({ wallet, nft }) => {
-        // this kind of sucks for forced withdrawals, but we do approvals on the from chain for now
-        if (wallet?.chain.id !== from?.id) {
-          return {
-            onSubmit: () => wallet?.switchChain({ id: from?.id ?? 0 }),
-            buttonText: t("switchToApprove"),
-            disabled: false,
-          };
-        }
-        return {
-          onSubmit: () => approveNft.write(),
-          buttonText: t("approveNft", { tokenId: `#${nft.tokenId}` }),
-          disabled: false,
-        };
-      }
-    )
     .with(
       {
         wallet: { chain: { id: P.not(from?.id) } },
@@ -505,7 +431,12 @@ export const BridgeBody = () => {
         gasEstimate={200_000}
       />
       <AddressModal open={addressDialog} setOpen={setAddressDialog} />
-      <ConfirmWithdrawalModal onConfirm={onSubmit} />
+      <ConfirmationModal
+        onConfirm={onSubmit}
+        approve={approve}
+        allowance={allowance}
+        bridge={bridge}
+      />
       <FromTo />
 
       {token ? (
