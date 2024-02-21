@@ -29,6 +29,12 @@ const TokenComponent = ({
   onClick: () => void;
 }) => {
   const selectedToken = useSelectedToken();
+  const customTokens = useSettingsState.useCustomTokens();
+
+  const isCustomToken = customTokens.find(
+    (x) => x[from?.id ?? 0]?.address === token[from?.id ?? 0]?.address
+  );
+
   return (
     <div
       className={clsx(
@@ -66,6 +72,10 @@ const TokenComponent = ({
           ).toLocaleString("en", { maximumFractionDigits: 3 })}
         </span>
       </div>
+
+      {isCustomToken && (
+        <div className="absolute right-4 bottom-0">Custom import</div>
+      )}
     </div>
   );
 };
