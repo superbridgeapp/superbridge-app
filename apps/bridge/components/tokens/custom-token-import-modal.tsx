@@ -5,8 +5,6 @@ import { deploymentTheme } from "@/config/theme";
 import { useConfigState } from "@/state/config";
 
 import { Dialog, DialogContent } from "../ui/dialog";
-import { NonFungibleTokenPicker } from "./NFTs";
-import { FungibleTokenPicker } from "./Tokens";
 import { useCustomToken } from "./use-custom-token";
 import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";

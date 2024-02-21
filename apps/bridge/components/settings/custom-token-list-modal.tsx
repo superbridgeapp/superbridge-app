@@ -53,7 +53,7 @@ export const CustomTokenListModal = () => {
       // adding
       setCustomTokenLists([
         ...customTokenLists,
-        { id: Math.random().toString(), name, url },
+        { id: Math.random().toString(), name, url, enabled: true },
       ]);
     } else {
       // editing

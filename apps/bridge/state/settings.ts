@@ -16,6 +16,7 @@ export interface CustomTokenList {
   id: string;
   name: string;
   url: string;
+  enabled: boolean;
 }
 
 export const DEFAULT_TOKEN_LISTS = [

@@ -2,7 +2,11 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { useConfigState } from "@/state/config";
-import { DefaultTokenList, useSettingsState } from "@/state/settings";
+import {
+  CustomTokenList,
+  DefaultTokenList,
+  useSettingsState,
+} from "@/state/settings";
 
 import { Checkbox } from "../ui/checkbox";
 
@@ -17,6 +21,7 @@ export const TokenLists = () => {
   const defaultTokenLists = useSettingsState.useDefaultTokenLists();
   const setDefaultTokenLists = useSettingsState.useSetDefaultTokenLists();
   const customTokenLists = useSettingsState.useCustomTokenLists();
+  const setCustomTokenLists = useSettingsState.useSetCustomTokenLists();
   const setShowCustomTokenListModal =
     useConfigState.useSetShowCustomTokenListModal();
 
@@ -25,6 +30,14 @@ export const TokenLists = () => {
   const toggleDefaultList = (tokenList: DefaultTokenList, enabled: boolean) => {
     setDefaultTokenLists(
       defaultTokenLists.map((t) =>
+        t.name === tokenList.name ? { ...t, enabled } : t
+      )
+    );
+  };
+
+  const toggleCustomList = (tokenList: CustomTokenList, enabled: boolean) => {
+    setCustomTokenLists(
+      customTokenLists.map((t) =>
         t.name === tokenList.name ? { ...t, enabled } : t
       )
     );
@@ -86,6 +99,12 @@ export const TokenLists = () => {
 
           {customTokenLists.map((tokenList) => (
             <div className="flex items-center justify-between">
+              <Checkbox
+                checked={tokenList.enabled}
+                onCheckedChange={(checked) =>
+                  toggleCustomList(tokenList, checked as boolean)
+                }
+              />
               <div>{tokenList.name}</div>
 
               <button onClick={() => setShowCustomTokenListModal(tokenList)}>
