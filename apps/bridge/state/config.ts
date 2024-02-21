@@ -50,6 +50,9 @@ interface ConfigState {
 
   tokens: MultiChainToken[];
   setTokens: (tokens: MultiChainToken[]) => void;
+
+  showCustomTokenListModal: boolean;
+  setShowCustomTokenListModal: (b: boolean) => void;
 }
 
 const ConfigState = create<ConfigState>()((set) => ({
@@ -97,6 +100,10 @@ const ConfigState = create<ConfigState>()((set) => ({
 
   settingsModal: false,
   setSettingsModal: (settingsModal) => set({ settingsModal }),
+
+  showCustomTokenListModal: false,
+  setShowCustomTokenListModal: (showCustomTokenListModal) =>
+    set({ showCustomTokenListModal }),
 
   displayWithdrawalModal: false,
   setDisplayWithdrawalModal: (displayWithdrawalModal) =>

@@ -12,6 +12,7 @@ import { flagSymbolMap } from "@/constants/currency-symbol-map";
 import { useSettingsState } from "@/state/settings";
 
 import { Dialog, DialogContent } from "../ui/dialog";
+import { TokenLists } from "./token-lists";
 
 export interface SettingsModalProps {
   open: boolean;
@@ -206,6 +207,8 @@ export const SettingsModal = ({ open, setOpen }: SettingsModalProps) => {
                   </SelectContent>
                 </Select>
               </div>
+
+              <TokenLists />
             </div>
           </div>
         </div>

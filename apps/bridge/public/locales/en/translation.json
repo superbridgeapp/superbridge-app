@@ -39,7 +39,8 @@
     "feeBreakdown": "Network fees",
     "currency": "Currency",
     "language": "Language",
-    "explorer": "Explorer"
+    "explorer": "Explorer",
+    "tokenLists": "Token lists"
   },
 
   "activity": {

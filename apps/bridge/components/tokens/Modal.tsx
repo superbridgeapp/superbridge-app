@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { Chain } from "wagmi";
 import { useTranslation } from "react-i18next";
 
 import { deploymentTheme } from "@/config/theme";
@@ -8,7 +7,6 @@ import { useConfigState } from "@/state/config";
 import { Dialog, DialogContent } from "../ui/dialog";
 import { NonFungibleTokenPicker } from "./NFTs";
 import { FungibleTokenPicker } from "./Tokens";
-import { ChainDto } from "@/codegen/model";
 
 export const TokenModal = (props: {
   open: boolean;
