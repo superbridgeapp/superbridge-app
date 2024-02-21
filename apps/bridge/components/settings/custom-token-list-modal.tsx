@@ -14,7 +14,7 @@ import { useSettingsState } from "@/state/settings";
 import { Dialog, DialogContent } from "../ui/dialog";
 import { TokenLists } from "./token-lists";
 import { useConfigState } from "@/state/config";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Checkbox } from "../ui/checkbox";
 import { Button } from "../ui/button";
 
@@ -26,7 +26,7 @@ export interface SettingsModalProps {
 export const CustomTokenListModal = () => {
   const { t, i18n } = useTranslation();
 
-  const open = useConfigState.useShowCustomTokenListModal();
+  const tokenListOrOpen = useConfigState.useShowCustomTokenListModal();
   const setOpen = useConfigState.useSetShowCustomTokenListModal();
 
   const customTokenLists = useSettingsState.useCustomTokenLists();
@@ -34,16 +34,51 @@ export const CustomTokenListModal = () => {
 
   const [name, setName] = useState("");
   const [url, setUrl] = useState("");
-
   const [disclaimerChecked, setDisclaimerChecked] = useState(false);
 
+  useEffect(() => {
+    if (typeof tokenListOrOpen === "boolean") {
+      setName("");
+      setUrl("");
+      setDisclaimerChecked(false);
+      return;
+    }
+
+    setName(tokenListOrOpen.name);
+    setUrl(tokenListOrOpen.url);
+  }, [tokenListOrOpen]);
+
   const onSubmit = () => {
-    setCustomTokenLists([...customTokenLists, { name, url }]);
+    if (typeof tokenListOrOpen === "boolean") {
+      // adding
+      setCustomTokenLists([
+        ...customTokenLists,
+        { id: Math.random().toString(), name, url },
+      ]);
+    } else {
+      // editing
+      setCustomTokenLists(
+        customTokenLists.map((x) =>
+          x.id === tokenListOrOpen.id ? { ...x, name, url } : x
+        )
+      );
+    }
+    setOpen(false);
+  };
+
+  const onDelete = () => {
+    if (typeof tokenListOrOpen === "boolean") {
+      // can't delete new tokenList
+      return;
+    }
+    setCustomTokenLists(
+      customTokenLists.filter((x) => x.name !== tokenListOrOpen.name)
+    );
     setOpen(false);
   };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={!!tokenListOrOpen} onOpenChange={setOpen}>
       <DialogContent>
         <div className="">
           <h2 className="font-bold p-6 pb-0">{"Custom token list"}</h2>
@@ -75,6 +110,15 @@ export const CustomTokenListModal = () => {
             >
               Save list
             </Button>
+
+            {typeof tokenListOrOpen === "object" && (
+              <Button
+                onClick={onDelete}
+                disabled={!name || !url || !disclaimerChecked}
+              >
+                Delete list
+              </Button>
+            )}
           </div>
         </div>
       </DialogContent>

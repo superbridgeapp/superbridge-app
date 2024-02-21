@@ -11,6 +11,7 @@ export interface DefaultTokenList {
 }
 
 export interface CustomTokenList {
+  id: string;
   name: string;
   url: string;
 }

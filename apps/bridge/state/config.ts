@@ -5,6 +5,8 @@ import { create } from "zustand";
 import { BridgeNftDto, DeploymentDto } from "@/codegen/model";
 import { MultiChainToken } from "@/types/token";
 
+import { CustomTokenList } from "./settings";
+
 interface ConfigState {
   deployment: DeploymentDto | null;
   setDeployment: (d: DeploymentDto | null) => void;
@@ -51,8 +53,8 @@ interface ConfigState {
   tokens: MultiChainToken[];
   setTokens: (tokens: MultiChainToken[]) => void;
 
-  showCustomTokenListModal: boolean;
-  setShowCustomTokenListModal: (b: boolean) => void;
+  showCustomTokenListModal: true | CustomTokenList | false;
+  setShowCustomTokenListModal: (b: true | CustomTokenList | false) => void;
 }
 
 const ConfigState = create<ConfigState>()((set) => ({

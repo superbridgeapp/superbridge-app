@@ -98,7 +98,9 @@ export const TokenLists = () => {
             <div className="flex items-center justify-between">
               <div>{tokenList.name}</div>
 
-              <button>Manage</button>
+              <button onClick={() => setShowCustomTokenListModal(tokenList)}>
+                Manage
+              </button>
             </div>
           ))}
 
