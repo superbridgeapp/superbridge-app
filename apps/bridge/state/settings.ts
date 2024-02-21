@@ -25,13 +25,13 @@ export const DEFAULT_TOKEN_LISTS = [
   isRollbridge
     ? {
         name: "Arb STL",
-        url: "https://raw.githubusercontent.com/ethereum-optimism/ethereum-optimism.github.io/master/optimism.tokenlist.json",
+        url: "https://tokenlist.arbitrum.io/ArbTokenLists/arbed_uniswap_labs_default.json",
         enabled: true,
       }
     : null,
   {
     name: isSuperbridge ? "Superbridge default" : "Rollbridge default",
-    url: "https://raw.githubusercontent.com/ethereum-optimism/ethereum-optimism.github.io/master/optimism.tokenlist.json",
+    url: "",
     enabled: true,
   },
 ].filter(isPresent);

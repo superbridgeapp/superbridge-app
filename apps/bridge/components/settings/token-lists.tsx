@@ -1,20 +1,10 @@
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import { useBridgeControllerFiatPrices } from "@/codegen/index";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { flagSymbolMap } from "@/constants/currency-symbol-map";
+import { useConfigState } from "@/state/config";
 import { DefaultTokenList, useSettingsState } from "@/state/settings";
 
-import { Dialog, DialogContent } from "../ui/dialog";
-import { useState } from "react";
 import { Checkbox } from "../ui/checkbox";
-import { useConfigState } from "@/state/config";
 
 export interface SettingsModalProps {
   open: boolean;
