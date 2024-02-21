@@ -34,8 +34,8 @@ export const useTokenLists = () => {
      */
 
     const responses = await Promise.all(
-      [...defaultTokenLists, ...customTokenLists].map(({ url }) =>
-        fetch(url).catch(() => null)
+      [...defaultTokenLists.filter((x) => x.enabled), ...customTokenLists].map(
+        ({ url }) => fetch(url).catch(() => null)
       )
     );
     const results: (SuperchainTokenList | ArbitrumTokenList)[] = (
