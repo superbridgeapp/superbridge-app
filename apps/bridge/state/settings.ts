@@ -1,8 +1,10 @@
-import { isRollbridge, isSuperbridge } from "@/config/superbridge";
 import { createSelectorHooks } from "auto-zustand-selectors-hook";
 import { isPresent } from "ts-is-present";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+
+import { isRollbridge, isSuperbridge } from "@/config/superbridge";
+import { MultiChainToken } from "@/types/token";
 
 export interface DefaultTokenList {
   name: string;
@@ -29,11 +31,11 @@ export const DEFAULT_TOKEN_LISTS = [
         enabled: true,
       }
     : null,
-  {
-    name: isSuperbridge ? "Superbridge default" : "Rollbridge default",
-    url: "",
-    enabled: true,
-  },
+  // {
+  //   name: isSuperbridge ? "Superbridge default" : "Rollbridge default",
+  //   url: "",
+  //   enabled: true,
+  // },
 ].filter(isPresent);
 
 interface SettingsState {
@@ -51,6 +53,9 @@ interface SettingsState {
 
   hasViewedTos: boolean;
   dismissTos: () => void;
+
+  setCustomTokens: (t: MultiChainToken[]) => void;
+  customTokens: MultiChainToken[];
 }
 
 const SettingsState = create<SettingsState>()(
@@ -70,6 +75,9 @@ const SettingsState = create<SettingsState>()(
 
       hasViewedTos: false,
       dismissTos: () => set({ hasViewedTos: true }),
+
+      customTokens: [] as MultiChainToken[],
+      setCustomTokens: (customTokens) => set({ customTokens }),
     }),
     { name: "settings" }
   )

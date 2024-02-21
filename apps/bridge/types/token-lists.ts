@@ -42,3 +42,11 @@ export interface ArbitrumTokenListToken {
     };
   };
 }
+
+export interface ArbitrumTokenList {
+  name: string;
+  logoURI: string;
+  keywords: string[];
+  timestamp: string;
+  tokens: ArbitrumTokenListToken[];
+}

@@ -5,6 +5,7 @@ import { useConfigState } from "@/state/config";
 import { useSettingsState } from "@/state/settings";
 import { ArbitrumToken, MultiChainToken } from "@/types/token";
 import {
+  ArbitrumTokenList,
   ArbitrumTokenListToken,
   SuperchainTokenList,
 } from "@/types/token-lists";
@@ -16,6 +17,7 @@ import { rollux } from "@/utils/token-list/json/rollux";
 import * as usdc from "@/utils/token-list/json/usdc";
 import { wsteth } from "@/utils/token-list/json/wsteth";
 import { transformIntoOptimismToken } from "@/utils/token-list/transform-optimism-token";
+import { isPresent } from "ts-is-present";
 
 export const useTokenLists = () => {
   const defaultTokenLists = useSettingsState.useDefaultTokenLists();
@@ -32,16 +34,22 @@ export const useTokenLists = () => {
      */
 
     const responses = await Promise.all(
-      [...defaultTokenLists, ...customTokenLists].map(({ url }) => fetch(url))
+      [...defaultTokenLists, ...customTokenLists].map(({ url }) =>
+        fetch(url).catch(() => null)
+      )
     );
-    const results: SuperchainTokenList[] = await Promise.all(
-      responses.filter((x) => x.status === 200).map((x) => x.json())
-    );
+    const results: (SuperchainTokenList | ArbitrumTokenList)[] = (
+      await Promise.all(
+        responses
+          .filter((x) => x?.status === 200)
+          .map((x) => x?.json().catch(() => null))
+      )
+    ).filter(isPresent);
 
     results.forEach((x) =>
       x.tokens.forEach((t) => {
         if ((t as any).extensions.opTokenId) {
-          const tok = transformIntoOptimismToken(t);
+          const tok = transformIntoOptimismToken(t as any);
           if (!tok || Object.keys(tok.standardBridgeAddresses).length == 0) {
             return;
           }

@@ -15,6 +15,7 @@ import { useSelectedToken } from "@/hooks/use-selected-token";
 import { useConfigState } from "@/state/config";
 import { MultiChainToken, OptimismToken, Token } from "@/types/token";
 import { isNativeUsdc } from "@/utils/is-usdc";
+import { useSettingsState } from "@/state/settings";
 
 const TokenComponent = ({
   token,
@@ -76,7 +77,8 @@ const TokenImport = ({
   address: Address;
   onChooseToken: (o: MultiChainToken) => void;
 }) => {
-  const importToken = useConfigState.useImportToken();
+  const customTokens = useSettingsState.useCustomTokens();
+  const setCustomTokens = useSettingsState.useSetCustomTokens();
 
   const deployment = useConfigState.useDeployment();
   const account = useAccount();
@@ -179,15 +181,15 @@ const TokenImport = ({
       [deployment.l2.id]: l2Token,
     };
 
-    importToken(token);
+    setCustomTokens([...customTokens, token]);
     onChooseToken(token);
   };
 
-  if (reads.isLoading) {
+  if (reads.isLoading || reads2.isLoading) {
     return <div>Loading...</div>;
   }
 
-  if (reads.isError) {
+  if (reads.isError || reads2.isError) {
     return <div>Error...</div>;
   }
 

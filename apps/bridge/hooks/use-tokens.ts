@@ -6,11 +6,13 @@ import { isNativeToken } from "@/utils/is-eth";
 import { isBridgedUsdc, isNativeUsdc } from "@/utils/is-usdc";
 
 import { useDeployments } from "./use-deployments";
+import { useSettingsState } from "@/state/settings";
 
 export function useAllTokens() {
   const deployment = useConfigState.useDeployment();
   const tokens = useConfigState.useTokens();
-  const importedTokens = useConfigState.useImportedTokens();
+  const customTokens = useSettingsState.useCustomTokens();
+
   const { deployments } = useDeployments();
 
   return useMemo(
@@ -44,9 +46,9 @@ export function useAllTokens() {
         }
         return t;
       }),
-      ...importedTokens,
+      ...customTokens,
     ],
-    [deployment, tokens, importedTokens]
+    [deployment, tokens, customTokens]
   );
 }
 

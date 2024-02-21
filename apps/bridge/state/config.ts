@@ -30,8 +30,6 @@ interface ConfigState {
 
   token: MultiChainToken | null;
   setToken: (token: MultiChainToken | null) => void;
-  importToken: (t: MultiChainToken) => void;
-  importedTokens: MultiChainToken[];
 
   nft: BridgeNftDto | null;
   setNft: (n: BridgeNftDto | null) => void;
@@ -74,9 +72,6 @@ const ConfigState = create<ConfigState>()((set) => ({
 
   token: null,
   setToken: (token) => set({ token, nft: null }),
-  importedTokens: [],
-  importToken: (token) =>
-    set((s) => ({ importedTokens: [...s.importedTokens, token] })),
 
   nft: null,
   setNft: (nft) => {
