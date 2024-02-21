@@ -16,6 +16,7 @@ import { useConfigState } from "@/state/config";
 import { MultiChainToken, OptimismToken, Token } from "@/types/token";
 import { isNativeUsdc } from "@/utils/is-usdc";
 import { useSettingsState } from "@/state/settings";
+import { useCustomToken } from "./use-custom-token";
 
 const TokenComponent = ({
   token,
@@ -38,7 +39,7 @@ const TokenComponent = ({
   return (
     <div
       className={clsx(
-        "flex justify-between hover:bg-black/[0.025] hover:dark:bg-white/[0.05] transition cursor-pointer p-4",
+        "flex justify-between hover:bg-black/[0.025] hover:dark:bg-white/[0.05] transition cursor-pointer p-4 relative",
         token[from?.id ?? 0]?.address === selectedToken?.address &&
           "bg-black/[0.025] dark:bg-white/[0.05]"
       )}
@@ -90,116 +91,40 @@ const TokenImport = ({
   const customTokens = useSettingsState.useCustomTokens();
   const setCustomTokens = useSettingsState.useSetCustomTokens();
 
+  const showCustomImportModal =
+    useConfigState.useSetShowCustomTokenImportModal();
+
   const deployment = useConfigState.useDeployment();
-  const account = useAccount();
-  const reads = useContractReads({
-    allowFailure: true,
-    contracts: [
-      {
-        address,
-        abi: erc20ABI,
-        chainId: deployment?.l2.id,
-        functionName: "name",
-      },
-      {
-        address,
-        abi: erc20ABI,
-        chainId: deployment?.l2.id,
-        functionName: "symbol",
-      },
-      {
-        address,
-        abi: erc20ABI,
-        chainId: deployment?.l2.id,
-        functionName: "decimals",
-      },
-      {
-        address,
-        abi: erc20ABI,
-        chainId: deployment?.l2.id,
-        functionName: "balanceOf",
-        args: [account?.address ?? "0x"],
-      },
-      {
-        address,
-        abi: OptimismMintableERC20Abi,
-        chainId: deployment?.l2.id,
-        functionName: "BRIDGE",
-      },
-      {
-        address,
-        abi: OptimismMintableERC20Abi,
-        chainId: deployment?.l2.id,
-        functionName: "REMOTE_TOKEN",
-      },
-    ],
-  });
-  const name = reads?.data?.[0].result;
-  const symbol = reads?.data?.[1].result;
-  const decimals = reads?.data?.[2].result;
-  const balance = reads?.data?.[3].result;
-  const L2_BRIDGE = reads?.data?.[4].result;
-  const L1_TOKEN = reads?.data?.[5].result;
 
-  const reads2 = useContractReads({
-    allowFailure: true,
-    contracts: [
-      {
-        address: L2_BRIDGE,
-        abi: L2StandardBridgeAbi,
-        chainId: deployment?.l2.id,
-        functionName: "OTHER_BRIDGE",
-      },
-    ],
-  });
-  const L1_BRIDGE = reads2?.data?.[0].result as Address | undefined;
+  const {
+    L1_BRIDGE,
+    L1_TOKEN,
+    L2_BRIDGE,
+    balance,
+    isOptimismMintableToken,
+    isValidToken,
+    name,
+    symbol,
+    decimals,
 
-  const isValidToken = !!name && !!symbol && typeof decimals === "number";
-  const isOptimismMintableToken = !!L2_BRIDGE && !!L1_BRIDGE && !!L1_TOKEN;
+    isLoading,
+    isError,
+  } = useCustomToken(address);
 
   const onImportToken = () => {
     if (!deployment || !isValidToken || !isOptimismMintableToken) {
       return;
     }
 
-    const l1Token: OptimismToken = {
-      address: L1_TOKEN,
-      chainId: deployment.l1.id,
-      decimals,
-      name,
-      symbol,
-      opTokenId: `custom-${symbol}`,
-      logoURI: "",
-      standardBridgeAddresses: {
-        [deployment.l2.id]: L1_BRIDGE,
-      },
-    };
-    const l2Token: OptimismToken = {
-      address,
-      chainId: deployment.l2.id,
-      decimals,
-      name,
-      symbol,
-      opTokenId: `custom-${symbol}`,
-      logoURI: "",
-      standardBridgeAddresses: {
-        [deployment.l1.id]: L2_BRIDGE,
-      },
-    };
-    const token: MultiChainToken = {
-      [deployment.l1.id]: l1Token,
-      [deployment.l2.id]: l2Token,
-    };
-
-    setCustomTokens([...customTokens, token]);
-    onChooseToken(token);
+    showCustomImportModal(address);
+    return;
   };
 
-  if (reads.isLoading || reads2.isLoading) {
+  if (isLoading) {
     return <div>Loading...</div>;
   }
 
-  if (reads.isError || reads2.isError) {
+  if (isError) {
     return <div>Error...</div>;
   }
 
@@ -212,7 +137,7 @@ const TokenImport = ({
       <div className="flex justify-between hover:bg-zinc-50 transition cursor-pointer p-4 rounded-sm">
         <div className="flex items-center space-x-4">
           <div className="rounded-full bg-zinc-100 text-zinc-800 h-8 w-8 flex items-center justify-center">
-            {symbol.substring(0, 3)}
+            {symbol?.substring(0, 3)}
           </div>
           <div className="text-sm font-bold text-left">
             <div>{name}</div>
@@ -221,7 +146,7 @@ const TokenImport = ({
         </div>
         <div>
           {parseFloat(
-            formatUnits(BigInt(balance ?? "0"), decimals)
+            formatUnits(BigInt(balance ?? "0"), decimals ?? 0)
           ).toLocaleString("en", {
             maximumFractionDigits: 3,
           })}
@@ -239,7 +164,7 @@ const TokenImport = ({
     >
       <div className="flex items-center space-x-4">
         <div className="rounded-full bg-zinc-100 text-zinc-800 h-8 w-8 flex items-center justify-center">
-          {symbol.substring(0, 3)}
+          {symbol?.substring(0, 3)}
         </div>
         <div className="text-sm font-bold text-left">
           <div>{name}</div>
@@ -248,7 +173,7 @@ const TokenImport = ({
       </div>
       <div>
         {parseFloat(
-          formatUnits(BigInt(balance ?? "0"), decimals)
+          formatUnits(BigInt(balance ?? "0"), decimals ?? 0)
         ).toLocaleString("en", {
           maximumFractionDigits: 3,
         })}

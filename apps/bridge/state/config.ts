@@ -53,6 +53,9 @@ interface ConfigState {
 
   showCustomTokenListModal: true | CustomTokenList | false;
   setShowCustomTokenListModal: (b: true | CustomTokenList | false) => void;
+
+  showCustomTokenImportModal: Address | false;
+  setShowCustomTokenImportModal: (b: Address | false) => void;
 }
 
 const ConfigState = create<ConfigState>()((set) => ({
@@ -101,6 +104,10 @@ const ConfigState = create<ConfigState>()((set) => ({
   showCustomTokenListModal: false,
   setShowCustomTokenListModal: (showCustomTokenListModal) =>
     set({ showCustomTokenListModal }),
+
+  showCustomTokenImportModal: false,
+  setShowCustomTokenImportModal: (showCustomTokenImportModal) =>
+    set({ showCustomTokenImportModal }),
 
   displayWithdrawalModal: false,
   setDisplayWithdrawalModal: (displayWithdrawalModal) =>

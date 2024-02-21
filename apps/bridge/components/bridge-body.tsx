@@ -47,6 +47,7 @@ import { Button } from "./ui/button";
 import { WithdrawSettingsModal } from "./withdraw-settings/modal";
 import { ConfirmWithdrawalModal } from "./withdrawal-modal";
 import { CustomTokenListModal } from "./settings/custom-token-list-modal";
+import { CustomTokenImportModal } from "./tokens/custom-token-import-modal";
 
 const RecipientAddress = ({
   openAddressDialog,
@@ -506,6 +507,7 @@ export const BridgeBody = () => {
         gasEstimate={200_000}
       />
       <CustomTokenListModal />
+      <CustomTokenImportModal />
       <AddressModal open={addressDialog} setOpen={setAddressDialog} />
       <ConfirmWithdrawalModal onConfirm={onSubmit} />
       <FromTo />
