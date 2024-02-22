@@ -89,7 +89,8 @@ const TokenImport = ({ address }: { address: Address }) => {
 
   const {
     balance,
-    isOptimismMintableToken,
+    isOptimismToken,
+    isArbitrumToken,
     isValidToken,
     name,
     symbol,
@@ -100,7 +101,11 @@ const TokenImport = ({ address }: { address: Address }) => {
   } = useCustomToken(address);
 
   const onImportToken = () => {
-    if (!deployment || !isValidToken || !isOptimismMintableToken) {
+    if (!isArbitrumToken && !isOptimismToken) {
+      return;
+    }
+
+    if (!deployment || !isValidToken) {
       return;
     }
 
@@ -120,7 +125,7 @@ const TokenImport = ({ address }: { address: Address }) => {
     return <div>Invalid token</div>;
   }
 
-  if (!isOptimismMintableToken) {
+  if (!isArbitrumToken && !isOptimismToken) {
     return (
       <div className="flex justify-between hover:bg-zinc-50 transition cursor-pointer p-4 rounded-sm">
         <div className="flex items-center space-x-4">
