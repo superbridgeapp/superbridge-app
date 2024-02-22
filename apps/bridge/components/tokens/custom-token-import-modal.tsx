@@ -124,8 +124,6 @@ export const CustomTokenImportModal = () => {
   return (
     <Dialog open={!!open} onOpenChange={() => setOpen(false)}>
       <DialogContent>
-        <h2 className="font-bold p-6 pb-0">{"Import token"}</h2>
-
         <div className="p-6 pb-0">
           <h2 className="font-bold">{"Import token"}</h2>
         </div>

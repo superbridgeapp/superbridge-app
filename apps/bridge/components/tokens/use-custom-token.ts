@@ -102,7 +102,8 @@ export const useCustomToken = (address: Address) => {
 
   const isValidToken = !!name && !!symbol && typeof decimals === "number";
   const isOptimismToken = !!OP_L2_BRIDGE && !!OP_L1_BRIDGE && !!OP_L1_TOKEN;
-  const isArbitrumToken = !!ARB_L1_TOKEN && !!ARB_L2_GATEWAY;
+  const isArbitrumToken =
+    !!ARB_L1_TOKEN && !!ARB_L2_GATEWAY && !!ARB_L1_GATEWAY;
 
   return {
     name,
