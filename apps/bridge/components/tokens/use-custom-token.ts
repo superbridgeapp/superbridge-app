@@ -1,5 +1,5 @@
 import { Address } from "viem";
-import { erc20ABI, useAccount, useContractReads } from "wagmi";
+import { erc20ABI, useAccount, useContractRead, useContractReads } from "wagmi";
 
 import { L2StandardBridgeAbi } from "@/abis/L2StandardBridge";
 import { OptimismMintableERC20Abi } from "@/abis/OptimismMintableERC20";
@@ -80,25 +80,20 @@ export const useCustomToken = (address: Address) => {
   const ARB_L1_TOKEN = reads.data?.[6].result;
   const ARB_L2_GATEWAY = reads.data?.[7].result;
 
-  const reads2 = useContractReads({
-    allowFailure: true,
-    contracts: [
-      {
-        address: OP_L2_BRIDGE,
-        abi: L2StandardBridgeAbi,
-        chainId: deployment?.l2.id,
-        functionName: "OTHER_BRIDGE",
-      },
-      {
-        address: ARB_L2_GATEWAY,
-        abi: L2ERC20GatewayAbi,
-        chainId: deployment?.l2.id,
-        functionName: "counterpartGateway",
-      },
-    ],
+  const opL2Bridge = useContractRead({
+    address: OP_L2_BRIDGE,
+    abi: L2StandardBridgeAbi,
+    chainId: deployment?.l2.id,
+    functionName: "OTHER_BRIDGE",
   });
-  const OP_L1_BRIDGE = reads2.data?.[0].result;
-  const ARB_L1_GATEWAY = reads.data?.[1].result;
+  const arbL2Gateway = useContractRead({
+    address: ARB_L2_GATEWAY,
+    abi: L2ERC20GatewayAbi,
+    chainId: deployment?.l2.id,
+    functionName: "counterpartGateway",
+  });
+  const OP_L1_BRIDGE = opL2Bridge.data;
+  const ARB_L1_GATEWAY = arbL2Gateway.data;
 
   const isValidToken = !!name && !!symbol && typeof decimals === "number";
   const isOptimismToken = !!OP_L2_BRIDGE && !!OP_L1_BRIDGE && !!OP_L1_TOKEN;
@@ -123,7 +118,8 @@ export const useCustomToken = (address: Address) => {
     isOptimismToken,
     isArbitrumToken,
 
-    isLoading: reads.isLoading || reads2.isLoading,
-    isError: reads.isError || reads2.isError,
+    isLoading:
+      reads.isLoading || opL2Bridge.isLoading || arbL2Gateway.isLoading,
+    isError: reads.isError || opL2Bridge.isError || arbL2Gateway.isError,
   };
 };

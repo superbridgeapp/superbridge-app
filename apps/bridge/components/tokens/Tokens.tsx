@@ -175,9 +175,7 @@ const TokenImport = ({ address }: { address: Address }) => {
 
   return (
     <div className="flex justify-between hover:bg-zinc-50 transition p-4 rounded-sm">
-      {/* <div className="flex justify-between hover:bg-black/[0.025] hover:dark:bg-white/[0.05] transition cursor-pointer p-4 relative"> */}
       <div className="flex items-center space-x-4">
-        {/* TODO: will these ever have an image? */}
         <div className="rounded-full bg-zinc-100 dark:bg-zinc-800 h-8 w-8 flex items-center justify-center">
           <span className="text-[10px] tracking-tighter font-bold text-zinc-400 leading-4 mt-0.5">
             {symbol?.substring(0, 3)}
