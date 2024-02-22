@@ -17,7 +17,6 @@ import { isNativeUsdc } from "@/utils/is-usdc";
 
 import { Button } from "../ui/button";
 import { useCustomToken } from "./use-custom-token";
-import { Button } from "../ui/button";
 
 const TokenComponent = ({
   token,
@@ -163,13 +162,10 @@ const TokenImport = ({ address }: { address: Address }) => {
   }
 
   if (!isValidToken) {
-<<<<<<< Updated upstream
     return <div>Invalid token</div>;
   }
 
   if (!isArbitrumToken && !isOptimismToken) {
-=======
->>>>>>> Stashed changes
     return (
       <div className="pt-8 pb-12 text-center font-bold text-sm">
         <span>Invalid token</span>
@@ -178,11 +174,8 @@ const TokenImport = ({ address }: { address: Address }) => {
   }
 
   return (
-<<<<<<< Updated upstream
     <div className="flex justify-between hover:bg-zinc-50 transition p-4 rounded-sm">
-=======
-    <div className="flex justify-between hover:bg-black/[0.025] hover:dark:bg-white/[0.05] transition cursor-pointer p-4 relative">
->>>>>>> Stashed changes
+      {/* <div className="flex justify-between hover:bg-black/[0.025] hover:dark:bg-white/[0.05] transition cursor-pointer p-4 relative"> */}
       <div className="flex items-center space-x-4">
         {/* TODO: will these ever have an image? */}
         <div className="rounded-full bg-zinc-100 dark:bg-zinc-800 h-8 w-8 flex items-center justify-center">
@@ -197,10 +190,6 @@ const TokenImport = ({ address }: { address: Address }) => {
           <span className="text-xs font-medium text-zinc-400">{symbol}</span>
         </div>
       </div>
-<<<<<<< Updated upstream
-      <div>
-        <Button onClick={onImportToken}>Import</Button>
-=======
       <div className="ml-auto flex flex-col text-right gap-1">
         <span className="text-sm font-medium text-zinc-400">
           {parseFloat(
@@ -209,8 +198,7 @@ const TokenImport = ({ address }: { address: Address }) => {
             maximumFractionDigits: 3,
           })}
         </span>
-        {/* TODO: check tbhis. I moved a condition to show the not bridgeable tag here... */}
-        {!isOptimismMintableToken ?? (
+        {(!isOptimismToken && !isArbitrumToken) ?? (
           <div className="flex gap-1 bg-orange-50 items-center px-2 py-1 rounded-full">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -245,10 +233,7 @@ const TokenImport = ({ address }: { address: Address }) => {
             </span>
           </div>
         )}
->>>>>>> Stashed changes
       </div>
-      {/* TODO: what condition should be here? I moved the onClick to the button */}
-      {/* {isOptimismMintableToken ?? ( */}
       <div className="ml-4">
         <Button
           onClick={onImportToken}
@@ -257,7 +242,6 @@ const TokenImport = ({ address }: { address: Address }) => {
           Import
         </Button>
       </div>
-      {/* )} */}
     </div>
   );
 };
@@ -361,18 +345,7 @@ export const FungibleTokenPicker = ({
               filteredTokens: P.when((x) => x.length === 0),
               searchIsToken: true,
             },
-            () => (
-<<<<<<< Updated upstream
-              <div className="p-4 text-center font-bold text-sm">
-                <TokenImport address={search as Address} />
-              </div>
-=======
-              <TokenImport
-                address={search as Address}
-                onChooseToken={onClickToken}
-              />
->>>>>>> Stashed changes
-            )
+            () => <TokenImport address={search as Address} />
           )
           .with({ filteredTokens: P.when((x) => x.length === 0) }, () => (
             <div className="pt-8 pb-12 text-center font-bold text-sm">
