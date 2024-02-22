@@ -15,15 +15,9 @@ import { addressLink } from "@/utils/transaction-link";
 
 import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
-<<<<<<< Updated upstream
 import { Dialog, DialogContent } from "../ui/dialog";
 import { useCustomToken } from "./use-custom-token";
-=======
-import { MultiChainToken, OptimismToken } from "@/types/token";
-import { Address } from "viem";
-import { useSettingsState } from "@/state/settings";
 import Link from "next/link";
->>>>>>> Stashed changes
 
 export const CustomTokenImportModal = () => {
   const deployment = useConfigState.useDeployment();
@@ -130,45 +124,13 @@ export const CustomTokenImportModal = () => {
   return (
     <Dialog open={!!open} onOpenChange={() => setOpen(false)}>
       <DialogContent>
-<<<<<<< Updated upstream
         <h2 className="font-bold p-6 pb-0">{"Import token"}</h2>
 
-        <div className="flex flex-col p-4">
-          <div>
-            <div>{name}</div>
-            <div>{symbol}</div>
-          </div>
-
-          <div>
-            Make sure you have checked the token address and that it is correct:
-          </div>
-
-          <div>
-            <div className="flex items-center justify-between">
-              <div>L1 address</div>
-              <a href={l1Link.link} className="bg-zinc-100 rounded-full">
-                {l1Link.name}
-              </a>
-            </div>
-            {OP_L1_TOKEN ?? ARB_L1_TOKEN}
-          </div>
-          <div>
-            <div className="flex items-center justify-between">
-              <div>L2 address</div>
-              <a href={l2Link.link} className="bg-zinc-100 rounded-full">
-                {l2Link.name}
-              </a>
-            </div>
-            {open}
-          </div>
-          <div className="flex gap-2">
-=======
         <div className="p-6 pb-0">
           <h2 className="font-bold">{"Import token"}</h2>
         </div>
         <div className="p-6 pb-0">
           <div className="flex gap-2 items-center">
-            {/* TODO: will these ever have an image? */}
             <div className="rounded-full bg-zinc-100 dark:bg-zinc-800 h-10 w-10 flex items-center justify-center">
               <span className="text-[10px] tracking-tighter font-bold text-zinc-400 leading-4 mt-0.5">
                 {symbol?.substring(0, 3)}
@@ -225,24 +187,24 @@ export const CustomTokenImportModal = () => {
               <div className="flex justify-between">
                 <h4 className="font-medium text-sm">L1 address</h4>
                 <Link
-                  href={"#"}
+                  href={l1Link.link}
                   className={`text-xs tracking-tight font-medium leading-3 rounded-full px-2 py-1 hover:scale-105 transition-all ${theme.textColor} ${theme.bgMuted}`}
                 >
-                  {"ExplorerName"} →
+                  {l1Link.name} →
                 </Link>
               </div>
               <span className="font-medium text-xs text-zinc-500 break-words leading-3">
-                {L1_TOKEN}
+                {OP_L1_TOKEN ?? ARB_L1_TOKEN}
               </span>
             </div>
             <div className="p-4">
               <div className="flex justify-between">
                 <h4 className="font-medium text-sm">L2 address</h4>
                 <Link
-                  href={"#"}
+                  href={l2Link.link}
                   className={`text-xs tracking-tight font-medium leading-3 rounded-full px-2 py-1 hover:scale-105 transition-all ${theme.textColor} ${theme.bgMuted}`}
                 >
-                  {"ExplorerName"} →
+                  {l2Link.name} →
                 </Link>
               </div>
               <span className="font-medium text-xs text-zinc-500 break-words leading-3">
@@ -251,7 +213,6 @@ export const CustomTokenImportModal = () => {
             </div>
           </div>
           <div className="flex gap-2 py-4">
->>>>>>> Stashed changes
             <Checkbox
               checked={disclaimerChecked}
               onCheckedChange={(v) => setDisclaimerChecked(v as boolean)}
