@@ -1,15 +1,11 @@
-import { isPresent } from "ts-is-present";
 import { useCallback, useEffect } from "react";
+import { isPresent } from "ts-is-present";
 import { getAddress } from "viem";
 
 import { useConfigState } from "@/state/config";
 import { useSettingsState } from "@/state/settings";
-import {
-  MultiChainOptimismToken,
-  MultiChainToken,
-  OptimismToken,
-} from "@/types/token";
-import { ArbitrumTokenList, SuperchainTokenList } from "@/types/token-lists";
+import { MultiChainToken, OptimismToken } from "@/types/token";
+import { SuperchainTokenList } from "@/types/token-lists";
 import UniswapArbitrumTokenList from "@/utils/token-list/json/arbitrum-uniswap.json";
 import ArbArbitrumTokenList from "@/utils/token-list/json/arbitrum.json";
 import { baseTokens } from "@/utils/token-list/json/base";
@@ -37,9 +33,12 @@ export const useTokenLists = () => {
      */
 
     const responses = await Promise.all(
-      customTokenLists
-        .filter((x) => x.enabled)
-        .map(({ url }) => fetch(url).catch(() => null))
+      [
+        {
+          url: "https://raw.githubusercontent.com/ethereum-optimism/ethereum-optimism.github.io/master/optimism.tokenlist.json",
+        },
+        ...customTokenLists.filter((x) => x.enabled),
+      ].map(({ url }) => fetch(url).catch(() => null))
     );
 
     const results: SuperchainTokenList[] = (

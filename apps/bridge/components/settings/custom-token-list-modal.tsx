@@ -1,9 +1,13 @@
+import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { isPresent } from "ts-is-present";
+import { useDebounce } from "use-debounce";
 
 import { useConfigState } from "@/state/config";
 import { useSettingsState } from "@/state/settings";
+import { transformIntoOptimismToken } from "@/utils/token-list/transform-optimism-token";
 
-import { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
 import { Dialog, DialogContent } from "../ui/dialog";
@@ -24,7 +28,21 @@ export const CustomTokenListModal = () => {
 
   const [name, setName] = useState("");
   const [url, setUrl] = useState("");
+  const [debouncedUrl] = useDebounce(url, 400);
   const [disclaimerChecked, setDisclaimerChecked] = useState(false);
+
+  const tokensImported = useQuery(
+    ["custom tokens", debouncedUrl],
+    async () => {
+      const response = await fetch(debouncedUrl);
+      const result = await response.json();
+
+      return result.tokens
+        .map((t: any) => transformIntoOptimismToken(t))
+        .filter(isPresent).length;
+    },
+    { retry: false }
+  );
 
   useEffect(() => {
     if (typeof tokenListOrOpen === "object") {
@@ -79,6 +97,14 @@ export const CustomTokenListModal = () => {
 
             <div>Token list URL</div>
             <input value={url} onChange={(e) => setUrl(e.target.value)} />
+            {debouncedUrl && tokensImported.isError && (
+              <div className="text-red-500">Invalid token list URL</div>
+            )}
+            {tokensImported.data && (
+              <div className="text-green-500">
+                Loaded {tokensImported.data} tokens
+              </div>
+            )}
 
             <div className="flex gap-2">
               <Checkbox
@@ -96,7 +122,12 @@ export const CustomTokenListModal = () => {
 
             <Button
               onClick={onSubmit}
-              disabled={!name || !url || !disclaimerChecked}
+              disabled={
+                !name ||
+                !url ||
+                !disclaimerChecked ||
+                typeof tokensImported.data !== "number"
+              }
             >
               Save list
             </Button>
