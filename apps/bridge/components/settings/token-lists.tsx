@@ -1,9 +1,9 @@
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { useConfigState } from "@/state/config";
 import { CustomTokenList, useSettingsState } from "@/state/settings";
 
-import { useState } from "react";
 import { Checkbox } from "../ui/checkbox";
 
 export interface SettingsModalProps {
@@ -81,11 +81,18 @@ export const TokenLists = () => {
               />
               <div>{tokenList.name}</div>
 
-              <button>Manage</button>
+              <button onClick={() => setShowCustomTokenListModal(tokenList)}>
+                Manage
+              </button>
             </div>
           ))}
 
-          <button onClick={() => setShowCustomTokenListModal(true)}>
+          <button
+            onClick={() => {
+              setShowCustomTokenListModal(true);
+              console.log("hier");
+            }}
+          >
             Add custom token lists
           </button>
         </div>

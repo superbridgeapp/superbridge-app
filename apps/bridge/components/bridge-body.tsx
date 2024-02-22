@@ -506,7 +506,6 @@ export const BridgeBody = () => {
         bridgeFee={bridgeFee}
         gasEstimate={200_000}
       />
-      <CustomTokenListModal />
       <CustomTokenImportModal />
       <AddressModal open={addressDialog} setOpen={setAddressDialog} />
       <ConfirmWithdrawalModal onConfirm={onSubmit} />

@@ -1,22 +1,12 @@
 import { useTranslation } from "react-i18next";
 
-import { useBridgeControllerFiatPrices } from "@/codegen/index";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { flagSymbolMap } from "@/constants/currency-symbol-map";
+import { useConfigState } from "@/state/config";
 import { useSettingsState } from "@/state/settings";
 
-import { Dialog, DialogContent } from "../ui/dialog";
-import { TokenLists } from "./token-lists";
-import { useConfigState } from "@/state/config";
-import { useState } from "react";
-import { Checkbox } from "../ui/checkbox";
+import { useEffect, useState } from "react";
 import { Button } from "../ui/button";
+import { Checkbox } from "../ui/checkbox";
+import { Dialog, DialogContent } from "../ui/dialog";
 
 export interface SettingsModalProps {
   open: boolean;
@@ -34,8 +24,19 @@ export const CustomTokenListModal = () => {
 
   const [name, setName] = useState("");
   const [url, setUrl] = useState("");
-
   const [disclaimerChecked, setDisclaimerChecked] = useState(false);
+
+  useEffect(() => {
+    if (typeof tokenListOrOpen === "object") {
+      setName(tokenListOrOpen.name);
+      setUrl(tokenListOrOpen.url);
+      setDisclaimerChecked(true);
+    } else {
+      setName("");
+      setUrl("");
+      setDisclaimerChecked(false);
+    }
+  }, [tokenListOrOpen]);
 
   const onSubmit = () => {
     if (typeof tokenListOrOpen === "boolean") {
@@ -100,9 +101,9 @@ export const CustomTokenListModal = () => {
               Save list
             </Button>
 
-            {typeof tokenListOrOpen !== "boolean" && (
+            {typeof tokenListOrOpen === "object" && (
               <Button
-                onClick={onSubmit}
+                onClick={onDelete}
                 disabled={!name || !url || !disclaimerChecked}
               >
                 Delete list
