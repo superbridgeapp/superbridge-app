@@ -20,7 +20,6 @@ import { transformIntoOptimismToken } from "@/utils/token-list/transform-optimis
 import { isPresent } from "ts-is-present";
 
 export const useTokenLists = () => {
-  const defaultTokenLists = useSettingsState.useDefaultTokenLists();
   const customTokenLists = useSettingsState.useCustomTokenLists();
   const setTokens = useConfigState.useSetTokens();
 
@@ -102,64 +101,64 @@ export const useTokenLists = () => {
       })
     );
 
-    // /**
-    //  * Local tokens
-    //  */
+    /**
+     * Local tokens
+     */
 
-    // // Fully qualified tokens, where we have all the StandardBridge mappings done.
-    // // Kroma is a special case but we ensure we do the L2 token mappings below
-    // [
-    //   ...kroma.l1Tokens,
-    //   ...usdc.bridged,
-    //   ...usdc.native,
-    //   ...wsteth,
-    //   ...dog,
-    //   ...rollux,
-    //   ...baseTokens,
-    // ].forEach((tok) => {
-    //   if (optimismMultichainTokens[tok.opTokenId]) {
-    //     optimismMultichainTokens[tok.opTokenId][tok.chainId] = tok;
-    //   } else {
-    //     optimismMultichainTokens[tok.opTokenId] = { [tok.chainId]: tok };
-    //   }
-    // });
+    // Fully qualified tokens, where we have all the StandardBridge mappings done.
+    // Kroma is a special case but we ensure we do the L2 token mappings below
+    [
+      ...kroma.l1Tokens,
+      ...usdc.bridged,
+      ...usdc.native,
+      ...wsteth,
+      ...dog,
+      ...rollux,
+      ...baseTokens,
+    ].forEach((tok) => {
+      if (optimismMultichainTokens[tok.opTokenId]) {
+        optimismMultichainTokens[tok.opTokenId][tok.chainId] = tok;
+      } else {
+        optimismMultichainTokens[tok.opTokenId] = { [tok.chainId]: tok };
+      }
+    });
 
-    // // Some token lists, like PGN, we only specify the L2 tokens. So we need to
-    // // ensure we add the apppropriate standard bridge address to the corresponding
-    // // L1 tokens
-    // [
-    //   {
-    //     tokens: kroma.l2Tokens,
-    //     standardBridgeAddress: kroma.l1StandardBridgeAddress,
-    //   },
-    //   {
-    //     tokens: pgn.tokens,
-    //     standardBridgeAddress: pgn.l1StandardBridgeAddress,
-    //   },
-    // ].forEach(({ tokens, standardBridgeAddress }) => {
-    //   tokens.forEach((token) => {
-    //     if (!optimismMultichainTokens[token.opTokenId]) {
-    //       optimismMultichainTokens[token.opTokenId] = {
-    //         [token.chainId]: token,
-    //       };
-    //     } else {
-    //       optimismMultichainTokens[token.opTokenId][token.chainId] = token;
-    //     }
+    // Some token lists, like PGN, we only specify the L2 tokens. So we need to
+    // ensure we add the apppropriate standard bridge address to the corresponding
+    // L1 tokens
+    [
+      {
+        tokens: kroma.l2Tokens,
+        standardBridgeAddress: kroma.l1StandardBridgeAddress,
+      },
+      {
+        tokens: pgn.tokens,
+        standardBridgeAddress: pgn.l1StandardBridgeAddress,
+      },
+    ].forEach(({ tokens, standardBridgeAddress }) => {
+      tokens.forEach((token) => {
+        if (!optimismMultichainTokens[token.opTokenId]) {
+          optimismMultichainTokens[token.opTokenId] = {
+            [token.chainId]: token,
+          };
+        } else {
+          optimismMultichainTokens[token.opTokenId][token.chainId] = token;
+        }
 
-    //     Object.keys(token.standardBridgeAddresses).forEach((_l1ChainId) => {
-    //       const l1ChainId = parseInt(_l1ChainId);
-    //       if (!optimismMultichainTokens[token.opTokenId][l1ChainId]) {
-    //         return;
-    //       }
+        Object.keys(token.standardBridgeAddresses).forEach((_l1ChainId) => {
+          const l1ChainId = parseInt(_l1ChainId);
+          if (!optimismMultichainTokens[token.opTokenId][l1ChainId]) {
+            return;
+          }
 
-    //       optimismMultichainTokens[token.opTokenId]![
-    //         l1ChainId
-    //       ]!.standardBridgeAddresses[token.chainId] = getAddress(
-    //         standardBridgeAddress
-    //       );
-    //     });
-    //   });
-    // });
+          optimismMultichainTokens[token.opTokenId]![
+            l1ChainId
+          ]!.standardBridgeAddresses[token.chainId] = getAddress(
+            standardBridgeAddress
+          );
+        });
+      });
+    });
 
     setTokens(Object.values(multichainTokens));
   }, [defaultTokenLists, customTokenLists]);

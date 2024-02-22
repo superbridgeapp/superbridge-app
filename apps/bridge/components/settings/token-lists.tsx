@@ -107,9 +107,7 @@ export const TokenLists = () => {
               />
               <div>{tokenList.name}</div>
 
-              <button onClick={() => setShowCustomTokenListModal(tokenList)}>
-                Manage
-              </button>
+              <button>Manage</button>
             </div>
           ))}
 

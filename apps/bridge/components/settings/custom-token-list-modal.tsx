@@ -14,7 +14,7 @@ import { useSettingsState } from "@/state/settings";
 import { Dialog, DialogContent } from "../ui/dialog";
 import { TokenLists } from "./token-lists";
 import { useConfigState } from "@/state/config";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Checkbox } from "../ui/checkbox";
 import { Button } from "../ui/button";
 
@@ -34,19 +34,8 @@ export const CustomTokenListModal = () => {
 
   const [name, setName] = useState("");
   const [url, setUrl] = useState("");
+
   const [disclaimerChecked, setDisclaimerChecked] = useState(false);
-
-  useEffect(() => {
-    if (typeof tokenListOrOpen === "boolean") {
-      setName("");
-      setUrl("");
-      setDisclaimerChecked(false);
-      return;
-    }
-
-    setName(tokenListOrOpen.name);
-    setUrl(tokenListOrOpen.url);
-  }, [tokenListOrOpen]);
 
   const onSubmit = () => {
     if (typeof tokenListOrOpen === "boolean") {
@@ -111,9 +100,9 @@ export const CustomTokenListModal = () => {
               Save list
             </Button>
 
-            {typeof tokenListOrOpen === "object" && (
+            {typeof tokenListOrOpen !== "boolean" && (
               <Button
-                onClick={onDelete}
+                onClick={onSubmit}
                 disabled={!name || !url || !disclaimerChecked}
               >
                 Delete list
