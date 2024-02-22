@@ -11,6 +11,7 @@ import { transformIntoOptimismToken } from "@/utils/token-list/transform-optimis
 import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
 import { Dialog, DialogContent } from "../ui/dialog";
+import { deploymentTheme } from "@/config/theme";
 
 export interface SettingsModalProps {
   open: boolean;
@@ -30,6 +31,9 @@ export const CustomTokenListModal = () => {
   const [url, setUrl] = useState("");
   const [debouncedUrl] = useDebounce(url, 400);
   const [disclaimerChecked, setDisclaimerChecked] = useState(false);
+
+  const deployment = useConfigState.useDeployment();
+  const theme = deploymentTheme(deployment);
 
   const tokensImported = useQuery(
     ["custom tokens", debouncedUrl],
@@ -88,59 +92,91 @@ export const CustomTokenListModal = () => {
   return (
     <Dialog open={!!tokenListOrOpen} onOpenChange={setOpen}>
       <DialogContent>
-        <div className="">
-          <h2 className="font-bold p-6 pb-0">{"Custom token list"}</h2>
-
-          <div className="p-4 flex flex-col">
-            <div>Name</div>
-            <input value={name} onChange={(e) => setName(e.target.value)} />
-
-            <div>Token list URL</div>
-            <input value={url} onChange={(e) => setUrl(e.target.value)} />
+        <div className="p-6 pb-0">
+          <h2 className="font-bold">{"Custom token list"}</h2>
+        </div>
+        <div className="p-6 pb-0 flex flex-col gap-4">
+          <div>
+            <label htmlFor="tokenListName" className="font-bold text-sm">
+              Name
+            </label>
+            <input
+              id="tokenListName"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className={`${
+                deploymentTheme(deployment).bgMuted
+              } block w-full rounded-lg border-0 py-3 px-4 pr-10 text-sm font-medium text-zinc-900 dark:text-zinc-50 text-zinc-900 outline-none focus:ring-2 ring-inset ring-zinc-900/5 dark:ring-zinc-50/5 placeholder:text-zinc-400 sm:leading-6`}
+              placeholder="Token list name"
+            />
+          </div>
+          <div>
+            <label htmlFor="tokenListURL" className="font-bold text-sm">
+              Token list URL
+            </label>
+            <input
+              id="tokenListURL"
+              value={url}
+              onChange={(e) => setUrl(e.target.value)}
+              className={`${
+                deploymentTheme(deployment).bgMuted
+              } block w-full rounded-lg border-0 py-3 px-4 pr-10 text-sm font-medium text-zinc-900 dark:text-zinc-50 text-zinc-900 outline-none focus:ring-2 ring-inset ring-zinc-900/5 dark:ring-zinc-50/5 placeholder:text-zinc-400 sm:leading-6`}
+              placeholder="URL"
+            />
             {debouncedUrl && tokensImported.isError && (
-              <div className="text-red-500">Invalid token list URL</div>
+              <span className="py-2 text-red-500 text-xs">
+                Invalid token list URL
+              </span>
             )}
             {tokensImported.data && (
-              <div className="text-green-500">
+              <span className="py-2 text-green-500 text-xs">
                 Loaded {tokensImported.data} tokens
-              </div>
-            )}
-
-            <div className="flex gap-2">
-              <Checkbox
-                checked={disclaimerChecked}
-                onCheckedChange={(v) => setDisclaimerChecked(v as boolean)}
-              />
-              <div>
-                Anyone can create any token, including fake versions of the
-                existing tokens. Take due care. Some tokens and their technical
-                parameters may be incompatible with Superbridge services. By
-                importing this custom token list you acknowledge and accept the
-                risks.Learn more about the risks.
-              </div>
-            </div>
-
-            <Button
-              onClick={onSubmit}
-              disabled={
-                !name ||
-                !url ||
-                !disclaimerChecked ||
-                typeof tokensImported.data !== "number"
-              }
-            >
-              Save list
-            </Button>
-
-            {typeof tokenListOrOpen === "object" && (
-              <Button
-                onClick={onDelete}
-                disabled={!name || !url || !disclaimerChecked}
-              >
-                Delete list
-              </Button>
+              </span>
             )}
           </div>
+        </div>
+        <div className="p-6 pb-0">
+          <div className="flex gap-2">
+            <Checkbox
+              id="tokenListAgree"
+              checked={disclaimerChecked}
+              onCheckedChange={(v) => setDisclaimerChecked(v as boolean)}
+            />
+            <label
+              htmlFor="tokenListAgree"
+              className="text-[11px] text-zinc-500 dark:text-zinc-400 tracking-tighter"
+            >
+              Anyone can create any token, including fake versions of the
+              existing tokens. Take due care. Some tokens and their technical
+              parameters may be incompatible with Superbridge services. By
+              importing this custom token list you acknowledge and accept the
+              risks.Learn more about the risks.
+            </label>
+          </div>
+        </div>
+        <div className="p-6 flex flex-col gap-2">
+          <Button
+            className={`flex w-full justify-center rounded-full h-10 px-3  text-sm tracking-tight font-bold leading-3 text-white shadow-sm ${theme.accentText} ${theme.accentBg}`}
+            onClick={onSubmit}
+            disabled={
+              !name ||
+              !url ||
+              !disclaimerChecked ||
+              typeof tokensImported.data !== "number"
+            }
+          >
+            Save list
+          </Button>
+
+          {typeof tokenListOrOpen === "object" && (
+            <Button
+              className={`flex w-full justify-center rounded-full h-10 px-3  text-sm tracking-tight font-bold leading-3 text-white shadow-sm bg-red-500 hover:bg-red-600 ${theme.accentText} `}
+              onClick={onDelete}
+              disabled={!name || !url || !disclaimerChecked}
+            >
+              Delete list
+            </Button>
+          )}
         </div>
       </DialogContent>
     </Dialog>
