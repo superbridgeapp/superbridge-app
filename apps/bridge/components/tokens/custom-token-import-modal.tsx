@@ -184,12 +184,13 @@ export const CustomTokenImportModal = () => {
             <div className="p-4 border-b border-zinc-100 dark:border-zinc-800">
               <div className="flex justify-between">
                 <h4 className="font-medium text-sm">L1 address</h4>
-                <Link
+                <a
+                  target="_blank"
                   href={l1Link.link}
                   className={`text-xs tracking-tight font-medium leading-3 rounded-full px-2 py-1 hover:scale-105 transition-all ${theme.textColor} ${theme.bgMuted}`}
                 >
                   {l1Link.name} →
-                </Link>
+                </a>
               </div>
               <span className="font-medium text-xs text-zinc-500 break-words leading-3">
                 {OP_L1_TOKEN ?? ARB_L1_TOKEN}
@@ -198,12 +199,13 @@ export const CustomTokenImportModal = () => {
             <div className="p-4">
               <div className="flex justify-between">
                 <h4 className="font-medium text-sm">L2 address</h4>
-                <Link
+                <a
+                  target="_blank"
                   href={l2Link.link}
                   className={`text-xs tracking-tight font-medium leading-3 rounded-full px-2 py-1 hover:scale-105 transition-all ${theme.textColor} ${theme.bgMuted}`}
                 >
                   {l2Link.name} →
-                </Link>
+                </a>
               </div>
               <span className="font-medium text-xs text-zinc-500 break-words leading-3">
                 {open}
