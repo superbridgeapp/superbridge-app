@@ -12,6 +12,7 @@ export function useFinaliseArbitrum({ id, deployment }: ArbitrumWithdrawalDto) {
   const account = useAccount();
   const wallet = useWalletClient();
   const setFinalising = usePendingTransactions.useSetFinalising();
+  const removeFinalising = usePendingTransactions.useRemoveFinalising();
   const finaliseTransaction =
     useBridgeControllerGetArbitrumFinaliseTransactionV2();
   const switchChain = useSwitchChain();
@@ -50,6 +51,7 @@ export function useFinaliseArbitrum({ id, deployment }: ArbitrumWithdrawalDto) {
         console.log(e);
         setError(e);
       }
+      removeFinalising(id);
     } finally {
       setLoading(false);
     }

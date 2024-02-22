@@ -12,6 +12,7 @@ export function useFinaliseOptimism({ id, deployment }: BridgeWithdrawalDto) {
   const account = useAccount();
   const wallet = useWalletClient();
   const setFinalising = usePendingTransactions.useSetFinalising();
+  const removeFinalising = usePendingTransactions.useRemoveFinalising();
 
   const getFinaliseTransaction = useBridgeControllerGetFinaliseTransaction();
   const { chain: activeChain } = useNetwork();
@@ -53,6 +54,7 @@ export function useFinaliseOptimism({ id, deployment }: BridgeWithdrawalDto) {
         console.log(e);
         setError(e);
       }
+      removeFinalising(id);
     } finally {
       setLoading(false);
     }

@@ -13,6 +13,7 @@ export function useProveOptimism({ id, deployment }: BridgeWithdrawalDto) {
   const wallet = useWalletClient();
   const { chain: activeChain } = useNetwork();
   const setProving = usePendingTransactions.useSetProving();
+  const removeProving = usePendingTransactions.useRemoveProving();
   const getProveTransaction = useBridgeControllerGetProveTransaction();
   const switchChain = useSwitchChain();
 
@@ -48,6 +49,7 @@ export function useProveOptimism({ id, deployment }: BridgeWithdrawalDto) {
         console.log(e);
         setError(e);
       }
+      removeProving(id);
     } finally {
       setLoading(false);
     }

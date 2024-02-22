@@ -12,6 +12,7 @@ export function useMintCctp({ id, to }: CctpBridgeDto) {
   const account = useAccount();
   const wallet = useWalletClient();
   const setFinalising = usePendingTransactions.useSetFinalising();
+  const removeFinalising = usePendingTransactions.useRemoveFinalising();
   const finaliseTransaction = useBridgeControllerGetCctpMintTransactionV2();
   const switchChain = useSwitchChain();
   const { chain: activeChain } = useNetwork();
@@ -42,6 +43,7 @@ export function useMintCctp({ id, to }: CctpBridgeDto) {
     } catch (e: any) {
       console.log(e);
       setError(e);
+      removeFinalising(id);
     } finally {
       setLoading(false);
     }
