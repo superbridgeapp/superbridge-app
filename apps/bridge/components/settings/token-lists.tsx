@@ -1,13 +1,9 @@
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { useConfigState } from "@/state/config";
-import {
-  CustomTokenList,
-  DefaultTokenList,
-  useSettingsState,
-} from "@/state/settings";
+import { CustomTokenList, useSettingsState } from "@/state/settings";
 
+import { useState } from "react";
 import { Checkbox } from "../ui/checkbox";
 
 export interface SettingsModalProps {
@@ -18,22 +14,12 @@ export interface SettingsModalProps {
 export const TokenLists = () => {
   const [expanded, setExpanded] = useState(false);
 
-  const defaultTokenLists = useSettingsState.useDefaultTokenLists();
-  const setDefaultTokenLists = useSettingsState.useSetDefaultTokenLists();
   const customTokenLists = useSettingsState.useCustomTokenLists();
   const setCustomTokenLists = useSettingsState.useSetCustomTokenLists();
   const setShowCustomTokenListModal =
     useConfigState.useSetShowCustomTokenListModal();
 
   const { t, i18n } = useTranslation();
-
-  const toggleDefaultList = (tokenList: DefaultTokenList, enabled: boolean) => {
-    setDefaultTokenLists(
-      defaultTokenLists.map((t) =>
-        t.name === tokenList.name ? { ...t, enabled } : t
-      )
-    );
-  };
 
   const toggleCustomList = (tokenList: CustomTokenList, enabled: boolean) => {
     setCustomTokenLists(
@@ -85,18 +71,6 @@ export const TokenLists = () => {
 
       {expanded && (
         <div>
-          {defaultTokenLists.map((tokenList) => (
-            <div className="flex items-center gap-3">
-              <Checkbox
-                checked={tokenList.enabled}
-                onCheckedChange={(checked) =>
-                  toggleDefaultList(tokenList, checked as boolean)
-                }
-              />
-              <div>{tokenList.name}</div>
-            </div>
-          ))}
-
           {customTokenLists.map((tokenList) => (
             <div className="flex items-center justify-between">
               <Checkbox

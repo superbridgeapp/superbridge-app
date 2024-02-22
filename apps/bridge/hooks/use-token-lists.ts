@@ -1,23 +1,27 @@
+import { isPresent } from "ts-is-present";
 import { useCallback, useEffect } from "react";
 import { getAddress } from "viem";
 
 import { useConfigState } from "@/state/config";
 import { useSettingsState } from "@/state/settings";
-import { ArbitrumToken, MultiChainToken } from "@/types/token";
 import {
-  ArbitrumTokenList,
-  ArbitrumTokenListToken,
-  SuperchainTokenList,
-} from "@/types/token-lists";
+  MultiChainOptimismToken,
+  MultiChainToken,
+  OptimismToken,
+} from "@/types/token";
+import { ArbitrumTokenList, SuperchainTokenList } from "@/types/token-lists";
+import UniswapArbitrumTokenList from "@/utils/token-list/json/arbitrum-uniswap.json";
+import ArbArbitrumTokenList from "@/utils/token-list/json/arbitrum.json";
 import { baseTokens } from "@/utils/token-list/json/base";
 import { dog } from "@/utils/token-list/json/dog";
 import * as kroma from "@/utils/token-list/json/kroma";
+import MockArbitrumTokenList from "@/utils/token-list/json/mock-arbitrum.json";
 import * as pgn from "@/utils/token-list/json/pgn";
 import { rollux } from "@/utils/token-list/json/rollux";
 import * as usdc from "@/utils/token-list/json/usdc";
 import { wsteth } from "@/utils/token-list/json/wsteth";
+import { transformArbitrumTokenList } from "@/utils/token-list/transform-arbitrum-token-list";
 import { transformIntoOptimismToken } from "@/utils/token-list/transform-optimism-token";
-import { isPresent } from "ts-is-present";
 
 export const useTokenLists = () => {
   const customTokenLists = useSettingsState.useCustomTokenLists();
@@ -33,11 +37,12 @@ export const useTokenLists = () => {
      */
 
     const responses = await Promise.all(
-      [...defaultTokenLists.filter((x) => x.enabled), ...customTokenLists].map(
-        ({ url }) => fetch(url).catch(() => null)
-      )
+      customTokenLists
+        .filter((x) => x.enabled)
+        .map(({ url }) => fetch(url).catch(() => null))
     );
-    const results: (SuperchainTokenList | ArbitrumTokenList)[] = (
+
+    const results: SuperchainTokenList[] = (
       await Promise.all(
         responses
           .filter((x) => x?.status === 200)
@@ -47,56 +52,15 @@ export const useTokenLists = () => {
 
     results.forEach((x) =>
       x.tokens.forEach((t) => {
-        if ((t as any).extensions.opTokenId) {
-          const tok = transformIntoOptimismToken(t as any);
-          if (!tok || Object.keys(tok.standardBridgeAddresses).length == 0) {
-            return;
-          }
-
-          if (multichainTokens[tok.opTokenId]) {
-            multichainTokens[tok.opTokenId][tok.chainId] = tok;
-          } else {
-            multichainTokens[tok.opTokenId] = { [tok.chainId]: tok };
-          }
+        const tok = transformIntoOptimismToken(t);
+        if (!tok || Object.keys(tok.standardBridgeAddresses).length == 0) {
+          return;
         }
 
-        if ((t as any).extensions.bridgeInfo) {
-          const _t = t as unknown as ArbitrumTokenListToken;
-
-          const tok: ArbitrumToken = {
-            address: _t.address,
-            chainId: _t.chainId,
-            name: _t.name,
-            symbol: _t.symbol,
-            decimals: _t.decimals,
-            logoURI: _t.logoURI,
-            arbitrumBridgeInfo: {},
-          };
-
-          multichainTokens[tok.address] = {
-            [t.chainId]: {
-              ...tok,
-              arbitrumBridgeInfo: {},
-            },
-          };
-
-          Object.entries(_t.extensions?.bridgeInfo ?? {}).forEach(
-            ([_chainId, config]) => {
-              const destinationChainId = parseInt(_chainId);
-
-              tok.arbitrumBridgeInfo[destinationChainId] =
-                config!.originBridgeAddress;
-
-              multichainTokens[tok.address]![destinationChainId] = {
-                ...t!,
-                chainId: destinationChainId,
-                address: getAddress(config!.tokenAddress),
-                arbitrumBridgeInfo: {
-                  [t.chainId]: config!.destBridgeAddress,
-                },
-              };
-            }
-          );
+        if (multichainTokens[tok.opTokenId]) {
+          multichainTokens[tok.opTokenId][tok.chainId] = tok;
+        } else {
+          multichainTokens[tok.opTokenId] = { [tok.chainId]: tok };
         }
       })
     );
@@ -116,10 +80,10 @@ export const useTokenLists = () => {
       ...rollux,
       ...baseTokens,
     ].forEach((tok) => {
-      if (optimismMultichainTokens[tok.opTokenId]) {
-        optimismMultichainTokens[tok.opTokenId][tok.chainId] = tok;
+      if (multichainTokens[tok.opTokenId]) {
+        multichainTokens[tok.opTokenId][tok.chainId] = tok;
       } else {
-        optimismMultichainTokens[tok.opTokenId] = { [tok.chainId]: tok };
+        multichainTokens[tok.opTokenId] = { [tok.chainId]: tok };
       }
     });
 
@@ -137,31 +101,46 @@ export const useTokenLists = () => {
       },
     ].forEach(({ tokens, standardBridgeAddress }) => {
       tokens.forEach((token) => {
-        if (!optimismMultichainTokens[token.opTokenId]) {
-          optimismMultichainTokens[token.opTokenId] = {
+        if (!multichainTokens[token.opTokenId]) {
+          multichainTokens[token.opTokenId] = {
             [token.chainId]: token,
           };
         } else {
-          optimismMultichainTokens[token.opTokenId][token.chainId] = token;
+          multichainTokens[token.opTokenId][token.chainId] = token;
         }
 
         Object.keys(token.standardBridgeAddresses).forEach((_l1ChainId) => {
           const l1ChainId = parseInt(_l1ChainId);
-          if (!optimismMultichainTokens[token.opTokenId][l1ChainId]) {
+          if (!multichainTokens[token.opTokenId][l1ChainId]) {
             return;
           }
 
-          optimismMultichainTokens[token.opTokenId]![
-            l1ChainId
-          ]!.standardBridgeAddresses[token.chainId] = getAddress(
+          (
+            multichainTokens[token.opTokenId]![l1ChainId] as OptimismToken
+          ).standardBridgeAddresses[token.chainId] = getAddress(
             standardBridgeAddress
           );
         });
       });
     });
 
-    setTokens(Object.values(multichainTokens));
-  }, [defaultTokenLists, customTokenLists]);
+    /**
+     * Arbitrum
+     */
+
+    const arbitrumMultichainTokens = transformArbitrumTokenList([
+      ...ArbArbitrumTokenList.tokens,
+      ...UniswapArbitrumTokenList.tokens,
+      ...MockArbitrumTokenList.tokens,
+    ]);
+
+    setTokens(
+      Object.values({
+        ...multichainTokens,
+        ...arbitrumMultichainTokens,
+      })
+    );
+  }, [customTokenLists]);
 
   useEffect(() => {
     updateTokens();

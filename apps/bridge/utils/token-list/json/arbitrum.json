@@ -1,0 +1,79 @@
+{
+  "name": "Arbitrum Token",
+  "timestamp": "2023-03-17T17:36:19.453Z",
+  "version": {
+    "major": 1,
+    "minor": 0,
+    "patch": 0
+  },
+  "tokens": [
+    {
+      "chainId": 42161,
+      "address": "0x912CE59144191C1204E64559FE8253a0e49E6548",
+      "name": "Arbitrum",
+      "symbol": "ARB",
+      "decimals": 18,
+      "logoURI": "https://arbitrum.foundation/logo.png",
+      "extensions": {
+        "bridgeInfo": {
+          "1": {
+            "tokenAddress": "0xB50721BCf8d664c30412Cfbc6cf7a15145234ad1",
+            "originBridgeAddress": "0xCaD7828a19b363A2B44717AFB1786B5196974D8E",
+            "destBridgeAddress": "0xbbcE8aA77782F13D4202a230d978F361B011dB27"
+          }
+        }
+      }
+    },
+    {
+      "chainId": 42170,
+      "address": "0xf823C3cD3CeBE0a1fA952ba88Dc9EEf8e0Bf46AD",
+      "name": "Arbitrum",
+      "symbol": "ARB",
+      "decimals": 18,
+      "logoURI": "https://arbitrum.foundation/logo.png",
+      "extensions": {
+        "bridgeInfo": {
+          "1": {
+            "tokenAddress": "0xB50721BCf8d664c30412Cfbc6cf7a15145234ad1",
+            "originBridgeAddress": "0xbf544970E6BD77b21C6492C281AB60d0770451F4",
+            "destBridgeAddress": "0xbbcE8aA77782F13D4202a230d978F361B011dB27"
+          }
+        }
+      }
+    },
+    {
+      "chainId": 1,
+      "name": "Arbitrum",
+      "address": "0xB50721BCf8d664c30412Cfbc6cf7a15145234ad1",
+      "symbol": "ARB",
+      "decimals": 18,
+      "logoURI": "https://arbitrum.foundation/logo.png"
+    },
+    {
+      "chainId": 421613,
+      "address": "0xF861378B543525ae0C47d33C90C954Dc774Ac1F9",
+      "name": "Arbitrum",
+      "symbol": "ARB",
+      "decimals": 18,
+      "logoURI": "https://arbitrum.foundation/logo.png",
+      "extensions": {
+        "bridgeInfo": {
+          "5": {
+            "tokenAddress": "0xECCc8dE9b0a0F1074D8dc6E1092964A3Bc400a41",
+            "originBridgeAddress": "0x584d4D9bED1bEb39f02bb51dE07F493D3A5CdaA0",
+            "destBridgeAddress": "0x33A7991a70AD174822ddfa2618Df9C8f17c04563"
+          }
+        }
+      }
+    },
+    {
+      "chainId": 5,
+      "name": "Arbitrum",
+      "address": "0xECCc8dE9b0a0F1074D8dc6E1092964A3Bc400a41",
+      "symbol": "ARB",
+      "decimals": 18,
+      "logoURI": "https://arbitrum.foundation/logo.png"
+    }
+  ],
+  "logoURI": "https://arbitrum.foundation/logo.png"
+}
