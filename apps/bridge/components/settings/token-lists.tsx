@@ -87,12 +87,7 @@ export const TokenLists = () => {
             </div>
           ))}
 
-          <button
-            onClick={() => {
-              setShowCustomTokenListModal(true);
-              console.log("hier");
-            }}
-          >
+          <button onClick={() => setShowCustomTokenListModal(true)}>
             Add custom token lists
           </button>
         </div>

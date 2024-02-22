@@ -11,6 +11,7 @@ import { Checkbox } from "../ui/checkbox";
 import { MultiChainToken, OptimismToken } from "@/types/token";
 import { Address } from "viem";
 import { useSettingsState } from "@/state/settings";
+import { addressLink, transactionLink } from "@/utils/transaction-link";
 
 export const CustomTokenImportModal = () => {
   const deployment = useConfigState.useDeployment();
@@ -21,6 +22,7 @@ export const CustomTokenImportModal = () => {
   const setOpen = useConfigState.useSetShowCustomTokenImportModal();
   const customTokens = useSettingsState.useCustomTokens();
   const setCustomTokens = useSettingsState.useSetCustomTokens();
+  const preferredExplorer = useSettingsState.usePreferredExplorer();
 
   const { name, symbol, L1_TOKEN, decimals, L1_BRIDGE, L2_BRIDGE } =
     useCustomToken(open as Address);
@@ -60,18 +62,42 @@ export const CustomTokenImportModal = () => {
     setOpen(false);
   };
 
+  const l1Link = addressLink(L1_TOKEN ?? "0x", deployment?.l1);
+  const l2Link = addressLink(open as Address, deployment?.l2);
+
   return (
     <Dialog open={!!open} onOpenChange={() => setOpen(false)}>
       <DialogContent>
         <h2 className="font-bold p-6 pb-0">{"Import token"}</h2>
 
         <div className="flex flex-col p-4">
-          <div>{name}</div>
-          <div>{symbol}</div>
+          <div>
+            <div>{name}</div>
+            <div>{symbol}</div>
+          </div>
 
-          <div>L1 address: {L1_TOKEN}</div>
-          <div>L2 address: {open}</div>
+          <div>
+            Make sure you have checked the token address and that it is correct:
+          </div>
 
+          <div>
+            <div className="flex items-center justify-between">
+              <div>L1 address</div>
+              <a href={l1Link.link} className="bg-zinc-100 rounded-full">
+                {l1Link.name}
+              </a>
+            </div>
+            {L1_TOKEN}
+          </div>
+          <div>
+            <div className="flex items-center justify-between">
+              <div>L2 address</div>
+              <a href={l2Link.link} className="bg-zinc-100 rounded-full">
+                {l2Link.name}
+              </a>
+            </div>
+            {open}
+          </div>
           <div className="flex gap-2">
             <Checkbox
               checked={disclaimerChecked}

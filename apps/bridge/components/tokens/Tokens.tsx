@@ -3,19 +3,19 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { P, match } from "ts-pattern";
 import { Address, formatUnits, isAddress } from "viem";
-import { Chain, erc20ABI, useAccount, useContractReads } from "wagmi";
+import { Chain } from "wagmi";
 
-import { L2StandardBridgeAbi } from "@/abis/L2StandardBridge";
-import { OptimismMintableERC20Abi } from "@/abis/OptimismMintableERC20";
 import { ChainDto } from "@/codegen/model";
 import { deploymentTheme } from "@/config/theme";
 import { useTokenBalances } from "@/hooks/use-balances";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
 import { useSelectedToken } from "@/hooks/use-selected-token";
 import { useConfigState } from "@/state/config";
-import { MultiChainToken, OptimismToken, Token } from "@/types/token";
-import { isNativeUsdc } from "@/utils/is-usdc";
 import { useSettingsState } from "@/state/settings";
+import { MultiChainToken } from "@/types/token";
+import { isNativeUsdc } from "@/utils/is-usdc";
+
+import { Button } from "../ui/button";
 import { useCustomToken } from "./use-custom-token";
 
 const TokenComponent = ({
@@ -81,25 +81,13 @@ const TokenComponent = ({
   );
 };
 
-const TokenImport = ({
-  address,
-  onChooseToken,
-}: {
-  address: Address;
-  onChooseToken: (o: MultiChainToken) => void;
-}) => {
-  const customTokens = useSettingsState.useCustomTokens();
-  const setCustomTokens = useSettingsState.useSetCustomTokens();
-
+const TokenImport = ({ address }: { address: Address }) => {
   const showCustomImportModal =
     useConfigState.useSetShowCustomTokenImportModal();
 
   const deployment = useConfigState.useDeployment();
 
   const {
-    L1_BRIDGE,
-    L1_TOKEN,
-    L2_BRIDGE,
     balance,
     isOptimismMintableToken,
     isValidToken,
@@ -158,10 +146,7 @@ const TokenImport = ({
   }
 
   return (
-    <div
-      className="flex justify-between hover:bg-zinc-50 transition cursor-pointer p-4 rounded-sm"
-      onClick={onImportToken}
-    >
+    <div className="flex justify-between hover:bg-zinc-50 transition p-4 rounded-sm">
       <div className="flex items-center space-x-4">
         <div className="rounded-full bg-zinc-100 text-zinc-800 h-8 w-8 flex items-center justify-center">
           {symbol?.substring(0, 3)}
@@ -172,11 +157,7 @@ const TokenImport = ({
         </div>
       </div>
       <div>
-        {parseFloat(
-          formatUnits(BigInt(balance ?? "0"), decimals ?? 0)
-        ).toLocaleString("en", {
-          maximumFractionDigits: 3,
-        })}
+        <Button onClick={onImportToken}>Import</Button>
       </div>
     </div>
   );
@@ -283,10 +264,7 @@ export const FungibleTokenPicker = ({
             },
             () => (
               <div className="p-4 text-center font-bold text-sm">
-                <TokenImport
-                  address={search as Address}
-                  onChooseToken={onClickToken}
-                />
+                <TokenImport address={search as Address} />
               </div>
             )
           )
