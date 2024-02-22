@@ -72,7 +72,10 @@ export const TokenLists = () => {
       {expanded && (
         <div>
           {customTokenLists.map((tokenList) => (
-            <div className="flex items-center justify-between">
+            <div
+              key={tokenList.id}
+              className="flex items-center justify-between"
+            >
               <Checkbox
                 checked={tokenList.enabled}
                 onCheckedChange={(checked) =>
