@@ -74,7 +74,7 @@ const TokenComponent = ({
           ).toLocaleString("en", { maximumFractionDigits: 3 })}
         </span>
         {isCustomToken && (
-          <div className="flex gap-1 bg-orange-50 items-center px-2 py-1 rounded-full">
+          <div className="flex gap-1 bg-orange-50 dark:bg-orange-900 items-center px-2 py-1 rounded-full">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="12"
@@ -197,7 +197,7 @@ const TokenImport = ({ address }: { address: Address }) => {
           })}
         </span>
         {(!isOptimismToken && !isArbitrumToken) ?? (
-          <div className="flex gap-1 bg-orange-50 items-center px-2 py-1 rounded-full">
+          <div className="flex gap-1 bg-orange-50 dark:bg-orange-900 items-center px-2 py-1 rounded-full">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="12"
