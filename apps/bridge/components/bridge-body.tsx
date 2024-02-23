@@ -568,7 +568,7 @@ export const BridgeBody = () => {
                 <path d="M13.53 6.031l-5 5a.75.75 0 01-1.062 0l-5-5A.751.751 0 113.531 4.97L8 9.439l4.47-4.47a.751.751 0 011.062 1.062h-.001z"></path>
               </svg>
 
-              {true && (
+              {(isCustomToken || isCustomTokenFromList) && (
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="12"
