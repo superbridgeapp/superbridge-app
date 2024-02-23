@@ -42,6 +42,20 @@
     "explorer": "Explorador"
   },
 
+  "customTokenLists": {
+    "add": "Agregar lista de tokens personalizada",
+    "name": "Nombre de la lista de tokens",
+    "namePlaceholder": "Nombre",
+    "url": "URL de la lista de tokens",
+    "urlPlaceholder": "URL",
+    "invalid": "URL de lista de tokens no válida",
+    "loadedTokens": "Tokens cargados {{num}}",
+    "disclaimer": "Cualquiera puede crear cualquier token, incluidas versiones falsas de tokens existentes. Tenga cuidado. Algunos tokens y sus parámetros técnicos pueden no ser compatibles con los servicios de {{app}}. Al importar esta lista de tokens personalizada, reconoce y acepta los riesgos.",
+    "learnMore": "Obtenga más información sobre los riesgos.",
+    "save": "Guardar lista",
+    "delete": "Eliminar lista"
+  },
+
   "activity": {
     "activity": "Actividad",
     "actionNeeded": "Acción necesaria",
@@ -53,7 +67,15 @@
     "tokens": "Tokens",
     "nfts": "NFTs",
     "selectToken": "Seleccionar un token",
-    "noneFound": "No se encontraron resultados"
+    "noneFound": "No se encontraron resultados",
+    "notBridgeable": "No se puede bridgear",
+    "import": "Importar",
+    "customImport": "Importación personalizada",
+    "customImportFromList": "De {{name}}",
+    "customImportCheck": "Asegúrese de haber verificado la dirección del token y de que sea correcta:",
+    "customL1Address": "Dirección L1",
+    "customL2Address": "Dirección L2",
+    "customL3Address": "Dirección L3"
   },
 
   "recipient": {

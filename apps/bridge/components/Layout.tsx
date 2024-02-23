@@ -23,6 +23,7 @@ import { isDog } from "@/utils/is-dog";
 
 import { SettingsModal } from "./settings/settings-modal";
 import { TosModal } from "./tos-modal";
+import { CustomTokenListModal } from "./settings/custom-token-list-modal";
 
 export function Layout({ Component, pageProps, router }: AppProps) {
   const deployments = useDeployments();
@@ -102,6 +103,8 @@ export function Layout({ Component, pageProps, router }: AppProps) {
       )}
     >
       <TosModal />
+      <CustomTokenListModal />
+
       <div
         className={clsx(
           `inset-0 z-0 fixed transition-all bg-transparent`,

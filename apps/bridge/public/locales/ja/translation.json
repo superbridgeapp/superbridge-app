@@ -42,6 +42,20 @@
     "explorer": "エクスプローラ"
   },
 
+  "customTokenLists": {
+    "add": "カスタムトークンリストを追加",
+    "name": "トークンリストの名前",
+    "namePlaceholder": "名前",
+    "url": "トークンリストのURL",
+    "urlPlaceholder": "URL",
+    "invalid": "無効なトークンリストのURL",
+    "loadedTokens": "{{num}} トークンを読み込みました",
+    "disclaimer": "誰でも、既存のトークンの偽のバージョンを含む任意のトークンを作成できます。注意してください。一部のトークンおよびその技術的パラメータは、{{app}} サービスと互換性がない場合があります。このカスタムトークンリストをインポートすることにより、リスクを認識し受け入れます。",
+    "learnMore": "リスクについてもっと学ぶ。",
+    "save": "リストを保存",
+    "delete": "リストを削除"
+  },
+
   "activity": {
     "activity": "アクティビティ",
     "actionNeeded": "アクションが必要です",
@@ -53,7 +67,15 @@
     "tokens": "トークン",
     "nfts": "NFT",
     "selectToken": "トークンを選択",
-    "noneFound": "結果が見つかりませんでした"
+    "noneFound": "結果が見つかりません",
+    "notBridgeable": "ブリッジできません",
+    "import": "インポート",
+    "customImport": "カスタムインポート",
+    "customImportFromList": "{{name}}から",
+    "customImportCheck": "トークンアドレスを確認してください。",
+    "customL1Address": "L1アドレス",
+    "customL2Address": "L2アドレス",
+    "customL3Address": "L3アドレス"
   },
 
   "recipient": {

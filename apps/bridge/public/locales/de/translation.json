@@ -42,6 +42,20 @@
     "explorer": "Explorer"
   },
 
+  "customTokenLists": {
+    "add": "Benutzerdefinierte Token-Liste hinzufügen",
+    "name": "Name der Token-Liste",
+    "namePlaceholder": "Name",
+    "url": "URL der Token-Liste",
+    "urlPlaceholder": "URL",
+    "invalid": "Ungültige URL der Token-Liste",
+    "loadedTokens": "{{num}} Tokens geladen",
+    "disclaimer": "Jeder kann jeden Token erstellen, einschließlich gefälschter Versionen vorhandener Tokens. Seien Sie vorsichtig. Einige Tokens und ihre technischen Parameter sind möglicherweise nicht mit den Diensten von {{app}} kompatibel. Durch Importieren dieser benutzerdefinierten Token-Liste erkennen Sie die Risiken an und akzeptieren sie.",
+    "learnMore": "Erfahren Sie mehr über die Risiken.",
+    "save": "Liste speichern",
+    "delete": "Liste löschen"
+  },
+
   "activity": {
     "activity": "Aktivität",
     "actionNeeded": "Aktion erforderlich",
@@ -52,8 +66,16 @@
   "tokens": {
     "tokens": "Tokens",
     "nfts": "NFTs",
-    "selectToken": "Wählen Sie einen Token",
-    "noneFound": "Keine Ergebnisse gefunden"
+    "selectToken": "Wählen Sie einen Token aus",
+    "noneFound": "Keine Ergebnisse gefunden",
+    "notBridgeable": "Nicht überbrückbar",
+    "import": "Importieren",
+    "customImport": "Benutzerdefinierter Import",
+    "customImportFromList": "Von {{name}}",
+    "customImportCheck": "Stellen Sie sicher, dass Sie die Token-Adresse überprüft haben und dass sie korrekt ist:",
+    "customL1Address": "L1-Adresse",
+    "customL2Address": "L2-Adresse",
+    "customL3Address": "L3-Adresse"
   },
 
   "recipient": {

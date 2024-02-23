@@ -1,6 +1,17 @@
 import { createSelectorHooks } from "auto-zustand-selectors-hook";
+import { isPresent } from "ts-is-present";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+
+import { isRollbridge, isSuperbridge } from "@/config/superbridge";
+import { MultiChainToken } from "@/types/token";
+
+export interface CustomTokenList {
+  id: string;
+  name: string;
+  url: string;
+  enabled: boolean;
+}
 
 interface SettingsState {
   preferredExplorer: string;
@@ -9,11 +20,14 @@ interface SettingsState {
   currency: string;
   setCurrency: (x: string) => void;
 
-  tokenLists: string[];
-  setTokenLists: (list: string[]) => void;
+  customTokenLists: CustomTokenList[];
+  setCustomTokenLists: (list: CustomTokenList[]) => void;
 
   hasViewedTos: boolean;
   dismissTos: () => void;
+
+  setCustomTokens: (t: MultiChainToken[]) => void;
+  customTokens: MultiChainToken[];
 }
 
 const SettingsState = create<SettingsState>()(
@@ -25,13 +39,14 @@ const SettingsState = create<SettingsState>()(
       currency: "USD",
       setCurrency: (currency) => set({ currency }),
 
-      tokenLists: [
-        "https://raw.githubusercontent.com/ethereum-optimism/ethereum-optimism.github.io/master/optimism.tokenlist.json",
-      ],
-      setTokenLists: (tokenLists) => set({ tokenLists }),
+      customTokenLists: [] as CustomTokenList[],
+      setCustomTokenLists: (customTokenLists) => set({ customTokenLists }),
 
       hasViewedTos: false,
       dismissTos: () => set({ hasViewedTos: true }),
+
+      customTokens: [] as MultiChainToken[],
+      setCustomTokens: (customTokens) => set({ customTokens }),
     }),
     { name: "settings" }
   )
