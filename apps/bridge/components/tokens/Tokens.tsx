@@ -29,6 +29,7 @@ const TokenComponent = ({
   balance: bigint;
   onClick: () => void;
 }) => {
+  const { t } = useTranslation();
   const selectedToken = useSelectedToken();
   const customTokens = useSettingsState.useCustomTokens();
 
@@ -104,7 +105,7 @@ const TokenComponent = ({
               </defs>
             </svg>
             <span className="text-[10px] tracking-tighter font-bold leading-4 text-orange-500 ">
-              Custom import
+              {t("tokens.customImport")}
             </span>
           </div>
         )}
@@ -114,6 +115,7 @@ const TokenComponent = ({
 };
 
 const TokenImport = ({ address }: { address: Address }) => {
+  const { t } = useTranslation();
   const showCustomImportModal =
     useConfigState.useSetShowCustomTokenImportModal();
 
@@ -165,14 +167,6 @@ const TokenImport = ({ address }: { address: Address }) => {
     return <div>Invalid token</div>;
   }
 
-  if (!isArbitrumToken && !isOptimismToken) {
-    return (
-      <div className="pt-8 pb-12 text-center font-bold text-sm">
-        <span>Invalid token</span>
-      </div>
-    );
-  }
-
   return (
     <div className="flex justify-between hover:bg-black/[0.025] hover:dark:bg-white/[0.05] transition p-4 rounded-sm">
       <div className="flex items-center space-x-4">
@@ -196,7 +190,7 @@ const TokenImport = ({ address }: { address: Address }) => {
             maximumFractionDigits: 3,
           })}
         </span>
-        {(!isOptimismToken && !isArbitrumToken) ?? (
+        {!isOptimismToken && !isArbitrumToken && (
           <div className="flex gap-1 bg-orange-50 dark:bg-orange-900 items-center px-2 py-1 rounded-full">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -227,19 +221,21 @@ const TokenImport = ({ address }: { address: Address }) => {
               </defs>
             </svg>
             <span className="text-[10px] tracking-tighter font-bold leading-4 text-orange-500 ">
-              Not bridgeable
+              {t("tokens.notBridgeable")}
             </span>
           </div>
         )}
       </div>
-      <div className="ml-4">
-        <Button
-          onClick={onImportToken}
-          className={`flex w-full justify-center rounded-full h-8 px-3  text-xs tracking-tight font-bold leading-3 text-white shadow-sm ${theme.accentText} ${theme.accentBg}`}
-        >
-          Import
-        </Button>
-      </div>
+      {(isOptimismToken || isArbitrumToken) && (
+        <div className="ml-4">
+          <Button
+            onClick={onImportToken}
+            className={`flex w-full justify-center rounded-full h-8 px-3  text-xs tracking-tight font-bold leading-3 text-white shadow-sm ${theme.accentText} ${theme.accentBg}`}
+          >
+            {t("tokens.import")}
+          </Button>
+        </div>
+      )}
     </div>
   );
 };

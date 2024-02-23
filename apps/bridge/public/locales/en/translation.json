@@ -70,7 +70,10 @@
     "tokens": "Tokens",
     "nfts": "NFTs",
     "selectToken": "Select a token",
-    "noneFound": "No results found"
+    "noneFound": "No results found",
+    "notBridgeable": "Not bridgeable",
+    "import": "Import",
+    "customImport": "Custom import"
   },
 
   "recipient": {
