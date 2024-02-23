@@ -167,7 +167,11 @@ const TokenImport = ({ address }: { address: Address }) => {
   }
 
   if (!isValidToken) {
-    return <div>Invalid token</div>;
+    return (
+      <div className="pt-8 pb-12 text-center font-bold text-sm">
+        <span>Invalid token</span>
+      </div>
+    );
   }
 
   return (
