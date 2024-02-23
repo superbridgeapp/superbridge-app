@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
+import { deploymentTheme } from "@/config/theme";
 import { useConfigState } from "@/state/config";
 import { CustomTokenList, useSettingsState } from "@/state/settings";
-import { deploymentTheme } from "@/config/theme";
+
 import { Checkbox } from "../ui/checkbox";
 
 export interface SettingsModalProps {

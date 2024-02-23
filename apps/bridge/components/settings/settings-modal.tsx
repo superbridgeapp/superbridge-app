@@ -8,6 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { isSuperbridge } from "@/config/superbridge";
 import { flagSymbolMap } from "@/constants/currency-symbol-map";
 import { useSettingsState } from "@/state/settings";
 
@@ -208,7 +209,7 @@ export const SettingsModal = ({ open, setOpen }: SettingsModalProps) => {
                 </Select>
               </div>
 
-              <TokenLists />
+              {isSuperbridge && <TokenLists />}
             </div>
           </div>
         </div>
