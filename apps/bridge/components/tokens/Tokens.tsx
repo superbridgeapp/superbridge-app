@@ -9,9 +9,10 @@ import { ChainDto } from "@/codegen/model";
 import { deploymentTheme } from "@/config/theme";
 import { useTokenBalances } from "@/hooks/use-balances";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
+import { useIsCustomToken } from "@/hooks/use-is-custom-token";
+import { useIsCustomTokenFromList } from "@/hooks/use-is-custom-token-from-list";
 import { useSelectedToken } from "@/hooks/use-selected-token";
 import { useConfigState } from "@/state/config";
-import { useSettingsState } from "@/state/settings";
 import { MultiChainToken } from "@/types/token";
 import { isNativeUsdc } from "@/utils/is-usdc";
 
@@ -31,11 +32,9 @@ const TokenComponent = ({
 }) => {
   const { t } = useTranslation();
   const selectedToken = useSelectedToken();
-  const customTokens = useSettingsState.useCustomTokens();
 
-  const isCustomToken = customTokens.find(
-    (x) => x[from?.id ?? 0]?.address === token[from?.id ?? 0]?.address
-  );
+  const isCustomToken = useIsCustomToken(token);
+  const isCustomTokenFromList = useIsCustomTokenFromList(token);
 
   return (
     <div
@@ -74,7 +73,7 @@ const TokenComponent = ({
             formatUnits(balance, token[from?.id ?? 0]?.decimals ?? 18)
           ).toLocaleString("en", { maximumFractionDigits: 3 })}
         </span>
-        {isCustomToken && (
+        {(isCustomToken || isCustomTokenFromList) && (
           <div className="flex gap-1 bg-orange-50 dark:bg-orange-900 items-center px-2 py-1 rounded-full">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -104,8 +103,12 @@ const TokenComponent = ({
                 </clipPath>
               </defs>
             </svg>
-            <span className="text-[10px] tracking-tighter font-bold leading-4 text-orange-500 ">
-              {t("tokens.customImport")}
+            <span className="text-[10px] tracking-tighter font-bold leading-4 text-orange-500 whitespace-nowrap">
+              {isCustomToken
+                ? t("tokens.customImport")
+                : t("tokens.customImportFromList", {
+                    name: isCustomTokenFromList,
+                  })}
             </span>
           </div>
         )}

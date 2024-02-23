@@ -18,6 +18,7 @@ import { Checkbox } from "../ui/checkbox";
 import { Dialog, DialogContent } from "../ui/dialog";
 import { useCustomToken } from "./use-custom-token";
 import Link from "next/link";
+import { L1_BASE_CHAINS } from "../network-icon";
 
 export const CustomTokenImportModal = () => {
   const deployment = useConfigState.useDeployment();
@@ -121,6 +122,8 @@ export const CustomTokenImportModal = () => {
   );
   const l2Link = addressLink(open as Address, deployment?.l2);
 
+  const isL3 = !L1_BASE_CHAINS.includes(deployment?.l1.id ?? 0);
+
   return (
     <Dialog open={!!open} onOpenChange={() => setOpen(false)}>
       <DialogContent>
@@ -148,8 +151,7 @@ export const CustomTokenImportModal = () => {
           <div className="border border-zinc-100 dark:border-zinc-800 rounded-[16px]">
             <div className="flex gap-4 p-4 border-b border-zinc-100 dark:border-zinc-800">
               <p className="font-medium text-sm">
-                Make sure you have checked the token address and that it is
-                correct:
+                {t("tokens.customImportCheck")}
               </p>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -183,7 +185,11 @@ export const CustomTokenImportModal = () => {
             </div>
             <div className="p-4 border-b border-zinc-100 dark:border-zinc-800">
               <div className="flex justify-between">
-                <h4 className="font-medium text-sm">L1 address</h4>
+                <h4 className="font-medium text-sm">
+                  {t(
+                    isL3 ? "tokens.customL2Address" : "tokens.customL1Address"
+                  )}
+                </h4>
                 <a
                   target="_blank"
                   href={l1Link.link}
@@ -198,7 +204,11 @@ export const CustomTokenImportModal = () => {
             </div>
             <div className="p-4">
               <div className="flex justify-between">
-                <h4 className="font-medium text-sm">L2 address</h4>
+                <h4 className="font-medium text-sm">
+                  {t(
+                    isL3 ? "tokens.customL3Address" : "tokens.customL2Address"
+                  )}
+                </h4>
                 <a
                   target="_blank"
                   href={l2Link.link}
@@ -222,11 +232,7 @@ export const CustomTokenImportModal = () => {
               htmlFor="importAgree"
               className="text-[11px] text-zinc-500 dark:text-zinc-400 tracking-tighter"
             >
-              Anyone can create any token, including fake versions of the
-              existing tokens. Take due care. Some tokens and their technical
-              parameters may be incompatible with Superbridge services. By
-              importing this custom token list you acknowledge and accept the
-              risks.Learn more about the risks.
+              {t("customTokenLists.disclaimer")}
             </label>
           </div>
 
@@ -235,7 +241,7 @@ export const CustomTokenImportModal = () => {
             disabled={!disclaimerChecked}
             className={`flex w-full justify-center rounded-full h-10 px-3  text-sm tracking-tight font-bold leading-3 text-white shadow-sm ${theme.accentText} ${theme.accentBg}`}
           >
-            Import
+            {t("tokens.import")}
           </Button>
         </div>
       </DialogContent>

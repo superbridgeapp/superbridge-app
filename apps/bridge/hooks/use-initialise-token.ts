@@ -23,8 +23,6 @@ import { useActiveTokens } from "./use-tokens";
 export const useInitialiseToken = () => {
   const router = useRouter();
 
-  const [hasSetRouteToken, setHasSetRouteToken] = useState(false);
-
   const setToken = useConfigState.useSetToken();
   const setEasyMode = useConfigState.useSetEasyMode();
   const toggleWithdrawing = useConfigState.useToggleWithdrawing();
@@ -90,5 +88,5 @@ export const useInitialiseToken = () => {
         }
       }
     }
-  }, [router.asPath, hasSetRouteToken, deployment, tokens]);
+  }, [router.asPath, deployment, tokens]);
 };

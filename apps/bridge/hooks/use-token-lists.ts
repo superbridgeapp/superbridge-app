@@ -3,7 +3,7 @@ import { isPresent } from "ts-is-present";
 import { getAddress } from "viem";
 
 import { useConfigState } from "@/state/config";
-import { useSettingsState } from "@/state/settings";
+import { CustomTokenList, useSettingsState } from "@/state/settings";
 import { MultiChainToken, OptimismToken } from "@/types/token";
 import { SuperchainTokenList } from "@/types/token-lists";
 import UniswapArbitrumTokenList from "@/utils/token-list/json/arbitrum-uniswap.json";
@@ -22,6 +22,8 @@ import { transformIntoOptimismToken } from "@/utils/token-list/transform-optimis
 export const useTokenLists = () => {
   const customTokenLists = useSettingsState.useCustomTokenLists();
   const setTokens = useConfigState.useSetTokens();
+  const setTokensImportedFromLists =
+    useConfigState.useSetTokensImportedFromLists();
 
   const updateTokens = useCallback(async () => {
     const multichainTokens: {
@@ -32,27 +34,56 @@ export const useTokenLists = () => {
      * Only Superchain token lists for now
      */
 
-    const responses = await Promise.all(
-      [
-        {
-          url: "https://raw.githubusercontent.com/ethereum-optimism/ethereum-optimism.github.io/master/optimism.tokenlist.json",
-        },
-        ...customTokenLists.filter((x) => x.enabled),
-      ].map(({ url }) => fetch(url).catch(() => null))
-    );
+    const [defaultTokenListResponse, ...customTokenListResponses] =
+      await Promise.all([
+        fetch(
+          "https://raw.githubusercontent.com/ethereum-optimism/ethereum-optimism.github.io/master/optimism.tokenlist.json"
+        ).catch(() => null),
+        ...customTokenLists
+          .filter((x) => x.enabled)
+          .map(async (x) => ({
+            tokenList: x,
+            response: await fetch(x.url).catch(() => null),
+          })),
+      ]);
 
-    const results: SuperchainTokenList[] = (
-      await Promise.all(
-        responses
-          .filter((x) => x?.status === 200)
-          .map((x) => x?.json().catch(() => null))
-      )
-    ).filter(isPresent);
+    const [defaultTokenListResult, ...customTokenListResults]: [
+      SuperchainTokenList | null,
+      ...({ tokenList: CustomTokenList; result: SuperchainTokenList } | null)[]
+    ] = await Promise.all([
+      defaultTokenListResponse?.json().catch(() => null),
+      ...customTokenListResponses
+        .filter((x) => x?.response?.status === 200)
+        .map(async (x) => ({
+          tokenList: x.tokenList,
+          result: await x.response?.json().catch(() => null),
+        })),
+    ]);
 
-    results.forEach((x) =>
-      x.tokens.forEach((t) => {
+    defaultTokenListResult?.tokens.forEach((t) => {
+      const tok = transformIntoOptimismToken(t);
+      if (!tok || Object.keys(tok.standardBridgeAddresses).length == 0) {
+        return;
+      }
+
+      if (multichainTokens[tok.opTokenId]) {
+        multichainTokens[tok.opTokenId][tok.chainId] = tok;
+      } else {
+        multichainTokens[tok.opTokenId] = { [tok.chainId]: tok };
+      }
+    });
+
+    let customTokensFromLists: string[] = [];
+
+    customTokenListResults.filter(isPresent).forEach(({ tokenList, result }) =>
+      result.tokens.forEach((t) => {
         const tok = transformIntoOptimismToken(t);
         if (!tok || Object.keys(tok.standardBridgeAddresses).length == 0) {
+          return;
+        }
+
+        // we don't let custom tokens override existing ones
+        if (multichainTokens[tok.opTokenId]?.[tok.chainId]) {
           return;
         }
 
@@ -61,8 +92,14 @@ export const useTokenLists = () => {
         } else {
           multichainTokens[tok.opTokenId] = { [tok.chainId]: tok };
         }
+
+        customTokensFromLists.push(
+          `${tok.address.toLowerCase()}-${tok.chainId}:${tokenList.name}`
+        );
       })
     );
+
+    setTokensImportedFromLists(customTokensFromLists);
 
     /**
      * Local tokens

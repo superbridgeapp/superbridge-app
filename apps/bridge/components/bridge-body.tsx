@@ -22,6 +22,8 @@ import { useBridge } from "@/hooks/use-bridge";
 import { useBridgeFee } from "@/hooks/use-bridge-fee";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
 import { useIsContractAccount } from "@/hooks/use-is-contract-account";
+import { useIsCustomToken } from "@/hooks/use-is-custom-token";
+import { useIsCustomTokenFromList } from "@/hooks/use-is-custom-token-from-list";
 import { useNativeToken } from "@/hooks/use-native-token";
 import { useTokenPrice } from "@/hooks/use-prices";
 import { useSelectedToken } from "@/hooks/use-selected-token";
@@ -43,11 +45,10 @@ import { DepositFees } from "./fees/deposit-fees";
 import { WithdrawFees } from "./fees/withdraw-fees";
 import { NftImage } from "./nft";
 import { TokenModal } from "./tokens/Modal";
+import { CustomTokenImportModal } from "./tokens/custom-token-import-modal";
 import { Button } from "./ui/button";
 import { WithdrawSettingsModal } from "./withdraw-settings/modal";
 import { ConfirmWithdrawalModal } from "./withdrawal-modal";
-import { CustomTokenListModal } from "./settings/custom-token-list-modal";
-import { CustomTokenImportModal } from "./tokens/custom-token-import-modal";
 
 const RecipientAddress = ({
   openAddressDialog,
@@ -201,6 +202,9 @@ export const BridgeBody = () => {
     networkFee &&
     BigInt(parseUnits(networkFee.toFixed(18), 18)) >
       (ethBalance.data?.value ?? BigInt(0));
+
+  const isCustomToken = useIsCustomToken(stateToken);
+  const isCustomTokenFromList = useIsCustomTokenFromList(stateToken);
 
   const onWrite = async () => {
     if (!account.address || !wallet.data || !bridge.valid || !recipient) {
@@ -563,6 +567,12 @@ export const BridgeBody = () => {
               >
                 <path d="M13.53 6.031l-5 5a.75.75 0 01-1.062 0l-5-5A.751.751 0 113.531 4.97L8 9.439l4.47-4.47a.751.751 0 011.062 1.062h-.001z"></path>
               </svg>
+
+              {true && (
+                // @TODO: James, replace this with correct component
+                // @TODO: replace `true` with `(isCustomToken || isCustomTokenFromList)`
+                <div>Custom token</div>
+              )}
             </button>
           </div>
           <div className="flex items-center justify-between">

@@ -73,7 +73,12 @@
     "noneFound": "No results found",
     "notBridgeable": "Not bridgeable",
     "import": "Import",
-    "customImport": "Custom import"
+    "customImport": "Custom import",
+    "customImportFromList": "From {{name}}",
+    "customImportCheck": "Make sure you have checked the token address and that it is correct:",
+    "customL1Address": "L1 address",
+    "customL2Address": "L2 address",
+    "customL3Address": "L3 address"
   },
 
   "recipient": {
