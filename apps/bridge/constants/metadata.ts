@@ -2,9 +2,7 @@ import { dedicatedDeployment } from "@/config/dedicated-deployment";
 import { isSuperbridge } from "@/config/superbridge";
 
 export const title =
-  dedicatedDeployment?.og.title ?? isSuperbridge
-    ? "Superbridge App"
-    : "Rollbridge App";
+  dedicatedDeployment?.og.title ?? isSuperbridge ? "Superbridge" : "Rollbridge";
 
 export const description =
   dedicatedDeployment?.og.description ?? isSuperbridge

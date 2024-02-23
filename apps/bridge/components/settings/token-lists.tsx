@@ -113,7 +113,7 @@ export const TokenLists = () => {
                 onClick={() => setShowCustomTokenListModal(tokenList)}
                 className={`text-xs font-medium hover:opacity-50 ${theme.textColorMuted}`}
               >
-                Manage
+                {t("manage")}
               </button>
             </div>
           ))}
@@ -122,7 +122,7 @@ export const TokenLists = () => {
             onClick={() => setShowCustomTokenListModal(true)}
             className={`mt-2 mr-auto text-xs tracking-tight font-medium leading-3 rounded-full px-2 py-1 hover:scale-105 transition-all ${theme.textColor} ${theme.bgMuted}`}
           >
-            Add custom token list
+            {t("customTokenLists.add")}
           </button>
         </div>
       )}

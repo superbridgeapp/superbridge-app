@@ -30,6 +30,7 @@
   "docs": "Docs",
   "from": "From",
   "to": "To",
+  "manage": "Manage",
 
   "settings": {
     "settings": "Settings",
@@ -41,6 +42,20 @@
     "language": "Language",
     "explorer": "Explorer",
     "tokenLists": "Token lists"
+  },
+
+  "customTokenLists": {
+    "add": "Add custom token list",
+    "name": "Token list name",
+    "namePlaceholder": "Name",
+    "url": "Token list URL",
+    "urlPlaceholder": "URL",
+    "invalid": "Invalid token list URL",
+    "loadedTokens": "Loaded {{num}} tokens",
+    "disclaimer": "Anyone can create any token, including fake versions of existing tokens. Take due care. Some tokens and their technical parameters may be incompatible with {{app}} services. By importing this custom token list you acknowledge and accept the risks.",
+    "learnMore": "Learn more about the risks.",
+    "save": "Save list",
+    "delete": "Delete list"
   },
 
   "activity": {

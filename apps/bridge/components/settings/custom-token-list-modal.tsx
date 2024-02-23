@@ -4,6 +4,8 @@ import { useTranslation } from "react-i18next";
 import { isPresent } from "ts-is-present";
 import { useDebounce } from "use-debounce";
 
+import { deploymentTheme } from "@/config/theme";
+import * as metadata from "@/constants/metadata";
 import { useConfigState } from "@/state/config";
 import { useSettingsState } from "@/state/settings";
 import { transformIntoOptimismToken } from "@/utils/token-list/transform-optimism-token";
@@ -11,7 +13,6 @@ import { transformIntoOptimismToken } from "@/utils/token-list/transform-optimis
 import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
 import { Dialog, DialogContent } from "../ui/dialog";
-import { deploymentTheme } from "@/config/theme";
 
 export interface SettingsModalProps {
   open: boolean;
@@ -19,7 +20,7 @@ export interface SettingsModalProps {
 }
 
 export const CustomTokenListModal = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   const tokenListOrOpen = useConfigState.useShowCustomTokenListModal();
   const setOpen = useConfigState.useSetShowCustomTokenListModal();
@@ -98,7 +99,7 @@ export const CustomTokenListModal = () => {
         <div className="p-6 pb-0 flex flex-col gap-4">
           <div>
             <label htmlFor="tokenListName" className="font-bold text-sm">
-              Name
+              {t("customTokenLists.name")}
             </label>
             <input
               id="tokenListName"
@@ -107,12 +108,12 @@ export const CustomTokenListModal = () => {
               className={`${
                 deploymentTheme(deployment).bgMuted
               } block w-full rounded-lg border-0 py-3 px-4 pr-10 text-sm font-medium text-zinc-900 dark:text-zinc-50 text-zinc-900 outline-none focus:ring-2 ring-inset ring-zinc-900/5 dark:ring-zinc-50/5 placeholder:text-zinc-400 sm:leading-6`}
-              placeholder="Token list name"
+              placeholder={t("customTokenLists.namePlaceholder")}
             />
           </div>
           <div>
             <label htmlFor="tokenListURL" className="font-bold text-sm">
-              Token list URL
+              {t("customTokenLists.url")}
             </label>
             <input
               id="tokenListURL"
@@ -121,16 +122,18 @@ export const CustomTokenListModal = () => {
               className={`${
                 deploymentTheme(deployment).bgMuted
               } block w-full rounded-lg border-0 py-3 px-4 pr-10 text-sm font-medium text-zinc-900 dark:text-zinc-50 text-zinc-900 outline-none focus:ring-2 ring-inset ring-zinc-900/5 dark:ring-zinc-50/5 placeholder:text-zinc-400 sm:leading-6`}
-              placeholder="URL"
+              placeholder={t("customTokenLists.urlPlaceholder")}
             />
             {debouncedUrl && tokensImported.isError && (
               <span className="py-2 text-red-500 text-xs">
-                Invalid token list URL
+                {t("customTokenLists.invalid")}
               </span>
             )}
             {tokensImported.data && (
               <span className="py-2 text-green-500 text-xs">
-                Loaded {tokensImported.data} tokens
+                {t("customTokenLists.loadedTokens", {
+                  num: tokensImported.data,
+                })}
               </span>
             )}
           </div>
@@ -146,11 +149,14 @@ export const CustomTokenListModal = () => {
               htmlFor="tokenListAgree"
               className="text-[11px] text-zinc-500 dark:text-zinc-400 tracking-tighter"
             >
-              Anyone can create any token, including fake versions of the
-              existing tokens. Take due care. Some tokens and their technical
-              parameters may be incompatible with Superbridge services. By
-              importing this custom token list you acknowledge and accept the
-              risks.Learn more about the risks.
+              {t("customTokenLists.disclaimer", { app: metadata.title })}{" "}
+              <a
+                target="_blank"
+                className="text-zinc-900 dark:text-zinc-200"
+                href="https://docs.rollbridge.app/custom-tokens"
+              >
+                {t("customTokenLists.learnMore")}
+              </a>
             </label>
           </div>
         </div>
@@ -165,7 +171,7 @@ export const CustomTokenListModal = () => {
               typeof tokensImported.data !== "number"
             }
           >
-            Save list
+            {t("customTokenLists.save")}
           </Button>
 
           {typeof tokenListOrOpen === "object" && (
@@ -174,7 +180,7 @@ export const CustomTokenListModal = () => {
               onClick={onDelete}
               disabled={!name || !url || !disclaimerChecked}
             >
-              Delete list
+              {t("customTokenLists.delete")}
             </Button>
           )}
         </div>
