@@ -49,11 +49,33 @@
     "noTransactions": "尚無交易..."
   },
 
+  "customTokenLists": {
+    "add": "新增自訂代幣清單",
+    "name": "代幣清單名稱",
+    "namePlaceholder": "名稱",
+    "url": "代幣清單 URL",
+    "urlPlaceholder": "URL",
+    "invalid": "無效的代幣清單 URL",
+    "loadedTokens": "已載入 {{num}} 個代幣",
+    "disclaimer": "任何人都可以創建任何代幣，包括現有代幣的偽造版本。請小心。某些代幣及其技術參數可能與 {{app}} 服務不兼容。通過導入此自訂代幣清單，您承認並接受風險。",
+    "learnMore": "了解有關風險的更多資訊。",
+    "save": "保存清單",
+    "delete": "刪除清單"
+  },
+
   "tokens": {
     "tokens": "代幣",
-    "nfts": "NFTs",
-    "selectToken": "選擇代幣",
-    "noneFound": "未找到結果"
+    "nfts": "NFT",
+    "selectToken": "選擇一個代幣",
+    "noneFound": "找不到結果",
+    "notBridgeable": "無法橋接",
+    "import": "導入",
+    "customImport": "自訂導入",
+    "customImportFromList": "從 {{name}}",
+    "customImportCheck": "請確認您已檢查過代幣地址並確保正確：",
+    "customL1Address": "L1 地址",
+    "customL2Address": "L2 地址",
+    "customL3Address": "L3 地址"
   },
 
   "recipient": {

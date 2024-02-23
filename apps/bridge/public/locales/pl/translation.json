@@ -42,6 +42,20 @@
     "explorer": "Eksplorator"
   },
 
+  "customTokenLists": {
+    "add": "Dodaj niestandardową listę tokenów",
+    "name": "Nazwa listy tokenów",
+    "namePlaceholder": "Nazwa",
+    "url": "Adres URL listy tokenów",
+    "urlPlaceholder": "URL",
+    "invalid": "Nieprawidłowy adres URL listy tokenów",
+    "loadedTokens": "Wczytano {{num}} tokenów",
+    "disclaimer": "Każdy może stworzyć dowolny token, w tym fałszywe wersje istniejących tokenów. Bądź ostrożny. Niektóre tokeny i ich parametry techniczne mogą być niezgodne z usługami {{app}}. Importując tę niestandardową listę tokenów, akceptujesz i akceptujesz ryzyko.",
+    "learnMore": "Dowiedz się więcej o ryzyku.",
+    "save": "Zapisz listę",
+    "delete": "Usuń listę"
+  },
+
   "activity": {
     "activity": "Aktywność",
     "actionNeeded": "Wymagane działanie",
@@ -51,9 +65,17 @@
 
   "tokens": {
     "tokens": "Tokeny",
-    "nfts": "NFT",
+    "nfts": "NFT-y",
     "selectToken": "Wybierz token",
-    "noneFound": "Brak wyników"
+    "noneFound": "Nie znaleziono wyników",
+    "notBridgeable": "Nie do przeniesienia",
+    "import": "Importuj",
+    "customImport": "Niestandardowy import",
+    "customImportFromList": "Z {{name}}",
+    "customImportCheck": "Upewnij się, że sprawdziłeś adres tokena i jest on poprawny:",
+    "customL1Address": "Adres L1",
+    "customL2Address": "Adres L2",
+    "customL3Address": "Adres L3"
   },
 
   "recipient": {

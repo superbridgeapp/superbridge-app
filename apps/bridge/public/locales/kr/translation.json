@@ -42,6 +42,20 @@
     "explorer": "탐색기"
   },
 
+  "customTokenLists": {
+    "add": "사용자 정의 토큰 목록 추가",
+    "name": "토큰 목록 이름",
+    "namePlaceholder": "이름",
+    "url": "토큰 목록 URL",
+    "urlPlaceholder": "URL",
+    "invalid": "잘못된 토큰 목록 URL",
+    "loadedTokens": "{{num}} 개의 토큰이 로드되었습니다",
+    "disclaimer": "누구나 기존 토큰의 가짜 버전을 포함한 모든 토큰을 만들 수 있습니다. 주의하십시오. 일부 토큰 및 해당 기술 매개변수는 {{app}} 서비스와 호환되지 않을 수 있습니다. 이 사용자 정의 토큰 목록을 가져오면 위험을 인지하고 수락합니다.",
+    "learnMore": "위험에 대해 자세히 알아보기",
+    "save": "목록 저장",
+    "delete": "목록 삭제"
+  },
+
   "activity": {
     "activity": "활동",
     "actionNeeded": "필요한 조치",
@@ -53,7 +67,15 @@
     "tokens": "토큰",
     "nfts": "NFT",
     "selectToken": "토큰 선택",
-    "noneFound": "결과가 없습니다"
+    "noneFound": "결과를 찾을 수 없음",
+    "notBridgeable": "다리 건널 수 없음",
+    "import": "가져오기",
+    "customImport": "사용자 정의 가져오기",
+    "customImportFromList": "{{name}}에서",
+    "customImportCheck": "토큰 주소를 확인하고 올바른지 확인하세요:",
+    "customL1Address": "L1 주소",
+    "customL2Address": "L2 주소",
+    "customL3Address": "L3 주소"
   },
 
   "recipient": {
