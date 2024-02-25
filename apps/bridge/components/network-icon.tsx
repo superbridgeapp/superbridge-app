@@ -6,7 +6,12 @@ import { Chain } from "wagmi";
 import { ChainDto, DeploymentDto } from "@/codegen/model";
 import { chainIcons, deploymentTheme } from "@/config/theme";
 
-export const L1_BASE_CHAINS: number[] = [mainnet.id, sepolia.id, syscoin.id];
+export const L1_BASE_CHAINS: number[] = [
+  mainnet.id,
+  sepolia.id,
+  syscoin.id,
+  900, // Conduit devnet ID
+];
 
 export const NetworkIcon = ({
   chain,
