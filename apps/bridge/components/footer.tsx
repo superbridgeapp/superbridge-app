@@ -147,7 +147,11 @@ export function Footer() {
                         {dedicatedDeployment.additionalLinks.map(
                           ({ link, text }) => (
                             <DropdownMenuItem>
-                              <Link href={link} target="_blank">
+                              <Link
+                                href={link}
+                                target="_blank"
+                                className="font-medium text-sm w-full"
+                              >
                                 {text}
                               </Link>
                             </DropdownMenuItem>
@@ -159,6 +163,7 @@ export function Footer() {
                       <Link
                         href={dedicatedDeployment.footerLink}
                         target="_blank"
+                        className="font-medium text-sm w-full"
                       >
                         {t("about")}
                       </Link>
