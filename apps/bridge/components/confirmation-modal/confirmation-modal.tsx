@@ -35,7 +35,7 @@ import { useAllowance } from "@/hooks/use-allowance";
 import { P, match } from "ts-pattern";
 import { useWeiAmount } from "@/hooks/use-wei-amount";
 import { useBridge } from "@/hooks/use-bridge";
-import { isMainnet } from "@/utils/is-mainnet";
+import { isMainnet, isOptimism } from "@/utils/is-mainnet";
 
 function LineItem({
   text,
@@ -198,15 +198,35 @@ export const ConfirmationModal = ({
     withdrawing,
     family: deployment?.family,
   })
-    .with({ isUsdc: true }, () => "USDC bridges take ~15 minutes")
+    .with({ isUsdc: true, withdrawing: true }, () =>
+      t("confirmationModal.cctpDepositTitle", {
+        mins: isMainnet(deployment) ? 15 : 3,
+        symbol: token?.symbol,
+      })
+    )
+    .with({ isUsdc: true, withdrawing: false }, () =>
+      t("confirmationModal.cctpWithdrawalTitle", {
+        mins: isMainnet(deployment) ? 15 : 3,
+        symbol: token?.symbol,
+      })
+    )
     .with({ withdrawing: true }, () =>
-      t("confirmationModal.title", { rollup: deployment?.l2.name })
+      isMainnet(deployment)
+        ? t("confirmationModal.withdrawalTitleDays", {
+            rollup: deployment?.l2.name,
+            days: 7,
+          })
+        : // todo: take into account finalization period
+          t("confirmationModal.withdrawalTitleHours", {
+            rollup: deployment?.l2.name,
+            hours: 2,
+          })
     )
-    .with({ withdrawing: false, family: "optimism" }, () =>
-      t("confirmationModal.opDepositTitle", { rollup: deployment?.l2.name })
-    )
-    .with({ withdrawing: false, family: "arbitrum" }, () =>
-      t("confirmationModal.opDepositTitle", { rollup: deployment?.l2.name })
+    .with({ withdrawing: false }, () =>
+      t("confirmationModal.depositTitle", {
+        rollup: deployment?.l2.name,
+        mins: deployment && isOptimism(deployment) ? 3 : 10,
+      })
     )
     .otherwise(() => null);
 
@@ -226,13 +246,51 @@ export const ConfirmationModal = ({
     .with({ withdrawing: true, family: "arbitrum" }, () =>
       t("confirmationModal.arbDescription", { base: deployment?.l1.name })
     )
-    .with({ withdrawing: false, family: "optimism" }, () =>
-      t("confirmationModal.opDepositDescription", {
+    .with({ withdrawing: false }, () =>
+      t("confirmationModal.depositDescription", {
         rollup: deployment?.l2.name,
       })
     )
-    .with({ withdrawing: false, family: "arbitrum" }, () =>
-      t("confirmationModal.opDepositDescription", {
+    .otherwise(() => null);
+
+  const checkbox1Text = match({
+    isUsdc: isNativeUsdc(stateToken),
+    withdrawing,
+    family: deployment?.family,
+  })
+    .with({ isUsdc: true }, () =>
+      t("confirmationModal.checkbox1Cctp", {
+        mins: deployment && isMainnet(deployment) ? 15 : 3,
+        to: to?.name,
+      })
+    )
+    .with({ withdrawing: true, family: "optimism" }, () =>
+      isMainnet(deployment)
+        ? t("confirmationModal.opCheckbox1WithdrawalDays", {
+            base: deployment?.l1.name,
+            days: 7,
+          })
+        : // todo: take into account finalization period
+          t("confirmationModal.opCheckbox1WithdrawalHours", {
+            base: deployment?.l1.name,
+            hours: 2,
+          })
+    )
+    .with({ withdrawing: true, family: "arbitrum" }, () =>
+      isMainnet(deployment)
+        ? t("confirmationModal.arbCheckbox1WithdrawalDays", {
+            base: deployment?.l1.name,
+            days: 7,
+          })
+        : // todo: take into account finalization period
+          t("confirmationModal.arbCheckbox1WithdrawalHours", {
+            base: deployment?.l1.name,
+            hours: 2,
+          })
+    )
+    .with({ withdrawing: false }, () =>
+      t("confirmationModal.checkbox1Deposit", {
+        mins: deployment && isOptimism(deployment) ? 3 : 10,
         rollup: deployment?.l2.name,
       })
     )
@@ -386,16 +444,7 @@ export const ConfirmationModal = ({
                 htmlFor="timeframe"
                 className="text-[11px] text-zinc-500 dark:text-zinc-400 tracking-tighter"
               >
-                {isNativeUsdc(stateToken)
-                  ? `I understand it will take ~15 minutes until my funds are claimable on ${to?.name}`
-                  : t(
-                      deployment?.family === DeploymentFamily.arbitrum
-                        ? "confirmationModal.arbCheckbox1"
-                        : "confirmationModal.opCheckbox1",
-                      {
-                        base: deployment?.l1.name,
-                      }
-                    )}
+                {checkbox1Text}
               </label>
             </div>
             <div className="pl-4 flex gap-2">
