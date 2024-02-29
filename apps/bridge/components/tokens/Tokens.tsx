@@ -356,7 +356,7 @@ export const FungibleTokenPicker = ({
           .with({ filteredTokens: P.when((x) => x.length > 0) }, () =>
             filteredTokens.map(({ token, balance }) => (
               <TokenComponent
-                key={token[1]?.address ?? token[5]?.address ?? "0x"}
+                key={token[from?.id ?? 0]?.address}
                 token={token}
                 from={from}
                 balance={balance}
