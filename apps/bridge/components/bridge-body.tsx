@@ -714,11 +714,25 @@ export const BridgeBody = () => {
 
         {withdrawing ? (
           <WithdrawFees
-            gasEstimate={200_000}
+            gasEstimate={
+              isNativeUsdc(stateToken)
+                ? 100_000
+                : isNativeToken(stateToken)
+                ? 150_000
+                : 175_000
+            }
             openSettings={() => setWithdrawSettingsDialog(true)}
           />
         ) : (
-          <DepositFees gasEstimate={200_000} />
+          <DepositFees
+            gasEstimate={
+              isNativeUsdc(stateToken)
+                ? 100_000
+                : isNativeToken(stateToken)
+                ? 150_000
+                : 175_000
+            }
+          />
         )}
       </div>
 
