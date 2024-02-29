@@ -22,8 +22,6 @@ export const useToChain = () => {
 };
 
 export const useHyperlaneGasQuote = () => {
-  const deployment = useConfigState.useDeployment();
-  const withdrawing = useConfigState.useWithdrawing();
   const token = useConfigState.useToken();
   const to = useToChain();
 
@@ -33,7 +31,7 @@ export const useHyperlaneGasQuote = () => {
     abi: InterchainGasPaymasterAbi,
     functionName: "quoteGasPayment",
     args: [destinationHyperlaneDomain ?? 0, CCTP_MINT_GAS_COST],
-    enabled: deployment!! && !!token && isCctpBridgeOperation(token),
+    enabled: !!token && isCctpBridgeOperation(token),
     address: hyperlaneAddresses[destinationHyperlaneDomain ?? 0]?.igp ?? "0x",
   });
 };

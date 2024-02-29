@@ -387,7 +387,8 @@ const parallel: Theme = {
   logoHeight: 28,
   iconSrc: "/img/icon-parallel.svg",
   l2ChainIcon: "/img/network-parallel.svg",
-  screenBgImg: "bg-[url('/img/bg/parallel.svg')] bg-cover bg-center ",
+  screenBgImg:
+    "bg-[url('/img/bg/parallel-light.jpg')] dark:bg-[url('/img/bg/parallel-dark.jpg')] bg-cover bg-center ",
   card: {
     className: "bg-black",
   },
