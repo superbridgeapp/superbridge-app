@@ -34,6 +34,14 @@ const mapping: { [name: string]: DedicatedDeployment | undefined } = {
       },
     ],
   },
+  base: {
+    name: "base",
+    footerLink: "https://base.org",
+    og: {
+      title: "Base Bridge",
+      description: "Bridge ETH and ERC20 tokens into and out of Base",
+    },
+  },
 };
 
 export const dedicatedDeployment = mapping[DEDICATED_DEPLOYMENT ?? ""] ?? null;
