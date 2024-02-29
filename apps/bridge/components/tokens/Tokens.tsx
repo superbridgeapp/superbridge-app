@@ -13,6 +13,7 @@ import { useSelectedToken } from "@/hooks/use-selected-token";
 import { useConfigState } from "@/state/config";
 import { MultiChainToken } from "@/types/token";
 import { isBridgedUsdc, isNativeUsdc } from "@/utils/is-usdc";
+import { TokenIcon } from "../token-icon";
 
 const Token = ({
   token,
@@ -36,10 +37,7 @@ const Token = ({
       onClick={onClick}
     >
       <div className="flex items-center space-x-4">
-        <img
-          src={token[from?.id ?? 0]?.logoURI}
-          className="h-8 w-8 rounded-full bg-zinc-50 overflow-hidden"
-        />
+        <TokenIcon token={token[from?.id ?? 0] ?? null} className="h-8 w-8" />
         <div className="flex flex-col">
           <div className="flex items-center gap-1">
             <span className="text-sm font-bold">

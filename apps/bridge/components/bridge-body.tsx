@@ -46,6 +46,7 @@ import { TokenModal } from "./tokens/Modal";
 import { Button } from "./ui/button";
 import { WithdrawSettingsModal } from "./withdraw-settings/modal";
 import { ConfirmationModal } from "./confirmation-modal";
+import { TokenIcon } from "./token-icon";
 
 const RecipientAddress = ({
   openAddressDialog,
@@ -474,13 +475,7 @@ export const BridgeBody = () => {
               onClick={() => setTokensDialog(true)}
               className={`absolute inset-y-0 right-0 flex gap-x-2 rounded-full pl-3 pr-3 items-center font-medium transition-all hover:scale-105 ${theme.textColor} ${theme.bg}`}
             >
-              <img
-                src={token?.logoURI}
-                width={20}
-                height={20}
-                alt="Token Icon"
-                className="pointer-events-none rounded-full"
-              />
+              <TokenIcon token={token} className="h-[20px] w-[20px]" />
               {token?.symbol}
               <svg
                 xmlns="http://www.w3.org/2000/svg"

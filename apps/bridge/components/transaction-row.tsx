@@ -69,6 +69,7 @@ import AnimWithdrawSuccess from "../animation/withdraw-success.json";
 import { NetworkIcon } from "./network-icon";
 import { NftImage } from "./nft";
 import { Button } from "./ui/button";
+import { TokenIcon } from "./token-icon";
 
 const Prove = ({ tx }: { tx: BridgeWithdrawalDto | ForcedWithdrawalDto }) => {
   const prove = useProveOptimism(isWithdrawal(tx) ? tx : tx.withdrawal!);
@@ -732,10 +733,7 @@ export const TransactionRow = ({ tx }: { tx: Transaction }) => {
             />
           </>
         ) : (
-          <img
-            src={token?.logoURI}
-            className="h-12 w-12 max-w-min rounded-full"
-          />
+          <TokenIcon token={token ?? null} className="h-12 w-12 max-w-min" />
         )}
         {isDeposit(tx) ||
         (isCctpBridge(tx) && tx.from.id === deployment.l1.id) ? (
