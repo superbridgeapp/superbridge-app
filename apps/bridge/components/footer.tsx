@@ -146,7 +146,7 @@ export function Footer() {
                       <>
                         {dedicatedDeployment.additionalLinks.map(
                           ({ link, text }) => (
-                            <DropdownMenuItem>
+                            <DropdownMenuItem key={link}>
                               <Link
                                 href={link}
                                 target="_blank"
