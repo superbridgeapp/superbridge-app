@@ -7,6 +7,7 @@ interface DedicatedDeployment {
     title: string;
     description: string;
   };
+  additionalLinks?: { text: string; link: string }[];
 }
 
 const mapping: { [name: string]: DedicatedDeployment | undefined } = {
@@ -26,6 +27,12 @@ const mapping: { [name: string]: DedicatedDeployment | undefined } = {
       description:
         "Bridge ETH and ERC20 tokens into and out of Parallel Mainnet Network",
     },
+    additionalLinks: [
+      {
+        text: "Parallel App",
+        link: "https://app.parallel.fi",
+      },
+    ],
   },
 };
 
