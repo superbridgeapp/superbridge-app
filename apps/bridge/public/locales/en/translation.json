@@ -83,22 +83,26 @@
 
   "poweredByConduit": "Powered by Conduit",
 
-  "withdrawalModal": {
+  "confirmationModal": {
     "title": "{{rollup}} withdrawals take ~7 days",
     "opDescription": "Withdrawing is a 3 step process, requiring 2 {{base}} transactions.",
     "arbDescription": "Withdrawing is a 2 step process and requires an extra {{base}} transaction.",
     "learnMore": "Learn more",
     "approxFees": "Approx. fees",
-    "initiateDeposit": "Initiate withdrawal",
+    "initiateDeposit": "Initiate deposit",
     "initiateWithdrawal": "Initiate withdrawal",
-    "waitProve": "Wait ~2 hours",
+    "waitMinutes": "Wait ~{{mins}} mins",
+    "waitHours": "Wait ~{{hours}} hours",
+    "waitDays": "Wait ~{{days}} days",
     "prove": "Prove on {{base}}",
-    "waitFinalize": "Wait ~7 days",
     "finalize": "Claim on {{base}}",
+    "receiveDeposit": "Receive on {{rollup}}",
 
     "opCheckbox1": "I understand it will take ~7 days until my funds are claimable on {{base}} after I prove my withdrawal",
     "arbCheckbox1": "I understand it will take ~7 days until my funds are claimable on {{base}}",
-    "checkbox2": "Once a withdrawal is initiated it cannot be sped up or cancelled.",
+    "checkbox2Deposit": "I understand once a deposit is initiated it cannot be sped up or cancelled",
+    "checkbox2Withdrawal": "I understand once a withdrawal is initiated it cannot be sped up or cancelled",
+    "checkbox3": "I understand network fees are approximate and will change",
 
     "continue": "Continue withdraw",
     "viewAlternateBridges": "Or view alternative bridges…"

@@ -35,6 +35,7 @@ import { useAllowance } from "@/hooks/use-allowance";
 import { P, match } from "ts-pattern";
 import { useWeiAmount } from "@/hooks/use-wei-amount";
 import { useBridge } from "@/hooks/use-bridge";
+import { isMainnet } from "@/utils/is-mainnet";
 
 function LineItem({
   text,
@@ -91,6 +92,7 @@ export const ConfirmationModal = ({
   const wallet = useWalletClient();
   const withdrawing = useConfigState.useWithdrawing();
   const rawAmount = useConfigState.useRawAmount();
+  const escapeHatch = useConfigState.useForceViaL1();
 
   const deployment = useConfigState.useDeployment();
   const theme = deploymentTheme(deployment);
@@ -111,6 +113,7 @@ export const ConfirmationModal = ({
 
   const [checkbox1, setCheckbox1] = useState(false);
   const [checkbox2, setCheckbox2] = useState(false);
+  const [checkbox3, setCheckbox3] = useState(false);
 
   const fee = (n: bigint, maximumFractionDigits: number) => {
     if (!nativeTokenPrice) {
@@ -172,7 +175,9 @@ export const ConfirmationModal = ({
   })
     .with({ needsApprove: true }, (d) => ({
       onSubmit: () => {},
-      buttonText: d.withdrawing ? "Initiate withdrawal" : "Initiate deposit",
+      buttonText: d.withdrawing
+        ? t("confirmationModal.initiateWithdrawal")
+        : t("confirmationModal.initiateDeposit"),
       disabled: true,
     }))
     .with({ bridge: { write: { isLoading: true } } }, (d) => ({
@@ -182,7 +187,9 @@ export const ConfirmationModal = ({
     }))
     .otherwise((d) => ({
       onSubmit: onConfirm,
-      buttonText: d.withdrawing ? t("withdrawing") : t("depositing"),
+      buttonText: d.withdrawing
+        ? t("confirmationModal.initiateWithdrawal")
+        : t("confirmationModal.initiateDeposit"),
       disabled: false,
     }));
 
@@ -193,7 +200,7 @@ export const ConfirmationModal = ({
   })
     .with({ isUsdc: true }, () => "USDC bridges take ~15 minutes")
     .with({ withdrawing: true }, () =>
-      t("withdrawalModal.title", { rollup: deployment?.l2.name })
+      t("confirmationModal.title", { rollup: deployment?.l2.name })
     )
     .with({ withdrawing: false, family: "optimism" }, () =>
       t("confirmationModal.opDepositTitle", { rollup: deployment?.l2.name })
@@ -214,10 +221,10 @@ export const ConfirmationModal = ({
         `USDC bridging requires two transactions to complete, one on the initiating chain (${from?.name}) and one on the destination chain (${to?.name}) 15 minutes later.`
     )
     .with({ withdrawing: true, family: "optimism" }, () =>
-      t("withdrawalModal.opDescription", { base: deployment?.l1.name })
+      t("confirmationModal.opDescription", { base: deployment?.l1.name })
     )
     .with({ withdrawing: true, family: "arbitrum" }, () =>
-      t("withdrawalModal.arbDescription", { base: deployment?.l1.name })
+      t("confirmationModal.arbDescription", { base: deployment?.l1.name })
     )
     .with({ withdrawing: false, family: "optimism" }, () =>
       t("confirmationModal.opDepositDescription", {
@@ -243,7 +250,9 @@ export const ConfirmationModal = ({
         fee: fee(initiateCost, 4),
       },
       {
-        text: "Wait 15 minutes",
+        text: t("confirmationModal.waitMins", {
+          mins: isMainnet(deployment) ? 15 : 3,
+        }),
         icon: WaitIcon,
       },
       {
@@ -254,21 +263,21 @@ export const ConfirmationModal = ({
     ])
     .with({ withdrawing: true, family: "optimism" }, () => [
       {
-        text: t("withdrawalModal.initiate"),
+        text: t("confirmationModal.initiateWithdrawal"),
         icon: InitiateIcon,
         fee: fee(initiateCost, 4),
       },
-      { text: t("withdrawalModal.waitProve"), icon: WaitIcon },
+      { text: t("confirmationModal.waitHours", { hours: 2 }), icon: WaitIcon },
       {
-        text: t("withdrawalModal.prove", {
+        text: t("confirmationModal.prove", {
           base: deployment?.l1.name,
         }),
         icon: ProveIcon,
         fee: fee(proveCost, 4),
       },
-      { text: t("withdrawalModal.waitFinalize"), icon: WaitIcon },
+      { text: t("confirmationModal.waitDays", { days: 7 }), icon: WaitIcon },
       {
-        text: t("withdrawalModal.finalize", {
+        text: t("confirmationModal.finalize", {
           base: deployment?.l1.name,
         }),
         icon: FinalizeIcon,
@@ -277,13 +286,13 @@ export const ConfirmationModal = ({
     ])
     .with({ withdrawing: true, family: "arbitrum" }, () => [
       {
-        text: t("withdrawalModal.initiate"),
+        text: t("confirmationModal.initiateWithdrawal"),
         icon: InitiateIcon,
         fee: fee(initiateCost, 4),
       },
-      { text: t("withdrawalModal.waitFinalize"), icon: WaitIcon },
+      { text: t("confirmationModal.waitDays", { days: 7 }), icon: WaitIcon },
       {
-        text: t("withdrawalModal.finalize", {
+        text: t("confirmationModal.finalize", {
           base: deployment?.l1.name,
         }),
         icon: FinalizeIcon,
@@ -296,7 +305,10 @@ export const ConfirmationModal = ({
         icon: InitiateIcon,
         fee: fee(initiateCost, 4),
       },
-      { text: t("confirmationModal.waitOpDeposit"), icon: WaitIcon },
+      {
+        text: t("confirmationModal.waitMinutes", { mins: 3 }),
+        icon: WaitIcon,
+      },
       {
         text: t("confirmationModal.receiveDeposit", { rollup: to?.name }),
         icon: ReceiveIcon,
@@ -308,7 +320,10 @@ export const ConfirmationModal = ({
         icon: InitiateIcon,
         fee: fee(initiateCost, 4),
       },
-      { text: t("confirmationModal.waitArbDeposit"), icon: WaitIcon },
+      {
+        text: t("confirmationModal.waitMinutes", { minutes: 10 }),
+        icon: WaitIcon,
+      },
       {
         text: t("confirmationModal.receiveDeposit", { rollup: to?.name }),
         icon: ReceiveIcon,
@@ -335,7 +350,7 @@ export const ConfirmationModal = ({
                 className="underline font-medium"
                 target="_blank"
               >
-                {t("withdrawalModal.learnMore")}
+                {t("confirmationModal.learnMore")}
               </Link>
             </p>
           </div>
@@ -343,7 +358,7 @@ export const ConfirmationModal = ({
           <div className="flex flex-col gap-1 pt-4">
             <div className="justify-end flex items-center px-1">
               <span className="text-zinc-400 font-medium text-[11px]">
-                {t("withdrawalModal.approxFees")}
+                {t("confirmationModal.approxFees")}
               </span>
             </div>
 
@@ -375,8 +390,8 @@ export const ConfirmationModal = ({
                   ? `I understand it will take ~15 minutes until my funds are claimable on ${to?.name}`
                   : t(
                       deployment?.family === DeploymentFamily.arbitrum
-                        ? "withdrawalModal.arbCheckbox1"
-                        : "withdrawalModal.opCheckbox1",
+                        ? "confirmationModal.arbCheckbox1"
+                        : "confirmationModal.opCheckbox1",
                       {
                         base: deployment?.l1.name,
                       }
@@ -393,7 +408,22 @@ export const ConfirmationModal = ({
                 htmlFor="speed"
                 className="text-[11px] text-zinc-500 dark:text-zinc-400 tracking-tighter"
               >
-                {t("withdrawalModal.checkbox2")}
+                {withdrawing
+                  ? t("confirmationModal.checkbox2Withdrawal")
+                  : t("confirmationModal.checkbox2Deposit")}
+              </label>
+            </div>
+            <div className="pl-4 flex gap-2">
+              <Checkbox
+                id="fees"
+                checked={checkbox3}
+                onCheckedChange={(c) => setCheckbox3(c as boolean)}
+              />
+              <label
+                htmlFor="fees"
+                className="text-[11px] text-zinc-500 dark:text-zinc-400 tracking-tighter"
+              >
+                {t("confirmationModal.checkbox3")}
               </label>
             </div>
           </div>
@@ -408,7 +438,12 @@ export const ConfirmationModal = ({
                   approved && "bg-[#55FF55] text-black"
                 )}
                 onClick={approveButton.onSubmit}
-                disabled={!checkbox1 || !checkbox2 || approveButton.disabled}
+                disabled={
+                  !checkbox1 ||
+                  !checkbox2 ||
+                  !checkbox3 ||
+                  approveButton.disabled
+                }
               >
                 {approveButton.buttonText}
               </Button>
@@ -417,11 +452,14 @@ export const ConfirmationModal = ({
             <Button
               className={`flex w-full justify-center rounded-full px-3 py-6 text-sm font-bold leading-6 text-white shadow-sm ${theme.accentText} ${theme.accentBg}`}
               onClick={initiateButton.onSubmit}
-              disabled={!checkbox1 || !checkbox2 || initiateButton.disabled}
+              disabled={
+                !checkbox1 ||
+                !checkbox2 ||
+                !checkbox3 ||
+                initiateButton.disabled
+              }
             >
-              {withdrawing
-                ? t("withdrawalModal.initiateWithdrawal")
-                : t("withdrawalModal.initiateDeposit")}
+              {initiateButton.buttonText}
             </Button>
 
             {/* TODO: Create guide page and add link */}
@@ -430,7 +468,7 @@ export const ConfirmationModal = ({
                 className={`text-center text-sm font-bold tracking-tight  hover:underline ${theme.textColor}`}
                 href={"#"}
               >
-                {t("withdrawalModal.viewAlternateBridges")}
+                {t("confirmationModal.viewAlternateBridges")}
               </Link>
             )} */}
           </div>
