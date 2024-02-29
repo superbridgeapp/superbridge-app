@@ -249,7 +249,7 @@ export const ConfirmationModal = ({
       {
         text: `Finalize bridge on ${to?.name}`,
         icon: FinalizeIcon,
-        fee: fee(finalizeCost, 2),
+        fee: fee(finalizeCost, 4),
       },
     ])
     .with({ withdrawing: true, family: "optimism" }, () => [
@@ -401,7 +401,12 @@ export const ConfirmationModal = ({
           <div className="flex flex-col gap-3">
             {approveButton && (
               <Button
-                className={`flex w-full justify-center rounded-full px-3 py-6 text-sm font-bold leading-6 text-white shadow-sm ${theme.accentText} ${theme.accentBg}`}
+                className={clsx(
+                  "flex w-full justify-center rounded-full px-3 py-6 text-sm font-bold leading-6 text-white shadow-sm",
+                  theme.accentText,
+                  theme.accentBg,
+                  approved && "bg-[#55FF55] text-black"
+                )}
                 onClick={approveButton.onSubmit}
                 disabled={!checkbox1 || !checkbox2 || approveButton.disabled}
               >
@@ -414,7 +419,9 @@ export const ConfirmationModal = ({
               onClick={initiateButton.onSubmit}
               disabled={!checkbox1 || !checkbox2 || initiateButton.disabled}
             >
-              {t("withdrawalModal.continue")}
+              {withdrawing
+                ? t("withdrawalModal.initiateWithdrawal")
+                : t("withdrawalModal.initiateDeposit")}
             </Button>
 
             {/* TODO: Create guide page and add link */}
