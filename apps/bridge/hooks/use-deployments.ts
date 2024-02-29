@@ -37,10 +37,10 @@ export const useDeployments = () => {
             "optimism",
             "base",
             "zora",
-            // "pgn",
+            "pgn",
             "mode",
-            // "orderly",
-            // "lyra",
+            "orderly",
+            "lyra",
           ].includes(d.name);
         }
 
@@ -50,9 +50,9 @@ export const useDeployments = () => {
             "op-sepolia",
             "base-sepolia",
             "zora-sepolia-0thyhxtf5e",
-            // "pgn-sepolia-i4td3ji6i0",
+            "pgn-sepolia-i4td3ji6i0",
             "mode-sepolia-vtnhnpim72",
-            // "orderly-l2-4460-sepolia-8tc3sd7dvy",
+            "orderly-l2-4460-sepolia-8tc3sd7dvy",
           ].includes(d.name);
         }
 
