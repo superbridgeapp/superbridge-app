@@ -1,5 +1,7 @@
 import { DeploymentDto } from "@/codegen/model";
+import { useConfigState } from "@/state/config";
 import { isArbitrum, isMainnet, isOptimism } from "@/utils/is-mainnet";
+import { isNativeUsdc } from "@/utils/is-usdc";
 
 const ONE_MINUTE = 60;
 const ONE_HOUR = 60 * 60;
@@ -76,8 +78,22 @@ export const useProvePeriod = (deployment: DeploymentDto | null): Period => {
 export const useTotalBridgeTime = (
   deployment: DeploymentDto | null
 ): Period => {
+  const withdrawing = useConfigState.useWithdrawing();
+  const stateToken = useConfigState.useToken();
   const prove = useProvePeriod(deployment);
   const finalize = useFinalizationPeriod(deployment);
+
+  if (!withdrawing) {
+    if (isNativeUsdc(stateToken)) {
+      return { period: "mins", value: isMainnet(deployment) ? 15 : 3 };
+    }
+    if (deployment && isOptimism(deployment)) {
+      return { period: "mins", value: 3 };
+    }
+    if (deployment && isArbitrum(deployment)) {
+      return { period: "mins", value: 10 };
+    }
+  }
 
   if (!prove) {
     return finalize;
