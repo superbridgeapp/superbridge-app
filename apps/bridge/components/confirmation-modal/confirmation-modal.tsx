@@ -397,7 +397,7 @@ export const ConfirmationModal = ({
         fee: fee(initiateCost, 4),
       },
       {
-        text: t("confirmationModal.waitMinutes", { minutes: 10 }),
+        text: t("confirmationModal.waitMinutes", { mins: 10 }),
         icon: WaitIcon,
       },
       {
