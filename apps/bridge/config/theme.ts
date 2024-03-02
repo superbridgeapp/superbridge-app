@@ -434,6 +434,26 @@ const liskTheme: Theme = {
   standaloneLogoDark: "/img/logo-standalone-lisk.svg",
 };
 
+const lumioTheme: Theme = {
+  ...defaultTheme,
+  bg: "bg-zinc-50 dark:bg-black/70",
+  bgMuted: "bg-zinc-200/50 dark:bg-white/5",
+  screenBg: "bg-[#2F2B54] dark:bg-[#0F0B2D]",
+  screenBgImg:
+    "bg-gradient-to-t from-[#0F0B2D] dark:bg-[#2F2B54] via-violet-500/0 to-violet-500/0 mix-blend-lighter opacity-20",
+  logoSrc: "/img/logo-lumio.svg",
+  logoSrcDark: "/img/logo-lumio-dark.svg",
+  logoWidth: 113,
+  logoHeight: 40,
+  iconSrc: "/img/icon-lumio.svg",
+  l2ChainIcon: "/img/network-lumio.png",
+  card: {
+    className: "bg-gradient-to-b from-[#2F2B54] to-[#0F0B2D] ",
+  },
+  standaloneLogo: "/img/logo-lumio-dark.svg",
+  standaloneLogoDark: "/img/logo-lumio-dark.svg",
+};
+
 export const themes: { [name: string]: Theme | undefined } = {
   ["base"]: baseTheme,
   ["base-sepolia"]: baseTheme,
@@ -465,6 +485,7 @@ export const themes: { [name: string]: Theme | undefined } = {
   parallel,
   ["parallel-chain-oqwzakghzt"]: parallel,
   ["lisk-sepolia"]: liskTheme,
+  ["lumio-mainnet"]: lumioTheme,
 };
 
 export const deploymentTheme = (
