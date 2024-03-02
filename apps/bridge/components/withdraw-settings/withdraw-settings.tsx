@@ -11,11 +11,7 @@ import { isOptimism } from "@/utils/is-mainnet";
 import { Switch } from "../ui/switch";
 import { SettingsModalProps } from "./types";
 
-export const WithdrawSettings = ({
-  from,
-  bridgeFee,
-  gasEstimate,
-}: SettingsModalProps) => {
+export const WithdrawSettings = ({ from, gasEstimate }: SettingsModalProps) => {
   const deployment = useConfigState.useDeployment();
   const easyMode = useConfigState.useEasyMode();
   const toggleEasyMode = useConfigState.useToggleEasyMode();
@@ -46,7 +42,7 @@ export const WithdrawSettings = ({
             <div>
               <h3 className="font-bold">Escape hatch</h3>
               <p className="text-zinc-400 text-xs">
-                {t("settings.escapeHatchDescription")}
+                {t("settings.escapeHatchDescription", { base: from?.name })}
               </p>
             </div>
             <div className="pl-8">

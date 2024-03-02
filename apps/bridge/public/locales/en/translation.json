@@ -34,7 +34,7 @@
   "settings": {
     "settings": "Settings",
     "withdrawalSettings": "Withdrawal settings",
-    "escapeHatchDescription": "Force your withdrawal via a censorship resistant transaction on Ethereum.",
+    "escapeHatchDescription": "Force your withdrawal via a censorship resistant transaction on {{base}}.",
     "easyModeDescription": "Let us handle the extra transactions so you can set 'n forget.",
     "feeBreakdown": "Network fees",
     "currency": "Currency",

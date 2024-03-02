@@ -360,40 +360,6 @@ export const BridgeBody = () => {
       buttonText: withdrawing ? t("withdraw") : t("deposit"),
       disabled: true,
     }))
-    .with(
-      {
-        wallet: { chain: { id: P.not(from?.id) } },
-        forceViaL1: false,
-        withdrawing: P.select(),
-      },
-      (w) => ({
-        onSubmit: () => {
-          if (!from) return;
-          switchChain(from);
-        },
-        buttonText: t("switchTo", {
-          chain: w ? deployment?.l2.name : deployment?.l1.name,
-        }),
-        disabled: false,
-      })
-    )
-    .with(
-      {
-        withdrawing: true,
-        forceViaL1: true,
-        wallet: { chain: { id: P.not(to?.id) } },
-      },
-      () => ({
-        onSubmit: () => {
-          if (!to) return;
-          switchChain(to);
-        },
-        buttonText: t("switchTo", {
-          chain: deployment?.l1.name,
-        }),
-        disabled: false,
-      })
-    )
     .with({ hasInsufficientBalance: true }, () => ({
       onSubmit: () => {},
       buttonText: t("insufficientFunds"),
@@ -428,8 +394,6 @@ export const BridgeBody = () => {
         open={withdrawSettingsDialog}
         setOpen={setWithdrawSettingsDialog}
         from={from}
-        // @ts-expect-error
-        bridgeFee={bridgeFee}
         gasEstimate={200_000}
       />
       <AddressModal open={addressDialog} setOpen={setAddressDialog} />
