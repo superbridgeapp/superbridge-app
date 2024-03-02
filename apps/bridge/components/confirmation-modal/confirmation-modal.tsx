@@ -331,7 +331,12 @@ export const ConfirmationModal = ({
         icon: InitiateIcon,
         fee: fee(initiateCost, 4),
       },
-      { text: t("confirmationModal.waitHours", { hours: 2 }), icon: WaitIcon },
+      {
+        text: isMainnet(deployment)
+          ? t("confirmationModal.waitHours", { hours: 2 })
+          : t("confirmationModal.waitMinutes", { mins: 10 }),
+        icon: WaitIcon,
+      },
       {
         text: t("confirmationModal.prove", {
           base: deployment?.l1.name,
@@ -339,7 +344,14 @@ export const ConfirmationModal = ({
         icon: ProveIcon,
         fee: fee(proveCost, 4),
       },
-      { text: t("confirmationModal.waitDays", { days: 7 }), icon: WaitIcon },
+      {
+        text:
+          // todo: make this use finalization period seconds
+          isMainnet(deployment)
+            ? t("confirmationModal.waitDays", { days: 7 })
+            : t("confirmationModal.waitHours", { hours: 2 }),
+        icon: WaitIcon,
+      },
       {
         text: t("confirmationModal.finalize", {
           base: deployment?.l1.name,
