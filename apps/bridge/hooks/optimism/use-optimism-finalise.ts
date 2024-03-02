@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Address, Chain } from "viem";
-import { useAccount, useNetwork, useWalletClient } from "wagmi";
+import { useAccount, useWalletClient } from "wagmi";
 
 import { useBridgeControllerGetFinaliseTransaction } from "@/codegen";
 import { BridgeWithdrawalDto } from "@/codegen/model";
@@ -15,7 +15,6 @@ export function useFinaliseOptimism({ id, deployment }: BridgeWithdrawalDto) {
   const removeFinalising = usePendingTransactions.useRemoveFinalising();
 
   const getFinaliseTransaction = useBridgeControllerGetFinaliseTransaction();
-  const { chain: activeChain } = useNetwork();
 
   const switchChain = useSwitchChain();
 
@@ -27,7 +26,7 @@ export function useFinaliseOptimism({ id, deployment }: BridgeWithdrawalDto) {
       return;
     }
 
-    if (activeChain && activeChain.id !== deployment.l1.id) {
+    if (account.chain && account.chain.id !== deployment.l1.id) {
       await switchChain(deployment.l1);
     }
 

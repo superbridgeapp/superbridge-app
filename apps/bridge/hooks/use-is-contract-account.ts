@@ -1,4 +1,5 @@
-import { useAccount, usePublicClient, useQuery } from "wagmi";
+import { useAccount, usePublicClient } from "wagmi";
+import { useQuery } from "@tanstack/react-query";
 
 import { useFromChain } from "./use-chain";
 
@@ -8,7 +9,7 @@ export const useIsContractAccount = () => {
   const client = usePublicClient({ chainId: from?.id });
 
   return useQuery(
-    [`is-contract-${account.address}-${client.chain.id}-${from?.id}`],
+    [`is-contract-${account.address}-${client?.chain.id}-${from?.id}`],
     () => {
       if (!from?.id) {
         throw new Error("From chain not initialised");
@@ -18,7 +19,7 @@ export const useIsContractAccount = () => {
         throw new Error("No account connected");
       }
 
-      return client.getBytecode({ address: account.address }).then((x) => !!x);
+      return client?.getBytecode({ address: account.address }).then((x) => !!x);
     },
     { enabled: !!account.address }
   );

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Address, Chain } from "viem";
-import { useAccount, useNetwork, useWalletClient } from "wagmi";
+import { useAccount, useWalletClient } from "wagmi";
 
 import { useBridgeControllerGetArbitrumFinaliseTransactionV2 } from "@/codegen";
 import { ArbitrumWithdrawalDto } from "@/codegen/model";
@@ -16,7 +16,6 @@ export function useFinaliseArbitrum({ id, deployment }: ArbitrumWithdrawalDto) {
   const finaliseTransaction =
     useBridgeControllerGetArbitrumFinaliseTransactionV2();
   const switchChain = useSwitchChain();
-  const { chain: activeChain } = useNetwork();
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -26,7 +25,7 @@ export function useFinaliseArbitrum({ id, deployment }: ArbitrumWithdrawalDto) {
       return;
     }
 
-    if (activeChain && activeChain.id !== deployment.l1.id) {
+    if (account.chain && account.chain.id !== deployment.l1.id) {
       await switchChain(deployment.l1);
     }
 
