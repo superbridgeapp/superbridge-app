@@ -34,6 +34,14 @@ const mapping: { [name: string]: DedicatedDeployment | undefined } = {
       },
     ],
   },
+  "lumio-mainnet": {
+    name: "lumio-mainnet",
+    footerLink: "https://lumio.io",
+    og: {
+      title: "Lumio Bridge",
+      description: "Bridge ETH and ERC20 tokens into and out of Lumio Mainnet",
+    },
+  },
 };
 
 export const dedicatedDeployment = mapping[DEDICATED_DEPLOYMENT ?? ""] ?? null;

@@ -31,7 +31,7 @@ export const useDeployments = () => {
           return true;
         }
 
-        // main site shows all mainnet deployments
+        // superchain mainnets
         if (window.location.hostname === "superbridge.app") {
           return [
             "optimism",
@@ -44,7 +44,7 @@ export const useDeployments = () => {
           ].includes(d.name);
         }
 
-        // testnets.superbridge.app shows superchain testnets
+        // superchain testnets
         if (window.location.hostname === "testnets.superbridge.app") {
           return [
             "op-sepolia",
