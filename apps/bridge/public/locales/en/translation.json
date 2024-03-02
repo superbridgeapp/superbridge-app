@@ -87,7 +87,7 @@
     "cctpDepositTitle": "{{symbol}} deposits take ~{{mins}} mins",
     "cctpWithdrawalTitle": "{{symbol}} withdrawals take ~{{mins}}",
     "depositTitle": "{{rollup}} deposits take ~{{mins}} mins",
-    "withdrawalTitleMins": "{{rollup}} withdrawals take ~{{mins}} mins",
+    "withdrawalTitleMinutes": "{{rollup}} withdrawals take ~{{mins}} mins",
     "withdrawalTitleHours": "{{rollup}} withdrawals take ~{{hours}} hours",
     "withdrawalTitleDays": "{{rollup}} withdrawals take ~{{days}} days",
     "opDescription": "Withdrawing is a 3 step process, requiring 2 {{base}} transactions.",

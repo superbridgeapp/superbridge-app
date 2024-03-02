@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { formatUnits } from "viem";
 import { useFeeData, useWalletClient } from "wagmi";
@@ -128,6 +128,12 @@ export const ConfirmationModal = ({
 
     return `${currencySymbolMap[currency]}${amount}`;
   };
+
+  useEffect(() => {
+    setCheckbox1(false);
+    setCheckbox2(false);
+    setCheckbox3(false);
+  }, [open]);
 
   const approved =
     typeof allowance.data !== "undefined" && allowance.data >= weiAmount;
@@ -308,7 +314,7 @@ export const ConfirmationModal = ({
         fee: fee(initiateCost, 4),
       },
       {
-        text: t("confirmationModal.waitMins", {
+        text: t("confirmationModal.waitMinutes", {
           mins: isMainnet(deployment) ? 15 : 3,
         }),
         icon: WaitIcon,
