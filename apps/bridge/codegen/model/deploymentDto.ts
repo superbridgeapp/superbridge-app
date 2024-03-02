@@ -5,6 +5,7 @@
  * API docs
  * OpenAPI spec version: 1.0
  */
+import type { DeploymentDtoConfig } from './deploymentDtoConfig';
 import type { DeploymentDtoContractAddresses } from './deploymentDtoContractAddresses';
 import type { DeploymentFamily } from './deploymentFamily';
 import type { ChainDto } from './chainDto';
@@ -12,6 +13,7 @@ import type { DeploymentType } from './deploymentType';
 
 export interface DeploymentDto {
   conduitId: string | null;
+  config: DeploymentDtoConfig;
   contractAddresses: DeploymentDtoContractAddresses;
   createdAt: string;
   displayName: string;
