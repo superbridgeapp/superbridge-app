@@ -162,7 +162,7 @@ export const ConfirmationModal = ({
     })
     .with({ approved: true }, () => ({
       onSubmit: () => {},
-      buttonText: "Approved",
+      buttonText: t("confirmationModal.approved"),
       disabled: true,
     }))
     .exhaustive();
@@ -402,8 +402,8 @@ export const ConfirmationModal = ({
               <Link
                 href={
                   isNativeUsdc(stateToken)
-                    ? "https://docs.rollbridge.app/what-is-bridging"
-                    : "https://docs.rollbridge.app/native-usdc"
+                    ? "https://docs.rollbridge.app/native-usdc"
+                    : "https://docs.rollbridge.app/what-is-bridging"
                 }
                 className="underline font-medium"
                 target="_blank"

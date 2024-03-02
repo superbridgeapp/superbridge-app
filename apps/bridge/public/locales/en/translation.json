@@ -92,7 +92,7 @@
     "withdrawalTitleDays": "{{rollup}} withdrawals take ~{{days}} days",
     "opDescription": "Withdrawing is a 3 step process, requiring 2 {{base}} transactions.",
     "arbDescription": "Withdrawing is a 2 step process and requires an extra {{base}} transaction.",
-    "depositDescription": "",
+    "depositDescription": "Something about deposits...",
     "learnMore": "Learn more",
     "approxFees": "Approx. fees",
     "initiateDeposit": "Initiate deposit",
@@ -103,6 +103,7 @@
     "prove": "Prove on {{base}}",
     "finalize": "Claim on {{base}}",
     "receiveDeposit": "Receive on {{rollup}}",
+    "approved": "Approved",
 
     "checkbox1Cctp": "I understand it will take ~{{mins}} mins until my funds are claimable on {{to}}",
     "checkbox1Deposit": "I understand it will take ~{{mins}} mins until my funds are on {{rollup}}",

@@ -316,6 +316,7 @@ export const BridgeBody = () => {
   const onSubmit = async () => {
     await onWrite();
     allowance.refetch();
+    setConfirmationModal(false);
   };
 
   const handleSubmitClick = () => {
@@ -610,7 +611,7 @@ export const BridgeBody = () => {
       </div>
 
       <Button
-        disabled={bridge.write.isLoading || submitButton.disabled}
+        disabled={submitButton.disabled}
         onClick={submitButton.onSubmit}
         className={`flex w-full justify-center rounded-full px-3 py-6 text-sm font-bold leading-6 text-white shadow-sm ${theme.accentText} ${theme.accentBg}`}
       >
