@@ -91,7 +91,7 @@
 
   "confirmationModal": {
     "cctpDepositTitle": "{{symbol}} deposits take ~{{mins}} mins",
-    "cctpWithdrawalTitle": "{{symbol}} withdrawals take ~{{mins}}",
+    "cctpWithdrawalTitle": "{{symbol}} withdrawals take ~{{mins}} mins",
     "depositTitle": "{{rollup}} deposits take ~{{mins}} mins",
     "withdrawalTitleMinutes_one": "{{rollup}} withdrawals take ~{{count}} min",
     "withdrawalTitleMinutes_other": "{{rollup}} withdrawals take ~{{count}} mins",

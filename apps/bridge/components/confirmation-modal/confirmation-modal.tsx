@@ -233,13 +233,13 @@ export const ConfirmationModal = ({
   })
     .with({ isUsdc: true, withdrawing: true }, () =>
       t("confirmationModal.cctpDepositTitle", {
-        mins: isMainnet(deployment) ? 15 : 3,
+        mins: totalBridgeTime?.value,
         symbol: token?.symbol,
       })
     )
     .with({ isUsdc: true, withdrawing: false }, () =>
       t("confirmationModal.cctpWithdrawalTitle", {
-        mins: isMainnet(deployment) ? 15 : 3,
+        mins: totalBridgeTime?.value,
         symbol: token?.symbol,
       })
     )
@@ -255,7 +255,7 @@ export const ConfirmationModal = ({
     .with({ withdrawing: false }, () =>
       t("confirmationModal.depositTitle", {
         rollup: deployment?.l2.name,
-        mins: deployment && isOptimism(deployment) ? 3 : 10,
+        mins: totalBridgeTime?.value,
       })
     )
     .otherwise(() => "");
@@ -290,7 +290,7 @@ export const ConfirmationModal = ({
   })
     .with({ isUsdc: true }, () =>
       t("confirmationModal.checkbox1Cctp", {
-        mins: deployment && isMainnet(deployment) ? 15 : 3,
+        mins: totalBridgeTime?.value,
         to: to?.name,
       })
     )
@@ -314,7 +314,7 @@ export const ConfirmationModal = ({
     )
     .with({ withdrawing: false }, () =>
       t("confirmationModal.checkbox1Deposit", {
-        mins: deployment && isOptimism(deployment) ? 3 : 10,
+        mins: totalBridgeTime?.value,
         rollup: deployment?.l2.name,
       })
     )
@@ -335,10 +335,7 @@ export const ConfirmationModal = ({
         text: transformPeriodText(
           "confirmationModal.wait",
           {},
-          {
-            period: "mins",
-            value: isMainnet(deployment) ? 15 : 3,
-          }
+          totalBridgeTime
         ),
         icon: WaitIcon,
       },
@@ -410,7 +407,9 @@ export const ConfirmationModal = ({
         fee: fee(initiateCost, 4),
       },
       {
-        text: t("confirmationModal.waitMinutes", { count: 3 }),
+        text: t("confirmationModal.waitMinutes", {
+          count: totalBridgeTime?.value,
+        }),
         icon: WaitIcon,
       },
       {
@@ -425,7 +424,9 @@ export const ConfirmationModal = ({
         fee: fee(initiateCost, 4),
       },
       {
-        text: t("confirmationModal.waitMinutes", { count: 10 }),
+        text: t("confirmationModal.waitMinutes", {
+          count: totalBridgeTime?.value,
+        }),
         icon: WaitIcon,
       },
       {
