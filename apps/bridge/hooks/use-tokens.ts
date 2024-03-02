@@ -4,15 +4,18 @@ import { useConfigState } from "@/state/config";
 import { isArbitrumToken, isOptimismToken } from "@/utils/guards";
 import { isNativeToken } from "@/utils/is-eth";
 import { isBridgedUsdc, isNativeUsdc } from "@/utils/is-usdc";
+import { useSettingsState } from "@/state/settings";
 
 import { useDeployments } from "./use-deployments";
-import { useSettingsState } from "@/state/settings";
+import { useArbitrumNativeTokens } from "./arbitrum/use-arbitrum-native-tokens";
+import { isArbitrum } from "@/utils/is-mainnet";
 
 export function useAllTokens() {
   const deployment = useConfigState.useDeployment();
   const tokens = useConfigState.useTokens();
   const customTokens = useSettingsState.useCustomTokens();
 
+  const arbitrumNativeTokens = useArbitrumNativeTokens();
   const { deployments } = useDeployments();
 
   return useMemo(
@@ -47,8 +50,9 @@ export function useAllTokens() {
         return t;
       }),
       ...customTokens,
+      ...arbitrumNativeTokens,
     ],
-    [deployment, tokens, customTokens]
+    [deployment, tokens, customTokens, arbitrumNativeTokens]
   );
 }
 
