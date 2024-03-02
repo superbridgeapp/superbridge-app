@@ -2,19 +2,32 @@ import clsx from "clsx";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { match } from "ts-pattern";
 import { formatUnits } from "viem";
 import { useFeeData, useWalletClient } from "wagmi";
 
-import { DeploymentFamily } from "@/codegen/model";
 import { Checkbox } from "@/components/ui/checkbox";
 import { deploymentTheme } from "@/config/theme";
 import { currencySymbolMap } from "@/constants/currency-symbol-map";
 import { FINALIZE_GAS, PROVE_GAS } from "@/constants/gas-limits";
+import { useAllowance } from "@/hooks/use-allowance";
+import { useApprove } from "@/hooks/use-approve";
+import { useBridge } from "@/hooks/use-bridge";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
+import {
+  Period,
+  useFinalizationPeriod,
+  useProvePeriod,
+  useTotalBridgeTime,
+} from "@/hooks/use-finalization-period";
 import { useNativeToken } from "@/hooks/use-native-token";
 import { useTokenPrice } from "@/hooks/use-prices";
+import { useSelectedToken } from "@/hooks/use-selected-token";
+import { useWeiAmount } from "@/hooks/use-wei-amount";
 import { useConfigState } from "@/state/config";
 import { useSettingsState } from "@/state/settings";
+import { isNativeToken } from "@/utils/is-eth";
+import { isMainnet, isOptimism } from "@/utils/is-mainnet";
 import { isNativeUsdc } from "@/utils/is-usdc";
 
 import { Button } from "../ui/button";
@@ -28,15 +41,6 @@ import {
   ReceiveIcon,
   WaitIcon,
 } from "./icons";
-import { isNativeToken } from "@/utils/is-eth";
-import { useApprove } from "@/hooks/use-approve";
-import { useSelectedToken } from "@/hooks/use-selected-token";
-import { useAllowance } from "@/hooks/use-allowance";
-import { P, match } from "ts-pattern";
-import { useWeiAmount } from "@/hooks/use-wei-amount";
-import { useBridge } from "@/hooks/use-bridge";
-import { isMainnet, isOptimism } from "@/utils/is-mainnet";
-import { useFinalizationPeriod } from "@/hooks/use-finalization-period";
 
 function LineItem({
   text,
@@ -70,21 +74,6 @@ function LineItem({
   );
 }
 
-const useWaitText = (data: ReturnType<typeof useFinalizationPeriod>) => {
-  const { t } = useTranslation();
-
-  if (!data) return "";
-
-  const { value, period } = data;
-  if (period === "days") {
-    return t("confirmationModal.waitDays", { days: value });
-  }
-  if (period === "hours") {
-    return t("confirmationModal.waitHours", { hours: value });
-  }
-  return t("confirmationModal.waitMinutes", { mins: value });
-};
-
 export const ConfirmationModal = ({
   onConfirm,
   approve,
@@ -107,14 +96,14 @@ export const ConfirmationModal = ({
   const weiAmount = useWeiAmount();
   const wallet = useWalletClient();
   const withdrawing = useConfigState.useWithdrawing();
-  const rawAmount = useConfigState.useRawAmount();
   const escapeHatch = useConfigState.useForceViaL1();
 
   const deployment = useConfigState.useDeployment();
   const theme = deploymentTheme(deployment);
 
-  const finalizationPeriod = useFinalizationPeriod(deployment);
-  const finalizationWaitText = useWaitText(finalizationPeriod);
+  const finalizationTime = useFinalizationPeriod(deployment);
+  const proveTime = useProvePeriod(deployment);
+  const totalBridgeTime = useTotalBridgeTime(deployment);
 
   const fromFeeData = useFeeData({ chainId: from?.id });
   const toFeeData = useFeeData({ chainId: to?.id });
@@ -133,6 +122,25 @@ export const ConfirmationModal = ({
   const [checkbox1, setCheckbox1] = useState(false);
   const [checkbox2, setCheckbox2] = useState(false);
   const [checkbox3, setCheckbox3] = useState(false);
+
+  const transformPeriodText = (str: string, args: any, period: Period) => {
+    const value =
+      period?.period === "mins"
+        ? t(`${str}Minutes`, {
+            ...args,
+            count: period.value,
+          }).toString()
+        : period?.period === "hours"
+        ? t(`${str}Hours`, {
+            ...args,
+            count: period.value,
+          }).toString()
+        : t(`${str}Days`, {
+            ...args,
+            count: period?.value,
+          }).toString();
+    return value ?? "";
+  };
 
   const fee = (n: bigint, maximumFractionDigits: number) => {
     if (!nativeTokenPrice) {
@@ -236,16 +244,13 @@ export const ConfirmationModal = ({
       })
     )
     .with({ withdrawing: true }, () =>
-      isMainnet(deployment)
-        ? t("confirmationModal.withdrawalTitleDays", {
-            rollup: deployment?.l2.name,
-            days: 7,
-          })
-        : // todo: take into account finalization period
-          t("confirmationModal.withdrawalTitleHours", {
-            rollup: deployment?.l2.name,
-            hours: 2,
-          })
+      transformPeriodText(
+        "confirmationModal.withdrawalTitle",
+        {
+          rollup: deployment?.l2.name,
+        },
+        totalBridgeTime
+      )
     )
     .with({ withdrawing: false }, () =>
       t("confirmationModal.depositTitle", {
@@ -253,7 +258,7 @@ export const ConfirmationModal = ({
         mins: deployment && isOptimism(deployment) ? 3 : 10,
       })
     )
-    .otherwise(() => null);
+    .otherwise(() => "");
 
   const description = match({
     isUsdc: isNativeUsdc(stateToken),
@@ -290,28 +295,22 @@ export const ConfirmationModal = ({
       })
     )
     .with({ withdrawing: true, family: "optimism" }, () =>
-      isMainnet(deployment)
-        ? t("confirmationModal.opCheckbox1WithdrawalDays", {
-            base: deployment?.l1.name,
-            days: 7,
-          })
-        : // todo: take into account finalization period
-          t("confirmationModal.opCheckbox1WithdrawalHours", {
-            base: deployment?.l1.name,
-            hours: 2,
-          })
+      transformPeriodText(
+        "confirmationModal.opCheckbox1Withdrawal",
+        {
+          base: deployment?.l1.name,
+        },
+        totalBridgeTime
+      )
     )
     .with({ withdrawing: true, family: "arbitrum" }, () =>
-      isMainnet(deployment)
-        ? t("confirmationModal.arbCheckbox1WithdrawalDays", {
-            base: deployment?.l1.name,
-            days: 7,
-          })
-        : // todo: take into account finalization period
-          t("confirmationModal.arbCheckbox1WithdrawalHours", {
-            base: deployment?.l1.name,
-            hours: 2,
-          })
+      transformPeriodText(
+        "confirmationModal.arbCheckbox1Withdrawal",
+        {
+          base: deployment?.l1.name,
+        },
+        totalBridgeTime
+      )
     )
     .with({ withdrawing: false }, () =>
       t("confirmationModal.checkbox1Deposit", {
@@ -333,9 +332,14 @@ export const ConfirmationModal = ({
         fee: fee(initiateCost, 4),
       },
       {
-        text: t("confirmationModal.waitMinutes", {
-          mins: isMainnet(deployment) ? 15 : 3,
-        }),
+        text: transformPeriodText(
+          "confirmationModal.wait",
+          {},
+          {
+            period: "mins",
+            value: isMainnet(deployment) ? 15 : 3,
+          }
+        ),
         icon: WaitIcon,
       },
       {
@@ -351,9 +355,7 @@ export const ConfirmationModal = ({
         fee: fee(initiateCost, 4),
       },
       {
-        text: isMainnet(deployment)
-          ? t("confirmationModal.waitHours", { hours: 2 })
-          : t("confirmationModal.waitMinutes", { mins: 10 }),
+        text: transformPeriodText("confirmationModal.wait", {}, proveTime),
         icon: WaitIcon,
       },
       {
@@ -364,7 +366,11 @@ export const ConfirmationModal = ({
         fee: fee(proveCost, 4),
       },
       {
-        text: finalizationWaitText,
+        text: transformPeriodText(
+          "confirmationModal.wait",
+          {},
+          finalizationTime
+        ),
         icon: WaitIcon,
       },
       {
@@ -382,7 +388,11 @@ export const ConfirmationModal = ({
         fee: fee(initiateCost, 4),
       },
       {
-        text: finalizationWaitText,
+        text: transformPeriodText(
+          "confirmationModal.wait",
+          {},
+          finalizationTime
+        ),
         icon: WaitIcon,
       },
       {
@@ -400,7 +410,7 @@ export const ConfirmationModal = ({
         fee: fee(initiateCost, 4),
       },
       {
-        text: t("confirmationModal.waitMinutes", { mins: 3 }),
+        text: t("confirmationModal.waitMinutes", { count: 3 }),
         icon: WaitIcon,
       },
       {
@@ -415,7 +425,7 @@ export const ConfirmationModal = ({
         fee: fee(initiateCost, 4),
       },
       {
-        text: t("confirmationModal.waitMinutes", { mins: 10 }),
+        text: t("confirmationModal.waitMinutes", { count: 10 }),
         icon: WaitIcon,
       },
       {
@@ -458,7 +468,7 @@ export const ConfirmationModal = ({
 
             {approveButton && (
               <LineItem
-                text={`Approve ${rawAmount} ${token?.symbol}`}
+                text={t("confirmationModal.approve", { symbol: token?.symbol })}
                 icon={ApproveIcon}
                 fee={fee(approveCost, 4)}
               />

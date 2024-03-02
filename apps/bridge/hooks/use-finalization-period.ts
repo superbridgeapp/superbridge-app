@@ -5,13 +5,15 @@ const ONE_MINUTE = 60;
 const ONE_HOUR = 60 * 60;
 const ONE_DAY = 60 * 60 * 24;
 
-export const useFinalizationPeriod = (
-  deployment: DeploymentDto | null
-):
+export type Period =
   | { period: "days"; value: number }
   | { period: "hours"; value: number }
   | { period: "mins"; value: number }
-  | null => {
+  | null;
+
+export const useFinalizationPeriod = (
+  deployment: DeploymentDto | null
+): Period => {
   if (!deployment) {
     return null;
   }
@@ -46,4 +48,56 @@ export const useFinalizationPeriod = (
   }
 
   return null;
+};
+
+export const useProvePeriod = (deployment: DeploymentDto | null): Period => {
+  if (!deployment || !isOptimism(deployment)) {
+    return null;
+  }
+
+  if (isMainnet(deployment)) {
+    return {
+      period: "hours",
+      value: 2,
+    };
+  }
+
+  return {
+    period: "mins",
+    value: 5,
+  };
+};
+
+/**
+ *
+ * @param deployment
+ * @returns
+ */
+export const useTotalBridgeTime = (
+  deployment: DeploymentDto | null
+): Period => {
+  const prove = useProvePeriod(deployment);
+  const finalize = useFinalizationPeriod(deployment);
+
+  if (!prove) {
+    return finalize;
+  }
+
+  if (!finalize) {
+    return null;
+  }
+
+  if (prove.period === finalize.period) {
+    return {
+      period: prove.period,
+      value: prove.value + finalize.value,
+    };
+  }
+
+  // take the biggest of the two
+  if (prove.period === "days") return prove;
+  if (finalize.period === "days") return finalize;
+  if (prove.period === "hours") return prove;
+  if (finalize.period === "hours") return prove;
+  return prove;
 };
