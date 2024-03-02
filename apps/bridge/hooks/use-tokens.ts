@@ -1,12 +1,12 @@
 import { useMemo } from "react";
 
 import { useConfigState } from "@/state/config";
+import { useSettingsState } from "@/state/settings";
 import { isArbitrumToken, isOptimismToken } from "@/utils/guards";
 import { isNativeToken } from "@/utils/is-eth";
 import { isBridgedUsdc, isNativeUsdc } from "@/utils/is-usdc";
 
 import { useDeployments } from "./use-deployments";
-import { useSettingsState } from "@/state/settings";
 
 export function useAllTokens() {
   const deployment = useConfigState.useDeployment();
