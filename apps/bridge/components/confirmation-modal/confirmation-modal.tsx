@@ -36,6 +36,7 @@ import { P, match } from "ts-pattern";
 import { useWeiAmount } from "@/hooks/use-wei-amount";
 import { useBridge } from "@/hooks/use-bridge";
 import { isMainnet, isOptimism } from "@/utils/is-mainnet";
+import { useFinalizationPeriod } from "@/hooks/use-finalization-period";
 
 function LineItem({
   text,
@@ -69,6 +70,21 @@ function LineItem({
   );
 }
 
+const useWaitText = (data: ReturnType<typeof useFinalizationPeriod>) => {
+  const { t } = useTranslation();
+
+  if (!data) return "";
+
+  const { value, period } = data;
+  if (period === "days") {
+    return t("confirmationModal.waitDays", { days: value });
+  }
+  if (period === "hours") {
+    return t("confirmationModal.waitHours", { hours: value });
+  }
+  return t("confirmationModal.waitMinutes", { mins: value });
+};
+
 export const ConfirmationModal = ({
   onConfirm,
   approve,
@@ -96,6 +112,9 @@ export const ConfirmationModal = ({
 
   const deployment = useConfigState.useDeployment();
   const theme = deploymentTheme(deployment);
+
+  const finalizationPeriod = useFinalizationPeriod(deployment);
+  const finalizationWaitText = useWaitText(finalizationPeriod);
 
   const fromFeeData = useFeeData({ chainId: from?.id });
   const toFeeData = useFeeData({ chainId: to?.id });
@@ -345,11 +364,7 @@ export const ConfirmationModal = ({
         fee: fee(proveCost, 4),
       },
       {
-        text:
-          // todo: make this use finalization period seconds
-          isMainnet(deployment)
-            ? t("confirmationModal.waitDays", { days: 7 })
-            : t("confirmationModal.waitHours", { hours: 2 }),
+        text: finalizationWaitText,
         icon: WaitIcon,
       },
       {
@@ -366,7 +381,10 @@ export const ConfirmationModal = ({
         icon: InitiateIcon,
         fee: fee(initiateCost, 4),
       },
-      { text: t("confirmationModal.waitDays", { days: 7 }), icon: WaitIcon },
+      {
+        text: finalizationWaitText,
+        icon: WaitIcon,
+      },
       {
         text: t("confirmationModal.finalize", {
           base: deployment?.l1.name,
