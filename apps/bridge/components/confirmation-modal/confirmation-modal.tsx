@@ -232,13 +232,13 @@ export const ConfirmationModal = ({
     family: deployment?.family,
   })
     .with({ isUsdc: true, withdrawing: true }, () =>
-      t("confirmationModal.cctpDepositTitle", {
+      t("confirmationModal.cctpWithdrawalTitle", {
         mins: totalBridgeTime?.value,
         symbol: token?.symbol,
       })
     )
     .with({ isUsdc: true, withdrawing: false }, () =>
-      t("confirmationModal.cctpWithdrawalTitle", {
+      t("confirmationModal.cctpDepositTitle", {
         mins: totalBridgeTime?.value,
         symbol: token?.symbol,
       })
