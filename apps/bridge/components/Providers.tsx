@@ -12,7 +12,7 @@ import { useTheme } from "next-themes";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { WagmiProvider, http } from "wagmi";
-import { mainnet, optimism } from "wagmi/chains";
+import { Chain, mainnet, optimism } from "wagmi/chains";
 
 import { ThemeProvider } from "@/components/theme-provider";
 import { chainIcons } from "@/config/theme";
@@ -20,6 +20,7 @@ import * as metadata from "@/constants/metadata";
 import { useDeployments } from "@/hooks/use-deployments";
 import { useConfigState } from "@/state/config";
 import { queryClient } from "@/utils/query-client";
+import { RainbowKitChain } from "@rainbow-me/rainbowkit/dist/components/RainbowKitProvider/RainbowKitChainContext";
 
 function Web3Provider({ children }: { children: React.ReactNode }) {
   const { deployments } = useDeployments();
@@ -62,6 +63,7 @@ function Web3Provider({ children }: { children: React.ReactNode }) {
     return getDefaultConfig({
       appName: metadata.title,
       projectId: "50c3481ab766b0e9c611c9356a42987b",
+      // @ts-expect-error
       chains,
       transports,
     });

@@ -1,5 +1,5 @@
 import { useConnectModal } from "@rainbow-me/rainbowkit";
-import { waitForTransaction } from "@wagmi/core";
+import { waitForTransactionReceipt } from "@wagmi/core";
 import clsx from "clsx";
 import Image from "next/image";
 import { useState } from "react";
@@ -7,7 +7,13 @@ import { useTranslation } from "react-i18next";
 import { isPresent } from "ts-is-present";
 import { P, match } from "ts-pattern";
 import { formatUnits, parseUnits } from "viem";
-import { useAccount, useBalance, useFeeData, useWalletClient } from "wagmi";
+import {
+  useAccount,
+  useBalance,
+  useConfig,
+  useFeeData,
+  useWalletClient,
+} from "wagmi";
 
 import { useBridgeControllerTrack } from "@/codegen";
 import { DeploymentType } from "@/codegen/model";
@@ -170,6 +176,8 @@ export const BridgeBody = () => {
   const feeData = useFeeData({
     chainId: forceViaL1 && withdrawing ? deployment?.l1.id : from?.id,
   });
+  const wagmiConfig = useConfig();
+
   const allowance = useAllowance(token, bridge.address);
   const nftAllowance = useAllowanceNft();
 
@@ -229,8 +237,8 @@ export const BridgeBody = () => {
     }
 
     try {
-      const { hash } = await bridge.write.sendTransactionAsync!();
-      waitForTransaction({
+      const hash = await bridge.write!();
+      waitForTransactionReceipt(wagmiConfig, {
         hash,
         chainId: withdrawing
           ? forceViaL1
@@ -346,7 +354,7 @@ export const BridgeBody = () => {
   const submitButton = match({
     disabled: deployment?.name === "orb3-mainnet" && !withdrawing,
     withdrawing,
-    isSubmitting: bridge.write.isLoading,
+    isSubmitting: bridge.isLoading,
     account: account.address,
     wallet: wallet.data,
     hasInsufficientBalance,
@@ -506,7 +514,6 @@ export const BridgeBody = () => {
         open={withdrawSettingsDialog}
         setOpen={setWithdrawSettingsDialog}
         from={from}
-        // @ts-expect-error
         bridgeFee={bridgeFee}
         gasEstimate={200_000}
       />
@@ -737,7 +744,7 @@ export const BridgeBody = () => {
       </div>
 
       <Button
-        disabled={bridge.write.isLoading || submitButton.disabled}
+        disabled={bridge.isLoading || submitButton.disabled}
         onClick={submitButton.onSubmit}
         className={`flex w-full justify-center rounded-full px-3 py-6 text-sm font-bold leading-6 text-white shadow-sm ${theme.accentText} ${theme.accentBg}`}
       >

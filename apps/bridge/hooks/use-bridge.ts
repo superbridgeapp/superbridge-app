@@ -4,7 +4,7 @@ import { useTransactionArgs } from "./use-transaction-args";
 
 export const useBridge = () => {
   const bridgeArgs = useTransactionArgs();
-  const { sendTransactionAsync } = useSendTransaction();
+  const { sendTransactionAsync, isLoading } = useSendTransaction();
   let { data: gas, refetch } = useEstimateGas(bridgeArgs?.tx);
 
   if (gas) {
@@ -12,10 +12,12 @@ export const useBridge = () => {
   }
 
   return {
-    write: () => {
-      if (!bridgeArgs?.tx) return;
-      return sendTransactionAsync({ ...bridgeArgs.tx, gas });
-    },
+    write: !bridgeArgs?.tx
+      ? undefined
+      : () => {
+          return sendTransactionAsync({ ...bridgeArgs.tx, gas });
+        },
+    isLoading,
     address: bridgeArgs?.approvalAddress,
     refetch,
     valid: !!bridgeArgs,

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useContractWrite, useWaitForTransaction } from "wagmi";
+import { useWaitForTransactionReceipt, useWriteContract } from "wagmi";
 
 import { Token } from "@/types/token";
 
@@ -36,19 +36,9 @@ export function useApprove(
   refreshTx: () => void,
   amount: bigint
 ) {
-  const {
-    write,
-    data,
-    isLoading: writing,
-  } = useContractWrite({
-    abi: APPROVE_ABI_WITHOUT_RETURN,
-    address: token?.address,
-    args: [contract, amount],
-    functionName: "approve",
-    chainId: token?.chainId,
-  });
-  const { isLoading: waiting, data: receipt } = useWaitForTransaction({
-    hash: data?.hash,
+  const { writeContract, data: hash, isLoading: writing } = useWriteContract();
+  const { isLoading: waiting, data: receipt } = useWaitForTransactionReceipt({
+    hash,
   });
 
   useEffect(() => {
@@ -63,7 +53,16 @@ export function useApprove(
   }, [receipt]);
 
   return {
-    write,
+    write: () => {
+      if (!token?.address) return;
+      return writeContract({
+        abi: APPROVE_ABI_WITHOUT_RETURN,
+        address: token?.address,
+        args: [contract, amount],
+        functionName: "approve",
+        chainId: token?.chainId,
+      });
+    },
     isLoading: writing || waiting,
   };
 }
