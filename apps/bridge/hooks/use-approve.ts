@@ -37,7 +37,7 @@ export function useApprove(
   amount: bigint
 ) {
   const { writeContract, data: hash, isLoading: writing } = useWriteContract();
-  const { isLoading: waiting, data: receipt } = useWaitForTransactionReceipt({
+  const { isFetching: waiting, data: receipt } = useWaitForTransactionReceipt({
     hash,
   });
 

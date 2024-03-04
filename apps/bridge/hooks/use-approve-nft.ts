@@ -10,7 +10,7 @@ export function useApproveNft(
 ) {
   const nft = useConfigState.useNft();
   const { data: hash, isLoading: writing, writeContract } = useWriteContract();
-  const { isLoading: waiting, data: receipt } = useWaitForTransactionReceipt({
+  const { isFetching: waiting, data: receipt } = useWaitForTransactionReceipt({
     hash,
   });
 
