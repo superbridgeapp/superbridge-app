@@ -57,6 +57,7 @@ export const baseTokens = [
     },
     opTokenId: "custom-sqt",
     coinGeckoId: "subquery-network",
+  },
     
   // EPOCH
   {
