@@ -19,7 +19,6 @@ export function useFinaliseOptimism({ id, deployment }: BridgeWithdrawalDto) {
   const switchChain = useSwitchChain();
 
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
 
   const onFinalise = async () => {
     if (!account.address || !wallet.data) {
@@ -32,7 +31,6 @@ export function useFinaliseOptimism({ id, deployment }: BridgeWithdrawalDto) {
 
     try {
       setLoading(true);
-      setError(null);
 
       const { data } = await getFinaliseTransaction.mutateAsync({
         data: { id },
@@ -51,7 +49,6 @@ export function useFinaliseOptimism({ id, deployment }: BridgeWithdrawalDto) {
         // no error
       } else {
         console.log(e);
-        setError(e);
       }
       removeFinalising(id);
     } finally {
@@ -62,6 +59,5 @@ export function useFinaliseOptimism({ id, deployment }: BridgeWithdrawalDto) {
   return {
     onFinalise,
     loading,
-    error,
   };
 }

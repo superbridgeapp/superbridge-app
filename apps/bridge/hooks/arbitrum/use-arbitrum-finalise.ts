@@ -18,7 +18,6 @@ export function useFinaliseArbitrum({ id, deployment }: ArbitrumWithdrawalDto) {
   const switchChain = useSwitchChain();
 
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
 
   const onFinalise = async () => {
     if (!account.address || !wallet.data) {
@@ -31,7 +30,6 @@ export function useFinaliseArbitrum({ id, deployment }: ArbitrumWithdrawalDto) {
 
     try {
       setLoading(true);
-      setError(null);
 
       const data = await finaliseTransaction.mutateAsync({ data: { id } });
       const hash = await wallet.data.sendTransaction({
@@ -48,7 +46,6 @@ export function useFinaliseArbitrum({ id, deployment }: ArbitrumWithdrawalDto) {
         // no error
       } else {
         console.log(e);
-        setError(e);
       }
       removeFinalising(id);
     } finally {
@@ -59,6 +56,5 @@ export function useFinaliseArbitrum({ id, deployment }: ArbitrumWithdrawalDto) {
   return {
     onFinalise,
     loading,
-    error,
   };
 }

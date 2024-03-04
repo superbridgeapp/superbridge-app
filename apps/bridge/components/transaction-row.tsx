@@ -78,7 +78,7 @@ const Prove = ({ tx }: { tx: BridgeWithdrawalDto | ForcedWithdrawalDto }) => {
       className="rounded-full"
       onClick={prove.onProve}
       size={"sm"}
-      disabled={prove.error || prove.loading}
+      disabled={prove.loading}
     >
       {t("buttons.prove")}
     </Button>
@@ -97,7 +97,7 @@ const Finalise = ({
       className="rounded-full"
       onClick={finalise.onFinalise}
       size={"sm"}
-      disabled={finalise.error || finalise.loading}
+      disabled={finalise.loading}
     >
       {t("buttons.finalize")}
     </Button>
@@ -116,7 +116,7 @@ const FinaliseArbitrum: FC<{
       className="rounded-full"
       onClick={finalise.onFinalise}
       size={"sm"}
-      disabled={finalise.error || finalise.loading}
+      disabled={finalise.loading}
     >
       {t("buttons.finalize")}
     </Button>
@@ -162,7 +162,7 @@ const MintCctp: FC<{
       className="rounded-full"
       onClick={mint.write}
       size={"sm"}
-      disabled={mint.loading || !!mint.error}
+      disabled={mint.loading}
     >
       {t("buttons.mint")}
     </Button>

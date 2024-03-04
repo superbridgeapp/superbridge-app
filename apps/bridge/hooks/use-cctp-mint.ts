@@ -17,7 +17,6 @@ export function useMintCctp({ id, to }: CctpBridgeDto) {
   const switchChain = useSwitchChain();
 
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
 
   const write = async () => {
     if (!account.address || !wallet.data) {
@@ -30,7 +29,6 @@ export function useMintCctp({ id, to }: CctpBridgeDto) {
 
     try {
       setLoading(true);
-      setError(null);
 
       const data = await finaliseTransaction.mutateAsync({ data: { id } });
       const hash = await wallet.data.sendTransaction({
@@ -41,7 +39,6 @@ export function useMintCctp({ id, to }: CctpBridgeDto) {
       setFinalising(id, hash);
     } catch (e: any) {
       console.log(e);
-      setError(e);
       removeFinalising(id);
     } finally {
       setLoading(false);
@@ -51,6 +48,5 @@ export function useMintCctp({ id, to }: CctpBridgeDto) {
   return {
     write,
     loading,
-    error,
   };
 }

@@ -17,7 +17,6 @@ export function useProveOptimism({ id, deployment }: BridgeWithdrawalDto) {
   const switchChain = useSwitchChain();
 
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
 
   const onProve = async () => {
     if (!account.address || !wallet.data) {
@@ -30,7 +29,6 @@ export function useProveOptimism({ id, deployment }: BridgeWithdrawalDto) {
 
     try {
       setLoading(true);
-      setError(null);
       const { data } = await getProveTransaction.mutateAsync({ data: { id } });
       const hash = await wallet.data.sendTransaction({
         to: data.to as Address,
@@ -46,7 +44,6 @@ export function useProveOptimism({ id, deployment }: BridgeWithdrawalDto) {
         // no error
       } else {
         console.log(e);
-        setError(e);
       }
       removeProving(id);
     } finally {
@@ -57,6 +54,5 @@ export function useProveOptimism({ id, deployment }: BridgeWithdrawalDto) {
   return {
     onProve,
     loading,
-    error,
   };
 }
