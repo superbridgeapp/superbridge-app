@@ -6,4 +6,4 @@
  * OpenAPI spec version: 1.0
  */
 
-export interface L2ArbitrumContractAddressesDto { [key: string]: any }
+export interface ArbitrumConfigDto { [key: string]: any }
