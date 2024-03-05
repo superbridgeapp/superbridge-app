@@ -232,7 +232,11 @@ export const BridgeBody = () => {
       await switchChain(deployment!.l1);
     }
 
-    if (withdrawing && wallet.data.chain.id !== deployment!.l2.id) {
+    if (
+      !forceViaL1 &&
+      withdrawing &&
+      wallet.data.chain.id !== deployment!.l2.id
+    ) {
       await switchChain(deployment!.l2);
     }
 
