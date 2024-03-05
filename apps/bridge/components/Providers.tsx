@@ -66,6 +66,7 @@ function Web3Provider({ children }: { children: React.ReactNode }) {
       // @ts-expect-error
       chains,
       transports,
+      ssr: true,
     });
   }, [deployments, deployment]);
 
