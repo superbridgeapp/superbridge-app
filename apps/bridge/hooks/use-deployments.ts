@@ -20,6 +20,20 @@ const useDeploymentsFilters = (): BridgeControllerGetDeploymentsParams => {
     return { names: [dedicatedDeployment.name] };
   }
 
+  if (window.location.hostname.includes("localhost")) {
+    return {
+      // change this to see more things locally
+      names: [
+        "op-sepolia",
+        "base-sepolia",
+        "zora-sepolia-0thyhxtf5e",
+        "pgn-sepolia-i4td3ji6i0",
+        "mode-sepolia-vtnhnpim72",
+        "orderly-l2-4460-sepolia-8tc3sd7dvy",
+      ],
+    };
+  }
+
   if (window.location.hostname === "superbridge.app") {
     return {
       names: ["optimism", "base", "zora", "pgn", "mode", "orderly", "lyra"],
