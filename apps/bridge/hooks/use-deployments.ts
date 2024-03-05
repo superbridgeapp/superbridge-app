@@ -15,15 +15,6 @@ export const useDeployments = () => {
   const data = useMemo(() => {
     return (
       deployments.data?.data.filter((d) => {
-        return [
-          "optimism",
-          "base",
-          "zora",
-          "pgn",
-          "mode",
-          "orderly",
-          "lyra",
-        ].includes(d.name);
         if (DISABLED_DEPLOYMENTS.includes(d.name)) {
           return false;
         }
