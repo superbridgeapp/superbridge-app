@@ -1,11 +1,5 @@
-import { formatUnits, isAddressEqual } from "viem";
-import {
-  Address,
-  erc20ABI,
-  useAccount,
-  useBalance,
-  useContractReads,
-} from "wagmi";
+import { formatUnits, isAddressEqual, Address, erc20Abi } from "viem";
+import { useAccount, useBalance, useReadContracts } from "wagmi";
 
 import { Token } from "@/types/token";
 import { isNativeToken } from "@/utils/is-eth";
@@ -22,16 +16,18 @@ export function useTokenBalances(chainId: number | undefined) {
   const prices = useBridgeControllerGetTokenPrices();
   const tokens = useActiveTokens();
 
-  const reads = useContractReads({
+  const reads = useReadContracts({
     allowFailure: true,
     contracts: tokens.map((t) => ({
-      abi: erc20ABI,
+      abi: erc20Abi,
       functionName: "balanceOf",
       args: [account.address ?? "0x"],
       chainId: chainId,
       address: t[chainId ?? 0]?.address as Address,
     })),
-    enabled: !!account.address,
+    query: {
+      enabled: !!account.address,
+    },
   });
 
   const data = tokens

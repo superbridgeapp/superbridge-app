@@ -1,4 +1,4 @@
-import { useContractRead } from "wagmi";
+import { useReadContract } from "wagmi";
 
 import { configurations } from "@/config/contract-addresses";
 import { useConfigState } from "@/state/config";
@@ -17,7 +17,7 @@ export const useBridgeFee = () => {
     address = undefined;
   }
 
-  const bridgeFee = useContractRead({
+  const bridgeFee = useReadContract({
     abi: L1BridgeAbi,
     functionName: "FEE",
     address,

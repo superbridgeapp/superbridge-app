@@ -1,4 +1,4 @@
-import { useAccount, useFeeData } from "wagmi";
+import { useAccount, useEstimateFeesPerGas } from "wagmi";
 
 import { useBridgeControllerGetCctpDomains } from "@/codegen";
 import { configurations } from "@/config/contract-addresses";
@@ -25,13 +25,17 @@ export const useTransactionArgs = () => {
     stateToken?.[deployment?.l2.id ?? 0],
     deployment
   );
-  const l1FeeData = useFeeData({
+  const l1FeeData = useEstimateFeesPerGas({
     chainId: deployment?.l1.id,
-    enabled: !!deployment && isArbitrum(deployment),
+    query: {
+      enabled: !!deployment && isArbitrum(deployment),
+    },
   });
-  const l2FeeData = useFeeData({
+  const l2FeeData = useEstimateFeesPerGas({
     chainId: deployment?.l2.id,
-    enabled: !!deployment && isArbitrum(deployment),
+    query: {
+      enabled: !!deployment && isArbitrum(deployment),
+    },
   });
   const cctpDomains = useBridgeControllerGetCctpDomains();
 
@@ -68,8 +72,8 @@ export const useTransactionArgs = () => {
       recipient,
       weiAmount,
       options: { forceViaL1, easyMode },
-      l1FeeData: l1FeeData.data,
-      l2FeeData: l2FeeData.data,
+      l1FeeData,
+      l2FeeData,
     });
   } else {
     return depositArgs({

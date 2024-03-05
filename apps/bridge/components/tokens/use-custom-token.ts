@@ -1,5 +1,5 @@
-import { Address } from "viem";
-import { erc20ABI, useAccount, useContractRead, useContractReads } from "wagmi";
+import { Address, erc20Abi } from "viem";
+import { useAccount, useReadContract, useReadContracts } from "wagmi";
 
 import { L2StandardBridgeAbi } from "@/abis/L2StandardBridge";
 import { OptimismMintableERC20Abi } from "@/abis/OptimismMintableERC20";
@@ -11,30 +11,30 @@ export const useCustomToken = (address: Address) => {
   const deployment = useConfigState.useDeployment();
   const account = useAccount();
 
-  const reads = useContractReads({
+  const reads = useReadContracts({
     allowFailure: true,
     contracts: [
       {
         address,
-        abi: erc20ABI,
+        abi: erc20Abi,
         chainId: deployment?.l2.id,
         functionName: "name",
       },
       {
         address,
-        abi: erc20ABI,
+        abi: erc20Abi,
         chainId: deployment?.l2.id,
         functionName: "symbol",
       },
       {
         address,
-        abi: erc20ABI,
+        abi: erc20Abi,
         chainId: deployment?.l2.id,
         functionName: "decimals",
       },
       {
         address,
-        abi: erc20ABI,
+        abi: erc20Abi,
         chainId: deployment?.l2.id,
         functionName: "balanceOf",
         args: [account?.address ?? "0x"],
@@ -80,13 +80,13 @@ export const useCustomToken = (address: Address) => {
   const ARB_L1_TOKEN = reads.data?.[6].result;
   const ARB_L2_GATEWAY = reads.data?.[7].result;
 
-  const opL2Bridge = useContractRead({
+  const opL2Bridge = useReadContract({
     address: OP_L2_BRIDGE,
     abi: L2StandardBridgeAbi,
     chainId: deployment?.l2.id,
     functionName: "OTHER_BRIDGE",
   });
-  const arbL2Gateway = useContractRead({
+  const arbL2Gateway = useReadContract({
     address: ARB_L2_GATEWAY,
     abi: L2ERC20GatewayAbi,
     chainId: deployment?.l2.id,

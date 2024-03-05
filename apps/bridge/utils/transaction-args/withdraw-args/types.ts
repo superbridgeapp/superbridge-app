@@ -1,5 +1,5 @@
-import { FetchFeeDataResult } from "@wagmi/core";
 import { Address } from "viem";
+import { UseEstimateFeesPerGasReturnType } from "wagmi";
 
 import { CctpDomainDto, DeploymentDto } from "@/codegen/model";
 import { MultiChainToken } from "@/types/token";
@@ -24,8 +24,8 @@ export type WithdrawArgs = {
   recipient: Address;
   weiAmount: bigint;
   options: { forceViaL1: boolean; easyMode: boolean };
-  l1FeeData?: FetchFeeDataResult;
-  l2FeeData?: FetchFeeDataResult;
+  l1FeeData?: UseEstimateFeesPerGasReturnType;
+  l2FeeData?: UseEstimateFeesPerGasReturnType;
   hyperlaneGasQuote?: bigint | undefined;
 };
 
