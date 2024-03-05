@@ -11,6 +11,7 @@ import { isEth } from "../../is-eth";
 import { OptimismDeploymentDto, isOptimism } from "../../is-mainnet";
 import { withdrawValue } from "../../withdraw-value";
 import { TransactionArgs, WithdrawTxResolver } from "./types";
+import { forceTransaction } from "./force";
 
 const impl = (
   deployment: OptimismDeploymentDto,
@@ -192,26 +193,7 @@ export const optimismWithdrawArgs: WithdrawTxResolver = ({
   }
 
   if (options.forceViaL1) {
-    return {
-      approvalAddress: result.approvalAddress,
-      tx: {
-        to: deployment.contractAddresses.optimismPortal as Address,
-        data: encodeFunctionData({
-          abi: OptimismPortalAbi,
-          functionName: "depositTransaction",
-          args: [
-            result.tx.to,
-            result.tx.value,
-            BigInt(200_000),
-            false,
-            result.tx.data,
-          ],
-        }),
-        chainId: deployment.l1.id,
-        value: BigInt(0),
-        gas: BigInt("300000"),
-      },
-    };
+    return forceTransaction(deployment, result);
   }
 
   return result;
