@@ -13,21 +13,29 @@ const spring = {
   stiffness: 1000,
 };
 
-const COMING_SOON_DEPLOYMENTS = [
-  {
-    name: "frame",
-    conduitId: null,
-    displayName: "Frame",
-  },
+const SUPERCHAIN_COMING_SOON = [
   {
     name: "aevo",
-    conduitId: "aevo",
     displayName: "Aevo",
   },
   {
     name: "ancient8",
-    conduitId: "ancient8",
     displayName: "Ancient8",
+  },
+  {
+    name: "redstone-mainnet",
+    displayName: "Redstone",
+  },
+  {
+    name: "lisk-mainnet",
+    displayName: "Lisk",
+  },
+];
+const COMING_SOON = [
+  {
+    name: "frame",
+    conduitId: null,
+    displayName: "Frame",
   },
 ];
 
@@ -68,10 +76,37 @@ export const DeploymentsGrid = ({}) => {
             </motion.div>
           ))}
 
+        {typeof window !== "undefined" && true && (
+          <>
+            {SUPERCHAIN_COMING_SOON.map((n, index) => (
+              <motion.div
+                key={"grid" + n.displayName}
+                transition={spring}
+                whileHover={{
+                  scale: 1,
+                }}
+                whileTap={{
+                  scale: 1,
+                  opacity: 0.8,
+                }}
+              >
+                <div
+                  className={clsx(
+                    "w-full aspect-[3/4] relative",
+                    index === SUPERCHAIN_COMING_SOON.length - 1 && "mb-40"
+                  )}
+                >
+                  <BridgePlaceholder deployment={n} comingSoon />
+                </div>
+              </motion.div>
+            ))}
+          </>
+        )}
+
         {typeof window !== "undefined" &&
           window.location.host === "app.rollbridge.app" && (
             <>
-              {COMING_SOON_DEPLOYMENTS.map((n, index) => (
+              {[...SUPERCHAIN_COMING_SOON, ...COMING_SOON].map((n, index) => (
                 <motion.div
                   key={"grid" + n.displayName}
                   transition={spring}
@@ -86,7 +121,9 @@ export const DeploymentsGrid = ({}) => {
                   <div
                     className={clsx(
                       "w-full aspect-[3/4] relative",
-                      index === COMING_SOON_DEPLOYMENTS.length - 1 && "mb-40"
+                      index ===
+                        [...SUPERCHAIN_COMING_SOON, ...COMING_SOON].length -
+                          1 && "mb-40"
                     )}
                   >
                     <BridgePlaceholder deployment={n} comingSoon />

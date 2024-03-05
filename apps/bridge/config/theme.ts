@@ -480,10 +480,12 @@ export const themes: { [name: string]: Theme | undefined } = {
   ["uniswap-v4-hook-sandbox-6tl5qq8i4d"]: uniswapTheme,
   ["apechain-test-qbuapbatak"]: apeTheme,
   rollux,
+  ["redstone-mainnet"]: lattice,
   ["lattice-testnet"]: lattice,
   ["orb3-mainnet"]: orb3,
   parallel,
   ["parallel-chain-oqwzakghzt"]: parallel,
+  ["lisk-mainnet"]: liskTheme,
   ["lisk-sepolia"]: liskTheme,
   ["lumio-mainnet"]: lumioTheme,
 };
