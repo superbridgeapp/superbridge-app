@@ -1,5 +1,6 @@
 import { ChainDto } from "@/codegen/model";
-import { useWalletClient, Chain } from "wagmi";
+import { Chain } from "viem";
+import { useWalletClient } from "wagmi";
 
 export const useSwitchChain = () => {
   const wallet = useWalletClient();

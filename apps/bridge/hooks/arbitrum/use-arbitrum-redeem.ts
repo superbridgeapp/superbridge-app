@@ -1,5 +1,5 @@
 import { Address } from "viem";
-import { useAccount, useContractWrite, useWalletClient } from "wagmi";
+import { useAccount, useWalletClient, useWriteContract } from "wagmi";
 
 import { ArbRetryableTxAbi } from "@/abis/arbitrum/ArbRetryableTx";
 import {
@@ -13,6 +13,7 @@ export function useRedeemArbitrum(
 ) {
   const account = useAccount();
   const wallet = useWalletClient();
+  const { writeContract, isLoading } = useWriteContract();
 
   const deployment = isArbitrumDeposit(tx)
     ? tx.deployment
@@ -21,21 +22,19 @@ export function useRedeemArbitrum(
     ? tx.l2TransactionHash
     : tx.deposit.l2TransactionHash;
 
-  const redeem = useContractWrite({
-    abi: ArbRetryableTxAbi,
-    functionName: "redeem",
-    chainId: deployment.l2.id,
-    address: "0x000000000000000000000000000000000000006e",
-    args: [l2TransactionHash as Address],
-  });
-
   const onRedeem = async () => {
     if (!account.address || !wallet.data) {
       return;
     }
 
-    redeem.write();
+    writeContract({
+      abi: ArbRetryableTxAbi,
+      functionName: "redeem",
+      chainId: deployment.l2.id,
+      address: "0x000000000000000000000000000000000000006e",
+      args: [l2TransactionHash as Address],
+    });
   };
 
-  return { write: onRedeem, isLoading: redeem.isLoading };
+  return { write: onRedeem, isLoading };
 }

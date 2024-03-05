@@ -5,8 +5,7 @@ import {
   fallback,
   isAddressEqual,
 } from "viem";
-import { mainnet } from "wagmi";
-
+import { mainnet } from "viem/chains";
 interface ProfileProps {
   name: string | null;
   address: Address;
