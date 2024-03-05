@@ -1,5 +1,6 @@
-import { useEffect } from "react";
-import { useWaitForTransactionReceipt, useWriteContract } from "wagmi";
+import { waitForTransactionReceipt } from "@wagmi/core";
+import { useState } from "react";
+import { useConfig, useWriteContract } from "wagmi";
 
 import { Token } from "@/types/token";
 
@@ -36,33 +37,38 @@ export function useApprove(
   refreshTx: () => void,
   amount: bigint
 ) {
-  const { writeContract, data: hash, isLoading: writing } = useWriteContract();
-  const { isFetching: waiting, data: receipt } = useWaitForTransactionReceipt({
-    hash,
-  });
-
-  useEffect(() => {
-    if (receipt) {
-      refreshAllowance();
-      refreshTx();
-      setTimeout(() => {
-        refreshAllowance();
-        refreshTx();
-      }, 200);
-    }
-  }, [receipt]);
+  const { writeContractAsync } = useWriteContract();
+  const config = useConfig();
+  const [isLoading, setIsLoading] = useState(false);
 
   return {
-    write: () => {
+    write: async () => {
       if (!token?.address) return;
-      return writeContract({
-        abi: APPROVE_ABI_WITHOUT_RETURN,
-        address: token?.address,
-        args: [contract, amount],
-        functionName: "approve",
-        chainId: token?.chainId,
-      });
+      setIsLoading(true);
+      try {
+        const hash = await writeContractAsync({
+          abi: APPROVE_ABI_WITHOUT_RETURN,
+          address: token?.address,
+          args: [contract, amount],
+          functionName: "approve",
+          chainId: token?.chainId,
+        });
+        const receipt = await waitForTransactionReceipt(config, {
+          hash,
+          chainId: token.chainId,
+        });
+        refreshAllowance();
+        refreshTx();
+        setTimeout(() => {
+          refreshAllowance();
+          refreshTx();
+        }, 200);
+      } catch {
+        setIsLoading(false);
+      } finally {
+        setIsLoading(false);
+      }
     },
-    isLoading: writing || waiting,
+    isLoading,
   };
 }
