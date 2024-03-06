@@ -406,7 +406,7 @@ export const ConfirmationModal = ({
     ])
     .with({ withdrawing: true, family: "optimism", escapeHatch: true }, () => [
       {
-        text: t("confirmationModal.initiateEscapeHatch", common),
+        text: t("confirmationModal.initiateBridgeEscapeHatch", common),
         icon: EscapeHatchIcon,
         fee: fee(initiateCost, 4),
       },
