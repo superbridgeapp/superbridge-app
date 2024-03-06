@@ -109,7 +109,7 @@
     "waitMinutes_one": "Wait ~{{count}} min",
     "waitMinutes_other": "Wait ~{{count}} mins",
     "waitHours_one": "Wait ~{{count}} hour",
-    "waitHours_other": "Wait ~{{count}} count",
+    "waitHours_other": "Wait ~{{count}} hours",
     "waitDays_one": "Wait ~{{count}} day",
     "waitDays_other": "Wait ~{{count}} days",
     "prove": "Prove on {{base}}",
