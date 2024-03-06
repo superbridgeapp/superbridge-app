@@ -231,6 +231,13 @@ export const ConfirmationModal = ({
       disabled: false,
     }));
 
+  const common = {
+    from: from?.name,
+    to: to?.name,
+    base: deployment?.l1.name,
+    rollup: deployment?.l2.name,
+  };
+
   const title = match({
     isUsdc: isNativeUsdc(stateToken),
     withdrawing,
@@ -258,24 +265,20 @@ export const ConfirmationModal = ({
     .with({ withdrawing: true, escapeHatch: true }, () =>
       transformPeriodText(
         "confirmationModal.withdrawalTitleEscapeHatch",
-        {
-          rollup: deployment?.l2.name,
-        },
+        common,
         totalBridgeTime
       )
     )
     .with({ withdrawing: true }, () =>
       transformPeriodText(
         "confirmationModal.withdrawalTitle",
-        {
-          rollup: deployment?.l2.name,
-        },
+        common,
         totalBridgeTime
       )
     )
     .with({ withdrawing: false }, () =>
       t("confirmationModal.depositTitle", {
-        rollup: deployment?.l2.name,
+        ...common,
         mins: totalBridgeTime?.value,
       })
     )
@@ -289,26 +292,17 @@ export const ConfirmationModal = ({
     isEth: isNativeToken(stateToken),
   })
     .with({ isUsdc: true, escapeHatch: true }, () =>
-      t("confirmationModal.cctpDescriptionEscapeHatch", {
-        from: from?.name,
-        to: to?.name,
-      })
+      t("confirmationModal.cctpDescriptionEscapeHatch", common)
     )
     .with({ isUsdc: true }, () =>
-      t("confirmationModal.cctpDescription", {
-        from: from?.name,
-        to: to?.name,
-      })
+      t("confirmationModal.cctpDescription", common)
     )
     .with(
       { withdrawing: true, family: "optimism", isEth: true, escapeHatch: true },
-      () =>
-        t("confirmationModal.opDescriptionEscapeHatch", {
-          base: deployment?.l1.name,
-        })
+      () => t("confirmationModal.opDescriptionEscapeHatch", common)
     )
     .with({ withdrawing: true, family: "optimism", isEth: true }, () =>
-      t("confirmationModal.opDescription", { base: deployment?.l1.name })
+      t("confirmationModal.opDescription", common)
     )
     .with(
       {
@@ -317,29 +311,16 @@ export const ConfirmationModal = ({
         escapeHatch: true,
         isEth: false,
       },
-      () =>
-        t("confirmationModal.opDescriptionTokenEscapeHatch", {
-          base: deployment?.l1.name,
-          rollup: deployment?.l2.name,
-        })
+      () => t("confirmationModal.opDescriptionTokenEscapeHatch", common)
     )
     .with({ withdrawing: true, family: "optimism", isEth: false }, () =>
-      t("confirmationModal.opDescriptionToken", {
-        base: deployment?.l1.name,
-        rollup: deployment?.l2.name,
-      })
+      t("confirmationModal.opDescriptionToken", common)
     )
     .with({ withdrawing: true, family: "arbitrum", isEth: false }, () =>
-      t("confirmationModal.arbDescriptionToken", {
-        base: deployment?.l1.name,
-        rollup: deployment?.l2.name,
-      })
+      t("confirmationModal.arbDescriptionToken", common)
     )
     .with({ withdrawing: true, family: "arbitrum", isEth: true }, () =>
-      t("confirmationModal.arbDescription", {
-        base: deployment?.l1.name,
-        rollup: deployment?.l2.name,
-      })
+      t("confirmationModal.arbDescription", common)
     )
     .with({ withdrawing: false }, () => "")
     .otherwise(() => null);
@@ -358,25 +339,21 @@ export const ConfirmationModal = ({
     .with({ withdrawing: true, family: "optimism" }, () =>
       transformPeriodText(
         "confirmationModal.opCheckbox1Withdrawal",
-        {
-          base: deployment?.l1.name,
-        },
+        common,
         totalBridgeTime
       )
     )
     .with({ withdrawing: true, family: "arbitrum" }, () =>
       transformPeriodText(
         "confirmationModal.arbCheckbox1Withdrawal",
-        {
-          base: deployment?.l1.name,
-        },
+        common,
         totalBridgeTime
       )
     )
     .with({ withdrawing: false }, () =>
       t("confirmationModal.checkbox1Deposit", {
+        ...common,
         mins: totalBridgeTime?.value,
-        rollup: deployment?.l2.name,
       })
     )
     .otherwise(() => null);
@@ -389,7 +366,7 @@ export const ConfirmationModal = ({
   })
     .with({ isUsdc: true, escapeHatch: true }, () => [
       {
-        text: t("confirmationModal.initiateBridgeEscapeHatch"),
+        text: t("confirmationModal.initiateBridgeEscapeHatch", common),
         icon: InitiateIcon,
         fee: fee(initiateCost, 4),
       },
@@ -402,7 +379,7 @@ export const ConfirmationModal = ({
         icon: WaitIcon,
       },
       {
-        text: t("confrimationModal.finalize", { base: to?.name }),
+        text: t("confirmationModal.finalize", common),
         icon: FinalizeIcon,
         fee: fee(finalizeCost, 4),
       },
@@ -422,16 +399,14 @@ export const ConfirmationModal = ({
         icon: WaitIcon,
       },
       {
-        text: t("confirmationModal.finalize", { base: deployment?.l1.name }),
+        text: t("confirmationModal.finalize", common),
         icon: FinalizeIcon,
         fee: fee(finalizeCost, 4),
       },
     ])
     .with({ withdrawing: true, family: "optimism", escapeHatch: true }, () => [
       {
-        text: t("confirmationModal.initiateEscapeHatch", {
-          base: deployment?.l1.name,
-        }),
+        text: t("confirmationModal.initiateEscapeHatch", common),
         icon: EscapeHatchIcon,
         fee: fee(initiateCost, 4),
       },
@@ -444,9 +419,7 @@ export const ConfirmationModal = ({
         icon: WaitIcon,
       },
       {
-        text: t("confirmationModal.prove", {
-          base: deployment?.l1.name,
-        }),
+        text: t("confirmationModal.prove", common),
         icon: ProveIcon,
         fee: fee(proveCost, 4),
       },
@@ -459,9 +432,7 @@ export const ConfirmationModal = ({
         icon: WaitIcon,
       },
       {
-        text: t("confirmationModal.finalize", {
-          base: deployment?.l1.name,
-        }),
+        text: t("confirmationModal.finalize", common),
         icon: FinalizeIcon,
         fee: fee(finalizeCost, 2),
       },
@@ -477,9 +448,7 @@ export const ConfirmationModal = ({
         icon: WaitIcon,
       },
       {
-        text: t("confirmationModal.prove", {
-          base: deployment?.l1.name,
-        }),
+        text: t("confirmationModal.prove", common),
         icon: ProveIcon,
         fee: fee(proveCost, 4),
       },
@@ -492,13 +461,12 @@ export const ConfirmationModal = ({
         icon: WaitIcon,
       },
       {
-        text: t("confirmationModal.finalize", {
-          base: deployment?.l1.name,
-        }),
+        text: t("confirmationModal.finalize", common),
         icon: FinalizeIcon,
         fee: fee(finalizeCost, 2),
       },
     ])
+
     .with({ withdrawing: true, family: "arbitrum" }, () => [
       {
         text: t("confirmationModal.initiateWithdrawal"),
@@ -514,9 +482,7 @@ export const ConfirmationModal = ({
         icon: WaitIcon,
       },
       {
-        text: t("confirmationModal.finalize", {
-          base: deployment?.l1.name,
-        }),
+        text: t("confirmationModal.finalize", common),
         icon: FinalizeIcon,
         fee: fee(finalizeCost, 2),
       },
@@ -534,7 +500,7 @@ export const ConfirmationModal = ({
         icon: WaitIcon,
       },
       {
-        text: t("confirmationModal.receiveDeposit", { rollup: to?.name }),
+        text: t("confirmationModal.receiveDeposit", common),
         icon: ReceiveIcon,
       },
     ])
@@ -551,7 +517,7 @@ export const ConfirmationModal = ({
         icon: WaitIcon,
       },
       {
-        text: t("confirmationModal.receiveDeposit", { rollup: to?.name }),
+        text: t("confirmationModal.receiveDeposit", common),
         icon: ReceiveIcon,
       },
     ])

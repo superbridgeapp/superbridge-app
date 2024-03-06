@@ -13,11 +13,22 @@ export type Period =
   | { period: "mins"; value: number }
   | null;
 
+const cctpPeriod = (deployment: DeploymentDto | null): Period => {
+  if (!deployment) return null;
+  return { period: "mins", value: isMainnet(deployment) ? 15 : 3 };
+};
+
 export const useFinalizationPeriod = (
   deployment: DeploymentDto | null
 ): Period => {
+  const stateToken = useConfigState.useToken();
+
   if (!deployment) {
     return null;
+  }
+
+  if (isNativeUsdc(stateToken)) {
+    return cctpPeriod(deployment);
   }
 
   if (isOptimism(deployment)) {
@@ -71,12 +82,6 @@ export const useProvePeriod = (deployment: DeploymentDto | null): Period => {
 };
 
 export const useDepositTime = (deployment: DeploymentDto | null): Period => {
-  const stateToken = useConfigState.useToken();
-
-  if (isNativeUsdc(stateToken)) {
-    return { period: "mins", value: isMainnet(deployment) ? 15 : 3 };
-  }
-
   if (deployment && isOptimism(deployment)) {
     return { period: "mins", value: 3 };
   }
@@ -85,7 +90,7 @@ export const useDepositTime = (deployment: DeploymentDto | null): Period => {
     return { period: "mins", value: 10 };
   }
 
-  return { period: "mins", value: 1 };
+  return null;
 };
 
 export const addPeriods = (a: Period, b: Period) => {
@@ -112,13 +117,22 @@ export const useTotalBridgeTime = (
   deployment: DeploymentDto | null
 ): Period => {
   const withdrawing = useConfigState.useWithdrawing();
+  const escapeHatch = useConfigState.useForceViaL1();
+  const stateToken = useConfigState.useToken();
+
   const prove = useProvePeriod(deployment);
   const finalize = useFinalizationPeriod(deployment);
   const deposit = useDepositTime(deployment);
-  const escapeHatch = useConfigState.useForceViaL1();
 
   if (!withdrawing) {
     return deposit;
+  }
+
+  if (isNativeUsdc(stateToken)) {
+    if (escapeHatch) {
+      return addPeriods(deposit, cctpPeriod(deployment));
+    }
+    return cctpPeriod(deployment);
   }
 
   if (!prove) {
