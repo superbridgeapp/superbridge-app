@@ -70,29 +70,55 @@ export const useProvePeriod = (deployment: DeploymentDto | null): Period => {
   };
 };
 
-/**
- *
- * @param deployment
- * @returns
- */
+export const useDepositTime = (deployment: DeploymentDto | null): Period => {
+  const stateToken = useConfigState.useToken();
+
+  if (isNativeUsdc(stateToken)) {
+    return { period: "mins", value: isMainnet(deployment) ? 15 : 3 };
+  }
+
+  if (deployment && isOptimism(deployment)) {
+    return { period: "mins", value: 3 };
+  }
+
+  if (deployment && isArbitrum(deployment)) {
+    return { period: "mins", value: 10 };
+  }
+
+  return { period: "mins", value: 1 };
+};
+
+export const addPeriods = (a: Period, b: Period) => {
+  if (!a && !b) return null;
+  if (!a) return b;
+  if (!b) return a;
+
+  if (a.period === b.period) {
+    return {
+      period: a.period,
+      value: a.value + b.value,
+    };
+  }
+
+  // take the biggest of the two
+  if (a.period === "days") return a;
+  if (b.period === "days") return b;
+  if (a.period === "hours") return a;
+  if (b.period === "hours") return a;
+  return a;
+};
+
 export const useTotalBridgeTime = (
   deployment: DeploymentDto | null
 ): Period => {
   const withdrawing = useConfigState.useWithdrawing();
-  const stateToken = useConfigState.useToken();
   const prove = useProvePeriod(deployment);
   const finalize = useFinalizationPeriod(deployment);
+  const deposit = useDepositTime(deployment);
+  const escapeHatch = useConfigState.useForceViaL1();
 
   if (!withdrawing) {
-    if (isNativeUsdc(stateToken)) {
-      return { period: "mins", value: isMainnet(deployment) ? 15 : 3 };
-    }
-    if (deployment && isOptimism(deployment)) {
-      return { period: "mins", value: 3 };
-    }
-    if (deployment && isArbitrum(deployment)) {
-      return { period: "mins", value: 10 };
-    }
+    return deposit;
   }
 
   if (!prove) {
@@ -103,17 +129,9 @@ export const useTotalBridgeTime = (
     return null;
   }
 
-  if (prove.period === finalize.period) {
-    return {
-      period: prove.period,
-      value: prove.value + finalize.value,
-    };
+  const total = addPeriods(prove, finalize);
+  if (escapeHatch && deposit) {
+    return addPeriods(total, deposit);
   }
-
-  // take the biggest of the two
-  if (prove.period === "days") return prove;
-  if (finalize.period === "days") return finalize;
-  if (prove.period === "hours") return prove;
-  if (finalize.period === "hours") return prove;
-  return prove;
+  return total;
 };

@@ -16,6 +16,8 @@ import { useBridge } from "@/hooks/use-bridge";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
 import {
   Period,
+  addPeriods,
+  useDepositTime,
   useFinalizationPeriod,
   useProvePeriod,
   useTotalBridgeTime,
@@ -34,6 +36,7 @@ import { Button } from "../ui/button";
 import { Dialog, DialogContent } from "../ui/dialog";
 import {
   ApproveIcon,
+  EscapeHatchIcon,
   FeesIcon,
   FinalizeIcon,
   InitiateIcon,
@@ -103,6 +106,7 @@ export const ConfirmationModal = ({
 
   const finalizationTime = useFinalizationPeriod(deployment);
   const proveTime = useProvePeriod(deployment);
+  const depositTime = useDepositTime(deployment);
   const totalBridgeTime = useTotalBridgeTime(deployment);
 
   const fromFeeData = useFeeData({ chainId: from?.id });
@@ -113,7 +117,8 @@ export const ConfirmationModal = ({
   const nativeTokenPrice = useTokenPrice(nativeToken ?? null);
 
   const initiateCost =
-    (fromFeeData.data?.gasPrice ?? BigInt(0)) * BigInt(200_000);
+    ((withdrawing && escapeHatch ? toFeeData : fromFeeData).data?.gasPrice ??
+      BigInt(0)) * BigInt(200_000);
   const proveCost = (toFeeData.data?.gasPrice ?? BigInt(0)) * PROVE_GAS;
   const finalizeCost = (toFeeData.data?.gasPrice ?? BigInt(0)) * FINALIZE_GAS;
   const approveCost =
@@ -229,8 +234,15 @@ export const ConfirmationModal = ({
   const title = match({
     isUsdc: isNativeUsdc(stateToken),
     withdrawing,
+    escapeHatch,
     family: deployment?.family,
   })
+    .with({ isUsdc: true, withdrawing: true, escapeHatch: true }, () =>
+      t("confirmationModal.cctpWithdrawalTitleEscapeHatch", {
+        mins: totalBridgeTime?.value,
+        symbol: token?.symbol,
+      })
+    )
     .with({ isUsdc: true, withdrawing: true }, () =>
       t("confirmationModal.cctpWithdrawalTitle", {
         mins: totalBridgeTime?.value,
@@ -242,6 +254,15 @@ export const ConfirmationModal = ({
         mins: totalBridgeTime?.value,
         symbol: token?.symbol,
       })
+    )
+    .with({ withdrawing: true, escapeHatch: true }, () =>
+      transformPeriodText(
+        "confirmationModal.withdrawalTitleEscapeHatch",
+        {
+          rollup: deployment?.l2.name,
+        },
+        totalBridgeTime
+      )
     )
     .with({ withdrawing: true }, () =>
       transformPeriodText(
@@ -263,29 +284,64 @@ export const ConfirmationModal = ({
   const description = match({
     isUsdc: isNativeUsdc(stateToken),
     withdrawing,
+    escapeHatch,
     family: deployment?.family,
+    isEth: isNativeToken(stateToken),
   })
-    .with(
-      { isUsdc: true },
-      () =>
-        `Depositing native USDC via CCTP is a 2 step process, requiring 2 transactions on ${from?.name}.`
+    .with({ isUsdc: true, escapeHatch: true }, () =>
+      t("confirmationModal.cctpDescriptionEscapeHatch", {
+        from: from?.name,
+        to: to?.name,
+      })
+    )
+    .with({ isUsdc: true }, () =>
+      t("confirmationModal.cctpDescription", {
+        from: from?.name,
+        to: to?.name,
+      })
     )
     .with(
-      { withdrawing: true, isUsdc: true },
+      { withdrawing: true, family: "optimism", isEth: true, escapeHatch: true },
       () =>
-        `Withdrawing native USDC via CCTP is a 3 step process, requiring 2 transactions on ${from?.name} and 1 on ${to?.name}.`
+        t("confirmationModal.opDescriptionEscapeHatch", {
+          base: deployment?.l1.name,
+        })
     )
-    .with({ withdrawing: true, family: "optimism" }, () =>
+    .with({ withdrawing: true, family: "optimism", isEth: true }, () =>
       t("confirmationModal.opDescription", { base: deployment?.l1.name })
     )
-    .with({ withdrawing: true, family: "arbitrum" }, () =>
-      t("confirmationModal.arbDescription", { base: deployment?.l1.name })
+    .with(
+      {
+        withdrawing: true,
+        family: "optimism",
+        escapeHatch: true,
+        isEth: false,
+      },
+      () =>
+        t("confirmationModal.opDescriptionTokenEscapeHatch", {
+          base: deployment?.l1.name,
+          rollup: deployment?.l2.name,
+        })
     )
-    .with({ withdrawing: false }, () =>
-      t("confirmationModal.depositDescription", {
+    .with({ withdrawing: true, family: "optimism", isEth: false }, () =>
+      t("confirmationModal.opDescriptionToken", {
+        base: deployment?.l1.name,
         rollup: deployment?.l2.name,
       })
     )
+    .with({ withdrawing: true, family: "arbitrum", isEth: false }, () =>
+      t("confirmationModal.arbDescriptionToken", {
+        base: deployment?.l1.name,
+        rollup: deployment?.l2.name,
+      })
+    )
+    .with({ withdrawing: true, family: "arbitrum", isEth: true }, () =>
+      t("confirmationModal.arbDescription", {
+        base: deployment?.l1.name,
+        rollup: deployment?.l2.name,
+      })
+    )
+    .with({ withdrawing: false }, () => "")
     .otherwise(() => null);
 
   const checkbox1Text = match({
@@ -329,10 +385,11 @@ export const ConfirmationModal = ({
     isUsdc: isNativeUsdc(stateToken),
     withdrawing,
     family: deployment?.family,
+    escapeHatch,
   })
-    .with({ isUsdc: true }, () => [
+    .with({ isUsdc: true, escapeHatch: true }, () => [
       {
-        text: "Initiate bridge",
+        text: t("confirmationModal.initiateBridgeEscapeHatch"),
         icon: InitiateIcon,
         fee: fee(initiateCost, 4),
       },
@@ -345,9 +402,68 @@ export const ConfirmationModal = ({
         icon: WaitIcon,
       },
       {
-        text: `Finalize bridge on ${to?.name}`,
+        text: t("confrimationModal.finalize", { base: to?.name }),
         icon: FinalizeIcon,
         fee: fee(finalizeCost, 4),
+      },
+    ])
+    .with({ isUsdc: true }, () => [
+      {
+        text: t("confirmationModal.initiateBridge"),
+        icon: InitiateIcon,
+        fee: fee(initiateCost, 4),
+      },
+      {
+        text: transformPeriodText(
+          "confirmationModal.wait",
+          {},
+          totalBridgeTime
+        ),
+        icon: WaitIcon,
+      },
+      {
+        text: t("confirmationModal.finalize", { base: deployment?.l1.name }),
+        icon: FinalizeIcon,
+        fee: fee(finalizeCost, 4),
+      },
+    ])
+    .with({ withdrawing: true, family: "optimism", escapeHatch: true }, () => [
+      {
+        text: t("confirmationModal.initiateEscapeHatch", {
+          base: deployment?.l1.name,
+        }),
+        icon: EscapeHatchIcon,
+        fee: fee(initiateCost, 4),
+      },
+      {
+        text: transformPeriodText(
+          "confirmationModal.wait",
+          {},
+          addPeriods(depositTime, proveTime)
+        ),
+        icon: WaitIcon,
+      },
+      {
+        text: t("confirmationModal.prove", {
+          base: deployment?.l1.name,
+        }),
+        icon: ProveIcon,
+        fee: fee(proveCost, 4),
+      },
+      {
+        text: transformPeriodText(
+          "confirmationModal.wait",
+          {},
+          finalizationTime
+        ),
+        icon: WaitIcon,
+      },
+      {
+        text: t("confirmationModal.finalize", {
+          base: deployment?.l1.name,
+        }),
+        icon: FinalizeIcon,
+        fee: fee(finalizeCost, 2),
       },
     ])
     .with({ withdrawing: true, family: "optimism" }, () => [
@@ -479,7 +595,7 @@ export const ConfirmationModal = ({
             )}
 
             {lineItems?.map(({ text, icon, fee }) => (
-              <LineItem text={text} icon={icon} fee={fee} />
+              <LineItem key={text} text={text} icon={icon} fee={fee} />
             ))}
           </div>
 
