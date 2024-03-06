@@ -30,6 +30,8 @@ const useDeploymentsFilters = (): BridgeControllerGetDeploymentsParams => {
         "pgn-sepolia-i4td3ji6i0",
         "mode-sepolia-vtnhnpim72",
         "orderly-l2-4460-sepolia-8tc3sd7dvy",
+        "stack-testnet-p776aut4wc",
+        "stack-mainnet",
       ],
     };
   }
