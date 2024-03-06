@@ -1,19 +1,19 @@
-import { useSettingsState } from "@/state/settings";
+import Link from "next/link";
 
-import { Dialog, DialogContent } from "./ui/dialog";
-import { Button } from "./ui/button";
-
+import { isSuperbridge } from "@/config/superbridge";
 import { deploymentTheme } from "@/config/theme";
 import * as metadata from "@/constants/metadata";
 import { useConfigState } from "@/state/config";
-import Link from "next/link";
-import { isSuperbridge } from "@/config/superbridge";
+import { useSettingsState } from "@/state/settings";
+
+import { Button } from "./ui/button";
+import { Dialog, DialogContent } from "./ui/dialog";
 
 export const TosModal = () => {
   const dismiss = useSettingsState.useDismissTos();
   const hasViewedTos = useSettingsState.useHasViewedTos();
-
   const deployment = useConfigState.useDeployment();
+
   const theme = deploymentTheme(deployment);
 
   return (
