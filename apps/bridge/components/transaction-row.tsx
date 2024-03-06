@@ -70,6 +70,7 @@ import { NetworkIcon } from "./network-icon";
 import { NftImage } from "./nft";
 import { Button } from "./ui/button";
 import { TokenIcon } from "./token-icon";
+import { CctpBadge } from "./cttp-badge";
 
 const Prove = ({ tx }: { tx: BridgeWithdrawalDto | ForcedWithdrawalDto }) => {
   const prove = useProveOptimism(isWithdrawal(tx) ? tx : tx.withdrawal!);
@@ -801,11 +802,7 @@ export const TransactionRow = ({ tx }: { tx: Transaction }) => {
           <div className="flex justify-between text-zinc-900 dark:text-zinc-50 font-medium text-sm">
             <span>{config.title}</span>
             <div className="flex items-center gap-2">
-              {tx.type === "cctp-bridge" && (
-                <span className="px-2 text-[9px] bg-zinc-100 text-zinc-400 dark:bg-zinc-800 rounded-lg">
-                  CCTP
-                </span>
-              )}
+              {tx.type === "cctp-bridge" && <CctpBadge />}
 
               <span className="text-right">{getDepositAmount(tx, token)}</span>
             </div>
