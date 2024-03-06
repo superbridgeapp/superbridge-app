@@ -4,7 +4,7 @@ import { useAccount } from "wagmi";
 
 import { useConfigState } from "@/state/config";
 import { usePendingTransactions } from "@/state/pending-txs";
-import { isMainnet } from "@/utils/is-mainnet";
+import { isMainnet, isOptimism } from "@/utils/is-mainnet";
 
 import { useDeployments } from "./use-deployments";
 import { useInitialiseToken } from "./use-initialise-token";
@@ -70,7 +70,7 @@ export const useInitialise = () => {
 
   // reset settings when changing deployment
   useEffect(() => {
-    if (deployment && !isMainnet(deployment)) {
+    if (deployment && (!isMainnet(deployment) || !isOptimism(deployment))) {
       setEasyMode(false);
       setForceViaL1(false);
     }
