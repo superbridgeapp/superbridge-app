@@ -4,6 +4,7 @@ import { Dialog, DialogContent } from "./ui/dialog";
 import { Button } from "./ui/button";
 
 import { deploymentTheme } from "@/config/theme";
+import * as metadata from "@/constants/metadata";
 import { useConfigState } from "@/state/config";
 import Link from "next/link";
 import { isSuperbridge } from "@/config/superbridge";
@@ -21,7 +22,7 @@ export const TosModal = () => {
         <div className="flex flex-col gap-6 p-6 pt-8">
           <div className="flex flex-col gap-2">
             <h1 className="font-bold text-2xl tracking-tight">
-              Welcome to {isSuperbridge ? "Superbridge" : "Rollbridge"}!
+              Welcome to {metadata.title}!
             </h1>
             <p className="text-sm font-bold">Please note</p>
           </div>

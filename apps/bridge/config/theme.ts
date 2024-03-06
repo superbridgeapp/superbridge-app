@@ -10,6 +10,11 @@ import {
   optimismSepolia,
   pgn,
   zoraSepolia,
+  base,
+  mode,
+  optimism,
+  zora,
+  modeTestnet,
 } from "viem/chains";
 
 import bgArbitrum from "../public/img/bg/grains_bottom.png";
@@ -32,8 +37,13 @@ export const chainIcons: { [chainId: number]: string | undefined } = {
   [pgn.id]: "/img/network-pgn.svg",
   [kroma.id]: "/img/network-kroma.svg",
   1024: "/img/network-parallel.svg",
+  [mode.id]: "/img/network-mode.svg",
+  [modeTestnet.id]: "/img/network-mode.svg",
+  [zora.id]: "/img/network-zora.svg",
   [zoraSepolia.id]: "/img/network-zora.svg",
+  [base.id]: "/img/network-base.svg",
   [baseSepolia.id]: "/img/network-base.svg",
+  [optimism.id]: "/img/network-op mainnet.svg",
   [optimismSepolia.id]: "/img/network-op mainnet.svg",
 };
 
@@ -454,6 +464,25 @@ const lumioTheme: Theme = {
   standaloneLogoDark: "/img/logo-lumio-dark.svg",
 };
 
+const stackTheme: Theme = {
+  ...defaultTheme,
+  bg: "bg-white dark:bg-[#1B1E24]",
+  bgMuted: "bg-zinc-200/50 dark:bg-white/5",
+  screenBg: "bg-[#F5F5F6] dark:bg-[#13151A]",
+  screenBgImg: "bg-transparent",
+  logoSrc: "/img/logo-stack.svg",
+  logoSrcDark: "/img/logo-stack-dark.svg",
+  logoWidth: 83,
+  logoHeight: 28,
+  iconSrc: "/img/icon-stack.svg",
+  l2ChainIcon: "/img/network-stack.png",
+  card: {
+    className: "bg-gradient-to-b from-[#13151A] to-[#000000] ",
+  },
+  standaloneLogo: "/img/logo-stack-standalone.svg",
+  standaloneLogoDark: "/img/logo-stack-standalone-dark.svg",
+};
+
 export const themes: { [name: string]: Theme | undefined } = {
   ["base"]: baseTheme,
   ["base-sepolia"]: baseTheme,
@@ -486,6 +515,8 @@ export const themes: { [name: string]: Theme | undefined } = {
   ["parallel-chain-oqwzakghzt"]: parallel,
   ["lisk-sepolia"]: liskTheme,
   ["lumio-mainnet"]: lumioTheme,
+  ["stack-mainnet"]: stackTheme,
+  ["stack-testnet-p776aut4wc"]: stackTheme,
 };
 
 export const deploymentTheme = (

@@ -25,11 +25,14 @@ const useDeploymentsFilters = (): BridgeControllerGetDeploymentsParams => {
       // change this to see more things locally
       names: [
         "op-sepolia",
+        "lumio-mainnet",
         "base-sepolia",
         "zora-sepolia-0thyhxtf5e",
         "pgn-sepolia-i4td3ji6i0",
         "mode-sepolia-vtnhnpim72",
         "orderly-l2-4460-sepolia-8tc3sd7dvy",
+        "stack-testnet-p776aut4wc",
+        "stack-mainnet",
       ],
     };
   }
