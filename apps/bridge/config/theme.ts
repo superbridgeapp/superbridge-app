@@ -10,6 +10,11 @@ import {
   optimismSepolia,
   pgn,
   zoraSepolia,
+  base,
+  mode,
+  optimism,
+  zora,
+  modeTestnet,
 } from "viem/chains";
 
 import bgArbitrum from "../public/img/bg/grains_bottom.png";
@@ -32,8 +37,13 @@ export const chainIcons: { [chainId: number]: string | undefined } = {
   [pgn.id]: "/img/network-pgn.svg",
   [kroma.id]: "/img/network-kroma.svg",
   1024: "/img/network-parallel.svg",
+  [mode.id]: "/img/network-mode.svg",
+  [modeTestnet.id]: "/img/network-mode.svg",
+  [zora.id]: "/img/network-zora.svg",
   [zoraSepolia.id]: "/img/network-zora.svg",
+  [base.id]: "/img/network-base.svg",
   [baseSepolia.id]: "/img/network-base.svg",
+  [optimism.id]: "/img/network-op mainnet.svg",
   [optimismSepolia.id]: "/img/network-op mainnet.svg",
 };
 
