@@ -513,6 +513,7 @@ export const themes: { [name: string]: Theme | undefined } = {
   ["orb3-mainnet"]: orb3,
   parallel,
   ["parallel-chain-oqwzakghzt"]: parallel,
+  ["surprised-harlequin-bonobo-fvcy2k9oqh"]: parallel,
   ["lisk-sepolia"]: liskTheme,
   ["lumio-mainnet"]: lumioTheme,
   ["stack-mainnet"]: stackTheme,
