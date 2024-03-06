@@ -447,8 +447,8 @@ const liskTheme: Theme = {
 const lumioTheme: Theme = {
   ...defaultTheme,
   bg: "bg-zinc-50 dark:bg-black/70",
-  bgMuted: "bg-[#F5F5F6] dark:bg-white/5",
-  screenBg: "bg-[#F5F5F6] dark:bg-[#090A0C]",
+  bgMuted: "bg-zinc-200/50 dark:bg-white/5",
+  screenBg: "bg-[#2F2B54] dark:bg-[#0F0B2D]",
   screenBgImg:
     "bg-gradient-to-t from-[#0F0B2D] dark:bg-[#2F2B54] via-violet-500/0 to-violet-500/0 mix-blend-lighter opacity-20",
   logoSrc: "/img/logo-lumio.svg",
