@@ -101,7 +101,7 @@
     "withdrawalTitleDays_other": "{{rollup}} withdrawals take ~{{count}} days",
     "opDescription": "Withdrawing is a 3 step process, requiring 2 {{base}} transactions.",
     "arbDescription": "Withdrawing is a 2 step process and requires an extra {{base}} transaction.",
-    "depositDescription": "Something about deposits...",
+    "depositDescription": "",
     "learnMore": "Learn more",
     "approxFees": "Approx. fees",
     "initiateDeposit": "Initiate deposit",

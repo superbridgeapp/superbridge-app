@@ -40,7 +40,7 @@ const DialogContent = React.forwardRef<
       <DialogPrimitive.Content
         ref={ref}
         className={cn(
-          `flex flex-col backdrop-blur-lg fixed left-[50%] bottom-[0] md:bottom-auto  md:top-[50%] z-50 h-auto max-h-[96dvh] md:max-h-[80vh] w-screen md:w-[50vw] md:max-w-[420px] translate-x-[-50%] md:translate-y-[-50%] gap-4 p-0 border border-black/[0.08] dark:border-white/[0.08] shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-bottom-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-bottom-[48%] rounded-t-[21px] md:rounded-[32px] bg-white dark:bg-black/60 overflow-hidden overflow-y-auto`,
+          `flex flex-col backdrop-blur-lg fixed left-[50%] bottom-[0] md:bottom-auto  md:top-[50%] z-50 h-auto max-h-[96dvh] md:max-h-[88vh] w-screen md:w-[50vw] md:max-w-[420px] translate-x-[-50%] md:translate-y-[-50%] gap-4 p-0 border border-black/[0.08] dark:border-white/[0.08] shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-bottom-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-bottom-[48%] rounded-t-[21px] md:rounded-[32px] bg-white dark:bg-black/60 overflow-hidden overflow-y-auto`,
           className
         )}
         {...props}

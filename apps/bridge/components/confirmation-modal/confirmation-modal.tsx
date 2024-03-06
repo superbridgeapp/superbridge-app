@@ -56,13 +56,13 @@ function LineItem({
   return (
     <div
       className={clsx(
-        "rounded-lg px-3 py-2 justify-between flex items-center",
+        "py-2 px-3  justify-between flex items-center",
         className
       )}
     >
       <div className="flex gap-2 items-center">
         {icon}
-        <p className="text-sm font-medium">{text}</p>
+        <p className="text-xs font-medium">{text}</p>
       </div>
       {fee && (
         <div className="flex gap-2 items-center">
@@ -268,7 +268,12 @@ export const ConfirmationModal = ({
     .with(
       { isUsdc: true },
       () =>
-        `USDC bridging requires two transactions to complete, one on the initiating chain (${from?.name}) and one on the destination chain (${to?.name}) 15 minutes later.`
+        `Depositing native USDC via CCTP is a 2 step process, requiring 2 transactions on ${from?.name}.`
+    )
+    .with(
+      { withdrawing: true, isUsdc: true },
+      () =>
+        `Withdrawing native USDC via CCTP is a 3 step process, requiring 2 transactions on ${from?.name} and 1 on ${to?.name}.`
     )
     .with({ withdrawing: true, family: "optimism" }, () =>
       t("confirmationModal.opDescription", { base: deployment?.l1.name })
@@ -439,9 +444,9 @@ export const ConfirmationModal = ({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent>
-        <div className="flex flex-col p-6 pt-6 md:pt-8">
-          <div className="flex flex-col gap-1 mr-6">
-            <h1 className="font-bold text-2xl md:text-2xl tracking-tight md:leading-7 text-pretty">
+        <div className="flex flex-col p-6 pt-8 md:pt-10">
+          <div className="flex flex-col gap-1 ">
+            <h1 className="font-bold text-xl tracking-tighter text-pretty leading-6">
               {title}
             </h1>
             <p className="text-sm text-pretty">
@@ -459,14 +464,12 @@ export const ConfirmationModal = ({
               </Link>
             </p>
           </div>
-
-          <div className="flex flex-col gap-1 pt-4">
-            <div className="justify-end flex items-center px-1">
-              <span className="text-zinc-400 font-medium text-[11px]">
-                {t("confirmationModal.approxFees")}
-              </span>
-            </div>
-
+          <div className="justify-end flex items-center px-1 py-1">
+            <span className="text-zinc-400 font-medium text-[11px]">
+              {t("confirmationModal.approxFees")}
+            </span>
+          </div>
+          <div className="py-1 flex flex-col border border-zinc-100 dark:border-zinc-100/10 divide-y divide-zinc-100 dark:divide-zinc-100/10 rounded-[16px]">
             {approveButton && (
               <LineItem
                 text={t("confirmationModal.approve", { symbol: token?.symbol })}
@@ -480,7 +483,7 @@ export const ConfirmationModal = ({
             ))}
           </div>
 
-          <div className="flex flex-col gap-2 py-4 md:py-6">
+          <div className="flex flex-col gap-2 py-4">
             <div className="pl-4 flex gap-2">
               <Checkbox
                 id="timeframe"
@@ -524,14 +527,14 @@ export const ConfirmationModal = ({
             </div>
           </div>
 
-          <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-2">
             {approveButton && (
               <Button
                 className={clsx(
                   "flex w-full justify-center rounded-full px-3 py-6 text-sm font-bold leading-6 text-white shadow-sm",
                   theme.accentText,
-                  theme.accentBg,
-                  approved && "bg-[#55FF55] text-black"
+                  theme.accentBg
+                  // approved && "bg-green-300 dark:bg-green-300"
                 )}
                 onClick={approveButton.onSubmit}
                 disabled={
@@ -542,6 +545,17 @@ export const ConfirmationModal = ({
                 }
               >
                 {approveButton.buttonText}
+                {approved && (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="15"
+                    height="12"
+                    viewBox="0 0 15 12"
+                    className="fill-white dark:fill-zinc-950 ml-2 h-2.5 w-auto"
+                  >
+                    <path d="M6.80216 12C6.32268 12 5.94594 11.8716 5.67623 11.559L0.63306 6.02355C0.384755 5.7624 0.269165 5.41563 0.269165 5.07742C0.269165 4.31109 0.915614 3.67749 1.66909 3.67749C2.04583 3.67749 2.42257 3.83161 2.69228 4.13129L6.57955 8.38245L12.1921 0.56939C12.4661 0.192651 12.8899 0 13.3309 0C14.0715 0 14.7308 0.56939 14.7308 1.38709C14.7308 1.67392 14.6538 1.96932 14.4697 2.21762L7.84676 11.4306C7.61558 11.7688 7.21315 12 6.79788 12H6.80216Z" />
+                  </svg>
+                )}
               </Button>
             )}
 
