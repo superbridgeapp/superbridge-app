@@ -7,6 +7,7 @@ import { useFees } from "@/hooks/use-fees";
 import { useIsContractAccount } from "@/hooks/use-is-contract-account";
 import { useConfigState } from "@/state/config";
 import { isOptimism } from "@/utils/is-mainnet";
+import { useToChain } from "@/hooks/use-chain";
 
 import { Switch } from "../ui/switch";
 import { SettingsModalProps } from "./types";
@@ -20,6 +21,7 @@ export const WithdrawSettings = ({ from, gasEstimate }: SettingsModalProps) => {
   const isContractAccount = useIsContractAccount();
   const { t } = useTranslation();
 
+  const to = useToChain();
   const fees = useFees(from, gasEstimate);
   const theme = deploymentTheme(deployment);
 
@@ -42,7 +44,7 @@ export const WithdrawSettings = ({ from, gasEstimate }: SettingsModalProps) => {
             <div>
               <h3 className="font-bold">Escape hatch</h3>
               <p className="text-zinc-400 text-xs">
-                {t("settings.escapeHatchDescription", { base: from?.name })}
+                {t("settings.escapeHatchDescription", { base: to?.name })}
               </p>
             </div>
             <div className="pl-8">
