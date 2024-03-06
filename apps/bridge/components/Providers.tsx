@@ -74,7 +74,7 @@ function Web3Provider({ children }: { children: React.ReactNode }) {
     <WagmiProvider config={config}>
       <RainbowKitProvider
         locale={
-          i18n.language.includes("zh")
+          i18n.language?.includes("zh")
             ? "zh"
             : (i18n.resolvedLanguage as Locale)
         }

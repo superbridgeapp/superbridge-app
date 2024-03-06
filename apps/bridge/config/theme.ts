@@ -437,8 +437,8 @@ const liskTheme: Theme = {
 const lumioTheme: Theme = {
   ...defaultTheme,
   bg: "bg-zinc-50 dark:bg-black/70",
-  bgMuted: "bg-zinc-200/50 dark:bg-white/5",
-  screenBg: "bg-[#2F2B54] dark:bg-[#0F0B2D]",
+  bgMuted: "bg-[#F5F5F6] dark:bg-white/5",
+  screenBg: "bg-[#F5F5F6] dark:bg-[#090A0C]",
   screenBgImg:
     "bg-gradient-to-t from-[#0F0B2D] dark:bg-[#2F2B54] via-violet-500/0 to-violet-500/0 mix-blend-lighter opacity-20",
   logoSrc: "/img/logo-lumio.svg",
@@ -456,22 +456,21 @@ const lumioTheme: Theme = {
 
 const stackTheme: Theme = {
   ...defaultTheme,
-  bg: "bg-zinc-50 dark:bg-black/70",
+  bg: "bg-white dark:bg-[#1B1E24]",
   bgMuted: "bg-zinc-200/50 dark:bg-white/5",
-  screenBg: "bg-[#2F2B54] dark:bg-[#0F0B2D]",
-  screenBgImg:
-    "bg-gradient-to-t from-[#0F0B2D] dark:bg-[#2F2B54] via-violet-500/0 to-violet-500/0 mix-blend-lighter opacity-20",
-  logoSrc: "/img/logo-lumio.svg",
-  logoSrcDark: "/img/logo-lumio-dark.svg",
-  logoWidth: 113,
-  logoHeight: 40,
-  iconSrc: "/img/icon-lumio.svg",
-  l2ChainIcon: "/img/network-lumio.png",
+  screenBg: "bg-[#F5F5F6] dark:bg-[#13151A]",
+  screenBgImg: "bg-transparent",
+  logoSrc: "/img/logo-stack.svg",
+  logoSrcDark: "/img/logo-stack-dark.svg",
+  logoWidth: 83,
+  logoHeight: 28,
+  iconSrc: "/img/icon-stack.svg",
+  l2ChainIcon: "/img/network-stack.png",
   card: {
-    className: "bg-gradient-to-b from-[#2F2B54] to-[#0F0B2D] ",
+    className: "bg-gradient-to-b from-[#13151A] to-[#000000] ",
   },
-  standaloneLogo: "/img/logo-lumio-dark.svg",
-  standaloneLogoDark: "/img/logo-lumio-dark.svg",
+  standaloneLogo: "/img/logo-stack-standalone.svg",
+  standaloneLogoDark: "/img/logo-stack-standalone-dark.svg",
 };
 
 export const themes: { [name: string]: Theme | undefined } = {
