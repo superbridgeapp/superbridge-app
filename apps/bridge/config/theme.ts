@@ -483,6 +483,26 @@ const stackTheme: Theme = {
   standaloneLogoDark: "/img/logo-stack-standalone-dark.svg",
 };
 
+const redstoneTheme: Theme = {
+  ...defaultTheme,
+  bg: "bg-white dark:bg-[#1B1E24]",
+  bgMuted: "bg-zinc-200/50 dark:bg-white/5",
+  screenBg: "bg-[#FA5F77] dark:bg-[#0E1423]",
+  screenBgImg:
+    "bg-gradient-to-t from-[#E6395D] via-[#FA5F77] to-[#FA5F77] dark:bg-[#1D2A47] dark:via-[#0E1423] dark:to-[#0E1423]   opacity-100",
+  logoSrc: "/img/logo-redstone.svg",
+  logoSrcDark: "/img/logo-redstone-dark.svg",
+  logoWidth: 141,
+  logoHeight: 26,
+  iconSrc: "/img/icon-redstone-mainnet.svg",
+  l2ChainIcon: "/img/network-redstone-mainnet.png",
+  card: {
+    className: "bg-gradient-to-b from-[#FA5F77] to-[#E6395D] ",
+  },
+  standaloneLogo: "/img/logo-stack-standalone.svg",
+  standaloneLogoDark: "/img/logo-stack-standalone-dark.svg",
+};
+
 export const themes: { [name: string]: Theme | undefined } = {
   ["base"]: baseTheme,
   ["base-sepolia"]: baseTheme,
@@ -509,7 +529,7 @@ export const themes: { [name: string]: Theme | undefined } = {
   ["uniswap-v4-hook-sandbox-6tl5qq8i4d"]: uniswapTheme,
   ["apechain-test-qbuapbatak"]: apeTheme,
   rollux,
-  ["lattice-testnet"]: lattice,
+  ["lattice-testnet"]: redstoneTheme,
   ["orb3-mainnet"]: orb3,
   parallel,
   ["parallel-chain-oqwzakghzt"]: parallel,
