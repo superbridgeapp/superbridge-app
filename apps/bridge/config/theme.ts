@@ -90,6 +90,8 @@ const baseTheme: Theme = {
   card: {
     className: "bg-blue-600",
   },
+  standaloneLogo: "/img/logo-base-standalone.svg",
+  standaloneLogoDark: "/img/logo-base-standalone-dark.svg",
 };
 
 const optimismTheme: Theme = {
@@ -111,6 +113,8 @@ const optimismTheme: Theme = {
   screenBgImg:
     "bg-gradient-to-t from-[#EA3431]  to-[#EA3431]/0  opacity-100 dark:opacity-20 mix-blend-plus-lighter",
   l2ChainIcon: "/img/network-op mainnet.svg",
+  standaloneLogo: "/img/logo-optimism-standalone.svg",
+  standaloneLogoDark: "/img/logo-optimism-standalone-dark.svg",
 };
 
 const zoraTheme: Theme = {
