@@ -474,7 +474,7 @@ const stackTheme: Theme = {
   logoSrcDark: "/img/logo-stack-dark.svg",
   logoWidth: 83,
   logoHeight: 28,
-  iconSrc: "/img/icon-stack.svg",
+  iconSrc: "/img/icon-stack-mainnet.svg",
   l2ChainIcon: "/img/network-stack.png",
   card: {
     className: "bg-gradient-to-b from-[#13151A] to-[#000000] ",
