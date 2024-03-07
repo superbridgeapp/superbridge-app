@@ -43,8 +43,8 @@ export const chainIcons: { [chainId: number]: string | undefined } = {
   [zoraSepolia.id]: "/img/network-zora.svg",
   [base.id]: "/img/network-base.svg",
   [baseSepolia.id]: "/img/network-base.svg",
-  [optimism.id]: "/img/network-op mainnet.svg",
-  [optimismSepolia.id]: "/img/network-op mainnet.svg",
+  [optimism.id]: "/img/network-op-mainnet.svg",
+  [optimismSepolia.id]: "/img/network-op-mainnet.svg",
 };
 
 const defaultTheme: Theme = {
@@ -112,7 +112,7 @@ const optimismTheme: Theme = {
   navIconSrc: "/img/nav-optimism.svg",
   screenBgImg:
     "bg-gradient-to-t from-[#EA3431]  to-[#EA3431]/0  opacity-100 dark:opacity-20 mix-blend-plus-lighter",
-  l2ChainIcon: "/img/network-op mainnet.svg",
+  l2ChainIcon: "/img/network-op-mainnet.svg",
   standaloneLogo: "/img/logo-optimism-standalone.svg",
   standaloneLogoDark: "/img/logo-optimism-standalone-dark.svg",
 };
