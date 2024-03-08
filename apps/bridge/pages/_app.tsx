@@ -37,15 +37,15 @@ export default function App(appProps: AppProps) {
           <>
             <meta
               property="og:image"
-              content={`https://superbridge.app/og/${
+              content={`https://superbridge.app/${
                 dedicatedDeployment.name
-              }-og-image${isRollbridge ? "-rb" : ""}.png`}
+              }-og-${isRollbridge ? "-rb" : ""}.png`}
             />
             <meta
               name="twitter:image"
-              content={`https://superbridge.app/og/${
+              content={`https://superbridge.app/${
                 dedicatedDeployment.name
-              }-og-image${isRollbridge ? "-rb" : ""}.png`}
+              }-og-${isRollbridge ? "-rb" : ""}.png`}
             />
           </>
         ) : appProps.router.route !== "/[id]/[[...index]]" ? (
@@ -80,7 +80,7 @@ export default function App(appProps: AppProps) {
           rel="shortcut icon"
           href={
             dedicatedDeployment
-              ? `/img/icon-${dedicatedDeployment.name}.svg`
+              ? `/img/${dedicatedDeployment.name}/icon.svg`
               : isSuperbridge
               ? "/img/superbridge/favicon-32x32.png"
               : "/img/rollbridge/favicon-32x32.png"
@@ -90,7 +90,7 @@ export default function App(appProps: AppProps) {
           rel="icon"
           href={
             dedicatedDeployment
-              ? `/img/icon-${dedicatedDeployment.name}.svg`
+              ? `/img/${dedicatedDeployment.name}/icon.svg`
               : isSuperbridge
               ? "/img/superbridge/favicon-32x32.png"
               : "/img/rollbridge/favicon-32x32.png"

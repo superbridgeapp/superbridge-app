@@ -52,7 +52,7 @@ const mapping: { [name: string]: DedicatedDeployment | undefined } = {
   },
   "stack-mainnet": {
     name: "stack-mainnet",
-    footerLink: "https://www.stack.so/",
+    footerLink: "https://www.stack.so",
     og: {
       title: "Stack Bridge",
       description: "Bridge ETH and ERC20 tokens into and out of Stack Mainnet",
