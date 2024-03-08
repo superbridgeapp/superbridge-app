@@ -104,17 +104,17 @@ const optimismTheme: Theme = {
         "bg-gradient-to-t from-[#EA3431]  to-[#EA3431]/0  mix-blend-multiply opacity-40",
     },
   },
-  logoSrc: "/img/optimism-logo.svg",
-  logoSrcDark: "/img/optimism-logo.svg",
+  logoSrc: "/img/optimism/logo.svg",
+  logoSrcDark: "/img/optimism/logo.svg",
   logoWidth: 124,
   logoHeight: 24,
-  iconSrc: "/img/icon-optimism.svg",
-  navIconSrc: "/img/nav-optimism.svg",
+  iconSrc: "/img/optimism/icon.svg",
+  navIconSrc: "/img/optimism/nav.svg",
   screenBgImg:
-    "bg-gradient-to-t from-[#EA3431]  to-[#EA3431]/0  opacity-100 dark:opacity-20 mix-blend-plus-lighter",
-  l2ChainIcon: "/img/network-op-mainnet.svg",
-  standaloneLogo: "/img/logo-optimism-standalone.svg",
-  standaloneLogoDark: "/img/logo-optimism-standalone-dark.svg",
+    "bg-gradient-to-t from-[#EA3431]  to-[#EA3431]/0 opacity-100 dark:opacity-20 mix-blend-plus-lighter",
+  l2ChainIcon: "/img/optimism/network.svg",
+  standaloneLogo: "/img/optimism/logo-standalone.svg",
+  standaloneLogoDark: "/img/optimism/logo-standalone-dark.svg",
 };
 
 const zoraTheme: Theme = {
@@ -127,15 +127,15 @@ const zoraTheme: Theme = {
       className: "bg-cover bg-center mix-blend-screen opacity-100",
     },
   },
-  logoSrc: "/img/zora-logo.svg",
-  logoSrcDark: "/img/zora-logo.svg",
+  logoSrc: "/img/zora/logo.svg",
+  logoSrcDark: "/img/zora/logo.svg",
   logoWidth: 42,
   logoHeight: 42,
-  iconSrc: "/img/icon-zora.svg",
-  navIconSrc: "/img/nav-zora.svg",
+  iconSrc: "/img/zora/icon.svg",
+  navIconSrc: "/img/zora/nav.svg",
   screenBgImg:
-    "bg-[url('/img/bg/zora.jpg')] bg-cover bg-center mix-blend-screen opacity-100 dark:opacity-50 mix-blend-plus-lighter",
-  l2ChainIcon: "/img/network-zora.svg",
+    "bg-[url('/img/zora/bg.jpg')] bg-cover bg-center mix-blend-screen opacity-100 dark:opacity-50 mix-blend-plus-lighter",
+  l2ChainIcon: "/img/zora/network.svg",
 };
 
 const modeTheme: Theme = {
@@ -145,19 +145,19 @@ const modeTheme: Theme = {
   accentBg:
     "bg-zinc-900 hover:bg-zinc-950 dark:bg-[#DFFE00] dark:hover:bg-[3E4FF52]",
   screenBg: "bg-[#DFFE00] dark:bg-black",
-  logoSrc: "/img/logo-mode.svg",
-  logoSrcDark: "/img/logo-mode-dark.svg",
+  logoSrc: "/img/mode/logo.svg",
+  logoSrcDark: "/img/mode/logo-dark.svg",
   logoWidth: 134,
   logoHeight: 40,
-  iconSrc: "/img/icon-mode.svg",
-  l2ChainIcon: "/img/network-mode.svg",
+  iconSrc: "/img/mode/icon.svg",
+  l2ChainIcon: "/img/mode/network.svg",
   screenBgImg:
-    "bg-[url('/img/bg/mode-bg.svg')] bg-repeat opacity-15 dark:opacity-35",
+    "bg-[url('/img/mode/bg.svg')] bg-repeat opacity-15 dark:opacity-35",
   card: {
     className: "bg-zinc-950",
   },
-  standaloneLogo: "/img/logo-mode.svg",
-  standaloneLogoDark: "/img/logo-mode-dark.svg",
+  standaloneLogo: "/img/mode/logo.svg",
+  standaloneLogoDark: "/img/mode/logo-dark.svg",
 };
 
 const aevoTheme: Theme = {
@@ -165,9 +165,9 @@ const aevoTheme: Theme = {
   card: {
     className: "bg-zinc-950",
   },
-  iconSrc: "/img/icon-aevo.svg",
-  logoSrc: "/img/icon-aevo.svg",
-  logoSrcDark: "/img/icon-aevo.svg",
+  iconSrc: "/img/aevo/icon.svg",
+  logoSrc: "/img/aevo/icon.svg",
+  logoSrcDark: "/img/aevo/icon.svg",
   logoWidth: 97,
   logoHeight: 32,
 };
@@ -177,15 +177,15 @@ const lyraTheme: Theme = {
   card: {
     className: "bg-[#26FAB0]",
   },
-  iconSrc: "/img/icon-lyra.svg",
+  iconSrc: "/img/lyra/icon.svg",
   screenBg: "bg-[#26FAB0] dark:bg-[#0B1820]",
-  logoSrc: "/img/logo-lyra.svg",
-  logoSrcDark: "/img/logo-lyra-dark.svg",
+  logoSrc: "/img/lyra/logo.svg",
+  logoSrcDark: "/img/lyra/logo-dark.svg",
   logoWidth: 40,
   logoHeight: 40,
-  l2ChainIcon: "/img/network-lyra.svg",
-  standaloneLogo: "/img/logo-lyra.svg",
-  standaloneLogoDark: "/img/logo-lyra-dark.svg",
+  l2ChainIcon: "/img/lyra/network.svg",
+  standaloneLogo: "/img/lyra/logo.svg",
+  standaloneLogoDark: "/img/lyra/logo-dark.svg",
   screenBgImg:
     "bg-gradient-to-t from-violet-500 via-violet-500/0 to-violet-500/0 mix-blend-multiply opacity-20",
 };
@@ -195,15 +195,15 @@ const orderlyTheme: Theme = {
   card: {
     className: "bg-gradient-to-t from-[#4D00B1] via-[#7C3FCB] to-[#7C3FCB]",
   },
-  iconSrc: "/img/icon-orderly.svg",
+  iconSrc: "/img/orderly/icon.svg",
   screenBg: "bg-[#7C3FCB] dark:bg-[#310F6A]",
-  logoSrc: "/img/logo-orderly.svg",
-  logoSrcDark: "/img/logo-orderly-dark.svg",
+  logoSrc: "/img/orderly/logo.svg",
+  logoSrcDark: "/img/orderly/logo-dark.svg",
   logoWidth: 40,
   logoHeight: 40,
-  l2ChainIcon: "/img/network-orderly.svg",
-  standaloneLogo: "/img/standalone-logo-orderly.svg",
-  standaloneLogoDark: "/img/standalone-logo-orderly.svg",
+  l2ChainIcon: "/img/orderly/network.svg",
+  standaloneLogo: "/img/orderly/standalone-logo.svg",
+  standaloneLogoDark: "/img/orderly/standalone-logo.svg",
   screenBgImg:
     "bg-gradient-to-t from-violet-500 via-violet-500/0 to-violet-500/0 mix-blend-multiply opacity-60 dark:opacity-100",
 };
@@ -213,7 +213,7 @@ const ancient8Theme: Theme = {
   card: {
     className: "bg-[#293019]",
   },
-  iconSrc: "/img/icon-ancient8.svg",
+  iconSrc: "/img/ancient8/icon.svg",
 };
 
 const pgnTheme: Theme = {
@@ -226,14 +226,14 @@ const pgnTheme: Theme = {
     },
   },
   screenBg: "bg-[#4BF155] dark:bg-zinc-950 ",
-  iconSrc: "/img/icon-pgn.svg",
-  logoSrc: "/img/icon-pgn.svg",
-  logoSrcDark: "/img/icon-pgn.svg",
+  iconSrc: "/img/pgn/icon.svg",
+  logoSrc: "/img/pgn/icon.svg",
+  logoSrcDark: "/img/pgn/icon.svg",
   logoWidth: 32,
   logoHeight: 32,
   screenBgImg:
-    "bg-[url('/img/bg/pgn.png')] bg-cover bg-center  opacity-10  mix-blend-plus-lighter",
-  l2ChainIcon: "/img/network-pgn.svg",
+    "bg-[url('/img/pgn/bg.png')] bg-cover bg-center  opacity-10  mix-blend-plus-lighter",
+  l2ChainIcon: "/img/pgn/network.svg",
 };
 
 const uniswapTheme: Theme = {
@@ -262,14 +262,14 @@ const kromaTheme: Theme = {
     },
   },
   screenBg: "bg-[#72DE2F] dark:bg-[#2E3345]",
-  logoSrc: "/img/kroma-logo.svg",
-  logoSrcDark: "/img/kroma-logo.svg",
+  logoSrc: "/img/kroma/logo.svg",
+  logoSrcDark: "/img/kroma/logo.svg",
   logoWidth: 42,
   logoHeight: 42,
-  iconSrc: "/img/kroma-icon.svg",
+  iconSrc: "/img/kroma/icon.svg",
   screenBgImg:
     "bg-gradient-to-t from-teal-500 via-teal-500/0 to-teal-500/0 mix-blend-hard-light opacity-20 dark:opacity-10 mix-blend-plus-lighter",
-  l2ChainIcon: "/img/network-kroma.svg",
+  l2ChainIcon: "/img/kroma/network.svg",
 };
 
 const arbitrumOneTheme: Theme = {
@@ -282,14 +282,14 @@ const arbitrumOneTheme: Theme = {
     },
   },
   screenBg: "bg-[#1C4ADD] dark:bg-[#213147]",
-  logoSrc: "/img/arbitrum-one-logo.svg",
-  logoSrcDark: "/img/arbitrum-one-logo.svg",
+  logoSrc: "/img/arbitrum-one/logo.svg",
+  logoSrcDark: "/img/arbitrum-one/logo.svg",
   logoWidth: 42,
   logoHeight: 42,
-  iconSrc: "/img/arbitrum-one-icon.svg",
+  iconSrc: "/img/arbitrum-one/icon.svg",
   screenBgImg:
     "bg-[url('/img/bg/grains_ellipse.png')] bg-cover bg-center mix-blend-overlay opacity-20 mix-blend-plus-lighter",
-  l2ChainIcon: "/img/network-arbitrum one.svg",
+  l2ChainIcon: "/img/arbitrum-one/network.svg",
 };
 
 const arbitrumNovaTheme: Theme = {
@@ -302,14 +302,14 @@ const arbitrumNovaTheme: Theme = {
     },
   },
   screenBg: "bg-[#E57410] dark:bg-[#213147]",
-  logoSrc: "/img/arbitrum-nova-logo.svg",
-  logoSrcDark: "/img/arbitrum-nova-logo.svg",
+  logoSrc: "/img/arbitrum-nova/logo.svg",
+  logoSrcDark: "/img/arbitrum-nova/logo.svg",
   logoWidth: 42,
   logoHeight: 42,
-  iconSrc: "/img/arbitrum-nova-icon.svg",
+  iconSrc: "/img/arbitrum-nova/icon.svg",
   screenBgImg:
     "bg-[url('/img/bg/grains_ellipse.png')] bg-cover bg-center mix-blend-overlay opacity-20 mix-blend-plus-lighter",
-  l2ChainIcon: "/img/network-arbitrum-nova.svg",
+  l2ChainIcon: "/img/arbitrum-nova/network.svg",
 };
 
 const frameTheme: Theme = {
@@ -319,14 +319,14 @@ const frameTheme: Theme = {
     className: "bg-gradient-to-t from-[#FE7822] to-[#FCB72A]",
   },
   screenBg: "bg-[#F9F9F9] dark:bg-gradient-to-t from-[#FE7822] to-[#FCB72A]",
-  logoSrc: "/img/frame-logo.svg",
-  logoSrcDark: "/img/frame-logo.svg",
+  logoSrc: "/img/frame/logo.svg",
+  logoSrcDark: "/img/frame/logo.svg",
   logoWidth: 120,
   logoHeight: 32,
-  iconSrc: "/img/frame-icon.svg",
+  iconSrc: "/img/frame/icon.svg",
   screenBgImg:
-    "bg-[url('/img/bg/frame.png')] bg-cover bg-center dark:opacity-50 ",
-  l2ChainIcon: "/img/network-frame-testnet.svg",
+    "bg-[url('/img/frame/bg.png')] bg-cover bg-center dark:opacity-50 ",
+  l2ChainIcon: "/img/frame/network.svg",
 };
 
 const apeTheme: Theme = {
@@ -351,13 +351,13 @@ const rollux: Theme = {
   screenBg: "bg-[#DBEF88] dark:bg-[#A3A883]",
   screenBgImg:
     "bg-gradient-to-b from-white/0 to-[#EACF5E]  opacity-70 dark:opacity-10 ",
-  logoSrc: "/img/network-rollux.svg",
-  logoSrcDark: "/img/network-rollux.svg",
+  logoSrc: "/img/rollux/network.svg",
+  logoSrcDark: "/img/rollux/network.svg",
   logoWidth: 42,
   logoHeight: 42,
-  iconSrc: "/img/network-rollux.svg",
+  iconSrc: "/img/rollux/network.svg",
   l1ChainIcon: "/img/network-syscoin.png",
-  l2ChainIcon: "/img/network-rollux.svg",
+  l2ChainIcon: "/img/rollux/network.svg",
   card: {
     className: "bg-[#DBEF88]",
     overlay: {
@@ -395,37 +395,19 @@ const orb3: Theme = {
 const parallel: Theme = {
   ...defaultTheme,
   screenBg: "bg-zinc-50 dark:bg-zinc-950",
-  logoSrc: "/img/logo-parallel.svg",
-  logoSrcDark: "/img/logo-parallel-dark.svg",
+  logoSrc: "/img/parallel/logo.svg",
+  logoSrcDark: "/img/parallel/logo-dark.svg",
   logoWidth: 137,
   logoHeight: 28,
-  iconSrc: "/img/icon-parallel.svg",
-  l2ChainIcon: "/img/network-parallel.svg",
+  iconSrc: "/img/parallel/icon.svg",
+  l2ChainIcon: "/img/parallel/network.svg",
   screenBgImg:
-    "bg-[url('/img/bg/parallel-light.jpg')] dark:bg-[url('/img/bg/parallel-dark.jpg')] bg-cover bg-center ",
+    "bg-[url('/img/parallel/bg.jpg')] dark:bg-[url('/img/parallel/bg-dark.jpg')] bg-cover bg-center",
   card: {
     className: "bg-black",
   },
-  standaloneLogo: "/img/logo-parallel.svg",
-  standaloneLogoDark: "/img/logo-parallel-dark.svg",
-};
-
-const hypr: Theme = {
-  ...defaultTheme,
-  bg: "bg-zinc-50 dark:bg-zinc-900",
-  screenBg: "bg-[#BE3145] dark:bg-black",
-  screenBgImg: "bg-transparent",
-  logoSrc: "/img/logo-hypr.svg",
-  logoSrcDark: "/img/logo-hypr-dark.svg",
-  logoWidth: 108,
-  logoHeight: 32,
-  iconSrc: "/img/icon-hypr.svg",
-  l2ChainIcon: "/img/network-hypr.svg",
-  card: {
-    className: "bg-[#BE3145]",
-  },
-  standaloneLogo: "/img/logo-standalone-hypr.svg",
-  standaloneLogoDark: "/img/logo-standalone-hypr.svg",
+  standaloneLogo: "/img/parallel/logo.svg",
+  standaloneLogoDark: "/img/parallel/logo-dark.svg",
 };
 
 const liskTheme: Theme = {
@@ -435,17 +417,17 @@ const liskTheme: Theme = {
   screenBg: "bg-[#4070F4] dark:bg-[#17213C]",
   screenBgImg:
     "bg-gradient-to-t from-violet-500 via-violet-500/0 to-violet-500/0 mix-blend-lighter opacity-20",
-  logoSrc: "/img/logo-lisk.svg",
-  logoSrcDark: "/img/logo-lisk.svg",
+  logoSrc: "/img/lisk-mainnet/logo.svg",
+  logoSrcDark: "/img/lisk-mainnet/logo.svg",
   logoWidth: 102,
   logoHeight: 40,
-  iconSrc: "/img/icon-lisk.svg",
-  l2ChainIcon: "/img/network-lisk.png",
+  iconSrc: "/img/lisk-mainnet/icon.svg",
+  l2ChainIcon: "/img/lisk-mainnet/network.png",
   card: {
     className: "bg-gradient-to-b from-[#4070F4] to-[#295CE9] ",
   },
-  standaloneLogo: "/img/logo-standalone-lisk.svg",
-  standaloneLogoDark: "/img/logo-standalone-lisk.svg",
+  standaloneLogo: "/img/lisk-mainnet/logo-standalone.svg",
+  standaloneLogoDark: "/img/lisk-mainnet/logo-standalone.svg",
 };
 
 const lumioTheme: Theme = {
@@ -455,17 +437,17 @@ const lumioTheme: Theme = {
   screenBg: "bg-[#2F2B54] dark:bg-[#0F0B2D]",
   screenBgImg:
     "bg-gradient-to-t from-[#0F0B2D] dark:bg-[#2F2B54] via-violet-500/0 to-violet-500/0 mix-blend-lighter opacity-20",
-  logoSrc: "/img/logo-lumio.svg",
-  logoSrcDark: "/img/logo-lumio-dark.svg",
+  logoSrc: "/img/lumio-mainnet/logo.svg",
+  logoSrcDark: "/img/lumio-mainnet/logo-dark.svg",
   logoWidth: 113,
   logoHeight: 40,
-  iconSrc: "/img/icon-lumio.svg",
-  l2ChainIcon: "/img/network-lumio.png",
+  iconSrc: "/img/lumio-mainnet/icon.svg",
+  l2ChainIcon: "/img/lumio-mainnet/network.png",
   card: {
     className: "bg-gradient-to-b from-[#2F2B54] to-[#0F0B2D] ",
   },
-  standaloneLogo: "/img/logo-lumio-dark.svg",
-  standaloneLogoDark: "/img/logo-lumio-dark.svg",
+  standaloneLogo: "/img/lumio-mainnet/logo-dark.svg",
+  standaloneLogoDark: "/img/lumio-mainnet/logo-dark.svg",
 };
 
 const stackTheme: Theme = {
@@ -474,17 +456,17 @@ const stackTheme: Theme = {
   bgMuted: "bg-zinc-200/50 dark:bg-white/5",
   screenBg: "bg-[#F5F5F6] dark:bg-[#13151A]",
   screenBgImg: "bg-transparent",
-  logoSrc: "/img/logo-stack.svg",
-  logoSrcDark: "/img/logo-stack-dark.svg",
+  logoSrc: "/img/stack-mainnet/logo.svg",
+  logoSrcDark: "/img/stack-mainnet/logo-dark.svg",
   logoWidth: 83,
   logoHeight: 28,
-  iconSrc: "/img/icon-stack-mainnet.svg",
-  l2ChainIcon: "/img/network-stack.png",
+  iconSrc: "/img/stack-mainnet/icon.svg",
+  l2ChainIcon: "/img/stack-mainnet/network.png",
   card: {
     className: "bg-gradient-to-b from-[#13151A] to-[#000000] ",
   },
-  standaloneLogo: "/img/logo-stack-standalone.svg",
-  standaloneLogoDark: "/img/logo-stack-standalone-dark.svg",
+  standaloneLogo: "/img/stack-mainnet/logo-standalone.svg",
+  standaloneLogoDark: "/img/stack-mainnet/logo-standalone-dark.svg",
 };
 
 export const themes: { [name: string]: Theme | undefined } = {
