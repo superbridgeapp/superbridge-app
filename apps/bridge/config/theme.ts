@@ -15,6 +15,11 @@ import {
   optimism,
   zora,
   modeTestnet,
+  sepolia,
+  mainnet,
+  holesky,
+  syscoin,
+  rollux,
 } from "viem/chains";
 
 import bgArbitrum from "../public/img/bg/grains_bottom.png";
@@ -23,28 +28,26 @@ import bgZora from "../public/img/bg/zora.jpg";
 import { dedicatedDeployment } from "./dedicated-deployment";
 
 export const chainIcons: { [chainId: number]: string | undefined } = {
-  [1]: "/img/network-ethereum.svg",
-  [5]: "/img/network-goerli.svg",
-  [11_155_111]: "/img/network-sepolia.svg",
-  [arbitrumGoerli.id]: "/img/network-arbitrum-one.svg",
-  [arbitrumSepolia.id]: "/img/network-arbitrum-one.svg",
-  [17_000]: "/img/network-holesky.png",
-  [arbitrum.id]: "/img/network-arbitrum-one.svg",
-  [arbitrumNova.id]: "/img/network-arbitrum-nova.svg",
-  [57]: "/img/network-syscoin.png",
-  570: "/img/network-rollux.svg",
-  [788988]: "/img/network-orb3.svg",
-  [pgn.id]: "/img/network-pgn.svg",
-  [kroma.id]: "/img/network-kroma.svg",
-  1024: "/img/network-parallel.svg",
-  [mode.id]: "/img/network-mode.svg",
-  [modeTestnet.id]: "/img/network-mode.svg",
-  [zora.id]: "/img/network-zora.svg",
-  [zoraSepolia.id]: "/img/network-zora.svg",
-  [base.id]: "/img/network-base.svg",
-  [baseSepolia.id]: "/img/network-base.svg",
-  [optimism.id]: "/img/network-op-mainnet.svg",
-  [optimismSepolia.id]: "/img/network-op-mainnet.svg",
+  [mainnet.id]: "/img/network-ethereum.svg",
+  [sepolia.id]: "/img/network-sepolia.svg",
+  [holesky.id]: "/img/network-holesky.png",
+  [arbitrumSepolia.id]: "/img/arbitrum-one/network.svg",
+  [arbitrum.id]: "/img/arbitrum-one/network.svg",
+  [arbitrumNova.id]: "/img/arbitrum-nova/network.svg",
+  [syscoin.id]: "/img/network-syscoin.png",
+  [rollux.id]: "/img/rollux/network.svg",
+  [788988]: "/img/orb3-mainnet/network.svg",
+  [pgn.id]: "/img/pgn/network.svg",
+  [kroma.id]: "/img/kroma/network.svg",
+  1024: "/img/parallel/network.svg",
+  [mode.id]: "/img/mode/network.svg",
+  [modeTestnet.id]: "/img/mode/network.svg",
+  [zora.id]: "/img/zora/network.svg",
+  [zoraSepolia.id]: "/img/zora/network.svg",
+  [base.id]: "/img/base/network.svg",
+  [baseSepolia.id]: "/img/base/network.svg",
+  [optimism.id]: "/img/optimism/network.svg",
+  [optimismSepolia.id]: "/img/optimism/network.svg",
 };
 
 const defaultTheme: Theme = {
@@ -80,18 +83,18 @@ const baseTheme: Theme = {
   screenBg: "bg-blue-600 dark:bg-blue-950 ",
   screenBgImg:
     "bg-gradient-to-t from-violet-500 via-violet-500/0 to-violet-500/0 mix-blend-lighter opacity-50 dark:opacity-20",
-  logoSrc: "/img/base-logo.svg",
-  logoSrcDark: "/img/base-logo.svg",
+  logoSrc: "/img/base/logo.svg",
+  logoSrcDark: "/img/base/logo.svg",
   logoWidth: 127,
   logoHeight: 32,
-  iconSrc: "/img/icon-base.svg",
-  navIconSrc: "/img/nav-base.svg",
-  l2ChainIcon: "/img/network-base.svg",
+  iconSrc: "/img/base/icon.svg",
+  navIconSrc: "/img/base/nav.svg",
+  l2ChainIcon: "/img/base/network.svg",
   card: {
     className: "bg-blue-600",
   },
-  standaloneLogo: "/img/logo-base-standalone.svg",
-  standaloneLogoDark: "/img/logo-base-standalone-dark.svg",
+  standaloneLogo: "/img/base/logo-standalone.svg",
+  standaloneLogoDark: "/img/base/logo-standalone-dark.svg",
 };
 
 const optimismTheme: Theme = {
@@ -346,7 +349,7 @@ const apeTheme: Theme = {
   l2ChainIcon: "/img/l2-apechain.png",
 };
 
-const rollux: Theme = {
+const rolluxTheme: Theme = {
   ...defaultTheme,
   screenBg: "bg-[#DBEF88] dark:bg-[#A3A883]",
   screenBgImg:
@@ -378,18 +381,18 @@ const lattice: Theme = {
 const orb3: Theme = {
   ...defaultTheme,
   screenBg: "bg-[#FF0000] dark:bg-zinc-900",
-  logoSrc: "/img/logo-orb3-light.svg",
-  logoSrcDark: "/img/logo-orb3-dark.svg",
+  logoSrc: "/img/orb3-mainnet/logo.svg",
+  logoSrcDark: "/img/orb3-mainnet/logo-dark.svg",
   logoWidth: 123,
   logoHeight: 32,
-  iconSrc: "/img/icon-orb3-mainnet.svg",
-  l2ChainIcon: "/img/network-orb3.svg",
+  iconSrc: "/img/orb3-mainnet/icon.svg",
+  l2ChainIcon: "/img/orb3-mainnet/network.svg",
   screenBgImg: "bg-transparent",
   card: {
     className: "bg-zinc-950",
   },
-  standaloneLogo: "/img/logo-orb3-whitelabel-light.svg",
-  standaloneLogoDark: "/img/logo-orb3-whitelabel-dark.svg",
+  standaloneLogo: "/img/orb3-mainnet/logo-standalone.svg",
+  standaloneLogoDark: "/img/orb3-mainnet/logo-standalone-dark.svg",
 };
 
 const parallel: Theme = {
@@ -494,7 +497,7 @@ export const themes: { [name: string]: Theme | undefined } = {
   ancient8: ancient8Theme,
   ["uniswap-v4-hook-sandbox-6tl5qq8i4d"]: uniswapTheme,
   ["apechain-test-qbuapbatak"]: apeTheme,
-  rollux,
+  rollux: rolluxTheme,
   ["lattice-testnet"]: lattice,
   ["orb3-mainnet"]: orb3,
   parallel,
