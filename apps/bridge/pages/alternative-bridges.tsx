@@ -1,5 +1,7 @@
 import Image from "next/image";
-import { PageTransition } from "../components/PageTransition";
+
+import { PageTransition } from "@/components/PageTransition";
+
 const BridgeCard = ({
   title,
   src,
