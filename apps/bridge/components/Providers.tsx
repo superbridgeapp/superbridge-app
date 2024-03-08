@@ -37,7 +37,7 @@ function Web3Provider({ children }: { children: React.ReactNode }) {
     const chains =
       deployments.length === 0
         ? [mainnet, optimism]
-        : deployments
+        : [...deployments]
             .sort((a) => (a.id === deployment?.id ? -1 : 1))
             .map((d) => {
               if (chainIcons[d.l1.id]) {
