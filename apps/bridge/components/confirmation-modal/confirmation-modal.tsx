@@ -292,7 +292,7 @@ export const ConfirmationModal = ({
     family: deployment?.family,
     isEth: isNativeToken(stateToken),
   })
-    .with({ isUsdc: true, escapeHatch: true }, () =>
+    .with({ isUsdc: true, withdrawing: true, escapeHatch: true }, () =>
       t("confirmationModal.cctpDescriptionEscapeHatch", common)
     )
     .with({ isUsdc: true }, () =>

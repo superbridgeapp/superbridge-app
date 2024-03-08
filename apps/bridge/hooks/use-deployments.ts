@@ -25,6 +25,8 @@ const useDeploymentsFilters = (): BridgeControllerGetDeploymentsParams => {
       // change this to see more things locally
       names: [
         "op-sepolia",
+        "arbitrum-one",
+        "arbitrum-nova",
         "lumio-mainnet",
         "base-sepolia",
         "zora-sepolia-0thyhxtf5e",
