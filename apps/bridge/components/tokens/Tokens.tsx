@@ -2,8 +2,7 @@ import clsx from "clsx";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { P, match } from "ts-pattern";
-import { Address, formatUnits, isAddress } from "viem";
-import { Chain } from "viem";
+import { Address, Chain, formatUnits, isAddress } from "viem";
 
 import { ChainDto } from "@/codegen/model";
 import { deploymentTheme } from "@/config/theme";
@@ -16,6 +15,8 @@ import { useConfigState } from "@/state/config";
 import { MultiChainToken } from "@/types/token";
 import { isNativeUsdc } from "@/utils/is-usdc";
 
+import { CctpBadge } from "../cttp-badge";
+import { TokenIcon } from "../token-icon";
 import { Button } from "../ui/button";
 import { useCustomToken } from "./use-custom-token";
 
@@ -46,21 +47,13 @@ const TokenComponent = ({
       onClick={onClick}
     >
       <div className="flex items-center space-x-4">
-        {/* TODO: do we need a fallback to the text thing here */}
-        <img
-          src={token[from?.id ?? 0]?.logoURI}
-          className="h-8 w-8 rounded-full bg-zinc-50 overflow-hidden"
-        />
+        <TokenIcon token={token[from?.id ?? 0] ?? null} className="h-8 w-8" />
         <div className="flex flex-col">
           <div className="flex items-center gap-1">
             <span className="text-sm font-bold">
               {token[from?.id ?? 0]?.name}
             </span>
-            {isNativeUsdc(token) && (
-              <span className="px-1 font-bold text-[9px] bg-zinc-100 text-zinc-400 dark:bg-zinc-800 rounded-lg">
-                CCTP
-              </span>
-            )}
+            {isNativeUsdc(token) && <CctpBadge />}
           </div>
           <span className="text-xs font-medium text-zinc-400">
             {token[from?.id ?? 0]?.symbol}
