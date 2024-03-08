@@ -70,9 +70,20 @@ export const useInitialise = () => {
 
   // reset settings when changing deployment
   useEffect(() => {
-    if (deployment && (!isMainnet(deployment) || !isOptimism(deployment))) {
+    if (!deployment) {
       setEasyMode(false);
       setForceViaL1(false);
+      return;
+    }
+
+    if (!isMainnet(deployment)) {
+      setEasyMode(false);
+      return;
+    }
+
+    if (!isOptimism(deployment)) {
+      setForceViaL1(false);
+      return;
     }
   }, [deployment]);
 };
