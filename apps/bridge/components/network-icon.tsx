@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import Image, { ImageProps } from "next/image";
 import { mainnet, sepolia, syscoin } from "viem/chains";
-import { Chain } from "wagmi";
+import { Chain } from "viem";
 
 import { ChainDto, DeploymentDto } from "@/codegen/model";
 import { chainIcons, deploymentTheme } from "@/config/theme";

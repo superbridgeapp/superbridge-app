@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { P, match } from "ts-pattern";
 import { Address, formatUnits, isAddress } from "viem";
-import { Chain } from "wagmi";
+import { Chain } from "viem";
 
 import { ChainDto } from "@/codegen/model";
 import { deploymentTheme } from "@/config/theme";

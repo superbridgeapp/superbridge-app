@@ -1,5 +1,6 @@
+import { Address } from "viem";
 import { arbitrum, goerli, optimism, optimismGoerli } from "viem/chains";
-import { Address, mainnet } from "wagmi";
+import { mainnet } from "wagmi/chains";
 
 export const hyperlaneDomains: { [chainId: number]: number | undefined } = {
   [mainnet.id]: 1,

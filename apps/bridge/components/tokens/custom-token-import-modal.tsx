@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Address } from "viem";
 
 import { deploymentTheme } from "@/config/theme";
+import * as metadata from "@/constants/metadata";
 import { useConfigState } from "@/state/config";
 import { useSettingsState } from "@/state/settings";
 import {
@@ -13,12 +14,11 @@ import {
 } from "@/types/token";
 import { addressLink } from "@/utils/transaction-link";
 
+import { L1_BASE_CHAINS } from "../network-icon";
 import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
 import { Dialog, DialogContent } from "../ui/dialog";
 import { useCustomToken } from "./use-custom-token";
-import Link from "next/link";
-import { L1_BASE_CHAINS } from "../network-icon";
 
 export const CustomTokenImportModal = () => {
   const deployment = useConfigState.useDeployment();
@@ -232,7 +232,7 @@ export const CustomTokenImportModal = () => {
               htmlFor="importAgree"
               className="text-[11px] text-zinc-500 dark:text-zinc-400 tracking-tighter"
             >
-              {t("customTokenLists.disclaimer")}
+              {t("customTokenLists.disclaimer", { app: metadata.title })}
             </label>
           </div>
 

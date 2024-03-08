@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Address, Chain } from "viem";
-import { useAccount, useNetwork, useWalletClient } from "wagmi";
+import { useAccount, useWalletClient } from "wagmi";
 
 import { useBridgeControllerGetProveTransaction } from "@/codegen";
 import { BridgeWithdrawalDto } from "@/codegen/model";
@@ -11,27 +11,24 @@ import { useSwitchChain } from "../use-switch-chain";
 export function useProveOptimism({ id, deployment }: BridgeWithdrawalDto) {
   const account = useAccount();
   const wallet = useWalletClient();
-  const { chain: activeChain } = useNetwork();
   const setProving = usePendingTransactions.useSetProving();
   const removeProving = usePendingTransactions.useRemoveProving();
   const getProveTransaction = useBridgeControllerGetProveTransaction();
   const switchChain = useSwitchChain();
 
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
 
   const onProve = async () => {
     if (!account.address || !wallet.data) {
       return;
     }
 
-    if (activeChain && activeChain.id !== deployment.l1.id) {
+    if (account.chain && account.chain.id !== deployment.l1.id) {
       await switchChain(deployment.l1);
     }
 
     try {
       setLoading(true);
-      setError(null);
       const { data } = await getProveTransaction.mutateAsync({ data: { id } });
       const hash = await wallet.data.sendTransaction({
         to: data.to as Address,
@@ -47,7 +44,6 @@ export function useProveOptimism({ id, deployment }: BridgeWithdrawalDto) {
         // no error
       } else {
         console.log(e);
-        setError(e);
       }
       removeProving(id);
     } finally {
@@ -58,6 +54,5 @@ export function useProveOptimism({ id, deployment }: BridgeWithdrawalDto) {
   return {
     onProve,
     loading,
-    error,
   };
 }

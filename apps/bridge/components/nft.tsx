@@ -3,8 +3,8 @@ import clsx from "clsx";
 import { useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import { isAddressEqual } from "viem";
-import { Address, erc721ABI, useContractRead } from "wagmi";
+import { isAddressEqual, Address, erc721Abi } from "viem";
+import { useReadContract } from "wagmi";
 
 import { BridgeNftDto, NftDepositDto } from "@/codegen/model";
 
@@ -99,13 +99,15 @@ export function NftImage({
       }
     : injectedNft;
 
-  const localTokenUriRead = useContractRead({
-    abi: erc721ABI,
+  const localTokenUriRead = useReadContract({
+    abi: erc721Abi,
     functionName: "tokenURI",
     address: nft.address as Address,
     args: [BigInt(nft.tokenId)],
     chainId: parseInt(nft.chainId),
-    enabled: !nft.image && !nft.tokenUri,
+    query: {
+      enabled: !nft.image && !nft.tokenUri,
+    },
   });
 
   /**
@@ -114,13 +116,15 @@ export function NftImage({
    * been withdrawn
    */
   const dto = injectedNft as any;
-  const remoteTokenUriRead = useContractRead({
-    abi: erc721ABI,
+  const remoteTokenUriRead = useReadContract({
+    abi: erc721Abi,
     functionName: "tokenURI",
     address: dto.data?.remoteTokenAddress as Address,
     args: [BigInt(nft.tokenId)],
     chainId: dto.remoteChainId ? parseInt(dto.remoteChainId) : 0,
-    enabled: isNftDepositDto(injectedNft) && !!localTokenUriRead.error,
+    query: {
+      enabled: isNftDepositDto(injectedNft) && !!localTokenUriRead.error,
+    },
   });
 
   let tokenUri =

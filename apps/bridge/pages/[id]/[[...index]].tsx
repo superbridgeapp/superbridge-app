@@ -3,7 +3,7 @@ import type { GetServerSideProps, PageConfig } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 
-import { ErrorPage } from "@/components/ErrorPage";
+import { ErrorComponent } from "@/components/Error";
 import { Loading } from "@/components/Loading";
 import { PageTransition } from "@/components/PageTransition";
 import { Bridge } from "@/components/bridge";
@@ -45,7 +45,7 @@ export default function Page(props: PageProps) {
               {!initialised ? (
                 <Loading key={"bridge-loading"} />
               ) : !deployment ? (
-                <ErrorPage key={"bridge-error"} />
+                <ErrorComponent key={"bridge-error"} />
               ) : (
                 <Bridge key={"bridge-loaded"} />
               )}
