@@ -1,4 +1,4 @@
-import { useContractRead } from "wagmi";
+import { useReadContract } from "wagmi";
 
 import { InterchainGasPaymasterAbi } from "@/abis/hyperlane/InterchainGasPaymaster";
 import {
@@ -27,11 +27,13 @@ export const useHyperlaneGasQuote = () => {
 
   const destinationHyperlaneDomain = hyperlaneDomains[to?.id ?? 0];
 
-  return useContractRead({
+  return useReadContract({
     abi: InterchainGasPaymasterAbi,
     functionName: "quoteGasPayment",
     args: [destinationHyperlaneDomain ?? 0, CCTP_MINT_GAS_COST],
-    enabled: !!token && isCctpBridgeOperation(token),
+    query: {
+      enabled: !!token && isCctpBridgeOperation(token),
+    },
     address: hyperlaneAddresses[destinationHyperlaneDomain ?? 0]?.igp ?? "0x",
   });
 };

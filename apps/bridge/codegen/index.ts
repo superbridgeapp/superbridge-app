@@ -27,12 +27,14 @@ import type {
   ActionDto,
   ActivityDto,
   BridgeControllerGetActivityParams,
+  BridgeControllerGetDeploymentsParams,
   BridgeNftDto,
   CcipReadDto,
   CcipReadResponseDto,
   CctpDomainDto,
   ConduitDeploymentConfigDto,
   CreateConduitDeploymentDto,
+  CreateMainnetConduitDeploymentDto,
   DeploymentDto,
   IdDto,
   SyncStatusDto,
@@ -692,6 +694,61 @@ export const getBridgeControllerAdminAddDeploymentMutationOptions = <TError = Ax
       return useMutation(mutationOptions);
     }
     
+export const bridgeControllerGetDeployments = (
+    params?: BridgeControllerGetDeploymentsParams, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<DeploymentDto[]>> => {
+    
+    return axios.get(
+      `/api/bridge/deployments`,{
+    ...options,
+        params: {...params, ...options?.params},}
+    );
+  }
+
+
+export const getBridgeControllerGetDeploymentsQueryKey = (params?: BridgeControllerGetDeploymentsParams,) => {
+    return [`/api/bridge/deployments`, ...(params ? [params]: [])] as const;
+    }
+
+    
+export const getBridgeControllerGetDeploymentsQueryOptions = <TData = Awaited<ReturnType<typeof bridgeControllerGetDeployments>>, TError = AxiosError<unknown>>(params?: BridgeControllerGetDeploymentsParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetDeployments>>, TError, TData>, axios?: AxiosRequestConfig}
+) => {
+
+const {query: queryOptions, axios: axiosOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getBridgeControllerGetDeploymentsQueryKey(params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof bridgeControllerGetDeployments>>> = ({ signal }) => bridgeControllerGetDeployments(params, { signal, ...axiosOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetDeployments>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type BridgeControllerGetDeploymentsQueryResult = NonNullable<Awaited<ReturnType<typeof bridgeControllerGetDeployments>>>
+export type BridgeControllerGetDeploymentsQueryError = AxiosError<unknown>
+
+export const useBridgeControllerGetDeployments = <TData = Awaited<ReturnType<typeof bridgeControllerGetDeployments>>, TError = AxiosError<unknown>>(
+ params?: BridgeControllerGetDeploymentsParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetDeployments>>, TError, TData>, axios?: AxiosRequestConfig}
+
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+
+  const queryOptions = getBridgeControllerGetDeploymentsQueryOptions(params,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
 export const bridgeControllerGetCctpDomains = (
      options?: AxiosRequestConfig
  ): Promise<AxiosResponse<CctpDomainDto[]>> => {
@@ -935,6 +992,50 @@ export const getBridgeControllerCreateConduitDeploymentMutationOptions = <TError
 ) => {
 
       const mutationOptions = getBridgeControllerCreateConduitDeploymentMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+export const bridgeControllerCreateMainnetConduitDeployment = (
+    createMainnetConduitDeploymentDto: CreateMainnetConduitDeploymentDto, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<ConduitDeploymentConfigDto>> => {
+    
+    return axios.post(
+      `/api/bridge/mainnet_conduit_deployment`,
+      createMainnetConduitDeploymentDto,options
+    );
+  }
+
+
+
+export const getBridgeControllerCreateMainnetConduitDeploymentMutationOptions = <TError = AxiosError<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerCreateMainnetConduitDeployment>>, TError,{data: CreateMainnetConduitDeploymentDto}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerCreateMainnetConduitDeployment>>, TError,{data: CreateMainnetConduitDeploymentDto}, TContext> => {
+ const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof bridgeControllerCreateMainnetConduitDeployment>>, {data: CreateMainnetConduitDeploymentDto}> = (props) => {
+          const {data} = props ?? {};
+
+          return  bridgeControllerCreateMainnetConduitDeployment(data,axiosOptions)
+        }
+
+        
+
+
+   return  { mutationFn, ...mutationOptions }}
+
+    export type BridgeControllerCreateMainnetConduitDeploymentMutationResult = NonNullable<Awaited<ReturnType<typeof bridgeControllerCreateMainnetConduitDeployment>>>
+    export type BridgeControllerCreateMainnetConduitDeploymentMutationBody = CreateMainnetConduitDeploymentDto
+    export type BridgeControllerCreateMainnetConduitDeploymentMutationError = AxiosError<unknown>
+
+    export const useBridgeControllerCreateMainnetConduitDeployment = <TError = AxiosError<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerCreateMainnetConduitDeployment>>, TError,{data: CreateMainnetConduitDeploymentDto}, TContext>, axios?: AxiosRequestConfig}
+) => {
+
+      const mutationOptions = getBridgeControllerCreateMainnetConduitDeploymentMutationOptions(options);
 
       return useMutation(mutationOptions);
     }

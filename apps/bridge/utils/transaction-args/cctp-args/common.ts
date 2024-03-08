@@ -20,6 +20,9 @@ export type CctpBridgeArgs = {
   recipient: Address;
   weiAmount: bigint;
   hyperlaneGasQuote?: bigint | undefined;
+  options: {
+    forceViaL1: boolean;
+  };
 };
 
 export type CctpBridgeTxResolver = (

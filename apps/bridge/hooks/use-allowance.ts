@@ -1,4 +1,5 @@
-import { Address, erc20ABI, useAccount, useContractRead } from "wagmi";
+import { useAccount, useReadContract } from "wagmi";
+import { Address, erc20Abi } from "viem";
 
 import { Token } from "@/types/token";
 import { isEth } from "@/utils/is-eth";
@@ -8,12 +9,14 @@ export function useAllowance(
   contract: string | undefined
 ) {
   const account = useAccount();
-  const allowance = useContractRead({
-    abi: erc20ABI,
+  const allowance = useReadContract({
+    abi: erc20Abi,
     functionName: "allowance",
     args: [account.address ?? "0x", (contract as Address) ?? "0x"],
     address: (token?.address as Address) ?? "0x",
-    enabled: !!token && !!account.address && !isEth(token) && !!contract,
+    query: {
+      enabled: !!token && !!account.address && !isEth(token) && !!contract,
+    },
     chainId: token?.chainId,
   });
   return allowance;

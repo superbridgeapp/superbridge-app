@@ -1,9 +1,11 @@
 import { Address, encodeFunctionData } from "viem";
 
+import { TokenMessengerAbi } from "@/abis/cctp/TokenMessenger";
 import { CctpDomainDto, DeploymentDto } from "@/codegen/model";
 import { Token } from "@/types/token";
-import { TokenMessengerAbi } from "@/abis/cctp/TokenMessenger";
+import { isOptimism } from "@/utils/is-mainnet";
 
+import { forceTransaction } from "../withdraw-args/force";
 import { TransactionArgs } from "../withdraw-args/types";
 import { CctpBridgeTxResolver, addressToBytes32 } from "./common";
 
@@ -37,7 +39,14 @@ const impl = (
 };
 
 export const cctpBridgeArgs: CctpBridgeTxResolver = (
-  { deployment, stateToken, cctp, recipient, weiAmount },
+  {
+    deployment,
+    stateToken,
+    cctp,
+    recipient,
+    weiAmount,
+    options: { forceViaL1 },
+  },
   withdrawing
 ) => {
   const fromToken = withdrawing
@@ -51,7 +60,7 @@ export const cctpBridgeArgs: CctpBridgeTxResolver = (
     return;
   }
 
-  return impl(
+  const result = impl(
     deployment,
     cctp.from,
     cctp.to,
@@ -60,4 +69,13 @@ export const cctpBridgeArgs: CctpBridgeTxResolver = (
     recipient,
     weiAmount
   );
+  if (!result) {
+    return;
+  }
+
+  if (withdrawing && forceViaL1 && isOptimism(deployment)) {
+    return forceTransaction(deployment, result);
+  }
+
+  return result;
 };
