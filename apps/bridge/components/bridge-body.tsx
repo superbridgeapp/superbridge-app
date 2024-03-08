@@ -1,5 +1,5 @@
 import { useConnectModal } from "@rainbow-me/rainbowkit";
-import { waitForTransaction } from "@wagmi/core";
+import { waitForTransactionReceipt } from "@wagmi/core";
 import clsx from "clsx";
 import Image from "next/image";
 import { useState } from "react";
@@ -7,7 +7,13 @@ import { useTranslation } from "react-i18next";
 import { isPresent } from "ts-is-present";
 import { P, match } from "ts-pattern";
 import { formatUnits, parseUnits } from "viem";
-import { useAccount, useBalance, useFeeData, useWalletClient } from "wagmi";
+import {
+  useAccount,
+  useBalance,
+  useConfig,
+  useFeeData,
+  useWalletClient,
+} from "wagmi";
 
 import { useBridgeControllerTrack } from "@/codegen";
 import { DeploymentType } from "@/codegen/model";
@@ -22,6 +28,8 @@ import { useBridge } from "@/hooks/use-bridge";
 import { useBridgeFee } from "@/hooks/use-bridge-fee";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
 import { useIsContractAccount } from "@/hooks/use-is-contract-account";
+import { useIsCustomToken } from "@/hooks/use-is-custom-token";
+import { useIsCustomTokenFromList } from "@/hooks/use-is-custom-token-from-list";
 import { useNativeToken } from "@/hooks/use-native-token";
 import { useTokenPrice } from "@/hooks/use-prices";
 import { useSelectedToken } from "@/hooks/use-selected-token";
@@ -43,6 +51,7 @@ import { DepositFees } from "./fees/deposit-fees";
 import { WithdrawFees } from "./fees/withdraw-fees";
 import { NftImage } from "./nft";
 import { TokenModal } from "./tokens/Modal";
+import { CustomTokenImportModal } from "./tokens/custom-token-import-modal";
 import { Button } from "./ui/button";
 import { WithdrawSettingsModal } from "./withdraw-settings/modal";
 import { ConfirmationModal } from "./confirmation-modal";
@@ -167,6 +176,8 @@ export const BridgeBody = () => {
   const feeData = useFeeData({
     chainId: forceViaL1 && withdrawing ? deployment?.l1.id : from?.id,
   });
+  const wagmiConfig = useConfig();
+
   const allowance = useAllowance(token, bridge.address);
   const nftAllowance = useAllowanceNft();
 
@@ -200,6 +211,9 @@ export const BridgeBody = () => {
     BigInt(parseUnits(networkFee.toFixed(18), 18)) >
       (ethBalance.data?.value ?? BigInt(0));
 
+  const isCustomToken = useIsCustomToken(stateToken);
+  const isCustomTokenFromList = useIsCustomTokenFromList(stateToken);
+
   const onWrite = async () => {
     if (!account.address || !wallet.data || !bridge.valid || !recipient) {
       console.warn("Missing connected account");
@@ -218,13 +232,17 @@ export const BridgeBody = () => {
       await switchChain(deployment!.l1);
     }
 
-    if (withdrawing && wallet.data.chain.id !== deployment!.l2.id) {
+    if (
+      !forceViaL1 &&
+      withdrawing &&
+      wallet.data.chain.id !== deployment!.l2.id
+    ) {
       await switchChain(deployment!.l2);
     }
 
     try {
-      const { hash } = await bridge.write.sendTransactionAsync!();
-      waitForTransaction({
+      const hash = await bridge.write!();
+      waitForTransactionReceipt(wagmiConfig, {
         hash,
         chainId: withdrawing
           ? forceViaL1
@@ -331,7 +349,7 @@ export const BridgeBody = () => {
   const submitButton = match({
     disabled: deployment?.name === "orb3-mainnet" && !withdrawing,
     withdrawing,
-    isSubmitting: bridge.write.isLoading,
+    isSubmitting: bridge.isLoading,
     account: account.address,
     wallet: wallet.data,
     hasInsufficientBalance,
@@ -397,6 +415,7 @@ export const BridgeBody = () => {
         from={from}
         gasEstimate={200_000}
       />
+      <CustomTokenImportModal />
       <AddressModal open={addressDialog} setOpen={setAddressDialog} />
       <ConfirmationModal
         onConfirm={onSubmit}
@@ -452,6 +471,38 @@ export const BridgeBody = () => {
               >
                 <path d="M13.53 6.031l-5 5a.75.75 0 01-1.062 0l-5-5A.751.751 0 113.531 4.97L8 9.439l4.47-4.47a.751.751 0 011.062 1.062h-.001z"></path>
               </svg>
+
+              {(isCustomToken || isCustomTokenFromList) && (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="12"
+                  height="12"
+                  viewBox="0 0 12 12"
+                  fill="none"
+                  className="absolute top-4 left-6 w-3 h-3"
+                >
+                  <g clip-path="url(#clip0_995_5016)">
+                    <path
+                      d="M5.68325 4.28632C5.68325 4.02007 5.80325 3.87195 6.05263 3.87195C6.302 3.87195 6.42763 4.02007 6.42763 4.28632C6.42763 4.55257 6.15575 6.8982 6.09763 7.3407C6.092 7.39132 6.08075 7.44195 6.05263 7.44195C6.0245 7.44195 6.01325 7.40257 6.00763 7.3332C5.957 6.89632 5.68325 4.54132 5.68325 4.28445V4.28632ZM5.68325 9.40507C5.68325 9.20632 5.84825 9.04132 6.05263 9.04132C6.257 9.04132 6.41638 9.20632 6.41638 9.40507C6.41638 9.60382 6.25138 9.77445 6.05263 9.77445C5.85388 9.77445 5.68325 9.60945 5.68325 9.40507ZM1.2545 11.4038H10.8414C11.5801 11.4038 11.9364 10.8188 11.5914 10.1832L6.77263 1.28257C6.38638 0.573823 5.72825 0.573823 5.342 1.27695L0.506377 10.1776C0.165127 10.8132 0.517627 11.4038 1.25638 11.4038H1.2545Z"
+                      fill="#F97316"
+                    />
+                    <path
+                      d="M5.00074 4.28625C5.00074 4.58625 5.29512 6.94313 5.37012 7.4475C5.43199 7.87875 5.70012 8.1225 6.05074 8.1225C6.42574 8.1225 6.66387 7.845 6.72574 7.4475C6.85137 6.66375 7.10637 4.58625 7.10637 4.28625C7.10637 3.72375 6.67512 3.19125 6.05074 3.19125C5.42637 3.19125 5.00074 3.73125 5.00074 4.28625ZM6.05637 10.4606C6.63012 10.4606 7.10074 9.99 7.10074 9.39938C7.10074 8.80875 6.63012 8.355 6.05637 8.355C5.48262 8.355 4.99512 8.82563 4.99512 9.39938C4.99512 9.97313 5.46574 10.4606 6.05637 10.4606Z"
+                      fill="#FFEDD5"
+                    />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_995_5016">
+                      <rect
+                        width="11.3494"
+                        height="10.6537"
+                        fill="white"
+                        transform="translate(0.375 0.75)"
+                      />
+                    </clipPath>
+                  </defs>
+                </svg>
+              )}
             </button>
           </div>
           <div className="pt-1 flex items-center justify-between">
@@ -568,11 +619,25 @@ export const BridgeBody = () => {
 
         {withdrawing ? (
           <WithdrawFees
-            gasEstimate={200_000}
+            gasEstimate={
+              isNativeUsdc(stateToken)
+                ? 100_000
+                : isNativeToken(stateToken)
+                ? 150_000
+                : 175_000
+            }
             openSettings={() => setWithdrawSettingsDialog(true)}
           />
         ) : (
-          <DepositFees gasEstimate={200_000} />
+          <DepositFees
+            gasEstimate={
+              isNativeUsdc(stateToken)
+                ? 100_000
+                : isNativeToken(stateToken)
+                ? 150_000
+                : 175_000
+            }
+          />
         )}
       </div>
 

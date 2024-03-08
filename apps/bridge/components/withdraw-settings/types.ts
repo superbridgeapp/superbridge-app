@@ -1,4 +1,4 @@
-import { Chain } from "wagmi";
+import { Chain } from "viem";
 
 import { ChainDto } from "@/codegen/model";
 

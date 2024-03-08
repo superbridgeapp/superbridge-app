@@ -1,35 +1,16 @@
 import clsx from "clsx";
 import Image, { ImageProps } from "next/image";
-import {
-  arbitrum,
-  arbitrumGoerli,
-  arbitrumNova,
-  arbitrumSepolia,
-  base,
-  baseSepolia,
-  optimism,
-  optimismSepolia,
-  zora,
-  zoraSepolia,
-} from "viem/chains";
-import { Chain } from "wagmi";
+import { mainnet, sepolia, syscoin } from "viem/chains";
+import { Chain } from "viem";
 
 import { ChainDto, DeploymentDto } from "@/codegen/model";
 import { chainIcons, deploymentTheme } from "@/config/theme";
 
-const L3_BASE_CHAINS: number[] = [
-  // Orbit
-  arbitrum.id,
-  arbitrumNova.id,
-  arbitrumGoerli.id,
-  arbitrumSepolia.id,
-  // OP
-  zora.id,
-  zoraSepolia.id,
-  base.id,
-  baseSepolia.id,
-  optimism.id,
-  optimismSepolia.id,
+export const L1_BASE_CHAINS: number[] = [
+  mainnet.id,
+  sepolia.id,
+  syscoin.id,
+  900, // Conduit devnet ID
 ];
 
 export const NetworkIcon = ({
@@ -42,7 +23,7 @@ export const NetworkIcon = ({
 } & Omit<ImageProps, "src" | "alt">) => {
   const isBase = chain?.id === deployment?.l1.id;
   const isRollup = chain?.id === deployment?.l2.id;
-  const isL3 = L3_BASE_CHAINS.includes(deployment?.l1.id ?? 0);
+  const isL3 = !L1_BASE_CHAINS.includes(deployment?.l1.id ?? 0);
 
   const theme = deploymentTheme(deployment);
 

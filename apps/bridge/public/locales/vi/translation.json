@@ -30,6 +30,7 @@
   "docs": "Tài liệu",
   "from": "Từ",
   "to": "Đến",
+  "support": "Hỗ trợ",
 
   "settings": {
     "settings": "Cài đặt",
@@ -40,6 +41,20 @@
     "currency": "Tiền tệ",
     "language": "Ngôn ngữ",
     "explorer": "Khám phá viên"
+  },
+
+  "customTokenLists": {
+    "add": "Thêm danh sách token tùy chỉnh",
+    "name": "Tên danh sách token",
+    "namePlaceholder": "Tên",
+    "url": "URL danh sách token",
+    "urlPlaceholder": "URL",
+    "invalid": "URL danh sách token không hợp lệ",
+    "loadedTokens": "{{num}} token đã tải",
+    "disclaimer": "Bất kỳ ai cũng có thể tạo bất kỳ token nào, bao gồm các phiên bản giả mạo của các token hiện có. Hãy cẩn thận. Một số token và thông số kỹ thuật của chúng có thể không tương thích với dịch vụ của {{app}}. Bằng cách nhập danh sách token tùy chỉnh này, bạn đã thừa nhận và chấp nhận các rủi ro.",
+    "learnMore": "Tìm hiểu thêm về các rủi ro.",
+    "save": "Lưu danh sách",
+    "delete": "Xóa danh sách"
   },
 
   "activity": {
@@ -53,7 +68,15 @@
     "tokens": "Token",
     "nfts": "NFT",
     "selectToken": "Chọn một token",
-    "noneFound": "Không tìm thấy kết quả"
+    "noneFound": "Không tìm thấy kết quả",
+    "notBridgeable": "Không thể cầu nối",
+    "import": "Nhập",
+    "customImport": "Nhập tùy chỉnh",
+    "customImportFromList": "Từ {{name}}",
+    "customImportCheck": "Đảm bảo bạn đã kiểm tra địa chỉ token và đúng địa chỉ:",
+    "customL1Address": "Địa chỉ L1",
+    "customL2Address": "Địa chỉ L2",
+    "customL3Address": "Địa chỉ L3"
   },
 
   "recipient": {

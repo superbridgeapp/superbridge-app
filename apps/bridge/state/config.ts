@@ -5,6 +5,8 @@ import { create } from "zustand";
 import { BridgeNftDto, DeploymentDto } from "@/codegen/model";
 import { MultiChainToken } from "@/types/token";
 
+import { CustomTokenList } from "./settings";
+
 interface ConfigState {
   deployment: DeploymentDto | null;
   setDeployment: (d: DeploymentDto | null) => void;
@@ -28,8 +30,6 @@ interface ConfigState {
 
   token: MultiChainToken | null;
   setToken: (token: MultiChainToken | null) => void;
-  importToken: (t: MultiChainToken) => void;
-  importedTokens: MultiChainToken[];
 
   nft: BridgeNftDto | null;
   setNft: (n: BridgeNftDto | null) => void;
@@ -50,6 +50,15 @@ interface ConfigState {
 
   tokens: MultiChainToken[];
   setTokens: (tokens: MultiChainToken[]) => void;
+
+  tokensImportedFromLists: string[];
+  setTokensImportedFromLists: (s: string[]) => void;
+
+  showCustomTokenListModal: true | CustomTokenList | false;
+  setShowCustomTokenListModal: (b: true | CustomTokenList | false) => void;
+
+  showCustomTokenImportModal: Address | false;
+  setShowCustomTokenImportModal: (b: Address | false) => void;
 }
 
 const ConfigState = create<ConfigState>()((set) => ({
@@ -69,9 +78,6 @@ const ConfigState = create<ConfigState>()((set) => ({
 
   token: null,
   setToken: (token) => set({ token, nft: null }),
-  importedTokens: [],
-  importToken: (token) =>
-    set((s) => ({ importedTokens: [...s.importedTokens, token] })),
 
   nft: null,
   setNft: (nft) => {
@@ -95,12 +101,24 @@ const ConfigState = create<ConfigState>()((set) => ({
   tokens: [],
   setTokens: (tokens) => set({ tokens }),
 
+  tokensImportedFromLists: [],
+  setTokensImportedFromLists: (tokensImportedFromLists) =>
+    set({ tokensImportedFromLists }),
+
   settingsModal: false,
   setSettingsModal: (settingsModal) => set({ settingsModal }),
 
   displayConfirmationModal: false,
   setDisplayConfirmationModal: (displayConfirmationModal) =>
     set({ displayConfirmationModal }),
+
+  showCustomTokenListModal: false,
+  setShowCustomTokenListModal: (showCustomTokenListModal) =>
+    set({ showCustomTokenListModal }),
+
+  showCustomTokenImportModal: false,
+  setShowCustomTokenImportModal: (showCustomTokenImportModal) =>
+    set({ showCustomTokenImportModal }),
 }));
 
 export const useConfigState = createSelectorHooks(ConfigState);

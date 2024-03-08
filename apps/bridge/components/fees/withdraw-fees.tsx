@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import Image from "next/image";
 import { useTranslation } from "react-i18next";
-import { Chain } from "wagmi";
+import { Chain } from "viem";
 
 import { configurations } from "@/config/contract-addresses";
 import { deploymentTheme } from "@/config/theme";

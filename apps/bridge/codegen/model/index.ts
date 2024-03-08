@@ -22,6 +22,7 @@ export * from './arbitrumWithdrawalDto';
 export * from './arbitrumWithdrawalDtoMetadata';
 export * from './blockExplorersDto';
 export * from './bridgeControllerGetActivityParams';
+export * from './bridgeControllerGetDeploymentsParams';
 export * from './bridgeNftChainConfigDto';
 export * from './bridgeNftDto';
 export * from './bridgeWithdrawalDto';

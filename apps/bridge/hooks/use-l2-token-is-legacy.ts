@@ -1,10 +1,10 @@
-import { useContractReads } from "wagmi";
+import { useReadContracts } from "wagmi";
 
+import { DeploymentDto } from "@/codegen/model";
 import { Token } from "@/types/token";
 import { isOptimismToken } from "@/utils/guards";
 import { isEth } from "@/utils/is-eth";
 import { l2TokenIsLegacy } from "@/utils/l2-token-is-legacy";
-import { DeploymentDto } from "@/codegen/model";
 
 const L2StandardERC20 = [
   {
@@ -27,7 +27,7 @@ export const useL2TokenIsLegacy = (
   token: Token | undefined,
   deployment: DeploymentDto | null
 ) => {
-  const reads = useContractReads({
+  const reads = useReadContracts({
     contracts: [
       {
         abi: L2StandardERC20,
@@ -43,7 +43,9 @@ export const useL2TokenIsLegacy = (
       },
     ],
     allowFailure: true,
-    enabled: !!token && isOptimismToken(token) && !isEth(token),
+    query: {
+      enabled: !!token && isOptimismToken(token) && !isEth(token),
+    },
   });
 
   if (token && !isOptimismToken(token)) {

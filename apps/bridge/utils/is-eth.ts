@@ -14,11 +14,8 @@ export const isEth = (token?: Token | null) => {
   );
 };
 
-export const isNativeToken = (token?: MultiChainToken | null) => {
-  if (!token) {
-    return false;
-  }
-
+export const isNativeToken = (token: MultiChainToken | null) => {
+  if (!token) return false;
   const l1Address = token[1]?.address ?? token[57]?.address;
   const l2Address = token[10]?.address ?? token[570]?.address;
   return (

@@ -7,6 +7,7 @@ interface DedicatedDeployment {
     title: string;
     description: string;
   };
+  additionalLinks?: { text: string; link: string }[];
 }
 
 const mapping: { [name: string]: DedicatedDeployment | undefined } = {
@@ -25,6 +26,28 @@ const mapping: { [name: string]: DedicatedDeployment | undefined } = {
       title: "Parallel Bridge",
       description:
         "Bridge ETH and ERC20 tokens into and out of Parallel Mainnet Network",
+    },
+    additionalLinks: [
+      {
+        text: "Parallel App",
+        link: "https://app.parallel.fi",
+      },
+    ],
+  },
+  "lumio-mainnet": {
+    name: "lumio-mainnet",
+    footerLink: "https://lumio.io",
+    og: {
+      title: "Lumio Bridge",
+      description: "Bridge ETH and ERC20 tokens into and out of Lumio Mainnet",
+    },
+  },
+  "stack-mainnet": {
+    name: "stack-mainnet",
+    footerLink: "https://www.stack.so/",
+    og: {
+      title: "Stack Bridge",
+      description: "Bridge ETH and ERC20 tokens into and out of Stack Mainnet",
     },
   },
 };

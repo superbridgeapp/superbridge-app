@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { useAccount } from "wagmi";
+import { useAccountEffect } from "wagmi";
 
 import { useConfigState } from "@/state/config";
 import { usePendingTransactions } from "@/state/pending-txs";
@@ -30,7 +30,7 @@ export const useInitialise = () => {
   useTokenLists();
   useInitialiseToken();
 
-  useAccount({
+  useAccountEffect({
     onDisconnect: () => {
       clearPendingTransactionsStorage();
     },

@@ -30,6 +30,7 @@
   "docs": "文档",
   "from": "从",
   "to": "到",
+  "support": "支持",
 
   "settings": {
     "settings": "设置",
@@ -42,6 +43,20 @@
     "explorer": "浏览器"
   },
 
+  "customTokenLists": {
+    "add": "添加自定义代币列表",
+    "name": "代币列表名称",
+    "namePlaceholder": "名称",
+    "url": "代币列表 URL",
+    "urlPlaceholder": "URL",
+    "invalid": "无效的代币列表 URL",
+    "loadedTokens": "加载了 {{num}} 个代币",
+    "disclaimer": "任何人都可以创建任何代币，包括现有代币的伪造版本。请注意。一些代币及其技术参数可能与 {{app}} 服务不兼容。通过导入此自定义代币列表，您承认并接受风险。",
+    "learnMore": "了解更多有关风险的信息。",
+    "save": "保存列表",
+    "delete": "删除列表"
+  },
+
   "activity": {
     "activity": "活动",
     "actionNeeded": "需要操作",
@@ -51,9 +66,17 @@
 
   "tokens": {
     "tokens": "代币",
-    "nfts": "NFTs",
-    "selectToken": "选择代币",
-    "noneFound": "未找到结果"
+    "nfts": "NFT",
+    "selectToken": "选择一个代币",
+    "noneFound": "未找到结果",
+    "notBridgeable": "无法桥接",
+    "import": "导入",
+    "customImport": "自定义导入",
+    "customImportFromList": "来自 {{name}}",
+    "customImportCheck": "确保您已检查了代币地址并确保正确：",
+    "customL1Address": "L1 地址",
+    "customL2Address": "L2 地址",
+    "customL3Address": "L3 地址"
   },
 
   "recipient": {

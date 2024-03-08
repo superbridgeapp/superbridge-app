@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Address, Chain } from "viem";
-import { useAccount, useNetwork, useWalletClient } from "wagmi";
+import { useAccount, useWalletClient } from "wagmi";
 
 import { useBridgeControllerGetArbitrumFinaliseTransactionV2 } from "@/codegen";
 import { ArbitrumWithdrawalDto } from "@/codegen/model";
@@ -12,26 +12,24 @@ export function useFinaliseArbitrum({ id, deployment }: ArbitrumWithdrawalDto) {
   const account = useAccount();
   const wallet = useWalletClient();
   const setFinalising = usePendingTransactions.useSetFinalising();
+  const removeFinalising = usePendingTransactions.useRemoveFinalising();
   const finaliseTransaction =
     useBridgeControllerGetArbitrumFinaliseTransactionV2();
   const switchChain = useSwitchChain();
-  const { chain: activeChain } = useNetwork();
 
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
 
   const onFinalise = async () => {
     if (!account.address || !wallet.data) {
       return;
     }
 
-    if (activeChain && activeChain.id !== deployment.l1.id) {
+    if (account.chain && account.chain.id !== deployment.l1.id) {
       await switchChain(deployment.l1);
     }
 
     try {
       setLoading(true);
-      setError(null);
 
       const data = await finaliseTransaction.mutateAsync({ data: { id } });
       const hash = await wallet.data.sendTransaction({
@@ -48,8 +46,8 @@ export function useFinaliseArbitrum({ id, deployment }: ArbitrumWithdrawalDto) {
         // no error
       } else {
         console.log(e);
-        setError(e);
       }
+      removeFinalising(id);
     } finally {
       setLoading(false);
     }
@@ -58,6 +56,5 @@ export function useFinaliseArbitrum({ id, deployment }: ArbitrumWithdrawalDto) {
   return {
     onFinalise,
     loading,
-    error,
   };
 }

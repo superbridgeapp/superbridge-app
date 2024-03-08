@@ -5,9 +5,7 @@ import * as usdc from "@/utils/token-list/json/usdc";
 
 // https://developers.circle.com/stablecoins/docs/usdc-on-main-networks
 export const isNativeUsdc = (token: MultiChainToken | null) => {
-  if (!token) {
-    return false;
-  }
+  if (!token) return false;
   return usdc.native.every((x) =>
     Object.values(token).find((t) => isAddressEqual(t.address, x.address))
   );

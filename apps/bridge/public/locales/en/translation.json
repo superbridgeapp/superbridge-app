@@ -36,6 +36,8 @@
   "docs": "Docs",
   "from": "From",
   "to": "To",
+  "manage": "Manage",
+  "support": "Support",
 
   "settings": {
     "settings": "Settings",
@@ -45,7 +47,22 @@
     "feeBreakdown": "Network fees",
     "currency": "Currency",
     "language": "Language",
-    "explorer": "Explorer"
+    "explorer": "Explorer",
+    "tokenLists": "Token lists"
+  },
+
+  "customTokenLists": {
+    "add": "Add custom token list",
+    "name": "Token list name",
+    "namePlaceholder": "Name",
+    "url": "Token list URL",
+    "urlPlaceholder": "URL",
+    "invalid": "Invalid token list URL",
+    "loadedTokens": "Loaded {{num}} tokens",
+    "disclaimer": "Anyone can create any token, including fake versions of existing tokens. Take due care. Some tokens and their technical parameters may be incompatible with {{app}} services. By importing this custom token list you acknowledge and accept the risks.",
+    "learnMore": "Learn more about the risks.",
+    "save": "Save list",
+    "delete": "Delete list"
   },
 
   "activity": {
@@ -60,7 +77,15 @@
     "tokens": "Tokens",
     "nfts": "NFTs",
     "selectToken": "Select a token",
-    "noneFound": "No results found"
+    "noneFound": "No results found",
+    "notBridgeable": "Not bridgeable",
+    "import": "Import",
+    "customImport": "Custom import",
+    "customImportFromList": "From {{name}}",
+    "customImportCheck": "Make sure you have checked the token address and that it is correct:",
+    "customL1Address": "L1 address",
+    "customL2Address": "L2 address",
+    "customL3Address": "L3 address"
   },
 
   "recipient": {

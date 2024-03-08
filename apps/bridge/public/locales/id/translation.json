@@ -30,6 +30,7 @@
   "docs": "Dokumen",
   "from": "Dari",
   "to": "Ke",
+  "support": "Dukungan",
 
   "settings": {
     "settings": "Pengaturan",
@@ -40,6 +41,20 @@
     "currency": "Mata uang",
     "language": "Bahasa",
     "explorer": "Penjelajah"
+  },
+
+  "customTokenLists": {
+    "add": "Tambahkan daftar token kustom",
+    "name": "Nama daftar token",
+    "namePlaceholder": "Nama",
+    "url": "URL daftar token",
+    "urlPlaceholder": "URL",
+    "invalid": "URL daftar token tidak valid",
+    "loadedTokens": "{{num}} token dimuat",
+    "disclaimer": "Siapa pun dapat membuat token apa pun, termasuk versi palsu dari token yang ada. Berhati-hatilah. Beberapa token dan parameter teknisnya mungkin tidak kompatibel dengan layanan {{app}}. Dengan mengimpor daftar token kustom ini, Anda mengakui dan menerima risikonya.",
+    "learnMore": "Pelajari lebih lanjut tentang risiko.",
+    "save": "Simpan daftar",
+    "delete": "Hapus daftar"
   },
 
   "activity": {
@@ -53,7 +68,15 @@
     "tokens": "Token",
     "nfts": "NFT",
     "selectToken": "Pilih token",
-    "noneFound": "Tidak ada hasil yang ditemukan"
+    "noneFound": "Tidak ada hasil ditemukan",
+    "notBridgeable": "Tidak dapat dijembatani",
+    "import": "Impor",
+    "customImport": "Impor kustom",
+    "customImportFromList": "Dari {{name}}",
+    "customImportCheck": "Pastikan Anda telah memeriksa alamat token dan itu benar:",
+    "customL1Address": "Alamat L1",
+    "customL2Address": "Alamat L2",
+    "customL3Address": "Alamat L3"
   },
 
   "recipient": {

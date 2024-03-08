@@ -30,6 +30,7 @@
   "docs": "दस्तावेज़",
   "from": "से",
   "to": "को",
+  "support": "समर्थन",
 
   "settings": {
     "settings": "सेटिंग्स",
@@ -42,6 +43,20 @@
     "explorer": "अन्वेषक"
   },
 
+  "customTokenLists": {
+    "add": "कस्टम टोकन सूची जोड़ें",
+    "name": "टोकन सूची का नाम",
+    "namePlaceholder": "नाम",
+    "url": "टोकन सूची URL",
+    "urlPlaceholder": "URL",
+    "invalid": "अमान्य टोकन सूची URL",
+    "loadedTokens": "{{num}} टोकन लोड किए गए हैं",
+    "disclaimer": "कोई भी व्यक्ति किसी भी टोकन बना सकता है, समावेशित टोकन के फर्जी संस्करण। सावधानी से बरतें। कुछ टोकन और उनके तकनीकी पैरामीटर {{app}} सेवाओं के साथ असंगत हो सकते हैं। इस कस्टम टोकन सूची को आयात करके आप संबोधित होते हैं और खतरों को स्वीकार करते हैं।",
+    "learnMore": "जोखिमों के बारे में अधिक जानें।",
+    "save": "सूची सहेजें",
+    "delete": "सूची हटाएँ"
+  },
+
   "activity": {
     "activity": "गतिविधि",
     "actionNeeded": "क्रिया की आवश्यकता है",
@@ -52,8 +67,16 @@
   "tokens": {
     "tokens": "टोकन",
     "nfts": "एनएफटी",
-    "selectToken": "टोकन चुनें",
-    "noneFound": "कोई परिणाम नहीं मिला"
+    "selectToken": "टोकन का चयन करें",
+    "noneFound": "कोई परिणाम नहीं मिला",
+    "notBridgeable": "ब्रिज करने योग्य नहीं",
+    "import": "आयात करें",
+    "customImport": "कस्टम आयात",
+    "customImportFromList": "{{name}} से",
+    "customImportCheck": "यह सुनिश्चित करें कि आपने टोकन पता की जाँच की है और यह सही है:",
+    "customL1Address": "एल1 पता",
+    "customL2Address": "एल2 पता",
+    "customL3Address": "एल3 पता"
   },
 
   "recipient": {

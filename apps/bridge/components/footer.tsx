@@ -142,10 +142,28 @@ export function Footer() {
               <DropdownMenuContent align="end" side="bottom">
                 {dedicatedDeployment ? (
                   <>
+                    {!!dedicatedDeployment.additionalLinks && (
+                      <>
+                        {dedicatedDeployment.additionalLinks.map(
+                          ({ link, text }) => (
+                            <DropdownMenuItem key={link}>
+                              <Link
+                                href={link}
+                                target="_blank"
+                                className="font-medium text-sm w-full"
+                              >
+                                {text}
+                              </Link>
+                            </DropdownMenuItem>
+                          )
+                        )}
+                      </>
+                    )}
                     <DropdownMenuItem>
                       <Link
                         href={dedicatedDeployment.footerLink}
                         target="_blank"
+                        className="font-medium text-sm w-full"
                       >
                         {t("about")}
                       </Link>
@@ -155,7 +173,7 @@ export function Footer() {
                         href={"mailto:support@superbridge.app"}
                         className="font-medium text-sm w-full"
                       >
-                        Support
+                        {t("support")}
                       </Link>
                     </DropdownMenuItem>
                   </>
@@ -197,7 +215,7 @@ export function Footer() {
                         href={"mailto:support@superbridge.app"}
                         className="font-medium text-sm w-full"
                       >
-                        Support
+                        {t("support")}
                       </Link>
                     </DropdownMenuItem>
                   </>

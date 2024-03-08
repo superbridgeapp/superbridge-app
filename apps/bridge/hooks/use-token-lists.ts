@@ -1,12 +1,13 @@
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
+import { isPresent } from "ts-is-present";
 import { getAddress } from "viem";
 
 import { useConfigState } from "@/state/config";
-import { useSettingsState } from "@/state/settings";
-import { MultiChainOptimismToken } from "@/types/token";
+import { CustomTokenList, useSettingsState } from "@/state/settings";
+import { MultiChainToken, OptimismToken } from "@/types/token";
 import { SuperchainTokenList } from "@/types/token-lists";
 import UniswapArbitrumTokenList from "@/utils/token-list/json/arbitrum-uniswap.json";
-import ArbitrumTokenList from "@/utils/token-list/json/arbitrum.json";
+import ArbArbitrumTokenList from "@/utils/token-list/json/arbitrum.json";
 import { baseTokens } from "@/utils/token-list/json/base";
 import { dog } from "@/utils/token-list/json/dog";
 import * as kroma from "@/utils/token-list/json/kroma";
@@ -17,39 +18,89 @@ import * as usdc from "@/utils/token-list/json/usdc";
 import { wsteth } from "@/utils/token-list/json/wsteth";
 import { transformArbitrumTokenList } from "@/utils/token-list/transform-arbitrum-token-list";
 import { transformIntoOptimismToken } from "@/utils/token-list/transform-optimism-token";
+import { seam } from "@/utils/token-list/json/seam";
 
 export const useTokenLists = () => {
-  const tokenLists = useSettingsState.useTokenLists();
+  const customTokenLists = useSettingsState.useCustomTokenLists();
   const setTokens = useConfigState.useSetTokens();
+  const setTokensImportedFromLists =
+    useConfigState.useSetTokensImportedFromLists();
 
-  const updateTokens = async (lists: string[]) => {
-    const optimismMultichainTokens: {
-      [id: string]: MultiChainOptimismToken;
+  const updateTokens = useCallback(async () => {
+    const multichainTokens: {
+      [id: string]: MultiChainToken;
     } = {};
 
     /**
      * Only Superchain token lists for now
      */
 
-    const responses = await Promise.all(lists.map((uri) => fetch(uri)));
-    const results: SuperchainTokenList[] = await Promise.all(
-      responses.filter((x) => x.status === 200).map((x) => x.json())
-    );
+    const [defaultTokenListResponse, ...customTokenListResponses] =
+      await Promise.all([
+        fetch(
+          "https://raw.githubusercontent.com/ethereum-optimism/ethereum-optimism.github.io/master/optimism.tokenlist.json"
+        ).catch(() => null),
+        ...customTokenLists
+          .filter((x) => x.enabled)
+          .map(async (x) => ({
+            tokenList: x,
+            response: await fetch(x.url).catch(() => null),
+          })),
+      ]);
 
-    results.forEach((x) =>
-      x.tokens.forEach((t) => {
+    const [defaultTokenListResult, ...customTokenListResults]: [
+      SuperchainTokenList | null,
+      ...({ tokenList: CustomTokenList; result: SuperchainTokenList } | null)[]
+    ] = await Promise.all([
+      defaultTokenListResponse?.json().catch(() => null),
+      ...customTokenListResponses
+        .filter((x) => x?.response?.status === 200)
+        .map(async (x) => ({
+          tokenList: x.tokenList,
+          result: await x.response?.json().catch(() => null),
+        })),
+    ]);
+
+    defaultTokenListResult?.tokens.forEach((t) => {
+      const tok = transformIntoOptimismToken(t);
+      if (!tok || Object.keys(tok.standardBridgeAddresses).length == 0) {
+        return;
+      }
+
+      if (multichainTokens[tok.opTokenId]) {
+        multichainTokens[tok.opTokenId][tok.chainId] = tok;
+      } else {
+        multichainTokens[tok.opTokenId] = { [tok.chainId]: tok };
+      }
+    });
+
+    let customTokensFromLists: string[] = [];
+
+    customTokenListResults.filter(isPresent).forEach(({ tokenList, result }) =>
+      result.tokens.forEach((t) => {
         const tok = transformIntoOptimismToken(t);
         if (!tok || Object.keys(tok.standardBridgeAddresses).length == 0) {
           return;
         }
 
-        if (optimismMultichainTokens[tok.opTokenId]) {
-          optimismMultichainTokens[tok.opTokenId][tok.chainId] = tok;
-        } else {
-          optimismMultichainTokens[tok.opTokenId] = { [tok.chainId]: tok };
+        // we don't let custom tokens override existing ones
+        if (multichainTokens[tok.opTokenId]?.[tok.chainId]) {
+          return;
         }
+
+        if (multichainTokens[tok.opTokenId]) {
+          multichainTokens[tok.opTokenId][tok.chainId] = tok;
+        } else {
+          multichainTokens[tok.opTokenId] = { [tok.chainId]: tok };
+        }
+
+        customTokensFromLists.push(
+          `${tok.address.toLowerCase()}-${tok.chainId}:${tokenList.name}`
+        );
       })
     );
+
+    setTokensImportedFromLists(customTokensFromLists);
 
     /**
      * Local tokens
@@ -65,11 +116,12 @@ export const useTokenLists = () => {
       ...dog,
       ...rollux,
       ...baseTokens,
+      ...seam,
     ].forEach((tok) => {
-      if (optimismMultichainTokens[tok.opTokenId]) {
-        optimismMultichainTokens[tok.opTokenId][tok.chainId] = tok;
+      if (multichainTokens[tok.opTokenId]) {
+        multichainTokens[tok.opTokenId][tok.chainId] = tok;
       } else {
-        optimismMultichainTokens[tok.opTokenId] = { [tok.chainId]: tok };
+        multichainTokens[tok.opTokenId] = { [tok.chainId]: tok };
       }
     });
 
@@ -87,23 +139,23 @@ export const useTokenLists = () => {
       },
     ].forEach(({ tokens, standardBridgeAddress }) => {
       tokens.forEach((token) => {
-        if (!optimismMultichainTokens[token.opTokenId]) {
-          optimismMultichainTokens[token.opTokenId] = {
+        if (!multichainTokens[token.opTokenId]) {
+          multichainTokens[token.opTokenId] = {
             [token.chainId]: token,
           };
         } else {
-          optimismMultichainTokens[token.opTokenId][token.chainId] = token;
+          multichainTokens[token.opTokenId][token.chainId] = token;
         }
 
         Object.keys(token.standardBridgeAddresses).forEach((_l1ChainId) => {
           const l1ChainId = parseInt(_l1ChainId);
-          if (!optimismMultichainTokens[token.opTokenId][l1ChainId]) {
+          if (!multichainTokens[token.opTokenId][l1ChainId]) {
             return;
           }
 
-          optimismMultichainTokens[token.opTokenId]![
-            l1ChainId
-          ]!.standardBridgeAddresses[token.chainId] = getAddress(
+          (
+            multichainTokens[token.opTokenId]![l1ChainId] as OptimismToken
+          ).standardBridgeAddresses[token.chainId] = getAddress(
             standardBridgeAddress
           );
         });
@@ -115,20 +167,20 @@ export const useTokenLists = () => {
      */
 
     const arbitrumMultichainTokens = transformArbitrumTokenList([
-      ...ArbitrumTokenList.tokens,
+      ...ArbArbitrumTokenList.tokens,
       ...UniswapArbitrumTokenList.tokens,
       ...MockArbitrumTokenList.tokens,
     ]);
 
     setTokens(
       Object.values({
-        ...optimismMultichainTokens,
+        ...multichainTokens,
         ...arbitrumMultichainTokens,
       })
     );
-  };
+  }, [customTokenLists]);
 
   useEffect(() => {
-    updateTokens(tokenLists);
-  }, [tokenLists]);
+    updateTokens();
+  }, [updateTokens]);
 };

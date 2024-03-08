@@ -1,7 +1,7 @@
-import { Address, erc721ABI, useAccount, useContractRead } from "wagmi";
+import { Address, erc721Abi, isAddressEqual } from "viem";
+import { useAccount, useReadContract } from "wagmi";
 
 import { useConfigState } from "@/state/config";
-import { isAddressEqual } from "viem";
 
 export function useAllowanceNft() {
   const nft = useConfigState.useNft();
@@ -9,12 +9,14 @@ export function useAllowanceNft() {
 
   const bridgeAddress = nft?.localConfig.bridgeAddress as Address | undefined;
 
-  const allowance = useContractRead({
-    abi: erc721ABI,
+  const allowance = useReadContract({
+    abi: erc721Abi,
     functionName: "getApproved",
     args: [nft?.tokenId ? BigInt(nft.tokenId) : BigInt(0)],
     address: nft?.localConfig.address as Address | undefined,
-    enabled: !!account.address && !!nft && !!bridgeAddress,
+    query: {
+      enabled: !!account.address && !!nft && !!bridgeAddress,
+    },
   });
 
   return {

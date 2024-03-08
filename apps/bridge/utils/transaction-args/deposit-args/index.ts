@@ -7,7 +7,7 @@ import { DepositTxResolver } from "./types";
 
 export const depositArgs: DepositTxResolver = (args) => {
   if (isCctpBridgeOperation(args.stateToken)) {
-    return cctpBridgeArgs(args, false);
+    return cctpBridgeArgs({ ...args, options: { forceViaL1: false } }, false);
   }
 
   if (isOptimism(args.deployment)) {

@@ -30,6 +30,7 @@
   "docs": "Docs",
   "from": "De",
   "to": "À",
+  "support": "Soutien",
 
   "settings": {
     "settings": "Paramètres",
@@ -42,6 +43,20 @@
     "explorer": "Explorateur"
   },
 
+  "customTokenLists": {
+    "add": "Ajouter une liste de tokens personnalisée",
+    "name": "Nom de la liste de tokens",
+    "namePlaceholder": "Nom",
+    "url": "URL de la liste de tokens",
+    "urlPlaceholder": "URL",
+    "invalid": "URL de liste de tokens invalide",
+    "loadedTokens": "{{num}} tokens chargés",
+    "disclaimer": "N'importe qui peut créer n'importe quel token, y compris des versions fausses de tokens existants. Faites preuve de prudence. Certains tokens et leurs paramètres techniques peuvent être incompatibles avec les services de {{app}}. En important cette liste de tokens personnalisée, vous reconnaissez et acceptez les risques.",
+    "learnMore": "En savoir plus sur les risques.",
+    "save": "Enregistrer la liste",
+    "delete": "Supprimer la liste"
+  },
+
   "activity": {
     "activity": "Activité",
     "actionNeeded": "Action nécessaire",
@@ -50,10 +65,18 @@
   },
 
   "tokens": {
-    "tokens": "Jetons",
-    "nfts": "NFT",
-    "selectToken": "Sélectionner un jeton",
-    "noneFound": "Aucun résultat trouvé"
+    "tokens": "Tokens",
+    "nfts": "NFTs",
+    "selectToken": "Sélectionnez un token",
+    "noneFound": "Aucun résultat trouvé",
+    "notBridgeable": "Non bridgable",
+    "import": "Importer",
+    "customImport": "Importation personnalisée",
+    "customImportFromList": "De {{name}}",
+    "customImportCheck": "Assurez-vous d'avoir vérifié l'adresse du token et qu'elle est correcte :",
+    "customL1Address": "Adresse L1",
+    "customL2Address": "Adresse L2",
+    "customL3Address": "Adresse L3"
   },
 
   "recipient": {

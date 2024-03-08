@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Address, Chain } from "viem";
-import { useAccount, useNetwork, useWalletClient } from "wagmi";
+import { useAccount, useWalletClient } from "wagmi";
 
 import { useBridgeControllerGetFinaliseTransaction } from "@/codegen";
 import { BridgeWithdrawalDto } from "@/codegen/model";
@@ -12,27 +12,25 @@ export function useFinaliseOptimism({ id, deployment }: BridgeWithdrawalDto) {
   const account = useAccount();
   const wallet = useWalletClient();
   const setFinalising = usePendingTransactions.useSetFinalising();
+  const removeFinalising = usePendingTransactions.useRemoveFinalising();
 
   const getFinaliseTransaction = useBridgeControllerGetFinaliseTransaction();
-  const { chain: activeChain } = useNetwork();
 
   const switchChain = useSwitchChain();
 
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
 
   const onFinalise = async () => {
     if (!account.address || !wallet.data) {
       return;
     }
 
-    if (activeChain && activeChain.id !== deployment.l1.id) {
+    if (account.chain && account.chain.id !== deployment.l1.id) {
       await switchChain(deployment.l1);
     }
 
     try {
       setLoading(true);
-      setError(null);
 
       const { data } = await getFinaliseTransaction.mutateAsync({
         data: { id },
@@ -51,8 +49,8 @@ export function useFinaliseOptimism({ id, deployment }: BridgeWithdrawalDto) {
         // no error
       } else {
         console.log(e);
-        setError(e);
       }
+      removeFinalising(id);
     } finally {
       setLoading(false);
     }
@@ -61,6 +59,5 @@ export function useFinaliseOptimism({ id, deployment }: BridgeWithdrawalDto) {
   return {
     onFinalise,
     loading,
-    error,
   };
 }
