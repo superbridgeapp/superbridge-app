@@ -7,6 +7,7 @@ import { formatUnits } from "viem";
 import { useFeeData, useWalletClient } from "wagmi";
 
 import { Checkbox } from "@/components/ui/checkbox";
+import { isSuperbridge } from "@/config/superbridge";
 import { deploymentTheme } from "@/config/theme";
 import { currencySymbolMap } from "@/constants/currency-symbol-map";
 import { FINALIZE_GAS, PROVE_GAS } from "@/constants/gas-limits";
@@ -29,7 +30,6 @@ import { useWeiAmount } from "@/hooks/use-wei-amount";
 import { useConfigState } from "@/state/config";
 import { useSettingsState } from "@/state/settings";
 import { isNativeToken } from "@/utils/is-eth";
-import { isMainnet, isOptimism } from "@/utils/is-mainnet";
 import { isNativeUsdc } from "@/utils/is-usdc";
 
 import { Button } from "../ui/button";
@@ -655,15 +655,14 @@ export const ConfirmationModal = ({
               {initiateButton.buttonText}
             </Button>
 
-            {/* TODO: Create guide page and add link */}
-            {/* {isSuperbridge && (
+            {isSuperbridge && (
               <Link
                 className={`text-center text-sm font-bold tracking-tight  hover:underline ${theme.textColor}`}
-                href={"#"}
+                href="/alternative-bridges"
               >
                 {t("confirmationModal.viewAlternateBridges")}
               </Link>
-            )} */}
+            )}
           </div>
         </div>
       </DialogContent>
