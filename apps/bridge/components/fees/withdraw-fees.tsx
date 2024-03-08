@@ -80,7 +80,7 @@ export const WithdrawFees = ({
           </span>
           <span
             className={clsx(
-              "text-[10px] leading-4 mt-0.5",
+              "text-[10px] leading-4 mt-0.5 uppercase",
               forceViaL1
                 ? "text-white/60"
                 : "text-zinc-900/30 dark:text-white/30 uppercase"
@@ -114,7 +114,7 @@ export const WithdrawFees = ({
             </span>
             <span
               className={clsx(
-                "text-[10px]",
+                "text-[10px] uppercase",
                 easyMode
                   ? "text-white/60"
                   : "text-zinc-900/30 dark:text-white/30 uppercase"
