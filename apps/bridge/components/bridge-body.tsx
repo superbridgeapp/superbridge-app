@@ -54,7 +54,9 @@ import { TokenModal } from "./tokens/Modal";
 import { CustomTokenImportModal } from "./tokens/custom-token-import-modal";
 import { Button } from "./ui/button";
 import { WithdrawSettingsModal } from "./withdraw-settings/modal";
-import { ConfirmWithdrawalModal } from "./withdrawal-modal";
+import { ConfirmationModal } from "./confirmation-modal";
+import { TokenIcon } from "./token-icon";
+import { CctpBadge } from "./cttp-badge";
 
 const RecipientAddress = ({
   openAddressDialog,
@@ -134,7 +136,6 @@ const RecipientAddress = ({
 
 export const BridgeBody = () => {
   const { openConnectModal } = useConnectModal();
-  const isContractAccount = useIsContractAccount();
   const wallet = useWalletClient();
   const account = useAccount();
   const from = useFromChain();
@@ -153,8 +154,7 @@ export const BridgeBody = () => {
   const [addressDialog, setAddressDialog] = useState(false);
 
   const deployment = useConfigState.useDeployment();
-  const openWithdrawalConfirmationModal =
-    useConfigState.useSetDisplayWithdrawalModal();
+  const setConfirmationModal = useConfigState.useSetDisplayConfirmationModal();
   const withdrawing = useConfigState.useWithdrawing();
   const rawAmount = useConfigState.useRawAmount();
   const stateToken = useConfigState.useToken();
@@ -335,24 +335,15 @@ export const BridgeBody = () => {
   const onSubmit = async () => {
     await onWrite();
     allowance.refetch();
+    setConfirmationModal(false);
   };
-
-  const promptWithdrawalConfirmationModal =
-    withdrawing &&
-    !!stateToken &&
-    !isNativeUsdc(stateToken) &&
-    deployment?.type === DeploymentType.mainnet;
 
   const handleSubmitClick = () => {
     if (!nft && weiAmount === BigInt(0)) {
       return;
     }
 
-    if (promptWithdrawalConfirmationModal) {
-      openWithdrawalConfirmationModal(true);
-    } else {
-      onSubmit();
-    }
+    setConfirmationModal(true);
   };
 
   const submitButton = match({
@@ -371,22 +362,11 @@ export const BridgeBody = () => {
     token,
     nft,
     isEth: isEth(token),
-    isContractAccount,
     recipient,
   })
     .with({ disabled: true }, () => ({
       onSubmit: () => {},
       buttonText: t("depositDisabled"),
-      disabled: true,
-    }))
-    .with({ token: P.not(P.nullish), approve: { isLoading: true } }, () => ({
-      onSubmit: () => {},
-      buttonText: t("approving"),
-      disabled: true,
-    }))
-    .with({ nft: P.not(P.nullish), approveNft: { isLoading: true } }, () => ({
-      onSubmit: () => {},
-      buttonText: t("approving"),
       disabled: true,
     }))
     .with({ account: undefined }, () => ({
@@ -399,91 +379,6 @@ export const BridgeBody = () => {
       buttonText: withdrawing ? t("withdraw") : t("deposit"),
       disabled: true,
     }))
-    .with({ isSubmitting: true }, (d) => ({
-      onSubmit: () => {},
-      buttonText: d.withdrawing ? t("withdrawing") : t("depositing"),
-      disabled: false,
-    }))
-    .with(
-      {
-        allowance: P.when(
-          (allowance) =>
-            typeof allowance !== "undefined" && allowance < weiAmount
-        ),
-        isEth: false,
-        wallet: P.select(),
-      },
-      (wallet) => {
-        // this kind of sucks for forced withdrawals, but we do approvals on the from chain for now
-        if (wallet?.chain.id !== from?.id) {
-          return {
-            onSubmit: () => wallet?.switchChain({ id: from?.id ?? 0 }),
-            buttonText: t("switchToApprove"),
-            disabled: false,
-          };
-        }
-        return {
-          onSubmit: () => approve.write(),
-          buttonText: t("approve"),
-          disabled: false,
-        };
-      }
-    )
-    .with(
-      {
-        nft: P.not(P.nullish),
-        nftAllowance: false,
-      },
-      ({ wallet, nft }) => {
-        // this kind of sucks for forced withdrawals, but we do approvals on the from chain for now
-        if (wallet?.chain.id !== from?.id) {
-          return {
-            onSubmit: () => wallet?.switchChain({ id: from?.id ?? 0 }),
-            buttonText: t("switchToApprove"),
-            disabled: false,
-          };
-        }
-        return {
-          onSubmit: () => approveNft.write(),
-          buttonText: t("approveNft", { tokenId: `#${nft.tokenId}` }),
-          disabled: false,
-        };
-      }
-    )
-    .with(
-      {
-        wallet: { chain: { id: P.not(from?.id) } },
-        forceViaL1: false,
-        withdrawing: P.select(),
-      },
-      (w) => ({
-        onSubmit: () => {
-          if (!from) return;
-          switchChain(from);
-        },
-        buttonText: t("switchTo", {
-          chain: w ? deployment?.l2.name : deployment?.l1.name,
-        }),
-        disabled: false,
-      })
-    )
-    .with(
-      {
-        withdrawing: true,
-        forceViaL1: true,
-        wallet: { chain: { id: P.not(to?.id) } },
-      },
-      () => ({
-        onSubmit: () => {
-          if (!to) return;
-          switchChain(to);
-        },
-        buttonText: t("switchTo", {
-          chain: deployment?.l1.name,
-        }),
-        disabled: false,
-      })
-    )
     .with({ hasInsufficientBalance: true }, () => ({
       onSubmit: () => {},
       buttonText: t("insufficientFunds"),
@@ -518,12 +413,16 @@ export const BridgeBody = () => {
         open={withdrawSettingsDialog}
         setOpen={setWithdrawSettingsDialog}
         from={from}
-        bridgeFee={bridgeFee}
         gasEstimate={200_000}
       />
       <CustomTokenImportModal />
       <AddressModal open={addressDialog} setOpen={setAddressDialog} />
-      <ConfirmWithdrawalModal onConfirm={onSubmit} />
+      <ConfirmationModal
+        onConfirm={onSubmit}
+        approve={approve}
+        allowance={allowance}
+        bridge={bridge}
+      />
       <FromTo />
 
       {token ? (
@@ -561,13 +460,7 @@ export const BridgeBody = () => {
               onClick={() => setTokensDialog(true)}
               className={`absolute inset-y-0 right-0 flex gap-x-2 rounded-full pl-3 pr-3 items-center font-medium transition-all hover:scale-105 ${theme.textColor} ${theme.bg}`}
             >
-              <img
-                src={token?.logoURI}
-                width={20}
-                height={20}
-                alt="Token Icon"
-                className="pointer-events-none rounded-full bg-zinc-100 dark:bg-zinc-800"
-              />
+              <TokenIcon token={token} className="h-[20px] w-[20px]" />
               {token?.symbol}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -612,7 +505,7 @@ export const BridgeBody = () => {
               )}
             </button>
           </div>
-          <div className="flex items-center justify-between">
+          <div className="pt-1 flex items-center justify-between">
             <div>
               {usdPrice && (
                 <span className={`${theme.textColorMuted} text-xs font-medium`}>
@@ -620,7 +513,7 @@ export const BridgeBody = () => {
                 </span>
               )}
             </div>
-            <div>
+            <div className="flex items-center gap-1">
               <span className={`${theme.textColorMuted} text-xs font-medium`}>
                 {t("availableBalance", {
                   amount: parseFloat(
@@ -631,6 +524,7 @@ export const BridgeBody = () => {
                   symbol: token?.symbol,
                 })}
               </span>
+              {isNativeUsdc(stateToken) && <CctpBadge />}
             </div>
           </div>
         </div>
@@ -748,7 +642,7 @@ export const BridgeBody = () => {
       </div>
 
       <Button
-        disabled={bridge.isLoading || submitButton.disabled}
+        disabled={submitButton.disabled}
         onClick={submitButton.onSubmit}
         className={`flex w-full justify-center rounded-full px-3 py-6 text-sm font-bold leading-6 text-white shadow-sm ${theme.accentText} ${theme.accentBg}`}
       >
