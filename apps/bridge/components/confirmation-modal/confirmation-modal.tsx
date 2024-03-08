@@ -236,6 +236,7 @@ export const ConfirmationModal = ({
     to: to?.name,
     base: deployment?.l1.name,
     rollup: deployment?.l2.name,
+    symbol: token?.symbol,
   };
 
   const title = match({
