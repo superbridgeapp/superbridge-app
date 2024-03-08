@@ -10,7 +10,7 @@ export const BridgePlaceholder = ({
   comingSoon,
   newDeployment,
 }: {
-  deployment: Pick<DeploymentDto, "name" | "conduitId" | "displayName">;
+  deployment: Pick<DeploymentDto, "name" | "displayName">;
   comingSoon?: boolean;
   newDeployment?: boolean;
 }) => {
