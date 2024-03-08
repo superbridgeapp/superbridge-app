@@ -40,6 +40,8 @@ const mapping: { [name: string]: DedicatedDeployment | undefined } = {
     og: {
       title: "Base Bridge",
       description: "Bridge ETH and ERC20 tokens into and out of Base",
+    },
+  },
   "lumio-mainnet": {
     name: "lumio-mainnet",
     footerLink: "https://lumio.io",
