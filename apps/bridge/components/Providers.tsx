@@ -38,8 +38,7 @@ function Web3Provider({ children }: { children: React.ReactNode }) {
     const chains =
       deployments.length === 0
         ? [mainnet, optimism]
-        : [...deployments]
-            .sort((a) => (a.id === deployment?.id ? -1 : 1))
+        : deployments
             .map((d) => {
               if (chainIcons[d.l1.id]) {
                 // @ts-expect-error
@@ -72,7 +71,7 @@ function Web3Provider({ children }: { children: React.ReactNode }) {
       ssr: true,
       wallets: [...wallets, { groupName: "More", wallets: [safeWallet] }],
     });
-  }, [deployments, deployment]);
+  }, [deployments]);
 
   return (
     <WagmiProvider config={config}>
