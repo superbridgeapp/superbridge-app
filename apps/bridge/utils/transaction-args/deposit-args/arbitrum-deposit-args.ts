@@ -2,6 +2,7 @@ import { Address, encodeAbiParameters, encodeFunctionData } from "viem";
 import { UseEstimateFeesPerGasReturnType } from "wagmi";
 
 import { InboxAbi } from "@/abis/arbitrum/Inbox";
+import { ERC20InboxAbi } from "@/abis/arbitrum/ERC20Inbox";
 import { L1BridgeArbitrum } from "@/abis/arbitrum/L1Bridge";
 import { L1GatewayRouterAbi } from "@/abis/arbitrum/L1GatewayRouter";
 import { ArbitrumToken, MultiChainToken } from "@/types/token";
@@ -35,6 +36,31 @@ const impl = (
 
   if (isEth(l2Token)) {
     const value = weiAmount + l2GasCost * l2GasLimit + maxSubmissionCost;
+    if (gasToken) {
+      return {
+        approvalAddress: deployment.contractAddresses.inbox as Address,
+        tx: {
+          to: deployment.contractAddresses.inbox as Address,
+          data: encodeFunctionData({
+            abi: ERC20InboxAbi,
+            functionName: "createRetryableTicket",
+            args: [
+              recipient, // to
+              weiAmount, // l2CallValue
+              maxSubmissionCost, // maxSubmissionCost
+              recipient, // excessFeeRefundAddress
+              recipient, // callValueRefundAddress
+              l2GasLimit, // gasLimit
+              l2GasCost, // maxFeePerGas
+              value,
+              "0x", // data
+            ],
+          }),
+          value: BigInt(0),
+          chainId: deployment.l1.id,
+        },
+      };
+    }
 
     if (isMainnet(deployment) && proxyBridge) {
       return {

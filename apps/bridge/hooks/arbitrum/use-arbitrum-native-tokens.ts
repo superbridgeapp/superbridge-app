@@ -1,6 +1,6 @@
-import { isPresent } from "ts-is-present";
 import { useMemo } from "react";
-import { Address, erc20Abi } from "viem";
+import { Address, erc20Abi, zeroAddress } from "viem";
+import { useReadContracts } from "wagmi";
 
 import { IERC20BridgeAbi } from "@/abis/arbitrum/IERC20Bridge";
 import { useConfigState } from "@/state/config";
@@ -8,7 +8,6 @@ import { MultiChainToken } from "@/types/token";
 import { isArbitrum } from "@/utils/is-mainnet";
 
 import { useDeployments } from "../use-deployments";
-import { useReadContracts } from "wagmi";
 
 export const useArbitrumNativeTokens = () => {
   const deployment = useConfigState.useDeployment();
@@ -78,7 +77,7 @@ export const useArbitrumNativeTokens = () => {
               },
             },
             [deployment.l2.id]: {
-              address,
+              address: zeroAddress,
               name,
               symbol,
               decimals,
