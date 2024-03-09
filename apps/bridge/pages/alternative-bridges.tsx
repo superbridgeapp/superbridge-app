@@ -52,7 +52,7 @@ const AlternativeBridges = () => {
             <p className="text-base md:text-xl text-pretty font-medium tracking-tighter text-center max-w-xl">
               Sometimes you need something a little different to the{" "}
               <span className="underline">Superchain Native Bridge.</span>{" "}
-              Here's some great alternatives depending on your needs&hellip;
+              {"Here's"} some great alternatives depending on your needs…
             </p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6 max-w-6xl mx-auto">
@@ -62,7 +62,7 @@ const AlternativeBridges = () => {
                   L2 solutions."
               src="/img/alt-bridges/Hop Exchange-icon.png"
               alt="Hop Exchange"
-              url="https://app.hop.exchange/send?sourceNetwork=ethereum&amp;destNetwork=optimism&amp;token=USDC"
+              url={`https://app.hop.exchange/send?sourceNetwork=ethereum&amp;destNetwork=optimism&amp;token=USDC`}
             />
             <BridgeCard
               title="Stargate"
@@ -78,7 +78,7 @@ const AlternativeBridges = () => {
                   Ethereum, Layer 2 chains, BSC, Avalanche and more."
               src="/img/alt-bridges/Stargate-icon.png"
               alt="Synapse Protocol"
-              url="https://synapseprotocol.com/?inputCurrency=USDC&amp;outputCurrency=USDC&amp;outputChain=10"
+              url={`https://synapseprotocol.com/?inputCurrency=USDC&amp;outputCurrency=USDC&amp;outputChain=10`}
             />
             <BridgeCard
               title="Across"
@@ -86,7 +86,7 @@ const AlternativeBridges = () => {
                   and from Ethereum."
               src="/img/alt-bridges/Across-icon.png"
               alt="Across"
-              url="https://synapseprotocol.com/?inputCurrency=USDC&amp;outputCurrency=USDC&amp;outputChain=10"
+              url={`https://synapseprotocol.com/?inputCurrency=USDC&amp;outputCurrency=USDC&amp;outputChain=10`}
             />
             <BridgeCard
               title="Celer"
