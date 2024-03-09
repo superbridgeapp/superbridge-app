@@ -187,7 +187,7 @@ export const ConfirmationModal = ({
   })
     .with({ approving: true }, () => ({
       onSubmit: () => {},
-      buttonText: t("approving"),
+      buttonText: "Approving gas token", // t("approving"),
       disabled: true,
     }))
     .with({ approved: false }, () => {
@@ -195,19 +195,19 @@ export const ConfirmationModal = ({
       if (wallet.data?.chain.id !== from?.id) {
         return {
           onSubmit: () => wallet.data?.switchChain({ id: from?.id ?? 0 }),
-          buttonText: t("switchToApprove"),
+          buttonText: "Switch to approve gas token", // t("switchToApprove"),
           disabled: false,
         };
       }
       return {
         onSubmit: () => approveArbitrumGasToken.write(),
-        buttonText: t("approve"),
+        buttonText: "Approve gas token", // t("approve"),
         disabled: false,
       };
     })
     .with({ approved: true }, () => ({
       onSubmit: () => {},
-      buttonText: t("confirmationModal.approved"),
+      buttonText: "Approved gas token", // t("confirmationModal.approved"),
       disabled: true,
     }))
     .exhaustive();

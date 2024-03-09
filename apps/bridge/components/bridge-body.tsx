@@ -387,7 +387,7 @@ export const BridgeBody = () => {
     .with({ hasInsufficientGas: true }, (d) => ({
       onSubmit: handleSubmitClick,
       buttonText: t("insufficientGas", {
-        symbol: nativeToken?.[from?.id ?? 0]?.symbol ?? "ETH",
+        symbol: nativeToken?.[from?.id ?? 0]?.symbol,
       }),
       // Let's not disable here because people could actually submit with
       // a lower gas price via their wallet. A little power-usery but important imo

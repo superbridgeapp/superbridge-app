@@ -28,11 +28,6 @@ export function useAllTokens() {
               let l1Ether = copy[1]!;
               let l2Ether = copy[10]!;
 
-              const arbitrumNativeToken = arbitrumNativeTokens[deploymentIndex];
-              if (arbitrumNativeToken) {
-                return null;
-              }
-
               // ensure every deployment has a native token registered
               if (!copy[d.l1.id]) {
                 copy[d.l1.id] = {
@@ -42,6 +37,12 @@ export function useAllTokens() {
                   chainId: d.l1.id,
                 };
               }
+
+              const arbitrumNativeToken = arbitrumNativeTokens[deploymentIndex];
+              if (arbitrumNativeToken) {
+                return copy;
+              }
+
               if (!copy[d.l2.id]) {
                 copy[d.l2.id] = {
                   ...l2Ether,
