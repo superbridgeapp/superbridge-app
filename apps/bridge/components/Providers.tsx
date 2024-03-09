@@ -5,14 +5,16 @@ import {
   RainbowKitProvider,
   darkTheme,
   getDefaultConfig,
+  getDefaultWallets,
   lightTheme,
 } from "@rainbow-me/rainbowkit";
+import { safeWallet } from "@rainbow-me/rainbowkit/wallets";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { useTheme } from "next-themes";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { WagmiProvider, http } from "wagmi";
-import { Chain, mainnet, optimism } from "wagmi/chains";
+import { mainnet, optimism } from "wagmi/chains";
 
 import { ThemeProvider } from "@/components/theme-provider";
 import { chainIcons } from "@/config/theme";
@@ -20,7 +22,6 @@ import * as metadata from "@/constants/metadata";
 import { useDeployments } from "@/hooks/use-deployments";
 import { useConfigState } from "@/state/config";
 import { queryClient } from "@/utils/query-client";
-import { RainbowKitChain } from "@rainbow-me/rainbowkit/dist/components/RainbowKitProvider/RainbowKitChainContext";
 
 function Web3Provider({ children }: { children: React.ReactNode }) {
   const { deployments } = useDeployments();
@@ -38,7 +39,6 @@ function Web3Provider({ children }: { children: React.ReactNode }) {
       deployments.length === 0
         ? [mainnet, optimism]
         : deployments
-            .sort((a) => (a.id === deployment?.id ? -1 : 1))
             .map((d) => {
               if (chainIcons[d.l1.id]) {
                 // @ts-expect-error
@@ -60,6 +60,8 @@ function Web3Provider({ children }: { children: React.ReactNode }) {
       {}
     );
 
+    const { wallets } = getDefaultWallets();
+
     return getDefaultConfig({
       appName: metadata.title,
       projectId: "50c3481ab766b0e9c611c9356a42987b",
@@ -67,8 +69,9 @@ function Web3Provider({ children }: { children: React.ReactNode }) {
       chains,
       transports,
       ssr: true,
+      wallets: [...wallets, { groupName: "More", wallets: [safeWallet] }],
     });
-  }, [deployments, deployment]);
+  }, [deployments]);
 
   return (
     <WagmiProvider config={config}>

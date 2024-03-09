@@ -23,7 +23,7 @@ const useDeploymentsFilters = (): BridgeControllerGetDeploymentsParams => {
   if (window.location.hostname.includes("localhost")) {
     return {
       // change this to see more things locally
-      names: ["base", "optimism", "zora"],
+      names: ["op-sepolia", "base-sepolia"],
     };
   }
 
