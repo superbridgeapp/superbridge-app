@@ -655,15 +655,17 @@ export const ConfirmationModal = ({
               {initiateButton.buttonText}
             </Button>
 
-            {isSuperbridge && (
-              <Link
-                className={`mt-2 leading-3 text-center text-xs font-medium tracking-tight cursor-pointer transition-all opacity-70 hover:opacity-100 ${theme.textColor}`}
-                href="/alternative-bridges"
-                target="_blank"
-              >
-                {t("confirmationModal.viewAlternateBridges")}
-              </Link>
-            )}
+            {typeof window !== "undefined" &&
+              window.location.host === "superbridge.app" &&
+              (withdrawing || isNativeUsdc(stateToken)) && (
+                <Link
+                  className={`mt-2 leading-3 text-center text-xs font-medium tracking-tight cursor-pointer transition-all opacity-70 hover:opacity-100 ${theme.textColor}`}
+                  href="/alternative-bridges"
+                  target="_blank"
+                >
+                  {t("confirmationModal.viewAlternateBridges")}
+                </Link>
+              )}
           </div>
         </div>
       </DialogContent>
