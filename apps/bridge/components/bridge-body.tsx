@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { isPresent } from "ts-is-present";
-import { P, match } from "ts-pattern";
+import { match } from "ts-pattern";
 import { formatUnits, parseUnits } from "viem";
 import {
   useAccount,
@@ -16,7 +16,6 @@ import {
 } from "wagmi";
 
 import { useBridgeControllerTrack } from "@/codegen";
-import { DeploymentType } from "@/codegen/model";
 import { deploymentTheme } from "@/config/theme";
 import { currencySymbolMap } from "@/constants/currency-symbol-map";
 import { useAllowance } from "@/hooks/use-allowance";
@@ -27,7 +26,6 @@ import { useTokenBalance } from "@/hooks/use-balances";
 import { useBridge } from "@/hooks/use-bridge";
 import { useBridgeFee } from "@/hooks/use-bridge-fee";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
-import { useIsContractAccount } from "@/hooks/use-is-contract-account";
 import { useIsCustomToken } from "@/hooks/use-is-custom-token";
 import { useIsCustomTokenFromList } from "@/hooks/use-is-custom-token-from-list";
 import { useNativeToken } from "@/hooks/use-native-token";
@@ -47,16 +45,16 @@ import { isNativeUsdc } from "@/utils/is-usdc";
 
 import { FromTo } from "./FromTo";
 import { AddressModal } from "./address-modal";
+import { ConfirmationModal } from "./confirmation-modal";
+import { CctpBadge } from "./cttp-badge";
 import { DepositFees } from "./fees/deposit-fees";
 import { WithdrawFees } from "./fees/withdraw-fees";
 import { NftImage } from "./nft";
+import { TokenIcon } from "./token-icon";
 import { TokenModal } from "./tokens/Modal";
 import { CustomTokenImportModal } from "./tokens/custom-token-import-modal";
 import { Button } from "./ui/button";
 import { WithdrawSettingsModal } from "./withdraw-settings/modal";
-import { ConfirmationModal } from "./confirmation-modal";
-import { TokenIcon } from "./token-icon";
-import { CctpBadge } from "./cttp-badge";
 
 const RecipientAddress = ({
   openAddressDialog,
