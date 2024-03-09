@@ -4,10 +4,9 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { match } from "ts-pattern";
 import { formatUnits } from "viem";
-import { useFeeData, useWalletClient } from "wagmi";
+import { useEstimateFeesPerGas, useWalletClient } from "wagmi";
 
 import { Checkbox } from "@/components/ui/checkbox";
-import { isSuperbridge } from "@/config/superbridge";
 import { deploymentTheme } from "@/config/theme";
 import { currencySymbolMap } from "@/constants/currency-symbol-map";
 import { FINALIZE_GAS, PROVE_GAS } from "@/constants/gas-limits";
@@ -109,20 +108,22 @@ export const ConfirmationModal = ({
   const depositTime = useDepositTime(deployment);
   const totalBridgeTime = useTotalBridgeTime(deployment);
 
-  const fromFeeData = useFeeData({ chainId: from?.id });
-  const toFeeData = useFeeData({ chainId: to?.id });
+  const fromFeeData = useEstimateFeesPerGas({ chainId: from?.id });
+  const toFeeData = useEstimateFeesPerGas({ chainId: to?.id });
 
   const nativeToken = useNativeToken();
 
   const nativeTokenPrice = useTokenPrice(nativeToken ?? null);
 
+  const fromGasPrice =
+    fromFeeData.data?.gasPrice ?? fromFeeData.data?.maxFeePerGas ?? BigInt(0);
+  const toGasPrice =
+    toFeeData.data?.gasPrice ?? toFeeData.data?.maxFeePerGas ?? BigInt(0);
   const initiateCost =
-    ((withdrawing && escapeHatch ? toFeeData : fromFeeData).data?.gasPrice ??
-      BigInt(0)) * BigInt(200_000);
-  const proveCost = (toFeeData.data?.gasPrice ?? BigInt(0)) * PROVE_GAS;
-  const finalizeCost = (toFeeData.data?.gasPrice ?? BigInt(0)) * FINALIZE_GAS;
-  const approveCost =
-    (fromFeeData.data?.gasPrice ?? BigInt(0)) * BigInt(100_000);
+    (withdrawing && escapeHatch ? toGasPrice : fromGasPrice) * BigInt(200_000);
+  const proveCost = toGasPrice * PROVE_GAS;
+  const finalizeCost = toGasPrice * FINALIZE_GAS;
+  const approveCost = fromGasPrice * BigInt(100_000);
 
   const [checkbox1, setCheckbox1] = useState(false);
   const [checkbox2, setCheckbox2] = useState(false);
