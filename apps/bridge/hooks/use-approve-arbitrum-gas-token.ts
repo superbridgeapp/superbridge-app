@@ -4,21 +4,24 @@ import { Address, erc20Abi, maxUint256 } from "viem";
 import { useConfig, useWriteContract } from "wagmi";
 
 import { useConfigState } from "@/state/config";
-import { Token } from "@/types/token";
 
+import { isArbitrum } from "@/utils/is-mainnet";
 import { useArbitrumNativeTokens } from "./arbitrum/use-arbitrum-native-tokens";
 import { useFromChain } from "./use-chain";
 import { useDeployments } from "./use-deployments";
-import { isArbitrum } from "@/utils/is-mainnet";
 
-export const useArbitrumGasToken = () => {
+export const useArbitrumGasTokenForDeployment = (
+  deploymentId: string | undefined
+) => {
   const nativeTokens = useArbitrumNativeTokens();
   const { deployments } = useDeployments();
-  const deployment = useConfigState.useDeployment();
-
-  const deploymentIndex = deployments.findIndex((x) => x.id === deployment?.id);
-
+  const deploymentIndex = deployments.findIndex((x) => x.id === deploymentId);
   return nativeTokens[deploymentIndex];
+};
+
+export const useArbitrumGasToken = () => {
+  const deployment = useConfigState.useDeployment();
+  return useArbitrumGasTokenForDeployment(deployment?.id);
 };
 
 export function useApproveArbitrumGasToken() {

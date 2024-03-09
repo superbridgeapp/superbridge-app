@@ -27,6 +27,7 @@ import { useFinaliseArbitrum } from "@/hooks/arbitrum/use-arbitrum-finalise";
 import { useRedeemArbitrum } from "@/hooks/arbitrum/use-arbitrum-redeem";
 import { useFinaliseOptimism } from "@/hooks/optimism/use-optimism-finalise";
 import { useProveOptimism } from "@/hooks/optimism/use-optimism-prove";
+import { useArbitrumGasTokenForDeployment } from "@/hooks/use-approve-arbitrum-gas-token";
 import { useMintCctp } from "@/hooks/use-cctp-mint";
 import { useAllTokens } from "@/hooks/use-tokens";
 import i18n from "@/services/i18n";
@@ -66,11 +67,11 @@ import inProgress from "../animation/loading.json";
 import AnimWithdrawProgress from "../animation/withdraw-progress.json";
 import AnimWithdrawSuccess from "../animation/withdraw-success.json";
 
+import { CctpBadge } from "./cttp-badge";
 import { NetworkIcon } from "./network-icon";
 import { NftImage } from "./nft";
-import { Button } from "./ui/button";
 import { TokenIcon } from "./token-icon";
-import { CctpBadge } from "./cttp-badge";
+import { Button } from "./ui/button";
 
 const Prove = ({ tx }: { tx: BridgeWithdrawalDto | ForcedWithdrawalDto }) => {
   const prove = useProveOptimism(isWithdrawal(tx) ? tx : tx.withdrawal!);
@@ -359,6 +360,11 @@ const getNativeToken = (tokens: MultiChainToken[], chainId: number) => {
   })?.[chainId];
 };
 function useToken(tx: Transaction, tokens: MultiChainToken[]) {
+  const deployment = isForcedWithdrawal(tx)
+    ? tx.deposit.deployment
+    : tx.deployment;
+  const arbitrumGasToken = useArbitrumGasTokenForDeployment(deployment.id);
+
   if (isCctpBridge(tx)) {
     return getToken(tokens, {
       chainId: tx.from.id,
@@ -373,13 +379,17 @@ function useToken(tx: Transaction, tokens: MultiChainToken[]) {
       ? tx.deposit.metadata
       : tx.metadata;
 
-  const deployment = isForcedWithdrawal(tx)
-    ? tx.deposit.deployment
-    : tx.deployment;
   const chainId = isDeposit(tx) ? deployment.l1.id : deployment.l2.id;
 
   return match(metadata)
-    .with({ type: "eth-deposit" }, () => getNativeToken(tokens, chainId))
+    .with({ type: "eth-deposit" }, () => {
+      if (arbitrumGasToken) {
+        return isDeposit(tx)
+          ? arbitrumGasToken[deployment.l1.id]
+          : arbitrumGasToken[deployment.l2.id];
+      }
+      return getNativeToken(tokens, chainId);
+    })
     .with({ type: "token-deposit" }, (m) => {
       const dto = m as TokenDepositDto;
       const tokenAddress = isDeposit(tx)
