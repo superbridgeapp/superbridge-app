@@ -527,12 +527,12 @@ export const ConfirmationModal = ({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent>
-        <div className="flex flex-col p-6 pt-8 md:pt-10">
-          <div className="flex flex-col gap-1 ">
-            <h1 className="font-bold text-xl tracking-tighter text-pretty leading-6">
+        <div className="flex flex-col p-6 pt-8">
+          <div className="flex flex-col gap-1">
+            <h1 className="font-bold text-xl tracking-tighter text-pretty leading-6 mr-6">
               {title}
             </h1>
-            <p className="text-sm text-pretty">
+            <p className="text-xs md:text-sm text-pretty">
               {description}{" "}
               <Link
                 href={
@@ -657,8 +657,9 @@ export const ConfirmationModal = ({
 
             {isSuperbridge && (
               <Link
-                className={`text-center text-sm font-bold tracking-tight  hover:underline ${theme.textColor}`}
+                className={`mt-2 leading-3 text-center text-xs font-medium tracking-tight cursor-pointer transition-all opacity-70 hover:opacity-100 ${theme.textColor}`}
                 href="/alternative-bridges"
+                target="_blank"
               >
                 {t("confirmationModal.viewAlternateBridges")}
               </Link>
