@@ -51,54 +51,50 @@ export const useArbitrumNativeTokens = () => {
 
   return useMemo(
     () =>
-      deployments
-        .map((deployment, index) => {
-          if (!isArbitrum(deployment)) {
-            return null;
-          }
-
-          const address = nativeTokens.data?.[index]?.result as
-            | Address
-            | undefined;
-          const name = reads.data?.[index + 0]?.result as string | undefined;
-          const symbol = reads.data?.[index + 1]?.result as string | undefined;
-          const decimals = reads.data?.[index + 2]?.result as
-            | number
-            | undefined;
-
-          if (address && name && symbol && typeof decimals === "number") {
-            const token: MultiChainToken = {
-              [deployment.l1.id]: {
-                address,
-                name,
-                symbol,
-                decimals,
-                chainId: deployment.l1.id,
-                logoURI: "",
-                arbitrumBridgeInfo: {
-                  [deployment.l2.id]: deployment.contractAddresses
-                    .l1GatewayRouter as Address,
-                },
-              },
-              [deployment.l2.id]: {
-                address,
-                name,
-                symbol,
-                decimals,
-                chainId: deployment.l2.id,
-                logoURI: "",
-                arbitrumBridgeInfo: {
-                  [deployment.l1.id]: deployment.contractAddresses
-                    .l2GatewayRouter as Address,
-                },
-              },
-            };
-            return token;
-          }
-
+      deployments.map((deployment, index) => {
+        if (!isArbitrum(deployment)) {
           return null;
-        })
-        .filter(isPresent),
+        }
+
+        const address = nativeTokens.data?.[index]?.result as
+          | Address
+          | undefined;
+        const name = reads.data?.[index + 0]?.result as string | undefined;
+        const symbol = reads.data?.[index + 1]?.result as string | undefined;
+        const decimals = reads.data?.[index + 2]?.result as number | undefined;
+
+        if (address && name && symbol && typeof decimals === "number") {
+          const token: MultiChainToken = {
+            [deployment.l1.id]: {
+              address,
+              name,
+              symbol,
+              decimals,
+              chainId: deployment.l1.id,
+              logoURI: "",
+              arbitrumBridgeInfo: {
+                [deployment.l2.id]: deployment.contractAddresses
+                  .l1GatewayRouter as Address,
+              },
+            },
+            [deployment.l2.id]: {
+              address,
+              name,
+              symbol,
+              decimals,
+              chainId: deployment.l2.id,
+              logoURI: "",
+              arbitrumBridgeInfo: {
+                [deployment.l1.id]: deployment.contractAddresses
+                  .l2GatewayRouter as Address,
+              },
+            },
+          };
+          return token;
+        }
+
+        return null;
+      }),
     [deployments, nativeTokens.data, reads.data]
   );
 };

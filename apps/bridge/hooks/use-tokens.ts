@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import { isPresent } from "ts-is-present";
 
 import { useConfigState } from "@/state/config";
 import { useSettingsState } from "@/state/settings";
@@ -49,7 +50,7 @@ export function useAllTokens() {
         return t;
       }),
       ...customTokens,
-      ...arbitrumNativeTokens,
+      ...arbitrumNativeTokens.filter(isPresent),
     ],
     [deployment, tokens, customTokens, arbitrumNativeTokens]
   );

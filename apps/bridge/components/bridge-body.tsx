@@ -346,8 +346,6 @@ export const BridgeBody = () => {
     setConfirmationModal(true);
   };
 
-  console.log(token, isEth(token));
-
   const submitButton = match({
     disabled: deployment?.name === "orb3-mainnet" && !withdrawing,
     withdrawing,

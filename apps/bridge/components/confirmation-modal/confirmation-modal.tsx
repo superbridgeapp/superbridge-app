@@ -44,6 +44,11 @@ import {
   ReceiveIcon,
   WaitIcon,
 } from "./icons";
+import { useAllowanceArbitrumGasToken } from "@/hooks/use-allowance-arbitrum-gas-token";
+import {
+  useApproveArbitrumGasToken,
+  useArbitrumGasToken,
+} from "@/hooks/use-approve-arbitrum-gas-token";
 
 function LineItem({
   text,
@@ -101,8 +106,11 @@ export const ConfirmationModal = ({
   const withdrawing = useConfigState.useWithdrawing();
   const escapeHatch = useConfigState.useForceViaL1();
 
+  const arbitrumGasToken = useArbitrumGasToken();
+  const arbitrumGasTokenAllowance = useAllowanceArbitrumGasToken();
   const deployment = useConfigState.useDeployment();
   const theme = deploymentTheme(deployment);
+  const approveArbitrumGasToken = useApproveArbitrumGasToken();
 
   const finalizationTime = useFinalizationPeriod(deployment);
   const proveTime = useProvePeriod(deployment);
@@ -169,6 +177,40 @@ export const ConfirmationModal = ({
 
   const approved =
     typeof allowance.data !== "undefined" && allowance.data >= weiAmount;
+  const approvedArbitrumGasToken =
+    typeof arbitrumGasTokenAllowance.data !== "undefined" &&
+    arbitrumGasTokenAllowance.data >= 1;
+
+  const approveArbitrumGasTokenButton = match({
+    approved: approvedArbitrumGasToken,
+    approving: approveArbitrumGasToken.isLoading,
+  })
+    .with({ approving: true }, () => ({
+      onSubmit: () => {},
+      buttonText: t("approving"),
+      disabled: true,
+    }))
+    .with({ approved: false }, () => {
+      // this kind of sucks for forced withdrawals, but we do approvals on the from chain for now
+      if (wallet.data?.chain.id !== from?.id) {
+        return {
+          onSubmit: () => wallet.data?.switchChain({ id: from?.id ?? 0 }),
+          buttonText: t("switchToApprove"),
+          disabled: false,
+        };
+      }
+      return {
+        onSubmit: () => approveArbitrumGasToken.write(),
+        buttonText: t("approve"),
+        disabled: false,
+      };
+    })
+    .with({ approved: true }, () => ({
+      onSubmit: () => {},
+      buttonText: t("confirmationModal.approved"),
+      disabled: true,
+    }))
+    .exhaustive();
 
   const approveButton = match({
     approved,
@@ -611,6 +653,36 @@ export const ConfirmationModal = ({
           </div>
 
           <div className="flex flex-col gap-2">
+            {arbitrumGasToken && approveArbitrumGasTokenButton && (
+              <Button
+                className={clsx(
+                  "flex w-full justify-center rounded-full px-3 py-6 text-sm font-bold leading-6 text-white shadow-sm",
+                  theme.accentText,
+                  theme.accentBg
+                )}
+                onClick={approveArbitrumGasTokenButton.onSubmit}
+                disabled={
+                  !checkbox1 ||
+                  !checkbox2 ||
+                  !checkbox3 ||
+                  approveArbitrumGasTokenButton.disabled
+                }
+              >
+                {approveArbitrumGasTokenButton.buttonText}
+                {approvedArbitrumGasToken && (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="15"
+                    height="12"
+                    viewBox="0 0 15 12"
+                    className="fill-white dark:fill-zinc-950 ml-2 h-2.5 w-auto"
+                  >
+                    <path d="M6.80216 12C6.32268 12 5.94594 11.8716 5.67623 11.559L0.63306 6.02355C0.384755 5.7624 0.269165 5.41563 0.269165 5.07742C0.269165 4.31109 0.915614 3.67749 1.66909 3.67749C2.04583 3.67749 2.42257 3.83161 2.69228 4.13129L6.57955 8.38245L12.1921 0.56939C12.4661 0.192651 12.8899 0 13.3309 0C14.0715 0 14.7308 0.56939 14.7308 1.38709C14.7308 1.67392 14.6538 1.96932 14.4697 2.21762L7.84676 11.4306C7.61558 11.7688 7.21315 12 6.79788 12H6.80216Z" />
+                  </svg>
+                )}
+              </Button>
+            )}
+
             {approveButton && (
               <Button
                 className={clsx(
