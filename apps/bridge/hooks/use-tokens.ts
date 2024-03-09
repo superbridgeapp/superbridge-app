@@ -9,7 +9,6 @@ import { isBridgedUsdc, isNativeUsdc } from "@/utils/is-usdc";
 
 import { useArbitrumNativeTokens } from "./arbitrum/use-arbitrum-native-tokens";
 import { useDeployments } from "./use-deployments";
-import { useArbitrumGasToken } from "./use-approve-arbitrum-gas-token";
 
 export function useAllTokens() {
   const deployment = useConfigState.useDeployment();
