@@ -9,6 +9,7 @@ import { isBridgedUsdc, isNativeUsdc } from "@/utils/is-usdc";
 
 import { useArbitrumNativeTokens } from "./arbitrum/use-arbitrum-native-tokens";
 import { useDeployments } from "./use-deployments";
+import { useArbitrumGasToken } from "./use-approve-arbitrum-gas-token";
 
 export function useAllTokens() {
   const deployment = useConfigState.useDeployment();
@@ -20,35 +21,42 @@ export function useAllTokens() {
 
   return useMemo(
     () => [
-      ...tokens.map((t) => {
-        if (isNativeToken(t)) {
-          const copy = { ...t };
-          deployments.forEach((d) => {
-            let l1Ether = copy[1]!;
-            let l2Ether = copy[10]!;
+      ...tokens
+        .map((t) => {
+          if (isNativeToken(t)) {
+            const copy = { ...t };
+            deployments.forEach((d, deploymentIndex) => {
+              let l1Ether = copy[1]!;
+              let l2Ether = copy[10]!;
 
-            // ensure every deployment has a native token registered
-            if (!copy[d.l1.id]) {
-              copy[d.l1.id] = {
-                ...l1Ether,
-                name: d.l1.nativeCurrency.name,
-                symbol: d.l1.nativeCurrency.symbol,
-                chainId: d.l1.id,
-              };
-            }
-            if (!copy[d.l2.id]) {
-              copy[d.l2.id] = {
-                ...l2Ether,
-                name: d.l2.nativeCurrency.name,
-                symbol: d.l2.nativeCurrency.symbol,
-                chainId: d.l2.id,
-              };
-            }
-          });
-          return copy;
-        }
-        return t;
-      }),
+              const arbitrumNativeToken = arbitrumNativeTokens[deploymentIndex];
+              if (arbitrumNativeToken) {
+                return null;
+              }
+
+              // ensure every deployment has a native token registered
+              if (!copy[d.l1.id]) {
+                copy[d.l1.id] = {
+                  ...l1Ether,
+                  name: d.l1.nativeCurrency.name,
+                  symbol: d.l1.nativeCurrency.symbol,
+                  chainId: d.l1.id,
+                };
+              }
+              if (!copy[d.l2.id]) {
+                copy[d.l2.id] = {
+                  ...l2Ether,
+                  name: d.l2.nativeCurrency.name,
+                  symbol: d.l2.nativeCurrency.symbol,
+                  chainId: d.l2.id,
+                };
+              }
+            });
+            return copy;
+          }
+          return t;
+        })
+        .filter(isPresent),
       ...customTokens,
       ...arbitrumNativeTokens.filter(isPresent),
     ],
@@ -71,6 +79,11 @@ export function useActiveTokens() {
       return [];
     }
     return tokens.filter((t) => {
+      const l1 = t[deployment.l1.id];
+      const l2 = t[deployment.l2.id];
+
+      if (!l1 || !l2) return false;
+
       if (isNativeToken(t)) {
         return true;
       }
@@ -82,11 +95,6 @@ export function useActiveTokens() {
       if (!withdrawing && hasNativeUsdc && isBridgedUsdc(t)) {
         return false;
       }
-
-      const l1 = t[deployment.l1.id];
-      const l2 = t[deployment.l2.id];
-
-      if (!l1 || !l2) return false;
 
       if (isOptimismToken(l1) && isOptimismToken(l2)) {
         return (
