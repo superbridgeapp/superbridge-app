@@ -7,6 +7,7 @@ import { formatUnits } from "viem";
 import { useFeeData, useWalletClient } from "wagmi";
 
 import { Checkbox } from "@/components/ui/checkbox";
+import { isSuperbridge } from "@/config/superbridge";
 import { deploymentTheme } from "@/config/theme";
 import { currencySymbolMap } from "@/constants/currency-symbol-map";
 import { FINALIZE_GAS, PROVE_GAS } from "@/constants/gas-limits";
@@ -29,7 +30,6 @@ import { useWeiAmount } from "@/hooks/use-wei-amount";
 import { useConfigState } from "@/state/config";
 import { useSettingsState } from "@/state/settings";
 import { isNativeToken } from "@/utils/is-eth";
-import { isMainnet, isOptimism } from "@/utils/is-mainnet";
 import { isNativeUsdc } from "@/utils/is-usdc";
 
 import { Button } from "../ui/button";
@@ -527,12 +527,12 @@ export const ConfirmationModal = ({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent>
-        <div className="flex flex-col p-6 pt-8 md:pt-10">
-          <div className="flex flex-col gap-1 ">
-            <h1 className="font-bold text-xl tracking-tighter text-pretty leading-6">
+        <div className="flex flex-col p-6 pt-8">
+          <div className="flex flex-col gap-1">
+            <h1 className="font-bold text-xl tracking-tighter text-pretty leading-6 mr-6">
               {title}
             </h1>
-            <p className="text-sm text-pretty">
+            <p className="text-xs md:text-sm text-pretty">
               {description}{" "}
               <Link
                 href={
@@ -655,15 +655,17 @@ export const ConfirmationModal = ({
               {initiateButton.buttonText}
             </Button>
 
-            {/* TODO: Create guide page and add link */}
-            {/* {isSuperbridge && (
-              <Link
-                className={`text-center text-sm font-bold tracking-tight  hover:underline ${theme.textColor}`}
-                href={"#"}
-              >
-                {t("confirmationModal.viewAlternateBridges")}
-              </Link>
-            )} */}
+            {typeof window !== "undefined" &&
+              window.location.host === "superbridge.app" &&
+              (withdrawing || isNativeUsdc(stateToken)) && (
+                <Link
+                  className={`mt-2 leading-3 text-center text-xs font-medium tracking-tight cursor-pointer transition-all opacity-70 hover:opacity-100 ${theme.textColor}`}
+                  href="/alternative-bridges"
+                  target="_blank"
+                >
+                  {t("confirmationModal.viewAlternateBridges")}
+                </Link>
+              )}
           </div>
         </div>
       </DialogContent>
