@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Address, Chain } from "viem";
-import { useAccount, useNetwork, useWalletClient } from "wagmi";
+import { useAccount, useWalletClient } from "wagmi";
 
 import { useBridgeControllerGetCctpMintTransactionV2 } from "@/codegen";
 import { CctpBridgeDto } from "@/codegen/model";
@@ -15,23 +15,20 @@ export function useMintCctp({ id, to }: CctpBridgeDto) {
   const removeFinalising = usePendingTransactions.useRemoveFinalising();
   const finaliseTransaction = useBridgeControllerGetCctpMintTransactionV2();
   const switchChain = useSwitchChain();
-  const { chain: activeChain } = useNetwork();
 
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
 
   const write = async () => {
     if (!account.address || !wallet.data) {
       return;
     }
 
-    if (activeChain && activeChain.id !== to.id) {
+    if (account.chain && account.chain.id !== to.id) {
       await switchChain(to);
     }
 
     try {
       setLoading(true);
-      setError(null);
 
       const data = await finaliseTransaction.mutateAsync({ data: { id } });
       const hash = await wallet.data.sendTransaction({
@@ -42,7 +39,6 @@ export function useMintCctp({ id, to }: CctpBridgeDto) {
       setFinalising(id, hash);
     } catch (e: any) {
       console.log(e);
-      setError(e);
       removeFinalising(id);
     } finally {
       setLoading(false);
@@ -52,6 +48,5 @@ export function useMintCctp({ id, to }: CctpBridgeDto) {
   return {
     write,
     loading,
-    error,
   };
 }

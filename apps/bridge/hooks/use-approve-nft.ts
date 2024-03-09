@@ -1,10 +1,6 @@
 import { useEffect } from "react";
-import {
-  useContractWrite,
-  useWaitForTransaction,
-  erc721ABI,
-  Address,
-} from "wagmi";
+import { useWriteContract, useWaitForTransactionReceipt } from "wagmi";
+import { Address, erc721Abi } from "viem";
 
 import { useConfigState } from "@/state/config";
 
@@ -13,21 +9,9 @@ export function useApproveNft(
   refreshTx: () => void
 ) {
   const nft = useConfigState.useNft();
-  const {
-    write,
-    data,
-    isLoading: writing,
-  } = useContractWrite({
-    abi: erc721ABI,
-    address: nft?.localConfig.address as Address | undefined,
-    args: [
-      (nft?.localConfig.bridgeAddress as Address | undefined) ?? "0x", // to
-      nft ? BigInt(nft.tokenId) : BigInt("0"), // tokenId
-    ],
-    functionName: "approve",
-  });
-  const { isLoading: waiting, data: receipt } = useWaitForTransaction({
-    hash: data?.hash,
+  const { data: hash, isLoading: writing, writeContract } = useWriteContract();
+  const { isFetching: waiting, data: receipt } = useWaitForTransactionReceipt({
+    hash,
   });
 
   useEffect(() => {
@@ -42,7 +26,20 @@ export function useApproveNft(
   }, [receipt]);
 
   return {
-    write,
+    write: () => {
+      if (!nft?.localConfig.address) {
+        return;
+      }
+      writeContract({
+        abi: erc721Abi,
+        address: nft.localConfig.address as Address,
+        args: [
+          (nft?.localConfig.bridgeAddress as Address | undefined) ?? "0x", // to
+          nft ? BigInt(nft.tokenId) : BigInt("0"), // tokenId
+        ],
+        functionName: "approve",
+      });
+    },
     isLoading: writing || waiting,
   };
 }

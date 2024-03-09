@@ -4,16 +4,17 @@ import {
   Locale,
   RainbowKitProvider,
   darkTheme,
+  getDefaultConfig,
   getDefaultWallets,
   lightTheme,
 } from "@rainbow-me/rainbowkit";
+import { safeWallet } from "@rainbow-me/rainbowkit/wallets";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { useTheme } from "next-themes";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { WagmiConfig, configureChains, createConfig, mainnet } from "wagmi";
-import { optimism } from "wagmi/chains";
-import { publicProvider } from "wagmi/providers/public";
+import { WagmiProvider, http } from "wagmi";
+import { mainnet, optimism } from "wagmi/chains";
 
 import { ThemeProvider } from "@/components/theme-provider";
 import { chainIcons } from "@/config/theme";
@@ -21,11 +22,6 @@ import * as metadata from "@/constants/metadata";
 import { useDeployments } from "@/hooks/use-deployments";
 import { useConfigState } from "@/state/config";
 import { queryClient } from "@/utils/query-client";
-
-// @ts-expect-error
-mainnet.rpcUrls.default.http[0] = "https://eth.llamarpc.com";
-// @ts-expect-error
-mainnet.rpcUrls.public.http[0] = "https://eth.llamarpc.com";
 
 function Web3Provider({ children }: { children: React.ReactNode }) {
   const { deployments } = useDeployments();
@@ -38,19 +34,13 @@ function Web3Provider({ children }: { children: React.ReactNode }) {
     setMounted(true);
   }, []);
 
-  const { chains, wagmiConfig } = useMemo(() => {
-    const { chains, publicClient } = configureChains(
-      // @ts-expect-error
+  const config = useMemo(() => {
+    const chains =
       deployments.length === 0
         ? [mainnet, optimism]
-        : deployments
+        : [...deployments]
             .sort((a) => (a.id === deployment?.id ? -1 : 1))
             .map((d) => {
-              if (d.l1.id === mainnet.id) {
-                d.l1.rpcUrls.default.http[0] = "https://eth.llamarpc.com";
-                d.l1.rpcUrls.public.http[0] = "https://eth.llamarpc.com";
-              }
-
               if (chainIcons[d.l1.id]) {
                 // @ts-expect-error
                 d.l1.iconUrl = chainIcons[d.l1.id];
@@ -62,30 +52,33 @@ function Web3Provider({ children }: { children: React.ReactNode }) {
 
               return [d.l1, d.l2];
             })
-            .flat(),
-      [publicProvider()]
+            .flat();
+    const transports = chains.reduce(
+      (accum, chain) => ({
+        ...accum,
+        [chain.id]: http(),
+      }),
+      {}
     );
 
-    const { connectors } = getDefaultWallets({
+    const { wallets } = getDefaultWallets();
+
+    return getDefaultConfig({
       appName: metadata.title,
       projectId: "50c3481ab766b0e9c611c9356a42987b",
+      // @ts-expect-error
       chains,
+      transports,
+      ssr: true,
+      wallets: [...wallets, { groupName: "More", wallets: [safeWallet] }],
     });
-
-    const wagmiConfig = createConfig({
-      autoConnect: true,
-      connectors,
-      publicClient,
-    });
-    return { chains, wagmiConfig };
   }, [deployments, deployment]);
 
   return (
-    <WagmiConfig config={wagmiConfig}>
+    <WagmiProvider config={config}>
       <RainbowKitProvider
-        chains={chains}
         locale={
-          i18n.language.includes("zh")
+          i18n.language?.includes("zh")
             ? "zh"
             : (i18n.resolvedLanguage as Locale)
         }
@@ -111,7 +104,7 @@ function Web3Provider({ children }: { children: React.ReactNode }) {
       >
         {children}
       </RainbowKitProvider>
-    </WagmiConfig>
+    </WagmiProvider>
   );
 }
 

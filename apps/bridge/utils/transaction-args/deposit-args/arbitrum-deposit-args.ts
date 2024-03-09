@@ -1,5 +1,5 @@
-import { FetchFeeDataResult } from "@wagmi/core";
 import { Address, encodeAbiParameters, encodeFunctionData } from "viem";
+import { UseEstimateFeesPerGasReturnType } from "wagmi";
 
 import { InboxAbi } from "@/abis/arbitrum/Inbox";
 import { L1BridgeArbitrum } from "@/abis/arbitrum/L1Bridge";
@@ -19,15 +19,17 @@ const impl = (
   proxyBridge: Address | undefined,
   recipient: Address,
   weiAmount: bigint,
-  l1FeeData: FetchFeeDataResult,
-  l2FeeData: FetchFeeDataResult
+  l1FeeData: UseEstimateFeesPerGasReturnType["data"],
+  l2FeeData: UseEstimateFeesPerGasReturnType["data"]
 ): TransactionArgs | undefined => {
   const l1GasLimit = BigInt(80_000);
   const l2GasLimit = BigInt(300_000);
   const l1GasCost =
-    l1FeeData.lastBaseFeePerGas! + l1FeeData.lastBaseFeePerGas! / BigInt(10);
+    (l1FeeData?.maxFeePerGas ?? BigInt(0)) +
+    (l1FeeData?.maxFeePerGas ?? BigInt(0)) / BigInt(10);
   const l2GasCost =
-    l2FeeData.lastBaseFeePerGas! + l2FeeData.lastBaseFeePerGas! / BigInt(10);
+    (l2FeeData?.maxFeePerGas ?? BigInt(0)) +
+    (l2FeeData?.maxFeePerGas ?? BigInt(0)) / BigInt(10);
   const maxSubmissionCost = l1GasCost * l1GasLimit;
 
   if (isEth(l2Token)) {

@@ -1,14 +1,13 @@
 import { useMemo } from "react";
 
 import { useConfigState } from "@/state/config";
+import { useSettingsState } from "@/state/settings";
 import { isArbitrumToken, isOptimismToken } from "@/utils/guards";
 import { isNativeToken } from "@/utils/is-eth";
 import { isBridgedUsdc, isNativeUsdc } from "@/utils/is-usdc";
-import { useSettingsState } from "@/state/settings";
 
-import { useDeployments } from "./use-deployments";
 import { useArbitrumNativeTokens } from "./arbitrum/use-arbitrum-native-tokens";
-import { isArbitrum } from "@/utils/is-mainnet";
+import { useDeployments } from "./use-deployments";
 
 export function useAllTokens() {
   const deployment = useConfigState.useDeployment();

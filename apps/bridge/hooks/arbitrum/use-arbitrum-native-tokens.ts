@@ -1,5 +1,6 @@
-import { Address, erc20ABI, useContractReads } from "wagmi";
 import { isPresent } from "ts-is-present";
+import { useMemo } from "react";
+import { Address, erc20Abi } from "viem";
 
 import { IERC20BridgeAbi } from "@/abis/arbitrum/IERC20Bridge";
 import { useConfigState } from "@/state/config";
@@ -7,13 +8,13 @@ import { MultiChainToken } from "@/types/token";
 import { isArbitrum } from "@/utils/is-mainnet";
 
 import { useDeployments } from "../use-deployments";
-import { useMemo } from "react";
+import { useReadContracts } from "wagmi";
 
 export const useArbitrumNativeTokens = () => {
   const deployment = useConfigState.useDeployment();
   const { deployments } = useDeployments();
 
-  const nativeTokens = useContractReads({
+  const nativeTokens = useReadContracts({
     contracts: deployments.map((d) => ({
       abi: IERC20BridgeAbi,
       functionName: "nativeToken",
@@ -23,23 +24,23 @@ export const useArbitrumNativeTokens = () => {
     })),
   });
 
-  const reads = useContractReads({
+  const reads = useReadContracts({
     contracts: nativeTokens.data
       ?.map(({ result }) => [
         {
-          abi: erc20ABI,
+          abi: erc20Abi,
           address: result,
           functionName: "name",
           chainId: deployment?.l1.id,
         },
         {
-          abi: erc20ABI,
+          abi: erc20Abi,
           address: result,
           functionName: "symbol",
           chainId: deployment?.l1.id,
         },
         {
-          abi: erc20ABI,
+          abi: erc20Abi,
           address: result,
           functionName: "decimals",
           chainId: deployment?.l1.id,
@@ -75,8 +76,8 @@ export const useArbitrumNativeTokens = () => {
                 chainId: deployment.l1.id,
                 logoURI: "",
                 arbitrumBridgeInfo: {
-                  [deployment.l2.id]:
-                    deployment.contractAddresses.l1GatewayRouter,
+                  [deployment.l2.id]: deployment.contractAddresses
+                    .l1GatewayRouter as Address,
                 },
               },
               [deployment.l2.id]: {

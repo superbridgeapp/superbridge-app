@@ -1,8 +1,8 @@
 import { useTranslation } from "react-i18next";
 import { isPresent } from "ts-is-present";
 import { Chain, formatUnits, parseUnits } from "viem";
-import { arbitrum, arbitrumNova, goerli, sepolia } from "viem/chains";
-import { mainnet, useFeeData } from "wagmi";
+import { arbitrum, arbitrumNova, goerli, mainnet, sepolia } from "viem/chains";
+import { useFeeData } from "wagmi";
 
 import { ChainDto } from "@/codegen/model";
 import { configurations } from "@/config/contract-addresses";

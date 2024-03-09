@@ -1,36 +1,21 @@
-import { DeploymentType } from "@/codegen/model";
-import { useConfigState } from "@/state/config";
-import { isArbitrum } from "@/utils/is-mainnet";
-import { isCctpBridgeOperation } from "@/utils/transaction-args/cctp-args/common";
+import { useTranslation } from "react-i18next";
 
-const QUICK_NETWORKS: DeploymentType[] = [
-  DeploymentType.devnet,
-  DeploymentType.testnet,
-];
+import { useConfigState } from "@/state/config";
+
+import { useTotalBridgeTime } from "./use-finalization-period";
 
 export const useTransferTime = () => {
   const deployment = useConfigState.useDeployment();
-  const withdrawing = useConfigState.useWithdrawing();
-  const token = useConfigState.useToken();
+  const { t } = useTranslation();
+  const time = useTotalBridgeTime(deployment);
 
-  if (!!deployment && !!token && isCctpBridgeOperation(token)) {
-    return QUICK_NETWORKS.includes(deployment.type)
-      ? "~ 3 minutes"
-      : "~ 15 minutes";
+  if (time?.period === "mins") {
+    return t("transferTimeMinutes", { count: time.value });
   }
 
-  if (deployment && withdrawing) {
-    return QUICK_NETWORKS.includes(deployment.type) ? "~ 1 hour" : "~ 7 days";
-  } else {
-    if (
-      deployment &&
-      isArbitrum(deployment) &&
-      deployment.type === DeploymentType.mainnet
-    ) {
-      return "~ 10 minutes";
-    }
-
-    // https://stack.optimism.io/docs/releases/bedrock/explainer/#shorter-deposit-times
-    return "~ 3 minutes";
+  if (time?.period === "hours") {
+    return t("transferTimeHours", { count: time.value });
   }
+
+  return t("transferTimeDays", { count: time?.value });
 };
