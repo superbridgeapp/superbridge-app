@@ -1,0 +1,130 @@
+{
+	"deposit": "Depozit",
+	"depositDisabled": "Depozit işlemi devre dışı",
+	"depositNft": "{{tokenId}} Depozit et",
+	"depositing": "Depozit ediliyor",
+	"withdraw": "Para Çekme",
+	"withdrawNft": "{{tokenId}} dışarıya aktarma",
+	"withdrawing": "Dışarıya aktarılıyor",
+	"approving": "Onaylanıyor",
+	"connectWallet": "Cüzdan Bağla",
+	"switchToApprove": "Onaylamak için değiştir",
+	"switchTo": "{{chain}} zincirine geç",
+	"approve": "Onayla",
+	"approveNft": "{{tokenId}} onayla",
+	"insufficientFunds": "Yetersiz varlık",
+	"insufficientGas": "Gas için {{symbol}} yetersiz miktarda",
+	"loading": "Yükleniyor",
+	"error": "Hata",
+	"noAccountConnected": "Bir hesap bağlı değil",
+	"save": "Kaydet",
+	"toAdress": "Gideceği Adres",
+	"on": "açık",
+	"off": "kapalı",
+	"receiveOnChain": "{{chain}} zincirinde al",
+	"transferTime": "Transfer süresi",
+	"availableBalance": "{{amount}} {{symbol}} sahipsiniz",
+	"comingSoon": "Yakında geliyor",
+	"sorryAnErrorOccurred": "Üzgünüz! Bir hata oluştu.",
+	"about": "Hakkında",
+	"docs": "Dokümanlar",
+	"from": "Gönderen",
+	"to": "Alıcı",
+	"manage": "Yönet",
+	"support": "Destek",
+	
+	"settings": {
+		"settings": "Ayarlar",
+		"withdrawalSettings": "Para çekme ayarları",
+		"escapeHatchDescription": "Çekme işleminizi Ethereum'a sansüre dirençli şekilde iletmeye zorlayın",
+		"easyModeDescription": "Fazladan ayarladığınız işlemleri unutmamanız için bizim halletmemize izin verin.",
+		"feeBreakDown": "Ağ ücretleri",
+		"currency": "Para Birimi",
+		"language": "Dil",
+		"explorer": "Kaşif",
+		"tokenLists": "Token listeleri"
+	},
+	
+	"customTokenLists": {
+		"add": "Özel token listesi ekle",
+		"name": "Token listesinin adı",
+		"namePlaceHolder": "İsim",
+		"url": "Token listesinin internet uzantısı",
+		"urlPlaceholder": "İnternet uzantısı",
+		"invalid": "Token listesinin internet uzantısı geçersiz",
+		"loadedTokens": "{{num}} adet token eklendi",
+		"disclaimer": "Var olan tokenların sahte versiyonları dahil herhangi bir token birileri tarafından oluşturabilir. Buna dikkat edin. Bazı tokenların ve teknik parametrelerinin {{app}} servislerine uyumsuzluğu olabilir. Bu token listesi bildirgesini kabul ederek riskleri de kabul ediyorsunuz.",
+		"learnMore": "Daha fazla bilgi",
+		"save": "Listeyi kaydet",
+		"delete": "Listeyi sil"
+	},
+	
+	"activity": {
+		"activity": "Aktivite",
+		"actionNeeded": "Aksiyon alınması gerekiyor",
+		"connectWallet": "Lütfen cüzdanınızı bağlayın...",
+		"noTransaction": "Henüz işlem yapılmadı...",
+		"error": "Üzgünüz! Aktivitelerinizi devreye alamıyoruz. \n Lütfen tekrar deneyin ve sayfayı yenileyin"
+	},
+	
+	"tokens": {
+		"tokens": "Tokenlar",
+		"nfts": "NFTler",
+		"selectToken": "Bir token seçiniz",
+		"noneFound": "Herhangi bir sonuç bulunamadı",
+		"notBridgeable": "Köprülenemez",
+		"import": "İçeri aktar",
+		"customImport": "Özel içeri aktarma",
+		"customImportFromList": "{{name}} tarafından",
+		"customImportCheck": "Token adresini kontrol ettiğinizden ve doğru olduğundan emin olunuz:",
+		"customL1Address": "L1 Adres",
+		"customL2Address": "L2 Adres",
+		"customL3Address": "L3 Adres",
+	},
+	
+	"recipient": {
+		"withdrawDestination": "Çekim işleminin ulaşacağı adres",
+		"depositDestination": "Depozit işleminin ulaşacağı adres",
+		"invalidAddress": "Girilen adres geçersiz",
+		"yourChainAddress": "{{chain}} sizin adresinizdir",
+		"usedBefore": "Hesap daha önceden kullanılmış",
+		"usedBeforeMultiple": "Hesap daha önceden {{count}} kere kullanılmış",
+		"newAddress": "Yeni adres - lütfen dikkatli olunuz!"
+	},
+	
+	"buttons": {
+		"finalize": "Sonuçlandır",
+		"prove": "Kanıtla",
+		"redeem": "Borcu öde",
+		"switchChain": "Zincir değiştir",
+		"mint": "Mint"
+	},
+	
+	"fees": {
+		"fees": "Ağ ücretleri",
+		"networkGas": "{{chain}} gas miktarı",
+		"easyModeFee": "Kolay mod gas miktarı"
+	},
+	
+	"poweredByConduit": "Conduit tarafından geliştirilmiştir.",
+	
+	"withdrawalModal": {
+		"title": "{{rollup}} ağından çekim işlemleri ~7 gün sürmektedir.",
+		"opDescription": "Çekme işlemi 3 adımdan oluşur, 2 {{base}} işlemi gerektirir.",
+		"arbDescription": "Çekme işlemi 2 adımdan oluşur ve fazladan bir {{base}} işlemi gerektirir.",
+		"learnMore": "Daha fazla bilgi",
+		"approxFees": "Yaklaşık ücretler",
+		"initiate": "Çekme işlemini başlat",
+		"waitProve": "~2 saat bekleyiniz",
+		"prove": "{{base}} ağında kanıtlanıyor",
+		"waitFinalize": "~7 gün bekleyiniz",
+		"finalize": "{{base}} ağında alınız",
+		
+		"opCheckbox1": "Çekme işlemini kanıtladıktan sonra varlıklarımın {{base}} ağında çekilebilir olmasının ~7 gün sürebileceğini anlıyorum.",
+		"arbCheckbox1": "Varlıklarımın ~7 günlük süre aralığında {{base}} ağından çekilebilir hale geleceğini anlıyorum.",
+		"checkbox2": "Çekme işlemleri başladıktan sonra hızlandırılamaz ya da iptal edilemez.",
+		
+		"continue": "Çekim işlemine devam",
+		"viewAlternateBridges": "Ya da alternatif köprüleri görüntüle..."
+	}
+}
