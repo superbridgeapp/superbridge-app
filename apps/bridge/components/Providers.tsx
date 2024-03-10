@@ -14,7 +14,7 @@ import { useTheme } from "next-themes";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { WagmiProvider, http } from "wagmi";
-import { mainnet, optimism } from "wagmi/chains";
+import { Chain, mainnet, optimism } from "wagmi/chains";
 
 import { ThemeProvider } from "@/components/theme-provider";
 import { chainIcons } from "@/config/theme";
@@ -76,6 +76,7 @@ function Web3Provider({ children }: { children: React.ReactNode }) {
   return (
     <WagmiProvider config={config}>
       <RainbowKitProvider
+        initialChain={deployment?.l1 as Chain | undefined}
         locale={
           i18n.language?.includes("zh")
             ? "zh"
