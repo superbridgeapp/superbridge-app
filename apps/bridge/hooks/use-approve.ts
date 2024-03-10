@@ -57,15 +57,15 @@ export function useApprove(
           hash,
           chainId: token.chainId,
         });
+      } catch (e) {
+        console.error(e);
+      } finally {
         refreshAllowance();
         refreshTx();
         setTimeout(() => {
           refreshAllowance();
           refreshTx();
         }, 200);
-      } catch {
-        setIsLoading(false);
-      } finally {
         setIsLoading(false);
       }
     },
