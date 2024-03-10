@@ -53,9 +53,11 @@ export function useApprove(
           functionName: "approve",
           chainId: token?.chainId,
         });
-        const receipt = await waitForTransactionReceipt(config, {
+        await waitForTransactionReceipt(config, {
           hash,
           chainId: token.chainId,
+          pollingInterval: 5_000,
+          timeout: 60_000,
         });
       } catch (e) {
         console.error(e);
