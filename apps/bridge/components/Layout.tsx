@@ -118,15 +118,13 @@ export function Layout({ Component, pageProps, router }: AppProps) {
       )}
       <nav className="flex flex-row justify-between items-center p-3 md:p-6 fixed top-0 left-0 w-screen z-10">
         <div onClick={() => navigate("/")} className="cursor-pointer">
-          {deployments.isLoading ? (
-            <></>
-          ) : dedicatedDeployment ? (
+          {dedicatedDeployment ? (
             <>
               <Image
                 src={theme.standaloneLogo!}
                 width={theme.logoWidth}
                 height={theme.logoHeight}
-                alt={deployments.deployments[0].name}
+                alt={deployments.deployments[0]?.name}
                 draggable={false}
                 className="inline-flex dark:hidden"
               />
@@ -134,7 +132,7 @@ export function Layout({ Component, pageProps, router }: AppProps) {
                 src={theme.standaloneLogoDark!}
                 width={theme.logoWidth}
                 height={theme.logoHeight}
-                alt={deployments.deployments[0].name}
+                alt={deployments.deployments[0]?.name}
                 draggable={false}
                 className="hidden dark:inline-flex"
               />
