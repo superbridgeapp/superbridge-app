@@ -40,7 +40,10 @@ export function useFinaliseOptimism({ id, deployment }: BridgeWithdrawalDto) {
         data: data.data as Address,
         chain: deployment.l1 as unknown as Chain,
       });
-      setFinalising(id, hash);
+      if (hash) {
+        // rainbow just returns null if cancelled
+        setFinalising(id, hash);
+      }
     } catch (e: any) {
       if (
         e.message.includes("rejected the request") ||

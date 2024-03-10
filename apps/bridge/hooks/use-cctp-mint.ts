@@ -36,7 +36,10 @@ export function useMintCctp({ id, to }: CctpBridgeDto) {
         data: data.data.data as Address,
         chain: to as unknown as Chain,
       });
-      setFinalising(id, hash);
+      if (hash) {
+        // rainbow just returns null if cancelled
+        setFinalising(id, hash);
+      }
     } catch (e: any) {
       console.log(e);
       removeFinalising(id);

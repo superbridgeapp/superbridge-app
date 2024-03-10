@@ -35,7 +35,10 @@ export function useProveOptimism({ id, deployment }: BridgeWithdrawalDto) {
         data: data.data as Address,
         chain: deployment.l1 as unknown as Chain,
       });
-      setProving(id, hash);
+      if (hash) {
+        // rainbow just returns null if cancelled
+        setProving(id, hash);
+      }
     } catch (e: any) {
       if (
         e.message.includes("rejected the request") ||
