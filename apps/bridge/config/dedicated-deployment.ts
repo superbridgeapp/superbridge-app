@@ -43,7 +43,7 @@ const mapping: { [name: string]: DedicatedDeployment | undefined } = {
     },
   },
   optimism: {
-    name: "OP Mainnet",
+    name: "optimism",
     footerLink: "https://optimism.io",
     og: {
       title: "OP Mainnet Bridge",
