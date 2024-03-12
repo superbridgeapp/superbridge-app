@@ -744,7 +744,10 @@ export const TransactionRow = ({ tx }: { tx: Transaction }) => {
             />
           </>
         ) : (
-          <TokenIcon token={token ?? null} className="h-12 w-12 max-w-min" />
+          <TokenIcon
+            token={token ?? null}
+            className="h-12 w-12 min-h-12 min-w-12"
+          />
         )}
         {isDeposit(tx) ||
         (isCctpBridge(tx) && tx.from.id === deployment.l1.id) ? (
