@@ -1,12 +1,12 @@
+import { AnimatePresence, motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
+import Lottie from "react-lottie-player";
+
 import { deploymentTheme } from "@/config/theme";
 import { useHasPendingAction } from "@/hooks/use-has-pending-action";
 import { useTransactions } from "@/hooks/use-transactions";
 import { useConfigState } from "@/state/config";
 import { usePendingTransactions } from "@/state/pending-txs";
-import Lottie from "react-lottie-player";
-import inProgress from "../../animation/loading.json";
-import inProgressDark from "../../animation/loading-dark.json";
-import { AnimatePresence, motion } from "framer-motion";
 import {
   isArbitrumDeposit,
   isArbitrumForcedWithdrawal,
@@ -16,7 +16,9 @@ import {
   isForcedWithdrawal,
   isWithdrawal,
 } from "@/utils/guards";
-import { useTranslation } from "react-i18next";
+
+import inProgressDark from "../../animation/loading-dark.json";
+import inProgress from "../../animation/loading.json";
 
 const activityAnimations = {
   hidden: { y: 80 },

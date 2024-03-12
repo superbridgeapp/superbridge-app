@@ -3,24 +3,19 @@ import clsx from "clsx";
 import { FC, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Lottie from "react-lottie-player";
-import { P, match } from "ts-pattern";
+import { match } from "ts-pattern";
 import { Address, formatEther, formatUnits, isAddressEqual } from "viem";
 import { useChainId } from "wagmi";
 
 import {
-  ArbitrumDepositEthDto,
   ArbitrumDepositRetryableDto,
   ArbitrumForcedWithdrawalDto,
-  ArbitrumTransactionType,
   ArbitrumWithdrawalDto,
   BridgeWithdrawalDto,
   CctpBridgeDto,
-  CctpTransactionType,
   EthDepositDto,
   ForcedWithdrawalDto,
   NftDepositDto,
-  OptimismTransactionType,
-  PortalDepositDto,
   TokenDepositDto,
 } from "@/codegen/model";
 import { useFinaliseArbitrum } from "@/hooks/arbitrum/use-arbitrum-finalise";
@@ -31,8 +26,6 @@ import { useArbitrumGasTokenForDeployment } from "@/hooks/use-approve-arbitrum-g
 import { useMintCctp } from "@/hooks/use-cctp-mint";
 import { useSwitchChain } from "@/hooks/use-switch-chain";
 import { useAllTokens } from "@/hooks/use-tokens";
-import i18n from "@/services/i18n";
-import { usePendingTransactions } from "@/state/pending-txs";
 import { MultiChainToken, Token } from "@/types/token";
 import { Transaction } from "@/types/transaction";
 import {
@@ -47,27 +40,15 @@ import {
   isWithdrawal,
 } from "@/utils/guards";
 import { isNativeToken } from "@/utils/is-eth";
-import { arbitrumDepositProgressRows } from "@/utils/progress-rows/arbitrum-deposit";
-import { arbitrumWithdrawalProgressRows } from "@/utils/progress-rows/arbitrum-withdrawal";
-import { cctpProgressRows } from "@/utils/progress-rows/cctp";
 import {
   ButtonComponent,
   ExpandedItem,
   ProgressRowStatus,
 } from "@/utils/progress-rows/common";
-import { depositProgressRows } from "@/utils/progress-rows/deposit";
-import {
-  arbitrumForcedWithdrawalProgressRows,
-  optimismForcedWithdrawalProgressRows,
-} from "@/utils/progress-rows/forced-withdrawal";
-import { withdrawalProgressRows } from "@/utils/progress-rows/withdrawal";
 
-import AnimDepositProgress from "../animation/deposit-progress.json";
-import AnimDepositSuccess from "../animation/deposit-success.json";
 import inProgress from "../animation/loading.json";
-import AnimWithdrawProgress from "../animation/withdraw-progress.json";
-import AnimWithdrawSuccess from "../animation/withdraw-success.json";
 
+import { useProgressRows, useTxActivityProps } from "@/utils/progress-rows";
 import { CctpBadge } from "./cttp-badge";
 import { NetworkIcon } from "./network-icon";
 import { NftImage } from "./nft";
@@ -457,165 +438,7 @@ function getDepositAmount(tx: Transaction, token: Token | null | undefined) {
   }`;
 }
 
-function matchDeposit(
-  tx: PortalDepositDto | ArbitrumDepositRetryableDto | ArbitrumDepositEthDto
-): TransactionRowProps {
-  return match(tx)
-    .with(
-      {
-        deposit: P.not(undefined),
-        relay: P.not(undefined),
-      },
-      () => ({
-        title: i18n.t("deposit"),
-        icon: "deposit-complete.png",
-        anim: AnimDepositSuccess,
-        segments: [[0, 20]],
-        loop: false,
-        items: isArbitrumDeposit(tx)
-          ? arbitrumDepositProgressRows(tx)
-          : depositProgressRows(tx),
-      })
-    )
-    .with({ deposit: P.not(undefined) }, () => ({
-      title: i18n.t("deposit"),
-      icon: "deposit-inprogress.png",
-      anim: AnimDepositProgress,
-      segments: [
-        [0, 15],
-        [15, 48],
-      ],
-      loop: true,
-      items: isArbitrumDeposit(tx)
-        ? arbitrumDepositProgressRows(tx)
-        : depositProgressRows(tx),
-    }))
-    .exhaustive();
-}
-
-function matchWithdrawal(
-  w: BridgeWithdrawalDto,
-  pendingProves: { [id: string]: string | undefined },
-  pendingFinalises: { [id: string]: string | undefined }
-): TransactionRowProps {
-  return {
-    title: i18n.t("withdraw"),
-    icon: w.finalise?.transactionHash
-      ? "withdraw-complete.png"
-      : "withdraw-progress.png",
-    anim: w.finalise?.transactionHash
-      ? AnimWithdrawSuccess
-      : AnimWithdrawProgress,
-    segments: w.finalise?.transactionHash
-      ? [[0, 20]]
-      : [
-          [0, 15],
-          [15, 48],
-        ],
-    loop: w.finalise?.transactionHash ? false : true,
-    items: withdrawalProgressRows(w, pendingProves, pendingFinalises),
-  };
-}
-
-function matchArbitrumWithdrawal(
-  w: ArbitrumWithdrawalDto,
-  pendingFinalises: { [id: string]: string | undefined }
-): TransactionRowProps {
-  return {
-    title: i18n.t("withdraw"),
-    icon: w.finalise?.transactionHash
-      ? "withdraw-complete.png"
-      : "withdraw-progress.png",
-    anim: w.finalise?.transactionHash
-      ? AnimWithdrawSuccess
-      : AnimWithdrawProgress,
-    segments: w.finalise?.transactionHash
-      ? [[0, 20]]
-      : [
-          [0, 15],
-          [15, 48],
-        ],
-    loop: w.finalise?.transactionHash ? false : true,
-    items: arbitrumWithdrawalProgressRows(w, pendingFinalises),
-  };
-}
-
-function matchOptimismForcedWithdrawal(
-  w: ForcedWithdrawalDto,
-  pendingProves: { [id: string]: string | undefined },
-  pendingFinalises: { [id: string]: string | undefined }
-): TransactionRowProps {
-  return {
-    title: `Forced exit`,
-    icon: w.withdrawal?.finalise?.transactionHash
-      ? "withdraw-complete.png"
-      : "withdraw-progress.png",
-    anim: w.withdrawal?.finalise?.transactionHash
-      ? AnimWithdrawSuccess
-      : AnimWithdrawProgress,
-    segments: w.withdrawal?.finalise?.transactionHash
-      ? [[0, 20]]
-      : [
-          [0, 15],
-          [15, 48],
-        ],
-    loop: w.withdrawal?.finalise?.transactionHash ? false : true,
-    items: optimismForcedWithdrawalProgressRows(
-      w,
-      pendingProves,
-      pendingFinalises
-    ),
-  };
-}
-
-function matchArbitrumForcedWithdrawal(
-  w: ArbitrumForcedWithdrawalDto,
-  pendingFinalises: { [id: string]: string | undefined }
-): TransactionRowProps {
-  return {
-    title: `Forced exit`,
-    icon: w.withdrawal?.finalise?.transactionHash
-      ? "withdraw-complete.png"
-      : "withdraw-progress.png",
-    anim: w.withdrawal?.finalise?.transactionHash
-      ? AnimWithdrawSuccess
-      : AnimWithdrawProgress,
-    segments: w.withdrawal?.finalise?.transactionHash
-      ? [[0, 20]]
-      : [
-          [0, 15],
-          [15, 48],
-        ],
-    loop: w.withdrawal?.finalise?.transactionHash ? false : true,
-    items: arbitrumForcedWithdrawalProgressRows(w, pendingFinalises),
-  };
-}
-
-function matchCctpBridge(
-  b: CctpBridgeDto,
-  pendingFinalises: { [id: string]: string | undefined },
-  withdrawal: boolean
-): TransactionRowProps {
-  return {
-    title: withdrawal ? i18n.t("withdraw") : i18n.t("deposit"),
-    icon: b.relay?.blockNumber
-      ? "withdraw-complete.png"
-      : "withdraw-progress.png",
-    anim: b.relay?.blockNumber ? AnimWithdrawSuccess : AnimWithdrawProgress,
-    segments: b.relay?.blockNumber
-      ? [[0, 20]]
-      : [
-          [0, 15],
-          [15, 48],
-        ],
-    loop: b.relay?.blockNumber ? false : true,
-    items: cctpProgressRows(b, pendingFinalises),
-  };
-}
-
 export const TransactionRow = ({ tx }: { tx: Transaction }) => {
-  const pendingFinalises = usePendingTransactions.usePendingFinalises();
-  const pendingProves = usePendingTransactions.usePendingProves();
   const tokens = useAllTokens();
 
   const token = useToken(tx, tokens);
@@ -627,80 +450,13 @@ export const TransactionRow = ({ tx }: { tx: Transaction }) => {
     ? tx.deposit.deployment
     : tx.deployment;
 
-  const config = match(tx)
-    .with(
-      {
-        type: OptimismTransactionType.deposit,
-      },
-      (d) => matchDeposit(d as PortalDepositDto)
-    )
-    .with(
-      {
-        type: OptimismTransactionType.withdrawal,
-      },
-      (d) =>
-        matchWithdrawal(
-          d as BridgeWithdrawalDto,
-          pendingProves,
-          pendingFinalises
-        )
-    )
-    .with(
-      {
-        type: OptimismTransactionType["forced-withdrawal"],
-      },
-      (fw) =>
-        matchOptimismForcedWithdrawal(
-          fw as ForcedWithdrawalDto,
-          pendingProves,
-          pendingFinalises
-        )
-    )
-    .with(
-      {
-        type: ArbitrumTransactionType["arbitrum-deposit-eth"],
-      },
-      (d) => matchDeposit(d as ArbitrumDepositEthDto)
-    )
-    .with(
-      {
-        type: ArbitrumTransactionType["arbitrum-deposit-retryable"],
-      },
-      (d) => matchDeposit(d as ArbitrumDepositRetryableDto)
-    )
-    .with(
-      {
-        type: ArbitrumTransactionType["arbitrum-withdrawal"],
-      },
-      (w) =>
-        matchArbitrumWithdrawal(w as ArbitrumWithdrawalDto, pendingFinalises)
-    )
-    .with(
-      {
-        type: ArbitrumTransactionType["arbitrum-forced-withdrawal"],
-      },
-      (w) =>
-        matchArbitrumForcedWithdrawal(
-          w as ArbitrumForcedWithdrawalDto,
-          pendingFinalises
-        )
-    )
-    .with(
-      {
-        type: CctpTransactionType["cctp-bridge"],
-      },
-      (w) =>
-        matchCctpBridge(w, pendingFinalises, w.from.id === deployment.l2.id)
-    )
-    .otherwise(() => null);
-  if (!config) {
-    return null;
-  }
+  const config = useTxActivityProps()(tx);
+  const progressRows = useProgressRows(deployment)(tx);
 
-  const inProgressItem = config.items.find(
+  const inProgressItem = progressRows.find(
     (x) => x.status === ProgressRowStatus.InProgress
   );
-  const revertedItem = config.items.find(
+  const revertedItem = progressRows.find(
     (x) => x.status === ProgressRowStatus.Reverted
   );
 
@@ -880,7 +636,7 @@ export const TransactionRow = ({ tx }: { tx: Transaction }) => {
 
         {expanded ? (
           <div className="space-y-2 mt-4">
-            {config.items.map((item) => (
+            {progressRows.map((item) => (
               <TransactionProgressRow key={item.label} item={item} tx={tx} />
             ))}
           </div>
