@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import Lottie from "react-lottie-player";
 import { P, match } from "ts-pattern";
 import { Address, formatEther, formatUnits, isAddressEqual } from "viem";
-import { useChainId, useWalletClient } from "wagmi";
+import { useChainId } from "wagmi";
 
 import {
   ArbitrumDepositEthDto,
@@ -29,6 +29,7 @@ import { useFinaliseOptimism } from "@/hooks/optimism/use-optimism-finalise";
 import { useProveOptimism } from "@/hooks/optimism/use-optimism-prove";
 import { useArbitrumGasTokenForDeployment } from "@/hooks/use-approve-arbitrum-gas-token";
 import { useMintCctp } from "@/hooks/use-cctp-mint";
+import { useSwitchChain } from "@/hooks/use-switch-chain";
 import { useAllTokens } from "@/hooks/use-tokens";
 import i18n from "@/services/i18n";
 import { usePendingTransactions } from "@/state/pending-txs";
@@ -72,7 +73,6 @@ import { NetworkIcon } from "./network-icon";
 import { NftImage } from "./nft";
 import { TokenIcon } from "./token-icon";
 import { Button } from "./ui/button";
-import { useSwitchChain } from "@/hooks/use-switch-chain";
 
 const Prove = ({ tx }: { tx: BridgeWithdrawalDto | ForcedWithdrawalDto }) => {
   const prove = useProveOptimism(isWithdrawal(tx) ? tx : tx.withdrawal!);
