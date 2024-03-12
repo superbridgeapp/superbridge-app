@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { match } from "ts-pattern";
 import { formatUnits } from "viem";
-import { useEstimateFeesPerGas, useWalletClient } from "wagmi";
+import { useAccount, useEstimateFeesPerGas, useWalletClient } from "wagmi";
 
 import { Checkbox } from "@/components/ui/checkbox";
 import { deploymentTheme } from "@/config/theme";
@@ -48,6 +48,7 @@ import {
   useApproveArbitrumGasToken,
   useArbitrumGasToken,
 } from "@/hooks/use-approve-arbitrum-gas-token";
+import { useSwitchChain } from "@/hooks/use-switch-chain";
 
 function LineItem({
   text,
@@ -102,6 +103,7 @@ export const ConfirmationModal = ({
   const token = useSelectedToken();
   const weiAmount = useWeiAmount();
   const wallet = useWalletClient();
+  const account = useAccount();
   const withdrawing = useConfigState.useWithdrawing();
   const escapeHatch = useConfigState.useForceViaL1();
 
@@ -120,6 +122,7 @@ export const ConfirmationModal = ({
   const toFeeData = useEstimateFeesPerGas({ chainId: to?.id });
 
   const nativeToken = useNativeToken();
+  const switchChain = useSwitchChain();
 
   const nativeTokenPrice = useTokenPrice(nativeToken ?? null);
 
@@ -193,9 +196,9 @@ export const ConfirmationModal = ({
     }))
     .with({ approved: false }, () => {
       // this kind of sucks for forced withdrawals, but we do approvals on the from chain for now
-      if (wallet.data?.chain?.id !== from?.id) {
+      if (from && account.chainId !== from.id) {
         return {
-          onSubmit: () => wallet.data?.switchChain({ id: from?.id ?? 0 }),
+          onSubmit: () => switchChain(from),
           buttonText: "Switch to approve gas token", // t("switchToApprove"),
           disabled: false,
         };
@@ -228,9 +231,9 @@ export const ConfirmationModal = ({
     }))
     .with({ approved: false }, () => {
       // this kind of sucks for forced withdrawals, but we do approvals on the from chain for now
-      if (wallet.data?.chain.id !== from?.id) {
+      if (from && account.chainId !== from?.id) {
         return {
-          onSubmit: () => wallet.data?.switchChain({ id: from?.id ?? 0 }),
+          onSubmit: () => switchChain(from),
           buttonText: t("switchToApprove"),
           disabled: false,
         };

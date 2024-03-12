@@ -23,7 +23,7 @@ export function useMintCctp({ id, to }: CctpBridgeDto) {
       return;
     }
 
-    if (account.chain && account.chain.id !== to.id) {
+    if (account.chainId !== to.id) {
       await switchChain(to);
     }
 

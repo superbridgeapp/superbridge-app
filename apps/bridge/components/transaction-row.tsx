@@ -72,6 +72,7 @@ import { NetworkIcon } from "./network-icon";
 import { NftImage } from "./nft";
 import { TokenIcon } from "./token-icon";
 import { Button } from "./ui/button";
+import { useSwitchChain } from "@/hooks/use-switch-chain";
 
 const Prove = ({ tx }: { tx: BridgeWithdrawalDto | ForcedWithdrawalDto }) => {
   const prove = useProveOptimism(isWithdrawal(tx) ? tx : tx.withdrawal!);
@@ -130,14 +131,14 @@ const RedeemArbitrum: FC<{
   tx: ArbitrumDepositRetryableDto | ArbitrumForcedWithdrawalDto;
 }> = ({ tx }) => {
   const chainId = useChainId();
-  const wallet = useWalletClient();
   const redeem = useRedeemArbitrum(tx);
   const { t } = useTranslation();
+  const switchChain = useSwitchChain();
 
-  const deploymentL1Id = isArbitrumForcedWithdrawal(tx)
-    ? tx.deposit.deployment.l1.id
-    : tx.deployment.l1.id;
-  if (chainId === deploymentL1Id)
+  const deploymentL1 = isArbitrumForcedWithdrawal(tx)
+    ? tx.deposit.deployment.l1
+    : tx.deployment.l1;
+  if (chainId === deploymentL1.id)
     return (
       <Button className="rounded-full" onClick={redeem.write} size={"sm"}>
         {t("buttons.redeem")}
@@ -146,7 +147,7 @@ const RedeemArbitrum: FC<{
   return (
     <Button
       className="rounded-full"
-      onClick={() => wallet.data?.switchChain({ id: deploymentL1Id })}
+      onClick={() => switchChain(deploymentL1)}
       size={"sm"}
     >
       {t("buttons.switchChain")}

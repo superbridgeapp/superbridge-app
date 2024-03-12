@@ -24,7 +24,7 @@ export function useFinaliseArbitrum({ id, deployment }: ArbitrumWithdrawalDto) {
       return;
     }
 
-    if (account.chain && account.chain.id !== deployment.l1.id) {
+    if (account.chainId !== deployment.l1.id) {
       await switchChain(deployment.l1);
     }
 
