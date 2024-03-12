@@ -193,7 +193,7 @@ export const ConfirmationModal = ({
     }))
     .with({ approved: false }, () => {
       // this kind of sucks for forced withdrawals, but we do approvals on the from chain for now
-      if (wallet.data?.chain.id !== from?.id) {
+      if (wallet.data?.chain?.id !== from?.id) {
         return {
           onSubmit: () => wallet.data?.switchChain({ id: from?.id ?? 0 }),
           buttonText: "Switch to approve gas token", // t("switchToApprove"),
