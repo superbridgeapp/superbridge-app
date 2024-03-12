@@ -156,6 +156,10 @@
     "receiveDeposit": "Receive on {{rollup}}",
     "approve": "Approve {{symbol}}",
     "approved": "Approved",
+    "approveArbitrumGasToken": "Approve gas token",
+    "switchToApproveGasToken": "Switch to approve gas token",
+    "approvingGasToken": "Approving gas token",
+    "approvedGasToken": "Approved gas token",
 
     "checkbox1Cctp": "I understand it will take ~{{mins}} mins until my funds are claimable on {{to}}",
     "checkbox1Deposit": "I understand it will take ~{{mins}} mins until my funds are on {{rollup}}",

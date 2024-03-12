@@ -7,6 +7,7 @@ import { useConfigState } from "@/state/config";
 import { isNativeToken } from "@/utils/is-eth";
 
 import { useActiveTokens } from "./use-tokens";
+import { useArbitrumGasToken } from "./use-approve-arbitrum-gas-token";
 
 /**
  * We want to find the token the user has specified and set some state accordingly,
@@ -28,6 +29,7 @@ export const useInitialiseToken = () => {
   const toggleWithdrawing = useConfigState.useToggleWithdrawing();
   const deployment = useConfigState.useDeployment();
   const tokens = useActiveTokens();
+  const arbitrumGasToken = useArbitrumGasToken();
 
   useEffect(() => {
     if (!tokens.length || !deployment) {
@@ -79,6 +81,11 @@ export const useInitialiseToken = () => {
         toggleWithdrawing();
       }
     } else {
+      if (arbitrumGasToken) {
+        setToken(arbitrumGasToken);
+        return;
+      }
+
       const t = tokens.find((x) => isNativeToken(x));
       if (t) {
         setToken(t);
@@ -88,5 +95,5 @@ export const useInitialiseToken = () => {
         }
       }
     }
-  }, [router.asPath, deployment, tokens]);
+  }, [router.asPath, deployment, tokens, arbitrumGasToken]);
 };

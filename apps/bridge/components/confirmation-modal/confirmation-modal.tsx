@@ -2,16 +2,22 @@ import clsx from "clsx";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { isPresent } from "ts-is-present";
 import { match } from "ts-pattern";
 import { formatUnits } from "viem";
-import { useEstimateFeesPerGas, useWalletClient } from "wagmi";
+import { useAccount, useEstimateFeesPerGas } from "wagmi";
 
 import { Checkbox } from "@/components/ui/checkbox";
 import { deploymentTheme } from "@/config/theme";
 import { currencySymbolMap } from "@/constants/currency-symbol-map";
 import { FINALIZE_GAS, PROVE_GAS } from "@/constants/gas-limits";
 import { useAllowance } from "@/hooks/use-allowance";
+import { useAllowanceArbitrumGasToken } from "@/hooks/use-allowance-arbitrum-gas-token";
 import { useApprove } from "@/hooks/use-approve";
+import {
+  useApproveArbitrumGasToken,
+  useArbitrumGasToken,
+} from "@/hooks/use-approve-arbitrum-gas-token";
 import { useBridge } from "@/hooks/use-bridge";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
 import {
@@ -22,12 +28,14 @@ import {
   useProvePeriod,
   useTotalBridgeTime,
 } from "@/hooks/use-finalization-period";
-import { useNativeToken } from "@/hooks/use-native-token";
+import { useNativeToken, useToNativeToken } from "@/hooks/use-native-token";
 import { useTokenPrice } from "@/hooks/use-prices";
 import { useSelectedToken } from "@/hooks/use-selected-token";
+import { useSwitchChain } from "@/hooks/use-switch-chain";
 import { useWeiAmount } from "@/hooks/use-wei-amount";
 import { useConfigState } from "@/state/config";
 import { useSettingsState } from "@/state/settings";
+import { Token } from "@/types/token";
 import { isNativeToken } from "@/utils/is-eth";
 import { isNativeUsdc } from "@/utils/is-usdc";
 
@@ -96,12 +104,15 @@ export const ConfirmationModal = ({
   const to = useToChain();
   const token = useSelectedToken();
   const weiAmount = useWeiAmount();
-  const wallet = useWalletClient();
+  const account = useAccount();
   const withdrawing = useConfigState.useWithdrawing();
   const escapeHatch = useConfigState.useForceViaL1();
 
+  const arbitrumGasToken = useArbitrumGasToken();
+  const arbitrumGasTokenAllowance = useAllowanceArbitrumGasToken();
   const deployment = useConfigState.useDeployment();
   const theme = deploymentTheme(deployment);
+  const approveArbitrumGasToken = useApproveArbitrumGasToken();
 
   const finalizationTime = useFinalizationPeriod(deployment);
   const proveTime = useProvePeriod(deployment);
@@ -111,19 +122,46 @@ export const ConfirmationModal = ({
   const fromFeeData = useEstimateFeesPerGas({ chainId: from?.id });
   const toFeeData = useEstimateFeesPerGas({ chainId: to?.id });
 
-  const nativeToken = useNativeToken();
+  const fromNativeToken = useNativeToken();
+  const toNativeToken = useToNativeToken();
+  const switchChain = useSwitchChain();
 
-  const nativeTokenPrice = useTokenPrice(nativeToken ?? null);
+  const fromNativeTokenPrice = useTokenPrice(fromNativeToken ?? null);
+  const toNativeTokenPrice = useTokenPrice(toNativeToken ?? null);
 
   const fromGasPrice =
     fromFeeData.data?.gasPrice ?? fromFeeData.data?.maxFeePerGas ?? BigInt(0);
   const toGasPrice =
     toFeeData.data?.gasPrice ?? toFeeData.data?.maxFeePerGas ?? BigInt(0);
+
+  const fromGas = {
+    token: fromNativeToken?.[from?.id ?? 0],
+    price: fromNativeTokenPrice,
+    gasPrice: fromGasPrice,
+  };
+  const toGas = {
+    token: toNativeToken?.[to?.id ?? 0],
+    price: toNativeTokenPrice,
+    gasPrice: toGasPrice,
+  };
+
   const initiateCost =
-    (withdrawing && escapeHatch ? toGasPrice : fromGasPrice) * BigInt(200_000);
-  const proveCost = toGasPrice * PROVE_GAS;
-  const finalizeCost = toGasPrice * FINALIZE_GAS;
-  const approveCost = fromGasPrice * BigInt(100_000);
+    withdrawing && escapeHatch
+      ? { gasToken: toGas, gasLimit: BigInt(200_000) }
+      : { gasToken: fromGas, gasLimit: BigInt(200_000) };
+  const proveCost = { gasToken: toGas, gasLimit: PROVE_GAS };
+  const finalizeCost = {
+    gasToken: toGas,
+    gasLimit: FINALIZE_GAS,
+  };
+  const approveCost = {
+    gasToken: fromGas,
+    gasLimit: BigInt(50_000),
+  };
+  const approveArbitrumGasTokenCost = {
+    gasToken: fromGas,
+    gasLimit: BigInt(50_000),
+  };
 
   const [checkbox1, setCheckbox1] = useState(false);
   const [checkbox2, setCheckbox2] = useState(false);
@@ -148,14 +186,31 @@ export const ConfirmationModal = ({
     return value ?? "";
   };
 
-  const fee = (n: bigint, maximumFractionDigits: number) => {
-    if (!nativeTokenPrice) {
-      return null;
+  const fee = (
+    {
+      gasLimit,
+      gasToken,
+    }: {
+      gasToken: {
+        token: Token | undefined;
+        price: number | null;
+        gasPrice: bigint;
+      };
+      gasLimit: bigint;
+    },
+    maximumFractionDigits: number
+  ) => {
+    const nativeTokenAmount = gasLimit * gasToken.gasPrice;
+
+    const formattedAmount = parseFloat(
+      formatUnits(nativeTokenAmount, gasToken.token?.decimals ?? 18)
+    );
+
+    if (!gasToken.price) {
+      return `${formattedAmount} ${gasToken.token?.symbol}`;
     }
 
-    const formattedAmount = parseFloat(formatUnits(n, 18));
-
-    const amount = (nativeTokenPrice * formattedAmount).toLocaleString("en", {
+    const amount = (gasToken.price * formattedAmount).toLocaleString("en", {
       maximumFractionDigits,
     });
 
@@ -170,6 +225,40 @@ export const ConfirmationModal = ({
 
   const approved =
     typeof allowance.data !== "undefined" && allowance.data >= weiAmount;
+  const approvedArbitrumGasToken =
+    typeof arbitrumGasTokenAllowance.data !== "undefined" &&
+    arbitrumGasTokenAllowance.data >= 1;
+
+  const approveArbitrumGasTokenButton = match({
+    approved: approvedArbitrumGasToken,
+    approving: approveArbitrumGasToken.isLoading,
+  })
+    .with({ approving: true }, () => ({
+      onSubmit: () => {},
+      buttonText: t("confirmationModal.approvingGasToken"),
+      disabled: true,
+    }))
+    .with({ approved: false }, () => {
+      // this kind of sucks for forced withdrawals, but we do approvals on the from chain for now
+      if (from && account.chainId !== from.id) {
+        return {
+          onSubmit: () => switchChain(from),
+          buttonText: t("confirmationModal.switchToApproveGasToken"),
+          disabled: false,
+        };
+      }
+      return {
+        onSubmit: () => approveArbitrumGasToken.write(),
+        buttonText: t("confirmationModal.approveArbitrumGasToken"),
+        disabled: false,
+      };
+    })
+    .with({ approved: true }, () => ({
+      onSubmit: () => {},
+      buttonText: t("confirmationModal.approvedGasToken"),
+      disabled: true,
+    }))
+    .exhaustive();
 
   const approveButton = match({
     approved,
@@ -186,9 +275,9 @@ export const ConfirmationModal = ({
     }))
     .with({ approved: false }, () => {
       // this kind of sucks for forced withdrawals, but we do approvals on the from chain for now
-      if (wallet.data?.chain.id !== from?.id) {
+      if (from && account.chainId !== from?.id) {
         return {
-          onSubmit: () => wallet.data?.switchChain({ id: from?.id ?? 0 }),
+          onSubmit: () => switchChain(from),
           buttonText: t("switchToApprove"),
           disabled: false,
         };
@@ -365,6 +454,7 @@ export const ConfirmationModal = ({
     withdrawing,
     family: deployment?.family,
     escapeHatch,
+    arbitrumGasToken,
   })
     .with({ isUsdc: true, escapeHatch: true }, () => [
       {
@@ -506,23 +596,32 @@ export const ConfirmationModal = ({
         icon: ReceiveIcon,
       },
     ])
-    .with({ withdrawing: false, family: "arbitrum" }, () => [
-      {
-        text: t("confirmationModal.initiateDeposit"),
-        icon: InitiateIcon,
-        fee: fee(initiateCost, 4),
-      },
-      {
-        text: t("confirmationModal.waitMinutes", {
-          count: totalBridgeTime?.value,
-        }),
-        icon: WaitIcon,
-      },
-      {
-        text: t("confirmationModal.receiveDeposit", common),
-        icon: ReceiveIcon,
-      },
-    ])
+    .with({ withdrawing: false, family: "arbitrum" }, (c) =>
+      [
+        c.arbitrumGasToken
+          ? {
+              text: t("confirmationModal.approveArbitrumGasToken"),
+              icon: ApproveIcon,
+              fee: fee(approveArbitrumGasTokenCost, 4),
+            }
+          : null,
+        {
+          text: t("confirmationModal.initiateDeposit"),
+          icon: InitiateIcon,
+          fee: fee(initiateCost, 4),
+        },
+        {
+          text: t("confirmationModal.waitMinutes", {
+            count: totalBridgeTime?.value,
+          }),
+          icon: WaitIcon,
+        },
+        {
+          text: t("confirmationModal.receiveDeposit", common),
+          icon: ReceiveIcon,
+        },
+      ].filter(isPresent)
+    )
     .otherwise(() => null);
 
   return (
@@ -612,6 +711,38 @@ export const ConfirmationModal = ({
           </div>
 
           <div className="flex flex-col gap-2">
+            {!withdrawing &&
+              arbitrumGasToken &&
+              approveArbitrumGasTokenButton && (
+                <Button
+                  className={clsx(
+                    "flex w-full justify-center rounded-full px-3 py-6 text-sm font-bold leading-6 text-white shadow-sm",
+                    theme.accentText,
+                    theme.accentBg
+                  )}
+                  onClick={approveArbitrumGasTokenButton.onSubmit}
+                  disabled={
+                    !checkbox1 ||
+                    !checkbox2 ||
+                    !checkbox3 ||
+                    approveArbitrumGasTokenButton.disabled
+                  }
+                >
+                  {approveArbitrumGasTokenButton.buttonText}
+                  {approvedArbitrumGasToken && (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="15"
+                      height="12"
+                      viewBox="0 0 15 12"
+                      className="fill-white dark:fill-zinc-950 ml-2 h-2.5 w-auto"
+                    >
+                      <path d="M6.80216 12C6.32268 12 5.94594 11.8716 5.67623 11.559L0.63306 6.02355C0.384755 5.7624 0.269165 5.41563 0.269165 5.07742C0.269165 4.31109 0.915614 3.67749 1.66909 3.67749C2.04583 3.67749 2.42257 3.83161 2.69228 4.13129L6.57955 8.38245L12.1921 0.56939C12.4661 0.192651 12.8899 0 13.3309 0C14.0715 0 14.7308 0.56939 14.7308 1.38709C14.7308 1.67392 14.6538 1.96932 14.4697 2.21762L7.84676 11.4306C7.61558 11.7688 7.21315 12 6.79788 12H6.80216Z" />
+                    </svg>
+                  )}
+                </Button>
+              )}
+
             {approveButton && (
               <Button
                 className={clsx(

@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import Lottie from "react-lottie-player";
 import { P, match } from "ts-pattern";
 import { Address, formatEther, formatUnits, isAddressEqual } from "viem";
-import { useChainId, useWalletClient } from "wagmi";
+import { useChainId } from "wagmi";
 
 import {
   ArbitrumDepositEthDto,
@@ -27,7 +27,9 @@ import { useFinaliseArbitrum } from "@/hooks/arbitrum/use-arbitrum-finalise";
 import { useRedeemArbitrum } from "@/hooks/arbitrum/use-arbitrum-redeem";
 import { useFinaliseOptimism } from "@/hooks/optimism/use-optimism-finalise";
 import { useProveOptimism } from "@/hooks/optimism/use-optimism-prove";
+import { useArbitrumGasTokenForDeployment } from "@/hooks/use-approve-arbitrum-gas-token";
 import { useMintCctp } from "@/hooks/use-cctp-mint";
+import { useSwitchChain } from "@/hooks/use-switch-chain";
 import { useAllTokens } from "@/hooks/use-tokens";
 import i18n from "@/services/i18n";
 import { usePendingTransactions } from "@/state/pending-txs";
@@ -66,11 +68,11 @@ import inProgress from "../animation/loading.json";
 import AnimWithdrawProgress from "../animation/withdraw-progress.json";
 import AnimWithdrawSuccess from "../animation/withdraw-success.json";
 
+import { CctpBadge } from "./cttp-badge";
 import { NetworkIcon } from "./network-icon";
 import { NftImage } from "./nft";
-import { Button } from "./ui/button";
 import { TokenIcon } from "./token-icon";
-import { CctpBadge } from "./cttp-badge";
+import { Button } from "./ui/button";
 
 const Prove = ({ tx }: { tx: BridgeWithdrawalDto | ForcedWithdrawalDto }) => {
   const prove = useProveOptimism(isWithdrawal(tx) ? tx : tx.withdrawal!);
@@ -129,14 +131,14 @@ const RedeemArbitrum: FC<{
   tx: ArbitrumDepositRetryableDto | ArbitrumForcedWithdrawalDto;
 }> = ({ tx }) => {
   const chainId = useChainId();
-  const wallet = useWalletClient();
   const redeem = useRedeemArbitrum(tx);
   const { t } = useTranslation();
+  const switchChain = useSwitchChain();
 
-  const deploymentL1Id = isArbitrumForcedWithdrawal(tx)
-    ? tx.deposit.deployment.l1.id
-    : tx.deployment.l1.id;
-  if (chainId === deploymentL1Id)
+  const deploymentL1 = isArbitrumForcedWithdrawal(tx)
+    ? tx.deposit.deployment.l1
+    : tx.deployment.l1;
+  if (chainId === deploymentL1.id)
     return (
       <Button className="rounded-full" onClick={redeem.write} size={"sm"}>
         {t("buttons.redeem")}
@@ -145,7 +147,7 @@ const RedeemArbitrum: FC<{
   return (
     <Button
       className="rounded-full"
-      onClick={() => wallet.data?.switchChain({ id: deploymentL1Id })}
+      onClick={() => switchChain(deploymentL1)}
       size={"sm"}
     >
       {t("buttons.switchChain")}
@@ -359,6 +361,11 @@ const getNativeToken = (tokens: MultiChainToken[], chainId: number) => {
   })?.[chainId];
 };
 function useToken(tx: Transaction, tokens: MultiChainToken[]) {
+  const deployment = isForcedWithdrawal(tx)
+    ? tx.deposit.deployment
+    : tx.deployment;
+  const arbitrumGasToken = useArbitrumGasTokenForDeployment(deployment.id);
+
   if (isCctpBridge(tx)) {
     return getToken(tokens, {
       chainId: tx.from.id,
@@ -373,13 +380,17 @@ function useToken(tx: Transaction, tokens: MultiChainToken[]) {
       ? tx.deposit.metadata
       : tx.metadata;
 
-  const deployment = isForcedWithdrawal(tx)
-    ? tx.deposit.deployment
-    : tx.deployment;
   const chainId = isDeposit(tx) ? deployment.l1.id : deployment.l2.id;
 
   return match(metadata)
-    .with({ type: "eth-deposit" }, () => getNativeToken(tokens, chainId))
+    .with({ type: "eth-deposit" }, () => {
+      if (arbitrumGasToken) {
+        return isDeposit(tx)
+          ? arbitrumGasToken[deployment.l1.id]
+          : arbitrumGasToken[deployment.l2.id];
+      }
+      return getNativeToken(tokens, chainId);
+    })
     .with({ type: "token-deposit" }, (m) => {
       const dto = m as TokenDepositDto;
       const tokenAddress = isDeposit(tx)
@@ -734,7 +745,10 @@ export const TransactionRow = ({ tx }: { tx: Transaction }) => {
             />
           </>
         ) : (
-          <TokenIcon token={token ?? null} className="h-12 w-12 max-w-min" />
+          <TokenIcon
+            token={token ?? null}
+            className="h-12 w-12 min-h-12 min-w-12"
+          />
         )}
         {isDeposit(tx) ||
         (isCctpBridge(tx) && tx.from.id === deployment.l1.id) ? (

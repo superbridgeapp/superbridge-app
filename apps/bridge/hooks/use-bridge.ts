@@ -14,9 +14,7 @@ export const useBridge = () => {
   return {
     write: !bridgeArgs?.tx
       ? undefined
-      : () => {
-          return sendTransactionAsync({ ...bridgeArgs.tx, gas });
-        },
+      : () => sendTransactionAsync({ ...bridgeArgs.tx, gas }),
     isLoading,
     address: bridgeArgs?.approvalAddress,
     refetch,

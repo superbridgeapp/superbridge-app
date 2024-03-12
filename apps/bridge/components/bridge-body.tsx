@@ -11,7 +11,7 @@ import {
   useAccount,
   useBalance,
   useConfig,
-  useFeeData,
+  useEstimateFeesPerGas,
   useWalletClient,
 } from "wagmi";
 
@@ -22,7 +22,7 @@ import { useAllowance } from "@/hooks/use-allowance";
 import { useAllowanceNft } from "@/hooks/use-allowance-nft";
 import { useApprove } from "@/hooks/use-approve";
 import { useApproveNft } from "@/hooks/use-approve-nft";
-import { useTokenBalance } from "@/hooks/use-balances";
+import { useTokenBalance, useTokenBalances } from "@/hooks/use-balances";
 import { useBridge } from "@/hooks/use-bridge";
 import { useBridgeFee } from "@/hooks/use-bridge-fee";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
@@ -169,10 +169,15 @@ export const BridgeBody = () => {
 
   const track = useBridgeControllerTrack();
 
-  const ethBalance = useBalance({ address: wallet.data?.account.address });
+  const initiatingChainId =
+    forceViaL1 && withdrawing ? deployment?.l1.id : from?.id;
+  const ethBalance = useBalance({
+    address: account.address,
+    chainId: initiatingChainId,
+  });
   const tokenBalance = useTokenBalance(token);
-  const feeData = useFeeData({
-    chainId: forceViaL1 && withdrawing ? deployment?.l1.id : from?.id,
+  const feeData = useEstimateFeesPerGas({
+    chainId: initiatingChainId,
   });
   const wagmiConfig = useConfig();
 
@@ -182,7 +187,7 @@ export const BridgeBody = () => {
   let networkFee: number | undefined;
   if (feeData.data) {
     const gwei =
-      (feeData.data.gasPrice ?? feeData.data.maxFeePerGas)! *
+      (feeData.data.gasPrice ?? feeData.data.maxFeePerGas ?? BigInt(0)) *
       BigInt(withdrawing ? 200_000 : 150_000);
     networkFee = parseFloat(formatUnits(gwei, 18));
   }
@@ -218,23 +223,15 @@ export const BridgeBody = () => {
       return;
     }
 
-    if (!withdrawing && wallet.data.chain.id !== deployment!.l1.id) {
+    if (!withdrawing && account.chainId !== deployment!.l1.id) {
       await switchChain(deployment!.l1);
     }
 
-    if (
-      withdrawing &&
-      forceViaL1 &&
-      wallet.data.chain.id !== deployment!.l1.id
-    ) {
+    if (withdrawing && forceViaL1 && account.chainId !== deployment!.l1.id) {
       await switchChain(deployment!.l1);
     }
 
-    if (
-      !forceViaL1 &&
-      withdrawing &&
-      wallet.data.chain.id !== deployment!.l2.id
-    ) {
+    if (!forceViaL1 && withdrawing && account.chainId !== deployment!.l2.id) {
       await switchChain(deployment!.l2);
     }
 
@@ -349,7 +346,6 @@ export const BridgeBody = () => {
     withdrawing,
     isSubmitting: bridge.isLoading,
     account: account.address,
-    wallet: wallet.data,
     hasInsufficientBalance,
     hasInsufficientGas,
     forceViaL1,
@@ -385,7 +381,7 @@ export const BridgeBody = () => {
     .with({ hasInsufficientGas: true }, (d) => ({
       onSubmit: handleSubmitClick,
       buttonText: t("insufficientGas", {
-        symbol: nativeToken?.[from?.id ?? 0]?.symbol ?? "ETH",
+        symbol: nativeToken?.[from?.id ?? 0]?.symbol,
       }),
       // Let's not disable here because people could actually submit with
       // a lower gas price via their wallet. A little power-usery but important imo

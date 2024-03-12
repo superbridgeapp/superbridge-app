@@ -1,7 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { isPresent } from "ts-is-present";
 import { Chain, formatUnits, parseUnits } from "viem";
-import { arbitrum, arbitrumNova, goerli, mainnet, sepolia } from "viem/chains";
 import { useFeeData } from "wagmi";
 
 import { ChainDto } from "@/codegen/model";
@@ -75,7 +74,7 @@ export const useFees = (
         raw: networkFee,
         formatted: `${networkFee!.toLocaleString("en", {
           maximumFractionDigits: 4,
-        })} ${nativeToken?.[1]?.symbol ?? nativeToken?.[57]?.symbol}`,
+        })} ${nativeToken?.[from?.id ?? 0]?.symbol}`,
       },
     },
     configurations[deployment?.name ?? ""] && withdrawing

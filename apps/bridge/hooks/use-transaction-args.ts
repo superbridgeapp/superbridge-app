@@ -10,6 +10,7 @@ import { withdrawArgs } from "@/utils/transaction-args/withdraw-args";
 
 import { useL2TokenIsLegacy } from "./use-l2-token-is-legacy";
 import { useWeiAmount } from "./use-wei-amount";
+import { useArbitrumGasToken } from "./use-approve-arbitrum-gas-token";
 
 export const useTransactionArgs = () => {
   const account = useAccount();
@@ -38,6 +39,7 @@ export const useTransactionArgs = () => {
     },
   });
   const cctpDomains = useBridgeControllerGetCctpDomains();
+  const arbitrumGasToken = useArbitrumGasToken();
 
   if (!deployment || !account.address || !recipient || !weiAmount) {
     return;
@@ -84,6 +86,7 @@ export const useTransactionArgs = () => {
       weiAmount,
       l1FeeData: l1FeeData.data,
       l2FeeData: l2FeeData.data,
+      arbitrumGasToken,
     });
   }
 };

@@ -2,9 +2,10 @@ import { Address, encodeAbiParameters, encodeFunctionData } from "viem";
 import { UseEstimateFeesPerGasReturnType } from "wagmi";
 
 import { InboxAbi } from "@/abis/arbitrum/Inbox";
+import { ERC20InboxAbi } from "@/abis/arbitrum/ERC20Inbox";
 import { L1BridgeArbitrum } from "@/abis/arbitrum/L1Bridge";
 import { L1GatewayRouterAbi } from "@/abis/arbitrum/L1GatewayRouter";
-import { ArbitrumToken } from "@/types/token";
+import { ArbitrumToken, MultiChainToken } from "@/types/token";
 
 import { isArbitrumToken } from "../../guards";
 import { isEth } from "../../is-eth";
@@ -20,7 +21,8 @@ const impl = (
   recipient: Address,
   weiAmount: bigint,
   l1FeeData: UseEstimateFeesPerGasReturnType["data"],
-  l2FeeData: UseEstimateFeesPerGasReturnType["data"]
+  l2FeeData: UseEstimateFeesPerGasReturnType["data"],
+  gasToken: MultiChainToken | null
 ): TransactionArgs | undefined => {
   const l1GasLimit = BigInt(80_000);
   const l2GasLimit = BigInt(300_000);
@@ -34,6 +36,31 @@ const impl = (
 
   if (isEth(l2Token)) {
     const value = weiAmount + l2GasCost * l2GasLimit + maxSubmissionCost;
+    if (gasToken) {
+      return {
+        approvalAddress: deployment.contractAddresses.inbox as Address,
+        tx: {
+          to: deployment.contractAddresses.inbox as Address,
+          data: encodeFunctionData({
+            abi: ERC20InboxAbi,
+            functionName: "createRetryableTicket",
+            args: [
+              recipient, // to
+              weiAmount, // l2CallValue
+              maxSubmissionCost, // maxSubmissionCost
+              recipient, // excessFeeRefundAddress
+              recipient, // callValueRefundAddress
+              l2GasLimit, // gasLimit
+              l2GasCost, // maxFeePerGas
+              value,
+              "0x", // data
+            ],
+          }),
+          value: BigInt(0),
+          chainId: deployment.l1.id,
+        },
+      };
+    }
 
     if (isMainnet(deployment) && proxyBridge) {
       return {
@@ -107,6 +134,18 @@ const impl = (
     };
   }
 
+  const value = gasToken
+    ? BigInt(0)
+    : l2GasCost * l2GasLimit + maxSubmissionCost;
+  const extraData = gasToken
+    ? encodeAbiParameters(
+        [{ type: "uint256" }, { type: "bytes" }, { type: "uint256" }],
+        [maxSubmissionCost, "0x", l2GasCost * l2GasLimit + maxSubmissionCost]
+      )
+    : encodeAbiParameters(
+        [{ type: "uint256" }, { type: "bytes" }],
+        [maxSubmissionCost, "0x"]
+      );
   return {
     approvalAddress: l1Token.arbitrumBridgeInfo[l2Token.chainId] as Address,
     tx: {
@@ -121,13 +160,10 @@ const impl = (
           weiAmount, // amount
           l2GasLimit, // _maxGas
           l2GasCost, // _gasPriceBid
-          encodeAbiParameters(
-            [{ type: "uint256" }, { type: "bytes" }],
-            [maxSubmissionCost, "0x"]
-          ), // extraData
+          extraData, // extraData
         ],
       }),
-      value: l2GasCost * l2GasLimit + maxSubmissionCost,
+      value,
       chainId: deployment.l1.id,
     },
   };
@@ -141,6 +177,7 @@ export const arbitrumDepositArgs: DepositTxResolver = ({
   weiAmount,
   l1FeeData,
   l2FeeData,
+  arbitrumGasToken,
 }) => {
   const l1Token = stateToken[deployment.l1.id];
   const l2Token = stateToken[deployment.l2.id];
@@ -165,6 +202,7 @@ export const arbitrumDepositArgs: DepositTxResolver = ({
     recipient,
     weiAmount,
     l1FeeData,
-    l2FeeData
+    l2FeeData,
+    arbitrumGasToken
   );
 };

@@ -1,10 +1,10 @@
-import { formatUnits, isAddressEqual, Address, erc20Abi } from "viem";
+import { Address, erc20Abi, formatUnits, isAddressEqual } from "viem";
 import { useAccount, useBalance, useReadContracts } from "wagmi";
 
+import { useBridgeControllerGetTokenPrices } from "@/codegen";
 import { Token } from "@/types/token";
-import { isNativeToken } from "@/utils/is-eth";
+import { isEth } from "@/utils/is-eth";
 
-import { useBridgeControllerGetTokenPrices } from "../codegen";
 import { useActiveTokens } from "./use-tokens";
 
 export function useTokenBalances(chainId: number | undefined) {
@@ -32,11 +32,12 @@ export function useTokenBalances(chainId: number | undefined) {
 
   const data = tokens
     .map((token, index) => {
-      const balance = isNativeToken(token)
-        ? ethBalance.data?.value ?? BigInt(0)
-        : reads.data?.[index].error
-        ? BigInt(0)
-        : (reads.data?.[index].result as bigint) ?? BigInt(0);
+      const balance =
+        chainId && token[chainId] && isEth(token[chainId])
+          ? ethBalance.data?.value ?? BigInt(0)
+          : reads.data?.[index].error
+          ? BigInt(0)
+          : (reads.data?.[index].result as bigint) ?? BigInt(0);
 
       const id = token[chainId ?? 0]?.coinGeckoId
         ? `coingecko:${token[chainId ?? 0]?.coinGeckoId}`

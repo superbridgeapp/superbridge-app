@@ -21,10 +21,10 @@ export const TokenIcon = ({
       <div
         className={clsx(
           className,
-          "rounded-full bg-zinc-50 overflow-hidden font-medium"
+          "flex rounded-full bg-zinc-400 dark:bg-zinc-800 overflow-hidden font-bold border border-black dark:border-zinc-700 p-1 text-xs items-center justify-center text-white"
         )}
       >
-        {token?.symbol.substring(0, 2)}
+        {token?.symbol.substring(0, 3)}
       </div>
     );
   }
