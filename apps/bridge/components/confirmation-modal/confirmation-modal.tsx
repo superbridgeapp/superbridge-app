@@ -22,7 +22,7 @@ import {
   useProvePeriod,
   useTotalBridgeTime,
 } from "@/hooks/use-finalization-period";
-import { useNativeToken } from "@/hooks/use-native-token";
+import { useNativeToken, useToNativeToken } from "@/hooks/use-native-token";
 import { useTokenPrice } from "@/hooks/use-prices";
 import { useSelectedToken } from "@/hooks/use-selected-token";
 import { useWeiAmount } from "@/hooks/use-wei-amount";
@@ -49,6 +49,7 @@ import {
   useArbitrumGasToken,
 } from "@/hooks/use-approve-arbitrum-gas-token";
 import { useSwitchChain } from "@/hooks/use-switch-chain";
+import { MultiChainToken, Token } from "@/types/token";
 
 function LineItem({
   text,
@@ -102,7 +103,6 @@ export const ConfirmationModal = ({
   const to = useToChain();
   const token = useSelectedToken();
   const weiAmount = useWeiAmount();
-  const wallet = useWalletClient();
   const account = useAccount();
   const withdrawing = useConfigState.useWithdrawing();
   const escapeHatch = useConfigState.useForceViaL1();
@@ -121,20 +121,46 @@ export const ConfirmationModal = ({
   const fromFeeData = useEstimateFeesPerGas({ chainId: from?.id });
   const toFeeData = useEstimateFeesPerGas({ chainId: to?.id });
 
-  const nativeToken = useNativeToken();
+  const fromNativeToken = useNativeToken();
+  const toNativeToken = useToNativeToken();
   const switchChain = useSwitchChain();
 
-  const nativeTokenPrice = useTokenPrice(nativeToken ?? null);
+  const fromNativeTokenPrice = useTokenPrice(fromNativeToken ?? null);
+  const toNativeTokenPrice = useTokenPrice(toNativeToken ?? null);
 
   const fromGasPrice =
     fromFeeData.data?.gasPrice ?? fromFeeData.data?.maxFeePerGas ?? BigInt(0);
   const toGasPrice =
     toFeeData.data?.gasPrice ?? toFeeData.data?.maxFeePerGas ?? BigInt(0);
+
+  const fromGas = {
+    token: fromNativeToken?.[from?.id ?? 0],
+    price: fromNativeTokenPrice,
+    gasPrice: fromGasPrice,
+  };
+  const toGas = {
+    token: toNativeToken?.[to?.id ?? 0],
+    price: toNativeTokenPrice,
+    gasPrice: toGasPrice,
+  };
+
   const initiateCost =
-    (withdrawing && escapeHatch ? toGasPrice : fromGasPrice) * BigInt(200_000);
-  const proveCost = toGasPrice * PROVE_GAS;
-  const finalizeCost = toGasPrice * FINALIZE_GAS;
-  const approveCost = fromGasPrice * BigInt(100_000);
+    withdrawing && escapeHatch
+      ? { gasToken: toGas, gasLimit: BigInt(200_000) }
+      : { gasToken: fromGas, gasLimit: BigInt(200_000) };
+  const proveCost = { gasToken: toGas, gasLimit: PROVE_GAS };
+  const finalizeCost = {
+    gasToken: toGas,
+    gasLimit: FINALIZE_GAS,
+  };
+  const approveCost = {
+    gasToken: fromGas,
+    gasLimit: BigInt(50_000),
+  };
+  const approveArbitrumGasTokenCost = {
+    gasToken: fromGas,
+    gasLimit: BigInt(50_000),
+  };
 
   const [checkbox1, setCheckbox1] = useState(false);
   const [checkbox2, setCheckbox2] = useState(false);
@@ -159,14 +185,31 @@ export const ConfirmationModal = ({
     return value ?? "";
   };
 
-  const fee = (n: bigint, maximumFractionDigits: number) => {
-    if (!nativeTokenPrice) {
-      return null;
+  const fee = (
+    {
+      gasLimit,
+      gasToken,
+    }: {
+      gasToken: {
+        token: Token | undefined;
+        price: number | null;
+        gasPrice: bigint;
+      };
+      gasLimit: bigint;
+    },
+    maximumFractionDigits: number
+  ) => {
+    const nativeTokenAmount = gasLimit * gasToken.gasPrice;
+
+    const formattedAmount = parseFloat(
+      formatUnits(nativeTokenAmount, gasToken.token?.decimals ?? 18)
+    );
+
+    if (!gasToken.price) {
+      return `${formattedAmount} ${gasToken.token?.symbol}`;
     }
 
-    const formattedAmount = parseFloat(formatUnits(n, 18));
-
-    const amount = (nativeTokenPrice * formattedAmount).toLocaleString("en", {
+    const amount = (gasToken.price * formattedAmount).toLocaleString("en", {
       maximumFractionDigits,
     });
 

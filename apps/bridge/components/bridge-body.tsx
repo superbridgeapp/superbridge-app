@@ -22,7 +22,7 @@ import { useAllowance } from "@/hooks/use-allowance";
 import { useAllowanceNft } from "@/hooks/use-allowance-nft";
 import { useApprove } from "@/hooks/use-approve";
 import { useApproveNft } from "@/hooks/use-approve-nft";
-import { useTokenBalance } from "@/hooks/use-balances";
+import { useTokenBalance, useTokenBalances } from "@/hooks/use-balances";
 import { useBridge } from "@/hooks/use-bridge";
 import { useBridgeFee } from "@/hooks/use-bridge-fee";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
@@ -169,10 +169,15 @@ export const BridgeBody = () => {
 
   const track = useBridgeControllerTrack();
 
-  const ethBalance = useBalance({ address: account.address });
+  const initiatingChainId =
+    forceViaL1 && withdrawing ? deployment?.l1.id : from?.id;
+  const ethBalance = useBalance({
+    address: account.address,
+    chainId: initiatingChainId,
+  });
   const tokenBalance = useTokenBalance(token);
   const feeData = useEstimateFeesPerGas({
-    chainId: forceViaL1 && withdrawing ? deployment?.l1.id : from?.id,
+    chainId: initiatingChainId,
   });
   const wagmiConfig = useConfig();
 
