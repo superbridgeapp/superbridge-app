@@ -42,6 +42,14 @@ const mapping: { [name: string]: DedicatedDeployment | undefined } = {
       description: "Bridge ETH and ERC20 tokens into and out of Base",
     },
   },
+  optimism: {
+    name: "OP Mainnet",
+    footerLink: "https://optimism.io",
+    og: {
+      title: "OP Mainnet Bridge",
+      description: "Bridge ETH and ERC20 tokens into and out of OP Mainnet",
+    },
+  },
   "lumio-mainnet": {
     name: "lumio-mainnet",
     footerLink: "https://lumio.io",
