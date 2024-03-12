@@ -2,16 +2,22 @@ import clsx from "clsx";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { isPresent } from "ts-is-present";
 import { match } from "ts-pattern";
 import { formatUnits } from "viem";
-import { useAccount, useEstimateFeesPerGas, useWalletClient } from "wagmi";
+import { useAccount, useEstimateFeesPerGas } from "wagmi";
 
 import { Checkbox } from "@/components/ui/checkbox";
 import { deploymentTheme } from "@/config/theme";
 import { currencySymbolMap } from "@/constants/currency-symbol-map";
 import { FINALIZE_GAS, PROVE_GAS } from "@/constants/gas-limits";
 import { useAllowance } from "@/hooks/use-allowance";
+import { useAllowanceArbitrumGasToken } from "@/hooks/use-allowance-arbitrum-gas-token";
 import { useApprove } from "@/hooks/use-approve";
+import {
+  useApproveArbitrumGasToken,
+  useArbitrumGasToken,
+} from "@/hooks/use-approve-arbitrum-gas-token";
 import { useBridge } from "@/hooks/use-bridge";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
 import {
@@ -25,9 +31,11 @@ import {
 import { useNativeToken, useToNativeToken } from "@/hooks/use-native-token";
 import { useTokenPrice } from "@/hooks/use-prices";
 import { useSelectedToken } from "@/hooks/use-selected-token";
+import { useSwitchChain } from "@/hooks/use-switch-chain";
 import { useWeiAmount } from "@/hooks/use-wei-amount";
 import { useConfigState } from "@/state/config";
 import { useSettingsState } from "@/state/settings";
+import { Token } from "@/types/token";
 import { isNativeToken } from "@/utils/is-eth";
 import { isNativeUsdc } from "@/utils/is-usdc";
 
@@ -43,13 +51,6 @@ import {
   ReceiveIcon,
   WaitIcon,
 } from "./icons";
-import { useAllowanceArbitrumGasToken } from "@/hooks/use-allowance-arbitrum-gas-token";
-import {
-  useApproveArbitrumGasToken,
-  useArbitrumGasToken,
-} from "@/hooks/use-approve-arbitrum-gas-token";
-import { useSwitchChain } from "@/hooks/use-switch-chain";
-import { MultiChainToken, Token } from "@/types/token";
 
 function LineItem({
   text,
@@ -242,19 +243,19 @@ export const ConfirmationModal = ({
       if (from && account.chainId !== from.id) {
         return {
           onSubmit: () => switchChain(from),
-          buttonText: "Switch to approve gas token", // t("switchToApprove"),
+          buttonText: t("confirmationModal.switchToApproveGasToken"),
           disabled: false,
         };
       }
       return {
         onSubmit: () => approveArbitrumGasToken.write(),
-        buttonText: "Approve gas token", // t("approve"),
+        buttonText: t("confirmationModal.approvingGasToken"),
         disabled: false,
       };
     })
     .with({ approved: true }, () => ({
       onSubmit: () => {},
-      buttonText: "Approved gas token", // t("confirmationModal.approved"),
+      buttonText: t("confirmationModal.approvedGasToken"),
       disabled: true,
     }))
     .exhaustive();
@@ -453,6 +454,7 @@ export const ConfirmationModal = ({
     withdrawing,
     family: deployment?.family,
     escapeHatch,
+    arbitrumGasToken,
   })
     .with({ isUsdc: true, escapeHatch: true }, () => [
       {
@@ -594,23 +596,32 @@ export const ConfirmationModal = ({
         icon: ReceiveIcon,
       },
     ])
-    .with({ withdrawing: false, family: "arbitrum" }, () => [
-      {
-        text: t("confirmationModal.initiateDeposit"),
-        icon: InitiateIcon,
-        fee: fee(initiateCost, 4),
-      },
-      {
-        text: t("confirmationModal.waitMinutes", {
-          count: totalBridgeTime?.value,
-        }),
-        icon: WaitIcon,
-      },
-      {
-        text: t("confirmationModal.receiveDeposit", common),
-        icon: ReceiveIcon,
-      },
-    ])
+    .with({ withdrawing: false, family: "arbitrum" }, (c) =>
+      [
+        c.arbitrumGasToken
+          ? {
+              text: t("confirmationModal.approveArbitrumGasToken"),
+              icon: ApproveIcon,
+              fee: fee(approveArbitrumGasTokenCost, 4),
+            }
+          : null,
+        {
+          text: t("confirmationModal.initiateDeposit"),
+          icon: InitiateIcon,
+          fee: fee(initiateCost, 4),
+        },
+        {
+          text: t("confirmationModal.waitMinutes", {
+            count: totalBridgeTime?.value,
+          }),
+          icon: WaitIcon,
+        },
+        {
+          text: t("confirmationModal.receiveDeposit", common),
+          icon: ReceiveIcon,
+        },
+      ].filter(isPresent)
+    )
     .otherwise(() => null);
 
   return (
