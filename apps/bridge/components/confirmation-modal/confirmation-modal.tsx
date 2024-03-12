@@ -235,7 +235,7 @@ export const ConfirmationModal = ({
   })
     .with({ approving: true }, () => ({
       onSubmit: () => {},
-      buttonText: "Approving gas token", // t("approving"),
+      buttonText: t("confirmationModal.approvingGasToken"),
       disabled: true,
     }))
     .with({ approved: false }, () => {
@@ -249,7 +249,7 @@ export const ConfirmationModal = ({
       }
       return {
         onSubmit: () => approveArbitrumGasToken.write(),
-        buttonText: t("confirmationModal.approvingGasToken"),
+        buttonText: t("confirmationModal.approveArbitrumGasToken"),
         disabled: false,
       };
     })
