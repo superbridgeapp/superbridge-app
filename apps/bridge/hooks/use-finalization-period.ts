@@ -18,16 +18,15 @@ const cctpPeriod = (deployment: DeploymentDto | null): Period => {
   return { period: "mins", value: isMainnet(deployment) ? 15 : 3 };
 };
 
-export const useFinalizationPeriod = (
-  deployment: DeploymentDto | null
+export const getFinalizationPeriod = (
+  deployment: DeploymentDto | null,
+  isCctp: boolean
 ): Period => {
-  const stateToken = useConfigState.useToken();
-
   if (!deployment) {
     return null;
   }
 
-  if (isNativeUsdc(stateToken)) {
+  if (isCctp) {
     return cctpPeriod(deployment);
   }
 
@@ -63,7 +62,13 @@ export const useFinalizationPeriod = (
   return null;
 };
 
-export const useProvePeriod = (deployment: DeploymentDto | null): Period => {
+export const useFinalizationPeriod = (): Period => {
+  const stateToken = useConfigState.useToken();
+  const deployment = useConfigState.useDeployment();
+  return getFinalizationPeriod(deployment, isNativeUsdc(stateToken));
+};
+
+export const getProvePeriod = (deployment: DeploymentDto | null): Period => {
   if (!deployment || !isOptimism(deployment)) {
     return null;
   }
@@ -77,11 +82,15 @@ export const useProvePeriod = (deployment: DeploymentDto | null): Period => {
 
   return {
     period: "mins",
-    value: 5,
+    value: 10,
   };
 };
 
-export const useDepositTime = (deployment: DeploymentDto | null): Period => {
+export const useProvePeriod = (deployment: DeploymentDto | null): Period => {
+  return getProvePeriod(deployment);
+};
+
+export const getDepositTime = (deployment: DeploymentDto | null): Period => {
   if (deployment && isOptimism(deployment)) {
     return { period: "mins", value: 3 };
   }
@@ -91,6 +100,9 @@ export const useDepositTime = (deployment: DeploymentDto | null): Period => {
   }
 
   return null;
+};
+export const useDepositTime = (deployment: DeploymentDto | null): Period => {
+  return getDepositTime(deployment);
 };
 
 export const addPeriods = (a: Period, b: Period) => {
@@ -121,7 +133,7 @@ export const useTotalBridgeTime = (
   const stateToken = useConfigState.useToken();
 
   const prove = useProvePeriod(deployment);
-  const finalize = useFinalizationPeriod(deployment);
+  const finalize = getFinalizationPeriod(deployment, isNativeUsdc(stateToken));
   const deposit = useDepositTime(deployment);
 
   if (!withdrawing) {

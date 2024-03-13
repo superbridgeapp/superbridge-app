@@ -60,7 +60,7 @@ export function useApprove(
           timeout: 60_000,
         });
       } catch (e) {
-        console.error(e);
+        console.log(e);
       } finally {
         refreshAllowance();
         refreshTx();
