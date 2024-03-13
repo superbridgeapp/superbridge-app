@@ -3,49 +3,46 @@ import { Address, erc20Abi, zeroAddress } from "viem";
 import { useReadContracts } from "wagmi";
 
 import { IERC20BridgeAbi } from "@/abis/arbitrum/IERC20Bridge";
-import { useConfigState } from "@/state/config";
 import { MultiChainToken } from "@/types/token";
 import { isArbitrum } from "@/utils/is-mainnet";
 
 import { useDeployments } from "../use-deployments";
 
 export const useArbitrumNativeTokens = () => {
-  const deployment = useConfigState.useDeployment();
   const { deployments } = useDeployments();
 
   const nativeTokens = useReadContracts({
     contracts: deployments.map((d) => ({
       abi: IERC20BridgeAbi,
       functionName: "nativeToken",
-      chainId: deployment?.l1.id,
+      chainId: d?.l1.id,
       address: isArbitrum(d) ? (d.contractAddresses.bridge as Address) : "0x",
       enabled: !isArbitrum(d),
     })),
   });
 
   const reads = useReadContracts({
-    contracts: nativeTokens.data
-      ?.map(({ result }) => [
-        {
-          abi: erc20Abi,
-          address: result,
-          functionName: "name",
-          chainId: deployment?.l1.id,
-        },
-        {
-          abi: erc20Abi,
-          address: result,
-          functionName: "symbol",
-          chainId: deployment?.l1.id,
-        },
-        {
-          abi: erc20Abi,
-          address: result,
-          functionName: "decimals",
-          chainId: deployment?.l1.id,
-        },
-      ])
-      .flat(),
+    allowFailure: true,
+    contracts: nativeTokens.data?.flatMap(({ result }, index) => [
+      {
+        abi: erc20Abi,
+        address: result ?? "0x",
+        functionName: "name",
+        chainId: deployments[index]?.l1.id,
+      },
+      {
+        abi: erc20Abi,
+        address: result ?? "0x",
+        functionName: "symbol",
+        chainId: deployments[index]?.l1.id,
+      },
+      {
+        abi: erc20Abi,
+        address: result ?? "0x",
+        functionName: "decimals",
+        chainId: deployments[index]?.l1.id,
+      },
+    ]),
   });
 
   return useMemo(
@@ -58,10 +55,14 @@ export const useArbitrumNativeTokens = () => {
         const address = nativeTokens.data?.[index]?.result as
           | Address
           | undefined;
-        const name = reads.data?.[index + 0]?.result as string | undefined;
-        const symbol = reads.data?.[index + 1]?.result as string | undefined;
-        const decimals = reads.data?.[index + 2]?.result as number | undefined;
 
+        const name = reads.data?.[index * 3 + 0]?.result as string | undefined;
+        const symbol = reads.data?.[index * 3 + 1]?.result as
+          | string
+          | undefined;
+        const decimals = reads.data?.[index * 3 + 2]?.result as
+          | number
+          | undefined;
         if (address && name && symbol && typeof decimals === "number") {
           const token: MultiChainToken = {
             [deployment.l1.id]: {
