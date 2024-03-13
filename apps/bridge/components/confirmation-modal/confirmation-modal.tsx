@@ -114,7 +114,7 @@ export const ConfirmationModal = ({
   const theme = deploymentTheme(deployment);
   const approveArbitrumGasToken = useApproveArbitrumGasToken();
 
-  const finalizationTime = useFinalizationPeriod(deployment);
+  const finalizationTime = useFinalizationPeriod();
   const proveTime = useProvePeriod(deployment);
   const depositTime = useDepositTime(deployment);
   const totalBridgeTime = useTotalBridgeTime(deployment);

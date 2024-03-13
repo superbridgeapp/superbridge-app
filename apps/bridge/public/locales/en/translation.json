@@ -85,6 +85,12 @@
     "depositing": "Depositing",
     "l2Confirmation": "L2 confirmation",
     "waitingForL2": "Waiting for L2…",
+    "bridged": "Bridged",
+    "bridging": "Bridging",
+    "minted": "Minted",
+    "minting": "Minting",
+    "readyToMint": "Ready to mint",
+    "waitingForAttestation": "Waiting for attestation…",
 
     "remainingMinutes_one": "~{{count}} min remaining",
     "remainingMinutes_other": "~{{count}} mins remaining",
