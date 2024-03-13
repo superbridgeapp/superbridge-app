@@ -1,15 +1,18 @@
-import { useMemo } from "react";
+import { useEffect } from "react";
 import { Address, erc20Abi, zeroAddress } from "viem";
 import { useReadContracts } from "wagmi";
 
 import { IERC20BridgeAbi } from "@/abis/arbitrum/IERC20Bridge";
+import { useConfigState } from "@/state/config";
 import { MultiChainToken } from "@/types/token";
 import { isArbitrum } from "@/utils/is-mainnet";
 
 import { useDeployments } from "../use-deployments";
 
-export const useArbitrumNativeTokens = () => {
+export const useInitialiseArbitrumNativeTokens = () => {
   const { deployments } = useDeployments();
+  const arbitrumGasTokens = useConfigState.useArbitrumCustomGasTokens();
+  const setArbitrumGasTokens = useConfigState.useSetArbitrumCustomGasTokens();
 
   const nativeTokens = useReadContracts({
     contracts: deployments.map((d) => ({
@@ -45,8 +48,12 @@ export const useArbitrumNativeTokens = () => {
     ]),
   });
 
-  return useMemo(
-    () =>
+  useEffect(() => {
+    if (arbitrumGasTokens.length) {
+      return;
+    }
+
+    setArbitrumGasTokens(
       deployments.map((deployment, index) => {
         if (!isArbitrum(deployment)) {
           return null;
@@ -94,7 +101,7 @@ export const useArbitrumNativeTokens = () => {
         }
 
         return null;
-      }),
-    [deployments, nativeTokens.data, reads.data]
-  );
+      })
+    );
+  }, [arbitrumGasTokens, reads.data, nativeTokens.data, deployments]);
 };

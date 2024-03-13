@@ -7,15 +7,14 @@ import { isArbitrumToken, isOptimismToken } from "@/utils/guards";
 import { isNativeToken } from "@/utils/is-eth";
 import { isBridgedUsdc, isNativeUsdc } from "@/utils/is-usdc";
 
-import { useArbitrumNativeTokens } from "./arbitrum/use-arbitrum-native-tokens";
 import { useDeployments } from "./use-deployments";
 
 export function useAllTokens() {
   const deployment = useConfigState.useDeployment();
   const tokens = useConfigState.useTokens();
+  const arbitrumNativeTokens = useConfigState.useArbitrumCustomGasTokens();
   const customTokens = useSettingsState.useCustomTokens();
 
-  const arbitrumNativeTokens = useArbitrumNativeTokens();
   const { deployments } = useDeployments();
 
   return useMemo(

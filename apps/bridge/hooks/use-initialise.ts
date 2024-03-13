@@ -11,6 +11,7 @@ import { useInitialiseToken } from "./use-initialise-token";
 import { useIsContractAccount } from "./use-is-contract-account";
 import { useInitialiseRecipient } from "./use-recipient";
 import { useTokenLists } from "./use-token-lists";
+import { useInitialiseArbitrumNativeTokens } from "./arbitrum/use-initialise-arbitrum-native-tokens";
 
 export const useInitialise = () => {
   const router = useRouter();
@@ -29,6 +30,7 @@ export const useInitialise = () => {
   useInitialiseRecipient();
   useTokenLists();
   useInitialiseToken();
+  useInitialiseArbitrumNativeTokens();
 
   useAccountEffect({
     onDisconnect: () => {
