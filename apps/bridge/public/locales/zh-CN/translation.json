@@ -195,5 +195,16 @@
 
     "continue": "继续提款",
     "viewAlternateBridges": "或查看其他桥接…"
+  },
+
+  "tos": {
+    "welcome": "欢迎来到{{name}}",
+    "descriptionSuperbridge": "此界面仅为官方Superchain Rollups的<0>本地桥接合约</0>上的一层。在任何时候，Superbridge都不会代为保管资金。",
+    "descriptionSuperbridgeDedicated": "此界面仅为{{name}}的<0>本地桥接合约</0>上的一层。在任何时候，Superbridge都不会代为保管资金。",
+    "descriptionRollbridge": "此界面仅为各种Rollups的<0>本地桥接合约</0>上的一层。在任何时候，Rollbridge都不会代为保管资金。",
+    "descriptionRollbridgeDedicated": "此界面仅为{{name}}的<0>本地桥接合约</0>上的一层。在任何时候，Rollbridge都不会代为保管资金。",
+    "pleaseNote": "请注意",
+    "learnMore": "了解更多…",
+    "agreeAndContinue": "同意并继续"
   }
 }

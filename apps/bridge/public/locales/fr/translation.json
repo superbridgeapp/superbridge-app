@@ -195,5 +195,16 @@
 
     "continue": "Continuer le retrait",
     "viewAlternateBridges": "Ou voir des ponts alternatifs…"
+  },
+
+  "tos": {
+    "welcome": "Bienvenue sur {{name}}",
+    "descriptionSuperbridge": "Cette interface n'est qu'une couche au-dessus des <0>contrats de pont natifs</0> pour les rollups officiels de Superchain. Aucun fonds n'est détenu en garde par Superbridge à aucun moment.",
+    "descriptionSuperbridgeDedicated": "Cette interface n'est qu'une couche au-dessus des <0>contrats de pont natifs</0> pour {{name}}. Aucun fonds n'est détenu en garde par Superbridge à aucun moment.",
+    "descriptionRollbridge": "Cette interface n'est qu'une couche au-dessus des <0>contrats de pont natifs</0> pour divers rollups. Aucun fonds n'est détenu en garde par Rollbridge à aucun moment.",
+    "descriptionRollbridgeDedicated": "Cette interface n'est qu'une couche au-dessus des <0>contrats de pont natifs</0> pour {{name}}. Aucun fonds n'est détenu en garde par Rollbridge à aucun moment.",
+    "pleaseNote": "Veuillez noter",
+    "learnMore": "En savoir plus…",
+    "agreeAndContinue": "Accepter et continuer"
   }
 }

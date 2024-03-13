@@ -195,5 +195,16 @@
 
     "continue": "Tiếp tục rút tiền",
     "viewAlternateBridges": "Hoặc xem các cầu nối thay thế…"
+  },
+
+  "tos": {
+    "welcome": "Chào mừng bạn đến với {{name}}",
+    "descriptionSuperbridge": "Giao diện này chỉ là một lớp trên các <0>hợp đồng cầu nguyên gốc</0> cho các rollup chính thức của Superchain. Tại bất kỳ thời điểm nào, Superbridge cũng không giữ tiền trong tài khoản.",
+    "descriptionSuperbridgeDedicated": "Giao diện này chỉ là một lớp trên các <0>hợp đồng cầu nguyên gốc</0> cho {{name}}. Tại bất kỳ thời điểm nào, Superbridge cũng không giữ tiền trong tài khoản.",
+    "descriptionRollbridge": "Giao diện này chỉ là một lớp trên các <0>hợp đồng cầu nguyên gốc</0> cho các rollup khác nhau. Tại bất kỳ thời điểm nào, Rollbridge cũng không giữ tiền trong tài khoản.",
+    "descriptionRollbridgeDedicated": "Giao diện này chỉ là một lớp trên các <0>hợp đồng cầu nguyên gốc</0> cho {{name}}. Tại bất kỳ thời điểm nào, Rollbridge cũng không giữ tiền trong tài khoản.",
+    "pleaseNote": "Vui lòng lưu ý",
+    "learnMore": "Tìm hiểu thêm…",
+    "agreeAndContinue": "Đồng ý & tiếp tục"
   }
 }

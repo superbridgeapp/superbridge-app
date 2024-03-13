@@ -198,5 +198,16 @@
 
     "continue": "Çekime devam et",
     "viewAlternateBridges": "Veya alternatif köprüleri görüntüle…"
+  },
+
+  "tos": {
+    "welcome": "{{name}}'e hoş geldiniz",
+    "descriptionSuperbridge": "Bu arayüz, resmi Superchain rollup'lar için <0>yerel köprü sözleşmeleri</0> üzerine sadece bir katmandır. Herhangi bir zamanda Superbridge tarafından teminat altına alınan fon bulunmamaktadır.",
+    "descriptionSuperbridgeDedicated": "Bu arayüz, {{name}} için <0>yerel köprü sözleşmeleri</0> üzerine sadece bir katmandır. Herhangi bir zamanda Superbridge tarafından teminat altına alınan fon bulunmamaktadır.",
+    "descriptionRollbridge": "Bu arayüz, çeşitli rollup'lar için <0>yerel köprü sözleşmeleri</0> üzerine sadece bir katmandır. Herhangi bir zamanda Rollbridge tarafından teminat altına alınan fon bulunmamaktadır.",
+    "descriptionRollbridgeDedicated": "Bu arayüz, {{name}} için <0>yerel köprü sözleşmeleri</0> üzerine sadece bir katmandır. Herhangi bir zamanda Rollbridge tarafından teminat altına alınan fon bulunmamaktadır.",
+    "pleaseNote": "Lütfen dikkat",
+    "learnMore": "Daha fazla bilgi edin…",
+    "agreeAndContinue": "Kabul et ve devam et"
   }
 }

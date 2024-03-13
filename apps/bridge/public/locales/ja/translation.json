@@ -195,5 +195,16 @@
 
     "continue": "出金を続行",
     "viewAlternateBridges": "または代替のブリッジを表示…"
+  },
+
+  "tos": {
+    "welcome": "{{name}}へようこそ",
+    "descriptionSuperbridge": "このインターフェースは、公式のスーパーチェーンロールアップの<0>ネイティブブリッジ契約</0>の上にある層に過ぎません。いかなる時点でも、Superbridgeは資金を管理していません。",
+    "descriptionSuperbridgeDedicated": "このインターフェースは、{{name}}の<0>ネイティブブリッジ契約</0>の上にある層に過ぎません。いかなる時点でも、Superbridgeは資金を管理していません。",
+    "descriptionRollbridge": "このインターフェースは、さまざまなロールアップの<0>ネイティブブリッジ契約</0>の上にある層に過ぎません。いかなる時点でも、Rollbridgeは資金を管理していません。",
+    "descriptionRollbridgeDedicated": "このインターフェースは、{{name}}の<0>ネイティブブリッジ契約</0>の上にある層に過ぎません。いかなる時点でも、Rollbridgeは資金を管理していません。",
+    "pleaseNote": "ご注意ください",
+    "learnMore": "詳細を見る…",
+    "agreeAndContinue": "同意して続行"
   }
 }
