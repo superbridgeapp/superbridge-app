@@ -1,18 +1,26 @@
+import { useTranslation } from "react-i18next";
 import { P, match } from "ts-pattern";
 
-import { ArbitrumWithdrawalDto, DeploymentType } from "@/codegen/model";
+import { ArbitrumWithdrawalDto } from "@/codegen/model";
 import { ArbitrumMessageStatus } from "@/constants/arbitrum-message-status";
+import { usePeriodText } from "@/hooks/use-period-text";
 import { usePendingTransactions } from "@/state/pending-txs";
+import { getFinalizationPeriod } from "@/hooks/use-finalization-period";
 
 import { transactionLink } from "../transaction-link";
 import { ButtonComponent, ExpandedItem, ProgressRowStatus } from "./common";
+import { getRemainingTimePeriod } from "./get-remaining-period";
 
 export const useArbitrumWithdrawalProgressRows = () => {
+  const { t } = useTranslation();
   const pendingFinalises = usePendingTransactions.usePendingFinalises();
-  const pendingProves = usePendingTransactions.usePendingProves();
-
+  const transformPeriodText = usePeriodText();
   return (w: ArbitrumWithdrawalDto | undefined): ExpandedItem[] => {
     const pendingFinalise = pendingFinalises[w?.id ?? ""];
+    const finalizationPeriod = getFinalizationPeriod(
+      w?.deployment ?? null,
+      false
+    );
 
     const finalise = match({ ...w, pendingFinalise })
       // Special case for saved client side transactions
@@ -22,34 +30,54 @@ export const useArbitrumWithdrawalProgressRows = () => {
           pendingFinalise: P.not(undefined),
         },
         (w) => ({
-          label: "Finalizing...",
+          label: t("activity.finalizing"),
           status: ProgressRowStatus.InProgress,
           buttonComponent: undefined,
           link: transactionLink(pendingFinalise!, w.deployment!.l1),
         })
       )
       .with({ status: ArbitrumMessageStatus.CONFIRMED }, () => ({
-        label: "Ready to finalize...",
+        label: t("activity.readyToFinalize"),
         status: ProgressRowStatus.InProgress,
         buttonComponent: ButtonComponent.Finalise,
         link: undefined,
       }))
       .with({ status: ArbitrumMessageStatus.EXECUTED }, (w) => ({
-        label: "Finalized",
+        label: t("activity.finalized"),
         status: ProgressRowStatus.Done,
         buttonComponent: undefined,
         link: transactionLink(w.finalise!.transactionHash, w.deployment!.l1),
       }))
       .otherwise(() => ({
-        label: "Finalized",
+        label: t("activity.finalized"),
         status: ProgressRowStatus.NotDone,
         buttonComponent: undefined,
         link: undefined,
       }));
 
+    const challengePeriodText = (() => {
+      if (
+        !w?.withdrawal ||
+        !w?.status ||
+        w.status === ArbitrumMessageStatus.UNCONFIRMED
+      ) {
+        return transformPeriodText("transferTime", {}, finalizationPeriod);
+      }
+
+      if (w.status === ArbitrumMessageStatus.EXECUTED) {
+        return "";
+      }
+
+      const remainingTimePeriod = getRemainingTimePeriod(
+        w.withdrawal.timestamp,
+        finalizationPeriod
+      );
+      return transformPeriodText("activity.remaining", {}, remainingTimePeriod);
+    })();
+
     return [
       {
-        label: "Withdrawn",
+        label: t("activity.withdrawn"),
         status: ProgressRowStatus.Done,
         link: w
           ? transactionLink(w.withdrawal.transactionHash, w.deployment.l2)
@@ -57,10 +85,10 @@ export const useArbitrumWithdrawalProgressRows = () => {
       },
       {
         label: !w
-          ? "Challenge period"
+          ? t("activity.challengePeriod")
           : w.status === ArbitrumMessageStatus.UNCONFIRMED
-          ? "Challenge period..."
-          : "Challenge period",
+          ? `${t("activity.challengePeriod")}…`
+          : t("activity.challengePeriod"),
         status: !w
           ? ProgressRowStatus.NotDone
           : w.status === ArbitrumMessageStatus.UNCONFIRMED
@@ -68,12 +96,7 @@ export const useArbitrumWithdrawalProgressRows = () => {
           : w.status === ArbitrumMessageStatus.CONFIRMED
           ? ProgressRowStatus.Done
           : ProgressRowStatus.Done,
-        time:
-          w?.status === ArbitrumMessageStatus.CONFIRMED
-            ? undefined
-            : w?.deployment.type === DeploymentType.testnet
-            ? "~ 1 hour"
-            : "7 days",
+        time: challengePeriodText,
       },
       finalise,
     ];

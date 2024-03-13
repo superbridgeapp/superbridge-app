@@ -4,7 +4,6 @@ import { P, match } from "ts-pattern";
 import { BridgeWithdrawalDto } from "@/codegen/model";
 import { MessageStatus } from "@/constants/optimism-message-status";
 import {
-  Period,
   getFinalizationPeriod,
   getProvePeriod,
 } from "@/hooks/use-finalization-period";
@@ -13,6 +12,7 @@ import { usePendingTransactions } from "@/state/pending-txs";
 
 import { transactionLink } from "../transaction-link";
 import { ButtonComponent, ExpandedItem, ProgressRowStatus } from "./common";
+import { getRemainingTimePeriod } from "./get-remaining-period";
 
 export const useOptimismWithdrawalProgressRows = () => {
   const pendingFinalises = usePendingTransactions.usePendingFinalises();
@@ -112,42 +112,6 @@ export const useOptimismWithdrawalProgressRows = () => {
         buttonComponent: undefined,
         link: undefined,
       }));
-
-    const ONE_MINUTE = 60 * 1000;
-    const ONE_HOUR = 60 * ONE_MINUTE;
-    const ONE_DAY = 24 * ONE_HOUR;
-
-    const currentTime = Math.floor(new Date().getTime());
-
-    const getRemainingTimePeriod = (
-      initiatedTime: number,
-      duration: Period
-    ): Period => {
-      const endTime =
-        duration?.period === "days"
-          ? initiatedTime + duration.value * ONE_DAY
-          : duration?.period === "hours"
-          ? initiatedTime + duration.value * ONE_HOUR
-          : initiatedTime + (duration?.value ?? 1) * ONE_MINUTE;
-      const remainingTime = endTime - currentTime;
-
-      if (remainingTime > ONE_DAY) {
-        return {
-          period: "days",
-          value: Math.floor(remainingTime / ONE_DAY),
-        };
-      }
-      if (remainingTime > ONE_HOUR) {
-        return {
-          period: "hours",
-          value: Math.floor(remainingTime / ONE_HOUR),
-        };
-      }
-      return {
-        period: "mins",
-        value: Math.max(Math.floor(remainingTime / ONE_MINUTE), 1),
-      };
-    };
 
     const waitingForStateRootText = (() => {
       if (!w?.status || w.status < MessageStatus.STATE_ROOT_NOT_PUBLISHED) {
