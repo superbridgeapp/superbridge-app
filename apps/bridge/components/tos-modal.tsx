@@ -96,7 +96,7 @@ export const TosModal = () => {
                     ? "tos.descriptionRollbridge"
                     : "tos.descriptionRollbridgeDedicated"
                 }
-                components={[<span className="font-bold" />]}
+                components={[<span key="name" className="font-bold" />]}
                 values={{ name: dedicatedDeployment?.network }}
               />{" "}
               <Link
