@@ -1,15 +1,39 @@
+import { useTranslation } from "react-i18next";
 import { P, match } from "ts-pattern";
 
 import { PortalDepositDto, TransactionStatus } from "@/codegen/model";
+import { getDepositTime } from "@/hooks/use-finalization-period";
+import { usePeriodText } from "@/hooks/use-period-text";
 
 import { transactionLink } from "../transaction-link";
 import { ExpandedItem, ProgressRowStatus } from "./common";
+import { getRemainingTimePeriod } from "./get-remaining-period";
 
 export const useOptimismDepositProgressRows = () => {
+  const { t } = useTranslation();
+  const transformPeriodText = usePeriodText();
+
   return (
     tx: Pick<PortalDepositDto, "deposit" | "relay" | "deployment">
-  ): ExpandedItem[] =>
-    match(tx)
+  ): ExpandedItem[] => {
+    const depositTime = getDepositTime(tx.deployment);
+    const l2ConfirmationText = (() => {
+      if (!tx.deposit.blockNumber) {
+        return transformPeriodText("transferTime", {}, depositTime);
+      }
+
+      if (tx.relay) {
+        return "";
+      }
+
+      const remainingTimePeriod = getRemainingTimePeriod(
+        tx.deposit.timestamp,
+        depositTime
+      );
+      return transformPeriodText("activity.remaining", {}, remainingTimePeriod);
+    })();
+
+    return match(tx)
       .with(
         {
           deposit: P.not(undefined),
@@ -17,12 +41,12 @@ export const useOptimismDepositProgressRows = () => {
         },
         (d) => [
           {
-            label: "Deposited",
+            label: t("activity.deposited"),
             status: ProgressRowStatus.Done,
             link: transactionLink(d.deposit.transactionHash, d.deployment.l1),
           },
           {
-            label: "L2 confirmation",
+            label: t("activity.l2Confirmation"),
             status:
               d.relay.status === TransactionStatus.confirmed
                 ? ProgressRowStatus.Done
@@ -33,26 +57,27 @@ export const useOptimismDepositProgressRows = () => {
       )
       .with({ deposit: P.when(({ blockNumber }) => !blockNumber) }, (d) => [
         {
-          label: "Depositing",
+          label: t("activity.depositing"),
           status: ProgressRowStatus.InProgress,
           link: transactionLink(d.deposit.transactionHash, d.deployment.l1),
         },
         {
-          label: "L2 confirmation",
+          label: t("activity.l2Confirmation"),
           status: ProgressRowStatus.NotDone,
-          time: "~ 3 mins",
+          time: l2ConfirmationText,
         },
       ])
       .otherwise((d) => [
         {
-          label: "Deposited",
+          label: t("activity.deposited"),
           status: ProgressRowStatus.Done,
           link: transactionLink(d.deposit.transactionHash, d.deployment.l1),
         },
         {
-          label: "Waiting for L2...",
+          label: t("activity.waitingForL2"),
           status: ProgressRowStatus.InProgress,
-          time: "~ 3 mins",
+          time: l2ConfirmationText,
         },
       ]);
+  };
 };

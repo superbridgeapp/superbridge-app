@@ -90,7 +90,7 @@ export const useProvePeriod = (deployment: DeploymentDto | null): Period => {
   return getProvePeriod(deployment);
 };
 
-export const useDepositTime = (deployment: DeploymentDto | null): Period => {
+export const getDepositTime = (deployment: DeploymentDto | null): Period => {
   if (deployment && isOptimism(deployment)) {
     return { period: "mins", value: 3 };
   }
@@ -100,6 +100,9 @@ export const useDepositTime = (deployment: DeploymentDto | null): Period => {
   }
 
   return null;
+};
+export const useDepositTime = (deployment: DeploymentDto | null): Period => {
+  return getDepositTime(deployment);
 };
 
 export const addPeriods = (a: Period, b: Period) => {

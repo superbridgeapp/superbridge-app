@@ -81,6 +81,10 @@
     "finalizing": "Finalizing…",
     "readyToFinalize": "Ready to finalize",
     "finalized": "Finalized",
+    "deposited": "Deposited",
+    "depositing": "Depositing",
+    "l2Confirmation": "L2 confirmation",
+    "waitingForL2": "Waiting for L2…",
 
     "remainingMinutes_one": "~{{count}} min remaining",
     "remainingMinutes_other": "~{{count}} mins remaining",
