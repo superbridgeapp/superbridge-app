@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { P, match } from "ts-pattern";
 
 import {
@@ -6,13 +7,17 @@ import {
   DeploymentType,
   TransactionStatus,
 } from "@/codegen/model";
+import { usePeriodText } from "@/hooks/use-period-text";
+import { getDepositTime } from "@/hooks/use-finalization-period";
 
 import { transactionLink } from "../transaction-link";
 import { ButtonComponent, ExpandedItem, ProgressRowStatus } from "./common";
+import { getRemainingTimePeriod } from "./get-remaining-period";
 
-export const useArbitrumDepositProgressRows =
-  () =>
-  (
+export const useArbitrumDepositProgressRows = () => {
+  const { t } = useTranslation();
+  const transformPeriodText = usePeriodText();
+  return (
     tx: Pick<
       ArbitrumDepositRetryableDto | ArbitrumDepositEthDto,
       "deposit" | "relay" | "deployment"
@@ -20,10 +25,28 @@ export const useArbitrumDepositProgressRows =
   ): ExpandedItem[] => {
     const time =
       tx.deployment.type === DeploymentType.testnet ? "~ 5 mins" : "~ 10 mins";
+    const depositTime = getDepositTime(tx.deployment);
+    const l2ConfirmationText = (() => {
+      if (!tx.deposit.blockNumber) {
+        return transformPeriodText("transferTime", {}, depositTime);
+      }
+
+      if (tx.relay) {
+        return "";
+      }
+
+      const remainingTimePeriod = getRemainingTimePeriod(
+        tx.deposit.timestamp,
+        depositTime
+      );
+      return transformPeriodText("activity.remaining", {}, remainingTimePeriod);
+    })();
 
     return [
       {
-        label: tx.deposit.blockNumber ? "Deposited" : "Depositing",
+        label: tx.deposit.blockNumber
+          ? t("activity.deposited")
+          : t("activity.depositing"),
         status: tx.deposit.blockNumber
           ? ProgressRowStatus.Done
           : ProgressRowStatus.InProgress,
@@ -31,17 +54,17 @@ export const useArbitrumDepositProgressRows =
       },
       match(tx)
         .with({ deposit: P.when(({ blockNumber }) => !blockNumber) }, (d) => ({
-          label: "L2 confirmation",
+          label: t("activity.l2Confirmation"),
           status: ProgressRowStatus.NotDone,
-          time,
+          time: l2ConfirmationText,
         }))
         .with({ relay: { status: TransactionStatus.confirmed } }, (tx) => ({
-          label: "L2 confirmation",
+          label: t("activity.l2Confirmation"),
           status: ProgressRowStatus.Done,
           link: transactionLink(tx.relay.transactionHash, tx.deployment.l2),
         }))
         .with({ relay: { status: TransactionStatus.reverted } }, (tx) => ({
-          label: "L2 confirmation",
+          label: t("activity.l2Confirmation"),
           status: ProgressRowStatus.Reverted,
           link: transactionLink(tx.relay.transactionHash, tx.deployment.l2),
         }))
@@ -54,10 +77,11 @@ export const useArbitrumDepositProgressRows =
             };
           }
           return {
-            label: "Waiting for L2...",
+            label: t("activity.waitingForL2"),
             status: ProgressRowStatus.InProgress,
-            time,
+            time: l2ConfirmationText,
           };
         }),
     ];
   };
+};
