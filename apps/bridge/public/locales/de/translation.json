@@ -195,5 +195,16 @@
 
     "continue": "Mit Auszahlung fortfahren",
     "viewAlternateBridges": "Oder alternative Brücken anzeigen…"
+  },
+
+  "tos": {
+    "welcome": "Willkommen bei {{name}}",
+    "descriptionSuperbridge": "Diese Oberfläche ist nur eine Schicht über den <0>nativen Brückenverträgen</0> für offizielle Superchain-Rollups. Zu keinem Zeitpunkt werden Gelder von Superbridge in Verwahrung genommen.",
+    "descriptionSuperbridgeDedicated": "Diese Oberfläche ist nur eine Schicht über den <0>nativen Brückenverträgen</0> für {{name}}. Zu keinem Zeitpunkt werden Gelder von Superbridge in Verwahrung genommen.",
+    "descriptionRollbridge": "Diese Oberfläche ist nur eine Schicht über den <0>nativen Brückenverträgen</0> für verschiedene Rollups. Zu keinem Zeitpunkt werden Gelder von Rollbridge in Verwahrung genommen.",
+    "descriptionRollbridgeDedicated": "Diese Oberfläche ist nur eine Schicht über den <0>nativen Brückenverträgen</0> für {{name}}. Zu keinem Zeitpunkt werden Gelder von Rollbridge in Verwahrung genommen.",
+    "pleaseNote": "Bitte beachten Sie",
+    "learnMore": "Mehr erfahren…",
+    "agreeAndContinue": "Zustimmen und fortsetzen"
   }
 }

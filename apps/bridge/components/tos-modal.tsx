@@ -1,5 +1,7 @@
 import Link from "next/link";
+import { Trans, useTranslation } from "react-i18next";
 
+import { dedicatedDeployment } from "@/config/dedicated-deployment";
 import { isSuperbridge } from "@/config/superbridge";
 import { deploymentTheme } from "@/config/theme";
 import * as metadata from "@/constants/metadata";
@@ -10,6 +12,7 @@ import { Button } from "./ui/button";
 import { Dialog, DialogContent } from "./ui/dialog";
 
 export const TosModal = () => {
+  const { t } = useTranslation();
   const dismiss = useSettingsState.useDismissTos();
   const hasViewedTos = useSettingsState.useHasViewedTos();
   const deployment = useConfigState.useDeployment();
@@ -22,9 +25,9 @@ export const TosModal = () => {
         <div className="flex flex-col gap-6 p-6 pt-8">
           <div className="flex flex-col gap-2">
             <h1 className="font-bold text-2xl tracking-tight">
-              Welcome to {metadata.title}!
+              {t("tos.welcome", { name: metadata.title })}
             </h1>
-            <p className="text-sm font-bold">Please note</p>
+            <p className="text-sm font-bold">{t("tos.pleaseNote")}</p>
           </div>
           <div className="flex gap-3">
             <svg
@@ -83,16 +86,25 @@ export const TosModal = () => {
               </defs>
             </svg>
             <p className="text-sm">
-              This interface is only a layer over{" "}
-              <span className="font-bold">native bridge contracts</span> for
-              various rollups. No funds are held in custody by{" "}
-              {isSuperbridge ? "Superbridge" : "Rollbridge"} at any point.{" "}
+              <Trans
+                i18nKey={
+                  isSuperbridge && !dedicatedDeployment
+                    ? "tos.descriptionSuperbridge"
+                    : isSuperbridge && !!dedicatedDeployment
+                    ? "tos.descriptionSuperbridgeDedicated"
+                    : !isSuperbridge && !dedicatedDeployment
+                    ? "tos.descriptionRollbridge"
+                    : "tos.descriptionRollbridgeDedicated"
+                }
+                components={[<span className="font-bold" />]}
+                values={{ name: dedicatedDeployment?.network }}
+              />{" "}
               <Link
                 href={"https://docs.rollbridge.app/what-is-bridging"}
                 className="underline"
                 target="_blank"
               >
-                Learn more…
+                {t("tos.learnMore")}
               </Link>
             </p>
           </div>
@@ -179,7 +191,7 @@ export const TosModal = () => {
             className={`flex w-full justify-center rounded-full px-3 py-6 text-sm font-bold leading-6 text-white shadow-sm ${theme.accentText} ${theme.accentBg}`}
             onClick={dismiss}
           >
-            Agree &amp; continue
+            {t("tos.agreeAndContinue")}
           </Button>
         </div>
       </DialogContent>

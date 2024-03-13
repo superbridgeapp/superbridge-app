@@ -195,5 +195,16 @@
 
     "continue": "Kontynuuj wypłatę",
     "viewAlternateBridges": "Lub zobacz alternatywne mosty…"
+  },
+
+  "tos": {
+    "welcome": "Witaj w {{name}}",
+    "descriptionSuperbridge": "Ten interfejs to tylko warstwa nad <0>natywnymi umowami mostowymi</0> dla oficjalnych rollupów Superchain. W żadnym momencie Superbridge nie przechowuje środków w depozycie.",
+    "descriptionSuperbridgeDedicated": "Ten interfejs to tylko warstwa nad <0>natywnymi umowami mostowymi</0> dla {{name}}. W żadnym momencie Superbridge nie przechowuje środków w depozycie.",
+    "descriptionRollbridge": "Ten interfejs to tylko warstwa nad <0>natywnymi umowami mostowymi</0> dla różnych rollupów. W żadnym momencie Rollbridge nie przechowuje środków w depozycie.",
+    "descriptionRollbridgeDedicated": "Ten interfejs to tylko warstwa nad <0>natywnymi umowami mostowymi</0> dla {{name}}. W żadnym momencie Rollbridge nie przechowuje środków w depozycie.",
+    "pleaseNote": "Prosimy o uwagę",
+    "learnMore": "Dowiedz się więcej…",
+    "agreeAndContinue": "Zgadzam się i kontynuuję"
   }
 }

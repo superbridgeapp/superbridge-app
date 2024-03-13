@@ -195,5 +195,16 @@
 
     "continue": "Continuar con el retiro",
     "viewAlternateBridges": "O ver puentes alternativos…"
+  },
+
+  "tos": {
+    "welcome": "Bienvenido a {{name}}",
+    "descriptionSuperbridge": "Esta interfaz es solo una capa sobre los <0>contratos de puente nativos</0> para los rollups oficiales de Superchain. En ningún momento Superbridge retiene fondos en custodia.",
+    "descriptionSuperbridgeDedicated": "Esta interfaz es solo una capa sobre los <0>contratos de puente nativos</0> para {{name}}. En ningún momento Superbridge retiene fondos en custodia.",
+    "descriptionRollbridge": "Esta interfaz es solo una capa sobre los <0>contratos de puente nativos</0> para varios rollups. En ningún momento Rollbridge retiene fondos en custodia.",
+    "descriptionRollbridgeDedicated": "Esta interfaz es solo una capa sobre los <0>contratos de puente nativos</0> para {{name}}. En ningún momento Rollbridge retiene fondos en custodia.",
+    "pleaseNote": "Ten en cuenta",
+    "learnMore": "Más información…",
+    "agreeAndContinue": "Aceptar y continuar"
   }
 }

@@ -195,5 +195,16 @@
 
     "continue": "인출 계속",
     "viewAlternateBridges": "또는 대체 브릿지 보기…"
+  },
+
+  "tos": {
+    "welcome": "{{name}}에 오신 것을 환영합니다",
+    "descriptionSuperbridge": "이 인터페이스는 공식 Superchain 롤업을 위한 <0>네이티브 브릿지 계약</0>의 레이어에 불과합니다. 언제나 Superbridge는 자금을 보관하지 않습니다.",
+    "descriptionSuperbridgeDedicated": "이 인터페이스는 {{name}}을 위한 <0>네이티브 브릿지 계약</0>의 레이어에 불과합니다. 언제나 Superbridge는 자금을 보관하지 않습니다.",
+    "descriptionRollbridge": "이 인터페이스는 다양한 롤업을 위한 <0>네이티브 브릿지 계약</0>의 레이어에 불과합니다. 언제나 Rollbridge는 자금을 보관하지 않습니다.",
+    "descriptionRollbridgeDedicated": "이 인터페이스는 {{name}}을 위한 <0>네이티브 브릿지 계약</0>의 레이어에 불과합니다. 언제나 Rollbridge는 자금을 보관하지 않습니다.",
+    "pleaseNote": "참고하세요",
+    "learnMore": "자세히 알아보기…",
+    "agreeAndContinue": "동의하고 계속하기"
   }
 }

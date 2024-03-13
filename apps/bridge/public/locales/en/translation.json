@@ -208,5 +208,16 @@
 
     "continue": "Continue withdraw",
     "viewAlternateBridges": "Or view alternative bridges…"
+  },
+
+  "tos": {
+    "welcome": "Welcome to {{name}}",
+    "descriptionSuperbridge": "This interface is only a layer over the <0>native bridge contracts</0> for official Superchain rollups. No funds are held in custody by Superbridge at any point.",
+    "descriptionSuperbridgeDedicated": "This interface is only a layer over the <0>native bridge contracts</0> for {{name}}. No funds are held in custody by Superbridge at any point.",
+    "descriptionRollbridge": "This interface is only a layer over the <0>native bridge contracts</0> for various rollups. No funds are held in custody by Rollbridge at any point.",
+    "descriptionRollbridgeDedicated": "This interface is only a layer over the <0>native bridge contracts</0> for {{name}}. No funds are held in custody by Rollbridge at any point.",
+    "pleaseNote": "Please note",
+    "learnMore": "Learn more…",
+    "agreeAndContinue": "Agree & continue"
   }
 }

@@ -195,5 +195,16 @@
 
     "continue": "Lanjutkan penarikan",
     "viewAlternateBridges": "Atau lihat jembatan alternatif…"
+  },
+
+  "tos": {
+    "welcome": "Selamat datang di {{name}}",
+    "descriptionSuperbridge": "Antarmuka ini hanya lapisan di atas <0>kontrak jembatan asli</0> untuk rollups Superchain resmi. Tidak ada dana yang disimpan dalam penahanan oleh Superbridge pada titik mana pun.",
+    "descriptionSuperbridgeDedicated": "Antarmuka ini hanya lapisan di atas <0>kontrak jembatan asli</0> untuk {{name}}. Tidak ada dana yang disimpan dalam penahanan oleh Superbridge pada titik mana pun.",
+    "descriptionRollbridge": "Antarmuka ini hanya lapisan di atas <0>kontrak jembatan asli</0> untuk rollup berbagai jenis. Tidak ada dana yang disimpan dalam penahanan oleh Rollbridge pada titik mana pun.",
+    "descriptionRollbridgeDedicated": "Antarmuka ini hanya lapisan di atas <0>kontrak jembatan asli</0> untuk {{name}}. Tidak ada dana yang disimpan dalam penahanan oleh Rollbridge pada titik mana pun.",
+    "pleaseNote": "Harap diperhatikan",
+    "learnMore": "Pelajari lebih lanjut…",
+    "agreeAndContinue": "Setuju & lanjutkan"
   }
 }
