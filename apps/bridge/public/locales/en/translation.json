@@ -70,7 +70,24 @@
     "actionNeeded": "Action needed",
     "connectWallet": "Please connect your wallet…",
     "noTransactions": "No transactions yet…",
-    "error": "Sorry! We're unable to pull your activity feed.\n Please try and refresh the page"
+    "error": "Sorry! We're unable to pull your activity feed.\n Please try and refresh the page",
+    "withdrawn": "Withdrawn",
+    "proving": "Proving…",
+    "readyToProve": "Ready to prove",
+    "proved": "Proved",
+    "waitingForStateRoot": "Waiting for state root…",
+    "stateRootPublished": "State root published",
+    "challengePeriod": "Challenge period",
+    "finalizing": "Finalizing…",
+    "readyToFinalize": "Ready to finalize",
+    "finalized": "Finalized",
+
+    "remainingMinutes_one": "~{{count}} min remaining",
+    "remainingMinutes_other": "~{{count}} mins remaining",
+    "remainingHours_one": "~{{count}} hour remaining",
+    "remainingHours_other": "~{{count}} hours remaining",
+    "remainingDays_one": "~{{count}} day remaining",
+    "remainingDays_other": "~{{count}} days remaining"
   },
 
   "tokens": {

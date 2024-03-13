@@ -82,7 +82,7 @@ export const getProvePeriod = (deployment: DeploymentDto | null): Period => {
 
   return {
     period: "mins",
-    value: 5,
+    value: 10,
   };
 };
 
