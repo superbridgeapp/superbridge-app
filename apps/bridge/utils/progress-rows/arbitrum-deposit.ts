@@ -23,8 +23,6 @@ export const useArbitrumDepositProgressRows = () => {
       "deposit" | "relay" | "deployment"
     >
   ): ExpandedItem[] => {
-    const time =
-      tx.deployment.type === DeploymentType.testnet ? "~ 5 mins" : "~ 10 mins";
     const depositTime = getDepositTime(tx.deployment);
     const l2ConfirmationText = (() => {
       if (!tx.deposit.blockNumber) {

@@ -451,7 +451,7 @@ export const TransactionRow = ({ tx }: { tx: Transaction }) => {
     : tx.deployment;
 
   const config = useTxActivityProps()(tx);
-  const progressRows = useProgressRows(deployment)(tx);
+  const progressRows = useProgressRows()(tx);
 
   const inProgressItem = progressRows.find(
     (x) => x.status === ProgressRowStatus.InProgress
