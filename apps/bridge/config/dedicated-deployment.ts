@@ -2,6 +2,7 @@ const DEDICATED_DEPLOYMENT = process.env["NEXT_PUBLIC_DEDICATED_DEPLOYMENT"];
 
 interface DedicatedDeployment {
   name: string;
+  network: string;
   footerLink: string;
   og: {
     title: string;
@@ -18,6 +19,7 @@ const mapping: { [name: string]: DedicatedDeployment | undefined } = {
       title: "Orb3 Bridge",
       description: "Bridge ETH and ERC20 tokens into and out of Orb3 Mainnet",
     },
+    network: "Orb3 Mainnet",
   },
   parallel: {
     name: "parallel",
@@ -33,6 +35,7 @@ const mapping: { [name: string]: DedicatedDeployment | undefined } = {
         link: "https://app.parallel.fi",
       },
     ],
+    network: "Parallel Mainnet",
   },
   base: {
     name: "base",
@@ -41,6 +44,7 @@ const mapping: { [name: string]: DedicatedDeployment | undefined } = {
       title: "Base Bridge",
       description: "Bridge ETH and ERC20 tokens into and out of Base",
     },
+    network: "Base",
   },
   optimism: {
     name: "optimism",
@@ -49,6 +53,7 @@ const mapping: { [name: string]: DedicatedDeployment | undefined } = {
       title: "OP Mainnet Bridge",
       description: "Bridge ETH and ERC20 tokens into and out of OP Mainnet",
     },
+    network: "OP Mainnet",
   },
   "lumio-mainnet": {
     name: "lumio-mainnet",
@@ -57,6 +62,7 @@ const mapping: { [name: string]: DedicatedDeployment | undefined } = {
       title: "Lumio Bridge",
       description: "Bridge ETH and ERC20 tokens into and out of Lumio Mainnet",
     },
+    network: "Lumio Mainnet",
   },
   "stack-mainnet": {
     name: "stack-mainnet",
@@ -65,6 +71,7 @@ const mapping: { [name: string]: DedicatedDeployment | undefined } = {
       title: "Stack Bridge",
       description: "Bridge ETH and ERC20 tokens into and out of Stack Mainnet",
     },
+    network: "Stack Mainnet",
   },
 };
 
