@@ -77,11 +77,7 @@ const useDepositProps = (
 
 const useWithdrawalProps =
   () =>
-  (
-    w: BridgeWithdrawalDto,
-    pendingProves: { [id: string]: string | undefined },
-    pendingFinalises: { [id: string]: string | undefined }
-  ): TransactionRowProps => {
+  (w: BridgeWithdrawalDto): TransactionRowProps => {
     return {
       title: i18n.t("withdraw"),
       icon: w.finalise?.transactionHash
@@ -102,10 +98,7 @@ const useWithdrawalProps =
 
 const useArbitrumWithdrawalProps =
   () =>
-  (
-    w: ArbitrumWithdrawalDto,
-    pendingFinalises: { [id: string]: string | undefined }
-  ): TransactionRowProps => {
+  (w: ArbitrumWithdrawalDto): TransactionRowProps => {
     return {
       title: i18n.t("withdraw"),
       icon: w.finalise?.transactionHash
@@ -126,11 +119,7 @@ const useArbitrumWithdrawalProps =
 
 const useOptimismForcedWithdrawalProps =
   () =>
-  (
-    w: ForcedWithdrawalDto,
-    pendingProves: { [id: string]: string | undefined },
-    pendingFinalises: { [id: string]: string | undefined }
-  ): TransactionRowProps => {
+  (w: ForcedWithdrawalDto): TransactionRowProps => {
     return {
       title: `Forced exit`,
       icon: w.withdrawal?.finalise?.transactionHash
@@ -151,10 +140,7 @@ const useOptimismForcedWithdrawalProps =
 
 const useArbitrumForcedWithdrawalProps =
   () =>
-  (
-    w: ArbitrumForcedWithdrawalDto,
-    pendingFinalises: { [id: string]: string | undefined }
-  ): TransactionRowProps => {
+  (w: ArbitrumForcedWithdrawalDto): TransactionRowProps => {
     return {
       title: `Forced exit`,
       icon: w.withdrawal?.finalise?.transactionHash
@@ -212,23 +198,13 @@ export const useTxActivityProps = () => (tx: Transaction) => {
         {
           type: OptimismTransactionType.withdrawal,
         },
-        (d) =>
-          useWithdrawalProps()(
-            d as BridgeWithdrawalDto,
-            pendingProves,
-            pendingFinalises
-          )
+        (d) => useWithdrawalProps()(d as BridgeWithdrawalDto)
       )
       .with(
         {
           type: OptimismTransactionType["forced-withdrawal"],
         },
-        (fw) =>
-          useOptimismForcedWithdrawalProps()(
-            fw as ForcedWithdrawalDto,
-            pendingProves,
-            pendingFinalises
-          )
+        (fw) => useOptimismForcedWithdrawalProps()(fw as ForcedWithdrawalDto)
       )
       .with(
         {
@@ -246,21 +222,14 @@ export const useTxActivityProps = () => (tx: Transaction) => {
         {
           type: ArbitrumTransactionType["arbitrum-withdrawal"],
         },
-        (w) =>
-          useArbitrumWithdrawalProps()(
-            w as ArbitrumWithdrawalDto,
-            pendingFinalises
-          )
+        (w) => useArbitrumWithdrawalProps()(w as ArbitrumWithdrawalDto)
       )
       .with(
         {
           type: ArbitrumTransactionType["arbitrum-forced-withdrawal"],
         },
         (w) =>
-          useArbitrumForcedWithdrawalProps()(
-            w as ArbitrumForcedWithdrawalDto,
-            pendingFinalises
-          )
+          useArbitrumForcedWithdrawalProps()(w as ArbitrumForcedWithdrawalDto)
       )
       // cctp
       .otherwise((w) => {
