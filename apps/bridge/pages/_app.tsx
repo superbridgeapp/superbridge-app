@@ -37,15 +37,15 @@ export default function App(appProps: AppProps) {
           <>
             <meta
               property="og:image"
-              content={`https://superbridge.app/${
+              content={`https://superbridge.app/img/${
                 dedicatedDeployment.name
-              }-og-${isRollbridge ? "-rb" : ""}.png`}
+              }/og${isRollbridge ? "-rb" : ""}.png`}
             />
             <meta
               name="twitter:image"
-              content={`https://superbridge.app/${
+              content={`https://superbridge.app/img/${
                 dedicatedDeployment.name
-              }-og-${isRollbridge ? "-rb" : ""}.png`}
+              }/og${isRollbridge ? "-rb" : ""}.png`}
             />
           </>
         ) : appProps.router.route !== "/[id]/[[...index]]" ? (
