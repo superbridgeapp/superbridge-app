@@ -15,10 +15,6 @@ const spring = {
 
 const SUPERCHAIN_COMING_SOON = [
   {
-    name: "aevo",
-    displayName: "Aevo",
-  },
-  {
     name: "ancient8",
     displayName: "Ancient8",
   },
@@ -29,10 +25,6 @@ const SUPERCHAIN_COMING_SOON = [
   {
     name: "lisk-mainnet",
     displayName: "Lisk",
-  },
-  {
-    name: "lumio-mainnet",
-    displayName: "Lumio Mainnet",
   },
 ];
 const COMING_SOON = [
