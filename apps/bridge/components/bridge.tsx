@@ -1,9 +1,10 @@
 import { useTranslation } from "react-i18next";
 
 import { dedicatedDeployment } from "@/config/dedicated-deployment";
+import { isSuperbridge } from "@/config/superbridge";
 import { deploymentTheme } from "@/config/theme";
-import { useConfigState } from "@/state/config";
 import { useWithdrawalsPaused } from "@/hooks/use-withdrawals-paused";
+import { useConfigState } from "@/state/config";
 
 import { PageTransition } from "./PageTransition";
 import { BridgeBody } from "./bridge-body";
@@ -35,7 +36,13 @@ export const Bridge = () => {
             </div>
 
             {deployment?.conduitId && !dedicatedDeployment && (
-              <div className="rounded-full flex items-center pl-1 pr-3 bg-black/10">
+              <a
+                href={`https://conduit.xyz/?utm_source=${
+                  isSuperbridge ? "superbridge" : "rollbridge"
+                }&utm_medium=affiliate&utm_campaign=poweredby`}
+                target="_blank"
+                className="rounded-full flex items-center pl-1 pr-3 bg-black/10"
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -75,7 +82,7 @@ export const Bridge = () => {
                 <span className="text-[9px] font-medium text-white dark:text-white opacity-70">
                   {t("poweredByConduit")}
                 </span>
-              </div>
+              </a>
             )}
           </div>
         </div>
