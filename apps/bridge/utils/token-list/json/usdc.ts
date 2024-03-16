@@ -8,6 +8,7 @@ import {
   optimismGoerli,
   optimismSepolia,
   sepolia,
+  zora,
 } from "viem/chains";
 
 import { OptimismToken } from "@/types/token";
@@ -47,6 +48,18 @@ export const bridged: OptimismToken[] = [
     address: "0x7F5c764cBc14f9669B88837ca1490cCa17c31607",
     name: "Bridged USDC",
     symbol: "USDC.e",
+    decimals: 6,
+    logoURI: "https://ethereum-optimism.github.io/data/BridgedUSDC/logo.png",
+    standardBridgeAddresses: {
+      [1]: "0x4200000000000000000000000000000000000010",
+    },
+    opTokenId: BRIDGED_USDC,
+  },
+  {
+    chainId: zora.id,
+    address: "0xCccCCccc7021b32EBb4e8C08314bD62F7c653EC4",
+    name: "USD Coin (Bridged from Ethereum)",
+    symbol: "USDzC",
     decimals: 6,
     logoURI: "https://ethereum-optimism.github.io/data/BridgedUSDC/logo.png",
     standardBridgeAddresses: {
