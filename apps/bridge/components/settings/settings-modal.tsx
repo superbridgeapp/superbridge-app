@@ -138,6 +138,7 @@ export const SettingsModal = ({ open, setOpen }: SettingsModalProps) => {
                       { code: "ja", label: "日本語" },
                       { code: "ar", label: "العربية" },
                       { code: "pl", label: "Polski" },
+                      { code: "tr", label: "Türkçe" },
                       { code: "kr", label: "한국어" },
                       { code: "pt", label: "Português" },
                       { code: "id", label: "Bahasa Indonesia" },
