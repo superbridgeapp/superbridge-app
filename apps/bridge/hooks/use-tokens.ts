@@ -69,7 +69,13 @@ export function useActiveTokens() {
   const tokens = useAllTokens();
 
   const hasNativeUsdc = useMemo(
-    () => !!tokens.find((token) => isNativeUsdc(token)),
+    () =>
+      !!tokens.find(
+        (token) =>
+          isNativeUsdc(token) &&
+          !!token[deployment?.l1.id ?? 0] &&
+          !!token[deployment?.l2.id ?? 0]
+      ),
     [tokens]
   );
 
