@@ -76,7 +76,7 @@ export function useActiveTokens() {
           !!token[deployment?.l1.id ?? 0] &&
           !!token[deployment?.l2.id ?? 0]
       ),
-    [tokens]
+    [tokens, deployment]
   );
 
   const active = useMemo(() => {
