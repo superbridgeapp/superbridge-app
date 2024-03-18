@@ -28,6 +28,7 @@ export const bridged: OptimismToken[] = [
     standardBridgeAddresses: {
       [optimism.id]: "0x99C9fc46f92E8a1c0deC1b1747d010903E884bE1",
       [base.id]: "0x3154Cf16ccdb4C6d922629664174b904d80F2C35",
+      [zora.id]: "0x3e2ea9b92b7e48a52296fd261dc26fd995284631",
     },
     opTokenId: BRIDGED_USDC,
   },
