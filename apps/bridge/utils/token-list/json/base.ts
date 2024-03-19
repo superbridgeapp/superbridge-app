@@ -58,7 +58,7 @@ export const baseTokens = [
     opTokenId: "custom-sqt",
     coinGeckoId: "subquery-network",
   },
-    
+
   // EPOCH
   {
     chainId: mainnet.id,
@@ -87,5 +87,31 @@ export const baseTokens = [
     },
     opTokenId: "EPOCH",
     coinGeckoId: "epoch-island",
+  },
+
+  // RAC
+  {
+    chainId: mainnet.id,
+    address: "0xc22B30E4cce6b78aaaADae91E44E73593929a3e9",
+    name: "RAC",
+    symbol: "RAC",
+    decimals: 18,
+    logoURI: "https://etherscan.io/token/images/RAC1_32.png",
+    standardBridgeAddresses: {
+      [base.id]: "0x3154Cf16ccdb4C6d922629664174b904d80F2C35",
+    },
+    opTokenId: "RAC",
+  },
+  {
+    chainId: base.id,
+    address: "0x197D38DC562DfB2490eC1A1d5C4CC4319d178Bb4",
+    name: "RAC",
+    symbol: "RAC",
+    decimals: 18,
+    logoURI: "https://etherscan.io/token/images/RAC1_32.png",
+    standardBridgeAddresses: {
+      [mainnet.id]: "0x4200000000000000000000000000000000000010",
+    },
+    opTokenId: "RAC",
   },
 ] as const;
