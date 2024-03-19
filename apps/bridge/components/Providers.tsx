@@ -39,11 +39,11 @@ function Web3Provider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const config = useMemo(() => {
-    const chains =
+    const chains: Chain[] =
       deployments.length === 0
         ? [mainnet, optimism]
-        : deployments
-            .map((d) => {
+        : Object.values(
+            deployments.reduce((accum, d) => {
               if (chainIcons[d.l1.id]) {
                 // @ts-expect-error
                 d.l1.iconUrl = chainIcons[d.l1.id];
@@ -53,9 +53,13 @@ function Web3Provider({ children }: { children: React.ReactNode }) {
                 d.l2.iconUrl = chainIcons[d.l2.id];
               }
 
-              return [d.l1, d.l2];
-            })
-            .flat();
+              return {
+                ...accum,
+                [d.l1.id]: d.l1,
+                [d.l2.id]: d.l2,
+              };
+            }, {})
+          );
     const transports = chains.reduce(
       (accum, chain) => ({
         ...accum,
