@@ -49,7 +49,11 @@ export const useInitialiseArbitrumNativeTokens = () => {
   });
 
   useEffect(() => {
-    if (arbitrumGasTokens.length) {
+    if (
+      arbitrumGasTokens.length ||
+      nativeTokens.status === "loading" ||
+      reads.status === "loading"
+    ) {
       return;
     }
 
@@ -103,5 +107,12 @@ export const useInitialiseArbitrumNativeTokens = () => {
         return null;
       })
     );
-  }, [arbitrumGasTokens, reads.data, nativeTokens.data, deployments]);
+  }, [
+    arbitrumGasTokens,
+    reads.data,
+    nativeTokens.data,
+    deployments,
+    nativeTokens.status,
+    reads.status,
+  ]);
 };

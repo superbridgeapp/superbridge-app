@@ -112,7 +112,10 @@ export const ConfirmationModal = ({
   const arbitrumGasTokenAllowance = useAllowanceArbitrumGasToken();
   const deployment = useConfigState.useDeployment();
   const theme = deploymentTheme(deployment);
-  const approveArbitrumGasToken = useApproveArbitrumGasToken();
+  const approveArbitrumGasToken = useApproveArbitrumGasToken(
+    arbitrumGasTokenAllowance.refetch,
+    bridge.refetch
+  );
 
   const finalizationTime = useFinalizationPeriod();
   const proveTime = useProvePeriod(deployment);

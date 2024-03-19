@@ -23,10 +23,10 @@ export const useArbitrumGasToken = () => {
   return useArbitrumGasTokenForDeployment(deployment?.id);
 };
 
-export function useApproveArbitrumGasToken() {
-  // refreshAllowance: () => void,
-  // refreshTx: () => void,
-  // amount: bigint
+export function useApproveArbitrumGasToken(
+  refreshAllowance: () => void,
+  refreshTx: () => void
+) {
   const { writeContractAsync } = useWriteContract();
   const config = useConfig();
   const [isLoading, setIsLoading] = useState(false);
@@ -51,12 +51,12 @@ export function useApproveArbitrumGasToken() {
           hash,
           chainId: from?.id,
         });
-        // refreshAllowance();
-        // refreshTx();
-        // setTimeout(() => {
-        //   refreshAllowance();
-        //   refreshTx();
-        // }, 200);
+        refreshAllowance();
+        refreshTx();
+        setTimeout(() => {
+          refreshAllowance();
+          refreshTx();
+        }, 200);
       } catch {
         setIsLoading(false);
       } finally {
