@@ -39,5 +39,13 @@ export const useInitialiseRecipient = () => {
         else setRecipientName("");
       });
     }
+
+    // this is a little overbearing and means everytime you switch
+    // between deposit and withdraw the recipient address disappears
+    // when using a SC account, but probably better safe than sorry
+    if (isContractAccount.data === true) {
+      setRecipientAddress("");
+      setRecipientName("");
+    }
   }, [isContractAccount.data, account.address]);
 };
