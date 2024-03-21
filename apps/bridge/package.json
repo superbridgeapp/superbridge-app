@@ -20,6 +20,7 @@
     "@radix-ui/react-tabs": "^1.0.4",
     "@radix-ui/react-tooltip": "^1.0.7",
     "@rainbow-me/rainbowkit": "^2.0.2",
+    "@sentry/react": "^7.107.0",
     "@tailwindcss/typography": "^0.5.10",
     "@tanstack/react-query": "^4.36.1",
     "@tsparticles/engine": "^3.3.0",
@@ -27,9 +28,9 @@
     "@tsparticles/slim": "^3.3.0",
     "@vercel/analytics": "^1.2.2",
     "@vercel/og": "^0.5.20",
-    "@wagmi/core": "^2.6.5",
+    "@wagmi/core": "^2.6.9",
     "auto-zustand-selectors-hook": "^2.0.0",
-    "axios": "^1.6.7",
+    "axios": "^1.6.8",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "framer-motion": "^10.18.0",
@@ -51,8 +52,8 @@
     "ts-is-present": "^1.2.2",
     "ts-pattern": "^5.0.8",
     "use-debounce": "^10.0.0",
-    "viem": "^2.8.5",
-    "wagmi": "^2.5.7",
+    "viem": "^2.8.13",
+    "wagmi": "^2.5.11",
     "zustand": "^4.5.2"
   },
   "devDependencies": {
@@ -65,14 +66,14 @@
     "cross-fetch": "^4.0.0",
     "eslint-config-custom": "workspace:*",
     "orval": "^6.25.0",
-    "postcss": "^8.4.35",
+    "postcss": "^8.4.37",
     "postcss-import": "^15.1.0",
     "tailwind": "^4.0.0",
     "tailwindcss": "^3.4.1",
     "ts-retry": "^4.2.5",
     "tsconfig": "workspace:*",
     "typescript": "^5.4.2",
-    "vite-tsconfig-paths": "^4.3.1",
+    "vite-tsconfig-paths": "^4.3.2",
     "vitest": "^0.34.6"
   }
 }
