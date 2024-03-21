@@ -342,7 +342,7 @@ export const BridgeBody = () => {
   };
 
   const submitButton = match({
-    disabled: deployment?.name === "orb3-mainnet" && !withdrawing,
+    disabled: (deployment?.name === "orb3-mainnet" && !withdrawing) || deployment?.name === "surprised-harlequin-bonobo-fvcy2k9oqh",
     withdrawing,
     isSubmitting: bridge.isLoading,
     account: account.address,
@@ -358,9 +358,9 @@ export const BridgeBody = () => {
     isEth: isEth(token),
     recipient,
   })
-    .with({ disabled: true }, () => ({
+    .with({ disabled: true }, ({ withdrawing }) => ({
       onSubmit: () => {},
-      buttonText: t("depositDisabled"),
+      buttonText: withdrawing ? "Withdrawals disabled" : t("depositDisabled"),
       disabled: true,
     }))
     .with({ account: undefined }, () => ({
