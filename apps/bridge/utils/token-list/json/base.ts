@@ -114,4 +114,32 @@ export const baseTokens = [
     },
     opTokenId: "RAC",
   },
+
+  // SWARM
+  {
+    chainId: mainnet.id,
+    address: "0xB17548c7B510427baAc4e267BEa62e800b247173",
+    name: "Swarm Markets",
+    symbol: "SMT",
+    decimals: 18,
+    logoURI:
+      "https://assets.coingecko.com/coins/images/17488/standard/swarm-SMT-token-symbol_200x200.png",
+    standardBridgeAddresses: {
+      [base.id]: "0x3154Cf16ccdb4C6d922629664174b904d80F2C35",
+    },
+    opTokenId: "SWARM",
+  },
+  {
+    chainId: base.id,
+    address: "0x2974dc646e375e83bd1c0342625b49f288987fa4",
+    name: "Swarm Markets",
+    symbol: "SMT",
+    decimals: 18,
+    logoURI:
+      "https://assets.coingecko.com/coins/images/17488/standard/swarm-SMT-token-symbol_200x200.png",
+    standardBridgeAddresses: {
+      [mainnet.id]: "0x4200000000000000000000000000000000000010",
+    },
+    opTokenId: "SWARM",
+  },
 ] as const;
