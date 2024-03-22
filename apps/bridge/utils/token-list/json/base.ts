@@ -142,4 +142,32 @@ export const baseTokens = [
     },
     opTokenId: "SWARM",
   },
+
+  // FORTH
+  {
+    chainId: mainnet.id,
+    address: "0x77FbA179C79De5B7653F68b5039Af940AdA60ce0",
+    name: "Ampleforth Governance",
+    symbol: "FORTH",
+    decimals: 18,
+    logoURI:
+      "https://assets.coingecko.com/coins/images/14917/standard/photo_2021-04-22_00.00.03.jpeg",
+    standardBridgeAddresses: {
+      [base.id]: "0x3154Cf16ccdb4C6d922629664174b904d80F2C35",
+    },
+    opTokenId: "FORTH",
+  },
+  {
+    chainId: base.id,
+    address: "0x968B2323d4b005C7D39c67D31774FE83c9943A60",
+    name: "Ampleforth Governance",
+    symbol: "FORTH",
+    decimals: 18,
+    logoURI:
+      "https://assets.coingecko.com/coins/images/14917/standard/photo_2021-04-22_00.00.03.jpeg",
+    standardBridgeAddresses: {
+      [mainnet.id]: "0x4200000000000000000000000000000000000010",
+    },
+    opTokenId: "FORTH",
+  },
 ] as const;
