@@ -9,7 +9,10 @@ import { getFinalizationPeriod } from "@/hooks/use-finalization-period";
 
 import { transactionLink } from "../transaction-link";
 import { ButtonComponent, ExpandedItem, ProgressRowStatus } from "./common";
-import { getRemainingTimePeriod } from "./get-remaining-period";
+import {
+  getRemainingTimeMs,
+  getRemainingTimePeriod,
+} from "./get-remaining-period";
 
 export const useArbitrumWithdrawalProgressRows = () => {
   const { t } = useTranslation();
@@ -57,15 +60,21 @@ export const useArbitrumWithdrawalProgressRows = () => {
 
     const challengePeriodText = (() => {
       if (
+        w?.status === ArbitrumMessageStatus.EXECUTED ||
+        getRemainingTimeMs(
+          w?.withdrawal.timestamp || Date.now(),
+          finalizationPeriod
+        ) < 0
+      ) {
+        return "";
+      }
+
+      if (
         !w?.withdrawal ||
         !w?.status ||
         w.status === ArbitrumMessageStatus.UNCONFIRMED
       ) {
         return transformPeriodText("transferTime", {}, finalizationPeriod);
-      }
-
-      if (w.status === ArbitrumMessageStatus.EXECUTED) {
-        return "";
       }
 
       const remainingTimePeriod = getRemainingTimePeriod(

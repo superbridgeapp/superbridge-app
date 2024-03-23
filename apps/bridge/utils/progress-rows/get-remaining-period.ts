@@ -4,10 +4,7 @@ const ONE_MINUTE = 60 * 1000;
 const ONE_HOUR = 60 * ONE_MINUTE;
 const ONE_DAY = 24 * ONE_HOUR;
 
-export const getRemainingTimePeriod = (
-  initiatedTime: number,
-  duration: Period
-): Period => {
+export const getRemainingTimeMs = (initiatedTime: number, duration: Period) => {
   const endTime =
     duration?.period === "days"
       ? initiatedTime + duration.value * ONE_DAY
@@ -16,7 +13,14 @@ export const getRemainingTimePeriod = (
       : initiatedTime + (duration?.value ?? 1) * ONE_MINUTE;
 
   const currentTime = Math.floor(new Date().getTime());
-  const remainingTime = endTime - currentTime;
+  return endTime - currentTime;
+};
+
+export const getRemainingTimePeriod = (
+  initiatedTime: number,
+  duration: Period
+): Period => {
+  const remainingTime = getRemainingTimeMs(initiatedTime, duration);
 
   if (remainingTime > ONE_DAY) {
     return {
