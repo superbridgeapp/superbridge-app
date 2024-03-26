@@ -18,6 +18,25 @@ const cctpPeriod = (deployment: DeploymentDto | null): Period => {
   return { period: "mins", value: isMainnet(deployment) ? 15 : 3 };
 };
 
+const getPeriod = (seconds: number): Period => {
+  if (seconds > ONE_DAY) {
+    return {
+      period: "days",
+      value: seconds / ONE_DAY,
+    };
+  }
+  if (seconds > ONE_HOUR) {
+    return {
+      period: "hours",
+      value: seconds / ONE_HOUR,
+    };
+  }
+  return {
+    period: "mins",
+    value: Math.max(seconds / ONE_MINUTE, 1),
+  };
+};
+
 export const getFinalizationPeriod = (
   deployment: DeploymentDto | null,
   isCctp: boolean
@@ -31,25 +50,7 @@ export const getFinalizationPeriod = (
   }
 
   if (isOptimism(deployment)) {
-    if (deployment.config.finalizationPeriodSeconds > ONE_DAY) {
-      return {
-        period: "days",
-        value: deployment.config.finalizationPeriodSeconds / ONE_DAY,
-      };
-    }
-    if (deployment.config.finalizationPeriodSeconds > ONE_HOUR) {
-      return {
-        period: "hours",
-        value: deployment.config.finalizationPeriodSeconds / ONE_HOUR,
-      };
-    }
-    return {
-      period: "mins",
-      value: Math.max(
-        deployment.config.finalizationPeriodSeconds / ONE_MINUTE,
-        1
-      ),
-    };
+    return getPeriod(deployment.config.finalizationPeriodSeconds);
   }
 
   if (isArbitrum(deployment)) {
@@ -73,17 +74,11 @@ export const getProvePeriod = (deployment: DeploymentDto | null): Period => {
     return null;
   }
 
-  if (isMainnet(deployment)) {
-    return {
-      period: "hours",
-      value: 2,
-    };
-  }
-
-  return {
-    period: "mins",
-    value: 10,
-  };
+  return getPeriod(
+    deployment.config.blockTimeSeconds *
+      // todo: this is not SubmissionIntervalSeconds but actually SubmissionIntervalBlocks
+      deployment.config.submissionIntervalSeconds
+  );
 };
 
 export const useProvePeriod = (deployment: DeploymentDto | null): Period => {
