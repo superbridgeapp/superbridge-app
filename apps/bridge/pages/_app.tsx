@@ -69,7 +69,20 @@ export default function App(appProps: AppProps) {
             />
           </>
         ) : (
-          <></>
+          <>
+            <meta
+              property="og:image"
+              content={`https://superbridge.app/img/${
+                appProps.router.query.id
+              }/og${isRollbridge ? "-rb" : ""}.png`}
+            />
+            <meta
+              name="twitter:image"
+              content={`https://superbridge.app/img/${
+                appProps.router.query.id
+              }/og${isRollbridge ? "-rb" : ""}.png`}
+            />
+          </>
         )}
         <meta name="twitter:creator" content="@superbridgeapp" />
         <meta name="twitter:site" content="@superbridgeapp" />

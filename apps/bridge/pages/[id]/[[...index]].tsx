@@ -27,13 +27,13 @@ export default function Page(props: PageProps) {
       <Head>
         <meta
           property="og:image"
-          content={`https://superbridge.app/${props.id}/og${
+          content={`https://superbridge.app/img/${props.id}/og${
             isRollbridge ? "-rb" : ""
           }.png`}
         />
         <meta
           name="twitter:image"
-          content={`https://superbridge.app/${props.id}/og-${
+          content={`https://superbridge.app/img/${props.id}/og${
             isRollbridge ? "-rb" : ""
           }.png`}
         />
