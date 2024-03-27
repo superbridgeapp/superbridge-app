@@ -29,6 +29,34 @@ export const baseTokens = [
     coinGeckoId: "send-token",
   },
 
+  // kibshi
+  {
+    chainId: mainnet.id,
+    address: "0x02e7F808990638E9e67E1f00313037EDe2362361",
+    name: "KiboShib",
+    symbol: "KIBSHI",
+    decimals: 18,
+    logoURI: "https://assets.coingecko.com/coins/images/29335/large/foto_no_exif_%2811%29%282%29_%281%29.png",
+    opTokenId: "KIBSHI",
+    coinGeckoId: "kiboshib",
+    standardBridgeAddresses: {
+      [base.id]: "0x3154Cf16ccdb4C6d922629664174b904d80F2C35",
+    },
+  },
+  {
+    chainId: base.id,
+    address: "0xC7DcCA0a3e69bD762C8DB257f868f76Be36c8514",
+    name: "KiboShib",
+    symbol: "KIBSHI",
+    decimals: 18,
+    logoURI: "https://assets.coingecko.com/coins/images/29335/large/foto_no_exif_%2811%29%282%29_%281%29.png",
+    opTokenId: "KIBSHI",
+    coinGeckoId: "kiboshib",
+    standardBridgeAddresses: {
+      [mainnet.id]: "0x4200000000000000000000000000000000000010",
+    },
+  },
+
   // subquery
   {
     chainId: mainnet.id,
