@@ -1,4 +1,4 @@
-import { base, mainnet } from "viem/chains";
+import { base, mainnet, optimism } from "viem/chains";
 
 export const baseTokens = [
   // send
@@ -197,5 +197,44 @@ export const baseTokens = [
       [mainnet.id]: "0x4200000000000000000000000000000000000010",
     },
     opTokenId: "FORTH",
+  },
+
+  // BITCOIN https://github.com/ethereum-optimism/ethereum-optimism.github.io/pull/725/files
+  {
+    chainId: mainnet.id,
+    address: "0x72e4f9F808C49A2a61dE9C5896298920Dc4EEEa9",
+    name: "HarryPotterObamaSonic10Inu",
+    symbol: "BITCOIN",
+    decimals: 8,
+    logoURI: "https://ethereum-optimism.github.io/data/BITCOIN/logo.svg",
+    standardBridgeAddresses: {
+      [optimism.id]: "0x99C9fc46f92E8a1c0deC1b1747d010903E884bE1",
+      [base.id]: "0x3154Cf16ccdb4C6d922629664174b904d80F2C35",
+    },
+    opTokenId: "BITCOIN",
+  },
+  {
+    chainId: optimism.id,
+    address: "0x8a6039fc7a479928b1d73f88040362e9c50db275",
+    name: "HarryPotterObamaSonic10Inu",
+    symbol: "BITCOIN",
+    decimals: 8,
+    logoURI: "https://ethereum-optimism.github.io/data/BITCOIN/logo.svg",
+    standardBridgeAddresses: {
+      [optimism.id]: "0x4200000000000000000000000000000000000010",
+    },
+    opTokenId: "BITCOIN",
+  },
+  {
+    chainId: base.id,
+    address: "0x2a06A17CBC6d0032Cac2c6696DA90f29D39a1a29",
+    name: "HarryPotterObamaSonic10Inu",
+    symbol: "BITCOIN",
+    decimals: 8,
+    logoURI: "https://ethereum-optimism.github.io/data/BITCOIN/logo.svg",
+    standardBridgeAddresses: {
+      [base.id]: "0x4200000000000000000000000000000000000010",
+    },
+    opTokenId: "BITCOIN",
   },
 ] as const;
