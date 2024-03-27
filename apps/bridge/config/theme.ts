@@ -291,7 +291,7 @@ const arbitrumOneTheme: Theme = {
   logoHeight: 42,
   iconSrc: "/img/arbitrum-one/icon.svg",
   screenBgImg:
-    "bg-[url('/img/bg/grains_ellipse.png')] bg-cover bg-center mix-blend-overlay opacity-20 mix-blend-plus-lighter",
+    "bg-[url('/img/arbitrum-one/bg.png')] bg-cover bg-center mix-blend-overlay opacity-20 mix-blend-plus-lighter",
   l2ChainIcon: "/img/arbitrum-one/network.svg",
 };
 
@@ -311,7 +311,7 @@ const arbitrumNovaTheme: Theme = {
   logoHeight: 42,
   iconSrc: "/img/arbitrum-nova/icon.svg",
   screenBgImg:
-    "bg-[url('/img/bg/grains_ellipse.png')] bg-cover bg-center mix-blend-overlay opacity-20 mix-blend-plus-lighter",
+    "bg-[url('/img/arbitrum-nova/bg.png')] bg-cover bg-center mix-blend-overlay opacity-20 mix-blend-plus-lighter",
   l2ChainIcon: "/img/arbitrum-nova/network.svg",
 };
 
