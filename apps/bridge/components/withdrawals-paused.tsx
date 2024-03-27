@@ -1,7 +1,13 @@
 import Link from "next/link";
+import { optimism, base } from "viem/chains";
 
 import { deploymentTheme } from "@/config/theme";
 import { useConfigState } from "@/state/config";
+
+const links: { [x: number]: string | undefined } = {
+  [base.id]: "https://status.base.org/",
+  [optimism.id]: "https://status.optimism.io/",
+};
 
 export const WithdrawalsPaused = () => {
   const deployment = useConfigState.useDeployment();
@@ -41,13 +47,15 @@ export const WithdrawalsPaused = () => {
       <span className="font-medium text-zinc-900 dark:text-white text-xs">
         Proving and finalizing {deployment?.l2.name} withdrawals is currently
         paused. <br />
-        <Link
-          href="https://status.optimism.io/"
-          target="_blank"
-          className="font-medium text-zinc-500 cursor-pointer hover:underline"
-        >
-          More info &amp; updates&hellip;
-        </Link>
+        {links[deployment?.l2.id ?? 0] && (
+          <Link
+            href={links[deployment?.l2.id ?? 0] ?? ""}
+            target="_blank"
+            className="font-medium text-zinc-500 cursor-pointer hover:underline"
+          >
+            More info &amp; updates&hellip;
+          </Link>
+        )}
       </span>
     </div>
   );
