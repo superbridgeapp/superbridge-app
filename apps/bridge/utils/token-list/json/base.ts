@@ -1,34 +1,6 @@
 import { base, mainnet, optimism } from "viem/chains";
 
 export const baseTokens = [
-  // send
-  {
-    chainId: mainnet.id,
-    address: "0x3f14920c99beb920afa163031c4e47a3e03b3e4a",
-    name: "Send Token",
-    symbol: "SEND",
-    decimals: 0,
-    logoURI: "https://basescan.org/token/images/sendittoken2_32.png",
-    standardBridgeAddresses: {
-      [base.id]: "0x3154Cf16ccdb4C6d922629664174b904d80F2C35",
-    },
-    opTokenId: "send",
-    coinGeckoId: "send-token",
-  },
-  {
-    chainId: base.id,
-    address: "0x3f14920c99BEB920Afa163031c4e47a3e03B3e4A",
-    name: "Send Token",
-    symbol: "SEND",
-    decimals: 0,
-    logoURI: "https://basescan.org/token/images/sendittoken2_32.png",
-    standardBridgeAddresses: {
-      [mainnet.id]: "0x4200000000000000000000000000000000000010",
-    },
-    opTokenId: "send",
-    coinGeckoId: "send-token",
-  },
-
   // kibshi
   {
     chainId: mainnet.id,
@@ -36,7 +8,8 @@ export const baseTokens = [
     name: "KiboShib",
     symbol: "KIBSHI",
     decimals: 18,
-    logoURI: "https://assets.coingecko.com/coins/images/29335/large/foto_no_exif_%2811%29%282%29_%281%29.png",
+    logoURI:
+      "https://assets.coingecko.com/coins/images/29335/large/foto_no_exif_%2811%29%282%29_%281%29.png",
     opTokenId: "KIBSHI",
     coinGeckoId: "kiboshib",
     standardBridgeAddresses: {
@@ -49,42 +22,13 @@ export const baseTokens = [
     name: "KiboShib",
     symbol: "KIBSHI",
     decimals: 18,
-    logoURI: "https://assets.coingecko.com/coins/images/29335/large/foto_no_exif_%2811%29%282%29_%281%29.png",
+    logoURI:
+      "https://assets.coingecko.com/coins/images/29335/large/foto_no_exif_%2811%29%282%29_%281%29.png",
     opTokenId: "KIBSHI",
     coinGeckoId: "kiboshib",
     standardBridgeAddresses: {
       [mainnet.id]: "0x4200000000000000000000000000000000000010",
     },
-  },
-
-  // subquery
-  {
-    chainId: mainnet.id,
-    address: "0x09395a2A58DB45db0da254c7EAa5AC469D8bDc85",
-    name: "SubQuery Network",
-    symbol: "SQT",
-    decimals: 18,
-    logoURI:
-      "https://assets.coingecko.com/coins/images/23359/standard/photo_2021-07-14_11-31-12.jpg",
-    standardBridgeAddresses: {
-      [base.id]: "0x3154Cf16ccdb4C6d922629664174b904d80F2C35",
-    },
-    opTokenId: "custom-sqt",
-    coinGeckoId: "subquery-network",
-  },
-  {
-    chainId: base.id,
-    address: "0x858c50C3AF1913b0E849aFDB74617388a1a5340d",
-    name: "SubQuery Network",
-    symbol: "SQT",
-    decimals: 18,
-    logoURI:
-      "https://assets.coingecko.com/coins/images/23359/standard/photo_2021-07-14_11-31-12.jpg",
-    standardBridgeAddresses: {
-      [mainnet.id]: "0x4200000000000000000000000000000000000010",
-    },
-    opTokenId: "custom-sqt",
-    coinGeckoId: "subquery-network",
   },
 
   // EPOCH
@@ -143,34 +87,6 @@ export const baseTokens = [
     opTokenId: "RAC",
   },
 
-  // SWARM
-  {
-    chainId: mainnet.id,
-    address: "0xB17548c7B510427baAc4e267BEa62e800b247173",
-    name: "Swarm Markets",
-    symbol: "SMT",
-    decimals: 18,
-    logoURI:
-      "https://assets.coingecko.com/coins/images/17488/standard/swarm-SMT-token-symbol_200x200.png",
-    standardBridgeAddresses: {
-      [base.id]: "0x3154Cf16ccdb4C6d922629664174b904d80F2C35",
-    },
-    opTokenId: "SWARM",
-  },
-  {
-    chainId: base.id,
-    address: "0x2974dc646e375e83bd1c0342625b49f288987fa4",
-    name: "Swarm Markets",
-    symbol: "SMT",
-    decimals: 18,
-    logoURI:
-      "https://assets.coingecko.com/coins/images/17488/standard/swarm-SMT-token-symbol_200x200.png",
-    standardBridgeAddresses: {
-      [mainnet.id]: "0x4200000000000000000000000000000000000010",
-    },
-    opTokenId: "SWARM",
-  },
-
   // FORTH
   {
     chainId: mainnet.id,
@@ -221,7 +137,7 @@ export const baseTokens = [
     decimals: 8,
     logoURI: "https://ethereum-optimism.github.io/data/BITCOIN/logo.svg",
     standardBridgeAddresses: {
-      [optimism.id]: "0x4200000000000000000000000000000000000010",
+      [mainnet.id]: "0x4200000000000000000000000000000000000010",
     },
     opTokenId: "BITCOIN",
   },
@@ -233,7 +149,7 @@ export const baseTokens = [
     decimals: 8,
     logoURI: "https://ethereum-optimism.github.io/data/BITCOIN/logo.svg",
     standardBridgeAddresses: {
-      [base.id]: "0x4200000000000000000000000000000000000010",
+      [mainnet.id]: "0x4200000000000000000000000000000000000010",
     },
     opTokenId: "BITCOIN",
   },
