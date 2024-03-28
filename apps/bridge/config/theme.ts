@@ -478,16 +478,16 @@ const metalTheme: Theme = {
   accentBg:
     "bg-[#172EB6] hover:bg-[#172EB6] dark:bg-zinc-50 dark:hover:bg-zinc-100",
   accentText: "text-white dark:text-zinc-900",
-  logoSrc: "/img/metal-mainnet/logo.png",
-  logoSrcDark: "/img/metal-mainnet/logo-dark.png",
+  logoSrc: "/img/metal-mainnet/logo.svg",
+  logoSrcDark: "/img/metal-mainnet/logo-dark.svg",
   logoWidth: 122,
   logoHeight: 24,
-  iconSrc: "/img/metal-mainnet/icon.png",
-  l2ChainIcon: "/img/metal-mainnet/network.png",
+  iconSrc: "/img/metal-mainnet/icon.svg",
+  l2ChainIcon: "/img/metal-mainnet/network.svg",
   screenBgImg:
     "bg-[url('/img/metal-mainnet/bg.jpg')] dark:bg-[url('/img/metal-mainnet/bg-dark.jpg')] bg-cover bg-center",
-  standaloneLogo: "/img/metal-mainnet/logo.png",
-  standaloneLogoDark: "/img/metal-mainnet/logo-dark.png",
+  standaloneLogo: "/img/metal-mainnet/logo.svg",
+  standaloneLogoDark: "/img/metal-mainnet/logo-dark.svg",
   card: {
     className: "bg-white",
     overlay: {
