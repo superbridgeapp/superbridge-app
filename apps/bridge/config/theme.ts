@@ -22,9 +22,6 @@ import {
   rollux,
 } from "viem/chains";
 
-import bgArbitrum from "../public/img/bg/grains_bottom.png";
-import bgPgn from "../public/img/bg/pgn.png";
-import bgZora from "../public/img/bg/zora.jpg";
 import { dedicatedDeployment } from "./dedicated-deployment";
 
 export const chainIcons: { [chainId: number]: string | undefined } = {
@@ -126,7 +123,7 @@ const zoraTheme: Theme = {
   card: {
     className: "bg-[#006FFE]",
     overlay: {
-      image: bgZora,
+      image: "/img/zora/bg.jpg",
       className: "bg-cover bg-center mix-blend-screen opacity-100",
     },
   },
@@ -224,8 +221,8 @@ const pgnTheme: Theme = {
   card: {
     className: "bg-[#3CE046]",
     overlay: {
+      image: "/img/pgn/bg.png",
       className: "bg-cover bg-center opacity-70",
-      image: bgPgn,
     },
   },
   screenBg: "bg-[#4BF155] dark:bg-zinc-950 ",
@@ -280,10 +277,11 @@ const arbitrumOneTheme: Theme = {
   card: {
     className: "bg-[#1C4ADD]",
     overlay: {
-      image: bgArbitrum,
+      image: "/img/arbitrum-one/bg.png",
       className: "bg-cover bg-center mix-blend-overlay opacity-50",
     },
   },
+
   screenBg: "bg-[#1C4ADD] dark:bg-[#213147]",
   logoSrc: "/img/arbitrum-one/logo.svg",
   logoSrcDark: "/img/arbitrum-one/logo.svg",
@@ -300,8 +298,8 @@ const arbitrumNovaTheme: Theme = {
   card: {
     className: "bg-[#E57410]",
     overlay: {
+      image: "/img/arbitrum-nova/bg.png",
       className: "bg-cover bg-center mix-blend-overlay opacity-30",
-      image: bgArbitrum,
     },
   },
   screenBg: "bg-[#E57410] dark:bg-[#213147]",
@@ -472,6 +470,33 @@ const stackTheme: Theme = {
   standaloneLogoDark: "/img/stack-mainnet/logo-standalone-dark.svg",
 };
 
+const metalTheme: Theme = {
+  ...defaultTheme,
+  bg: "bg-white dark:bg-white/5",
+  bgMuted: "bg-zinc-100 dark:bg-white/5",
+  screenBg: "bg-white dark:bg-[#101010]",
+  accentBg:
+    "bg-[#172EB6] hover:bg-[#172EB6] dark:bg-zinc-50 dark:hover:bg-zinc-100",
+  accentText: "text-white dark:text-zinc-900",
+  logoSrc: "/img/metal-mainnet/logo.svg",
+  logoSrcDark: "/img/metal-mainnet/logo-dark.svg",
+  logoWidth: 122,
+  logoHeight: 24,
+  iconSrc: "/img/metal-mainnet/icon.svg",
+  l2ChainIcon: "/img/metal-mainnet/network.svg",
+  screenBgImg:
+    "bg-[url('/img/metal-mainnet/bg.jpg')] dark:bg-[url('/img/metal-mainnet/bg-dark.jpg')] bg-cover bg-center",
+  standaloneLogo: "/img/metal-mainnet/logo.svg",
+  standaloneLogoDark: "/img/metal-mainnet/logo-dark.svg",
+  card: {
+    className: "bg-white",
+    overlay: {
+      image: "/img/metal-mainnet/bg-card.jpg",
+      className: "bg-cover bg-center opacity-100",
+    },
+  },
+};
+
 export const themes: { [name: string]: Theme | undefined } = {
   ["base"]: baseTheme,
   ["base-sepolia"]: baseTheme,
@@ -504,11 +529,13 @@ export const themes: { [name: string]: Theme | undefined } = {
   parallel,
   ["parallel-chain-oqwzakghzt"]: parallel,
   ["surprised-harlequin-bonobo-fvcy2k9oqh"]: parallel,
+  ["accused-coffee-koala-b9fn1dik76"]: parallel,
   ["lisk-mainnet"]: liskTheme,
   ["lisk-sepolia"]: liskTheme,
   ["lumio-mainnet"]: lumioTheme,
   ["stack-mainnet"]: stackTheme,
   ["stack-testnet-p776aut4wc"]: stackTheme,
+  ["metal-mainnet"]: metalTheme,
 };
 
 export const deploymentTheme = (

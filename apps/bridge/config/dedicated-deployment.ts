@@ -73,6 +73,15 @@ const mapping: { [name: string]: DedicatedDeployment | undefined } = {
     },
     network: "Stack Mainnet",
   },
+  ["metal-mainnet"]: {
+    name: "metal-mainnet",
+    footerLink: "https://metall2.com",
+    og: {
+      title: "Metal Bridge",
+      description: "Bridge ETH and ERC20 tokens into and out of Metal Mainnet",
+    },
+    network: "Metal Mainnet",
+  },
 };
 
 export const dedicatedDeployment = mapping[DEDICATED_DEPLOYMENT ?? ""] ?? null;
