@@ -103,5 +103,5 @@
 }
 
 html {
-  font-family: GT-Maru;
+  font-family: GT-Maru, ui-rounded, system-ui, sans-serif;
 }
