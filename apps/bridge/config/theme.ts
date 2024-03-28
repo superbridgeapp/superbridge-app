@@ -22,9 +22,6 @@ import {
   rollux,
 } from "viem/chains";
 
-import bgArbitrum from "../public/img/bg/grains_bottom.png";
-import bgPgn from "../public/img/bg/pgn.png";
-import bgZora from "../public/img/bg/zora.jpg";
 import { dedicatedDeployment } from "./dedicated-deployment";
 
 export const chainIcons: { [chainId: number]: string | undefined } = {
@@ -126,7 +123,7 @@ const zoraTheme: Theme = {
   card: {
     className: "bg-[#006FFE]",
     overlay: {
-      image: bgZora,
+      image: "/img/zora/bg.jpg",
       className: "bg-cover bg-center mix-blend-screen opacity-100",
     },
   },
@@ -224,8 +221,8 @@ const pgnTheme: Theme = {
   card: {
     className: "bg-[#3CE046]",
     overlay: {
+      image: "/img/pgn/bg.png",
       className: "bg-cover bg-center opacity-70",
-      image: bgPgn,
     },
   },
   screenBg: "bg-[#4BF155] dark:bg-zinc-950 ",
@@ -280,10 +277,11 @@ const arbitrumOneTheme: Theme = {
   card: {
     className: "bg-[#1C4ADD]",
     overlay: {
-      image: bgArbitrum,
+      image: "/img/arbitrum-one/bg.png",
       className: "bg-cover bg-center mix-blend-overlay opacity-50",
     },
   },
+
   screenBg: "bg-[#1C4ADD] dark:bg-[#213147]",
   logoSrc: "/img/arbitrum-one/logo.svg",
   logoSrcDark: "/img/arbitrum-one/logo.svg",
@@ -300,8 +298,8 @@ const arbitrumNovaTheme: Theme = {
   card: {
     className: "bg-[#E57410]",
     overlay: {
+      image: "/img/arbitrum-nova/bg.png",
       className: "bg-cover bg-center mix-blend-overlay opacity-30",
-      image: bgArbitrum,
     },
   },
   screenBg: "bg-[#E57410] dark:bg-[#213147]",
@@ -488,11 +486,15 @@ const metall2: Theme = {
   l2ChainIcon: "/img/metall2/network.png",
   screenBgImg:
     "bg-[url('/img/metall2/bg.jpg')] dark:bg-[url('/img/metall2/bg-dark.jpg')] bg-cover bg-center",
-  card: {
-    className: "bg-black",
-  },
   standaloneLogo: "/img/metall2/logo.png",
   standaloneLogoDark: "/img/metall2/logo-dark.png",
+  card: {
+    className: "bg-white",
+    overlay: {
+      image: "/img/metall2/bg-card.jpg",
+      className: "bg-cover bg-center opacity-100",
+    },
+  },
 };
 
 export const themes: { [name: string]: Theme | undefined } = {
