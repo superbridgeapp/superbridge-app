@@ -470,7 +470,7 @@ const stackTheme: Theme = {
   standaloneLogoDark: "/img/stack-mainnet/logo-standalone-dark.svg",
 };
 
-const metall2: Theme = {
+const metalTheme: Theme = {
   ...defaultTheme,
   bg: "bg-white dark:bg-white/5",
   bgMuted: "bg-zinc-100 dark:bg-white/5",
@@ -478,20 +478,20 @@ const metall2: Theme = {
   accentBg:
     "bg-[#172EB6] hover:bg-[#172EB6] dark:bg-zinc-50 dark:hover:bg-zinc-100",
   accentText: "text-white dark:text-zinc-900",
-  logoSrc: "/img/metall2/logo.png",
-  logoSrcDark: "/img/metall2/logo-dark.png",
+  logoSrc: "/img/metal-mainnet/logo.png",
+  logoSrcDark: "/img/metal-mainnet/logo-dark.png",
   logoWidth: 122,
   logoHeight: 24,
-  iconSrc: "/img/metall2/icon.png",
-  l2ChainIcon: "/img/metall2/network.png",
+  iconSrc: "/img/metal-mainnet/icon.png",
+  l2ChainIcon: "/img/metal-mainnet/network.png",
   screenBgImg:
-    "bg-[url('/img/metall2/bg.jpg')] dark:bg-[url('/img/metall2/bg-dark.jpg')] bg-cover bg-center",
-  standaloneLogo: "/img/metall2/logo.png",
-  standaloneLogoDark: "/img/metall2/logo-dark.png",
+    "bg-[url('/img/metal-mainnet/bg.jpg')] dark:bg-[url('/img/metal-mainnet/bg-dark.jpg')] bg-cover bg-center",
+  standaloneLogo: "/img/metal-mainnet/logo.png",
+  standaloneLogoDark: "/img/metal-mainnet/logo-dark.png",
   card: {
     className: "bg-white",
     overlay: {
-      image: "/img/metall2/bg-card.jpg",
+      image: "/img/metal-mainnet/bg-card.jpg",
       className: "bg-cover bg-center opacity-100",
     },
   },
@@ -529,11 +529,13 @@ export const themes: { [name: string]: Theme | undefined } = {
   parallel,
   ["parallel-chain-oqwzakghzt"]: parallel,
   ["surprised-harlequin-bonobo-fvcy2k9oqh"]: parallel,
+  ["accused-coffee-koala-b9fn1dik76"]: parallel,
   ["lisk-mainnet"]: liskTheme,
   ["lisk-sepolia"]: liskTheme,
   ["lumio-mainnet"]: lumioTheme,
   ["stack-mainnet"]: stackTheme,
   ["stack-testnet-p776aut4wc"]: stackTheme,
+  ["metal-mainnet"]: metalTheme,
 };
 
 export const deploymentTheme = (

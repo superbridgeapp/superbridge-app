@@ -9,7 +9,7 @@ export interface Theme {
     className?: string;
     overlay?: {
       className?: string;
-      image?: StaticImageData;
+      image?: string;
     };
   };
   bgMuted: string;
