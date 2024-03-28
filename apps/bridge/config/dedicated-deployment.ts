@@ -77,10 +77,20 @@ const mapping: { [name: string]: DedicatedDeployment | undefined } = {
     name: "metal-mainnet",
     footerLink: "https://metall2.com",
     og: {
-      title: "Metal Bridge",
-      description: "Bridge ETH and ERC20 tokens into and out of Metal Mainnet",
+      title: "Metal L2 Bridge",
+      description: "Bridge ETH and ERC20 tokens into and out of Metal L2",
     },
-    network: "Metal Mainnet",
+    network: "Metal L2",
+  },
+  ["metal-l2-testnet-3bbzi9kufn"]: {
+    name: "metal-l2-testnet-3bbzi9kufn",
+    footerLink: "https://metall2.com",
+    og: {
+      title: "Metal L2 Testnet Bridge",
+      description:
+        "Bridge ETH and ERC20 tokens into and out of Metal L2 Testnet",
+    },
+    network: "Metal L2 Testnet",
   },
 };
 
