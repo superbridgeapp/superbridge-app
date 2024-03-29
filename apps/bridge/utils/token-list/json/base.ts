@@ -1,4 +1,4 @@
-import { base, mainnet, optimism } from "viem/chains";
+import { base, mainnet, optimism, zora } from "viem/chains";
 
 export const baseTokens = [
   // kibshi
@@ -71,12 +71,25 @@ export const baseTokens = [
     logoURI: "https://etherscan.io/token/images/RAC1_32.png",
     standardBridgeAddresses: {
       [base.id]: "0x3154Cf16ccdb4C6d922629664174b904d80F2C35",
+      [zora.id]: "0x3e2ea9b92b7e48a52296fd261dc26fd995284631",
     },
     opTokenId: "RAC",
   },
   {
     chainId: base.id,
     address: "0x197D38DC562DfB2490eC1A1d5C4CC4319d178Bb4",
+    name: "RAC",
+    symbol: "RAC",
+    decimals: 18,
+    logoURI: "https://etherscan.io/token/images/RAC1_32.png",
+    standardBridgeAddresses: {
+      [mainnet.id]: "0x4200000000000000000000000000000000000010",
+    },
+    opTokenId: "RAC",
+  },
+  {
+    chainId: zora.id,
+    address: "0x7c6b91D9Be155A6Db01f749217d76fF02A7227F2",
     name: "RAC",
     symbol: "RAC",
     decimals: 18,
