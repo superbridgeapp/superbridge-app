@@ -497,6 +497,28 @@ const metalTheme: Theme = {
   },
 };
 
+const campTheme: Theme = {
+  ...defaultTheme,
+  bg: "bg-white dark:bg-white/5",
+  bgMuted: "bg-zinc-100 dark:bg-white/5",
+  screenBg: "bg-[#F4F3F8] dark:bg-[#111111]",
+  accentBg:
+    "bg-[#FF6D01] hover:bg-[#FF6D01] dark:bg-[#FF6D01] dark:hover:bg-[#FF6D01]",
+  accentText: "text-white dark:text-zinc-900",
+  logoSrc: "/img/camp-mainnet/logo.svg",
+  logoSrcDark: "/img/camp-mainnet/logo-dark.svg",
+  logoWidth: 94,
+  logoHeight: 24,
+  iconSrc: "/img/camp-mainnet/icon.svg",
+  l2ChainIcon: "/img/camp-mainnet/network.svg",
+  screenBgImg: "bg-transparent",
+  standaloneLogo: "/img/camp-mainnet/logo.svg",
+  standaloneLogoDark: "/img/camp-mainnet/logo-dark.svg",
+  card: {
+    className: "bg-[#111111]",
+  },
+};
+
 export const themes: { [name: string]: Theme | undefined } = {
   ["base"]: baseTheme,
   ["base-sepolia"]: baseTheme,
