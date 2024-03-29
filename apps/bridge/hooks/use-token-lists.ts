@@ -15,6 +15,7 @@ import MockArbitrumTokenList from "@/utils/token-list/json/mock-arbitrum.json";
 import * as pgn from "@/utils/token-list/json/pgn";
 import { rollux } from "@/utils/token-list/json/rollux";
 import * as usdc from "@/utils/token-list/json/usdc";
+import * as lumio from "@/utils/token-list/json/lumio";
 import { wsteth } from "@/utils/token-list/json/wsteth";
 import { transformArbitrumTokenList } from "@/utils/token-list/transform-arbitrum-token-list";
 import { transformIntoOptimismToken } from "@/utils/token-list/transform-optimism-token";
@@ -117,6 +118,7 @@ export const useTokenLists = () => {
       ...rollux,
       ...baseTokens,
       ...seam,
+      ...lumio.FULLY_QUALIFIED_TOKENS,
     ].forEach((tok) => {
       if (multichainTokens[tok.opTokenId]) {
         multichainTokens[tok.opTokenId][tok.chainId] = tok;
@@ -136,6 +138,10 @@ export const useTokenLists = () => {
       {
         tokens: pgn.tokens,
         standardBridgeAddress: pgn.l1StandardBridgeAddress,
+      },
+      {
+        tokens: lumio.tokens,
+        standardBridgeAddress: lumio.l1StandardBridgeAddress,
       },
     ].forEach(({ tokens, standardBridgeAddress }) => {
       tokens.forEach((token) => {
