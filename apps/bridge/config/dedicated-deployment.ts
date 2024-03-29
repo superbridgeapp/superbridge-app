@@ -92,6 +92,15 @@ const mapping: { [name: string]: DedicatedDeployment | undefined } = {
     },
     network: "Metal L2 Testnet",
   },
+  ["camp-network-4xje7wy105"]: {
+    name: "camp-network-4xje7wy105",
+    footerLink: "https://www.campnetwork.xyz/",
+    og: {
+      title: "Camp Testnet Bridge",
+      description: "Bridge ETH and ERC20 tokens into and out of Camp Testnet",
+    },
+    network: "Camp Testnet",
+  },
 };
 
 export const dedicatedDeployment = mapping[DEDICATED_DEPLOYMENT ?? ""] ?? null;

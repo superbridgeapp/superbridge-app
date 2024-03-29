@@ -559,6 +559,7 @@ export const themes: { [name: string]: Theme | undefined } = {
   ["stack-testnet-p776aut4wc"]: stackTheme,
   ["metal-mainnet"]: metalTheme,
   ["metal-l2-testnet-3bbzi9kufn"]: metalTheme,
+  ["camp-network-4xje7wy105"]: campTheme,
 };
 
 export const deploymentTheme = (
