@@ -16,6 +16,7 @@ import * as pgn from "@/utils/token-list/json/pgn";
 import { rollux } from "@/utils/token-list/json/rollux";
 import * as usdc from "@/utils/token-list/json/usdc";
 import * as lumio from "@/utils/token-list/json/lumio";
+import * as metal from "@/utils/token-list/json/metal";
 import { wsteth } from "@/utils/token-list/json/wsteth";
 import { transformArbitrumTokenList } from "@/utils/token-list/transform-arbitrum-token-list";
 import { transformIntoOptimismToken } from "@/utils/token-list/transform-optimism-token";
@@ -119,6 +120,7 @@ export const useTokenLists = () => {
       ...baseTokens,
       ...seam,
       ...lumio.FULLY_QUALIFIED_TOKENS,
+      ...metal.FULLY_QUALIFIED_TOKENS,
     ].forEach((tok) => {
       if (multichainTokens[tok.opTokenId]) {
         multichainTokens[tok.opTokenId][tok.chainId] = tok;

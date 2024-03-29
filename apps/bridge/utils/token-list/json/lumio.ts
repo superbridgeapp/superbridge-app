@@ -49,4 +49,16 @@ export const tokens = [
     },
     opTokenId: "USDT",
   },
+  {
+    chainId,
+    address: "0xd08a2917653d4e460893203471f0000826fb4034",
+    name: "Pepe",
+    symbol: "PEPE",
+    decimals: 18,
+    logoURI: "https://ethereum-optimism.github.io/data/PEPE/logo.svg",
+    standardBridgeAddresses: {
+      [1]: "0x4200000000000000000000000000000000000010",
+    },
+    opTokenId: "PEPE",
+  },
 ] as const;
