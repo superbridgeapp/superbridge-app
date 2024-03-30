@@ -23,7 +23,7 @@ export const FULLY_QUALIFIED_TOKENS = [
     address: "0xBCFc435d8F276585f6431Fc1b9EE9A850B5C00A9",
     name: "Metal",
     symbol: "MTL",
-    decimals: 18,
+    decimals: 8,
     logoURI: "https://assets.coingecko.com/coins/images/763/standard/Metal.png",
     opTokenId: "MTL",
     standardBridgeAddresses: {
