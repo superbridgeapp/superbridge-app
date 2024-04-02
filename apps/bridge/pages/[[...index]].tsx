@@ -21,6 +21,8 @@ export const getServerSideProps = async ({
 }: GetServerSidePropsContext) => {
   const ignored = ["favicon"];
 
+  console.log(req.url, req.headers.host);
+
   if (!req.url || !req.headers.host) return { props: { deployments: [] } };
 
   if (ignored.find((x) => req.url?.includes(x))) {
