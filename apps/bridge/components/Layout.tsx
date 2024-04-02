@@ -98,7 +98,8 @@ export function Layout({ children }: { children: any }) {
   return (
     <div
       className={clsx(
-        theme.screenBg,
+        // "bg-background",
+        // theme.screenBg,
         "w-screen h-screen overflow-hidden z-40 relative transition-colors duration-1000 tracking-tight flex justify-center transform-gpu"
       )}
     >
@@ -107,8 +108,8 @@ export function Layout({ children }: { children: any }) {
 
       <div
         className={clsx(
-          `inset-0 z-0 fixed transition-all bg-transparent`,
-          isDog(deployment, stateToken) ? "bg-transparent" : theme.screenBgImg
+          `inset-0 z-0 fixed transition-all`,
+          isDog(deployment, stateToken) ? "bg-transparent" : "bg-background"
         )}
       />
       {isDog(deployment, stateToken) ? (

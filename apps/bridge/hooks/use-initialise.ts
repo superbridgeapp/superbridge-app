@@ -12,6 +12,7 @@ import { useIsContractAccount } from "./use-is-contract-account";
 import { useInitialiseRecipient } from "./use-recipient";
 import { useTokenLists } from "./use-token-lists";
 import { useInitialiseArbitrumNativeTokens } from "./arbitrum/use-initialise-arbitrum-native-tokens";
+import { useInitialiseTheme } from "./use-initialise-theme";
 
 export const useInitialise = () => {
   const router = useRouter();
@@ -31,6 +32,15 @@ export const useInitialise = () => {
   useTokenLists();
   useInitialiseToken();
   useInitialiseArbitrumNativeTokens();
+  useInitialiseTheme();
+
+  useEffect(() => {
+    window.addEventListener("message", (e: MessageEvent) => {
+      if (e.data === "refresh") {
+        window.location.reload();
+      }
+    });
+  }, []);
 
   useAccountEffect({
     onDisconnect: () => {
