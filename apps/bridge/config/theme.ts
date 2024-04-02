@@ -564,6 +564,15 @@ export const themes: { [name: string]: Theme | undefined } = {
 };
 
 export const deploymentTheme = (
-  deployment: Pick<DeploymentDto, "name"> | null
-) =>
-  themes[dedicatedDeployment?.name ?? deployment?.name ?? ""] ?? defaultTheme;
+  deployment: DeploymentDto | Pick<DeploymentDto, "name"> | null
+) => {
+  if (deployment && themes[deployment.name]) {
+    return;
+  }
+
+  return {
+    ...defaultTheme,
+    // @ts-expect-error
+    ...deployment?.theme?.theme,
+  };
+};

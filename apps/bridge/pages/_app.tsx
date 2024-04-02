@@ -15,10 +15,8 @@ import { UNSTYLED_PAGES } from "@/constants/unstyled-pages";
 import { Head } from "@/components/head";
 
 export default function CustomApp(appProps: AppProps) {
-  console.log("_app");
   return (
     <>
-      <Head />
       <title>{metadata.title}</title>
       <meta name="title" content={metadata.title} />
       <meta property="og:title" content={metadata.title} />

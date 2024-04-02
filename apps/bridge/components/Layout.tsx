@@ -25,7 +25,7 @@ import { SettingsModal } from "./settings/settings-modal";
 import { TosModal } from "./tos-modal";
 import { CustomTokenListModal } from "./settings/custom-token-list-modal";
 
-export function Layout({ children }) {
+export function Layout({ children }: { children: any }) {
   const deployments = useDeployments();
   const navigate = useNavigate();
   const deployment = useConfigState.useDeployment();
@@ -41,8 +41,6 @@ export function Layout({ children }) {
   useEffect(() => {
     initParticlesEngine((engine) => loadSlim(engine));
   }, []);
-
-  console.log("Layout");
 
   const options: ISourceOptions = useMemo(
     () => ({

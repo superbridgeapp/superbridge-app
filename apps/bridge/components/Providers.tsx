@@ -25,12 +25,14 @@ import { useConfigState } from "@/state/config";
 import { queryClient } from "@/utils/query-client";
 
 import { Loading } from "./Loading";
+import { DeploymentDto } from "@/codegen/model";
 
 function Web3Provider({
   children,
   deployments,
 }: {
   children: React.ReactNode;
+  deployments: DeploymentDto[];
 }) {
   const { resolvedTheme } = useTheme();
   const deployment = useConfigState.useDeployment();
@@ -147,6 +149,7 @@ export function Providers({
   deployments,
 }: {
   children: React.ReactNode;
+  deployments: DeploymentDto[];
 }) {
   return (
     <ThemeProvider attribute="class">

@@ -39,12 +39,11 @@ export const useInitialise = () => {
   });
 
   useEffect(() => {
-    if (deploymentsLoading || initialised) {
+    if (deploymentsLoading || initialised || deployments.length == 0) {
       return;
     }
 
-    const id = router.query.id as string | undefined;
-
+    const [id] = router.asPath.split("/");
     if (deployments.length === 1) {
       setDeployment(deployments[0]);
       setInitialised();
