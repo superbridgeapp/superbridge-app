@@ -718,11 +718,7 @@ export const ConfirmationModal = ({
               arbitrumGasToken &&
               approveArbitrumGasTokenButton && (
                 <Button
-                  className={clsx(
-                    "flex w-full justify-center rounded-full px-3 py-6 text-sm font-bold leading-6 text-white shadow-sm",
-                    theme.accentText,
-                    theme.accentBg
-                  )}
+                  className="flex w-full justify-center rounded-full px-3 py-6 text-sm font-bold leading-6 text-white shadow-sm"
                   onClick={approveArbitrumGasTokenButton.onSubmit}
                   disabled={
                     !checkbox1 ||
@@ -748,12 +744,7 @@ export const ConfirmationModal = ({
 
             {approveButton && (
               <Button
-                className={clsx(
-                  "flex w-full justify-center rounded-full px-3 py-6 text-sm font-bold leading-6 text-white shadow-sm",
-                  theme.accentText,
-                  theme.accentBg
-                  // approved && "bg-green-300 dark:bg-green-300"
-                )}
+                className="flex w-full justify-center rounded-full px-3 py-6 text-sm font-bold leading-6 text-white shadow-sm"
                 onClick={approveButton.onSubmit}
                 disabled={
                   !checkbox1 ||
@@ -778,7 +769,7 @@ export const ConfirmationModal = ({
             )}
 
             <Button
-              className={`flex w-full justify-center rounded-full px-3 py-6 text-sm font-bold leading-6 text-white shadow-sm ${theme.accentText} ${theme.accentBg}`}
+              className="flex w-full justify-center rounded-full px-3 py-6 text-sm font-bold leading-6 text-white shadow-sm"
               onClick={initiateButton.onSubmit}
               disabled={
                 !checkbox1 ||
@@ -794,7 +785,7 @@ export const ConfirmationModal = ({
               window.location.host === "superbridge.app" &&
               (withdrawing || isNativeUsdc(stateToken)) && (
                 <Link
-                  className={`mt-2 leading-3 text-center text-xs font-medium tracking-tight cursor-pointer transition-all opacity-70 hover:opacity-100 ${theme.textColor}`}
+                  className={`mt-2 leading-3 text-center text-xs font-medium tracking-tight cursor-pointer transition-all opacity-70 hover:opacity-100`}
                   href="/alternative-bridges"
                   target="_blank"
                 >

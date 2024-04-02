@@ -28,15 +28,15 @@ export const DepositFees = ({ gasEstimate }: { gasEstimate: number }) => {
         </div>
 
         <div className="flex items-center gap-2">
-          <span className={`text-xs font-medium ${theme.textColor}`}>
+          <span className={`text-xs font-medium text-foreground`}>
             {fee.usd?.formatted && (
               <span
-                className={`${theme.textColorMuted} ml-auto text-xs font-medium mr-2`}
+                className={`text-muted-foreground ml-auto text-xs font-medium mr-2`}
               >
                 {fee.usd?.formatted}
               </span>
             )}
-            <span className={`text-xs font-medium ${theme.textColor}`}>
+            <span className={`text-xs font-medium text-foreground`}>
               {fee.token?.formatted}
             </span>
           </span>

@@ -61,9 +61,7 @@ export const ClosedActivity = () => {
       exit={"hidden"}
       whileHover={"hover"}
       key={"activityBtn"}
-      className={`${
-        deploymentTheme(deployment).bg
-      } backdrop-blur rounded-full shadow-sm flex h-10 z-50 flex-col absolute self-end mb-3 md:mb-4`}
+      className="bg-card backdrop-blur rounded-full shadow-sm flex h-10 z-50 flex-col absolute self-end mb-3 md:mb-4"
     >
       <motion.div
         className="flex items-center justify-between gap-3 pl-5 pr-2 h-10 cursor-pointer z-10"
@@ -124,7 +122,7 @@ export const ClosedActivity = () => {
           {hasPendingAction ? (
             <motion.h2
               key="titleActionNeeded"
-              className="text-zinc-900 dark:text-zinc-50 font-bold text-sm md:text-base whitespace-nowrap"
+              className="font-bold text-sm md:text-base whitespace-nowrap"
               animate={{ opacity: 1 }}
               initial={{ opacity: 0 }}
               exit={{ opacity: 0 }}
@@ -135,7 +133,7 @@ export const ClosedActivity = () => {
           ) : (
             <motion.h2
               key="titleActivity"
-              className="text-zinc-900 dark:text-zinc-50 font-bold text-sm md:text-base"
+              className="font-bold text-sm md:text-base"
               animate={{ opacity: 1 }}
               initial={{ opacity: 0 }}
               exit={{ opacity: 0 }}
@@ -160,9 +158,7 @@ export const ClosedActivity = () => {
                 className={`flex items-center gap-1 justify-center px-2 py-1 text-center rounded-full bg-zinc-900 dark:bg-zinc-50
             `}
               >
-                <span className="text-zinc-50 dark:text-zinc-900 text-xs font-medium">
-                  {inProgressCount}
-                </span>
+                <span className="text-xs font-medium">{inProgressCount}</span>
                 <Lottie
                   animationData={inProgress}
                   loop={true}
@@ -192,7 +188,7 @@ export const ClosedActivity = () => {
                 width="24"
                 height="24"
                 viewBox="0 0 256 256"
-                className="fill-zinc-400 -translate-x-1"
+                className="fill-muted-foreground -translate-x-1"
               >
                 <path d="M216.49 168.49a12 12 0 01-17 0L128 97l-71.51 71.49a12 12 0 01-17-17l80-80a12 12 0 0117 0l80 80a12 12 0 010 17z"></path>
               </svg>

@@ -15,7 +15,7 @@ export const FromTo = () => {
   const theme = deploymentTheme(deployment);
   return (
     <div
-      className={`${theme.border} border-2 box-border relative flex items-start justify-between box-border p-3 py-4  rounded-[16px] relative`}
+      className={`border-2 box-border relative flex items-start justify-between box-border p-3 py-4  rounded-[16px] relative`}
     >
       <div className="grow flex gap-2 items-start w-1/2 pr-3">
         <NetworkIcon
@@ -27,12 +27,12 @@ export const FromTo = () => {
         />
         <div>
           <span
-            className={`${theme.textColorMuted} text-xs font-medium leading-4 block `}
+            className={`text-muted-foreground text-xs font-medium leading-4 block `}
           >
             {t("from")}
           </span>
           <span
-            className={`text-sm md:text-sm font-medium leading-4 block tracking-tighter ${theme.textColor}`}
+            className={`text-sm md:text-sm font-medium leading-4 block tracking-tighter`}
             style={{ lineHeight: "1em" }}
           >
             {from?.name}
@@ -45,7 +45,7 @@ export const FromTo = () => {
         width="24"
         height="24"
         viewBox="0 0 256 256"
-        className={`${theme.fill} absolute left-[50%] top-1/2 w-6 h-6 -translate-x-[50%] -translate-y-2/4 transparent`}
+        className={`fill-muted-foreground absolute left-[50%] top-1/2 w-6 h-6 -translate-x-[50%] -translate-y-2/4 transparent`}
       >
         <path d="M224.49 136.49l-72 72a12 12 0 01-17-17L187 140H40a12 12 0 010-24h147l-51.49-51.52a12 12 0 0117-17l72 72a12 12 0 01-.02 17.01z"></path>
       </svg>
@@ -53,12 +53,12 @@ export const FromTo = () => {
       <div className="grow flex gap-2 justify-end items-start w-1/2 pl-3">
         <div>
           <span
-            className={`${theme.textColorMuted} text-xs text-right font-medium leading-4 block `}
+            className={`text-muted-foreground text-xs text-right font-medium leading-4 block `}
           >
             {t("to")}
           </span>
           <span
-            className={`text-sm md:text-sm font-medium text-right leading-4 block tracking-tighter ${theme.textColor}`}
+            className={`text-sm md:text-sm font-medium text-right leading-4 block tracking-tighter`}
             style={{ lineHeight: "1.125em" }}
           >
             {to?.name}

@@ -162,7 +162,7 @@ export const CustomTokenListModal = () => {
         </div>
         <div className="p-6 flex flex-col gap-2">
           <Button
-            className={`flex w-full justify-center rounded-full h-10 px-3  text-sm tracking-tight font-bold leading-3 text-white shadow-sm ${theme.accentText} ${theme.accentBg}`}
+            className={`flex w-full justify-center rounded-full h-10 px-3  text-sm tracking-tight font-bold leading-3 text-white shadow-sm`}
             onClick={onSubmit}
             disabled={
               !name ||
@@ -176,7 +176,7 @@ export const CustomTokenListModal = () => {
 
           {typeof tokenListOrOpen === "object" && (
             <Button
-              className={`flex w-full justify-center rounded-full h-10 px-3  text-sm tracking-tight font-bold leading-3 text-white shadow-sm bg-red-500 hover:bg-red-600 ${theme.accentText} `}
+              className={`flex w-full justify-center rounded-full h-10 px-3  text-sm tracking-tight font-bold leading-3 text-white shadow-sm bg-red-500 hover:bg-red-600`}
               onClick={onDelete}
               disabled={!name || !url || !disclaimerChecked}
             >

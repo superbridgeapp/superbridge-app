@@ -230,7 +230,7 @@ const TokenImport = ({ address }: { address: Address }) => {
         <div className="ml-4">
           <Button
             onClick={onImportToken}
-            className={`flex w-full justify-center rounded-full h-8 px-3  text-xs tracking-tight font-bold leading-3 text-white shadow-sm ${theme.accentText} ${theme.accentBg}`}
+            className={`flex w-full justify-center rounded-full h-8 px-3  text-xs tracking-tight font-bold leading-3 text-white shadow-sm`}
           >
             {t("tokens.import")}
           </Button>

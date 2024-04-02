@@ -34,19 +34,19 @@ export const TokenModal = (props: {
 
             <div className="flex items-center space-x-2 w-full">
               <div
-                className={`${theme.bgMuted} flex p-1 rounded-full transition-colors w-full`}
+                className={`bg-muted flex p-1 rounded-full transition-colors w-full`}
               >
                 <div
                   role="button"
                   className={`flex justify-center items-center rounded-full px-3 h-10 cursor-pointer transition-colors duration-200 w-full ${
-                    !nfts ? theme.accentBg : "bg-transparent"
+                    !nfts ? "bg-primary" : "bg-transparent"
                   } `}
                   onClick={() => setNfts((n) => !n)}
                 >
                   <span
-                    className={`text-xs text-center font-medium inline-flex hover:${
-                      theme.textColorMuted
-                    } ${!nfts ? theme.accentText : "bg-transparent"}`}
+                    className={`text-xs text-center font-medium inline-flex ${
+                      !nfts ? "text-primary" : "bg-transparent"
+                    }`}
                   >
                     {t("tokens.tokens")}
                   </span>
@@ -54,14 +54,14 @@ export const TokenModal = (props: {
                 <div
                   role="button"
                   className={`flex justify-center items-center rounded-full px-3 h-10 cursor-pointer transition-colors duration-200 w-full ${
-                    nfts ? theme.accentBg : "bg-transparent"
+                    nfts ? "bg-primary" : "bg-transparent"
                   }`}
                   onClick={() => setNfts((n) => !n)}
                 >
                   <span
-                    className={`text-xs text-center font-medium inline-flex hover:${
-                      theme.textColorMuted
-                    } ${nfts ? theme.accentText : theme.textColorMuted}`}
+                    className={`text-xs text-center font-medium inline-flex ${
+                      nfts ? "text-primary" : "text-muted-foreground"
+                    }`}
                   >
                     {t("tokens.nfts")}
                   </span>

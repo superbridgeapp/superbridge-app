@@ -139,7 +139,7 @@ export function Layout({ children }: { children: any }) {
               />
             </>
           ) : isSuperbridge ? (
-            <div className={clsx(theme.bg, "rounded-full shadow-sm")}>
+            <div className="bg-card rounded-full shadow-sm">
               <Image
                 src={"/img/logo.svg"}
                 width={174}
@@ -174,7 +174,7 @@ export function Layout({ children }: { children: any }) {
               />
             </div>
           ) : (
-            <div className={clsx(theme.bg, "rounded-full shadow-sm")}>
+            <div className="bg-card rounded-full shadow-sm">
               <Image
                 src={"/img/rollbridge-logo.svg"}
                 width={144}

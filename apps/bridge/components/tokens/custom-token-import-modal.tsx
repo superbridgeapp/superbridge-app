@@ -193,7 +193,7 @@ export const CustomTokenImportModal = () => {
                 <a
                   target="_blank"
                   href={l1Link.link}
-                  className={`text-xs tracking-tight font-medium leading-3 rounded-full px-2 py-1 hover:scale-105 transition-all ${theme.textColor} ${theme.bgMuted}`}
+                  className={`text-xs tracking-tight font-medium leading-3 rounded-full px-2 py-1 hover:scale-105 transition-all `}
                 >
                   {l1Link.name} →
                 </a>
@@ -212,7 +212,7 @@ export const CustomTokenImportModal = () => {
                 <a
                   target="_blank"
                   href={l2Link.link}
-                  className={`text-xs tracking-tight font-medium leading-3 rounded-full px-2 py-1 hover:scale-105 transition-all ${theme.textColor} ${theme.bgMuted}`}
+                  className={`text-xs tracking-tight font-medium leading-3 rounded-full px-2 py-1 hover:scale-105 transition-all `}
                 >
                   {l2Link.name} →
                 </a>
@@ -239,7 +239,7 @@ export const CustomTokenImportModal = () => {
           <Button
             onClick={onSubmit}
             disabled={!disclaimerChecked}
-            className={`flex w-full justify-center rounded-full h-10 px-3  text-sm tracking-tight font-bold leading-3 text-white shadow-sm ${theme.accentText} ${theme.accentBg}`}
+            className={`flex w-full justify-center rounded-full h-10 px-3  text-sm tracking-tight font-bold leading-3 text-white shadow-sm `}
           >
             {t("tokens.import")}
           </Button>

@@ -26,19 +26,21 @@ export const BridgeHeader = () => {
           <>
             <div className="flex items-center space-x-2 w-full">
               <div
-                className={`${theme.bgMuted} flex p-1 rounded-full transition-colors w-full`}
+                className={`bg-muted flex p-1 rounded-full transition-colors w-full`}
               >
                 <div
                   role="button"
                   className={`rounded-full px-3 py-1 cursor-pointer transition-colors duration-200 flex-1 text-center ${
-                    !withdrawing ? theme.accentBg : "bg-transparent"
+                    !withdrawing ? "bg-primary" : "bg-transparent"
                   } `}
                   onClick={toggleWithdrawing}
                 >
                   <span
-                    className={`text-xs font-medium leading-3 -translate-y-px inline-flex hover:${
-                      theme.textColorMuted
-                    } ${!withdrawing ? theme.accentText : "bg-transparent"}`}
+                    className={`text-xs font-medium leading-3 -translate-y-px inline-flex ${
+                      !withdrawing
+                        ? "text-primary-foreground"
+                        : "text-muted-foreground"
+                    }`}
                   >
                     {t("deposit")}
                   </span>
@@ -46,14 +48,16 @@ export const BridgeHeader = () => {
                 <div
                   role="button"
                   className={`rounded-full px-3 py-1 cursor-pointer transition-colors duration-200 flex-1 text-center ${
-                    withdrawing ? theme.accentBg : "bg-transparent"
+                    withdrawing ? "bg-primary" : "bg-transparent"
                   }`}
                   onClick={toggleWithdrawing}
                 >
                   <span
-                    className={`text-xs font-medium leading-3 -translate-y-px inline-flex hover:${
-                      theme.textColorMuted
-                    } ${withdrawing ? theme.accentText : theme.textColorMuted}`}
+                    className={`text-xs font-medium leading-3 -translate-y-px inline-flex  ${
+                      withdrawing
+                        ? "text-primary-foreground"
+                        : "text-muted-foreground"
+                    }`}
                   >
                     {t("withdraw")}
                   </span>
@@ -82,19 +86,21 @@ export const BridgeHeader = () => {
             </div>
             <div className="flex items-center space-x-2">
               <div
-                className={`${theme.bgMuted} flex p-1 rounded-full transition-colors`}
+                className={`bg-muted flex p-1 rounded-full transition-colors`}
               >
                 <div
                   role="button"
                   className={`rounded-full px-3 py-1 cursor-pointer transition-colors duration-200 ${
-                    !withdrawing ? theme.accentBg : "bg-transparent"
+                    !withdrawing ? "bg-primary" : "bg-transparent"
                   } `}
                   onClick={toggleWithdrawing}
                 >
                   <span
-                    className={`text-xs font-medium leading-3 -translate-y-px inline-flex hover:${
-                      theme.textColorMuted
-                    } ${!withdrawing ? theme.accentText : "bg-transparent"}`}
+                    className={`text-xs font-medium leading-3 -translate-y-px inline-flex  ${
+                      !withdrawing
+                        ? "text-primary-foreground"
+                        : "text-muted-foreground"
+                    }`}
                   >
                     {t("deposit")}
                   </span>
@@ -102,14 +108,16 @@ export const BridgeHeader = () => {
                 <div
                   role="button"
                   className={`rounded-full px-3 py-1 cursor-pointer transition-colors duration-200 ${
-                    withdrawing ? theme.accentBg : "bg-transparent"
+                    withdrawing ? "bg-primary" : "bg-transparent"
                   }`}
                   onClick={toggleWithdrawing}
                 >
                   <span
-                    className={`text-xs font-medium leading-3 -translate-y-px inline-flex hover:${
-                      theme.textColorMuted
-                    } ${withdrawing ? theme.accentText : theme.textColorMuted}`}
+                    className={`text-xs font-medium leading-3 -translate-y-px inline-flex  ${
+                      withdrawing
+                        ? "text-primary-foreground"
+                        : "text-muted-foreground"
+                    }`}
                   >
                     {t("withdraw")}
                   </span>

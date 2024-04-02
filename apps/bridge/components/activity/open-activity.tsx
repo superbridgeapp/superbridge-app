@@ -50,9 +50,7 @@ export const OpenActivity = ({}) => {
         animate={{ y: "0vh" }}
         exit={{ y: "100vh" }}
         transition={{ type: "spring", damping: 12, delay: 0.08 }}
-        className={`${
-          deploymentTheme(deployment).bg
-        } flex flex-col self-start  z-50 relative overflow-hidden rounded-[32px] h-[calc(76dvh)] max-h-[680px]  w-screen md:w-[50vw] md:max-w-[420px] aspect-[3/4] backdrop-blur shadow-sm border border-black/[0.0125] dark:border-white/[0.0125]`}
+        className="bg-card flex flex-col self-start  z-50 relative overflow-hidden rounded-[32px] h-[calc(76dvh)] max-h-[680px]  w-screen md:w-[50vw] md:max-w-[420px] aspect-[3/4] backdrop-blur shadow-sm"
       >
         <div
           className="flex items-center justify-between pl-6 pr-4 py-4 md:py-6 border-b border-zinc-100 dark:border-zinc-800 cursor-pointer z-10"
@@ -123,7 +121,7 @@ export const OpenActivity = ({}) => {
               ) {
                 return (
                   <div className="flex grow justify-center items-center h-full">
-                    <span className="text-zinc-400 text-xs font-bold">
+                    <span className="text-muted-foreground text-xs font-bold">
                       {t("activity.noTransactions")}
                     </span>
                   </div>

@@ -27,9 +27,7 @@ export const Bridge = () => {
             {withdrawalsPaused && <WithdrawalsPaused />}
 
             <div
-              className={`${
-                deploymentTheme(deployment).bg
-              } mx-auto rounded-[24px] md:rounded-[32px] shadow-sm w-full shrink-0 border border-black/[0.0125] dark:border-white/[0.0125] backdrop-blur-sm `}
+              className={`bg-card mx-auto rounded-[24px] md:rounded-[32px] shadow-sm w-full shrink-0 border backdrop-blur-sm`}
             >
               <BridgeHeader />
               <BridgeBody />
@@ -41,16 +39,16 @@ export const Bridge = () => {
                   isSuperbridge ? "superbridge" : "rollbridge"
                 }&utm_medium=affiliate&utm_campaign=poweredby`}
                 target="_blank"
-                className="rounded-full flex items-center pl-1 pr-3 bg-black/10"
+                className="rounded-full flex items-center pl-1 pr-3 bg-card opacity-60"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
                   height="24"
-                  className="fill-white"
+                  className="fill-muted-foreground"
                   viewBox="0 0 32 32"
                 >
-                  <g opacity="0.8">
+                  <g opacity="1">
                     <path
                       d="M20.437 19.254l2.321-4.282h-2.23l-2.321 4.282h2.23z"
                       opacity="0.4"
@@ -79,7 +77,7 @@ export const Bridge = () => {
                     ></path>
                   </g>
                 </svg>
-                <span className="text-[9px] font-medium text-white dark:text-white opacity-70">
+                <span className="text-[9px] font-medium text-foreground">
                   {t("poweredByConduit")}
                 </span>
               </a>

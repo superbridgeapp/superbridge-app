@@ -88,14 +88,7 @@ const RecipientAddress = ({
       </div>
 
       {!account.address ? (
-        <span
-          className={clsx(
-            "text-xs font-medium text-white",
-            theme.textColorMuted
-          )}
-        >
-          …
-        </span>
+        <span className={"text-xs font-medium text-muted-foreground"}>…</span>
       ) : !recipientAddress ? (
         <div className="flex justify-center gap-1 pl-2 pr-1 py-1 rounded-full cursor-pointer hover:scale-105 transition-all bg-zinc-950">
           <span className="text-xs font-medium text-white">Add address</span>
@@ -342,7 +335,9 @@ export const BridgeBody = () => {
   };
 
   const submitButton = match({
-    disabled: (deployment?.name === "orb3-mainnet" && !withdrawing) || deployment?.name === "surprised-harlequin-bonobo-fvcy2k9oqh",
+    disabled:
+      (deployment?.name === "orb3-mainnet" && !withdrawing) ||
+      deployment?.name === "surprised-harlequin-bonobo-fvcy2k9oqh",
     withdrawing,
     isSubmitting: bridge.isLoading,
     account: account.address,
@@ -421,11 +416,11 @@ export const BridgeBody = () => {
 
       {token ? (
         <div
-          className={`relative rounded-[16px] px-4 py-3 border-2 border-transparent focus-within:border-zinc-950/[0.01] dark:focus-within:border-zinc-50/[0.02] transition-colors ${theme.bgMuted} `}
+          className={`relative rounded-[16px] px-4 py-3 border-2 border-transparent focus-within:border-zinc-950/[0.01] dark:focus-within:border-zinc-50/[0.02] transition-colors bg-muted `}
         >
           <label
             htmlFor="amount"
-            className={`block text-xs font-medium leading-6 ${theme.textColor}`}
+            className={`block text-xs font-medium leading-6 text-foreground`}
           >
             {withdrawing ? t("withdraw") : t("deposit")}
           </label>
@@ -446,13 +441,13 @@ export const BridgeBody = () => {
               pattern="^[0-9]*[.,]?[0-9]*$"
               name="amount"
               id="amount"
-              className={`block w-full shadow-none bg-transparent focus:outline-none font-medium text-2xl md:text-3xl sm:leading-6 placeholder:text-zinc-400 ${theme.textColor}`}
+              className={`block w-full shadow-none bg-transparent focus:outline-none font-medium text-2xl md:text-3xl sm:leading-6 placeholder:text-muted-foreground text-foreground`}
               placeholder="0"
             />
 
             <button
               onClick={() => setTokensDialog(true)}
-              className={`absolute inset-y-0 right-0 flex gap-x-2 rounded-full pl-3 pr-3 items-center font-medium transition-all hover:scale-105 ${theme.textColor} ${theme.bg}`}
+              className={`absolute inset-y-0 right-0 flex gap-x-2 rounded-full pl-3 pr-3 items-center font-medium transition-all hover:scale-105 text-foreground bg-card`}
             >
               <TokenIcon token={token} className="h-[20px] w-[20px]" />
               {token?.symbol}
@@ -502,13 +497,13 @@ export const BridgeBody = () => {
           <div className="pt-1 flex items-center justify-between">
             <div>
               {usdPrice && (
-                <span className={`${theme.textColorMuted} text-xs font-medium`}>
+                <span className="text-muted-foreground text-xs font-medium">
                   ${(parsedRawAmount * usdPrice).toLocaleString("en")}
                 </span>
               )}
             </div>
             <div className="flex items-center gap-1">
-              <span className={`${theme.textColorMuted} text-xs font-medium`}>
+              <span className={`text-muted-foreground text-xs font-medium`}>
                 {t("availableBalance", {
                   amount: parseFloat(
                     formatUnits(tokenBalance, token?.decimals ?? 18)
@@ -525,11 +520,11 @@ export const BridgeBody = () => {
       ) : nft ? (
         <>
           <div
-            className={`relative rounded-[16px] px-4 py-3 border-2 border-transparent focus-within:border-zinc-950/[0.01] dark:focus-within:border-zinc-50/[0.02] transition-colors ${theme.bgMuted} `}
+            className={`relative rounded-[16px] px-4 py-3 border-2 border-transparent focus-within:border-zinc-950/[0.01] dark:focus-within:border-zinc-50/[0.02] transition-colors bg-muted `}
           >
             <label
               htmlFor="amount"
-              className={`block text-xs font-medium leading-6 ${theme.textColor}`}
+              className={`block text-xs font-medium leading-6 text-foreground`}
             >
               {withdrawing ? t("withdraw") : t("deposit")}
             </label>
@@ -547,7 +542,7 @@ export const BridgeBody = () => {
                   </div>
                 </div>
                 <div
-                  className={`flex h-8 w-8 justify-center rounded-full p-2 items-center font-medium transition-all group-hover:scale-105 ${theme.textColor} ${theme.bg}`}
+                  className={`flex h-8 w-8 justify-center rounded-full p-2 items-center font-medium transition-all group-hover:scale-105 text-foreground bg-card`}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -566,7 +561,7 @@ export const BridgeBody = () => {
       ) : null}
 
       <div
-        className={`border ${theme.border} rounded-2xl divide-y divide-zinc-100 dark:divide-white/10`}
+        className={`border border-border rounded-2xl divide-y divide-border pt-1`}
       >
         <RecipientAddress
           theme={theme}
@@ -585,7 +580,7 @@ export const BridgeBody = () => {
                 width={16}
                 className="w-4 h-4"
               />
-              <span className={`${theme.textColor} text-xs font-medium`}>
+              <span className={`text-foreground text-xs font-medium`}>
                 {left}
               </span>
             </div>
@@ -596,13 +591,13 @@ export const BridgeBody = () => {
               <div className="flex items-center">
                 {middle && (
                   <span
-                    className={`${theme.textColorMuted} ml-auto text-xs font-medium mr-2`}
+                    className={`text-muted-foreground ml-auto text-xs font-medium mr-2`}
                   >
                     {middle}
                   </span>
                 )}
                 <span
-                  className={`text-xs font-medium ${theme.textColor} text-right`}
+                  className={`text-xs font-medium text-foreground text-right`}
                 >
                   {right}
                 </span>
@@ -638,7 +633,7 @@ export const BridgeBody = () => {
       <Button
         disabled={submitButton.disabled}
         onClick={submitButton.onSubmit}
-        className={`flex w-full justify-center rounded-full px-3 py-6 text-sm font-bold leading-6 text-white shadow-sm ${theme.accentText} ${theme.accentBg}`}
+        className={`flex w-full justify-center rounded-full px-3 py-6 text-sm font-bold leading-6 text-white shadow-sm`}
       >
         {submitButton.buttonText}
       </Button>

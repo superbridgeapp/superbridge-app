@@ -40,7 +40,7 @@ export const WithdrawFees = ({
         </div>
 
         <div className="flex items-center gap-2">
-          <span className={`text-xs font-medium ${theme.textColor} ml-auto`}>
+          <span className={`text-xs font-medium text-foreground ml-auto`}>
             {currencySymbolMap[currency]}
             {fees
               .reduce((accum, fee) => (fee.usd?.raw ?? 0) + accum, 0)
@@ -59,7 +59,7 @@ export const WithdrawFees = ({
       <div className="flex gap-2 justify-end items-center mb-3 px-3">
         <div
           className={clsx(
-            forceViaL1 ? "bg-green-400" : theme.bgMuted,
+            forceViaL1 ? "bg-green-400" : "bg-muted",
             "rounded-full flex flex-shrink items-center max-w-fit gap-1 font-medium pl-2 pr-3 py-1 transition-all hover:scale-105"
           )}
           role="button"
@@ -93,7 +93,7 @@ export const WithdrawFees = ({
         {configurations[deployment?.name ?? ""] && (
           <div
             className={clsx(
-              easyMode ? "bg-green-400" : theme.bgMuted,
+              easyMode ? "bg-green-400" : "bg-muted",
               "rounded-full flex flex-shrink items-center max-w-fit gap-1 font-medium pl-2 pr-3 py-1 transition-all hover:scale-105"
             )}
             role="button"
@@ -107,7 +107,7 @@ export const WithdrawFees = ({
             <span
               className={clsx(
                 "text-[11px] md:text-xs",
-                easyMode ? "text-white" : "text-zinc-400"
+                easyMode ? "text-foreground" : "text-zinc-400"
               )}
             >
               Easy mode

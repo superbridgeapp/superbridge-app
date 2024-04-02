@@ -92,18 +92,18 @@ export const WithdrawSettings = ({ from, gasEstimate }: SettingsModalProps) => {
                 key={fee.name}
                 className="flex items-center justify-between  px-4 py-2"
               >
-                <span className={`${theme.textColorMuted} text-xs font-medium`}>
+                <span className={`text-muted-foreground text-xs font-medium`}>
                   {fee.name}
                 </span>
 
                 {fee.usd && (
                   <span
-                    className={`${theme.textColorMuted} ml-auto text-xs font-medium mr-2`}
+                    className={`text-muted-foreground ml-auto text-xs font-medium mr-2`}
                   >
                     {fee.usd.formatted}
                   </span>
                 )}
-                <span className={`text-xs font-medium ${theme.textColor}`}>
+                <span className={`text-xs font-medium`}>
                   {fee.token ? fee.token.formatted : "-"}
                 </span>
               </div>

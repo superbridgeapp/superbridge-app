@@ -316,7 +316,7 @@ export const AddressModal = ({
                 </div>
 
                 <Button
-                  className={`flex w-full justify-center rounded-full px-3 py-6 text-sm font-bold leading-6 text-white shadow-sm ${theme.accentText} ${theme.accentBg}`}
+                  className={`flex w-full justify-center rounded-full px-3 py-6 text-sm font-bold leading-6 text-white shadow-sm`}
                   disabled={profile.isLoading}
                   onClick={onSave}
                 >
