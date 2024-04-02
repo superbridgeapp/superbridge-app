@@ -8,6 +8,7 @@ import { deploymentTheme } from "@/config/theme";
 import { useToggleWithdrawing } from "@/hooks/use-toggle-withdrawing";
 import { useConfigState } from "@/state/config";
 import { isDog } from "@/utils/is-dog";
+import { useDeployments } from "@/hooks/use-deployments";
 
 export const BridgeHeader = () => {
   const withdrawing = useConfigState.useWithdrawing();
@@ -18,11 +19,12 @@ export const BridgeHeader = () => {
   const { t } = useTranslation();
 
   const theme = deploymentTheme(deployment);
+  const { deployments } = useDeployments();
 
   return (
     <div>
       <div className="flex items-center justify-between px-4 md:px-6 pt-3 md:pt-6 pb-2 md:pb-8">
-        {dedicatedDeployment ? (
+        {deployments.length === 1 ? (
           <>
             <div className="flex items-center space-x-2 w-full">
               <div

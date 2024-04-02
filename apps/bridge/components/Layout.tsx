@@ -4,7 +4,6 @@ import Particles, { initParticlesEngine } from "@tsparticles/react";
 import { loadSlim } from "@tsparticles/slim";
 import clsx from "clsx";
 import { AnimatePresence, motion } from "framer-motion";
-import { AppProps } from "next/app";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect, useMemo } from "react";
@@ -12,18 +11,18 @@ import { useEffect, useMemo } from "react";
 import { ClosedActivity } from "@/components/activity/closed-activity";
 import { OpenActivity } from "@/components/activity/open-activity";
 import { Footer } from "@/components/footer";
-import { dedicatedDeployment } from "@/config/dedicated-deployment";
 import { isSuperbridge } from "@/config/superbridge";
 import { deploymentTheme } from "@/config/theme";
 import { useDeployments } from "@/hooks/use-deployments";
 import { useInitialise } from "@/hooks/use-initialise";
 import { useNavigate } from "@/hooks/use-navigate";
+import { useNavIcon } from "@/hooks/use-theme";
 import { useConfigState } from "@/state/config";
 import { isDog } from "@/utils/is-dog";
 
+import { CustomTokenListModal } from "./settings/custom-token-list-modal";
 import { SettingsModal } from "./settings/settings-modal";
 import { TosModal } from "./tos-modal";
-import { CustomTokenListModal } from "./settings/custom-token-list-modal";
 
 export function Layout({ children }: { children: any }) {
   const deployments = useDeployments();
@@ -95,6 +94,8 @@ export function Layout({ children }: { children: any }) {
     []
   );
 
+  const navIcon = useNavIcon();
+
   return (
     <div
       className={clsx(
@@ -119,10 +120,10 @@ export function Layout({ children }: { children: any }) {
       )}
       <nav className="flex flex-row justify-between items-center p-3 md:p-6 fixed top-0 left-0 w-screen z-10">
         <div onClick={() => navigate("/")} className="cursor-pointer">
-          {dedicatedDeployment ? (
+          {deployments.deployments.length === 1 ? (
             <>
               <Image
-                src={theme.standaloneLogo!}
+                src={navIcon!}
                 width={theme.logoWidth}
                 height={theme.logoHeight}
                 alt={deployments.deployments[0]?.name}

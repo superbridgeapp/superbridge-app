@@ -1,9 +1,11 @@
 import { useEffect } from "react";
 
 import { useConfigState } from "@/state/config";
+import { useThemeState } from "@/state/theme";
 
 export const useInitialiseTheme = () => {
   const deployment = useConfigState.useDeployment();
+  const setNavIcon = useThemeState.useSetNavIcon();
 
   useEffect(() => {
     const theme = deployment?.theme?.theme;
@@ -15,7 +17,7 @@ export const useInitialiseTheme = () => {
   }, [deployment]);
 
   useEffect(() => {
-    window.addEventListener("message", (e: MessageEvent) => {
+    const listener = (e: MessageEvent) => {
       if (e.data === "refresh") {
         window.location.reload();
       }
@@ -23,13 +25,21 @@ export const useInitialiseTheme = () => {
       if (e.data.theme) {
         Object.entries(e.data.theme).forEach(([key, value]) => {
           if (key && value) {
-            document.documentElement.style.setProperty(
-              `--${key}`,
-              value as string
-            );
+            if (key === "navIconSrc") {
+              setNavIcon(value as string);
+            } else {
+              document.documentElement.style.setProperty(
+                `--${key}`,
+                value as string
+              );
+            }
           }
         });
       }
-    });
+    };
+    window.addEventListener("message", listener);
+    return () => {
+      window.removeEventListener("message", listener);
+    };
   }, []);
 };
