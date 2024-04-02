@@ -34,14 +34,6 @@ export const useInitialise = () => {
   useInitialiseArbitrumNativeTokens();
   useInitialiseTheme();
 
-  useEffect(() => {
-    window.addEventListener("message", (e: MessageEvent) => {
-      if (e.data === "refresh") {
-        window.location.reload();
-      }
-    });
-  }, []);
-
   useAccountEffect({
     onDisconnect: () => {
       clearPendingTransactionsStorage();
