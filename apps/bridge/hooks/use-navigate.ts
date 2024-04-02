@@ -23,8 +23,7 @@ export const useNavigate = () => {
         setDeployment(null);
       }, 300);
     } else {
-      console.log("hier");
-      router.push(`/${to.name}`);
+      router.push(`/${to.name}`, undefined, { shallow: true });
       setDeployment(to);
     }
   };

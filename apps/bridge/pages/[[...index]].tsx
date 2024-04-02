@@ -19,9 +19,7 @@ import { useConfigState } from "@/state/config";
 export const getServerSideProps = async ({
   req,
 }: GetServerSidePropsContext) => {
-  const ignored = ["favicon"];
-
-  console.log(req.url, req.headers.host);
+  const ignored = ["favicon", "locales", "_vercel"];
 
   if (!req.url || !req.headers.host) return { props: { deployments: [] } };
 
