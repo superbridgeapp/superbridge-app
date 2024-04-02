@@ -28,7 +28,7 @@ function useDeploymentTokens(): MultiChainOptimismToken[] {
                 name: t.l1.name,
                 symbol: t.l1.symbol,
                 opTokenId,
-                logoURI: "",
+                logoURI: t.l1.logoURI,
                 standardBridgeAddresses: {
                   [t.l2.chainId]: t.l1.bridge as Address,
                 },
@@ -39,7 +39,7 @@ function useDeploymentTokens(): MultiChainOptimismToken[] {
                 decimals: t.l2.decimals,
                 name: t.l2.name,
                 symbol: t.l2.symbol,
-                logoURI: "",
+                logoURI: t.l2.logoURI,
                 opTokenId,
                 standardBridgeAddresses: {
                   [t.l1.chainId]: t.l2.bridge as Address,
