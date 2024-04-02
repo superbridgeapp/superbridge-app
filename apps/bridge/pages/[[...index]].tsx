@@ -75,8 +75,8 @@ export const getServerSideProps = async ({
 
   // [id].testnets.superbridge|rollbridge.app
   if (
-    window.location.hostname.includes("testnets.superbridge.app") ||
-    window.location.hostname.includes("testnets.rollbridge.app")
+    req.headers.host.includes("testnets.superbridge.app") ||
+    req.headers.host.includes("testnets.rollbridge.app")
   ) {
     const { data } = await bridgeControllerGetDeployments({
       names: [id],
