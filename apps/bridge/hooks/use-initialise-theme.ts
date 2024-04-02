@@ -8,7 +8,6 @@ export const useInitialiseTheme = () => {
   useEffect(() => {
     const theme = deployment?.theme?.theme;
     if (theme) {
-      console.log(theme);
       Object.entries(theme).forEach(([key, value]) => {
         document.documentElement.style.setProperty(`--${key}`, value);
       });
