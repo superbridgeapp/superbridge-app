@@ -7,20 +7,32 @@
  */
 
 export interface ThemeDto {
-  accentBg?: string;
-  accentText?: string;
-  bg?: string;
-  bgMuted?: string;
+  accent?: string;
+  'accent-foreground'?: string;
+  background?: string;
   border?: string;
+  card?: string;
+  'card-foreground'?: string;
+  destructive?: string;
+  'destructive-foreground'?: string;
   fill?: string;
+  foreground?: string;
   iconSrc?: string;
+  input?: string;
   logoHeight?: number;
   logoSrc?: string;
   logoSrcDark?: string;
   logoWidth?: number;
+  muted?: string;
+  'muted-foreground'?: string;
   navIconSrc?: string;
-  screenBg?: string;
+  popover?: string;
+  'popover-foreground'?: string;
+  primary?: string;
+  'primary-foreground'?: string;
+  radius?: string;
+  ring?: string;
   screenBgImg?: string;
-  textColor?: string;
-  textColorMuted?: string;
+  secondary?: string;
+  'secondary-foreground'?: string;
 }
