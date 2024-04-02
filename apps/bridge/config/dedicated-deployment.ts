@@ -11,7 +11,9 @@ interface DedicatedDeployment {
   additionalLinks?: { text: string; link: string }[];
 }
 
-const mapping: { [name: string]: DedicatedDeployment | undefined } = {
+export const dedicatedDeploymentMapping: {
+  [name: string]: DedicatedDeployment | undefined;
+} = {
   "orb3-mainnet": {
     name: "orb3-mainnet",
     footerLink: "https://orb3.tech",
@@ -103,4 +105,5 @@ const mapping: { [name: string]: DedicatedDeployment | undefined } = {
   },
 };
 
-export const dedicatedDeployment = mapping[DEDICATED_DEPLOYMENT ?? ""] ?? null;
+export const dedicatedDeployment =
+  dedicatedDeploymentMapping[DEDICATED_DEPLOYMENT ?? ""] ?? null;

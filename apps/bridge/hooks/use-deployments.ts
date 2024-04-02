@@ -1,10 +1,14 @@
-import { useBridgeControllerGetDeployments } from "@/codegen";
+import {
+  useBridgeControllerGetDeployments,
+  useBridgeControllerGetDeploymentsByDomain,
+} from "@/codegen";
 import {
   BridgeControllerGetDeploymentsParams,
   DeploymentDto,
   DeploymentType,
 } from "@/codegen/model";
 import { dedicatedDeployment } from "@/config/dedicated-deployment";
+import { useConfigState } from "@/state/config";
 
 // totally disabled
 const DISABLED_DEPLOYMENTS: string[] = [];
@@ -86,13 +90,17 @@ const useDeploymentsFilters = (): BridgeControllerGetDeploymentsParams => {
 };
 
 export const useDeployments = () => {
-  const deployments = useBridgeControllerGetDeployments(
-    useDeploymentsFilters()
-  );
+  // const deployments =
+  //   typeof window === "undefined" || window.location.hostname === "localhost"
+  //     ? useBridgeControllerGetDeployments(useDeploymentsFilters())
+  //     : useBridgeControllerGetDeploymentsByDomain("abc.com");
 
+  const deployments = useConfigState.useDeployments();
+  // console.log(deployments.data?.data);
   return {
-    deployments: deployments.data?.data ?? ([] as DeploymentDto[]),
-    isLoading: deployments.isLoading,
-    isError: deployments.isError,
+    deployments,
+    // deployments: deployments.data?.data ?? ([] as DeploymentDto[]),
+    isLoading: false,
+    isError: false,
   };
 };

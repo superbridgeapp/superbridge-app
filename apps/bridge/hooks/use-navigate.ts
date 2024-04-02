@@ -23,6 +23,7 @@ export const useNavigate = () => {
         setDeployment(null);
       }, 300);
     } else {
+      console.log("hier");
       router.push(`/${to.name}`);
       setDeployment(to);
     }

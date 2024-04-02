@@ -25,7 +25,7 @@ import { SettingsModal } from "./settings/settings-modal";
 import { TosModal } from "./tos-modal";
 import { CustomTokenListModal } from "./settings/custom-token-list-modal";
 
-export function Layout({ Component, pageProps, router }: AppProps) {
+export function Layout({ children }) {
   const deployments = useDeployments();
   const navigate = useNavigate();
   const deployment = useConfigState.useDeployment();
@@ -41,6 +41,8 @@ export function Layout({ Component, pageProps, router }: AppProps) {
   useEffect(() => {
     initParticlesEngine((engine) => loadSlim(engine));
   }, []);
+
+  console.log("Layout");
 
   const options: ISourceOptions = useMemo(
     () => ({
@@ -250,9 +252,7 @@ export function Layout({ Component, pageProps, router }: AppProps) {
         </motion.button>
       )}
       <AnimatePresence mode="sync" initial={false}>
-        {displayTransactions ? null : (
-          <Component {...pageProps} key={router.asPath} />
-        )}
+        {displayTransactions ? null : children}
       </AnimatePresence>
       {/* Transactions container */}
       <AnimatePresence mode="sync" initial={false}>

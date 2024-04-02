@@ -5,20 +5,46 @@ import "@/services/sentry";
 
 import { Analytics } from "@vercel/analytics/react";
 import { AppProps } from "next/app";
+import NextHead from "next/head";
 
 import { Layout } from "@/components/Layout";
 import { Providers } from "@/components/Providers";
-import { dedicatedDeployment } from "@/config/dedicated-deployment";
+import {
+  dedicatedDeployment,
+  dedicatedDeploymentMapping,
+} from "@/config/dedicated-deployment";
 import { isRollbridge, isSuperbridge } from "@/config/superbridge";
-import * as metadata from "@/constants/metadata";
 import { UNSTYLED_PAGES } from "@/constants/unstyled-pages";
-import { Head } from "@/components/head";
+import { DeploymentDto } from "@/codegen/model";
 
-export default function CustomApp(appProps: AppProps) {
-  console.log("_app");
+function useMetadata(deployments: DeploymentDto[]) {
+  if (deployments.length === 1) {
+    const [deployment] = deployments;
+
+    return {
+      title: `${deployment.displayName} Bridge`,
+      description: `"Bridge ETH and ERC20 tokens into and out of ${deployment.displayName}`,
+    };
+  }
+
+  if (isSuperbridge) {
+    return {
+      title: `Superbridge`,
+      description: `"Bridge ETH and ERC20 tokens into and out of the Superchain`,
+    };
+  }
+
+  return {
+    title: `Rollbridge`,
+    description: `"Bridge ETH and ERC20 tokens into and out of Optimism OP Stack rollups and Arbitrum Nitro rollups`,
+  };
+}
+
+export function Head({ deployments }: { deployments: DeploymentDto[] }) {
+  const metadata = useMetadata(deployments);
+
   return (
-    <>
-      <Head />
+    <NextHead>
       <title>{metadata.title}</title>
       <meta name="title" content={metadata.title} />
       <meta property="og:title" content={metadata.title} />
@@ -127,17 +153,6 @@ export default function CustomApp(appProps: AppProps) {
             : "/img/rollbridge/apple-touch-icon.png"
         }
       />
-      <appProps.Component
-        {...appProps.pageProps}
-        key={appProps.router.asPath}
-      />
-      {/* {UNSTYLED_PAGES.includes(appProps.router.pathname) ? (
-      ) : (
-        <Providers>
-          <Layout {...appProps} />
-        </Providers>
-      )} */}
-      <Analytics />
-    </>
+    </NextHead>
   );
 }
