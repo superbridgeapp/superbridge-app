@@ -55,13 +55,13 @@ const TokenComponent = ({
             </span>
             {isNativeUsdc(token) && <CctpBadge />}
           </div>
-          <span className="text-xs font-medium text-zinc-400">
+          <span className="text-xs font-medium text-muted-foreground">
             {token[from?.id ?? 0]?.symbol}
           </span>
         </div>
       </div>
       <div className="ml-auto flex flex-col text-right gap-1">
-        <span className="text-sm font-medium text-zinc-400">
+        <span className="text-sm font-medium text-muted-foreground">
           {parseFloat(
             formatUnits(balance, token[from?.id ?? 0]?.decimals ?? 18)
           ).toLocaleString("en", { maximumFractionDigits: 4 })}
@@ -171,7 +171,7 @@ const TokenImport = ({ address }: { address: Address }) => {
     <div className="flex justify-between hover:bg-black/[0.025] hover:dark:bg-white/[0.05] transition p-4 rounded-sm">
       <div className="flex items-center space-x-4">
         <div className="rounded-full bg-zinc-100 dark:bg-zinc-800 h-8 w-8 flex items-center justify-center">
-          <span className="text-[10px] tracking-tighter font-bold text-zinc-400 leading-4 mt-0.5">
+          <span className="text-[10px] tracking-tighter font-bold text-muted-foreground leading-4 mt-0.5">
             {symbol?.substring(0, 3)}
           </span>
         </div>
@@ -179,11 +179,13 @@ const TokenImport = ({ address }: { address: Address }) => {
           <div className="flex items-center gap-1">
             <span className="text-sm font-bold">{name}</span>
           </div>
-          <span className="text-xs font-medium text-zinc-400">{symbol}</span>
+          <span className="text-xs font-medium text-muted-foreground">
+            {symbol}
+          </span>
         </div>
       </div>
       <div className="ml-auto flex flex-col text-right gap-1">
-        <span className="text-sm font-medium text-zinc-400">
+        <span className="text-sm font-medium text-muted-foreground">
           {parseFloat(
             formatUnits(BigInt(balance ?? "0"), decimals ?? 0)
           ).toLocaleString("en", {
@@ -228,12 +230,7 @@ const TokenImport = ({ address }: { address: Address }) => {
       </div>
       {(isOptimismToken || isArbitrumToken) && (
         <div className="ml-4">
-          <Button
-            onClick={onImportToken}
-            className={`flex w-full justify-center rounded-full h-8 px-3  text-xs tracking-tight font-bold leading-3 text-white shadow-sm`}
-          >
-            {t("tokens.import")}
-          </Button>
+          <Button onClick={onImportToken}>{t("tokens.import")}</Button>
         </div>
       )}
     </div>
@@ -276,7 +273,7 @@ export const FungibleTokenPicker = ({
 
   return (
     <>
-      <div className="flex flex-col gap-2 p-4 border-b border-zinc-100 dark:border-zinc-900">
+      <div className="flex flex-col gap-2 p-4 border-b ">
         <input
           value={search}
           onChange={(e) => setSearch(e.target.value)}
@@ -288,7 +285,7 @@ export const FungibleTokenPicker = ({
           id="token"
           className={`${
             deploymentTheme(deployment).bgMuted
-          } block w-full rounded-lg border-0 py-3 px-4 pr-10 text-sm font-medium text-zinc-900 dark:text-zinc-50 text-zinc-900 outline-none focus:ring-2 ring-inset ring-zinc-900/5 dark:ring-zinc-50/5 placeholder:text-zinc-400 sm:leading-6`}
+          } block w-full rounded-lg border-0 py-3 px-4 pr-10 text-sm font-medium  outline-none focus:ring-2 ring-inset ring-zinc-900/5 dark:ring-zinc-50/5 placeholder:text-muted-foreground sm:leading-6`}
           placeholder="Search"
         />
 
@@ -316,7 +313,7 @@ export const FungibleTokenPicker = ({
               return (
                 <div
                   key={token[from?.id ?? 0]?.address ?? "0x"}
-                  className="border border-zinc-100 dark:border-zinc-800 rounded-full flex items-center space-x-1 px-2 pr-3 py-1  cursor-pointer hover:bg-zinc-200 hover:dark:bg-zinc-800 transition"
+                  className="border rounded-full flex items-center space-x-1 px-2 pr-3 py-1  cursor-pointer hover:bg-zinc-200 hover:dark:bg-zinc-800 transition"
                   onClick={() => onClickToken(token)}
                 >
                   <img

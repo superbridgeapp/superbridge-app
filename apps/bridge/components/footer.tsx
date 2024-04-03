@@ -40,8 +40,8 @@ export function Footer() {
               viewBox="0 0 24 24"
               className={
                 resolvedTheme === "light"
-                  ? "fill-zinc-900 dark:fill-zinc-50 transition-colors"
-                  : "fill-zinc-300 dark:fill-zinc-500 transition-colors"
+                  ? "fill-foreground transition-colors"
+                  : "fill-muted-foreground transition-colors"
               }
             >
               <g clipPath="url(#clip0_348_4866)">
@@ -96,7 +96,7 @@ export function Footer() {
         ) : (
           <div className="bg-card h-10 pl-2.5 pr-3 gap-1 inline-flex items-center rounded-full transition-all border-black/[0.0125] dark:border-white/[0.0125]">
             <button
-              className={`text-xs font-medium text-zinc-900 dark:text-zinc-50 transition-all hover:scale-105 inline-flex`}
+              className={`text-xs font-medium  transition-all hover:scale-105 inline-flex`}
               onClick={() => setSettingsModal(true)}
             >
               <svg

@@ -43,7 +43,7 @@ const Profile = ({
   return (
     <div
       className={clsx(
-        "flex items-center space-x-1 px-2 py-1 border border-zinc-50 dark:border-zinc-800 rounded-full",
+        "flex items-center space-x-1 px-2 py-1 border rounded-full",
         data.avatar && "pr-1"
       )}
     >
@@ -140,7 +140,7 @@ export const AddressModal = ({
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent>
           <div>
-            <div className="flex items-center justify-between pl-6 pr-4 py-4 md:py-6 border-b border-zinc-100 dark:border-zinc-900 z-10">
+            <div className="flex items-center justify-between pl-6 pr-4 py-4 md:py-6 border-b z-10">
               <h2 className="font-bold">
                 {withdrawing
                   ? t("recipient.withdrawDestination")
@@ -161,7 +161,7 @@ export const AddressModal = ({
                   <input
                     value={nonSavedRecipient}
                     onChange={(e) => setNonSavedRecipient(e.target.value)}
-                    className="rounded-lg p-4 bg-zinc-200 dark:bg-zinc-800 text-xs font-medium text-zinc-900 dark:text-zinc-50 outline-zinc-300 dark:outline-zinc-700 transition-all"
+                    className="rounded-lg p-4 bg-zinc-200 dark:bg-zinc-800 text-xs font-medium  outline-zinc-300 dark:outline-zinc-700 transition-all"
                   />
                   <div className="mt-2">
                     {match({
@@ -178,7 +178,7 @@ export const AddressModal = ({
                     })
                       .with({ isLoading: true }, () => (
                         <div className="inline-flex gap-1 px-2 py-1 rounded-full bg-zinc-100 dark:bg-zinc-900">
-                          <span className="text-xs font-medium text-zinc-500">
+                          <span className="text-xs font-medium text-muted-foreground">
                             Checking address…
                           </span>
                         </div>
@@ -315,11 +315,7 @@ export const AddressModal = ({
                   </div>
                 </div>
 
-                <Button
-                  className={`flex w-full justify-center rounded-full px-3 py-6 text-sm font-bold leading-6 text-white shadow-sm`}
-                  disabled={profile.isLoading}
-                  onClick={onSave}
-                >
+                <Button disabled={profile.isLoading} onClick={onSave}>
                   {t("save")}
                 </Button>
               </div>

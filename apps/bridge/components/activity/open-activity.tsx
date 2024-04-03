@@ -53,10 +53,10 @@ export const OpenActivity = ({}) => {
         className="bg-card flex flex-col self-start  z-50 relative overflow-hidden rounded-[32px] h-[calc(76dvh)] max-h-[680px]  w-screen md:w-[50vw] md:max-w-[420px] aspect-[3/4] backdrop-blur shadow-sm"
       >
         <div
-          className="flex items-center justify-between pl-6 pr-4 py-4 md:py-6 border-b border-zinc-100 dark:border-zinc-800 cursor-pointer z-10"
+          className="flex items-center justify-between pl-6 pr-4 py-4 md:py-6 border-b cursor-pointer z-10"
           onClick={() => setDisplayTransactions(!open)}
         >
-          <h2 className="text-zinc-900 dark:text-zinc-50 font-bold text-sm md:text-base">
+          <h2 className="font-bold text-sm md:text-base">
             {t("activity.activity")}
           </h2>
           <div className="flex gap-2 items-center">
@@ -65,9 +65,7 @@ export const OpenActivity = ({}) => {
                 inProgressCount <= 0 ? "hidden" : "visible"
               }`}
             >
-              <span className="text-zinc-800 text-xs font-medium">
-                {inProgressCount}
-              </span>
+              <span className="text-xs font-medium">{inProgressCount}</span>
             </div>
             <div
               className={`flex items-center transition-all cursor-pointer w-8 h-8 flex items-center justify-center rounded-full hover:bg-zinc-100 hover:dark:bg-zinc-800 ${
@@ -95,7 +93,7 @@ export const OpenActivity = ({}) => {
         })
           .with({ account: { address: undefined } }, () => (
             <div className="flex grow justify-center items-center h-full">
-              <span className="text-zinc-400 text-xs font-bold">
+              <span className="text-muted-foreground text-xs font-bold">
                 {t("activity.connectWallet")}
               </span>
             </div>
@@ -107,7 +105,7 @@ export const OpenActivity = ({}) => {
           ))
           .with({ isError: true }, () => (
             <div className="flex grow justify-center h-full px-8 py-8 text-center">
-              <span className="text-zinc-400 text-xs font-bold">
+              <span className="text-muted-foreground text-xs font-bold">
                 {t("activity.error")}
               </span>
             </div>

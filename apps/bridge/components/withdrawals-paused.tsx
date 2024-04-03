@@ -13,11 +13,7 @@ export const WithdrawalsPaused = () => {
   const deployment = useConfigState.useDeployment();
 
   return (
-    <div
-      className={`${
-        deploymentTheme(deployment).bg
-      } flex items-center gap-3 w-full p-4 rounded-[16px]`}
-    >
+    <div className="bg-card flex items-center gap-3 w-full p-4 rounded-[16px]">
       <span>
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -25,7 +21,7 @@ export const WithdrawalsPaused = () => {
           height="60"
           fill="none"
           viewBox="0 0 60 60"
-          className="h-8 w-8"
+          className="h-6 w-6"
         >
           <g clipPath="url(#clip0_188_489)">
             <path
@@ -44,14 +40,14 @@ export const WithdrawalsPaused = () => {
           </defs>
         </svg>
       </span>
-      <span className="font-medium text-zinc-900 dark:text-white text-xs">
+      <span className="font-medium text-xs">
         Proving and finalizing {deployment?.l2.name} withdrawals is currently
         paused. <br />
         {links[deployment?.l2.id ?? 0] && (
           <Link
             href={links[deployment?.l2.id ?? 0] ?? ""}
             target="_blank"
-            className="font-medium text-zinc-500 cursor-pointer hover:underline"
+            className="font-medium text-muted-foreground cursor-pointer hover:underline"
           >
             More info &amp; updates&hellip;
           </Link>

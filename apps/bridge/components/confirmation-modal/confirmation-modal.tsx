@@ -651,11 +651,11 @@ export const ConfirmationModal = ({
             </p>
           </div>
           <div className="justify-end flex items-center px-1 py-1">
-            <span className="text-zinc-400 font-medium text-[11px]">
+            <span className="text-muted-foreground font-medium text-[11px]">
               {t("confirmationModal.approxFees")}
             </span>
           </div>
-          <div className="py-1 flex flex-col border border-zinc-100 dark:border-zinc-100/10 divide-y divide-zinc-100 dark:divide-zinc-100/10 rounded-[16px]">
+          <div className="py-1 flex flex-col border divide-y divide-border rounded-[16px]">
             {approveButton && (
               <LineItem
                 text={t("confirmationModal.approve", { symbol: token?.symbol })}
@@ -678,7 +678,7 @@ export const ConfirmationModal = ({
               />
               <label
                 htmlFor="timeframe"
-                className="text-[11px] text-zinc-500 dark:text-zinc-400 tracking-tighter"
+                className="text-[11px] text-muted-foreground tracking-tighter"
               >
                 {checkbox1Text}
               </label>
@@ -691,7 +691,7 @@ export const ConfirmationModal = ({
               />
               <label
                 htmlFor="speed"
-                className="text-[11px] text-zinc-500 dark:text-zinc-400 tracking-tighter"
+                className="text-[11px] text-muted-foreground tracking-tighter"
               >
                 {withdrawing
                   ? t("confirmationModal.checkbox2Withdrawal")
@@ -706,7 +706,7 @@ export const ConfirmationModal = ({
               />
               <label
                 htmlFor="fees"
-                className="text-[11px] text-zinc-500 dark:text-zinc-400 tracking-tighter"
+                className="text-[11px] text-muted-foreground tracking-tighter"
               >
                 {t("confirmationModal.checkbox3")}
               </label>
@@ -718,7 +718,6 @@ export const ConfirmationModal = ({
               arbitrumGasToken &&
               approveArbitrumGasTokenButton && (
                 <Button
-                  className="flex w-full justify-center rounded-full px-3 py-6 text-sm font-bold leading-6 text-white shadow-sm"
                   onClick={approveArbitrumGasTokenButton.onSubmit}
                   disabled={
                     !checkbox1 ||
@@ -744,7 +743,6 @@ export const ConfirmationModal = ({
 
             {approveButton && (
               <Button
-                className="flex w-full justify-center rounded-full px-3 py-6 text-sm font-bold leading-6 text-white shadow-sm"
                 onClick={approveButton.onSubmit}
                 disabled={
                   !checkbox1 ||
@@ -769,7 +767,6 @@ export const ConfirmationModal = ({
             )}
 
             <Button
-              className="flex w-full justify-center rounded-full px-3 py-6 text-sm font-bold leading-6 text-white shadow-sm"
               onClick={initiateButton.onSubmit}
               disabled={
                 !checkbox1 ||

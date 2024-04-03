@@ -416,7 +416,7 @@ export const BridgeBody = () => {
 
       {token ? (
         <div
-          className={`relative rounded-[16px] px-4 py-3 border-2 border-transparent focus-within:border-zinc-950/[0.01] dark:focus-within:border-zinc-50/[0.02] transition-colors bg-muted `}
+          className={`relative rounded-[16px] px-4 py-3 border-2 border-transparent focus-within:border-accent transition-colors bg-muted `}
         >
           <label
             htmlFor="amount"
@@ -520,7 +520,7 @@ export const BridgeBody = () => {
       ) : nft ? (
         <>
           <div
-            className={`relative rounded-[16px] px-4 py-3 border-2 border-transparent focus-within:border-zinc-950/[0.01] dark:focus-within:border-zinc-50/[0.02] transition-colors bg-muted `}
+            className={`relative rounded-[16px] px-4 py-3 border-2 border-transparent focus-within:border-accent transition-colors bg-muted `}
           >
             <label
               htmlFor="amount"
@@ -630,11 +630,7 @@ export const BridgeBody = () => {
         )}
       </div>
 
-      <Button
-        disabled={submitButton.disabled}
-        onClick={submitButton.onSubmit}
-        className={`flex w-full justify-center rounded-full px-3 py-6 text-sm font-bold leading-6 text-white shadow-sm`}
-      >
+      <Button disabled={submitButton.disabled} onClick={submitButton.onSubmit}>
         {submitButton.buttonText}
       </Button>
     </div>

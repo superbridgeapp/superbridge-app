@@ -27,13 +27,13 @@ export const WithdrawSettings = ({ from, gasEstimate }: SettingsModalProps) => {
 
   return (
     <div>
-      <h2 className="font-bold pb-4 border-b border-zinc-50 dark:border-zinc-900 p-6">
+      <h2 className="font-bold pb-4 border-b p-6">
         {t("settings.withdrawalSettings")}
       </h2>
 
       <div className="space-y-6 p-6">
         <div className="space-y-2">
-          <div className="border border-zinc-100 dark:border-zinc-800 px-4 py-3 flex items-start rounded-lg">
+          <div className="border  px-4 py-3 flex items-start rounded-lg">
             <Image
               alt="Escape Hatch"
               src="/img/icon-escape-hatch.svg"
@@ -43,7 +43,7 @@ export const WithdrawSettings = ({ from, gasEstimate }: SettingsModalProps) => {
             />
             <div>
               <h3 className="font-bold">Escape hatch</h3>
-              <p className="text-zinc-400 text-xs">
+              <p className="text-muted-foreground text-xs">
                 {t("settings.escapeHatchDescription", { base: to?.name })}
               </p>
             </div>
@@ -61,7 +61,7 @@ export const WithdrawSettings = ({ from, gasEstimate }: SettingsModalProps) => {
           </div>
 
           {configurations[deployment?.name ?? ""] && (
-            <div className="border border-zinc-100 dark:border-zinc-800 px-4 py-3 flex items-start rounded-lg">
+            <div className="border  px-4 py-3 flex items-start rounded-lg">
               <Image
                 alt="easy mode"
                 src="/img/icon-easy-mode.svg"
@@ -71,7 +71,7 @@ export const WithdrawSettings = ({ from, gasEstimate }: SettingsModalProps) => {
               />
               <div>
                 <h3 className="font-bold">Easy mode</h3>
-                <p className="text-zinc-400 text-xs">
+                <p className="text-muted-foreground text-xs">
                   {t("settings.easyModeDescription")}
                 </p>
               </div>
@@ -86,7 +86,7 @@ export const WithdrawSettings = ({ from, gasEstimate }: SettingsModalProps) => {
 
         <div className="space-y-2">
           <h2 className="font-bold">{t("settings.feeBreakdown")}</h2>
-          <div className="border border-zinc-100 dark:border-zinc-800 rounded-lg divide-y divide-zinc-100 dark:divide-zinc-800">
+          <div className="border  rounded-lg divide-y divide-zinc-100 dark:divide-zinc-800">
             {fees.map((fee) => (
               <div
                 key={fee.name}

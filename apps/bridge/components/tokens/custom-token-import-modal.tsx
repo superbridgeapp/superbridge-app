@@ -133,7 +133,7 @@ export const CustomTokenImportModal = () => {
         <div className="p-6 pb-0">
           <div className="flex gap-2 items-center">
             <div className="rounded-full bg-zinc-100 dark:bg-zinc-800 h-10 w-10 flex items-center justify-center">
-              <span className="text-[10px] tracking-tighter font-bold text-zinc-400 leading-4 mt-0.5">
+              <span className="text-[10px] tracking-tighter font-bold text-muted-foreground leading-4 mt-0.5">
                 {symbol?.substring(0, 3)}
               </span>
             </div>
@@ -141,15 +141,15 @@ export const CustomTokenImportModal = () => {
               <h3 className="text-xl tracking-tighter font-bold leading-4">
                 {name}
               </h3>
-              <p className="text-sm tracking-tight font-bold text-zinc-400 leading-4">
+              <p className="text-sm tracking-tight font-bold text-muted-foreground leading-4">
                 {symbol}
               </p>
             </div>
           </div>
         </div>
         <div className="p-6">
-          <div className="border border-zinc-100 dark:border-zinc-800 rounded-[16px]">
-            <div className="flex gap-4 p-4 border-b border-zinc-100 dark:border-zinc-800">
+          <div className="border  rounded-[16px]">
+            <div className="flex gap-4 p-4 border-b">
               <p className="font-medium text-sm">
                 {t("tokens.customImportCheck")}
               </p>
@@ -183,7 +183,7 @@ export const CustomTokenImportModal = () => {
                 </defs>
               </svg>
             </div>
-            <div className="p-4 border-b border-zinc-100 dark:border-zinc-800">
+            <div className="p-4 border-b">
               <div className="flex justify-between">
                 <h4 className="font-medium text-sm">
                   {t(
@@ -198,7 +198,7 @@ export const CustomTokenImportModal = () => {
                   {l1Link.name} →
                 </a>
               </div>
-              <span className="font-medium text-xs text-zinc-500 break-words leading-3">
+              <span className="font-medium text-xs text-muted-foreground break-words leading-3">
                 {OP_L1_TOKEN ?? ARB_L1_TOKEN}
               </span>
             </div>
@@ -217,7 +217,7 @@ export const CustomTokenImportModal = () => {
                   {l2Link.name} →
                 </a>
               </div>
-              <span className="font-medium text-xs text-zinc-500 break-words leading-3">
+              <span className="font-medium text-xs text-muted-foreground break-words leading-3">
                 {open}
               </span>
             </div>
@@ -230,17 +230,13 @@ export const CustomTokenImportModal = () => {
             />
             <label
               htmlFor="importAgree"
-              className="text-[11px] text-zinc-500 dark:text-zinc-400 tracking-tighter"
+              className="text-[11px] text-muted-foreground tracking-tighter"
             >
               {t("customTokenLists.disclaimer", { app: metadata.title })}
             </label>
           </div>
 
-          <Button
-            onClick={onSubmit}
-            disabled={!disclaimerChecked}
-            className={`flex w-full justify-center rounded-full h-10 px-3  text-sm tracking-tight font-bold leading-3 text-white shadow-sm `}
-          >
+          <Button onClick={onSubmit} disabled={!disclaimerChecked}>
             {t("tokens.import")}
           </Button>
         </div>

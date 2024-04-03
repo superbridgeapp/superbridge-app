@@ -124,19 +124,21 @@ export function Layout({ children }: { children: any }) {
             <>
               <Image
                 src={navIcon!}
-                width={theme.logoWidth}
-                height={theme.logoHeight}
+                width="0"
+                height="0"
+                sizes="100vw"
                 alt={deployments.deployments[0]?.name}
                 draggable={false}
-                className="inline-flex dark:hidden"
+                className="inline-flex dark:hidden w-auto h-10"
               />
               <Image
                 src={theme.standaloneLogoDark!}
-                width={theme.logoWidth}
-                height={theme.logoHeight}
+                width="0"
+                height="0"
+                sizes="100vw"
+                className="hidden dark:inline-flex w-auto h-10"
                 alt={deployments.deployments[0]?.name}
                 draggable={false}
-                className="hidden dark:inline-flex"
               />
             </>
           ) : isSuperbridge ? (

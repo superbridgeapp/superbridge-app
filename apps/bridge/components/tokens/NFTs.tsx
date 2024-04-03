@@ -42,7 +42,7 @@ export const NonFungibleTokenPicker = ({
 
   return (
     <>
-      <div className="flex flex-col gap-4 p-4 border-b border-zinc-100 dark:border-zinc-900">
+      <div className="flex flex-col gap-4 p-4 border-b">
         <input
           value={search}
           onChange={(e) => setSearch(e.target.value)}
@@ -54,7 +54,7 @@ export const NonFungibleTokenPicker = ({
           id="token"
           className={`${
             deploymentTheme(deployment).bgMuted
-          } block w-full rounded-lg border-0 py-3 px-4 pr-10 text-sm font-medium text-zinc-900 dark:text-zinc-50 text-zinc-900 outline-0 ring-0 placeholder:text-zinc-400 sm:leading-6`}
+          } block w-full rounded-lg border-0 py-3 px-4 pr-10 text-sm font-medium  outline-0 ring-0 placeholder:text-muted-foreground sm:leading-6`}
           placeholder="Search"
         />
       </div>

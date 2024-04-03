@@ -105,9 +105,7 @@ export const CustomTokenListModal = () => {
               id="tokenListName"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className={`${
-                deploymentTheme(deployment).bgMuted
-              } block w-full rounded-lg border-0 py-3 px-4 pr-10 text-sm font-medium text-zinc-900 dark:text-zinc-50 text-zinc-900 outline-none focus:ring-2 ring-inset ring-zinc-900/5 dark:ring-zinc-50/5 placeholder:text-zinc-400 sm:leading-6`}
+              className="bg-muted block w-full rounded-lg border-0 py-3 px-4 pr-10 text-sm font-medium outline-none focus:ring-2 ring-inset ring-zinc-900/5 dark:ring-zinc-50/5 placeholder:text-muted-foreground sm:leading-6"
               placeholder={t("customTokenLists.namePlaceholder")}
             />
           </div>
@@ -119,9 +117,7 @@ export const CustomTokenListModal = () => {
               id="tokenListURL"
               value={url}
               onChange={(e) => setUrl(e.target.value)}
-              className={`${
-                deploymentTheme(deployment).bgMuted
-              } block w-full rounded-lg border-0 py-3 px-4 pr-10 text-sm font-medium text-zinc-900 dark:text-zinc-50 text-zinc-900 outline-none focus:ring-2 ring-inset ring-zinc-900/5 dark:ring-zinc-50/5 placeholder:text-zinc-400 sm:leading-6`}
+              className="bg-muted block w-full rounded-lg border-0 py-3 px-4 pr-10 text-sm font-medium outline-none focus:ring-2 ring-inset ring-zinc-900/5 dark:ring-zinc-50/5 placeholder:text-muted-foreground sm:leading-6"
               placeholder={t("customTokenLists.urlPlaceholder")}
             />
             {debouncedUrl && tokensImported.isError && (
@@ -147,12 +143,11 @@ export const CustomTokenListModal = () => {
             />
             <label
               htmlFor="tokenListAgree"
-              className="text-[11px] text-zinc-500 dark:text-zinc-400 tracking-tighter"
+              className="text-[11px] text-muted-foreground tracking-tighter"
             >
               {t("customTokenLists.disclaimer", { app: metadata.title })}{" "}
               <a
                 target="_blank"
-                className="text-zinc-900 dark:text-zinc-200"
                 href="https://docs.rollbridge.app/custom-tokens"
               >
                 {t("customTokenLists.learnMore")}
@@ -162,7 +157,6 @@ export const CustomTokenListModal = () => {
         </div>
         <div className="p-6 flex flex-col gap-2">
           <Button
-            className={`flex w-full justify-center rounded-full h-10 px-3  text-sm tracking-tight font-bold leading-3 text-white shadow-sm`}
             onClick={onSubmit}
             disabled={
               !name ||
@@ -176,7 +170,6 @@ export const CustomTokenListModal = () => {
 
           {typeof tokenListOrOpen === "object" && (
             <Button
-              className={`flex w-full justify-center rounded-full h-10 px-3  text-sm tracking-tight font-bold leading-3 text-white shadow-sm bg-red-500 hover:bg-red-600`}
               onClick={onDelete}
               disabled={!name || !url || !disclaimerChecked}
             >

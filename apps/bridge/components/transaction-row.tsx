@@ -59,12 +59,7 @@ const Prove = ({ tx }: { tx: BridgeWithdrawalDto | ForcedWithdrawalDto }) => {
   const prove = useProveOptimism(isWithdrawal(tx) ? tx : tx.withdrawal!);
   const { t } = useTranslation();
   return (
-    <Button
-      className="rounded-full"
-      onClick={prove.onProve}
-      size={"sm"}
-      disabled={prove.loading}
-    >
+    <Button onClick={prove.onProve} size={"sm"} disabled={prove.loading}>
       {t("buttons.prove")}
     </Button>
   );
@@ -79,7 +74,6 @@ const Finalise = ({
   const { t } = useTranslation();
   return (
     <Button
-      className="rounded-full"
       onClick={finalise.onFinalise}
       size={"sm"}
       disabled={finalise.loading}
@@ -98,7 +92,6 @@ const FinaliseArbitrum: FC<{
   const { t } = useTranslation();
   return (
     <Button
-      className="rounded-full"
       onClick={finalise.onFinalise}
       size={"sm"}
       disabled={finalise.loading}
@@ -126,11 +119,7 @@ const RedeemArbitrum: FC<{
       </Button>
     );
   return (
-    <Button
-      className="rounded-full"
-      onClick={() => switchChain(deploymentL1)}
-      size={"sm"}
-    >
+    <Button onClick={() => switchChain(deploymentL1)} size={"sm"}>
       {t("buttons.switchChain")}
     </Button>
   );
@@ -621,7 +610,7 @@ export const TransactionRow = ({ tx }: { tx: Transaction }) => {
                 width="16"
                 height="16"
                 viewBox="0 0 16 16"
-                className={`fill-zinc-300 dark:fill-zinc-600 hover:fill-zinc-400 transition-all ${
+                className={`fill-muted-foreground transition-all ${
                   expanded ? "rotate-180" : "rotate-0"
                 }`}
               >
