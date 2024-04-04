@@ -161,7 +161,7 @@ export const AddressModal = ({
                   <input
                     value={nonSavedRecipient}
                     onChange={(e) => setNonSavedRecipient(e.target.value)}
-                    className="rounded-lg p-4 bg-zinc-200 dark:bg-zinc-800 text-xs font-medium  outline-zinc-300 dark:outline-zinc-700 transition-all"
+                    // className="rounded-lg p-4 bg-zinc-200 dark:bg-zinc-800 text-xs font-medium  outline-zinc-300 dark:outline-zinc-700 transition-all"
                   />
                   <div className="mt-2">
                     {match({

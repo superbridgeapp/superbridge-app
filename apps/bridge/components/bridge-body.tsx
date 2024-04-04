@@ -416,7 +416,7 @@ export const BridgeBody = () => {
 
       {token ? (
         <div
-          className={`relative rounded-[16px] px-4 py-3 border-2 border-transparent focus-within:border-accent transition-colors bg-muted `}
+          className={`relative rounded-[16px] px-4 py-3 border-2 border-transparent focus-within:border-border transition-colors bg-muted `}
         >
           <label
             htmlFor="amount"
@@ -520,7 +520,7 @@ export const BridgeBody = () => {
       ) : nft ? (
         <>
           <div
-            className={`relative rounded-[16px] px-4 py-3 border-2 border-transparent focus-within:border-accent transition-colors bg-muted `}
+            className={`relative rounded-[16px] px-4 py-3 border-2 border-transparent focus-within:border-border transition-colors bg-muted `}
           >
             <label
               htmlFor="amount"

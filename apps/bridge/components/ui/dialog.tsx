@@ -40,7 +40,7 @@ const DialogContent = React.forwardRef<
       <DialogPrimitive.Content
         ref={ref}
         className={cn(
-          `flex flex-col backdrop-blur-lg fixed left-[50%] bottom-[0] md:bottom-auto  md:top-[50%] z-50 h-auto max-h-[96dvh] md:max-h-[80vh] w-screen md:w-[50vw] md:max-w-[420px] translate-x-[-50%] md:translate-y-[-50%]  p-0 border border-black/[0.08] dark:border-white/[0.08] shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-bottom-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-bottom-[48%] rounded-t-[21px] md:rounded-[32px] bg-white dark:bg-black/60 overflow-hidden overflow-y-auto`,
+          `flex flex-col backdrop-blur-lg fixed left-[50%] bottom-[0] md:bottom-auto  md:top-[50%] z-50 h-auto max-h-[96dvh] md:max-h-[80vh] w-screen md:w-[50vw] md:max-w-[420px] translate-x-[-50%] md:translate-y-[-50%]  p-0 border border-black/[0.08] dark:border-white/[0.08] shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-bottom-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-bottom-[48%] rounded-t-[21px] md:rounded-[32px] bg-card overflow-hidden overflow-y-auto`,
           className
         )}
         {...props}
@@ -54,7 +54,7 @@ const DialogContent = React.forwardRef<
               height="24"
               fill="none"
               viewBox="0 0 24 24"
-              className={"fill-zinc-400"}
+              className={"fill-accent-foreground"}
             >
               <g clipPath="url(#clip0_322_6261)">
                 <path d="M11.991 0C5.381 0 0 5.38 0 11.991c0 6.61 5.38 11.991 11.991 11.991 6.61 0 11.991-5.38 11.991-11.99C23.982 5.38 18.62 0 11.992 0zm2.031 12.526l3.314 3.314c.214.213.321.48.321.748 0 .588-.481 1.069-1.087 1.069a.998.998 0 01-.748-.32l-3.314-3.297a.713.713 0 00-1.016 0l-3.314 3.296c-.196.214-.48.321-.748.321a1.072 1.072 0 01-1.07-1.069c0-.285.09-.552.304-.748l3.314-3.314a.713.713 0 00.213-.517.674.674 0 00-.213-.499L6.664 8.196a1.047 1.047 0 01-.303-.766A1.06 1.06 0 017.43 6.36c.285 0 .552.108.748.322l3.314 3.314c.143.142.32.213.517.213a.647.647 0 00.499-.213l3.314-3.314c.214-.214.48-.321.748-.321.642 0 1.087.517 1.087 1.069 0 .285-.125.552-.32.766l-3.315 3.314a.703.703 0 00-.213.499c0 .178.07.374.213.517z"></path>

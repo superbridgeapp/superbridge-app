@@ -19,6 +19,7 @@ import { CctpBadge } from "../cttp-badge";
 import { TokenIcon } from "../token-icon";
 import { Button } from "../ui/button";
 import { useCustomToken } from "./use-custom-token";
+import { Input } from "@/components/ui/input";
 
 const TokenComponent = ({
   token,
@@ -40,9 +41,8 @@ const TokenComponent = ({
   return (
     <div
       className={clsx(
-        "flex justify-between hover:bg-black/[0.025] hover:dark:bg-white/[0.05] transition cursor-pointer p-4 relative",
-        token[from?.id ?? 0]?.address === selectedToken?.address &&
-          "bg-black/[0.025] dark:bg-white/[0.05]"
+        "flex justify-between hover:bg-muted transition cursor-pointer p-4 relative",
+        token[from?.id ?? 0]?.address === selectedToken?.address && "bg-muted"
       )}
       onClick={onClick}
     >
@@ -274,7 +274,7 @@ export const FungibleTokenPicker = ({
   return (
     <>
       <div className="flex flex-col gap-2 p-4 border-b ">
-        <input
+        <Input
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           type="text"
@@ -283,9 +283,7 @@ export const FungibleTokenPicker = ({
           spellCheck="false"
           name="token"
           id="token"
-          className={`${
-            deploymentTheme(deployment).bgMuted
-          } block w-full rounded-lg border-0 py-3 px-4 pr-10 text-sm font-medium  outline-none focus:ring-2 ring-inset ring-zinc-900/5 dark:ring-zinc-50/5 placeholder:text-muted-foreground sm:leading-6`}
+          // className="bg-muted block w-full rounded-lg border-0 py-3 px-4 pr-10 text-sm font-medium  outline-none focus:ring-2 ring-inset ring-zinc-900/5 dark:ring-zinc-50/5 placeholder:text-muted-foreground sm:leading-6"
           placeholder="Search"
         />
 
@@ -313,7 +311,7 @@ export const FungibleTokenPicker = ({
               return (
                 <div
                   key={token[from?.id ?? 0]?.address ?? "0x"}
-                  className="border rounded-full flex items-center space-x-1 px-2 pr-3 py-1  cursor-pointer hover:bg-zinc-200 hover:dark:bg-zinc-800 transition"
+                  className="border rounded-full flex items-center space-x-1 px-2 pr-3 py-1  cursor-pointer hover:bg-muted transition"
                   onClick={() => onClickToken(token)}
                 >
                   <img

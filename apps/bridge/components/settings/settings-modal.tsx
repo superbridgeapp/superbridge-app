@@ -38,7 +38,7 @@ export const SettingsModal = ({ open, setOpen }: SettingsModalProps) => {
           <h2 className="font-bold p-6 pb-0">{t("settings.settings")}</h2>
 
           <div className="px-6 py-8">
-            <div className="border rounded-[16px] divide-y divide-zinc-100 dark:divide-zinc-800">
+            <div className="border rounded-[16px] divide-y divide-border">
               <div className="flex items-center justify-between p-4">
                 <div className="flex gap-2 items-center">
                   <svg
