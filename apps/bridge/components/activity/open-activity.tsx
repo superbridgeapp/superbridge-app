@@ -1,4 +1,3 @@
-import { deploymentTheme } from "@/config/theme";
 import { useTransactions } from "@/hooks/use-transactions";
 import { useConfigState } from "@/state/config";
 import { usePendingTransactions } from "@/state/pending-txs";
@@ -13,12 +12,12 @@ import {
 } from "@/utils/guards";
 import { MOCK_TRANSACTIONS } from "@/utils/mock-transactions";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 import { P, match } from "ts-pattern";
 import { useAccount } from "wagmi";
-import { useTranslation } from "react-i18next";
 
-import { TransactionRow } from "../transaction-row";
 import { Loading } from "../Loading";
+import { TransactionRow } from "../transaction-row";
 
 export const OpenActivity = ({}) => {
   const account = useAccount();
@@ -131,9 +130,9 @@ export const OpenActivity = ({}) => {
                   {[
                     ...pendingTransactions,
                     ...transactions,
-                    // ...(process.env["NODE_ENV"] === "development"
-                    //   ? MOCK_TRANSACTIONS
-                    //   : []),
+                    ...(process.env["NODE_ENV"] === "development"
+                      ? MOCK_TRANSACTIONS
+                      : []),
                   ].map((t) => (
                     <TransactionRow key={t.id} tx={t} />
                   ))}

@@ -41,9 +41,12 @@ const optimismCommon = (type: "deposit" | "withdrawal", index: number) => ({
     l1: goerli as unknown as ChainDto,
     l2: optimismGoerli as unknown as ChainDto,
     contractAddresses: {},
-    name: "optimism-testet",
+    name: "optimism-testnet",
     family: DeploymentFamily.optimism,
     type: DeploymentType.mainnet,
+    config: {
+      finalizationPeriodSeconds: 3600,
+    },
   } as OptimismDeploymentDto,
 });
 
