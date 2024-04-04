@@ -15,7 +15,7 @@ export const FromTo = () => {
   const theme = deploymentTheme(deployment);
   return (
     <div
-      className={`border-2 box-border relative flex items-start justify-between box-border p-3 py-4  rounded-[16px] relative`}
+      className={`border box-border relative flex items-start justify-between box-border p-3 py-4  rounded-[16px] relative`}
     >
       <div className="grow flex gap-2 items-start w-1/2 pr-3">
         <NetworkIcon
@@ -32,7 +32,7 @@ export const FromTo = () => {
             {t("from")}
           </span>
           <span
-            className={`text-sm md:text-sm font-medium leading-4 block tracking-tighter`}
+            className={`text-sm md:text-sm font-medium leading-4 block tracking-tight`}
             style={{ lineHeight: "1em" }}
           >
             {from?.name}
@@ -58,7 +58,7 @@ export const FromTo = () => {
             {t("to")}
           </span>
           <span
-            className={`text-sm md:text-sm font-medium text-right leading-4 block tracking-tighter`}
+            className={`text-sm md:text-sm font-medium text-right leading-4 block tracking-tight`}
             style={{ lineHeight: "1.125em" }}
           >
             {to?.name}

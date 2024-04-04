@@ -144,7 +144,7 @@ export const CustomTokenListModal = () => {
             />
             <label
               htmlFor="tokenListAgree"
-              className="text-[11px] text-muted-foreground tracking-tighter"
+              className="text-[11px] text-muted-foreground tracking-tight"
             >
               {t("customTokenLists.disclaimer", { app: metadata.title })}{" "}
               <a

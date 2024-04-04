@@ -96,7 +96,7 @@ const TokenComponent = ({
                 </clipPath>
               </defs>
             </svg>
-            <span className="text-[10px] tracking-tighter font-bold leading-4 text-orange-500 whitespace-nowrap">
+            <span className="text-[10px] tracking-tight font-bold leading-4 text-orange-500 whitespace-nowrap">
               {isCustomToken
                 ? t("tokens.customImport")
                 : t("tokens.customImportFromList", {
@@ -171,7 +171,7 @@ const TokenImport = ({ address }: { address: Address }) => {
     <div className="flex justify-between hover:bg-black/[0.025] hover:dark:bg-white/[0.05] transition p-4 rounded-sm">
       <div className="flex items-center space-x-4">
         <div className="rounded-full bg-zinc-100 dark:bg-zinc-800 h-8 w-8 flex items-center justify-center">
-          <span className="text-[10px] tracking-tighter font-bold text-muted-foreground leading-4 mt-0.5">
+          <span className="text-[10px] tracking-tight font-bold text-muted-foreground leading-4 mt-0.5">
             {symbol?.substring(0, 3)}
           </span>
         </div>
@@ -222,7 +222,7 @@ const TokenImport = ({ address }: { address: Address }) => {
                 </clipPath>
               </defs>
             </svg>
-            <span className="text-[10px] tracking-tighter font-bold leading-4 text-orange-500 ">
+            <span className="text-[10px] tracking-tight font-bold leading-4 text-orange-500 ">
               {t("tokens.notBridgeable")}
             </span>
           </div>

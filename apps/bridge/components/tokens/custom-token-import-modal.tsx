@@ -133,12 +133,12 @@ export const CustomTokenImportModal = () => {
         <div className="p-6 pb-0">
           <div className="flex gap-2 items-center">
             <div className="rounded-full bg-zinc-100 dark:bg-zinc-800 h-10 w-10 flex items-center justify-center">
-              <span className="text-[10px] tracking-tighter font-bold text-muted-foreground leading-4 mt-0.5">
+              <span className="text-[10px] tracking-tight font-bold text-muted-foreground leading-4 mt-0.5">
                 {symbol?.substring(0, 3)}
               </span>
             </div>
             <div className="flex flex-col gap-1">
-              <h3 className="text-xl tracking-tighter font-bold leading-4">
+              <h3 className="text-xl tracking-tight font-bold leading-4">
                 {name}
               </h3>
               <p className="text-sm tracking-tight font-bold text-muted-foreground leading-4">
@@ -230,7 +230,7 @@ export const CustomTokenImportModal = () => {
             />
             <label
               htmlFor="importAgree"
-              className="text-[11px] text-muted-foreground tracking-tighter"
+              className="text-[11px] text-muted-foreground tracking-tight"
             >
               {t("customTokenLists.disclaimer", { app: metadata.title })}
             </label>

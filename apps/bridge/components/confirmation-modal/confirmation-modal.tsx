@@ -632,7 +632,7 @@ export const ConfirmationModal = ({
       <DialogContent>
         <div className="flex flex-col p-6 pt-8">
           <div className="flex flex-col gap-1">
-            <h1 className="font-bold text-xl tracking-tighter text-pretty leading-6 mr-6">
+            <h1 className="font-bold text-xl tracking-tight text-pretty leading-6 mr-6">
               {title}
             </h1>
             <p className="text-xs md:text-sm text-pretty">
@@ -678,7 +678,7 @@ export const ConfirmationModal = ({
               />
               <label
                 htmlFor="timeframe"
-                className="text-[11px] text-muted-foreground tracking-tighter"
+                className="text-[11px] text-muted-foreground tracking-tight"
               >
                 {checkbox1Text}
               </label>
@@ -691,7 +691,7 @@ export const ConfirmationModal = ({
               />
               <label
                 htmlFor="speed"
-                className="text-[11px] text-muted-foreground tracking-tighter"
+                className="text-[11px] text-muted-foreground tracking-tight"
               >
                 {withdrawing
                   ? t("confirmationModal.checkbox2Withdrawal")
@@ -706,7 +706,7 @@ export const ConfirmationModal = ({
               />
               <label
                 htmlFor="fees"
-                className="text-[11px] text-muted-foreground tracking-tighter"
+                className="text-[11px] text-muted-foreground tracking-tight"
               >
                 {t("confirmationModal.checkbox3")}
               </label>
