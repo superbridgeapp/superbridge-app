@@ -39,6 +39,9 @@ export const OpenActivity = ({}) => {
       if (isCctpBridge(x)) return !x.relay;
     }).length + pendingTransactions.length;
 
+  const mockTransactions = MOCK_TRANSACTIONS;
+  // process.env["NODE_ENV"] === "development" ? MOCK_TRANSACTIONS : [];
+
   return (
     <main
       className="flex items-start justify-center w-screen h-screen fixed inset-0 px-2 md:px-0 py-16 md:py-24 xl:py-32"
@@ -114,7 +117,8 @@ export const OpenActivity = ({}) => {
             ({ transactions, pendingTransactions }) => {
               if (
                 transactions.length === 0 &&
-                pendingTransactions.length === 0
+                pendingTransactions.length === 0 &&
+                mockTransactions.length === 0
               ) {
                 return (
                   <div className="flex grow justify-center items-center h-full">
@@ -130,9 +134,7 @@ export const OpenActivity = ({}) => {
                   {[
                     ...pendingTransactions,
                     ...transactions,
-                    ...(process.env["NODE_ENV"] === "development"
-                      ? MOCK_TRANSACTIONS
-                      : []),
+                    ...mockTransactions,
                   ].map((t) => (
                     <TransactionRow key={t.id} tx={t} />
                   ))}
