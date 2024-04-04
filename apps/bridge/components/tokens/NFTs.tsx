@@ -9,6 +9,7 @@ import { deploymentTheme } from "@/config/theme";
 import { useConfigState } from "@/state/config";
 
 import { NftImage } from "../nft";
+import { Input } from "@/components/ui/input";
 
 export const NonFungibleTokenPicker = ({
   setOpen,
@@ -43,7 +44,7 @@ export const NonFungibleTokenPicker = ({
   return (
     <>
       <div className="flex flex-col gap-4 p-4 border-b">
-        <input
+        <Input
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           type="text"

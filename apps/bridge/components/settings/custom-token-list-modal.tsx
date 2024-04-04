@@ -13,6 +13,7 @@ import { transformIntoOptimismToken } from "@/utils/token-list/transform-optimis
 import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
 import { Dialog, DialogContent } from "../ui/dialog";
+import { Input } from "@/components/ui/input";
 
 export interface SettingsModalProps {
   open: boolean;
@@ -101,7 +102,7 @@ export const CustomTokenListModal = () => {
             <label htmlFor="tokenListName" className="font-bold text-sm">
               {t("customTokenLists.name")}
             </label>
-            <input
+            <Input
               id="tokenListName"
               value={name}
               onChange={(e) => setName(e.target.value)}
@@ -113,7 +114,7 @@ export const CustomTokenListModal = () => {
             <label htmlFor="tokenListURL" className="font-bold text-sm">
               {t("customTokenLists.url")}
             </label>
-            <input
+            <Input
               id="tokenListURL"
               value={url}
               onChange={(e) => setUrl(e.target.value)}

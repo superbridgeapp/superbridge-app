@@ -18,6 +18,7 @@ import { isDeposit, isWithdrawal } from "@/utils/guards";
 
 import { Button } from "./ui/button";
 import { Dialog, DialogContent } from "./ui/dialog";
+import { Input } from "@/components/ui/input";
 
 interface ProfileProps {
   name: string | null;
@@ -158,7 +159,7 @@ export const AddressModal = ({
                       showName={!debouncedInput.endsWith(".eth")}
                     />
                   </div>
-                  <input
+                  <Input
                     value={nonSavedRecipient}
                     onChange={(e) => setNonSavedRecipient(e.target.value)}
                     // className="rounded-lg p-4 bg-zinc-200 dark:bg-zinc-800 text-xs font-medium  outline-zinc-300 dark:outline-zinc-700 transition-all"
