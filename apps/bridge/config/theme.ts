@@ -567,7 +567,7 @@ export const deploymentTheme = (
   deployment: DeploymentDto | Pick<DeploymentDto, "name"> | null
 ) => {
   if (deployment && themes[deployment.name]) {
-    return;
+    return themes[deployment.name];
   }
 
   return {
