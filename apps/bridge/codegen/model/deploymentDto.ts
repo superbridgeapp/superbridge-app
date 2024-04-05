@@ -5,6 +5,7 @@
  * API docs
  * OpenAPI spec version: 1.0
  */
+import type { DeploymentDtoArbitrumNativeToken } from './deploymentDtoArbitrumNativeToken';
 import type { DeploymentDtoConfig } from './deploymentDtoConfig';
 import type { DeploymentDtoContractAddresses } from './deploymentDtoContractAddresses';
 import type { DeploymentFamily } from './deploymentFamily';
@@ -14,6 +15,7 @@ import type { FetchedMultichainOptimismTokenDto } from './fetchedMultichainOptim
 import type { DeploymentType } from './deploymentType';
 
 export interface DeploymentDto {
+  arbitrumNativeToken: DeploymentDtoArbitrumNativeToken;
   conduitId: string | null;
   config: DeploymentDtoConfig;
   contractAddresses: DeploymentDtoContractAddresses;

@@ -13,16 +13,11 @@ export interface ThemeDto {
   border?: string;
   card?: string;
   'card-foreground'?: string;
-  destructive?: string;
-  'destructive-foreground'?: string;
   fill?: string;
   foreground?: string;
   iconSrc?: string;
-  input?: string;
-  logoHeight?: number;
   logoSrc?: string;
   logoSrcDark?: string;
-  logoWidth?: number;
   muted?: string;
   'muted-foreground'?: string;
   navIconSrc?: string;
@@ -31,8 +26,5 @@ export interface ThemeDto {
   primary?: string;
   'primary-foreground'?: string;
   radius?: string;
-  ring?: string;
   screenBgImg?: string;
-  secondary?: string;
-  'secondary-foreground'?: string;
 }

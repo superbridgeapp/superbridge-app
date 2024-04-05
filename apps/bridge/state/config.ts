@@ -62,9 +62,6 @@ interface ConfigState {
 
   showCustomTokenImportModal: Address | false;
   setShowCustomTokenImportModal: (b: Address | false) => void;
-
-  arbitrumCustomGasTokens: (MultiChainToken | null)[];
-  setArbitrumCustomGasTokens: (b: (MultiChainToken | null)[]) => void;
 }
 
 const ConfigState = create<ConfigState>()((set) => ({
@@ -128,10 +125,6 @@ const ConfigState = create<ConfigState>()((set) => ({
   showCustomTokenImportModal: false,
   setShowCustomTokenImportModal: (showCustomTokenImportModal) =>
     set({ showCustomTokenImportModal }),
-
-  arbitrumCustomGasTokens: [],
-  setArbitrumCustomGasTokens: (arbitrumCustomGasTokens) =>
-    set({ arbitrumCustomGasTokens }),
 }));
 
 export const useConfigState = createSelectorHooks(ConfigState);

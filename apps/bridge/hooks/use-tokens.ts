@@ -4,11 +4,12 @@ import { Address } from "viem";
 
 import { useConfigState } from "@/state/config";
 import { useSettingsState } from "@/state/settings";
-import { MultiChainOptimismToken } from "@/types/token";
+import { MultiChainOptimismToken, MultiChainToken } from "@/types/token";
 import { isArbitrumToken, isOptimismToken } from "@/utils/guards";
 import { isNativeToken } from "@/utils/is-eth";
 import { isBridgedUsdc, isNativeUsdc } from "@/utils/is-usdc";
 
+import { getArbitrumNativeTokenForDeployment } from "@/utils/get-arbitrum-native-token";
 import { useDeployments } from "./use-deployments";
 
 function useDeploymentTokens(): MultiChainOptimismToken[] {
@@ -54,12 +55,24 @@ function useDeploymentTokens(): MultiChainOptimismToken[] {
   );
 }
 
+function useArbitrumNativeTokens(): MultiChainToken[] {
+  const { deployments } = useDeployments();
+
+  return useMemo(
+    () =>
+      deployments
+        .map((d) => getArbitrumNativeTokenForDeployment(d))
+        .filter(isPresent),
+    [deployments]
+  );
+}
+
 export function useAllTokens() {
   const deployment = useConfigState.useDeployment();
   const tokens = useConfigState.useTokens();
-  const arbitrumNativeTokens = useConfigState.useArbitrumCustomGasTokens();
   const customTokens = useSettingsState.useCustomTokens();
   const deploymentTokens = useDeploymentTokens();
+  const arbitrumNativeTokens = useArbitrumNativeTokens();
 
   const { deployments } = useDeployments();
 
