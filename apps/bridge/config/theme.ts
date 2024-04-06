@@ -519,6 +519,10 @@ const campTheme: Theme = {
   },
 };
 
+const cliqueTheme: Theme = {
+  ...defaultTheme,
+};
+
 export const themes: { [name: string]: Theme | undefined } = {
   ["base"]: baseTheme,
   ["base-sepolia"]: baseTheme,
@@ -560,6 +564,7 @@ export const themes: { [name: string]: Theme | undefined } = {
   ["metal-mainnet"]: metalTheme,
   ["metal-l2-testnet-3bbzi9kufn"]: metalTheme,
   ["camp-network-4xje7wy105"]: campTheme,
+  ["clique-mainnet-0"]: cliqueTheme,
 };
 
 export const deploymentTheme = (
