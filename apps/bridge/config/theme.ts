@@ -521,6 +521,24 @@ const campTheme: Theme = {
 
 const cliqueTheme: Theme = {
   ...defaultTheme,
+  bg: "bg-[#ffffff] dark:bg-[#19191F]",
+  bgMuted: "bg-[#F4F4F5] dark:bg-[#202028]",
+  screenBg: "bg-[#FAFAFA] dark:bg-[#09090B]",
+  accentBg:
+    "bg-[#1B48BF] hover:bg-[#1B48BF] dark:bg-[#1B48BF] dark:hover:bg-[#1B48BF]",
+  accentText: "text-white dark:text-white",
+  logoSrc: "/img/clique-mainnet/logo.svg",
+  logoSrcDark: "/img/clique-mainnet/logo-dark.svg",
+  logoWidth: 93,
+  logoHeight: 32,
+  iconSrc: "/img/clique-mainnet/icon.svg",
+  l2ChainIcon: "/img/clique-mainnet/network.svg",
+  screenBgImg: "bg-transparent",
+  standaloneLogo: "/img/clique-mainnet/logo.svg",
+  standaloneLogoDark: "/img/clique-mainnet/logo-dark.svg",
+  card: {
+    className: "bg-gradient-to-b from-[#23B2EF] to-[#0049C6] ",
+  },
 };
 
 export const themes: { [name: string]: Theme | undefined } = {
