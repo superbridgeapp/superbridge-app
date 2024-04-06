@@ -534,6 +534,25 @@ const campTheme: Theme = {
   },
 };
 
+const fraxTheme: Theme = {
+  ...defaultTheme,
+  bg: "bg-white dark:bg-[#161618]",
+  bgMuted: "bg-zinc-100 dark:bg-zinc-800",
+  screenBg: "bg-[#f0f0f0] dark:bg-[#070707]",
+  screenBgImg: "bg-transparent",
+  logoSrc: "/img/frax-mainnet/logo.svg",
+  logoSrcDark: "/img/frax-mainnet/logo-dark.svg",
+  logoWidth: 40,
+  logoHeight: 40,
+  iconSrc: "/img/frax-mainnet/icon.svg",
+  l2ChainIcon: "/img/frax-mainnet/network.svg",
+  card: {
+    className: "bg-[#070707]",
+  },
+  standaloneLogo: "/img/frax-mainnet/logo.svg",
+  standaloneLogoDark: "/img/frax-mainnet/logo-dark.svg",
+};
+
 export const themes: { [name: string]: Theme | undefined } = {
   ["base"]: baseTheme,
   ["base-sepolia"]: baseTheme,
