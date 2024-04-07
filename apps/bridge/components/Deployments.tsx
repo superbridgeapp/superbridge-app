@@ -18,13 +18,17 @@ const SUPERCHAIN_COMING_SOON = [
     name: "ancient8",
     displayName: "Ancient8",
   },
-  // {
-  //   name: "redstone-mainnet",
-  //   displayName: "Redstone",
-  // },
+  {
+    name: "redstone-mainnet",
+    displayName: "Redstone",
+  },
   {
     name: "lisk-mainnet",
     displayName: "Lisk",
+  },
+  {
+    name: "frax-mainnet",
+    displayName: "Fraxtal",
   },
 ];
 const COMING_SOON = [
