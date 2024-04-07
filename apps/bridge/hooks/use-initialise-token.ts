@@ -37,7 +37,7 @@ export const useInitialiseToken = () => {
     }
 
     const [nameOrToken, nameOrTokenOrUndefined]: (string | undefined)[] =
-      router.asPath.split("/").filter(Boolean);
+      router.asPath.split(/[?\/]/).filter(Boolean);
 
     const token = tokens.find((x) => {
       const l1 = x[deployment.l1.id];

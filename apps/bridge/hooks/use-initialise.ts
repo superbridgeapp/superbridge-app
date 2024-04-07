@@ -23,6 +23,7 @@ export const useInitialise = () => {
   const setDeployment = useConfigState.useSetDeployment();
   const setEasyMode = useConfigState.useSetEasyMode();
   const setForceViaL1 = useConfigState.useSetForceViaL1();
+  const setWithdrawing = useConfigState.useSetWithdrawing();
   const initialised = useConfigState.useInitialised();
   const setInitialised = useConfigState.useSetInitialised();
   const clearPendingTransactionsStorage = usePendingTransactions.useLogout();
@@ -37,6 +38,13 @@ export const useInitialise = () => {
       clearPendingTransactionsStorage();
     },
   });
+
+  useEffect(() => {
+    const direction = router.query.direction as string | undefined;
+    if (direction === "withdraw") {
+      setWithdrawing(true);
+    }
+  }, []);
 
   useEffect(() => {
     if (deploymentsLoading || initialised) {
