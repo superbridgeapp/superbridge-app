@@ -617,7 +617,7 @@ export const themes: { [name: string]: Theme | undefined } = {
   ["metal-mainnet-0"]: metalTheme,
   ["metal-l2-testnet-3bbzi9kufn"]: metalTheme,
   ["camp-network-4xje7wy105"]: campTheme,
-  ["clique-mainnet-0"]: cliqueTheme,
+  ["clique-mainnet"]: cliqueTheme,
   ["frax-mainnet"]: fraxTheme,
 };
 
