@@ -594,6 +594,7 @@ export const themes: { [name: string]: Theme | undefined } = {
   ["metal-mainnet"]: metalTheme,
   ["metal-l2-testnet-3bbzi9kufn"]: metalTheme,
   ["camp-network-4xje7wy105"]: campTheme,
+  ["frax-mainnet"]: fraxTheme,
 };
 
 export const deploymentTheme = (
