@@ -534,6 +534,28 @@ const campTheme: Theme = {
   },
 };
 
+const cliqueTheme: Theme = {
+  ...defaultTheme,
+  bg: "bg-[#ffffff] dark:bg-[#19191F]",
+  bgMuted: "bg-[#F4F4F5] dark:bg-[#202028]",
+  screenBg: "bg-[#FAFAFA] dark:bg-[#09090B]",
+  accentBg:
+    "bg-[#1B48BF] hover:bg-[#1B48BF] dark:bg-[#1B48BF] dark:hover:bg-[#1B48BF]",
+  accentText: "text-white dark:text-white",
+  logoSrc: "/img/clique-mainnet/logo.svg",
+  logoSrcDark: "/img/clique-mainnet/logo-dark.svg",
+  logoWidth: 93,
+  logoHeight: 32,
+  iconSrc: "/img/clique-mainnet/icon.svg",
+  l2ChainIcon: "/img/clique-mainnet/network.svg",
+  screenBgImg: "bg-transparent",
+  standaloneLogo: "/img/clique-mainnet/logo.svg",
+  standaloneLogoDark: "/img/clique-mainnet/logo-dark.svg",
+  card: {
+    className: "bg-gradient-to-b from-[#23B2EF] to-[#0049C6] ",
+  },
+};
+
 const fraxTheme: Theme = {
   ...defaultTheme,
   bg: "bg-white dark:bg-[#161618]",
@@ -595,6 +617,7 @@ export const themes: { [name: string]: Theme | undefined } = {
   ["metal-mainnet-0"]: metalTheme,
   ["metal-l2-testnet-3bbzi9kufn"]: metalTheme,
   ["camp-network-4xje7wy105"]: campTheme,
+  ["clique-mainnet-0"]: cliqueTheme,
   ["frax-mainnet"]: fraxTheme,
 };
 

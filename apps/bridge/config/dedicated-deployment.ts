@@ -103,6 +103,15 @@ export const dedicatedDeploymentMapping: {
     },
     network: "Camp Testnet",
   },
+  ["clique-mainnet-0"]: {
+    name: "clique-mainnet-0",
+    footerLink: "https://www.myclique.io/",
+    og: {
+      title: "Clique Mainnet Bridge",
+      description: "Bridge ETH and ERC20 tokens into and out of Clique Mainnet",
+    },
+    network: "Clique Mainnet",
+  },
 };
 
 export const dedicatedDeployment =
