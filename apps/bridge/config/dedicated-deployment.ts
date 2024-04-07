@@ -102,7 +102,7 @@ const mapping: { [name: string]: DedicatedDeployment | undefined } = {
     network: "Camp Testnet",
   },
   ["clique-mainnet"]: {
-    name: "clique-mainnet-0",
+    name: "clique-mainnet",
     footerLink: "https://www.myclique.io/",
     og: {
       title: "Clique Mainnet Bridge",
