@@ -103,7 +103,7 @@ export const dedicatedDeploymentMapping: {
     },
     network: "Camp Testnet",
   },
-  ["clique-mainnet-0"]: {
+  ["clique-mainnet"]: {
     name: "clique-mainnet-0",
     footerLink: "https://www.myclique.io/",
     og: {
