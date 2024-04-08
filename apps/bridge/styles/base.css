@@ -85,5 +85,6 @@
 }
 
 html {
-  font-family: GT-Maru, ui-rounded, system-ui, sans-serif;
+  font-family: GT-Maru, SFRounded, ui-rounded, "SF Pro Rounded", system-ui,
+    "Helvetica Neue", Arial, Helvetica, sans-serif;
 }
