@@ -17,6 +17,15 @@ export interface OptimismToken extends BaseToken {
   };
 }
 
+export interface SuperbridgeTokenListToken extends BaseToken {
+  extensions: {
+    opTokenId: string;
+    standardBridgeAddresses: {
+      [chainId: number]: Address | undefined;
+    };
+  };
+}
+
 export interface ArbitrumToken extends BaseToken {
   arbitrumBridgeInfo: {
     [chainId: number]: Address | undefined;

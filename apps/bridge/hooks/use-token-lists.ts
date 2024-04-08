@@ -5,7 +5,7 @@ import { getAddress } from "viem";
 import { useConfigState } from "@/state/config";
 import { CustomTokenList, useSettingsState } from "@/state/settings";
 import { MultiChainToken, OptimismToken } from "@/types/token";
-import { SuperchainTokenList } from "@/types/token-lists";
+import { SuperbridgeTokenList, SuperchainTokenList } from "@/types/token-lists";
 import UniswapArbitrumTokenList from "@/utils/token-list/json/arbitrum-uniswap.json";
 import ArbArbitrumTokenList from "@/utils/token-list/json/arbitrum.json";
 import { baseTokens } from "@/utils/token-list/json/base";
@@ -37,24 +37,36 @@ export const useTokenLists = () => {
      * Only Superchain token lists for now
      */
 
-    const [defaultTokenListResponse, ...customTokenListResponses] =
-      await Promise.all([
-        fetch(
-          "https://raw.githubusercontent.com/ethereum-optimism/ethereum-optimism.github.io/master/optimism.tokenlist.json"
-        ).catch(() => null),
-        ...customTokenLists
-          .filter((x) => x.enabled)
-          .map(async (x) => ({
-            tokenList: x,
-            response: await fetch(x.url).catch(() => null),
-          })),
-      ]);
+    const [
+      superchainTokenListResponse,
+      superbridgeTokenListResponse,
+      ...customTokenListResponses
+    ] = await Promise.all([
+      fetch(
+        "https://raw.githubusercontent.com/ethereum-optimism/ethereum-optimism.github.io/master/optimism.tokenlist.json"
+      ).catch(() => null),
+      fetch(
+        "https://raw.githubusercontent.com/superbridgeapp/token-lists/main/superchain.tokenlist.json"
+      ).catch(() => null),
+      ...customTokenLists
+        .filter((x) => x.enabled)
+        .map(async (x) => ({
+          tokenList: x,
+          response: await fetch(x.url).catch(() => null),
+        })),
+    ]);
 
-    const [defaultTokenListResult, ...customTokenListResults]: [
+    const [
+      superchainTokenListResult,
+      superbridgeTokenListResult,
+      ...customTokenListResults
+    ]: [
       SuperchainTokenList | null,
+      SuperbridgeTokenList | null,
       ...({ tokenList: CustomTokenList; result: SuperchainTokenList } | null)[]
     ] = await Promise.all([
-      defaultTokenListResponse?.json().catch(() => null),
+      superchainTokenListResponse?.json().catch(() => null),
+      superbridgeTokenListResponse?.json().catch(() => null),
       ...customTokenListResponses
         .filter((x) => x?.response?.status === 200)
         .map(async (x) => ({
@@ -63,8 +75,26 @@ export const useTokenLists = () => {
         })),
     ]);
 
-    defaultTokenListResult?.tokens.forEach((t) => {
+    superchainTokenListResult?.tokens.forEach((t) => {
       const tok = transformIntoOptimismToken(t);
+      if (!tok || Object.keys(tok.standardBridgeAddresses).length == 0) {
+        return;
+      }
+
+      if (multichainTokens[tok.opTokenId]) {
+        multichainTokens[tok.opTokenId][tok.chainId] = tok;
+      } else {
+        multichainTokens[tok.opTokenId] = { [tok.chainId]: tok };
+      }
+    });
+
+    superbridgeTokenListResult?.tokens.forEach((t) => {
+      const tok: OptimismToken = {
+        ...t,
+        standardBridgeAddresses: t.extensions.standardBridgeAddresses,
+        opTokenId: t.extensions.opTokenId,
+      };
+
       if (!tok || Object.keys(tok.standardBridgeAddresses).length == 0) {
         return;
       }

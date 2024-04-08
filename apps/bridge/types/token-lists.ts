@@ -1,5 +1,7 @@
 import { Address } from "viem";
 
+import { SuperbridgeTokenListToken } from "./token";
+
 export interface SuperchainToken {
   chainId: number;
   address: string;
@@ -21,6 +23,14 @@ export interface SuperchainTokenList {
   keywords: string[];
   timestamp: string;
   tokens: SuperchainToken[];
+}
+
+export interface SuperbridgeTokenList {
+  name: string;
+  logoURI: string;
+  keywords: string[];
+  timestamp: string;
+  tokens: SuperbridgeTokenListToken[];
 }
 
 export interface ArbitrumTokenListToken {
