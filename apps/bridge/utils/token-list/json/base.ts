@@ -166,30 +166,4 @@ export const baseTokens = [
     },
     opTokenId: "BITCOIN",
   },
-
-  // STPT
-  {
-    chainId: mainnet.id,
-    address: "0xDe7D85157d9714EADf595045CC12Ca4A5f3E2aDb",
-    name: "STPT Network",
-    symbol: "STPT",
-    decimals: 18,
-    logoURI: "https://assets.coingecko.com/coins/images/8713/standard/STP.png",
-    standardBridgeAddresses: {
-      [base.id]: "0x3154Cf16ccdb4C6d922629664174b904d80F2C35",
-    },
-    opTokenId: "STPT",
-  },
-  {
-    chainId: base.id,
-    address: "0x4489d0a0345eCB216A3994De780d453c7fA6312C",
-    name: "STPT Network",
-    symbol: "STPT",
-    decimals: 18,
-    logoURI: "https://assets.coingecko.com/coins/images/8713/standard/STP.png",
-    standardBridgeAddresses: {
-      [mainnet.id]: "0x4200000000000000000000000000000000000010",
-    },
-    opTokenId: "STPT",
-  },
 ] as const;

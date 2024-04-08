@@ -24,12 +24,13 @@ const useDeploymentsFilters = (): BridgeControllerGetDeploymentsParams => {
     return {
       // change this to see more things locally
       names: [
+        "base",
         "op-sepolia",
-        "base-sepolia",
-        "zora-sepolia-0thyhxtf5e",
-        "pgn-sepolia-i4td3ji6i0",
-        "mode-sepolia-vtnhnpim72",
-        "orderly-l2-4460-sepolia-8tc3sd7dvy",
+        // "base-sepolia",
+        // "zora-sepolia-0thyhxtf5e",
+        // "pgn-sepolia-i4td3ji6i0",
+        // "mode-sepolia-vtnhnpim72",
+        // "orderly-l2-4460-sepolia-8tc3sd7dvy",
       ],
     };
   }
