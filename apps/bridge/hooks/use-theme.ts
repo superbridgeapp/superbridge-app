@@ -43,5 +43,5 @@ export const useDarkModeEnabled = () => {
 
   console.log(deployments.length);
   if (deployments.length > 1) return true;
-  return deployments[0].theme?.theme.darkModeEnabled;
+  return deployments[0]?.theme?.theme.darkModeEnabled;
 };
