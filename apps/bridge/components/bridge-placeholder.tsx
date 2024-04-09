@@ -2,7 +2,7 @@ import clsx from "clsx";
 import Image from "next/image";
 import { useTranslation } from "react-i18next";
 
-import { DeploymentDto } from "@/codegen/model";
+import { DeploymentDto, DeploymentType } from "@/codegen/model";
 import { deploymentTheme } from "@/config/theme";
 
 export const BridgePlaceholder = ({
@@ -10,7 +10,7 @@ export const BridgePlaceholder = ({
   comingSoon,
   newDeployment,
 }: {
-  deployment: Pick<DeploymentDto, "name" | "displayName">;
+  deployment: Pick<DeploymentDto, "name" | "displayName" | "type">;
   comingSoon?: boolean;
   newDeployment?: boolean;
 }) => {
@@ -61,10 +61,11 @@ export const BridgePlaceholder = ({
           {t("comingSoon")}
         </span>
       )}
-      {/* TODO: Is Testnet && not coming soon*/}
-      <span className="text-[10px] font-medium inline-flex leading-none bg-black/30 text-white font-medium absolute bottom-6 left-1/2 -translate-x-1/2 rounded-full px-2 py-1">
-        Testnet
-      </span>
+      {!comingSoon && deployment.type === DeploymentType.testnet && (
+        <span className="text-[10px] font-medium inline-flex leading-none bg-black/30 text-white font-medium absolute bottom-6 left-1/2 -translate-x-1/2 rounded-full px-2 py-1">
+          Testnet
+        </span>
+      )}
     </div>
   );
 };

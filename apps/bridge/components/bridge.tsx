@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
 
+import { DeploymentType } from "@/codegen/model";
 import { dedicatedDeployment } from "@/config/dedicated-deployment";
 import { isSuperbridge } from "@/config/superbridge";
 import { deploymentTheme } from "@/config/theme";
@@ -35,11 +36,12 @@ export const Bridge = () => {
               <BridgeBody />
             </div>
 
-            {/* TODO: Is testnet */}
             <div className="flex gap-1">
-              <span className="text-[10px] font-medium inline-flex items-center leading-none bg-black/30 text-white font-medium rounded-full px-3 h-6">
-                Testnet
-              </span>
+              {deployment?.type === DeploymentType.testnet && (
+                <span className="text-[10px] font-medium inline-flex items-center leading-none bg-black/30 text-white font-medium rounded-full px-3 h-6">
+                  Testnet
+                </span>
+              )}
               {deployment?.conduitId && !dedicatedDeployment && (
                 <a
                   href={`https://conduit.xyz/?utm_source=${
