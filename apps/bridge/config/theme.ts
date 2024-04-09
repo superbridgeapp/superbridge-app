@@ -575,6 +575,29 @@ const fraxTheme: Theme = {
   standaloneLogoDark: "/img/frax-mainnet/logo-dark.svg",
 };
 
+const ebiTheme: Theme = {
+  ...defaultTheme,
+  bg: "bg-[#ffffff] dark:bg-[#19191F]",
+  bgMuted: "bg-[#F4F4F5] dark:bg-[#202028]",
+  screenBg: "bg-[#FF8000]  dark:bg-[#000000]",
+  screenBgImg:
+    "bg-gradient-to-tr from-[#FF0079] via-[#FF0079]/30 to-[#FF0079]/0 dark:from-[#111111] via-[#000000]/0 dark:to-[#000000]/0",
+  accentBg:
+    "bg-[#5249C9] hover:bg-[#5249C9] dark:bg-[#5249C9] dark:hover:bg-[#5249C9]",
+  accentText: "text-white dark:text-white",
+  logoSrc: "/img/ebi-mainnet/logo.svg",
+  logoSrcDark: "/img/ebi-mainnet/logo-dark.svg",
+  logoWidth: 148,
+  logoHeight: 32,
+  iconSrc: "/img/ebi-mainnet/icon.svg",
+  l2ChainIcon: "/img/ebi-mainnet/network.svg",
+  standaloneLogo: "/img/ebi-mainnet/logo.svg",
+  standaloneLogoDark: "/img/ebi-mainnet/logo-dark.svg",
+  card: {
+    className: "bg-gradient-to-b from-[#FF8000] to-[#FF0079]",
+  },
+};
+
 export const themes: { [name: string]: Theme | undefined } = {
   ["base"]: baseTheme,
   ["base-sepolia"]: baseTheme,
