@@ -8,23 +8,43 @@
 
 export interface ThemeDto {
   accent?: string;
+  'accent-dark'?: string;
   'accent-foreground'?: string;
+  'accent-foreground-dark'?: string;
   background?: string;
+  'background-dark'?: string;
   border?: string;
+  'border-dark'?: string;
   card?: string;
+  'card-dark'?: string;
   'card-foreground'?: string;
+  'card-foreground-dark'?: string;
+  darkModeEnabled?: boolean;
+  destructive?: string;
+  'destructive-dark'?: string;
+  'destructive-foreground'?: string;
+  'destructive-foreground-dark'?: string;
   fill?: string;
+  'fill-dark'?: string;
   foreground?: string;
-  iconSrc?: string;
-  logoSrc?: string;
-  logoSrcDark?: string;
+  'foreground-dark'?: string;
+  imageBackground?: string;
+  imageBackgroundDark?: string;
+  imageLogo?: string;
+  imageLogoDark?: string;
+  imageNetwork?: string;
+  imageNetworkDark?: string;
   muted?: string;
+  'muted-dark'?: string;
   'muted-foreground'?: string;
-  navIconSrc?: string;
+  'muted-foreground-dark'?: string;
   popover?: string;
+  'popover-dark'?: string;
   'popover-foreground'?: string;
+  'popover-foreground-dark'?: string;
   primary?: string;
+  'primary-dark'?: string;
   'primary-foreground'?: string;
+  'primary-foreground-dark'?: string;
   radius?: string;
-  screenBgImg?: string;
 }

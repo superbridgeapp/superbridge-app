@@ -8,28 +8,40 @@ export const useNavIcon = () => {
 
   if (navIcon) return navIcon;
 
-  if (deployments.length === 1) return deployments[0].theme?.theme.navIconSrc;
+  if (deployments.length === 1) return deployments[0].theme?.theme.imageLogo;
   if (isSuperbridge) return "/img/logo.svg";
   return "/img/rollbridge-logo.svg";
 };
-export const useNavIconDark = () => {
+
+// export const useNavIconDark = () => {
+//   const { deployments } = useDeployments();
+
+//   if (deployments.length === 1) return deployments[0].theme?.theme.navIconSrc;
+//   if (isSuperbridge) return "/img/logo-dark.svg";
+//   return "/img/rollbridge-logo-dark.svg";
+// };
+// export const useNavIconSmall = () => {
+//   const { deployments } = useDeployments();
+
+//   if (deployments.length === 1) return null;
+//   if (isSuperbridge) return "/img/logo-small.svg";
+//   return "/img/rollbridge-logo-small.svg";
+// };
+// export const useNavIconSmallDark = () => {
+//   const { deployments } = useDeployments();
+
+//   if (deployments.length === 1) return null;
+//   if (isSuperbridge) return "/img/logo-small-dark.svg";
+//   return "/img/rollbridge-logo-small-dark.svg";
+// };
+
+export const useDarkModeEnabled = () => {
   const { deployments } = useDeployments();
 
-  if (deployments.length === 1) return deployments[0].theme?.theme.navIconSrc;
-  if (isSuperbridge) return "/img/logo-dark.svg";
-  return "/img/rollbridge-logo-dark.svg";
-};
-export const useNavIconSmall = () => {
-  const { deployments } = useDeployments();
+  const enabled = useThemeState.useDarkModeEnabled();
+  if (enabled !== null) return enabled;
 
-  if (deployments.length === 1) return null;
-  if (isSuperbridge) return "/img/logo-small.svg";
-  return "/img/rollbridge-logo-small.svg";
-};
-export const useNavIconSmallDark = () => {
-  const { deployments } = useDeployments();
-
-  if (deployments.length === 1) return null;
-  if (isSuperbridge) return "/img/logo-small-dark.svg";
-  return "/img/rollbridge-logo-small-dark.svg";
+  console.log(deployments.length);
+  if (deployments.length > 1) return true;
+  return deployments[0].theme?.theme.darkModeEnabled;
 };

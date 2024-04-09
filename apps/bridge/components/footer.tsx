@@ -3,33 +3,35 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import { deploymentTheme } from "@/config/theme";
-import { useConfigState } from "@/state/config";
-import { useDeployments } from "@/hooks/use-deployments";
-import { dedicatedDeployment } from "@/config/dedicated-deployment";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { dedicatedDeployment } from "@/config/dedicated-deployment";
 import { isSuperbridge } from "@/config/superbridge";
+import { useDeployments } from "@/hooks/use-deployments";
+import { useDarkModeEnabled } from "@/hooks/use-theme";
+import { useConfigState } from "@/state/config";
 
 export function Footer() {
   const { setTheme, resolvedTheme } = useTheme();
-  const deployment = useConfigState.useDeployment();
   const [mounted, setMounted] = useState(false);
   const deployments = useDeployments();
   const { t } = useTranslation();
   const setSettingsModal = useConfigState.useSetSettingsModal();
+  const darkModeEnabled = useDarkModeEnabled();
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
+  console.log(mounted, darkModeEnabled);
+
   return (
     <footer className="flex flex-row justify-between px-1.5 md:px-6 py-3 md:py-4 fixed bottom-0 left-0 w-screen z-10 bg-gradient-to-t from-zinc-950/40 md:from-transparent">
-      {mounted ? (
+      {mounted && darkModeEnabled ? (
         <div className="bg-card rounded-full shadow-sm flex items-center py-2 px-3 border-black/[0.0125] dark:border-white/[0.0125]">
           {/* light */}
           <button onClick={() => setTheme("light")}>

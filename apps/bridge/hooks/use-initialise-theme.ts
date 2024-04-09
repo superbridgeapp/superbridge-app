@@ -6,6 +6,7 @@ import { useThemeState } from "@/state/theme";
 export const useInitialiseTheme = () => {
   const deployment = useConfigState.useDeployment();
   const setNavIcon = useThemeState.useSetNavIcon();
+  const setDarkModeEnabled = useThemeState.useSetDarkModeEnabled();
 
   useEffect(() => {
     const theme = deployment?.theme?.theme;
@@ -24,8 +25,11 @@ export const useInitialiseTheme = () => {
 
       if (e.data.theme) {
         Object.entries(e.data.theme).forEach(([key, value]) => {
+          console.log("Set", key, value);
           if (key && value) {
-            if (key === "navIconSrc") {
+            if (key === "darkModeEnabled") {
+              setDarkModeEnabled(value as boolean);
+            } else if (key === "navIconSrc") {
               setNavIcon(value as string);
             } else {
               document.documentElement.style.setProperty(
