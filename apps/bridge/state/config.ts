@@ -63,6 +63,9 @@ interface ConfigState {
 
   arbitrumCustomGasTokens: (MultiChainToken | null)[];
   setArbitrumCustomGasTokens: (b: (MultiChainToken | null)[]) => void;
+
+  superbridgeTestnets: boolean;
+  setSuperbridgeTestnets: (b: boolean) => void;
 }
 
 const ConfigState = create<ConfigState>()((set) => ({
@@ -128,6 +131,9 @@ const ConfigState = create<ConfigState>()((set) => ({
   arbitrumCustomGasTokens: [],
   setArbitrumCustomGasTokens: (arbitrumCustomGasTokens) =>
     set({ arbitrumCustomGasTokens }),
+
+  superbridgeTestnets: false,
+  setSuperbridgeTestnets: (superbridgeTestnets) => set({ superbridgeTestnets }),
 }));
 
 export const useConfigState = createSelectorHooks(ConfigState);

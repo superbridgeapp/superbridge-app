@@ -1,9 +1,7 @@
 import { createSelectorHooks } from "auto-zustand-selectors-hook";
-import { isPresent } from "ts-is-present";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-import { isRollbridge, isSuperbridge } from "@/config/superbridge";
 import { MultiChainToken } from "@/types/token";
 
 export interface CustomTokenList {
