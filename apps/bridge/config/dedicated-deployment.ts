@@ -3,7 +3,7 @@ const DEDICATED_DEPLOYMENT = process.env["NEXT_PUBLIC_DEDICATED_DEPLOYMENT"];
 interface DedicatedDeployment {
   name: string;
   network: string;
-  footerLink: string;
+  footerLink?: string;
   og: {
     title: string;
     description: string;
@@ -109,6 +109,14 @@ const mapping: { [name: string]: DedicatedDeployment | undefined } = {
       description: "Bridge ETH and ERC20 tokens into and out of Clique Mainnet",
     },
     network: "Clique Mainnet",
+  },
+  ["test-figaro-cuqjfe7wkd"]: {
+    name: "test-figaro-cuqjfe7wkd",
+    og: {
+      title: "Ebi Testnet Bridge",
+      description: "Bridge ETH and ERC20 tokens into and out of Ebi Testnet",
+    },
+    network: "Ebi Testnet",
   },
 };
 

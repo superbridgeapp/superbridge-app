@@ -161,15 +161,17 @@ export function Footer() {
                         )}
                       </>
                     )}
-                    <DropdownMenuItem>
-                      <Link
-                        href={dedicatedDeployment.footerLink}
-                        target="_blank"
-                        className="font-medium text-sm w-full"
-                      >
-                        {t("about")}
-                      </Link>
-                    </DropdownMenuItem>
+                    {dedicatedDeployment.footerLink && (
+                      <DropdownMenuItem>
+                        <Link
+                          href={dedicatedDeployment.footerLink}
+                          target="_blank"
+                          className="font-medium text-sm w-full"
+                        >
+                          {t("about")}
+                        </Link>
+                      </DropdownMenuItem>
+                    )}
                     <DropdownMenuItem>
                       <Link
                         href={"mailto:support@superbridge.app"}
