@@ -641,6 +641,7 @@ export const themes: { [name: string]: Theme | undefined } = {
   ["camp-network-4xje7wy105"]: campTheme,
   ["clique-mainnet"]: cliqueTheme,
   ["frax-mainnet"]: fraxTheme,
+  ["test-figaro-cuqjfe7wkd"]: ebiTheme,
 };
 
 export const deploymentTheme = (
