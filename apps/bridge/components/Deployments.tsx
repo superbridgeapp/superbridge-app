@@ -1,10 +1,11 @@
 import clsx from "clsx";
 import { motion } from "framer-motion";
 
-import { DeploymentDto } from "@/codegen/model";
+import { DeploymentDto, DeploymentType } from "@/codegen/model";
 import { BridgePlaceholder } from "@/components/bridge-placeholder";
 import { HIDDEN_DEPLOYMENTS, useDeployments } from "@/hooks/use-deployments";
 import { useNavigate } from "@/hooks/use-navigate";
+
 import { PageTransition } from "./PageTransition";
 
 const spring = {
@@ -17,18 +18,22 @@ const SUPERCHAIN_COMING_SOON = [
   {
     name: "ancient8",
     displayName: "Ancient8",
+    type: DeploymentType.mainnet,
   },
   {
     name: "redstone-mainnet",
     displayName: "Redstone",
+    type: DeploymentType.mainnet,
   },
   {
     name: "lisk-mainnet",
     displayName: "Lisk",
+    type: DeploymentType.mainnet,
   },
   {
     name: "frax-mainnet",
     displayName: "Fraxtal",
+    type: DeploymentType.mainnet,
   },
 ];
 const COMING_SOON = [
@@ -36,6 +41,7 @@ const COMING_SOON = [
     name: "frame",
     conduitId: null,
     displayName: "Frame",
+    type: DeploymentType.mainnet,
   },
 ];
 
