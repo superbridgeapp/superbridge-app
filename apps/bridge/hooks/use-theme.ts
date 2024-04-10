@@ -3,6 +3,7 @@ import { isSuperbridge } from "@/config/superbridge";
 import { useDeployments } from "./use-deployments";
 import { useContext } from "react";
 import { ThemeContext } from "@/state/theme";
+import { useTheme } from "next-themes";
 
 export const useNavIcon = () => {
   const { deployments } = useDeployments();
@@ -66,4 +67,53 @@ export const useDarkModeEnabled = () => {
 
   if (deployments.length > 1) return true;
   return deployments[0]?.theme?.theme.darkModeEnabled;
+};
+
+export const useBackgroundImageBlendMode = () => {
+  const { deployments } = useDeployments();
+  const { resolvedTheme } = useTheme();
+
+  const theme = useContext(ThemeContext);
+
+  if (resolvedTheme === "light") {
+    if (theme?.backgroundImageBlendMode !== undefined) {
+      return theme.backgroundImageBlendMode;
+    }
+    return deployments[0]?.theme?.theme.backgroundImageBlendMode;
+  }
+  if (resolvedTheme === "dark")
+    if (theme?.backgroundImageBlendModeDark !== undefined) {
+      return theme.backgroundImageBlendModeDark;
+    }
+  return deployments[0]?.theme?.theme.backgroundImageBlendModeDark;
+};
+
+export const useBackgroundImageOpacity = () => {
+  const { deployments } = useDeployments();
+  const { resolvedTheme } = useTheme();
+
+  const theme = useContext(ThemeContext);
+
+  if (resolvedTheme === "light") {
+    if (theme?.backgroundImageOpacity !== undefined) {
+      return theme.backgroundImageOpacity;
+    }
+    return deployments[0]?.theme?.theme.backgroundImageOpacity;
+  }
+  if (resolvedTheme === "dark")
+    if (theme?.backgroundImageOpacityDark !== undefined) {
+      return theme.backgroundImageOpacityDark;
+    }
+  return deployments[0]?.theme?.theme.backgroundImageOpacityDark;
+};
+
+export const useBackgroundImageStyle = () => {
+  const { deployments } = useDeployments();
+
+  const theme = useContext(ThemeContext);
+
+  if (theme?.backgroundImageStyle !== undefined) {
+    return theme.backgroundImageStyle;
+  }
+  return deployments[0]?.theme?.theme.backgroundImageStyle;
 };

@@ -13,7 +13,13 @@ import { deploymentTheme } from "@/config/theme";
 import { useDeployments } from "@/hooks/use-deployments";
 import { useInitialise } from "@/hooks/use-initialise";
 import { useNavigate } from "@/hooks/use-navigate";
-import { useBackgroundIcon, useNavIcon } from "@/hooks/use-theme";
+import {
+  useBackgroundIcon,
+  useBackgroundImageBlendMode,
+  useBackgroundImageOpacity,
+  useBackgroundImageStyle,
+  useNavIcon,
+} from "@/hooks/use-theme";
 import { useConfigState } from "@/state/config";
 
 import { CustomTokenListModal } from "./settings/custom-token-list-modal";
@@ -24,7 +30,6 @@ export function Layout({ children }: { children: any }) {
   const deployments = useDeployments();
   const navigate = useNavigate();
   const deployment = useConfigState.useDeployment();
-  const stateToken = useConfigState.useToken();
   const displayTransactions = useConfigState.useDisplayTransactions();
   const setSettingsModal = useConfigState.useSetSettingsModal();
   const settingsModal = useConfigState.useSettingsModal();
@@ -36,16 +41,19 @@ export function Layout({ children }: { children: any }) {
   const navIcon = useNavIcon();
   // TODO: james somehow wire this up
   const imageBackground = useBackgroundIcon();
+  const backgroundImageBlendMode = useBackgroundImageBlendMode();
+  const backgroundImageStyle = useBackgroundImageStyle();
+  const backgroundImageOpacity = useBackgroundImageOpacity();
 
   return (
     <div className="bg-background w-screen h-screen overflow-hidden z-40 relative transition-colors duration-1000 tracking-tight flex justify-center transform-gpu">
       <div
         className={clsx(`inset-0 z-0 fixed transition-all bg-cover`)}
-        style={{ backgroundImage: `url(${imageBackground})` }}
-        // Add value to classNames from Background Style
-        // Add value to classNames from Blend Mode
-        // Add value to classNames from Opacity
-        // I think tailwind classes wont work here, so we might need to add value directly to style like backgoundImage is
+        style={{
+          backgroundImage: `url(${imageBackground})`,
+          opacity: backgroundImageOpacity,
+          mixBlendMode: backgroundImageBlendMode as any,
+        }}
       />
 
       <TosModal />
