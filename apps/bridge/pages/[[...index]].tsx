@@ -3,7 +3,7 @@ import type {
   GetServerSidePropsContext,
   InferGetServerSidePropsType,
 } from "next";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import { bridgeControllerGetDeployments } from "@/codegen";
 import { DeploymentType } from "@/codegen/model";
@@ -15,6 +15,8 @@ import { PageTransition } from "@/components/PageTransition";
 import { Providers } from "@/components/Providers";
 import { Bridge } from "@/components/bridge";
 import { useConfigState } from "@/state/config";
+import { ThemeContext } from "@/state/theme";
+import { useInitialiseTheme } from "@/hooks/use-initialise-theme";
 
 export const getServerSideProps = async ({
   req,
@@ -88,12 +90,16 @@ export const getServerSideProps = async ({
 export default function IndexRoot({
   deployments,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const themeValues = useInitialiseTheme();
+
   return (
-    <Providers deployments={deployments}>
-      <Layout>
-        <Index deployments={deployments} />
-      </Layout>
-    </Providers>
+    <ThemeContext.Provider value={themeValues}>
+      <Providers deployments={deployments}>
+        <Layout>
+          <Index deployments={deployments} />
+        </Layout>
+      </Providers>
+    </ThemeContext.Provider>
   );
 }
 

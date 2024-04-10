@@ -122,7 +122,7 @@ export function Layout({ children }: { children: any }) {
         <div onClick={() => navigate("/")} className="cursor-pointer">
           {deployments.deployments.length === 1 ? (
             <>
-              <Image
+              <img
                 src={navIcon!}
                 width="0"
                 height="0"
@@ -131,7 +131,7 @@ export function Layout({ children }: { children: any }) {
                 draggable={false}
                 className="inline-flex dark:hidden w-auto h-10"
               />
-              <Image
+              <img
                 src={theme.standaloneLogoDark!}
                 width="0"
                 height="0"

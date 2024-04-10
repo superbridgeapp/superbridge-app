@@ -30,7 +30,6 @@ export const useInitialise = () => {
   useInitialiseRecipient();
   useTokenLists();
   useInitialiseToken();
-  useInitialiseTheme();
 
   useAccountEffect({
     onDisconnect: () => {

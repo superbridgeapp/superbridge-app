@@ -1,9 +1,10 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import { useConfigState } from "@/state/config";
 
 export const useInitialiseTheme = () => {
   const deployment = useConfigState.useDeployment();
+  const [themeValues, setThemeValues] = useState(null);
 
   useEffect(() => {
     const theme = deployment?.theme?.theme;
@@ -29,6 +30,7 @@ export const useInitialiseTheme = () => {
             );
           }
         });
+        setThemeValues(e.data.theme);
       }
     };
     window.addEventListener("message", listener);
@@ -36,4 +38,6 @@ export const useInitialiseTheme = () => {
       window.removeEventListener("message", listener);
     };
   }, []);
+
+  return themeValues;
 };
