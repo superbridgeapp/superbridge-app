@@ -95,9 +95,7 @@ export const useDeployments = () => {
   //   typeof window === "undefined" || window.location.hostname === "localhost"
   //     ? useBridgeControllerGetDeployments(useDeploymentsFilters())
   //     : useBridgeControllerGetDeploymentsByDomain("abc.com");
-
   const deployments = useConfigState.useDeployments();
-  // console.log(deployments.data?.data);
   return {
     deployments,
     // deployments: deployments.data?.data ?? ([] as DeploymentDto[]),
