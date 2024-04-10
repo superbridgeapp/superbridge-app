@@ -1,6 +1,34 @@
 import { base, mainnet, optimism, zora } from "viem/chains";
 
-export const baseTokens = [
+export const baseTokens = [  
+  // RFKJ
+  {
+    chainId: mainnet.id,
+    address: "0xF64265e65c4529879a7ABf467E00D39E39C0B0DA",
+    name: "The Independence Token",
+    symbol: "RFKJ",
+    decimals: 18,
+    logoURI:
+      "https://ipfs.io/ipfs/QmT3hfVNRXY3hRQjAkqLuzczoYUHqJAZe5kk8Z3niqr6gu",
+    opTokenId: "RFKJ",
+    standardBridgeAddresses: {
+      [base.id]: "0x3154Cf16ccdb4C6d922629664174b904d80F2C35",
+    },
+  },
+  {
+    chainId: base.id,
+    address: "0x00854F87a6A5f362580E4f83787c9B658e4C25D0",
+    name: "The Independence Token",
+    symbol: "RFKJ",
+    decimals: 18,
+    logoURI:
+      "https://ipfs.io/ipfs/QmT3hfVNRXY3hRQjAkqLuzczoYUHqJAZe5kk8Z3niqr6gu",
+    opTokenId: "RFKJ",
+    standardBridgeAddresses: {
+      [mainnet.id]: "0x4200000000000000000000000000000000000010",
+    },
+  },
+  
   // kibshi
   {
     chainId: mainnet.id,
