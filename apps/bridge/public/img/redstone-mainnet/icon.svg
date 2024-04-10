@@ -1,5 +1,37 @@
 <svg width="96" height="96" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path fill-rule="evenodd" clip-rule="evenodd" d="M76.4149 45.513L64.5125 25.8293L70.6774 15.7408L88.68 45.513H76.4149ZM35.8998 73.1761H59.9633L65.9703 83.0224H30.0009L35.8998 73.1761ZM59.9547 23.1656H35.8708L29.9841 13.2962H65.9854L59.9547 23.1656ZM59.9365 67.8799H35.8641L23.946 48.1709L35.8641 28.4617H59.9365L71.8542 48.1709L59.9365 67.8799ZM25.3093 15.762L31.3012 25.8074L19.3891 45.5067H7.32354L25.3093 15.762ZM7.31803 50.8029H19.3694L31.3154 70.5581L25.3177 80.57L7.31803 50.8029ZM70.6695 80.5907L64.5168 70.5054L76.4269 50.8092H88.6778L70.6695 80.5907ZM72.9345 9.27325C72.4565 8.48267 71.6026 8 70.682 8H25.3177C24.3969 8 23.5429 8.48267 23.0651 9.27325L0.383255 46.7843C-0.127592 47.629 -0.127832 48.6892 0.383015 49.534L23.0651 87.045C23.5429 87.8359 24.3969 88.3185 25.3177 88.3185H70.682C71.6026 88.3185 72.4565 87.8359 72.9345 87.045L95.6167 49.534C96.1278 48.6892 96.1278 47.629 95.6167 46.7843L72.9345 9.27325Z" fill="white"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M61.5422 52.2956C60.3128 51.5135 58.6842 51.8801 57.9052 53.1158L53.2402 60.5158C52.4615 61.7512 52.8269 63.3873 54.0566 64.1699C54.4941 64.4482 54.9822 64.5811 55.4645 64.5811C56.3374 64.5811 57.1919 64.1456 57.6936 63.3497L62.3586 55.9498C63.1375 54.7143 62.7719 53.0783 61.5422 52.2956Z" fill="white"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M65.3772 45.4815C64.123 44.74 62.5069 45.1606 61.7689 46.4213L61.4258 47.0075C60.6878 48.268 61.1066 49.891 62.3614 50.6325C62.781 50.8807 63.241 50.9986 63.6951 50.9986C64.5984 50.9986 65.4783 50.5316 65.9695 49.6926L66.3126 49.1067C67.0506 47.846 66.6318 46.2232 65.3772 45.4815Z" fill="white"/>
+<g clip-path="url(#clip0_2_133)">
+<path opacity="0.75" d="M36 36H24V24H36V36Z" fill="white"/>
+<path d="M36 48H24V36H36V48Z" fill="white"/>
+<path d="M36 60H24V48H36V60Z" fill="white"/>
+<path opacity="0.75" d="M36 72H24V60H36V72Z" fill="white"/>
+<path opacity="0.75" d="M72 36H60V24H72V36Z" fill="white"/>
+<path d="M72 48H60V36H72V48Z" fill="white"/>
+<path d="M72 60H60V48H72V60Z" fill="white"/>
+<path opacity="0.75" d="M72 72H60V60H72V72Z" fill="white"/>
+<path d="M48 72H36V60H48V72Z" fill="white"/>
+<path d="M60 72H48V60H60V72Z" fill="white"/>
+<path d="M48 36H36V24H48V36Z" fill="white"/>
+<path d="M60 36H48V24H60V36Z" fill="white"/>
+<path d="M48 0H36V12H48V0Z" fill="white" fill-opacity="0.25"/>
+<path d="M60 84H48V72H60V84Z" fill="white" fill-opacity="0.75"/>
+<path d="M84 48H72V60H84V48Z" fill="white" fill-opacity="0.75"/>
+<path d="M24 60H12V48H24V60Z" fill="white" fill-opacity="0.75"/>
+<path d="M60 12H48V24H60V12Z" fill="white" fill-opacity="0.75"/>
+<path d="M60 0H48V12H60V0Z" fill="white" fill-opacity="0.25"/>
+<path d="M48 96H36V84H48V96Z" fill="white" fill-opacity="0.25"/>
+<path d="M60 96H48V84H60V96Z" fill="white" fill-opacity="0.25"/>
+<path d="M96 36H84V48H96V36Z" fill="white" fill-opacity="0.25"/>
+<path d="M96 48H84V60H96V48Z" fill="white" fill-opacity="0.25"/>
+<path d="M12 60H0V48H12V60Z" fill="white" fill-opacity="0.25"/>
+<path d="M12 48H0V36H12V48Z" fill="white" fill-opacity="0.25"/>
+<path d="M48 12H36V24H48V12Z" fill="white" fill-opacity="0.75"/>
+<path d="M48 84H36V72H48V84Z" fill="white" fill-opacity="0.75"/>
+<path d="M84 36H72V48H84V36Z" fill="white" fill-opacity="0.75"/>
+<path d="M24 48H12V36H24V48Z" fill="white" fill-opacity="0.75"/>
+</g>
+<defs>
+<clipPath id="clip0_2_133">
+<rect width="96" height="96" fill="white"/>
+</clipPath>
+</defs>
 </svg>
