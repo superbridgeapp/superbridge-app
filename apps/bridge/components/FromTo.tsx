@@ -1,6 +1,5 @@
 import { useTranslation } from "react-i18next";
 
-import { deploymentTheme } from "@/config/theme";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
 import { useConfigState } from "@/state/config";
 
@@ -12,7 +11,6 @@ export const FromTo = () => {
   const deployment = useConfigState.useDeployment();
   const { t } = useTranslation();
 
-  const theme = deploymentTheme(deployment);
   return (
     <div
       className={`border box-border relative flex items-start justify-between box-border p-3 py-4  rounded-[16px] relative`}

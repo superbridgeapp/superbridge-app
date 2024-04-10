@@ -15,6 +15,17 @@ export const useNavIcon = () => {
   return "/img/rollbridge-logo.svg";
 };
 
+export const useNetworkIcon = () => {
+  const { deployments } = useDeployments();
+
+  const theme = useContext(ThemeContext);
+  console.log(theme);
+  if (theme?.imageNetwork) return theme.imageNetwork;
+  if (deployments.length === 1) return deployments[0].theme?.theme.imageNetwork;
+  if (isSuperbridge) return "/img/logo.svg";
+  return "/img/rollbridge-logo.svg";
+};
+
 // export const useNavIconDark = () => {
 //   const { deployments } = useDeployments();
 
