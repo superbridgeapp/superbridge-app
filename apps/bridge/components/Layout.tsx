@@ -16,7 +16,7 @@ import { deploymentTheme } from "@/config/theme";
 import { useDeployments } from "@/hooks/use-deployments";
 import { useInitialise } from "@/hooks/use-initialise";
 import { useNavigate } from "@/hooks/use-navigate";
-import { useNavIcon } from "@/hooks/use-theme";
+import { useBackgroundIcon, useNavIcon } from "@/hooks/use-theme";
 import { useConfigState } from "@/state/config";
 import { isDog } from "@/utils/is-dog";
 
@@ -95,7 +95,8 @@ export function Layout({ children }: { children: any }) {
   );
 
   const navIcon = useNavIcon();
-
+  // TODO: james somehow wire this up
+  const imageBackground = useBackgroundIcon();
   return (
     <div
       className={clsx(
