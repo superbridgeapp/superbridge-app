@@ -370,24 +370,23 @@ const rolluxTheme: Theme = {
 
 const redstoneTheme: Theme = {
   ...defaultTheme,
-  bg: "bg-white dark:bg-black/30",
+  bg: "bg-white dark:bg-[#1A1A1A]",
   bgMuted: "bg-zinc-100 dark:bg-white/5",
-  screenBg:
-    "bg-gradient-to-b from-[#FA5F77] to-[#E6395D] dark:from-[#0E1423] dark:to-[#1D2A47]",
+  screenBg: "bg-[#F34242] dark:bg-[#000000]",
+  screenBgImg: "bg-tranparent",
   accentBg:
-    "bg-[#101010] hover:bg-[#101010] dark:bg-[#ffffff] dark:hover:bg-[#ffffff]",
-  accentText: "text-white dark:text-[#18181B]",
+    "bg-[#000000] hover:bg-[#000000] dark:bg-[#ffffff] dark:hover:bg-[#ffffff]",
+  accentText: "text-white dark:text-black",
   logoSrc: "/img/redstone-mainnet/logo.svg",
   logoSrcDark: "/img/redstone-mainnet/logo-dark.svg",
-  logoWidth: 141,
-  logoHeight: 26,
+  logoWidth: 131,
+  logoHeight: 32,
   iconSrc: "/img/redstone-mainnet/icon.svg",
   l2ChainIcon: "/img/redstone-mainnet/network.svg",
-  screenBgImg: "bg-transparent",
   standaloneLogo: "/img/redstone-mainnet/logo-standalone.svg",
   standaloneLogoDark: "/img/redstone-mainnet/logo-standalone-dark.svg",
   card: {
-    className: "bg-gradient-to-b from-[#FA5F77] to-[#E6395D]",
+    className: "bg-[#F34242]",
   },
 };
 
