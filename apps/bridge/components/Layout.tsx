@@ -1,7 +1,4 @@
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { type ISourceOptions } from "@tsparticles/engine";
-import Particles, { initParticlesEngine } from "@tsparticles/react";
-import { loadSlim } from "@tsparticles/slim";
 import clsx from "clsx";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
@@ -18,7 +15,6 @@ import { useInitialise } from "@/hooks/use-initialise";
 import { useNavigate } from "@/hooks/use-navigate";
 import { useBackgroundIcon, useNavIcon } from "@/hooks/use-theme";
 import { useConfigState } from "@/state/config";
-import { isDog } from "@/utils/is-dog";
 
 import { CustomTokenListModal } from "./settings/custom-token-list-modal";
 import { SettingsModal } from "./settings/settings-modal";
@@ -37,88 +33,24 @@ export function Layout({ children }: { children: any }) {
 
   const theme = deploymentTheme(deployment);
 
-  useEffect(() => {
-    initParticlesEngine((engine) => loadSlim(engine));
-  }, []);
-
-  const options: ISourceOptions = useMemo(
-    () => ({
-      particles: {
-        move: {
-          enable: true,
-          speed: { min: 1, max: 6 },
-        },
-        number: {
-          value: 10,
-          max: 20,
-        },
-        opacity: {
-          value: 1,
-        },
-        rotate: {
-          path: true,
-        },
-        shape: {
-          options: {
-            image: [
-              {
-                gif: false,
-                width: 148,
-                height: 198,
-                src: "/img/dog/big-dog.png",
-              },
-              {
-                gif: false,
-                width: 148,
-                height: 112,
-                src: "/img/dog/doge-cool.png",
-              },
-              {
-                gif: false,
-                width: 82,
-                height: 25,
-                src: "/img/dog/wow.png",
-              },
-            ],
-          },
-          type: "image",
-        },
-        size: {
-          value: {
-            min: 16,
-            max: 32,
-          },
-        },
-      },
-    }),
-    []
-  );
-
   const navIcon = useNavIcon();
   // TODO: james somehow wire this up
   const imageBackground = useBackgroundIcon();
+
   return (
-    <div
-      className={clsx(
-        // "bg-background",
-        // theme.screenBg,
-        "w-screen h-screen overflow-hidden z-40 relative transition-colors duration-1000 tracking-tight flex justify-center transform-gpu"
-      )}
-    >
+    <div className="bg-background w-screen h-screen overflow-hidden z-40 relative transition-colors duration-1000 tracking-tight flex justify-center transform-gpu">
+      <div
+        className={clsx(`inset-0 z-0 fixed transition-all bg-cover`)}
+        style={{ backgroundImage: `url(${imageBackground})` }}
+        // Add value to classNames from Background Style
+        // Add value to classNames from Blend Mode
+        // Add value to classNames from Opacity
+        // I think tailwind classes wont work here, so we might need to add value directly to style like backgoundImage is
+      />
+
       <TosModal />
       <CustomTokenListModal />
 
-      <div
-        className={clsx(
-          `inset-0 z-0 fixed transition-all`,
-          isDog(deployment, stateToken) ? "bg-transparent" : "bg-background"
-        )}
-      />
-      {isDog(deployment, stateToken) ? (
-        <Particles id="tsparticles" options={options} />
-      ) : (
-        <></>
-      )}
       <nav className="flex flex-row justify-between items-center p-3 md:p-6 fixed top-0 left-0 w-screen z-10">
         <div onClick={() => navigate("/")} className="cursor-pointer">
           {deployments.deployments.length === 1 ? (
@@ -130,14 +62,14 @@ export function Layout({ children }: { children: any }) {
                 sizes="100vw"
                 alt={deployments.deployments[0]?.name}
                 draggable={false}
-                className="inline-flex dark:hidden w-auto h-10"
+                className="inline-flex dark:hidden w-auto h-6 lg:h-7"
               />
               <img
                 src={theme.standaloneLogoDark!}
                 width="0"
                 height="0"
                 sizes="100vw"
-                className="hidden dark:inline-flex w-auto h-10"
+                className="hidden dark:inline-flex w-auto h-6 lg:h-7"
                 alt={deployments.deployments[0]?.name}
                 draggable={false}
               />
