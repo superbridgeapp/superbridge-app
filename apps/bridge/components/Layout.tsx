@@ -49,11 +49,13 @@ export function Layout({ children }: { children: any }) {
       <div
         className={clsx(`inset-0 z-0 fixed transition-all bg-cover`)}
         style={{
-          backgroundImage: `url(${imageBackground})`,
+          backgroundImage: imageBackground
+            ? `url(${imageBackground})`
+            : undefined,
           opacity:
             !!backgroundImageOpacity &&
             typeof backgroundImageOpacity === "string"
-              ? parseInt(backgroundImageOpacity)
+              ? parseInt(backgroundImageOpacity) / 100
               : undefined,
           mixBlendMode: backgroundImageBlendMode as any,
           backgroundSize:
