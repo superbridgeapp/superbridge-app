@@ -3,13 +3,13 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
+import { LinkDto } from "@/codegen/model";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { dedicatedDeployment } from "@/config/dedicated-deployment";
 import { isSuperbridge } from "@/config/superbridge";
 import { useDeployments } from "@/hooks/use-deployments";
 import { useDarkModeEnabled } from "@/hooks/use-theme";
@@ -26,6 +26,14 @@ export function Footer() {
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  const links: LinkDto[] = isSuperbridge
+    ? [
+        { url: "mailto:support@superbridge.app", label: t("about") },
+        { url: "mailto:support@superbridge.app", label: t("support") },
+        { url: "https://twitter.com/superbridgeapp", label: "x.com" },
+      ]
+    : deployments.deployments[0]?.theme?.links ?? [];
 
   return (
     <footer className="flex flex-row justify-between px-1.5 md:px-6 py-3 md:py-4 fixed bottom-0 left-0 w-screen z-10 bg-gradient-to-t from-zinc-950/40 md:from-transparent">
@@ -133,86 +141,17 @@ export function Footer() {
                 </svg>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" side="bottom">
-                {dedicatedDeployment ? (
-                  <>
-                    {!!dedicatedDeployment.additionalLinks && (
-                      <>
-                        {dedicatedDeployment.additionalLinks.map(
-                          ({ link, text }) => (
-                            <DropdownMenuItem key={link}>
-                              <Link
-                                href={link}
-                                target="_blank"
-                                className="font-medium text-sm w-full"
-                              >
-                                {text}
-                              </Link>
-                            </DropdownMenuItem>
-                          )
-                        )}
-                      </>
-                    )}
-                    <DropdownMenuItem>
-                      <Link
-                        href={dedicatedDeployment.footerLink}
-                        target="_blank"
-                        className="font-medium text-sm w-full"
-                      >
-                        {t("about")}
-                      </Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <Link
-                        href={"mailto:support@superbridge.app"}
-                        className="font-medium text-sm w-full"
-                      >
-                        {t("support")}
-                      </Link>
-                    </DropdownMenuItem>
-                  </>
-                ) : (
-                  <>
-                    <DropdownMenuItem>
-                      <Link
-                        href={
-                          isSuperbridge
-                            ? "https://docs.rollbridge.app/superbridge"
-                            : "https://rollbridge.app"
-                        }
-                        target="_blank"
-                        className="font-medium text-sm w-full"
-                      >
-                        {t("about")}
-                      </Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <Link
-                        href="https://docs.rollbridge.app"
-                        target="_blank"
-                        className="font-medium text-sm w-full"
-                      >
-                        {t("docs")}
-                      </Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <Link
-                        href="https://twitter.com/superbridgeapp"
-                        target="_blank"
-                        className="font-medium text-sm w-full"
-                      >
-                        x.com
-                      </Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <Link
-                        href={"mailto:support@superbridge.app"}
-                        className="font-medium text-sm w-full"
-                      >
-                        {t("support")}
-                      </Link>
-                    </DropdownMenuItem>
-                  </>
-                )}
+                {links.map(({ label, url }) => (
+                  <DropdownMenuItem key={label}>
+                    <Link
+                      href={label}
+                      target="_blank"
+                      className="font-medium text-sm w-full"
+                    >
+                      {url}
+                    </Link>
+                  </DropdownMenuItem>
+                ))}
               </DropdownMenuContent>
             </DropdownMenu>
           </div>

@@ -59,6 +59,7 @@ export * from './forcedWithdrawalDto';
 export * from './idDto';
 export * from './l2ArbitrumContractAddressesDto';
 export * from './l2OptimismContractAddressesDto';
+export * from './linkDto';
 export * from './nftDepositDataDto';
 export * from './nftDepositDto';
 export * from './optimismConfigDto';
