@@ -144,11 +144,11 @@ export function Footer() {
                 {links.map(({ label, url }) => (
                   <DropdownMenuItem key={label}>
                     <Link
-                      href={label}
+                      href={url}
                       target="_blank"
                       className="font-medium text-sm w-full"
                     >
-                      {url}
+                      {label}
                     </Link>
                   </DropdownMenuItem>
                 ))}
