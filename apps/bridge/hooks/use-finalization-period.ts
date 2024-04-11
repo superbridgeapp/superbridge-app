@@ -93,7 +93,7 @@ export const getDepositTime = (deployment: DeploymentDto | null): Period => {
   }
 
   if (deployment && isArbitrum(deployment)) {
-    return { period: "mins", value: isMainnet(deployment) ? 10 : 5 };
+    return { period: "mins", value: 10 };
   }
 
   return null;
