@@ -17,6 +17,7 @@ import { rollux } from "@/utils/token-list/json/rollux";
 import * as usdc from "@/utils/token-list/json/usdc";
 import * as lumio from "@/utils/token-list/json/lumio";
 import * as metal from "@/utils/token-list/json/metal";
+import { ebi } from "@/utils/token-list/json/ebi";
 import { wsteth } from "@/utils/token-list/json/wsteth";
 import { transformArbitrumTokenList } from "@/utils/token-list/transform-arbitrum-token-list";
 import { transformIntoOptimismToken } from "@/utils/token-list/transform-optimism-token";
@@ -209,6 +210,15 @@ export const useTokenLists = () => {
       ...UniswapArbitrumTokenList.tokens,
       ...MockArbitrumTokenList.tokens,
     ]);
+
+    [...ebi].forEach((tok) => {
+      const key = `arbitrum-${tok.symbol}`;
+      if (multichainTokens[key]) {
+        multichainTokens[key][tok.chainId] = tok;
+      } else {
+        multichainTokens[key] = { [tok.chainId]: tok };
+      }
+    });
 
     setTokens(
       Object.values({
