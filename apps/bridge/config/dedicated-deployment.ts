@@ -112,8 +112,8 @@ export const dedicatedDeploymentMapping: {
     },
     network: "Clique Mainnet",
   },
-  ["test-figaro-cuqjfe7wkd"]: {
-    name: "test-figaro-cuqjfe7wkd",
+  ["grubby-red-rodent-a6u9rz8x70"]: {
+    name: "grubby-red-rodent-a6u9rz8x70",
     og: {
       title: "Ebi Testnet Bridge",
       description: "Bridge ETH and ERC20 tokens into and out of Ebi Testnet",
