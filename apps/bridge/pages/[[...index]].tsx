@@ -63,6 +63,7 @@ export const getServerSideProps = async ({
   const [id] = req.headers.host?.split(".");
 
   // [id].devnets.superbridge|rollbridge.app
+  // [id].test.devnets.superbridge|rollbridge.app
   if (
     req.headers.host.includes("devnets.superbridge.app") ||
     req.headers.host.includes("devnets.rollbridge.app")
@@ -74,9 +75,22 @@ export const getServerSideProps = async ({
   }
 
   // [id].testnets.superbridge|rollbridge.app
+  // [id].test.testnets.superbridge|rollbridge.app
   if (
     req.headers.host.includes("testnets.superbridge.app") ||
     req.headers.host.includes("testnets.rollbridge.app")
+  ) {
+    const { data } = await bridgeControllerGetDeployments({
+      names: [id],
+    });
+    return { props: { deployments: data } };
+  }
+
+  // [id].mainnets.superbridge|rollbridge.app
+  // [id].test.mainnets.superbridge|rollbridge.app
+  if (
+    req.headers.host.includes("mainnets.superbridge.app") ||
+    req.headers.host.includes("mainnets.rollbridge.app")
   ) {
     const { data } = await bridgeControllerGetDeployments({
       names: [id],
