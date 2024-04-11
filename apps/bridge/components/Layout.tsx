@@ -39,7 +39,6 @@ export function Layout({ children }: { children: any }) {
   const theme = deploymentTheme(deployment);
 
   const navIcon = useNavIcon();
-  // TODO: james somehow wire this up
   const imageBackground = useBackgroundIcon();
   const backgroundImageBlendMode = useBackgroundImageBlendMode();
   const backgroundImageStyle = useBackgroundImageStyle();
@@ -51,8 +50,21 @@ export function Layout({ children }: { children: any }) {
         className={clsx(`inset-0 z-0 fixed transition-all bg-cover`)}
         style={{
           backgroundImage: `url(${imageBackground})`,
-          opacity: backgroundImageOpacity,
+          opacity:
+            !!backgroundImageOpacity &&
+            typeof backgroundImageOpacity === "string"
+              ? parseInt(backgroundImageOpacity)
+              : undefined,
           mixBlendMode: backgroundImageBlendMode as any,
+          backgroundSize:
+            backgroundImageStyle === "cover" ||
+            backgroundImageStyle === "contain"
+              ? backgroundImageStyle
+              : undefined,
+          backgroundRepeat:
+            backgroundImageStyle === "repeat"
+              ? backgroundImageStyle
+              : undefined,
         }}
       />
 
