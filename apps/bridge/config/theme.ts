@@ -597,6 +597,28 @@ const ebiTheme: Theme = {
   },
 };
 
+const mintTheme: Theme = {
+  ...defaultTheme,
+  bg: "bg-white dark:bg-[#161618]",
+  bgMuted: "bg-zinc-100 dark:bg-zinc-800",
+  screenBg: "bg-[#f0f0f0] dark:bg-[#070707]",
+  screenBgImg: "bg-transparent",
+  accentBg:
+    "bg-[#30BF54] hover:bg-[#30BF54] dark:bg-[#30BF54] dark:hover:bg-[#30BF54]",
+  accentText: "text-white dark:text-white",
+  logoSrc: "/img/mint-mainnet/logo.svg",
+  logoSrcDark: "/img/mint-mainnet/logo-dark.svg",
+  logoWidth: 126,
+  logoHeight: 32,
+  iconSrc: "/img/mint-mainnet/icon.svg",
+  l2ChainIcon: "/img/mint-mainnet/network.svg",
+  card: {
+    className: "bg-[#30BF54]",
+  },
+  standaloneLogo: "/img/mint-mainnet/logo.svg",
+  standaloneLogoDark: "/img/mint-mainnet/logo-dark.svg",
+};
+
 export const themes: { [name: string]: Theme | undefined } = {
   ["base"]: baseTheme,
   ["base-sepolia"]: baseTheme,
