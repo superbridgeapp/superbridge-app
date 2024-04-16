@@ -120,6 +120,14 @@ export const dedicatedDeploymentMapping: {
     },
     network: "Ebi Testnet",
   },
+  ["mint-sepolia-testnet-ijtsrc4ffq"]: {
+    name: "mint-sepolia-testnet-ijtsrc4ffq",
+    og: {
+      title: "Mint Testnet Bridge",
+      description: "Bridge ETH and ERC20 tokens into and out of Mint Testnet",
+    },
+    network: "Mint Testnet",
+  },
 };
 
 export const dedicatedDeployment =
