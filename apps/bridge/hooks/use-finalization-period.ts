@@ -19,13 +19,13 @@ const cctpPeriod = (deployment: DeploymentDto | null): Period => {
 };
 
 const getPeriod = (seconds: number): Period => {
-  if (seconds > ONE_DAY) {
+  if (seconds >= ONE_DAY) {
     return {
       period: "days",
       value: seconds / ONE_DAY,
     };
   }
-  if (seconds > ONE_HOUR) {
+  if (seconds >= ONE_HOUR) {
     return {
       period: "hours",
       value: seconds / ONE_HOUR,
