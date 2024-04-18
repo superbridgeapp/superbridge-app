@@ -118,6 +118,14 @@ const mapping: { [name: string]: DedicatedDeployment | undefined } = {
     },
     network: "Ebi Testnet",
   },
+  ["ebi-mainnet"]: {
+    name: "ebi-mainnet",
+    og: {
+      title: "Ebi Mainnet Bridge",
+      description: "Bridge ETH and ERC20 tokens into and out of Ebi Mainnet",
+    },
+    network: "Ebi Mainnet",
+  },
   ["mint-sepolia-testnet-ijtsrc4ffq"]: {
     name: "mint-sepolia-testnet-ijtsrc4ffq",
     og: {

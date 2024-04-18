@@ -664,6 +664,7 @@ export const themes: { [name: string]: Theme | undefined } = {
   ["frax-mainnet"]: fraxTheme,
   ["test-figaro-cuqjfe7wkd"]: ebiTheme,
   ["grubby-red-rodent-a6u9rz8x70"]: ebiTheme,
+  ["ebi-mainnet"]: ebiTheme,
   ["mint-sepolia-testnet-ijtsrc4ffq"]: mintTheme,
 };
 
