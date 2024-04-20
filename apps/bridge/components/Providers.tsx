@@ -84,7 +84,7 @@ function Web3Provider({ children }: { children: React.ReactNode }) {
   // change, users are disconnected when navigating to the app
   if (!deployments.length) {
     return (
-      <div className="bg-background w-screen h-screen overflow-hidden z-40 relative transition-colors duration-1000 tracking-tight flex justify-center transform-gpu">
+      <div className="bg-background w-screen h-screen overflow-hidden z-40 relative transition-colors duration-1000 tracking-tight flex justify-center">
         <div
           className={clsx(
             `inset-0 z-0 fixed transition-all bg-transparent`,

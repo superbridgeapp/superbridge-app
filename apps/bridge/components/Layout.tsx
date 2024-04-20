@@ -41,7 +41,7 @@ export function Layout({ children }: { children: any }) {
   const backgroundImageOpacity = useBackgroundImageOpacity();
 
   return (
-    <div className="bg-background w-screen h-screen overflow-hidden z-40 relative transition-colors duration-1000 tracking-tight flex justify-center transform-gpu">
+    <div className="bg-background w-screen h-screen overflow-hidden z-40 relative transition-colors duration-1000 tracking-tight flex justify-center">
       <div
         className={clsx(`inset-0 z-0 fixed transition-all bg-cover`)}
         style={{
