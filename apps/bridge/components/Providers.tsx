@@ -88,7 +88,7 @@ function Web3Provider({ children }: { children: React.ReactNode }) {
       <div
         className={clsx(
           theme.screenBg,
-          "w-screen h-dvh overflow-hidden z-40 relative transition-colors duration-1000 tracking-tight flex justify-center transform-gpu"
+          "w-screen h-screen overflow-hidden z-40 relative transition-colors duration-1000 tracking-tight flex justify-center transform-gpu"
         )}
       >
         <div

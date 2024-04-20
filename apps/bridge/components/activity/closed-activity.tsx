@@ -63,7 +63,7 @@ export const ClosedActivity = () => {
       key={"activityBtn"}
       className={`${
         deploymentTheme(deployment).bg
-      } backdrop-blur rounded-full shadow-sm flex h-10 z-50 flex-col absolute self-end mb-3 md:mb-4`}
+      } backdrop-blur rounded-full shadow-sm flex h-10 z-[55] flex-col absolute self-end mb-3 md:mb-4`}
     >
       <motion.div
         className="flex items-center justify-between gap-3 pl-5 pr-2 h-10 cursor-pointer z-10"
