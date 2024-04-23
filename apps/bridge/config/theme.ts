@@ -619,6 +619,14 @@ const mintTheme: Theme = {
   standaloneLogoDark: "/img/mint-mainnet/logo-dark.svg",
 };
 
+const worldchainTheme: Theme = {
+  ...defaultTheme,
+  iconSrc: "/img/worldchain-mainnet/icon.svg",
+  card: {
+    className: "bg-black",
+  },
+};
+
 export const themes: { [name: string]: Theme | undefined } = {
   ["base"]: baseTheme,
   ["base-sepolia"]: baseTheme,
@@ -667,6 +675,7 @@ export const themes: { [name: string]: Theme | undefined } = {
   ["grubby-red-rodent-a6u9rz8x70"]: ebiTheme,
   ["ebi-mainnet"]: ebiTheme,
   ["mint-sepolia-testnet-ijtsrc4ffq"]: mintTheme,
+  ["worldchain-mainnet"]: worldchainTheme,
 };
 
 export const deploymentTheme = (

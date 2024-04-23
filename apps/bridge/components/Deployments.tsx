@@ -16,13 +16,8 @@ const spring = {
 
 const SUPERCHAIN_COMING_SOON = [
   {
-    name: "ancient8",
-    displayName: "Ancient8",
-    type: DeploymentType.mainnet,
-  },
-  {
-    name: "redstone-mainnet",
-    displayName: "Redstone",
+    name: "worldchain-mainnet",
+    displayName: "World Chain",
     type: DeploymentType.mainnet,
   },
   {
@@ -33,6 +28,17 @@ const SUPERCHAIN_COMING_SOON = [
   {
     name: "frax-mainnet",
     displayName: "Fraxtal",
+    type: DeploymentType.mainnet,
+  },
+  {
+    name: "redstone-mainnet",
+    displayName: "Redstone",
+    type: DeploymentType.mainnet,
+  },
+
+  {
+    name: "ancient8",
+    displayName: "Ancient8",
     type: DeploymentType.mainnet,
   },
 ];
