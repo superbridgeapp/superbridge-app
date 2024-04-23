@@ -697,6 +697,7 @@ export const themes: { [name: string]: Theme | undefined } = {
   ["ebi-mainnet"]: ebiTheme,
   ["mint-sepolia-testnet-ijtsrc4ffq"]: mintTheme,
   ["worldchain-mainnet"]: worldchainTheme,
+  ["sepolia-superseed-826s35710w"]: superseedTheme,
 };
 
 export const deploymentTheme = (
