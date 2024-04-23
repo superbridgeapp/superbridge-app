@@ -14,7 +14,7 @@ import clsx from "clsx";
 import { useTheme } from "next-themes";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { WagmiProvider, http } from "wagmi";
+import { WagmiProvider, fallback, http } from "wagmi";
 import { Chain, mainnet, optimism } from "wagmi/chains";
 
 import { ThemeProvider } from "@/components/theme-provider";
@@ -25,7 +25,6 @@ import { useConfigState } from "@/state/config";
 import { queryClient } from "@/utils/query-client";
 
 import { Loading } from "./Loading";
-import { Footer } from "./footer";
 
 function Web3Provider({ children }: { children: React.ReactNode }) {
   const { deployments } = useDeployments();
@@ -64,7 +63,9 @@ function Web3Provider({ children }: { children: React.ReactNode }) {
     const transports = chains.reduce(
       (accum, chain) => ({
         ...accum,
-        [chain.id]: http(),
+        [chain.id]: fallback(
+          chain.rpcUrls.default.http.map((url) => http(url))
+        ),
       }),
       {}
     );
