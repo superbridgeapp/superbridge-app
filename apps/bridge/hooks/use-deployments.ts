@@ -18,6 +18,8 @@ const SUPERCHAIN_MAINNETS = [
   "mode",
   "orderly",
   "lyra",
+  "lumio-mainnet",
+  "metal-mainnet",
 ];
 
 const SUPERCHAIN_TESTNETS = [
@@ -27,6 +29,7 @@ const SUPERCHAIN_TESTNETS = [
   "pgn-sepolia-i4td3ji6i0",
   "mode-sepolia-vtnhnpim72",
   "orderly-l2-4460-sepolia-8tc3sd7dvy",
+  "metal-l2-testnet-3bbzi9kufn",
 ];
 
 export const useDeployments = () => {

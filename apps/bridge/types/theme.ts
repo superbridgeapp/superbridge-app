@@ -1,5 +1,3 @@
-import { StaticImageData } from "next/image";
-
 export interface Theme {
   border: string;
   accentBg: string;
