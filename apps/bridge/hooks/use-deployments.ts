@@ -9,6 +9,8 @@ import {
 } from "@/codegen/model";
 import { dedicatedDeployment } from "@/config/dedicated-deployment";
 import { useConfigState } from "@/state/config";
+import { DeploymentsContext } from "@/state/deployments";
+import { useContext } from "react";
 
 // totally disabled
 const DISABLED_DEPLOYMENTS: string[] = [];
@@ -95,7 +97,7 @@ export const useDeployments = () => {
   //   typeof window === "undefined" || window.location.hostname === "localhost"
   //     ? useBridgeControllerGetDeployments(useDeploymentsFilters())
   //     : useBridgeControllerGetDeploymentsByDomain("abc.com");
-  const deployments = useConfigState.useDeployments();
+  const deployments = useContext(DeploymentsContext);
   return {
     deployments,
     // deployments: deployments.data?.data ?? ([] as DeploymentDto[]),

@@ -25,16 +25,10 @@ import { useConfigState } from "@/state/config";
 import { queryClient } from "@/utils/query-client";
 
 import { Loading } from "./Loading";
-import { DeploymentDto } from "@/codegen/model";
 
-function Web3Provider({
-  children,
-  deployments,
-}: {
-  children: React.ReactNode;
-  deployments: DeploymentDto[];
-}) {
+function Web3Provider({ children }: { children: React.ReactNode }) {
   const { resolvedTheme } = useTheme();
+  const { deployments } = useDeployments();
   const deployment = useConfigState.useDeployment();
   const [mounted, setMounted] = useState(false);
   const { i18n } = useTranslation();
@@ -139,17 +133,11 @@ function Web3Provider({
   );
 }
 
-export function Providers({
-  children,
-  deployments,
-}: {
-  children: React.ReactNode;
-  deployments: DeploymentDto[];
-}) {
+export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <ThemeProvider attribute="class">
       <QueryClientProvider client={queryClient}>
-        <Web3Provider deployments={deployments}>{children}</Web3Provider>
+        <Web3Provider>{children}</Web3Provider>
       </QueryClientProvider>
     </ThemeProvider>
   );

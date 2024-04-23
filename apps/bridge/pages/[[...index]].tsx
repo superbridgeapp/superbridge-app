@@ -3,7 +3,6 @@ import type {
   GetServerSidePropsContext,
   InferGetServerSidePropsType,
 } from "next";
-import { useEffect, useState } from "react";
 
 import { bridgeControllerGetDeployments } from "@/codegen";
 import { DeploymentType } from "@/codegen/model";
@@ -14,9 +13,11 @@ import { Loading } from "@/components/Loading";
 import { PageTransition } from "@/components/PageTransition";
 import { Providers } from "@/components/Providers";
 import { Bridge } from "@/components/bridge";
-import { useConfigState } from "@/state/config";
-import { ThemeContext } from "@/state/theme";
+import { useDeployments } from "@/hooks/use-deployments";
 import { useInitialiseTheme } from "@/hooks/use-initialise-theme";
+import { useConfigState } from "@/state/config";
+import { DeploymentsContext } from "@/state/deployments";
+import { ThemeContext } from "@/state/theme";
 
 export const getServerSideProps = async ({
   req,
@@ -107,27 +108,22 @@ export default function IndexRoot({
   const themeValues = useInitialiseTheme();
 
   return (
-    <ThemeContext.Provider value={themeValues}>
-      <Providers deployments={deployments}>
-        <Layout>
-          <Index deployments={deployments} />
-        </Layout>
-      </Providers>
-    </ThemeContext.Provider>
+    <DeploymentsContext.Provider value={deployments}>
+      <ThemeContext.Provider value={themeValues}>
+        <Providers>
+          <Layout>
+            <Index />
+          </Layout>
+        </Providers>
+      </ThemeContext.Provider>
+    </DeploymentsContext.Provider>
   );
 }
 
-function Index({
-  deployments,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+function Index() {
   const initialised = useConfigState.useInitialised();
   const deployment = useConfigState.useDeployment();
-
-  const setDeployments = useConfigState.useSetDeployments();
-
-  useEffect(() => {
-    setDeployments(deployments);
-  }, []);
+  const { deployments } = useDeployments();
 
   return (
     <PageTransition>

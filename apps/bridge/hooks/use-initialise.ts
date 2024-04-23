@@ -11,7 +11,6 @@ import { useInitialiseToken } from "./use-initialise-token";
 import { useIsContractAccount } from "./use-is-contract-account";
 import { useInitialiseRecipient } from "./use-recipient";
 import { useTokenLists } from "./use-token-lists";
-import { useInitialiseTheme } from "./use-initialise-theme";
 
 export const useInitialise = () => {
   const router = useRouter();
