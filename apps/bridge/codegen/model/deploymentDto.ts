@@ -5,13 +5,17 @@
  * API docs
  * OpenAPI spec version: 1.0
  */
+import type { DeploymentDtoArbitrumNativeToken } from './deploymentDtoArbitrumNativeToken';
 import type { DeploymentDtoConfig } from './deploymentDtoConfig';
 import type { DeploymentDtoContractAddresses } from './deploymentDtoContractAddresses';
 import type { DeploymentFamily } from './deploymentFamily';
 import type { ChainDto } from './chainDto';
+import type { DeploymentDtoTheme } from './deploymentDtoTheme';
+import type { FetchedMultichainOptimismTokenDto } from './fetchedMultichainOptimismTokenDto';
 import type { DeploymentType } from './deploymentType';
 
 export interface DeploymentDto {
+  arbitrumNativeToken: DeploymentDtoArbitrumNativeToken;
   conduitId: string | null;
   config: DeploymentDtoConfig;
   contractAddresses: DeploymentDtoContractAddresses;
@@ -23,5 +27,7 @@ export interface DeploymentDto {
   l2: ChainDto;
   name: string;
   supportsNftBridging: boolean;
+  theme: DeploymentDtoTheme;
+  tokens: FetchedMultichainOptimismTokenDto[];
   type: DeploymentType;
 }
