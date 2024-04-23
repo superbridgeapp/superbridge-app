@@ -30,7 +30,6 @@ export const useInitialiseTheme = () => {
       }
 
       if (e.data.theme) {
-        console.log(e.data.theme);
         Object.entries(e.data.theme).forEach(([key, value]) => {
           if (!value) return;
 
