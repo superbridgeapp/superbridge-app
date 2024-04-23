@@ -22,7 +22,7 @@ import { useAllowance } from "@/hooks/use-allowance";
 import { useAllowanceNft } from "@/hooks/use-allowance-nft";
 import { useApprove } from "@/hooks/use-approve";
 import { useApproveNft } from "@/hooks/use-approve-nft";
-import { useTokenBalance, useTokenBalances } from "@/hooks/use-balances";
+import { useTokenBalance } from "@/hooks/use-balances";
 import { useBridge } from "@/hooks/use-bridge";
 import { useBridgeFee } from "@/hooks/use-bridge-fee";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
@@ -42,6 +42,7 @@ import { Theme } from "@/types/theme";
 import { buildPendingTx } from "@/utils/build-pending-tx";
 import { isEth, isNativeToken } from "@/utils/is-eth";
 import { isNativeUsdc } from "@/utils/is-usdc";
+import { useSanctioned } from "@/hooks/use-sanctioned";
 
 import { FromTo } from "./FromTo";
 import { AddressModal } from "./address-modal";
@@ -160,6 +161,7 @@ export const BridgeBody = () => {
   const updatePendingTransactionHash =
     usePendingTransactions.useUpdateTransactionByHash();
   const nativeToken = useNativeToken();
+  const sanctioned = useSanctioned();
 
   const track = useBridgeControllerTrack();
 
@@ -227,6 +229,10 @@ export const BridgeBody = () => {
 
     if (!forceViaL1 && withdrawing && account.chainId !== deployment!.l2.id) {
       await switchChain(deployment!.l2);
+    }
+
+    if (sanctioned) {
+      return;
     }
 
     try {

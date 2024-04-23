@@ -6,4 +6,6 @@
  * OpenAPI spec version: 1.0
  */
 
-export interface L2ArbitrumContractAddressesDto { [key: string]: any }
+export interface BoolDto {
+  value: boolean;
+}
