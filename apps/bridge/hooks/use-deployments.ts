@@ -61,7 +61,10 @@ const useDeploymentsFilters = (): BridgeControllerGetDeploymentsParams => {
     };
   }
 
-  if (window.location.hostname === "superbridge.app") {
+  if (
+    window.location.hostname === "superbridge.app" ||
+    window.location.hostname === "superbridge-test.app"
+  ) {
     return {
       names: superbridgeTestnets ? SUPERCHAIN_TESTNETS : SUPERCHAIN_MAINNETS,
     };
