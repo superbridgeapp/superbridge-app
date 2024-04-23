@@ -134,6 +134,15 @@ const mapping: { [name: string]: DedicatedDeployment | undefined } = {
     },
     network: "Mint Testnet",
   },
+  ["sepolia-superseed-826s35710w"]: {
+    name: "sepolia-superseed-826s35710w",
+    og: {
+      title: "Superseed Testnet Bridge",
+      description:
+        "Bridge ETH and ERC20 tokens into and out of Superseed Testnet",
+    },
+    network: "Superseed Testnet",
+  },
 };
 
 export const dedicatedDeployment = mapping[DEDICATED_DEPLOYMENT ?? ""] ?? null;
