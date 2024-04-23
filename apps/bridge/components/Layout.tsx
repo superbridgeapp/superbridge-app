@@ -84,16 +84,7 @@ export function Layout({ children }: { children: any }) {
                 sizes="100vw"
                 alt={deployments.deployments[0]?.name}
                 draggable={false}
-                className="inline-flex dark:hidden w-auto h-6 lg:h-7"
-              />
-              <img
-                src={theme.standaloneLogoDark!}
-                width="0"
-                height="0"
-                sizes="100vw"
-                className="hidden dark:inline-flex w-auto h-6 lg:h-7"
-                alt={deployments.deployments[0]?.name}
-                draggable={false}
+                className="inline-flex w-auto h-6 lg:h-7"
               />
             </>
           ) : isSuperbridge ? (
