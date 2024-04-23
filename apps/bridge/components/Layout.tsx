@@ -36,8 +36,6 @@ export function Layout({ children }: { children: any }) {
   const pathname = usePathname();
   useInitialise();
 
-  const theme = deploymentTheme(deployment);
-
   const navIcon = useNavIcon();
   const imageBackground = useBackgroundIcon();
   const backgroundImageBlendMode = useBackgroundImageBlendMode();

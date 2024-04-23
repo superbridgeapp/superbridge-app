@@ -8,9 +8,17 @@ export const useInitialiseTheme = () => {
 
   useEffect(() => {
     const theme = deployment?.theme?.theme;
+
     if (theme) {
       Object.entries(theme).forEach(([key, value]) => {
-        document.documentElement.style.setProperty(`--${key}`, value);
+        if (!value) {
+          return;
+        }
+
+        const formattedKey = key.includes("dark")
+          ? `--${key}`
+          : `--${key}-light`;
+        document.documentElement.style.setProperty(formattedKey, value);
       });
     }
   }, [deployment]);
@@ -22,13 +30,17 @@ export const useInitialiseTheme = () => {
       }
 
       if (e.data.theme) {
+        console.log(e.data.theme);
         Object.entries(e.data.theme).forEach(([key, value]) => {
-          if (key && value) {
-            document.documentElement.style.setProperty(
-              `--${key}`,
-              value as string
-            );
-          }
+          if (!value) return;
+
+          const formattedKey = key.includes("dark")
+            ? `--${key}`
+            : `--${key}-light`;
+          document.documentElement.style.setProperty(
+            formattedKey,
+            value as string
+          );
         });
         setThemeValues(e.data.theme);
       }
