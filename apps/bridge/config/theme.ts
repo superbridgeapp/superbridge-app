@@ -619,6 +619,28 @@ const mintTheme: Theme = {
   standaloneLogoDark: "/img/mint-mainnet/logo-dark.svg",
 };
 
+const superseedTheme: Theme = {
+  ...defaultTheme,
+  bg: "bg-white dark:bg-[#181816]",
+  bgMuted: "bg-[#F4F4F5] dark:bg-[#20201D]",
+  screenBg: "bg-[#FAFAFA] dark:bg-[#0B0B0A]",
+  screenBgImg: "bg-transparent",
+  accentBg:
+    "bg-[#0B0B0A] hover:bg-[#0B0B0A] dark:bg-[#ffffff] dark:hover:bg-[#ffffff]",
+  accentText: "text-white dark:text-[#0B0B0A]",
+  logoSrc: "/img/superseed-mainnet/logo.svg",
+  logoSrcDark: "/img/superseed-mainnet/logo-dark.svg",
+  logoWidth: 95,
+  logoHeight: 40,
+  iconSrc: "/img/superseed-mainnet/icon.svg",
+  l2ChainIcon: "/img/superseed-mainnet/network.svg",
+  card: {
+    className: "bg-[#0B0B0A]",
+  },
+  standaloneLogo: "/img/superseed-mainnet/logo.svg",
+  standaloneLogoDark: "/img/superseed-mainnet/logo-dark.svg",
+};
+
 const worldchainTheme: Theme = {
   ...defaultTheme,
   iconSrc: "/img/worldchain-mainnet/icon.svg",
