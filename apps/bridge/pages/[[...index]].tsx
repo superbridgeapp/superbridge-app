@@ -133,20 +133,22 @@ function Index() {
   const { deployments } = useDeployments();
 
   return (
-    <AnimatePresence mode="sync">
-      {deployment ? (
-        <PageTransition key={"bridge"}>
-          <Bridge key={"bridge"} />
-        </PageTransition>
-      ) : !deployments.length ? (
-        <PageTransition key={"error"}>
-          <ErrorComponent key={"error"} />
-        </PageTransition>
-      ) : (
-        <PageTransition key={"grid"}>
-          <DeploymentsGrid key={"grid"} />
-        </PageTransition>
-      )}
-    </AnimatePresence>
+    <PageTransition key={"index"}>
+      <AnimatePresence mode="sync">
+        {deployment ? (
+          <PageTransition key={"bridge"}>
+            <Bridge key={"bridge"} />
+          </PageTransition>
+        ) : !deployments.length ? (
+          <PageTransition key={"error"}>
+            <ErrorComponent key={"error"} />
+          </PageTransition>
+        ) : (
+          <PageTransition key={"grid"}>
+            <DeploymentsGrid key={"grid"} />
+          </PageTransition>
+        )}
+      </AnimatePresence>
+    </PageTransition>
   );
 }

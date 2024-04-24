@@ -5,7 +5,6 @@ import { isSuperbridge } from "@/config/superbridge";
 import { useDeployment } from "@/hooks/use-deployment";
 import { useWithdrawalsPaused } from "@/hooks/use-withdrawals-paused";
 
-import { PageTransition } from "./PageTransition";
 import { BridgeBody } from "./bridge-body";
 import { BridgeHeader } from "./bridge-header";
 import { WithdrawalsPaused } from "./withdrawals-paused";
