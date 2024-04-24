@@ -1,3 +1,9 @@
+import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
+import { P, match } from "ts-pattern";
+import { useAccount } from "wagmi";
+
+import { useSanctioned } from "@/hooks/use-sanctioned";
 import { useTransactions } from "@/hooks/use-transactions";
 import { useConfigState } from "@/state/config";
 import { usePendingTransactions } from "@/state/pending-txs";
@@ -11,10 +17,6 @@ import {
   isWithdrawal,
 } from "@/utils/guards";
 import { MOCK_TRANSACTIONS } from "@/utils/mock-transactions";
-import { motion } from "framer-motion";
-import { useTranslation } from "react-i18next";
-import { P, match } from "ts-pattern";
-import { useAccount } from "wagmi";
 
 import { Loading } from "../Loading";
 import { TransactionRow } from "../transaction-row";
@@ -26,6 +28,7 @@ export const OpenActivity = ({}) => {
   const pendingTransactions = usePendingTransactions.useTransactions();
   const { transactions, isLoading, isError } = useTransactions();
   const { t } = useTranslation();
+  const sanctioned = useSanctioned();
 
   const inProgressCount =
     transactions.filter((x) => {
@@ -86,6 +89,7 @@ export const OpenActivity = ({}) => {
           </div>
         </div>
         {match({
+          sanctioned,
           isError,
           isLoading,
           transactions,
@@ -107,6 +111,13 @@ export const OpenActivity = ({}) => {
           .with({ isError: true }, () => (
             <div className="flex grow justify-center h-full px-8 py-8 text-center">
               <span className="text-muted-foreground text-xs font-bold">
+                {t("activity.error")}
+              </span>
+            </div>
+          ))
+          .with({ sanctioned: true }, () => (
+            <div className="flex grow justify-center h-full px-8 py-8 text-center">
+              <span className="text-zinc-400 text-xs font-bold">
                 {t("activity.error")}
               </span>
             </div>
