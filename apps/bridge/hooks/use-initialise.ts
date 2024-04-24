@@ -10,13 +10,17 @@ import { useInitialiseToken } from "./use-initialise-token";
 import { useIsContractAccount } from "./use-is-contract-account";
 import { useInitialiseRecipient } from "./use-recipient";
 import { useTokenLists } from "./use-token-lists";
+import { useRouter } from "next/router";
 
 export const useInitialise = () => {
+  const router = useRouter();
+
   const isContractAccount = useIsContractAccount();
 
   const deployment = useDeployment();
   const setEasyMode = useConfigState.useSetEasyMode();
   const setForceViaL1 = useConfigState.useSetForceViaL1();
+  const setWithdrawing = useConfigState.setWithdrawing();
   const clearPendingTransactionsStorage = usePendingTransactions.useLogout();
 
   useInitialiseRecipient();
@@ -28,6 +32,13 @@ export const useInitialise = () => {
       clearPendingTransactionsStorage();
     },
   });
+
+  useEffect(() => {
+    const direction = router.query.direction as string | undefined;
+    if (direction === "withdraw") {
+      setWithdrawing(true);
+    }
+  }, []);
 
   useEffect(() => {
     if (isContractAccount.data === true) {

@@ -10,6 +10,7 @@ import { CustomTokenList } from "./settings";
 interface ConfigState {
   withdrawing: boolean;
   toggleWithdrawing: () => void;
+  setWithdrawing: (b: boolean) => void;
 
   displayConfirmationModal: boolean;
   setDisplayConfirmationModal: (x: boolean) => void;
@@ -61,6 +62,7 @@ interface ConfigState {
 const ConfigState = create<ConfigState>()((set) => ({
   withdrawing: false,
   toggleWithdrawing: () => set((s) => ({ withdrawing: !s.withdrawing })),
+  setWithdrawing: (withdrawing) => set({ withdrawing }),
 
   forceViaL1: false,
   toggleForceViaL1: () => set((s) => ({ forceViaL1: !s.forceViaL1 })),
