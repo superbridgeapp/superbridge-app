@@ -11,7 +11,6 @@ import { isSuperbridge } from "@/config/superbridge";
 import { deploymentTheme } from "@/config/theme";
 import { useDeployment } from "@/hooks/use-deployment";
 import { useDeployments } from "@/hooks/use-deployments";
-import { useInitialise } from "@/hooks/use-initialise";
 import { useNavigate } from "@/hooks/use-navigate";
 import {
   useBackgroundIcon,
@@ -34,7 +33,6 @@ export function Layout({ children }: { children: any }) {
   const setSettingsModal = useConfigState.useSetSettingsModal();
   const settingsModal = useConfigState.useSettingsModal();
   const pathname = usePathname();
-  useInitialise();
 
   const navIcon = useNavIcon();
   const imageBackground = useBackgroundIcon();
@@ -85,7 +83,7 @@ export function Layout({ children }: { children: any }) {
                 className="inline-flex w-auto h-6 lg:h-7"
               />
             </>
-          ) : isSuperbridge ? (
+          ) : (
             <div className="bg-card rounded-full shadow-sm">
               <Image
                 src={"/img/logo.svg"}
@@ -118,41 +116,6 @@ export function Layout({ children }: { children: any }) {
                 alt={"Superbridge"}
                 draggable={false}
                 className="rounded-full  hidden dark:inline-flex dark:md:hidden"
-              />
-            </div>
-          ) : (
-            <div className="bg-card rounded-full shadow-sm">
-              <Image
-                src={"/img/rollbridge-logo.svg"}
-                width={144}
-                height={40}
-                alt={"Rollbridge"}
-                draggable={false}
-                className="rounded-full hidden md:inline-flex dark:md:hidden"
-              />
-              <Image
-                src={"/img/rollbridge-logo-dark.svg"}
-                width={144}
-                height={40}
-                alt={"Rollbridge"}
-                draggable={false}
-                className="rounded-full hidden md:hidden dark:md:inline-flex"
-              />
-              <Image
-                src={"/img/rollbridge-logo-small.svg"}
-                width={40}
-                height={40}
-                alt={"Rollbridge"}
-                draggable={false}
-                className="rounded-full md:hidden dark:hidden"
-              />
-              <Image
-                src={"/img/rollbridge-logo-small-dark.svg"}
-                width={40}
-                height={40}
-                alt={"Rollbridge"}
-                draggable={false}
-                className="rounded-full hidden dark:inline-flex dark:md:hidden"
               />
             </div>
           )}

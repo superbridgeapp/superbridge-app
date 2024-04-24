@@ -1,31 +1,22 @@
-import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useAccountEffect } from "wagmi";
 
 import { useConfigState } from "@/state/config";
 import { usePendingTransactions } from "@/state/pending-txs";
 import { isMainnet, isOptimism } from "@/utils/is-mainnet";
-import { useInjectedStore } from "@/state/injected";
 
-import { useDeployments } from "./use-deployments";
+import { useDeployment } from "./use-deployment";
 import { useInitialiseToken } from "./use-initialise-token";
 import { useIsContractAccount } from "./use-is-contract-account";
 import { useInitialiseRecipient } from "./use-recipient";
 import { useTokenLists } from "./use-token-lists";
-import { useDeployment } from "./use-deployment";
 
 export const useInitialise = () => {
-  const router = useRouter();
-
-  const { deployments, isLoading: deploymentsLoading } = useDeployments();
   const isContractAccount = useIsContractAccount();
 
   const deployment = useDeployment();
-  const setDeployment = useInjectedStore((s) => s.setDeployment);
   const setEasyMode = useConfigState.useSetEasyMode();
   const setForceViaL1 = useConfigState.useSetForceViaL1();
-  const initialised = useConfigState.useInitialised();
-  const setInitialised = useConfigState.useSetInitialised();
   const clearPendingTransactionsStorage = usePendingTransactions.useLogout();
 
   useInitialiseRecipient();
@@ -37,31 +28,6 @@ export const useInitialise = () => {
       clearPendingTransactionsStorage();
     },
   });
-
-  // useEffect(() => {
-  //   if (deploymentsLoading || initialised || deployments.length == 0) {
-  //     return;
-  //   }
-
-  //   const [id] = router.asPath.split("/");
-  //   if (deployments.length === 1) {
-  //     setDeployment(deployments[0]);
-  //     setInitialised();
-  //     return;
-  //   }
-
-  //   const d = deployments.find((x) => x.name === id);
-  //   if (d) {
-  //     setDeployment(d);
-  //     setTimeout(() => {
-  //       setInitialised();
-  //     }, 500);
-  //     return;
-  //   }
-
-  //   setDeployment(null);
-  //   setInitialised();
-  // }, [deployments, deploymentsLoading, router.query, initialised]);
 
   useEffect(() => {
     if (isContractAccount.data === true) {

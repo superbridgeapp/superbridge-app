@@ -20,11 +20,8 @@ export const useNavigate = () => {
     }
 
     if (to === "/") {
-      router.push("/");
-      // this stops the error rendering when you navigate /id to /
-      setTimeout(() => {
-        setDeployment(null);
-      }, 300);
+      router.push("/", undefined, { shallow: true });
+      setDeployment(null);
     } else {
       router.push(`/${to.name}`, undefined, { shallow: true });
       setDeployment(to);

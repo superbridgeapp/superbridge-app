@@ -17,6 +17,7 @@ import { useDeployment } from "@/hooks/use-deployment";
 import { useDeployments } from "@/hooks/use-deployments";
 import { InjectedStoreProvider } from "@/state/injected";
 import { ThemeProvider } from "@/state/theme";
+import { useInitialise } from "@/hooks/use-initialise";
 
 export const getServerSideProps = async ({
   req,
@@ -127,20 +128,25 @@ export default function IndexRoot({
 }
 
 function Index() {
+  useInitialise();
   const deployment = useDeployment();
   const { deployments } = useDeployments();
 
   return (
-    <PageTransition>
-      <AnimatePresence mode="sync">
-        {deployment ? (
+    <AnimatePresence mode="sync">
+      {deployment ? (
+        <PageTransition key={"bridge"}>
           <Bridge key={"bridge"} />
-        ) : !deployments.length ? (
-          <ErrorComponent key={"index-error"} />
-        ) : (
+        </PageTransition>
+      ) : !deployments.length ? (
+        <PageTransition key={"error"}>
+          <ErrorComponent key={"error"} />
+        </PageTransition>
+      ) : (
+        <PageTransition key={"grid"}>
           <DeploymentsGrid key={"grid"} />
-        )}
-      </AnimatePresence>
-    </PageTransition>
+        </PageTransition>
+      )}
+    </AnimatePresence>
   );
 }

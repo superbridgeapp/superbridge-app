@@ -55,55 +55,53 @@ export const DeploymentsGrid = ({}) => {
       : [];
 
   return (
-    <PageTransition>
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 px-3 md:px-16 py-40 pt-[96px] md:pt-40 w-full h-auto w-screen max-w-[1334px]">
-        {deployments
-          .filter((d) => !HIDDEN_DEPLOYMENTS.includes(d.name))
-          .map((n) => (
-            <motion.div
-              key={"grid" + n.displayName}
-              transition={spring}
-              whileHover={{
-                scale: 1.0175,
-              }}
-              whileTap={{
-                scale: 1.01,
-                opacity: 1,
-              }}
-              onTap={() => onDeploymentClick(n)}
-            >
-              <div className="w-full aspect-[3/4] relative ">
-                <BridgePlaceholder
-                  deployment={n}
-                  newDeployment={NEW_DEPLOYMENTS.includes(n.name)}
-                />
-              </div>
-            </motion.div>
-          ))}
-
-        {comingSoon.map((n, index) => (
+    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 px-3 md:px-16 py-40 pt-[96px] md:pt-40 w-full h-auto w-screen max-w-[1334px]">
+      {deployments
+        .filter((d) => !HIDDEN_DEPLOYMENTS.includes(d.name))
+        .map((n) => (
           <motion.div
             key={"grid" + n.displayName}
             transition={spring}
             whileHover={{
-              scale: 1,
+              scale: 1.0175,
             }}
             whileTap={{
-              scale: 1,
-              opacity: 0.8,
+              scale: 1.01,
+              opacity: 1,
             }}
+            onTap={() => onDeploymentClick(n)}
           >
-            <div
-              className={clsx(
-                "w-full aspect-[3/4] relative",
-                index === comingSoon.length - 1 && "mb-40"
-              )}
-            >
-              <BridgePlaceholder deployment={n} comingSoon />
+            <div className="w-full aspect-[3/4] relative ">
+              <BridgePlaceholder
+                deployment={n}
+                newDeployment={NEW_DEPLOYMENTS.includes(n.name)}
+              />
             </div>
           </motion.div>
         ))}
-      </div>
-    </PageTransition>
+
+      {comingSoon.map((n, index) => (
+        <motion.div
+          key={"grid" + n.displayName}
+          transition={spring}
+          whileHover={{
+            scale: 1,
+          }}
+          whileTap={{
+            scale: 1,
+            opacity: 0.8,
+          }}
+        >
+          <div
+            className={clsx(
+              "w-full aspect-[3/4] relative",
+              index === comingSoon.length - 1 && "mb-40"
+            )}
+          >
+            <BridgePlaceholder deployment={n} comingSoon />
+          </div>
+        </motion.div>
+      ))}
+    </div>
   );
 };

@@ -6,13 +6,10 @@ import "@/services/sentry";
 import { Analytics } from "@vercel/analytics/react";
 import { AppProps } from "next/app";
 
-export default function CustomApp(appProps: AppProps) {
+export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
-      <appProps.Component
-        {...appProps.pageProps}
-        key={appProps.router.asPath}
-      />
+      <Component {...pageProps} />
       <Analytics />
     </>
   );

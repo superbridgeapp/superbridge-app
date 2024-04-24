@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 
-import { useDeployment } from "./use-deployment";
 import { ThemeDto } from "@/codegen/model";
 import { isSuperbridge } from "@/config/superbridge";
+
+import { useDeployment } from "./use-deployment";
 
 const superbridgeTheme: Partial<ThemeDto> = {
   darkModeEnabled: true,
