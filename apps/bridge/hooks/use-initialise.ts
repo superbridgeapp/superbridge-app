@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useAccountEffect } from "wagmi";
 
@@ -10,7 +11,6 @@ import { useInitialiseToken } from "./use-initialise-token";
 import { useIsContractAccount } from "./use-is-contract-account";
 import { useInitialiseRecipient } from "./use-recipient";
 import { useTokenLists } from "./use-token-lists";
-import { useRouter } from "next/router";
 
 export const useInitialise = () => {
   const router = useRouter();
@@ -20,7 +20,7 @@ export const useInitialise = () => {
   const deployment = useDeployment();
   const setEasyMode = useConfigState.useSetEasyMode();
   const setForceViaL1 = useConfigState.useSetForceViaL1();
-  const setWithdrawing = useConfigState.setWithdrawing();
+  const setWithdrawing = useConfigState.useSetWithdrawing();
   const clearPendingTransactionsStorage = usePendingTransactions.useLogout();
 
   useInitialiseRecipient();
