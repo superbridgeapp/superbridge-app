@@ -38,6 +38,7 @@ import { useSettingsState } from "@/state/settings";
 import { Token } from "@/types/token";
 import { isNativeToken } from "@/utils/is-eth";
 import { isNativeUsdc } from "@/utils/is-usdc";
+import { useDeployment } from "@/hooks/use-deployment";
 
 import { Button } from "../ui/button";
 import { Dialog, DialogContent } from "../ui/dialog";
@@ -110,7 +111,7 @@ export const ConfirmationModal = ({
 
   const arbitrumGasToken = useArbitrumGasToken();
   const arbitrumGasTokenAllowance = useAllowanceArbitrumGasToken();
-  const deployment = useConfigState.useDeployment();
+  const deployment = useDeployment();
   const theme = deploymentTheme(deployment);
   const approveArbitrumGasToken = useApproveArbitrumGasToken(
     arbitrumGasTokenAllowance.refetch,

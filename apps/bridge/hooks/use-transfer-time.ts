@@ -1,11 +1,10 @@
 import { useTranslation } from "react-i18next";
 
-import { useConfigState } from "@/state/config";
-
+import { useDeployment } from "./use-deployment";
 import { useTotalBridgeTime } from "./use-finalization-period";
 
 export const useTransferTime = () => {
-  const deployment = useConfigState.useDeployment();
+  const deployment = useDeployment();
   const { t } = useTranslation();
   const time = useTotalBridgeTime(deployment);
 

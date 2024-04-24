@@ -3,16 +3,16 @@ import Image from "next/image";
 import { useTranslation } from "react-i18next";
 
 import BaseDog from "@/components/basedog";
-import { dedicatedDeployment } from "@/config/dedicated-deployment";
 import { deploymentTheme } from "@/config/theme";
+import { useDeployment } from "@/hooks/use-deployment";
+import { useDeployments } from "@/hooks/use-deployments";
 import { useToggleWithdrawing } from "@/hooks/use-toggle-withdrawing";
 import { useConfigState } from "@/state/config";
 import { isDog } from "@/utils/is-dog";
-import { useDeployments } from "@/hooks/use-deployments";
 
 export const BridgeHeader = () => {
   const withdrawing = useConfigState.useWithdrawing();
-  const deployment = useConfigState.useDeployment();
+  const deployment = useDeployment();
   const stateToken = useConfigState.useToken();
   const toggleWithdrawing = useToggleWithdrawing();
   const { resolvedTheme } = useTheme();

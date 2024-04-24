@@ -23,7 +23,6 @@ export const OpenActivity = ({}) => {
   const account = useAccount();
   const setDisplayTransactions = useConfigState.useSetDisplayTransactions();
   const open = useConfigState.useDisplayTransactions();
-  const deployment = useConfigState.useDeployment();
   const pendingTransactions = usePendingTransactions.useTransactions();
   const { transactions, isLoading, isError } = useTransactions();
   const { t } = useTranslation();

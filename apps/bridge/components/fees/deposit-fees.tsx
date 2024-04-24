@@ -3,11 +3,11 @@ import { useTranslation } from "react-i18next";
 import { Chain } from "viem";
 
 import { deploymentTheme } from "@/config/theme";
+import { useDeployment } from "@/hooks/use-deployment";
 import { useFees } from "@/hooks/use-fees";
-import { useConfigState } from "@/state/config";
 
 export const DepositFees = ({ gasEstimate }: { gasEstimate: number }) => {
-  const deployment = useConfigState.useDeployment();
+  const deployment = useDeployment();
   const { t } = useTranslation();
 
   const theme = deploymentTheme(deployment);

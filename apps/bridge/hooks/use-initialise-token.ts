@@ -8,6 +8,7 @@ import { isNativeToken } from "@/utils/is-eth";
 
 import { useActiveTokens } from "./use-tokens";
 import { useArbitrumGasToken } from "./use-approve-arbitrum-gas-token";
+import { useDeployment } from "./use-deployment";
 
 /**
  * We want to find the token the user has specified and set some state accordingly,
@@ -27,7 +28,7 @@ export const useInitialiseToken = () => {
   const setToken = useConfigState.useSetToken();
   const setEasyMode = useConfigState.useSetEasyMode();
   const toggleWithdrawing = useConfigState.useToggleWithdrawing();
-  const deployment = useConfigState.useDeployment();
+  const deployment = useDeployment();
   const tokens = useActiveTokens();
   const arbitrumGasToken = useArbitrumGasToken();
 

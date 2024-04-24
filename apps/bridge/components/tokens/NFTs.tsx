@@ -5,11 +5,11 @@ import { useAccount } from "wagmi";
 
 import { useBridgeControllerGetNfts } from "@/codegen/index";
 import { BridgeNftDto } from "@/codegen/model";
-import { deploymentTheme } from "@/config/theme";
+import { Input } from "@/components/ui/input";
+import { useDeployment } from "@/hooks/use-deployment";
 import { useConfigState } from "@/state/config";
 
 import { NftImage } from "../nft";
-import { Input } from "@/components/ui/input";
 
 export const NonFungibleTokenPicker = ({
   setOpen,
@@ -19,7 +19,7 @@ export const NonFungibleTokenPicker = ({
 }) => {
   const [search, setSearch] = useState("");
 
-  const deployment = useConfigState.useDeployment();
+  const deployment = useDeployment();
   const withdrawing = useConfigState.useWithdrawing();
   const account = useAccount();
   const nfts = useBridgeControllerGetNfts(

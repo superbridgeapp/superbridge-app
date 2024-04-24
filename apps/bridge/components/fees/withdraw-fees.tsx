@@ -6,6 +6,7 @@ import { Chain } from "viem";
 import { configurations } from "@/config/contract-addresses";
 import { deploymentTheme } from "@/config/theme";
 import { currencySymbolMap } from "@/constants/currency-symbol-map";
+import { useDeployment } from "@/hooks/use-deployment";
 import { useFees } from "@/hooks/use-fees";
 import { useConfigState } from "@/state/config";
 import { useSettingsState } from "@/state/settings";
@@ -17,7 +18,7 @@ export const WithdrawFees = ({
   gasEstimate: number;
   openSettings: () => void;
 }) => {
-  const deployment = useConfigState.useDeployment();
+  const deployment = useDeployment();
   const forceViaL1 = useConfigState.useForceViaL1();
   const easyMode = useConfigState.useEasyMode();
   const theme = deploymentTheme(deployment);

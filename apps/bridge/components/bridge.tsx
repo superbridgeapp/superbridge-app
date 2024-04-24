@@ -2,9 +2,8 @@ import { useTranslation } from "react-i18next";
 
 import { dedicatedDeployment } from "@/config/dedicated-deployment";
 import { isSuperbridge } from "@/config/superbridge";
-import { deploymentTheme } from "@/config/theme";
+import { useDeployment } from "@/hooks/use-deployment";
 import { useWithdrawalsPaused } from "@/hooks/use-withdrawals-paused";
-import { useConfigState } from "@/state/config";
 
 import { PageTransition } from "./PageTransition";
 import { BridgeBody } from "./bridge-body";
@@ -12,7 +11,7 @@ import { BridgeHeader } from "./bridge-header";
 import { WithdrawalsPaused } from "./withdrawals-paused";
 
 export const Bridge = () => {
-  const deployment = useConfigState.useDeployment();
+  const deployment = useDeployment();
   const { t } = useTranslation();
   const withdrawalsPaused = useWithdrawalsPaused();
 

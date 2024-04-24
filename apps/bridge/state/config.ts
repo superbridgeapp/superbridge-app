@@ -2,18 +2,12 @@ import { createSelectorHooks } from "auto-zustand-selectors-hook";
 import { Address } from "viem";
 import { create } from "zustand";
 
-import { BridgeNftDto, DeploymentDto } from "@/codegen/model";
+import { BridgeNftDto } from "@/codegen/model";
 import { MultiChainToken } from "@/types/token";
 
 import { CustomTokenList } from "./settings";
 
 interface ConfigState {
-  deployment: DeploymentDto | null;
-  setDeployment: (d: DeploymentDto | null) => void;
-
-  deployments: DeploymentDto[];
-  setDeployments: (d: DeploymentDto[]) => void;
-
   withdrawing: boolean;
   toggleWithdrawing: () => void;
 
@@ -65,12 +59,6 @@ interface ConfigState {
 }
 
 const ConfigState = create<ConfigState>()((set) => ({
-  deployment: null,
-  setDeployment: (deployment) => set({ deployment }),
-
-  deployments: [],
-  setDeployments: (deployments) => set({ deployments }),
-
   withdrawing: false,
   toggleWithdrawing: () => set((s) => ({ withdrawing: !s.withdrawing })),
 

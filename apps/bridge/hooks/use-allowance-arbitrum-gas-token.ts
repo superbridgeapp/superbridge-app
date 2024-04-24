@@ -6,12 +6,13 @@ import { isArbitrum } from "@/utils/is-mainnet";
 
 import { useArbitrumGasToken } from "./use-approve-arbitrum-gas-token";
 import { useFromChain } from "./use-chain";
+import { useDeployment } from "./use-deployment";
 
 export function useAllowanceArbitrumGasToken() {
   const account = useAccount();
   const gasToken = useArbitrumGasToken();
   const from = useFromChain();
-  const deployment = useConfigState.useDeployment();
+  const deployment = useDeployment();
 
   const gasTokenAddress = gasToken?.[from?.id ?? 0]?.address;
   const allowance = useReadContract({

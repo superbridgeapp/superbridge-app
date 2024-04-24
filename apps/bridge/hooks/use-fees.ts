@@ -15,13 +15,14 @@ import { useTokenPrice } from "@/hooks/use-prices";
 import { useConfigState } from "@/state/config";
 import { useSettingsState } from "@/state/settings";
 
+import { useDeployment } from "./use-deployment";
 import { useNativeToken } from "./use-native-token";
 
 export const useFees = (
   from: Chain | ChainDto | undefined,
   gasEstimate: number
 ) => {
-  const deployment = useConfigState.useDeployment();
+  const deployment = useDeployment();
   const withdrawing = useConfigState.useWithdrawing();
   const forceViaL1 = useConfigState.useForceViaL1();
   const easyMode = useConfigState.useEasyMode();

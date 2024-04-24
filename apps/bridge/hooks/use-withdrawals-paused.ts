@@ -1,12 +1,13 @@
+import { Address } from "viem";
 import { useReadContract } from "wagmi";
 
 import { OptimismPortalAbi } from "@/abis/OptimismPortal";
-import { useConfigState } from "@/state/config";
 import { isOptimism } from "@/utils/is-mainnet";
-import { Address } from "viem";
+
+import { useDeployment } from "./use-deployment";
 
 export const useWithdrawalsPaused = () => {
-  const deployment = useConfigState.useDeployment();
+  const deployment = useDeployment();
   const read = useReadContract({
     abi: OptimismPortalAbi,
     functionName: "paused",

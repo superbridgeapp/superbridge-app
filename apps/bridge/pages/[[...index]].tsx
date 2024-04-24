@@ -3,21 +3,20 @@ import type {
   GetServerSidePropsContext,
   InferGetServerSidePropsType,
 } from "next";
+import { useRouter } from "next/router";
 
 import { bridgeControllerGetDeployments } from "@/codegen";
-import { DeploymentType } from "@/codegen/model";
 import { DeploymentsGrid } from "@/components/Deployments";
 import { ErrorComponent } from "@/components/Error";
 import { Layout } from "@/components/Layout";
-import { Loading } from "@/components/Loading";
 import { PageTransition } from "@/components/PageTransition";
 import { Providers } from "@/components/Providers";
 import { Bridge } from "@/components/bridge";
+import { isSuperbridge } from "@/config/superbridge";
+import { useDeployment } from "@/hooks/use-deployment";
 import { useDeployments } from "@/hooks/use-deployments";
-import { useInitialiseTheme } from "@/hooks/use-initialise-theme";
-import { useConfigState } from "@/state/config";
-import { DeploymentsContext } from "@/state/deployments";
-import { ThemeContext } from "@/state/theme";
+import { InjectedStoreProvider } from "@/state/injected";
+import { ThemeProvider } from "@/state/theme";
 
 export const getServerSideProps = async ({
   req,
@@ -30,34 +29,29 @@ export const getServerSideProps = async ({
     return { props: { deployments: [] } };
   }
 
+  if (isSuperbridge) {
+    const names =
+      req.headers.host === "testnets.superbridge.app"
+        ? [
+            "op-sepolia",
+            "base-sepolia",
+            "zora-sepolia-0thyhxtf5e",
+            "pgn-sepolia-i4td3ji6i0",
+            "mode-sepolia-vtnhnpim72",
+            "orderly-l2-4460-sepolia-8tc3sd7dvy",
+          ]
+        : ["optimism", "base", "zora", "pgn", "mode", "orderly", "lyra"];
+    const { data } = await bridgeControllerGetDeployments({
+      names,
+    });
+    return { props: { deployments: data } };
+  }
+
   if (req.headers.host?.includes("localhost")) {
     const { data } = await bridgeControllerGetDeployments({
       names: ["innocent-salmon-alpaca-cb255w1oxu"],
     });
     return { props: { deployments: data } };
-  }
-
-  if (req.headers.host === "superbridge.app") {
-    return {
-      names: ["optimism", "base", "zora", "pgn", "mode", "orderly", "lyra"],
-    };
-  }
-
-  if (req.headers.host === "testnets.superbridge.app") {
-    return {
-      names: [
-        "op-sepolia",
-        "base-sepolia",
-        "zora-sepolia-0thyhxtf5e",
-        "pgn-sepolia-i4td3ji6i0",
-        "mode-sepolia-vtnhnpim72",
-        "orderly-l2-4460-sepolia-8tc3sd7dvy",
-      ],
-    };
-  }
-
-  if (req.headers.host === "app.rollbridge.app") {
-    return { type: DeploymentType.mainnet };
   }
 
   // these need to go last so they don't clash with devnets. or testnets. subdomains
@@ -96,41 +90,50 @@ export const getServerSideProps = async ({
     const { data } = await bridgeControllerGetDeployments({
       names: [id],
     });
-    return { props: { deployments: data } };
+    return { props: { deployments: data, isSuperbridge: false } };
   }
 
-  return { props: { deployments: [] } };
+  return { props: { deployments: [], isSuperbridge: false } };
 };
 
 export default function IndexRoot({
   deployments,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const themeValues = useInitialiseTheme();
+  const router = useRouter();
+
+  const [, id] = router.asPath.split("/");
+
+  const found = deployments.find((x) => x.name === id);
+  let deployment = null;
+  if (deployments.length === 1) {
+    deployment = deployments[0];
+  } else if (isSuperbridge && found) {
+    deployment = found;
+  }
 
   return (
-    <DeploymentsContext.Provider value={deployments}>
-      <ThemeContext.Provider value={themeValues}>
+    <InjectedStoreProvider
+      initialValues={{ deployments, deployment, withdrawing: false }}
+    >
+      <ThemeProvider>
         <Providers>
           <Layout>
             <Index />
           </Layout>
         </Providers>
-      </ThemeContext.Provider>
-    </DeploymentsContext.Provider>
+      </ThemeProvider>
+    </InjectedStoreProvider>
   );
 }
 
 function Index() {
-  const initialised = useConfigState.useInitialised();
-  const deployment = useConfigState.useDeployment();
+  const deployment = useDeployment();
   const { deployments } = useDeployments();
 
   return (
     <PageTransition>
       <AnimatePresence mode="sync">
-        {!initialised ? (
-          <Loading key={"index-loading"} />
-        ) : deployments.length === 1 || deployment ? (
+        {deployment ? (
           <Bridge key={"bridge"} />
         ) : !deployments.length ? (
           <ErrorComponent key={"index-error"} />

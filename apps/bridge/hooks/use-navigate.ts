@@ -1,11 +1,14 @@
+import { useRouter } from "next/router";
+
 import { DeploymentDto } from "@/codegen/model";
 import { useConfigState } from "@/state/config";
-import { useRouter } from "next/router";
+import { useInjectedStore } from "@/state/injected";
+
 import { useDeployments } from "./use-deployments";
 
 export const useNavigate = () => {
   const setDisplayTransactions = useConfigState.useSetDisplayTransactions();
-  const setDeployment = useConfigState.useSetDeployment();
+  const setDeployment = useInjectedStore((s) => s.setDeployment);
   const router = useRouter();
   const { deployments } = useDeployments();
 

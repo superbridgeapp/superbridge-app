@@ -5,9 +5,11 @@ import { P, match } from "ts-pattern";
 import { Address, Chain, formatUnits, isAddress } from "viem";
 
 import { ChainDto } from "@/codegen/model";
+import { Input } from "@/components/ui/input";
 import { deploymentTheme } from "@/config/theme";
 import { useTokenBalances } from "@/hooks/use-balances";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
+import { useDeployment } from "@/hooks/use-deployment";
 import { useIsCustomToken } from "@/hooks/use-is-custom-token";
 import { useIsCustomTokenFromList } from "@/hooks/use-is-custom-token-from-list";
 import { useSelectedToken } from "@/hooks/use-selected-token";
@@ -19,7 +21,6 @@ import { CctpBadge } from "../cttp-badge";
 import { TokenIcon } from "../token-icon";
 import { Button } from "../ui/button";
 import { useCustomToken } from "./use-custom-token";
-import { Input } from "@/components/ui/input";
 
 const TokenComponent = ({
   token,
@@ -115,7 +116,7 @@ const TokenImport = ({ address }: { address: Address }) => {
   const showCustomImportModal =
     useConfigState.useSetShowCustomTokenImportModal();
 
-  const deployment = useConfigState.useDeployment();
+  const deployment = useDeployment();
   const theme = deploymentTheme(deployment);
   const {
     balance,
@@ -247,7 +248,7 @@ export const FungibleTokenPicker = ({
 
   const from = useFromChain();
   const to = useToChain();
-  const deployment = useConfigState.useDeployment();
+  const deployment = useDeployment();
   const setToken = useConfigState.useSetToken();
   const tokens = useTokenBalances(from?.id);
   const { t } = useTranslation();

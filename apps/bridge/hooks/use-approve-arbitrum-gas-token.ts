@@ -8,6 +8,7 @@ import { getArbitrumNativeTokenForDeployment } from "@/utils/get-arbitrum-native
 import { isArbitrum } from "@/utils/is-mainnet";
 
 import { useFromChain } from "./use-chain";
+import { useDeployment } from "./use-deployment";
 import { useDeployments } from "./use-deployments";
 
 export const useArbitrumGasTokenForDeployment = (
@@ -23,7 +24,7 @@ export const useArbitrumGasTokenForDeployment = (
 };
 
 export const useArbitrumGasToken = () => {
-  const deployment = useConfigState.useDeployment();
+  const deployment = useDeployment();
   return useArbitrumGasTokenForDeployment(deployment?.id);
 };
 
@@ -36,7 +37,7 @@ export function useApproveArbitrumGasToken(
   const [isLoading, setIsLoading] = useState(false);
   const gasToken = useArbitrumGasToken();
   const from = useFromChain();
-  const deployment = useConfigState.useDeployment();
+  const deployment = useDeployment();
 
   return {
     write: async () => {

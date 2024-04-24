@@ -3,6 +3,8 @@ import { useConfigState } from "@/state/config";
 import { isArbitrum, isMainnet, isOptimism } from "@/utils/is-mainnet";
 import { isNativeUsdc } from "@/utils/is-usdc";
 
+import { useDeployment } from "./use-deployment";
+
 const ONE_MINUTE = 60;
 const ONE_HOUR = 60 * 60;
 const ONE_DAY = 60 * 60 * 24;
@@ -65,7 +67,7 @@ export const getFinalizationPeriod = (
 
 export const useFinalizationPeriod = (): Period => {
   const stateToken = useConfigState.useToken();
-  const deployment = useConfigState.useDeployment();
+  const deployment = useDeployment();
   return getFinalizationPeriod(deployment, isNativeUsdc(stateToken));
 };
 

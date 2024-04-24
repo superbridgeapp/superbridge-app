@@ -1,7 +1,9 @@
 import { useConfigState } from "@/state/config";
 
+import { useDeployment } from "./use-deployment";
+
 export const useSelectedToken = () => {
-  const deployment = useConfigState.useDeployment();
+  const deployment = useDeployment();
   const withdrawing = useConfigState.useWithdrawing();
   const token = useConfigState.useToken();
 

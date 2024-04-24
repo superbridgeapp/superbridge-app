@@ -4,9 +4,10 @@ import { configurations } from "@/config/contract-addresses";
 import { useConfigState } from "@/state/config";
 
 import { L1BridgeAbi } from "../abis/L1Bridge";
+import { useDeployment } from "./use-deployment";
 
 export const useBridgeFee = () => {
-  const deployment = useConfigState.useDeployment();
+  const deployment = useDeployment();
   const token = useConfigState.useToken();
   const withdrawing = useConfigState.useWithdrawing();
 

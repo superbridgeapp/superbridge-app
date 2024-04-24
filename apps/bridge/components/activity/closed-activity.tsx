@@ -2,7 +2,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import Lottie from "react-lottie-player";
 
-import { deploymentTheme } from "@/config/theme";
+import { useDeployment } from "@/hooks/use-deployment";
 import { useHasPendingAction } from "@/hooks/use-has-pending-action";
 import { useTransactions } from "@/hooks/use-transactions";
 import { useConfigState } from "@/state/config";
@@ -36,7 +36,7 @@ const activityAnimations = {
 export const ClosedActivity = () => {
   const open = useConfigState.useDisplayTransactions();
   const setDisplayTransactions = useConfigState.useSetDisplayTransactions();
-  const deployment = useConfigState.useDeployment();
+  const deployment = useDeployment();
   const pendingTransactions = usePendingTransactions.useTransactions();
   const { t } = useTranslation();
   const { transactions } = useTransactions();

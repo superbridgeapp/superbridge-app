@@ -14,6 +14,7 @@ import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
 import { Dialog, DialogContent } from "../ui/dialog";
 import { Input } from "@/components/ui/input";
+import { useDeployment } from "@/hooks/use-deployment";
 
 export interface SettingsModalProps {
   open: boolean;
@@ -34,7 +35,7 @@ export const CustomTokenListModal = () => {
   const [debouncedUrl] = useDebounce(url, 400);
   const [disclaimerChecked, setDisclaimerChecked] = useState(false);
 
-  const deployment = useConfigState.useDeployment();
+  const deployment = useDeployment();
   const theme = deploymentTheme(deployment);
 
   const tokensImported = useQuery(

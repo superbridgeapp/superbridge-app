@@ -8,8 +8,10 @@ import { useDebounce } from "use-debounce";
 import { Address, isAddress, isAddressEqual } from "viem";
 import { useAccount } from "wagmi";
 
+import { Input } from "@/components/ui/input";
 import { deploymentTheme } from "@/config/theme";
 import { useToChain } from "@/hooks/use-chain";
+import { useDeployment } from "@/hooks/use-deployment";
 import { useIsContractAccount } from "@/hooks/use-is-contract-account";
 import { useTransactions } from "@/hooks/use-transactions";
 import { resolveAddress, resolveName } from "@/services/ens";
@@ -18,7 +20,6 @@ import { isDeposit, isWithdrawal } from "@/utils/guards";
 
 import { Button } from "./ui/button";
 import { Dialog, DialogContent } from "./ui/dialog";
-import { Input } from "@/components/ui/input";
 
 interface ProfileProps {
   name: string | null;
@@ -133,7 +134,7 @@ export const AddressModal = ({
     setOpen(false);
   };
 
-  const deployment = useConfigState.useDeployment();
+  const deployment = useDeployment();
   const theme = deploymentTheme(deployment);
 
   return (

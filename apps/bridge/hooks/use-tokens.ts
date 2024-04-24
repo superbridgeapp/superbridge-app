@@ -8,9 +8,10 @@ import { MultiChainOptimismToken, MultiChainToken } from "@/types/token";
 import { isArbitrumToken, isOptimismToken } from "@/utils/guards";
 import { isNativeToken } from "@/utils/is-eth";
 import { isBridgedUsdc, isNativeUsdc } from "@/utils/is-usdc";
-
 import { getArbitrumNativeTokenForDeployment } from "@/utils/get-arbitrum-native-token";
+
 import { useDeployments } from "./use-deployments";
+import { useDeployment } from "./use-deployment";
 
 function useDeploymentTokens(): MultiChainOptimismToken[] {
   const { deployments } = useDeployments();
@@ -68,7 +69,7 @@ function useArbitrumNativeTokens(): MultiChainToken[] {
 }
 
 export function useAllTokens() {
-  const deployment = useConfigState.useDeployment();
+  const deployment = useDeployment();
   const tokens = useConfigState.useTokens();
   const customTokens = useSettingsState.useCustomTokens();
   const deploymentTokens = useDeploymentTokens();
@@ -124,7 +125,7 @@ export function useAllTokens() {
 }
 
 export function useActiveTokens() {
-  const deployment = useConfigState.useDeployment();
+  const deployment = useDeployment();
   const withdrawing = useConfigState.useWithdrawing();
   const tokens = useAllTokens();
 

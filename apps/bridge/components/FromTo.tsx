@@ -1,14 +1,14 @@
 import { useTranslation } from "react-i18next";
 
 import { useFromChain, useToChain } from "@/hooks/use-chain";
-import { useConfigState } from "@/state/config";
+import { useDeployment } from "@/hooks/use-deployment";
 
 import { NetworkIcon } from "./network-icon";
 
 export const FromTo = () => {
   const from = useFromChain();
   const to = useToChain();
-  const deployment = useConfigState.useDeployment();
+  const deployment = useDeployment();
   const { t } = useTranslation();
 
   return (

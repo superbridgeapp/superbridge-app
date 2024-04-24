@@ -1,9 +1,10 @@
+import { useTheme } from "next-themes";
+import { useContext } from "react";
+
 import { isSuperbridge } from "@/config/superbridge";
+import { ThemeContext } from "@/state/theme";
 
 import { useDeployments } from "./use-deployments";
-import { useContext } from "react";
-import { ThemeContext } from "@/state/theme";
-import { useTheme } from "next-themes";
 
 export const useNavIcon = () => {
   const { deployments } = useDeployments();

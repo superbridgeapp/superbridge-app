@@ -3,12 +3,12 @@ import { useAccount, useReadContract, useReadContracts } from "wagmi";
 
 import { L2StandardBridgeAbi } from "@/abis/L2StandardBridge";
 import { OptimismMintableERC20Abi } from "@/abis/OptimismMintableERC20";
-import { useConfigState } from "@/state/config";
-import { StandardArbERC20Abi } from "@/abis/arbitrum/StandardArbERC20";
 import { L2ERC20GatewayAbi } from "@/abis/arbitrum/L2ERC20Gateway";
+import { StandardArbERC20Abi } from "@/abis/arbitrum/StandardArbERC20";
+import { useDeployment } from "@/hooks/use-deployment";
 
 export const useCustomToken = (address: Address) => {
-  const deployment = useConfigState.useDeployment();
+  const deployment = useDeployment();
   const account = useAccount();
 
   const reads = useReadContracts({

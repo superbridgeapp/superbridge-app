@@ -5,7 +5,7 @@ import { dedicatedDeployment } from "@/config/dedicated-deployment";
 import { isSuperbridge } from "@/config/superbridge";
 import { deploymentTheme } from "@/config/theme";
 import * as metadata from "@/constants/metadata";
-import { useConfigState } from "@/state/config";
+import { useDeployment } from "@/hooks/use-deployment";
 import { useSettingsState } from "@/state/settings";
 
 import { Button } from "./ui/button";
@@ -15,7 +15,7 @@ export const TosModal = () => {
   const { t } = useTranslation();
   const dismiss = useSettingsState.useDismissTos();
   const hasViewedTos = useSettingsState.useHasViewedTos();
-  const deployment = useConfigState.useDeployment();
+  const deployment = useDeployment();
 
   const theme = deploymentTheme(deployment);
 

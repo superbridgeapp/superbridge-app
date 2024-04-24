@@ -55,6 +55,7 @@ import { TokenModal } from "./tokens/Modal";
 import { CustomTokenImportModal } from "./tokens/custom-token-import-modal";
 import { Button } from "./ui/button";
 import { WithdrawSettingsModal } from "./withdraw-settings/modal";
+import { useDeployment } from "@/hooks/use-deployment";
 
 const RecipientAddress = ({
   openAddressDialog,
@@ -144,7 +145,7 @@ export const BridgeBody = () => {
   const [withdrawSettingsDialog, setWithdrawSettingsDialog] = useState(false);
   const [addressDialog, setAddressDialog] = useState(false);
 
-  const deployment = useConfigState.useDeployment();
+  const deployment = useDeployment();
   const setConfirmationModal = useConfigState.useSetDisplayConfirmationModal();
   const withdrawing = useConfigState.useWithdrawing();
   const rawAmount = useConfigState.useRawAmount();

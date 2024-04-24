@@ -4,6 +4,7 @@ import { Address } from "viem";
 
 import { deploymentTheme } from "@/config/theme";
 import * as metadata from "@/constants/metadata";
+import { useDeployment } from "@/hooks/use-deployment";
 import { useConfigState } from "@/state/config";
 import { useSettingsState } from "@/state/settings";
 import {
@@ -21,7 +22,7 @@ import { Dialog, DialogContent } from "../ui/dialog";
 import { useCustomToken } from "./use-custom-token";
 
 export const CustomTokenImportModal = () => {
-  const deployment = useConfigState.useDeployment();
+  const deployment = useDeployment();
   const theme = deploymentTheme(deployment);
   const { t } = useTranslation();
 

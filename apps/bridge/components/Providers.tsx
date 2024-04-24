@@ -17,11 +17,10 @@ import { useTranslation } from "react-i18next";
 import { WagmiProvider, http } from "wagmi";
 import { Chain, mainnet, optimism } from "wagmi/chains";
 
-import { ThemeProvider } from "@/components/theme-provider";
 import { chainIcons, deploymentTheme } from "@/config/theme";
 import * as metadata from "@/constants/metadata";
+import { useDeployment } from "@/hooks/use-deployment";
 import { useDeployments } from "@/hooks/use-deployments";
-import { useConfigState } from "@/state/config";
 import { queryClient } from "@/utils/query-client";
 
 import { Loading } from "./Loading";
@@ -29,7 +28,7 @@ import { Loading } from "./Loading";
 function Web3Provider({ children }: { children: React.ReactNode }) {
   const { resolvedTheme } = useTheme();
   const { deployments } = useDeployments();
-  const deployment = useConfigState.useDeployment();
+  const deployment = useDeployment();
   const [mounted, setMounted] = useState(false);
   const { i18n } = useTranslation();
   const theme = deploymentTheme(deployment);
@@ -135,10 +134,8 @@ function Web3Provider({ children }: { children: React.ReactNode }) {
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
-    <ThemeProvider attribute="class">
-      <QueryClientProvider client={queryClient}>
-        <Web3Provider>{children}</Web3Provider>
-      </QueryClientProvider>
-    </ThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <Web3Provider>{children}</Web3Provider>
+    </QueryClientProvider>
   );
 }

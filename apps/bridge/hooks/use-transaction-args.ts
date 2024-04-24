@@ -11,11 +11,12 @@ import { withdrawArgs } from "@/utils/transaction-args/withdraw-args";
 import { useL2TokenIsLegacy } from "./use-l2-token-is-legacy";
 import { useWeiAmount } from "./use-wei-amount";
 import { useArbitrumGasToken } from "./use-approve-arbitrum-gas-token";
+import { useDeployment } from "./use-deployment";
 
 export const useTransactionArgs = () => {
   const account = useAccount();
   const recipient = useConfigState.useRecipientAddress();
-  const deployment = useConfigState.useDeployment();
+  const deployment = useDeployment();
   const withdrawing = useConfigState.useWithdrawing();
   const stateToken = useConfigState.useToken();
   const nft = useConfigState.useNft();

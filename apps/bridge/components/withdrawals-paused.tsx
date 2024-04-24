@@ -1,8 +1,7 @@
 import Link from "next/link";
-import { optimism, base } from "viem/chains";
+import { base, optimism } from "viem/chains";
 
-import { deploymentTheme } from "@/config/theme";
-import { useConfigState } from "@/state/config";
+import { useDeployment } from "@/hooks/use-deployment";
 
 const links: { [x: number]: string | undefined } = {
   [base.id]: "https://status.base.org/",
@@ -10,7 +9,7 @@ const links: { [x: number]: string | undefined } = {
 };
 
 export const WithdrawalsPaused = () => {
-  const deployment = useConfigState.useDeployment();
+  const deployment = useDeployment();
 
   return (
     <div className="bg-card flex items-center gap-3 w-full p-4 rounded-[16px]">
