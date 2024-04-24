@@ -19,6 +19,28 @@ import { InjectedStoreProvider } from "@/state/injected";
 import { ThemeProvider } from "@/state/theme";
 import { useInitialise } from "@/hooks/use-initialise";
 
+const SUPERCHAIN_MAINNETS = [
+  "optimism",
+  "base",
+  "zora",
+  "pgn",
+  "mode",
+  "orderly",
+  "lyra",
+  "lumio-mainnet",
+  "metal-mainnet",
+];
+
+const SUPERCHAIN_TESTNETS = [
+  "op-sepolia",
+  "base-sepolia",
+  "zora-sepolia-0thyhxtf5e",
+  "pgn-sepolia-i4td3ji6i0",
+  "mode-sepolia-vtnhnpim72",
+  "orderly-l2-4460-sepolia-8tc3sd7dvy",
+  "metal-l2-testnet-3bbzi9kufn",
+];
+
 export const getServerSideProps = async ({
   req,
 }: GetServerSidePropsContext) => {
@@ -33,15 +55,8 @@ export const getServerSideProps = async ({
   if (isSuperbridge) {
     const names =
       req.headers.host === "testnets.superbridge.app"
-        ? [
-            "op-sepolia",
-            "base-sepolia",
-            "zora-sepolia-0thyhxtf5e",
-            "pgn-sepolia-i4td3ji6i0",
-            "mode-sepolia-vtnhnpim72",
-            "orderly-l2-4460-sepolia-8tc3sd7dvy",
-          ]
-        : ["optimism", "base", "zora", "pgn", "mode", "orderly", "lyra"];
+        ? SUPERCHAIN_TESTNETS
+        : SUPERCHAIN_MAINNETS;
     const { data } = await bridgeControllerGetDeployments({
       names,
     });

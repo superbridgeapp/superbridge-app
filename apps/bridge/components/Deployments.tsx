@@ -6,8 +6,6 @@ import { BridgePlaceholder } from "@/components/bridge-placeholder";
 import { HIDDEN_DEPLOYMENTS, useDeployments } from "@/hooks/use-deployments";
 import { useNavigate } from "@/hooks/use-navigate";
 
-import { PageTransition } from "./PageTransition";
-
 const spring = {
   type: "spring",
   damping: 25,
@@ -61,14 +59,7 @@ export const DeploymentsGrid = ({}) => {
     navigate(n);
   };
 
-  const comingSoon =
-    typeof window !== "undefined" &&
-    window.location.host === "app.rollbridge.app"
-      ? [...SUPERCHAIN_COMING_SOON, ...COMING_SOON]
-      : typeof window !== "undefined" &&
-        window.location.host === "superbridge.app"
-      ? SUPERCHAIN_COMING_SOON
-      : [];
+  const comingSoon = SUPERCHAIN_COMING_SOON;
 
   return (
     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 px-3 md:px-16 py-40 pt-[96px] md:pt-40 w-full h-auto w-screen max-w-[1334px]">
