@@ -4,8 +4,10 @@ import { useTranslation } from "react-i18next";
 import { isPresent } from "ts-is-present";
 import { useDebounce } from "use-debounce";
 
+import { Input } from "@/components/ui/input";
 import { deploymentTheme } from "@/config/theme";
-import * as metadata from "@/constants/metadata";
+import { useDeployment } from "@/hooks/use-deployment";
+import { useMetadata } from "@/hooks/use-metadata";
 import { useConfigState } from "@/state/config";
 import { useSettingsState } from "@/state/settings";
 import { transformIntoOptimismToken } from "@/utils/token-list/transform-optimism-token";
@@ -13,8 +15,6 @@ import { transformIntoOptimismToken } from "@/utils/token-list/transform-optimis
 import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
 import { Dialog, DialogContent } from "../ui/dialog";
-import { Input } from "@/components/ui/input";
-import { useDeployment } from "@/hooks/use-deployment";
 
 export interface SettingsModalProps {
   open: boolean;
@@ -23,6 +23,7 @@ export interface SettingsModalProps {
 
 export const CustomTokenListModal = () => {
   const { t } = useTranslation();
+  const metadata = useMetadata();
 
   const tokenListOrOpen = useConfigState.useShowCustomTokenListModal();
   const setOpen = useConfigState.useSetShowCustomTokenListModal();
@@ -36,7 +37,6 @@ export const CustomTokenListModal = () => {
   const [disclaimerChecked, setDisclaimerChecked] = useState(false);
 
   const deployment = useDeployment();
-  const theme = deploymentTheme(deployment);
 
   const tokensImported = useQuery(
     ["custom tokens", debouncedUrl],

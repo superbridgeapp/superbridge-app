@@ -18,11 +18,11 @@ import { WagmiProvider, fallback, http } from "wagmi";
 import { Chain, mainnet, optimism } from "wagmi/chains";
 
 import { chainIcons, deploymentTheme } from "@/config/theme";
-import * as metadata from "@/constants/metadata";
 import { useDeployment } from "@/hooks/use-deployment";
 import { useDeployments } from "@/hooks/use-deployments";
 import { queryClient } from "@/utils/query-client";
 
+import { useMetadata } from "@/hooks/use-metadata";
 import { Loading } from "./Loading";
 
 function Web3Provider({ children }: { children: React.ReactNode }) {
@@ -32,6 +32,7 @@ function Web3Provider({ children }: { children: React.ReactNode }) {
   const [mounted, setMounted] = useState(false);
   const { i18n } = useTranslation();
   const theme = deploymentTheme(deployment);
+  const metadata = useMetadata();
 
   useEffect(() => {
     setMounted(true);

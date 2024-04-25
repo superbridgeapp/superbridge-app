@@ -22,8 +22,6 @@ import {
   rollux,
 } from "viem/chains";
 
-import { dedicatedDeployment } from "./dedicated-deployment";
-
 export const chainIcons: { [chainId: number]: string | undefined } = {
   [mainnet.id]: "/img/network-ethereum.svg",
   [sepolia.id]: "/img/network-sepolia.svg",

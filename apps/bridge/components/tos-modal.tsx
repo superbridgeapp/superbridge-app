@@ -1,11 +1,9 @@
 import Link from "next/link";
 import { Trans, useTranslation } from "react-i18next";
 
-import { dedicatedDeployment } from "@/config/dedicated-deployment";
 import { isSuperbridge } from "@/config/superbridge";
-import { deploymentTheme } from "@/config/theme";
-import * as metadata from "@/constants/metadata";
 import { useDeployment } from "@/hooks/use-deployment";
+import { useMetadata } from "@/hooks/use-metadata";
 import { useSettingsState } from "@/state/settings";
 
 import { Button } from "./ui/button";
@@ -15,6 +13,7 @@ export const TosModal = () => {
   const { t } = useTranslation();
   const dismiss = useSettingsState.useDismissTos();
   const hasViewedTos = useSettingsState.useHasViewedTos();
+  const metadata = useMetadata();
   const deployment = useDeployment();
 
   return (
@@ -86,16 +85,12 @@ export const TosModal = () => {
             <p className="text-sm">
               <Trans
                 i18nKey={
-                  isSuperbridge && !dedicatedDeployment
+                  isSuperbridge
                     ? "tos.descriptionSuperbridge"
-                    : isSuperbridge && !!dedicatedDeployment
-                    ? "tos.descriptionSuperbridgeDedicated"
-                    : !isSuperbridge && !dedicatedDeployment
-                    ? "tos.descriptionRollbridge"
                     : "tos.descriptionRollbridgeDedicated"
                 }
                 components={[<span key="name" className="font-bold" />]}
-                values={{ name: dedicatedDeployment?.network }}
+                values={{ name: deployment?.name }}
               />{" "}
               <Link
                 href={"https://docs.rollbridge.app/what-is-bridging"}

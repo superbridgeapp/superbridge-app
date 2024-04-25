@@ -1,8 +1,3 @@
-import {
-  BridgeControllerGetDeploymentsParams,
-  DeploymentType,
-} from "@/codegen/model";
-import { dedicatedDeployment } from "@/config/dedicated-deployment";
 import { useInjectedStore } from "@/state/injected";
 
 // totally disabled
