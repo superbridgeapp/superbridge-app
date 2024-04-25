@@ -1,7 +1,6 @@
 import { useTranslation } from "react-i18next";
 
 import { DeploymentType } from "@/codegen/model";
-import { dedicatedDeployment } from "@/config/dedicated-deployment";
 import { isSuperbridge } from "@/config/superbridge";
 import { useDeployment } from "@/hooks/use-deployment";
 import { useWithdrawalsPaused } from "@/hooks/use-withdrawals-paused";
@@ -37,7 +36,7 @@ export const Bridge = () => {
                 Testnet
               </span>
             )}
-            {deployment?.conduitId && !dedicatedDeployment && (
+            {deployment?.conduitId && isSuperbridge && (
               <a
                 href={`https://conduit.xyz/?utm_source=${
                   isSuperbridge ? "superbridge" : "rollbridge"

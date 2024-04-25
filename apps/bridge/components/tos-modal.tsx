@@ -17,8 +17,6 @@ export const TosModal = () => {
   const hasViewedTos = useSettingsState.useHasViewedTos();
   const deployment = useDeployment();
 
-  const theme = deploymentTheme(deployment);
-
   return (
     <Dialog open={!hasViewedTos} onOpenChange={() => {}}>
       <DialogContent hideCloseButton>

@@ -11,20 +11,20 @@ export const useNavIcon = () => {
   const theme = useContext(ThemeContext);
   const { resolvedTheme } = useTheme();
 
-  const defaultIcon = "/img/rollbridge-logo.svg";
-
   if (isSuperbridge) return "/img/logo.svg";
 
   if (resolvedTheme === "light") {
     return (
-      theme?.imageLogo ?? deployments[0]?.theme?.theme.imageLogo ?? defaultIcon
+      theme?.imageLogo ??
+      deployments[0]?.theme?.theme.imageLogo ??
+      "/img/rollbridge-logo.svg"
     );
   }
 
   return (
     theme?.imageLogoDark ??
     deployments[0]?.theme?.theme.imageLogoDark ??
-    defaultIcon
+    "/img/rollbridge-logo-dark.svg"
   );
 };
 
