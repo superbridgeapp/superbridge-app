@@ -1,4 +1,10 @@
-import { Address, erc20Abi } from "viem";
+import {
+  Address,
+  erc20Abi,
+  isAddress,
+  isAddressEqual,
+  zeroAddress,
+} from "viem";
 import { useAccount, useReadContract, useReadContracts } from "wagmi";
 
 import { L2StandardBridgeAbi } from "@/abis/L2StandardBridge";
@@ -68,7 +74,11 @@ export const useCustomToken = (address: Address) => {
         functionName: "l2Gateway",
       },
     ],
+    query: {
+      enabled: !!address,
+    },
   });
+
   const name = reads.data?.[0].result;
   const symbol = reads.data?.[1].result;
   const decimals = reads.data?.[2].result;
@@ -85,6 +95,12 @@ export const useCustomToken = (address: Address) => {
     abi: L2StandardBridgeAbi,
     chainId: deployment?.l2.id,
     functionName: "OTHER_BRIDGE",
+    query: {
+      enabled:
+        !!OP_L2_BRIDGE &&
+        isAddress(OP_L2_BRIDGE) &&
+        !isAddressEqual(zeroAddress, OP_L2_BRIDGE),
+    },
   });
   const arbL2Gateway = useReadContract({
     address: ARB_L2_GATEWAY,
@@ -119,7 +135,9 @@ export const useCustomToken = (address: Address) => {
     isArbitrumToken,
 
     isLoading:
-      reads.isLoading || opL2Bridge.isLoading || arbL2Gateway.isLoading,
+      reads.isLoading ||
+      (!!OP_L2_BRIDGE && opL2Bridge.isLoading) ||
+      (!!ARB_L2_GATEWAY && arbL2Gateway.isLoading),
     isError: reads.isError || opL2Bridge.isError || arbL2Gateway.isError,
   };
 };
