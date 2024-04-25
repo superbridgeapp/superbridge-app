@@ -16,7 +16,6 @@ import {
   isForcedWithdrawal,
   isWithdrawal,
 } from "@/utils/guards";
-import { MOCK_TRANSACTIONS } from "@/utils/mock-transactions";
 
 import { Loading } from "../Loading";
 import { TransactionRow } from "../transaction-row";
@@ -40,9 +39,6 @@ export const OpenActivity = ({}) => {
       if (isArbitrumForcedWithdrawal(x)) return !x.withdrawal?.finalise;
       if (isCctpBridge(x)) return !x.relay;
     }).length + pendingTransactions.length;
-
-  const mockTransactions = MOCK_TRANSACTIONS;
-  // process.env["NODE_ENV"] === "development" ? MOCK_TRANSACTIONS : [];
 
   return (
     <main
@@ -127,8 +123,7 @@ export const OpenActivity = ({}) => {
             ({ transactions, pendingTransactions }) => {
               if (
                 transactions.length === 0 &&
-                pendingTransactions.length === 0 &&
-                mockTransactions.length === 0
+                pendingTransactions.length === 0
               ) {
                 return (
                   <div className="flex grow justify-center items-center h-full">
@@ -141,11 +136,7 @@ export const OpenActivity = ({}) => {
 
               return (
                 <div className="overflow-y-auto overflow-x-hidden">
-                  {[
-                    ...pendingTransactions,
-                    ...transactions,
-                    ...mockTransactions,
-                  ].map((t) => (
+                  {[...pendingTransactions, ...transactions].map((t) => (
                     <TransactionRow key={t.id} tx={t} />
                   ))}
                 </div>
