@@ -14,6 +14,7 @@ import * as kroma from "@/utils/token-list/json/kroma";
 import MockArbitrumTokenList from "@/utils/token-list/json/mock-arbitrum.json";
 import * as pgn from "@/utils/token-list/json/pgn";
 import { rollux } from "@/utils/token-list/json/rollux";
+import { mint } from "@/utils/token-list/json/mint";
 import * as usdc from "@/utils/token-list/json/usdc";
 import * as lumio from "@/utils/token-list/json/lumio";
 import * as metal from "@/utils/token-list/json/metal";
@@ -152,6 +153,7 @@ export const useTokenLists = () => {
       ...seam,
       ...lumio.FULLY_QUALIFIED_TOKENS,
       ...metal.FULLY_QUALIFIED_TOKENS,
+      ...mint,
     ].forEach((tok) => {
       if (multichainTokens[tok.opTokenId]) {
         multichainTokens[tok.opTokenId][tok.chainId] = tok;
