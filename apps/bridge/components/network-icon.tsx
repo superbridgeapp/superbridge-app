@@ -4,7 +4,7 @@ import { Chain } from "viem";
 import { mainnet, sepolia, syscoin } from "viem/chains";
 
 import { ChainDto, DeploymentDto } from "@/codegen/model";
-import { chainIcons, deploymentTheme } from "@/config/theme";
+import { chainIcons } from "@/config/theme";
 import { useNetworkIcon } from "@/hooks/use-theme";
 
 export const L1_BASE_CHAINS: number[] = [
@@ -26,7 +26,6 @@ export const NetworkIcon = ({
   const isRollup = chain?.id === deployment?.l2.id;
   const isL3 = !L1_BASE_CHAINS.includes(deployment?.l1.id ?? 0);
 
-  const theme = deploymentTheme(deployment);
   const rollupIcon = useNetworkIcon();
 
   let src = "";
@@ -36,12 +35,10 @@ export const NetworkIcon = ({
   } else if (chainIcons[chain?.id ?? 0]) {
     src = chainIcons[chain?.id ?? 0]!;
   } else if (isBase) {
-    if (theme.l1ChainIcon) src = theme.l1ChainIcon;
-    else if (isL3) src = "/img/L2.svg";
+    if (isL3) src = "/img/L2.svg";
     else src = "/img/L1.svg";
   } else if (isRollup) {
-    if (theme.l2ChainIcon) src = theme.l2ChainIcon;
-    else if (isL3) src = "/img/L3.svg";
+    if (isL3) src = "/img/L3.svg";
     else src = "/img/L2.svg";
   }
 

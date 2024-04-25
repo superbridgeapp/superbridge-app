@@ -16,7 +16,6 @@ import {
 } from "wagmi";
 
 import { useBridgeControllerTrack } from "@/codegen";
-import { deploymentTheme } from "@/config/theme";
 import { currencySymbolMap } from "@/constants/currency-symbol-map";
 import { useAllowance } from "@/hooks/use-allowance";
 import { useAllowanceNft } from "@/hooks/use-allowance-nft";
@@ -30,6 +29,7 @@ import { useIsCustomToken } from "@/hooks/use-is-custom-token";
 import { useIsCustomTokenFromList } from "@/hooks/use-is-custom-token-from-list";
 import { useNativeToken } from "@/hooks/use-native-token";
 import { useTokenPrice } from "@/hooks/use-prices";
+import { useSanctioned } from "@/hooks/use-sanctioned";
 import { useSelectedToken } from "@/hooks/use-selected-token";
 import { useSwitchChain } from "@/hooks/use-switch-chain";
 import { useActiveTokens } from "@/hooks/use-tokens";
@@ -38,12 +38,11 @@ import { useWeiAmount } from "@/hooks/use-wei-amount";
 import { useConfigState } from "@/state/config";
 import { usePendingTransactions } from "@/state/pending-txs";
 import { useSettingsState } from "@/state/settings";
-import { Theme } from "@/types/theme";
 import { buildPendingTx } from "@/utils/build-pending-tx";
 import { isEth, isNativeToken } from "@/utils/is-eth";
 import { isNativeUsdc } from "@/utils/is-usdc";
-import { useSanctioned } from "@/hooks/use-sanctioned";
 
+import { useDeployment } from "@/hooks/use-deployment";
 import { FromTo } from "./FromTo";
 import { AddressModal } from "./address-modal";
 import { ConfirmationModal } from "./confirmation-modal";
@@ -56,14 +55,11 @@ import { TokenModal } from "./tokens/Modal";
 import { CustomTokenImportModal } from "./tokens/custom-token-import-modal";
 import { Button } from "./ui/button";
 import { WithdrawSettingsModal } from "./withdraw-settings/modal";
-import { useDeployment } from "@/hooks/use-deployment";
 
 const RecipientAddress = ({
   openAddressDialog,
-  theme,
 }: {
   openAddressDialog: () => void;
-  theme: Theme;
 }) => {
   const recipientName = useConfigState.useRecipientName();
   const recipientAddress = useConfigState.useRecipientAddress();
@@ -401,7 +397,6 @@ export const BridgeBody = () => {
       disabled: false,
     }));
 
-  const theme = deploymentTheme(deployment);
   return (
     <div className="flex flex-col gap-3 md:gap-4 px-4 pb-4">
       <TokenModal open={tokensDialog} setOpen={setTokensDialog} />
@@ -570,10 +565,7 @@ export const BridgeBody = () => {
       <div
         className={`border border-border rounded-2xl divide-y divide-border pt-1`}
       >
-        <RecipientAddress
-          theme={theme}
-          openAddressDialog={() => setAddressDialog(true)}
-        />
+        <RecipientAddress openAddressDialog={() => setAddressDialog(true)} />
         {lineItems.map(({ left, middle, right, icon, component }) => (
           <div
             key={left}

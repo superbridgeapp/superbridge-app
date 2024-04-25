@@ -9,9 +9,7 @@ import { Address, isAddress, isAddressEqual } from "viem";
 import { useAccount } from "wagmi";
 
 import { Input } from "@/components/ui/input";
-import { deploymentTheme } from "@/config/theme";
 import { useToChain } from "@/hooks/use-chain";
-import { useDeployment } from "@/hooks/use-deployment";
 import { useIsContractAccount } from "@/hooks/use-is-contract-account";
 import { useTransactions } from "@/hooks/use-transactions";
 import { resolveAddress, resolveName } from "@/services/ens";
@@ -133,9 +131,6 @@ export const AddressModal = ({
 
     setOpen(false);
   };
-
-  const deployment = useDeployment();
-  const theme = deploymentTheme(deployment);
 
   return (
     <>

@@ -8,7 +8,6 @@ import { formatUnits } from "viem";
 import { useAccount, useEstimateFeesPerGas } from "wagmi";
 
 import { Checkbox } from "@/components/ui/checkbox";
-import { deploymentTheme } from "@/config/theme";
 import { currencySymbolMap } from "@/constants/currency-symbol-map";
 import { FINALIZE_GAS, PROVE_GAS } from "@/constants/gas-limits";
 import { useAllowance } from "@/hooks/use-allowance";
@@ -20,6 +19,7 @@ import {
 } from "@/hooks/use-approve-arbitrum-gas-token";
 import { useBridge } from "@/hooks/use-bridge";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
+import { useDeployment } from "@/hooks/use-deployment";
 import {
   Period,
   addPeriods,
@@ -38,7 +38,6 @@ import { useSettingsState } from "@/state/settings";
 import { Token } from "@/types/token";
 import { isNativeToken } from "@/utils/is-eth";
 import { isNativeUsdc } from "@/utils/is-usdc";
-import { useDeployment } from "@/hooks/use-deployment";
 
 import { Button } from "../ui/button";
 import { Dialog, DialogContent } from "../ui/dialog";
@@ -112,7 +111,6 @@ export const ConfirmationModal = ({
   const arbitrumGasToken = useArbitrumGasToken();
   const arbitrumGasTokenAllowance = useAllowanceArbitrumGasToken();
   const deployment = useDeployment();
-  const theme = deploymentTheme(deployment);
   const approveArbitrumGasToken = useApproveArbitrumGasToken(
     arbitrumGasTokenAllowance.refetch,
     bridge.refetch

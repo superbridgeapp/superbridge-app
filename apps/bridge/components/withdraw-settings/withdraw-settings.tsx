@@ -2,7 +2,6 @@ import Image from "next/image";
 import { useTranslation } from "react-i18next";
 
 import { configurations } from "@/config/contract-addresses";
-import { deploymentTheme } from "@/config/theme";
 import { useToChain } from "@/hooks/use-chain";
 import { useDeployment } from "@/hooks/use-deployment";
 import { useFees } from "@/hooks/use-fees";
@@ -24,7 +23,6 @@ export const WithdrawSettings = ({ from, gasEstimate }: SettingsModalProps) => {
 
   const to = useToChain();
   const fees = useFees(from, gasEstimate);
-  const theme = deploymentTheme(deployment);
 
   return (
     <div>

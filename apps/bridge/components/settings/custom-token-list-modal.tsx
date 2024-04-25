@@ -5,7 +5,6 @@ import { isPresent } from "ts-is-present";
 import { useDebounce } from "use-debounce";
 
 import { Input } from "@/components/ui/input";
-import { deploymentTheme } from "@/config/theme";
 import { useDeployment } from "@/hooks/use-deployment";
 import { useMetadata } from "@/hooks/use-metadata";
 import { useConfigState } from "@/state/config";

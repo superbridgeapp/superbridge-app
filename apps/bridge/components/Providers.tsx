@@ -17,12 +17,12 @@ import { useTranslation } from "react-i18next";
 import { WagmiProvider, fallback, http } from "wagmi";
 import { Chain, mainnet, optimism } from "wagmi/chains";
 
-import { chainIcons, deploymentTheme } from "@/config/theme";
+import { chainIcons } from "@/config/theme";
 import { useDeployment } from "@/hooks/use-deployment";
 import { useDeployments } from "@/hooks/use-deployments";
+import { useMetadata } from "@/hooks/use-metadata";
 import { queryClient } from "@/utils/query-client";
 
-import { useMetadata } from "@/hooks/use-metadata";
 import { Loading } from "./Loading";
 
 function Web3Provider({ children }: { children: React.ReactNode }) {
@@ -31,7 +31,6 @@ function Web3Provider({ children }: { children: React.ReactNode }) {
   const deployment = useDeployment();
   const [mounted, setMounted] = useState(false);
   const { i18n } = useTranslation();
-  const theme = deploymentTheme(deployment);
   const metadata = useMetadata();
 
   useEffect(() => {
@@ -89,10 +88,7 @@ function Web3Provider({ children }: { children: React.ReactNode }) {
     return (
       <div className="bg-background w-screen h-screen overflow-hidden z-40 relative transition-colors duration-1000 tracking-tight flex justify-center">
         <div
-          className={clsx(
-            `inset-0 z-0 fixed transition-all bg-transparent`,
-            theme.screenBgImg
-          )}
+          className={clsx(`inset-0 z-0 fixed transition-all bg-transparent`)}
         />
 
         <Loading />

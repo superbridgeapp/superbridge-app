@@ -2,7 +2,6 @@ import Image from "next/image";
 import { useTranslation } from "react-i18next";
 import { Chain } from "viem";
 
-import { deploymentTheme } from "@/config/theme";
 import { useDeployment } from "@/hooks/use-deployment";
 import { useFees } from "@/hooks/use-fees";
 
@@ -10,7 +9,6 @@ export const DepositFees = ({ gasEstimate }: { gasEstimate: number }) => {
   const deployment = useDeployment();
   const { t } = useTranslation();
 
-  const theme = deploymentTheme(deployment);
   const fee = useFees(deployment?.l1 as unknown as Chain, gasEstimate)[0];
 
   return (

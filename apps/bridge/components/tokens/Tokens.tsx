@@ -6,7 +6,6 @@ import { Address, Chain, formatUnits, isAddress } from "viem";
 
 import { ChainDto } from "@/codegen/model";
 import { Input } from "@/components/ui/input";
-import { deploymentTheme } from "@/config/theme";
 import { useTokenBalances } from "@/hooks/use-balances";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
 import { useDeployment } from "@/hooks/use-deployment";
@@ -117,7 +116,6 @@ const TokenImport = ({ address }: { address: Address }) => {
     useConfigState.useSetShowCustomTokenImportModal();
 
   const deployment = useDeployment();
-  const theme = deploymentTheme(deployment);
   const {
     balance,
     isOptimismToken,

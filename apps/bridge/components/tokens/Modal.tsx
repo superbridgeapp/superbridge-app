@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import { deploymentTheme } from "@/config/theme";
 import { useDeployment } from "@/hooks/use-deployment";
 
 import { Dialog, DialogContent } from "../ui/dialog";
@@ -14,7 +13,6 @@ export const TokenModal = (props: {
 }) => {
   const [nfts, setNfts] = useState(false);
   const deployment = useDeployment();
-  const theme = deploymentTheme(deployment);
   const { t } = useTranslation();
 
   useEffect(() => {

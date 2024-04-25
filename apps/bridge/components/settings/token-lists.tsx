@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import { deploymentTheme } from "@/config/theme";
-import { useDeployment } from "@/hooks/use-deployment";
 import { useConfigState } from "@/state/config";
 import { CustomTokenList, useSettingsState } from "@/state/settings";
 
@@ -20,9 +18,6 @@ export const TokenLists = () => {
   const setCustomTokenLists = useSettingsState.useSetCustomTokenLists();
   const setShowCustomTokenListModal =
     useConfigState.useSetShowCustomTokenListModal();
-
-  const deployment = useDeployment();
-  const theme = deploymentTheme(deployment);
 
   const { t, i18n } = useTranslation();
 

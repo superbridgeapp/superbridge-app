@@ -4,7 +4,6 @@ import { useTranslation } from "react-i18next";
 import { Chain } from "viem";
 
 import { configurations } from "@/config/contract-addresses";
-import { deploymentTheme } from "@/config/theme";
 import { currencySymbolMap } from "@/constants/currency-symbol-map";
 import { useDeployment } from "@/hooks/use-deployment";
 import { useFees } from "@/hooks/use-fees";
@@ -21,7 +20,6 @@ export const WithdrawFees = ({
   const deployment = useDeployment();
   const forceViaL1 = useConfigState.useForceViaL1();
   const easyMode = useConfigState.useEasyMode();
-  const theme = deploymentTheme(deployment);
   const fees = useFees(deployment?.l2 as unknown as Chain, gasEstimate);
   const { t } = useTranslation();
   const currency = useSettingsState.useCurrency();
