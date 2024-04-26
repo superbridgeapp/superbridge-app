@@ -29,11 +29,14 @@ export function Footer() {
 
   const links: LinkDto[] = isSuperbridge
     ? [
-        { url: "mailto:support@superbridge.app", label: t("about") },
         { url: "mailto:support@superbridge.app", label: t("support") },
         { url: "https://twitter.com/superbridgeapp", label: "x.com" },
       ]
-    : deployments.deployments[0]?.theme?.links ?? [];
+    : [
+        ...(deployments.deployments[0]?.theme?.links ?? []),
+        { url: "mailto:support@superbridge.app", label: t("support") },
+        { url: "https://rollbridge.app", label: "Powered by Superbridge" },
+      ];
 
   return (
     <footer className="flex flex-row justify-between px-1.5 md:px-6 py-3 md:py-4 fixed bottom-0 left-0 w-screen z-50 bg-gradient-to-t from-zinc-950/40 md:from-transparent">

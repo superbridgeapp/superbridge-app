@@ -65,7 +65,7 @@ export const getServerSideProps = async ({
 
   if (req.headers.host?.includes("localhost")) {
     const { data } = await bridgeControllerGetDeployments({
-      names: ["severe-blush-tortoise-3qp0abcpjs"],
+      names: ["base"],
     });
     return { props: { deployments: data } };
   }
