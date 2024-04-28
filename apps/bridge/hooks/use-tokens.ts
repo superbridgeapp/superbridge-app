@@ -4,16 +4,21 @@ import { Address } from "viem";
 
 import { useConfigState } from "@/state/config";
 import { useSettingsState } from "@/state/settings";
-import { MultiChainOptimismToken, MultiChainToken } from "@/types/token";
+import {
+  MultiChainArbitrumToken,
+  MultiChainOptimismToken,
+  MultiChainToken,
+} from "@/types/token";
+import { getArbitrumNativeTokenForDeployment } from "@/utils/get-arbitrum-native-token";
 import { isArbitrumToken, isOptimismToken } from "@/utils/guards";
 import { isNativeToken } from "@/utils/is-eth";
 import { isBridgedUsdc, isNativeUsdc } from "@/utils/is-usdc";
-import { getArbitrumNativeTokenForDeployment } from "@/utils/get-arbitrum-native-token";
 
-import { useDeployments } from "./use-deployments";
+import { DeploymentFamily } from "@/codegen/model";
 import { useDeployment } from "./use-deployment";
+import { useDeployments } from "./use-deployments";
 
-function useDeploymentTokens(): MultiChainOptimismToken[] {
+function useDeploymentTokens(): MultiChainToken[] {
   const { deployments } = useDeployments();
 
   return useMemo(
@@ -22,33 +27,64 @@ function useDeploymentTokens(): MultiChainOptimismToken[] {
         .map((d) =>
           d.tokens.map((t) => {
             const opTokenId = `custom-${t.l1.symbol}`;
-            const tok: MultiChainOptimismToken = {
-              [t.l1.chainId]: {
-                chainId: t.l1.chainId,
-                address: t.l1.address as Address,
-                decimals: t.l1.decimals,
-                name: t.l1.name,
-                symbol: t.l1.symbol,
-                opTokenId,
-                logoURI: t.l1.logoURI,
-                standardBridgeAddresses: {
-                  [t.l2.chainId]: t.l1.bridge as Address,
+
+            if (d.family === DeploymentFamily.optimism) {
+              const tok: MultiChainOptimismToken = {
+                [t.l1.chainId]: {
+                  chainId: t.l1.chainId,
+                  address: t.l1.address as Address,
+                  decimals: t.l1.decimals,
+                  name: t.l1.name,
+                  symbol: t.l1.symbol,
+                  opTokenId,
+                  logoURI: t.l1.logoURI,
+                  standardBridgeAddresses: {
+                    [t.l2.chainId]: t.l1.bridge as Address,
+                  },
                 },
-              },
-              [t.l2.chainId]: {
-                chainId: t.l2.chainId,
-                address: t.l2.address as Address,
-                decimals: t.l2.decimals,
-                name: t.l2.name,
-                symbol: t.l2.symbol,
-                logoURI: t.l2.logoURI,
-                opTokenId,
-                standardBridgeAddresses: {
-                  [t.l1.chainId]: t.l2.bridge as Address,
+                [t.l2.chainId]: {
+                  chainId: t.l2.chainId,
+                  address: t.l2.address as Address,
+                  decimals: t.l2.decimals,
+                  name: t.l2.name,
+                  symbol: t.l2.symbol,
+                  logoURI: t.l2.logoURI,
+                  opTokenId,
+                  standardBridgeAddresses: {
+                    [t.l1.chainId]: t.l2.bridge as Address,
+                  },
                 },
-              },
-            };
-            return tok;
+              };
+
+              return tok;
+            } else {
+              const tok: MultiChainArbitrumToken = {
+                [t.l1.chainId]: {
+                  chainId: t.l1.chainId,
+                  address: t.l1.address as Address,
+                  decimals: t.l1.decimals,
+                  name: t.l1.name,
+                  symbol: t.l1.symbol,
+                  logoURI: t.l1.logoURI,
+                  arbitrumBridgeInfo: {
+                    [t.l2.chainId]: t.l1.bridge as Address,
+                  },
+                },
+                [t.l2.chainId]: {
+                  chainId: t.l2.chainId,
+                  address: t.l2.address as Address,
+                  decimals: t.l2.decimals,
+                  name: t.l2.name,
+                  symbol: t.l2.symbol,
+                  logoURI: t.l2.logoURI,
+                  arbitrumBridgeInfo: {
+                    [t.l1.chainId]: t.l2.bridge as Address,
+                  },
+                },
+              };
+
+              return tok;
+            }
           })
         )
         .flat(),

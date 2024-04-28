@@ -41,3 +41,7 @@ export interface MultiChainToken {
 export interface MultiChainOptimismToken {
   [chainId: number]: OptimismToken | undefined;
 }
+
+export interface MultiChainArbitrumToken {
+  [chainId: number]: ArbitrumToken | undefined;
+}

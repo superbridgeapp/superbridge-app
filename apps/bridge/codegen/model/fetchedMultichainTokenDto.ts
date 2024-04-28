@@ -5,13 +5,12 @@
  * API docs
  * OpenAPI spec version: 1.0
  */
-import type { LinkDto } from './linkDto';
-import type { ThemeDto } from './themeDto';
+import type { FetchedTokenDto } from './fetchedTokenDto';
 
-export interface DeploymentThemeDto {
+export interface FetchedMultichainTokenDto {
   createdAt: string;
   id: string;
-  links: LinkDto[];
-  theme: ThemeDto;
+  l1: FetchedTokenDto;
+  l2: FetchedTokenDto;
   updatedAt: string;
 }
