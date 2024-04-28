@@ -90,7 +90,7 @@ export const TosModal = () => {
                     : "tos.descriptionRollbridgeDedicated"
                 }
                 components={[<span key="name" className="font-bold" />]}
-                values={{ name: deployment?.name }}
+                values={{ name: deployment?.l2.name }}
               />{" "}
               <Link
                 href={"https://docs.rollbridge.app/what-is-bridging"}

@@ -297,7 +297,6 @@ export const FungibleTokenPicker = ({
             "BITCOIN", // HarryPotterObamaSonicInu
             "WBTC",
             "wstETH",
-            deployment?.name === "base" && "DOG",
           ]
             .filter(Boolean)
             .map((symbol) => {
