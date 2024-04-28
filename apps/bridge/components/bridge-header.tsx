@@ -10,7 +10,6 @@ import { useConfigState } from "@/state/config";
 export const BridgeHeader = () => {
   const withdrawing = useConfigState.useWithdrawing();
   const deployment = useDeployment();
-  const stateToken = useConfigState.useToken();
   const toggleWithdrawing = useToggleWithdrawing();
   const { resolvedTheme } = useTheme();
   const { t } = useTranslation();

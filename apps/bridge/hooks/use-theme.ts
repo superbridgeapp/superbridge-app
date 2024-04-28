@@ -34,8 +34,6 @@ export const useNetworkIcon = () => {
 
   const defaultIcon = "/img/L2.svg";
 
-  if (isSuperbridge) return "/img/logo.svg";
-
   return (
     theme?.imageNetwork ??
     deployments[0].theme?.theme.imageNetwork ??
