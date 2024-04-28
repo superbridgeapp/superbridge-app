@@ -2,10 +2,8 @@ import {
   arbitrum,
   base,
   baseSepolia,
-  goerli,
   mainnet,
   optimism,
-  optimismGoerli,
   optimismSepolia,
   sepolia,
   zora,
@@ -97,31 +95,7 @@ export const bridged: OptimismToken[] = [
     },
     opTokenId: BRIDGED_USDC,
   },
-  // goerli
-  {
-    chainId: goerli.id,
-    address: "0x07865c6e87b9f70255377e024ace6630c1eaa37f",
-    name: "USD Coin",
-    symbol: "USDC",
-    decimals: 6,
-    logoURI: "https://ethereum-optimism.github.io/data/BridgedUSDC/logo.png",
-    standardBridgeAddresses: {
-      [optimismGoerli.id]: "0x636Af16bf2f682dD3109e60102b8E1A089FedAa8",
-    },
-    opTokenId: BRIDGED_USDC,
-  },
-  {
-    chainId: optimismGoerli.id,
-    address: "0x7e07e15d2a87a24492740d16f5bdf58c16db0c4e",
-    name: "USD Coin",
-    symbol: "USDC.e",
-    decimals: 6,
-    logoURI: "https://ethereum-optimism.github.io/data/BridgedUSDC/logo.png",
-    standardBridgeAddresses: {
-      [goerli.id]: "0x4200000000000000000000000000000000000010",
-    },
-    opTokenId: BRIDGED_USDC,
-  },
+
   // sepolia
   {
     chainId: baseSepolia.id,
@@ -139,31 +113,6 @@ export const bridged: OptimismToken[] = [
 ];
 
 export const native: OptimismToken[] = [
-  // goerli
-  {
-    chainId: goerli.id,
-    address: "0x07865c6e87b9f70255377e024ace6630c1eaa37f",
-    name: "USD Coin",
-    symbol: "USDC",
-    decimals: 6,
-    logoURI: "https://ethereum-optimism.github.io/data/USDC/logo.png",
-    standardBridgeAddresses: {
-      [optimismGoerli.id]: "0x",
-    },
-    opTokenId: NATIVE_USDC,
-  },
-  {
-    chainId: optimismGoerli.id,
-    address: "0xe05606174bac4a6364b31bd0eca4bf4dd368f8c6",
-    name: "USD Coin",
-    symbol: "USDC",
-    decimals: 6,
-    logoURI: "https://ethereum-optimism.github.io/data/USDC/logo.png",
-    standardBridgeAddresses: {
-      [goerli.id]: "0x",
-    },
-    opTokenId: NATIVE_USDC,
-  },
   // sepolia
   {
     chainId: sepolia.id,
