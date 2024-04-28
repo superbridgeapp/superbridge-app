@@ -68,8 +68,8 @@ export const BridgeHeader = () => {
               <Image
                 src={
                   resolvedTheme === "dark"
-                    ? deployment?.theme?.theme.imageLogoDark ?? ""
-                    : deployment?.theme?.theme.imageLogo ?? ""
+                    ? deployment?.theme?.theme.imageSuperbridgeLogoDark ?? ""
+                    : deployment?.theme?.theme.imageSuperbridgeLogo ?? ""
                 }
                 width={0}
                 height={0}

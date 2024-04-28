@@ -37,6 +37,8 @@ export interface ThemeDto {
   imageLogoDark?: string;
   imageNetwork?: string;
   imageNetworkDark?: string;
+  imageSuperbridgeLogo?: string;
+  imageSuperbridgeLogoDark?: string;
   input?: string;
   'input-dark'?: string;
   muted?: string;
