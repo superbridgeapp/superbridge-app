@@ -71,7 +71,6 @@ export const useDarkModeEnabled = () => {
   const theme = useContext(ThemeContext);
 
   if (theme?.darkModeEnabled !== undefined) return theme?.darkModeEnabled;
-
   if (deployments.length > 1) return true;
   return deployments[0]?.theme?.theme.darkModeEnabled;
 };
