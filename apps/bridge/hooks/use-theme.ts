@@ -111,13 +111,35 @@ export const useBackgroundImageOpacity = () => {
   return deployments[0]?.theme?.theme.backgroundImageOpacityDark;
 };
 
-export const useBackgroundImageStyle = () => {
+export const useBackgroundImageSize = () => {
   const { deployments } = useDeployments();
 
   const theme = useContext(ThemeContext);
 
-  if (theme?.backgroundImageStyle !== undefined) {
-    return theme.backgroundImageStyle;
+  if (theme?.backgroundImageSize !== undefined) {
+    return theme.backgroundImageSize;
   }
-  return deployments[0]?.theme?.theme.backgroundImageStyle;
+  return deployments[0]?.theme?.theme.backgroundImageSize;
+};
+
+export const useBackgroundImagePosition = () => {
+  const { deployments } = useDeployments();
+
+  const theme = useContext(ThemeContext);
+
+  if (theme?.backgroundImagePosition !== undefined) {
+    return theme.backgroundImagePosition;
+  }
+  return deployments[0]?.theme?.theme.backgroundImagePosition;
+};
+
+export const useBackgroundImageRepeat = () => {
+  const { deployments } = useDeployments();
+
+  const theme = useContext(ThemeContext);
+
+  if (theme?.backgroundImageRepeat !== undefined) {
+    return theme.backgroundImageRepeat;
+  }
+  return deployments[0]?.theme?.theme.backgroundImageRepeat;
 };

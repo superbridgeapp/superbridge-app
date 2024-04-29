@@ -17,6 +17,9 @@ export interface ThemeDto {
   backgroundImageBlendModeDark?: string;
   backgroundImageOpacity?: string;
   backgroundImageOpacityDark?: string;
+  backgroundImagePosition?: string;
+  backgroundImageRepeat?: string;
+  backgroundImageSize?: string;
   backgroundImageStyle?: string;
   border?: string;
   'border-dark'?: string;

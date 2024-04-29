@@ -16,7 +16,9 @@ import {
   useBackgroundIcon,
   useBackgroundImageBlendMode,
   useBackgroundImageOpacity,
-  useBackgroundImageStyle,
+  useBackgroundImagePosition,
+  useBackgroundImageRepeat,
+  useBackgroundImageSize,
   useNavIcon,
 } from "@/hooks/use-theme";
 import { useConfigState } from "@/state/config";
@@ -37,7 +39,9 @@ export function Layout({ children }: { children: any }) {
   const navIcon = useNavIcon();
   const imageBackground = useBackgroundIcon();
   const backgroundImageBlendMode = useBackgroundImageBlendMode();
-  const backgroundImageStyle = useBackgroundImageStyle();
+  const backgroundImagePosition = useBackgroundImagePosition();
+  const backgroundImageSize = useBackgroundImageSize();
+  const backgroundImageRepeat = useBackgroundImageRepeat();
   const backgroundImageOpacity = useBackgroundImageOpacity();
 
   return (
@@ -54,15 +58,9 @@ export function Layout({ children }: { children: any }) {
               ? parseInt(backgroundImageOpacity) / 100
               : undefined,
           mixBlendMode: backgroundImageBlendMode as any,
-          backgroundSize:
-            backgroundImageStyle === "cover" ||
-            backgroundImageStyle === "contain"
-              ? backgroundImageStyle
-              : undefined,
-          backgroundRepeat:
-            backgroundImageStyle === "repeat"
-              ? backgroundImageStyle
-              : undefined,
+          backgroundSize: backgroundImageSize,
+          backgroundRepeat: backgroundImageRepeat,
+          backgroundPosition: backgroundImagePosition,
         }}
       />
 
