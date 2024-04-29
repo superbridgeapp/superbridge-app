@@ -32,7 +32,7 @@ export const Bridge = () => {
 
           <div className="flex gap-1">
             {deployment?.type === DeploymentType.testnet && (
-              <span className="text-[10px] font-medium inline-flex items-center leading-none bg-black/30 text-white font-medium rounded-full px-3 h-6">
+              <span className="text-[10px] font-medium inline-flex items-center leading-none bg-card text-foreground font-medium rounded-full px-3 h-6">
                 Testnet
               </span>
             )}
@@ -42,13 +42,13 @@ export const Bridge = () => {
                   isSuperbridge ? "superbridge" : "rollbridge"
                 }&utm_medium=affiliate&utm_campaign=poweredby`}
                 target="_blank"
-                className="text-[10px] font-medium flex items-center leading-none bg-black/30 text-white font-medium rounded-full pl-1 pr-3 h-6"
+                className="text-[10px] font-medium flex items-center leading-none bg-card text-foreground font-medium rounded-full pl-1 pr-3 h-6"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
                   height="24"
-                  className="fill-white"
+                  className="fill-muted-foreground"
                   viewBox="0 0 32 32"
                 >
                   <g opacity="0.8">

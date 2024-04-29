@@ -70,17 +70,15 @@ export function Layout({ children }: { children: any }) {
       <nav className="flex flex-row justify-between items-center p-3 md:p-6 fixed top-0 left-0 w-screen z-10">
         <div onClick={() => navigate("/")} className="cursor-pointer">
           {deployments.deployments.length === 1 ? (
-            <>
-              <img
-                src={navIcon!}
-                width="0"
-                height="0"
-                sizes="100vw"
-                alt={deployments.deployments[0]?.name}
-                draggable={false}
-                className="inline-flex w-auto h-8"
-              />
-            </>
+            <img
+              src={navIcon!}
+              width="0"
+              height="0"
+              sizes="100vw"
+              alt={deployments.deployments[0]?.name}
+              draggable={false}
+              className="inline-flex w-auto h-8"
+            />
           ) : (
             <div className="bg-card rounded-full shadow-sm">
               <Image
@@ -140,15 +138,15 @@ export function Layout({ children }: { children: any }) {
           whileHover={{ scale: 1.05 }}
           animate={{ y: pathname === "/" ? -80 : 0, x: "-50%" }}
           initial={{ y: -60, x: "-50%" }}
-          className={`flex items-center py-0 md:py-3 px-3 md:px-4 h-10 md:h-auto absolute top-3 md:top-6  md:left-1/2 z-10 rounded-full shadow-sm border-black/[0.0125] dark:border-white/[0.0125] 
+          className={`flex items-center py-0 md:py-3 px-3 md:px-4 h-10 md:h-auto absolute bg-card top-3 md:top-6  md:left-1/2 z-10 rounded-full shadow-sm  
           ${isSuperbridge ? "left-[102px]" : "left-[84px]"}
-          ${deploymentTheme(deployment).bg}`}
+          `}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="27"
             height="16"
-            className="fill-zinc-900 dark:fill-zinc-50"
+            className="fill-foreground"
             viewBox="0 0 27 16"
           >
             <g clipPath="url(#clip0_364_6103)">
