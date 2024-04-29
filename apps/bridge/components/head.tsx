@@ -2,6 +2,8 @@ import NextHead from "next/head";
 
 import { DeploymentDto } from "@/codegen/model";
 import { isSuperbridge } from "@/config/superbridge";
+import { useDeployment } from "@/hooks/use-deployment";
+import { useDeployments } from "@/hooks/use-deployments";
 
 function useMetadata(deployments: DeploymentDto[]) {
   if (deployments.length === 1) {
@@ -19,12 +21,15 @@ function useMetadata(deployments: DeploymentDto[]) {
   };
 }
 
-export function Head({ deployments }: { deployments: DeploymentDto[] }) {
+export function Head() {
+  const deployment = useDeployment();
+  const { deployments } = useDeployments();
   const metadata = useMetadata(deployments);
 
-  const og = isSuperbridge
+  const defaultOg = isSuperbridge
     ? "https://superbridge.app/og/superbridge-og-image.png"
     : "https://superbridge.app/og/rollbridge-og-image.png";
+  const og = deployment?.theme?.theme.imageOg ?? defaultOg;
 
   const icon = isSuperbridge
     ? "/img/superbridge/favicon-32x32.png"

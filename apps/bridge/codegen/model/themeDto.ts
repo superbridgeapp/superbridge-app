@@ -40,6 +40,7 @@ export interface ThemeDto {
   imageLogoDark?: string;
   imageNetwork?: string;
   imageNetworkDark?: string;
+  imageOg?: string;
   imageSuperbridgeLogo?: string;
   imageSuperbridgeLogoDark?: string;
   input?: string;

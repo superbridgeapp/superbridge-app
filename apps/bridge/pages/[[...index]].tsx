@@ -21,6 +21,7 @@ import { useDeployments } from "@/hooks/use-deployments";
 import { InjectedStoreProvider } from "@/state/injected";
 import { ThemeProvider } from "@/state/theme";
 import { useInitialise } from "@/hooks/use-initialise";
+import { Head } from "@/components/head";
 
 const SUPERCHAIN_MAINNETS = [
   "optimism",
@@ -68,7 +69,7 @@ export const getServerSideProps = async ({
 
   if (req.headers.host?.includes("localhost")) {
     const { data } = await bridgeControllerGetDeployments({
-      names: ["mode"],
+      names: ["base"],
     });
     return { props: { deployments: data } };
   }
@@ -140,6 +141,7 @@ export default function IndexRoot({
     >
       <ThemeProvider>
         <Providers>
+          <Head />
           <Layout>
             <Index />
           </Layout>
