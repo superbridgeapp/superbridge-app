@@ -78,7 +78,7 @@ export function Layout({ children }: { children: any }) {
                 sizes="100vw"
                 alt={deployments.deployments[0]?.name}
                 draggable={false}
-                className="inline-flex w-auto h-6 lg:h-7"
+                className="inline-flex w-auto h-8"
               />
             </>
           ) : (
