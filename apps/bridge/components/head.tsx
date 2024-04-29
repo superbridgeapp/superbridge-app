@@ -28,7 +28,7 @@ export function Head({ deployments }: { deployments: DeploymentDto[] }) {
 
   const icon = isSuperbridge
     ? "/img/superbridge/favicon-32x32.png"
-    : deployments[0].theme?.theme.imageLogo;
+    : deployments[0].theme?.theme.imageNetwork;
 
   return (
     <NextHead>
