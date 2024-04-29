@@ -5,7 +5,10 @@ import type {
 } from "next";
 import { useRouter } from "next/router";
 
-import { bridgeControllerGetDeployments } from "@/codegen";
+import {
+  bridgeControllerGetDeployments,
+  bridgeControllerGetDeploymentsByDomain,
+} from "@/codegen";
 import { DeploymentsGrid } from "@/components/Deployments";
 import { ErrorComponent } from "@/components/Error";
 import { Layout } from "@/components/Layout";
@@ -109,7 +112,11 @@ export const getServerSideProps = async ({
     return { props: { deployments: data, isSuperbridge: false } };
   }
 
-  return { props: { deployments: [], isSuperbridge: false } };
+  const { data } = await bridgeControllerGetDeploymentsByDomain(
+    req.headers.host
+  );
+
+  return { props: { deployments: data, isSuperbridge: false } };
 };
 
 export default function IndexRoot({
