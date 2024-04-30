@@ -4,7 +4,7 @@
 
 html {
   /* light */
-  --background-light: hsl(0 0% 100%);
+  --background-light: hsl(240 5% 96%);
   --foreground-light: hsl(240 10% 3.9%);
   --card-light: hsl(0 0% 100%);
   --card-foreground-light: hsl(240 10% 3.9%);
@@ -25,9 +25,9 @@ html {
   --ring-light: hsl(240 5.9% 10%);
 
   /* dark */
-  --background-dark: hsl(240 10% 3.9%);
+  --background-dark: hsl(240 6% 7%);
   --foreground-dark: hsl(0 0% 98%);
-  --card-dark: hsl(240 10% 3.9%);
+  --card-dark: hsl(240 4% 16%);
   --card-foreground-dark: hsl(0 0% 98%);
   --popover-dark: hsl(240 10% 3.9%);
   --popover-foreground-dark: hsl(0 0% 98%);
@@ -35,7 +35,7 @@ html {
   --primary-foreground-dark: hsl(240 5.9% 10%);
   --secondary-dark: hsl(240 3.7% 15.9%);
   --secondary-foreground-dark: hsl(0 0% 98%);
-  --muted-dark: hsl(240 3.7% 15.9%);
+  --muted-dark: hsl(240 4% 16%);
   --muted-foreground-dark: hsl(240 5% 64.9%);
   --accent-dark: hsl(240 3.7% 15.9%);
   --accent-foreground-dark: hsl(0 0% 98%);
