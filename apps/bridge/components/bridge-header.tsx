@@ -75,7 +75,7 @@ export const BridgeHeader = () => {
                 height={0}
                 sizes="100vw"
                 alt="network icon"
-                className="pointer-events-none scale-[0.88] -ml-1 md:scale-100 md:ml-0 h-8 w-auto"
+                className="pointer-events-none scale-[0.88] -ml-1 md:scale-100 md:ml-0 h-8 w-auto max-w-40"
               />
             </div>
             <div className="flex items-center space-x-2">

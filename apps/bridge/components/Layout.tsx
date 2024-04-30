@@ -77,7 +77,7 @@ export function Layout({ children }: { children: any }) {
               sizes="100vw"
               alt={deployments.deployments[0]?.name}
               draggable={false}
-              className="inline-flex w-auto h-8"
+              className="inline-flex w-auto max-w-40 h-8"
             />
           ) : (
             <div className="bg-card rounded-full shadow-sm">
