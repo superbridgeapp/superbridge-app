@@ -180,6 +180,10 @@
     "receiveDeposit": "Odbierz na {{rollup}}",
     "approve": "Zatwierdź {{symbol}}",
     "approved": "Zatwierdzono",
+    "approveGasToken": "Zatwierdź token gazu",
+    "switchToApproveGasToken": "Przełącz na zatwierdzenie tokena gazu",
+    "approvingGasToken": "Zatwierdzanie tokena gazu",
+    "approvedGasToken": "Zatwierdzono token gazu",
 
     "checkbox1Cctp": "Rozumiem, że zajmie to około {{mins}} minut, zanim moje środki będą możliwe do odebrania na {{to}}",
     "checkbox1Deposit": "Rozumiem, że zajmie to około {{mins}} minut, zanim moje środki będą na {{rollup}}",

@@ -180,6 +180,10 @@
     "receiveDeposit": "استلام على {{rollup}}",
     "approve": "الموافقة على {{symbol}}",
     "approved": "تمت الموافقة",
+    "approveGasToken": "الموافقة على رمز الغاز",
+    "switchToApproveGasToken": "التبديل إلى الموافقة على رمز الغاز",
+    "approvingGasToken": "الموافقة على رمز الغاز",
+    "approvedGasToken": "تمت الموافقة على رمز الغاز",
 
     "checkbox1Cctp": "أنا أفهم أنه سيستغرق حوالي {{mins}} دقيقة حتى تكون أموالي قابلة للتطبيق على {{to}}",
     "checkbox1Deposit": "أنا أفهم أنه سيستغرق حوالي {{mins}} دقيقة حتى تصل أموالي إلى {{rollup}}",

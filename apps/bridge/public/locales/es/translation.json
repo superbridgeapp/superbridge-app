@@ -180,6 +180,10 @@
     "receiveDeposit": "Recibir en {{rollup}}",
     "approve": "Aprobar {{symbol}}",
     "approved": "Aprobado",
+    "approveGasToken": "Aprobar token de gas",
+    "switchToApproveGasToken": "Cambiar a aprobar token de gas",
+    "approvingGasToken": "Aprobando token de gas",
+    "approvedGasToken": "Token de gas aprobado",
 
     "checkbox1Cctp": "Entiendo que tardará ~{{mins}} minutos hasta que mis fondos sean reclamables en {{to}}",
     "checkbox1Deposit": "Entiendo que tardará ~{{mins}} minutos hasta que mis fondos estén en {{rollup}}",

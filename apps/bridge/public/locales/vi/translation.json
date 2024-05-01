@@ -180,6 +180,10 @@
     "receiveDeposit": "Nhận trên {{rollup}}",
     "approve": "Phê duyệt {{symbol}}",
     "approved": "Đã phê duyệt",
+    "approveGasToken": "Phê duyệt mã token gas",
+    "switchToApproveGasToken": "Chuyển sang phê duyệt mã token gas",
+    "approvingGasToken": "Đang phê duyệt mã token gas",
+    "approvedGasToken": "Mã token gas đã được phê duyệt",
 
     "checkbox1Cctp": "Tôi hiểu rằng mất khoảng {{mins}} phút cho đến khi tiền của tôi có thể được yêu cầu trên {{to}}",
     "checkbox1Deposit": "Tôi hiểu rằng mất khoảng {{mins}} phút cho đến khi tiền của tôi đến {{rollup}}",

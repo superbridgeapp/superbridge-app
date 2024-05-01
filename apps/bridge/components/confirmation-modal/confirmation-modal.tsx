@@ -11,7 +11,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { currencySymbolMap } from "@/constants/currency-symbol-map";
 import { FINALIZE_GAS, PROVE_GAS } from "@/constants/gas-limits";
 import { useAllowance } from "@/hooks/use-allowance";
-import { useAllowanceArbitrumGasToken } from "@/hooks/use-allowance-gas-token";
+import { useAllowanceGasToken } from "@/hooks/use-allowance-gas-token";
 import { useApprove } from "@/hooks/use-approve";
 import { useApproveGasToken, useGasToken } from "@/hooks/use-approve-gas-token";
 import { useBridge } from "@/hooks/use-bridge";
@@ -105,11 +105,11 @@ export const ConfirmationModal = ({
   const withdrawing = useConfigState.useWithdrawing();
   const escapeHatch = useConfigState.useForceViaL1();
 
-  const arbitrumGasToken = useGasToken();
-  const arbitrumGasTokenAllowance = useAllowanceArbitrumGasToken();
+  const gasToken = useGasToken();
+  const gasTokenAllowance = useAllowanceGasToken();
   const deployment = useDeployment();
-  const approveArbitrumGasToken = useApproveGasToken(
-    arbitrumGasTokenAllowance.refetch,
+  const approveGasToken = useApproveGasToken(
+    gasTokenAllowance.refetch,
     bridge.refetch
   );
 
@@ -157,7 +157,7 @@ export const ConfirmationModal = ({
     gasToken: fromGas,
     gasLimit: BigInt(50_000),
   };
-  const approveArbitrumGasTokenCost = {
+  const approveGasTokenCost = {
     gasToken: fromGas,
     gasLimit: BigInt(50_000),
   };
@@ -224,13 +224,13 @@ export const ConfirmationModal = ({
 
   const approved =
     typeof allowance.data !== "undefined" && allowance.data >= weiAmount;
-  const approvedArbitrumGasToken =
-    typeof arbitrumGasTokenAllowance.data !== "undefined" &&
-    arbitrumGasTokenAllowance.data >= 1;
+  const approvedGasToken =
+    typeof gasTokenAllowance.data !== "undefined" &&
+    gasTokenAllowance.data >= 1;
 
-  const approveArbitrumGasTokenButton = match({
-    approved: approvedArbitrumGasToken,
-    approving: approveArbitrumGasToken.isLoading,
+  const approveGasTokenButton = match({
+    approved: approvedGasToken,
+    approving: approveGasToken.isLoading,
   })
     .with({ approving: true }, () => ({
       onSubmit: () => {},
@@ -247,8 +247,8 @@ export const ConfirmationModal = ({
         };
       }
       return {
-        onSubmit: () => approveArbitrumGasToken.write(),
-        buttonText: t("confirmationModal.approveArbitrumGasToken"),
+        onSubmit: () => approveGasToken.write(),
+        buttonText: t("confirmationModal.approveGasToken"),
         disabled: false,
       };
     })
@@ -453,7 +453,7 @@ export const ConfirmationModal = ({
     withdrawing,
     family: deployment?.family,
     escapeHatch,
-    arbitrumGasToken,
+    gasToken,
   })
     .with({ isUsdc: true, escapeHatch: true }, () => [
       {
@@ -578,7 +578,14 @@ export const ConfirmationModal = ({
         fee: fee(finalizeCost, 2),
       },
     ])
-    .with({ withdrawing: false, family: "optimism" }, () => [
+    .with({ withdrawing: false, family: "optimism" }, (c) => [
+      c.gasToken
+        ? {
+            text: t("confirmationModal.approveGasToken"),
+            icon: ApproveIcon,
+            fee: fee(approveGasTokenCost, 4),
+          }
+        : null,
       {
         text: t("confirmationModal.initiateDeposit"),
         icon: InitiateIcon,
@@ -597,11 +604,11 @@ export const ConfirmationModal = ({
     ])
     .with({ withdrawing: false, family: "arbitrum" }, (c) =>
       [
-        c.arbitrumGasToken
+        c.gasToken
           ? {
-              text: t("confirmationModal.approveArbitrumGasToken"),
+              text: t("confirmationModal.approveGasToken"),
               icon: ApproveIcon,
-              fee: fee(approveArbitrumGasTokenCost, 4),
+              fee: fee(approveGasTokenCost, 4),
             }
           : null,
         {
@@ -710,32 +717,30 @@ export const ConfirmationModal = ({
           </div>
 
           <div className="flex flex-col gap-2">
-            {!withdrawing &&
-              arbitrumGasToken &&
-              approveArbitrumGasTokenButton && (
-                <Button
-                  onClick={approveArbitrumGasTokenButton.onSubmit}
-                  disabled={
-                    !checkbox1 ||
-                    !checkbox2 ||
-                    !checkbox3 ||
-                    approveArbitrumGasTokenButton.disabled
-                  }
-                >
-                  {approveArbitrumGasTokenButton.buttonText}
-                  {approvedArbitrumGasToken && (
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="15"
-                      height="12"
-                      viewBox="0 0 15 12"
-                      className="fill-white dark:fill-zinc-950 ml-2 h-2.5 w-auto"
-                    >
-                      <path d="M6.80216 12C6.32268 12 5.94594 11.8716 5.67623 11.559L0.63306 6.02355C0.384755 5.7624 0.269165 5.41563 0.269165 5.07742C0.269165 4.31109 0.915614 3.67749 1.66909 3.67749C2.04583 3.67749 2.42257 3.83161 2.69228 4.13129L6.57955 8.38245L12.1921 0.56939C12.4661 0.192651 12.8899 0 13.3309 0C14.0715 0 14.7308 0.56939 14.7308 1.38709C14.7308 1.67392 14.6538 1.96932 14.4697 2.21762L7.84676 11.4306C7.61558 11.7688 7.21315 12 6.79788 12H6.80216Z" />
-                    </svg>
-                  )}
-                </Button>
-              )}
+            {!withdrawing && gasToken && approveGasTokenButton && (
+              <Button
+                onClick={approveGasTokenButton.onSubmit}
+                disabled={
+                  !checkbox1 ||
+                  !checkbox2 ||
+                  !checkbox3 ||
+                  approveGasTokenButton.disabled
+                }
+              >
+                {approveGasTokenButton.buttonText}
+                {approvedGasToken && (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="15"
+                    height="12"
+                    viewBox="0 0 15 12"
+                    className="fill-white dark:fill-zinc-950 ml-2 h-2.5 w-auto"
+                  >
+                    <path d="M6.80216 12C6.32268 12 5.94594 11.8716 5.67623 11.559L0.63306 6.02355C0.384755 5.7624 0.269165 5.41563 0.269165 5.07742C0.269165 4.31109 0.915614 3.67749 1.66909 3.67749C2.04583 3.67749 2.42257 3.83161 2.69228 4.13129L6.57955 8.38245L12.1921 0.56939C12.4661 0.192651 12.8899 0 13.3309 0C14.0715 0 14.7308 0.56939 14.7308 1.38709C14.7308 1.67392 14.6538 1.96932 14.4697 2.21762L7.84676 11.4306C7.61558 11.7688 7.21315 12 6.79788 12H6.80216Z" />
+                  </svg>
+                )}
+              </Button>
+            )}
 
             {approveButton && (
               <Button

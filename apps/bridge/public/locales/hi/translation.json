@@ -180,6 +180,10 @@
     "receiveDeposit": "{{rollup}} पर प्राप्त करें",
     "approve": "{{symbol}} को मंजूरी दें",
     "approved": "मंजूर किया गया",
+    "approveGasToken": "गैस टोकन को मंजूरी दें",
+    "switchToApproveGasToken": "गैस टोकन को मंजूरी देने के लिए स्विच करें",
+    "approvingGasToken": "गैस टोकन को मंजूर कर रहा है",
+    "approvedGasToken": "मंजूर गैस टोकन",
 
     "checkbox1Cctp": "मुझे समझ में आता है कि {{to}} पर मेरे धन दावायोग्य होने में लगभग {{mins}} मिनट लगेंगे",
     "checkbox1Deposit": "मुझे समझ में आता है कि {{rollup}} पर मेरे धन होने में लगभग {{mins}} मिनट लगेंगे",

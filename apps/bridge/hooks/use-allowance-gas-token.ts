@@ -7,7 +7,7 @@ import { useGasToken } from "./use-approve-gas-token";
 import { useFromChain } from "./use-chain";
 import { useDeployment } from "./use-deployment";
 
-export function useAllowanceArbitrumGasToken() {
+export function useAllowanceGasToken() {
   const account = useAccount();
   const gasToken = useGasToken();
   const from = useFromChain();

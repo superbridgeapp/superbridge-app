@@ -182,6 +182,10 @@
     "receiveDeposit": "{{rollup}} üzerinde al",
     "approve": "{{symbol}} onayla",
     "approved": "Onaylandı",
+    "approveGasToken": "Gaz jetonunu onayla",
+    "switchToApproveGasToken": "Gaz jetonu onayına geç",
+    "approvingGasToken": "Gaz jetonu onaylanıyor",
+    "approvedGasToken": "Onaylanmış gaz jetonu",
 
     "checkbox1Cctp": "Fonlarımın {{to}} üzerinde talep edilebilir olana kadar yaklaşık ~{{mins}} dakika süreceğini anlıyorum",
     "checkbox1Deposit": "Fonlarımın {{rollup}} üzerine ulaşması yaklaşık ~{{mins}} dakika süreceğini anlıyorum",

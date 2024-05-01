@@ -183,7 +183,7 @@
     "receiveDeposit": "Receive on {{rollup}}",
     "approve": "Approve {{symbol}}",
     "approved": "Approved",
-    "approveArbitrumGasToken": "Approve gas token",
+    "approveGasToken": "Approve gas token",
     "switchToApproveGasToken": "Switch to approve gas token",
     "approvingGasToken": "Approving gas token",
     "approvedGasToken": "Approved gas token",
