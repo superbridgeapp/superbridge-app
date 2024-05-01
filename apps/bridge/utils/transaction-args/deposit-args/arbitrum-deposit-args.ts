@@ -177,7 +177,7 @@ export const arbitrumDepositArgs: DepositTxResolver = ({
   weiAmount,
   l1FeeData,
   l2FeeData,
-  arbitrumGasToken,
+  gasToken,
 }) => {
   const l1Token = stateToken[deployment.l1.id];
   const l2Token = stateToken[deployment.l2.id];
@@ -203,6 +203,6 @@ export const arbitrumDepositArgs: DepositTxResolver = ({
     weiAmount,
     l1FeeData,
     l2FeeData,
-    arbitrumGasToken
+    gasToken
   );
 };
