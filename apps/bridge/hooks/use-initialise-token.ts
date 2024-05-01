@@ -1,14 +1,14 @@
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { isAddress, isAddressEqual } from "viem";
 
 import { configurations } from "@/config/contract-addresses";
 import { useConfigState } from "@/state/config";
 import { isNativeToken } from "@/utils/is-eth";
 
-import { useActiveTokens } from "./use-tokens";
-import { useArbitrumGasToken } from "./use-approve-arbitrum-gas-token";
+import { useGasToken } from "./use-approve-gas-token";
 import { useDeployment } from "./use-deployment";
+import { useActiveTokens } from "./use-tokens";
 
 /**
  * We want to find the token the user has specified and set some state accordingly,
@@ -30,7 +30,7 @@ export const useInitialiseToken = () => {
   const toggleWithdrawing = useConfigState.useToggleWithdrawing();
   const deployment = useDeployment();
   const tokens = useActiveTokens();
-  const arbitrumGasToken = useArbitrumGasToken();
+  const arbitrumGasToken = useGasToken();
 
   useEffect(() => {
     if (!tokens.length || !deployment) {

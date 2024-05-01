@@ -16,7 +16,7 @@ export type DepositArgs = {
   l1FeeData?: UseEstimateFeesPerGasReturnType["data"];
   l2FeeData?: UseEstimateFeesPerGasReturnType["data"];
   hyperlaneGasQuote?: bigint | undefined;
-  arbitrumGasToken: MultiChainToken | null;
+  gasToken: MultiChainToken | null;
 };
 
 export type DepositTxResolver = (

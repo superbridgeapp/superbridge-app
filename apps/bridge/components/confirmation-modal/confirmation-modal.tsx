@@ -11,12 +11,9 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { currencySymbolMap } from "@/constants/currency-symbol-map";
 import { FINALIZE_GAS, PROVE_GAS } from "@/constants/gas-limits";
 import { useAllowance } from "@/hooks/use-allowance";
-import { useAllowanceArbitrumGasToken } from "@/hooks/use-allowance-arbitrum-gas-token";
+import { useAllowanceArbitrumGasToken } from "@/hooks/use-allowance-gas-token";
 import { useApprove } from "@/hooks/use-approve";
-import {
-  useApproveArbitrumGasToken,
-  useArbitrumGasToken,
-} from "@/hooks/use-approve-arbitrum-gas-token";
+import { useApproveGasToken, useGasToken } from "@/hooks/use-approve-gas-token";
 import { useBridge } from "@/hooks/use-bridge";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
 import { useDeployment } from "@/hooks/use-deployment";
@@ -108,10 +105,10 @@ export const ConfirmationModal = ({
   const withdrawing = useConfigState.useWithdrawing();
   const escapeHatch = useConfigState.useForceViaL1();
 
-  const arbitrumGasToken = useArbitrumGasToken();
+  const arbitrumGasToken = useGasToken();
   const arbitrumGasTokenAllowance = useAllowanceArbitrumGasToken();
   const deployment = useDeployment();
-  const approveArbitrumGasToken = useApproveArbitrumGasToken(
+  const approveArbitrumGasToken = useApproveGasToken(
     arbitrumGasTokenAllowance.refetch,
     bridge.refetch
   );

@@ -1,16 +1,15 @@
 import { Address, erc20Abi } from "viem";
 import { useAccount, useReadContract } from "wagmi";
 
-import { useConfigState } from "@/state/config";
-import { isArbitrum } from "@/utils/is-mainnet";
+import { isArbitrum, isOptimism } from "@/utils/is-mainnet";
 
-import { useArbitrumGasToken } from "./use-approve-arbitrum-gas-token";
+import { useGasToken } from "./use-approve-gas-token";
 import { useFromChain } from "./use-chain";
 import { useDeployment } from "./use-deployment";
 
 export function useAllowanceArbitrumGasToken() {
   const account = useAccount();
-  const gasToken = useArbitrumGasToken();
+  const gasToken = useGasToken();
   const from = useFromChain();
   const deployment = useDeployment();
 
@@ -22,6 +21,8 @@ export function useAllowanceArbitrumGasToken() {
       account.address ?? "0x",
       deployment && isArbitrum(deployment)
         ? (deployment.contractAddresses.inbox as Address)
+        : deployment && isOptimism(deployment)
+        ? (deployment.contractAddresses.optimismPortal as Address)
         : "0x",
     ],
     address: gasTokenAddress,
