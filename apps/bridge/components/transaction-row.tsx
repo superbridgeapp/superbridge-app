@@ -170,7 +170,7 @@ const TransactionProgressRow = ({
             item.status === ProgressRowStatus.InProgress &&
               "bg-green-500 text-white",
             item.status === ProgressRowStatus.NotDone &&
-              "bg-zinc-100 dark:bg-zinc-800 text-zinc-400 dark:text-zinc-500",
+              "bg-muted text-muted-foreground",
             item.status === ProgressRowStatus.Reverted &&
               "bg-red-100 dark:bg-red-950 text-red-500 dark:text-red-400"
           )}
@@ -253,7 +253,7 @@ const TransactionProgressRow = ({
       </Wrapper>
 
       {item.time && (
-        <div className="bg-zinc-100 dark:bg-zinc-800 rounded-full font-medium text-sm py-1 px-2 space-x-1 flex items-center whitespace-nowrap">
+        <div className="bg-muted rounded-full font-medium text-sm py-1 px-2 space-x-1 flex items-center whitespace-nowrap">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             data-name="Layer 2"
@@ -464,12 +464,7 @@ export const TransactionRow = ({ tx }: { tx: Transaction }) => {
   );
 
   return (
-    <div
-      className={`flex p-6 border-b relative ${
-        deploymentTheme(deployment).border
-      }`}
-      key={tx.id}
-    >
+    <div className="flex p-6 border-b relative" key={tx.id}>
       {/* @ts-expect-error */}
       {tx.mock && (
         <div className="absolute right-0 top-0 text-pink-400 border border-pink-400 text-pink-400 text-xs rounded-full px-2 py-1 scale-50">
