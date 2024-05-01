@@ -270,9 +270,7 @@ const TransactionProgressRow = ({
             </g>
           </svg>
 
-          <div className="text-xs font-medium text-zinc-800 dark:text-zinc-100">
-            {item.time}
-          </div>
+          <div className="text-xs font-medium">{item.time}</div>
         </div>
       )}
       {item.buttonComponent === ButtonComponent.Prove &&
@@ -458,8 +456,8 @@ export const TransactionRow = ({ tx }: { tx: Transaction }) => {
     : [tx.deployment.l2, tx.deployment.l1];
 
   const indicatorStyles = clsx(
-    `w-4 h-4 outline outline-2 outline-zinc-50 dark:outline-zinc-900 absolute -right-1 bottom-0 rounded-full bg-zinc-50 dark:bg-zinc-900 fill-green-400`,
-    !!inProgressItem && "fill-zinc-400",
+    `w-4 h-4 outline outline-2 outline-zinc-50 dark:outline-zinc-900 absolute -right-1 bottom-0 rounded-full bg-card fill-green-400`,
+    !!inProgressItem && "fill-muted-foreground",
     !!revertedItem && "fill-red-400"
   );
 
@@ -553,7 +551,7 @@ export const TransactionRow = ({ tx }: { tx: Transaction }) => {
           className="flex flex-col gap-1 cursor-pointer"
           onClick={() => setExpanded((e) => !e)}
         >
-          <div className="flex justify-between text-zinc-900 dark:text-zinc-50 font-medium text-sm">
+          <div className="flex justify-between font-medium text-sm">
             <span>{config.title}</span>
             <div className="flex items-center gap-2">
               {tx.type === "cctp-bridge" && <CctpBadge />}
@@ -561,7 +559,7 @@ export const TransactionRow = ({ tx }: { tx: Transaction }) => {
               <span className="text-right">{getDepositAmount(tx, token)}</span>
             </div>
           </div>
-          <div className="flex items-center text-sm text-zinc-400">
+          <div className="flex items-center text-sm text-muted-foreground">
             <div className="flex items-center">
               <NetworkIcon
                 chain={from}
@@ -572,20 +570,16 @@ export const TransactionRow = ({ tx }: { tx: Transaction }) => {
               />
               <span className="text-xs font-medium">{from.name}</span>
             </div>
-            <div className="h-4 w-4 mx-2">
+            <div className="mx-2">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                data-name="Layer 2"
-                viewBox="0 0 54.49 24.85"
                 width="16"
                 height="16"
-                className="fill-zinc-300 dark:fill-zinc-600"
+                viewBox="0 0 16 16"
+                fill="none"
+                className="fill-muted-foreground w-3 h-3"
               >
-                <path
-                  d="M54.49 12.41c0 1.03-.61 1.6-1.24 2.03l-14.56 9.99c-.42.27-.91.42-1.36.42-1.45 0-2.42-1.18-2.42-2.42 0-.76.36-1.51 1.06-2l8.14-5.6H2.42C1.06 14.83 0 13.74 0 12.41s1.06-2.42 2.42-2.42h41.69l-8.14-5.57c-.7-.48-1.06-1.24-1.06-2C34.91 1.12 36 0 37.33 0c.45 0 .94.12 1.36.42l14.56 9.93c.67.45 1.24 1.21 1.24 2.06z"
-                  className="cls-1"
-                  data-name="Layer 1"
-                ></path>
+                <path d="M16 7.99276C16 8.49014 15.7134 8.76539 15.4174 8.97304L8.57699 13.7972C8.37966 13.9276 8.14946 14 7.93804 14C7.25682 14 6.8011 13.4302 6.8011 12.8314C6.8011 12.4644 6.97023 12.1022 7.2991 11.8656L11.1234 9.16137H1.13694C0.498 9.16137 0 8.63501 0 7.99276C0 7.3505 0.498 6.82414 1.13694 6.82414H11.1234L7.2991 4.13441C6.97023 3.90262 6.8011 3.53561 6.8011 3.16861C6.8011 2.54085 7.3132 2 7.93804 2C8.14946 2 8.37966 2.05795 8.57699 2.20282L15.4174 6.99799C15.7322 7.21529 16 7.58229 16 7.99276Z" />
               </svg>{" "}
             </div>
 
