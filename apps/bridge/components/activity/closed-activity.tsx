@@ -156,10 +156,10 @@ export const ClosedActivity = () => {
                 key={"currentItemsCounter"}
               >
                 <div
-                  className={`flex items-center gap-1 justify-center px-2 py-1 text-center rounded-full bg-zinc-900 dark:bg-zinc-50
+                  className={`flex items-center gap-1 justify-center px-2 py-1 text-center rounded-full bg-primary 
             `}
                 >
-                  <span className="text-zinc-50 dark:text-zinc-900 text-xs font-medium">
+                  <span className="text-primary-foreground text-xs font-medium">
                     {inProgressCount}
                   </span>
                   <Lottie

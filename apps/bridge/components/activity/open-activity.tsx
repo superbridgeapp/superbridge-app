@@ -50,7 +50,7 @@ export const OpenActivity = ({}) => {
         animate={{ y: "0vh" }}
         exit={{ y: "100vh" }}
         transition={{ type: "spring", damping: 12, delay: 0.08 }}
-        className="bg-card flex flex-col self-start  z-50 relative overflow-hidden rounded-[32px] h-[calc(76dvh)] max-h-[680px]  w-screen md:w-[50vw] md:max-w-[420px] aspect-[3/4] backdrop-blur shadow-sm"
+        className="bg-card border flex flex-col self-start  z-50 relative overflow-hidden rounded-[32px] h-[calc(76dvh)] max-h-[680px]  w-screen md:w-[50vw] md:max-w-[420px] aspect-[3/4] backdrop-blur shadow-sm"
       >
         <div
           className="flex items-center justify-between pl-6 pr-4 py-4 md:py-6 border-b cursor-pointer z-10"
@@ -61,11 +61,13 @@ export const OpenActivity = ({}) => {
           </h2>
           <div className="flex gap-2 items-center">
             <div
-              className={`bg-zinc-100 flex items-center justify-center w-6 h-6 text-center rounded-full ${
+              className={`bg-muted flex items-center justify-center w-6 h-6 text-center rounded-full ${
                 inProgressCount <= 0 ? "hidden" : "visible"
               }`}
             >
-              <span className="text-xs font-medium">{inProgressCount}</span>
+              <span className="text-xs font-medium text-foreground">
+                {inProgressCount}
+              </span>
             </div>
             <div
               className={`flex items-center transition-all cursor-pointer w-8 h-8 flex items-center justify-center rounded-full hover:bg-zinc-100 hover:dark:bg-zinc-800 ${
