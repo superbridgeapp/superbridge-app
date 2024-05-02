@@ -18,4 +18,5 @@ export interface OptimismContractAddressesDto {
   l2OutputOracle: string;
   optimismPortal: string;
   stateCommitmentChain: string;
+  systemConfig?: string;
 }

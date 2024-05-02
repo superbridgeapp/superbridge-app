@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { P, match } from "ts-pattern";
 import { useAccount } from "wagmi";
 
-import { useSanctioned } from "@/hooks/use-sanctioned";
+import { useStatusCheck } from "@/hooks/use-status-check";
 import { useTransactions } from "@/hooks/use-transactions";
 import { useConfigState } from "@/state/config";
 import { usePendingTransactions } from "@/state/pending-txs";
@@ -27,7 +27,7 @@ export const OpenActivity = ({}) => {
   const pendingTransactions = usePendingTransactions.useTransactions();
   const { transactions, isLoading, isError } = useTransactions();
   const { t } = useTranslation();
-  const sanctioned = useSanctioned();
+  const statusCheck = useStatusCheck();
 
   const inProgressCount =
     transactions.filter((x) => {
@@ -87,7 +87,7 @@ export const OpenActivity = ({}) => {
           </div>
         </div>
         {match({
-          sanctioned,
+          statusCheck,
           isError,
           isLoading,
           transactions,
@@ -113,7 +113,7 @@ export const OpenActivity = ({}) => {
               </span>
             </div>
           ))
-          .with({ sanctioned: true }, () => (
+          .with({ statusCheck: true }, () => (
             <div className="flex grow justify-center h-full px-8 py-8 text-center">
               <span className="text-zinc-400 text-xs font-bold">
                 {t("activity.error")}

@@ -29,7 +29,7 @@ import { useIsCustomToken } from "@/hooks/use-is-custom-token";
 import { useIsCustomTokenFromList } from "@/hooks/use-is-custom-token-from-list";
 import { useNativeToken } from "@/hooks/use-native-token";
 import { useTokenPrice } from "@/hooks/use-prices";
-import { useSanctioned } from "@/hooks/use-sanctioned";
+import { useStatusCheck } from "@/hooks/use-status-check";
 import { useSelectedToken } from "@/hooks/use-selected-token";
 import { useSwitchChain } from "@/hooks/use-switch-chain";
 import { useActiveTokens } from "@/hooks/use-tokens";
@@ -157,7 +157,7 @@ export const BridgeBody = () => {
   const updatePendingTransactionHash =
     usePendingTransactions.useUpdateTransactionByHash();
   const nativeToken = useNativeToken();
-  const sanctioned = useSanctioned();
+  const statusCheck = useStatusCheck();
 
   const track = useBridgeControllerTrack();
 
@@ -227,7 +227,7 @@ export const BridgeBody = () => {
       await switchChain(deployment!.l2);
     }
 
-    if (sanctioned) {
+    if (statusCheck) {
       return;
     }
 
