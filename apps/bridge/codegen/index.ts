@@ -1252,48 +1252,48 @@ export const useBridgeControllerGetNfts = <TData = Awaited<ReturnType<typeof bri
 
 
 
-export const bridgeControllerGetTrmFlaggedStatus = (
+export const bridgeControllerGetStatus = (
     address: string, options?: AxiosRequestConfig
  ): Promise<AxiosResponse<BoolDto>> => {
     
     return axios.get(
-      `/api/bridge/trm_flagged_status/${address}`,options
+      `/api/bridge/status/${address}`,options
     );
   }
 
 
-export const getBridgeControllerGetTrmFlaggedStatusQueryKey = (address: string,) => {
-    return [`/api/bridge/trm_flagged_status/${address}`] as const;
+export const getBridgeControllerGetStatusQueryKey = (address: string,) => {
+    return [`/api/bridge/status/${address}`] as const;
     }
 
     
-export const getBridgeControllerGetTrmFlaggedStatusQueryOptions = <TData = Awaited<ReturnType<typeof bridgeControllerGetTrmFlaggedStatus>>, TError = AxiosError<unknown>>(address: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetTrmFlaggedStatus>>, TError, TData>, axios?: AxiosRequestConfig}
+export const getBridgeControllerGetStatusQueryOptions = <TData = Awaited<ReturnType<typeof bridgeControllerGetStatus>>, TError = AxiosError<unknown>>(address: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetStatus>>, TError, TData>, axios?: AxiosRequestConfig}
 ) => {
 
 const {query: queryOptions, axios: axiosOptions} = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getBridgeControllerGetTrmFlaggedStatusQueryKey(address);
+  const queryKey =  queryOptions?.queryKey ?? getBridgeControllerGetStatusQueryKey(address);
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof bridgeControllerGetTrmFlaggedStatus>>> = ({ signal }) => bridgeControllerGetTrmFlaggedStatus(address, { signal, ...axiosOptions });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof bridgeControllerGetStatus>>> = ({ signal }) => bridgeControllerGetStatus(address, { signal, ...axiosOptions });
 
       
 
       
 
-   return  { queryKey, queryFn, enabled: !!(address), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetTrmFlaggedStatus>>, TError, TData> & { queryKey: QueryKey }
+   return  { queryKey, queryFn, enabled: !!(address), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetStatus>>, TError, TData> & { queryKey: QueryKey }
 }
 
-export type BridgeControllerGetTrmFlaggedStatusQueryResult = NonNullable<Awaited<ReturnType<typeof bridgeControllerGetTrmFlaggedStatus>>>
-export type BridgeControllerGetTrmFlaggedStatusQueryError = AxiosError<unknown>
+export type BridgeControllerGetStatusQueryResult = NonNullable<Awaited<ReturnType<typeof bridgeControllerGetStatus>>>
+export type BridgeControllerGetStatusQueryError = AxiosError<unknown>
 
-export const useBridgeControllerGetTrmFlaggedStatus = <TData = Awaited<ReturnType<typeof bridgeControllerGetTrmFlaggedStatus>>, TError = AxiosError<unknown>>(
- address: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetTrmFlaggedStatus>>, TError, TData>, axios?: AxiosRequestConfig}
+export const useBridgeControllerGetStatus = <TData = Awaited<ReturnType<typeof bridgeControllerGetStatus>>, TError = AxiosError<unknown>>(
+ address: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetStatus>>, TError, TData>, axios?: AxiosRequestConfig}
 
   ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
 
-  const queryOptions = getBridgeControllerGetTrmFlaggedStatusQueryOptions(address,options)
+  const queryOptions = getBridgeControllerGetStatusQueryOptions(address,options)
 
   const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
 

@@ -17,6 +17,9 @@ export interface ThemeDto {
   backgroundImageBlendModeDark?: string;
   backgroundImageOpacity?: string;
   backgroundImageOpacityDark?: string;
+  backgroundImagePosition?: string;
+  backgroundImageRepeat?: string;
+  backgroundImageSize?: string;
   backgroundImageStyle?: string;
   border?: string;
   'border-dark'?: string;
@@ -37,6 +40,9 @@ export interface ThemeDto {
   imageLogoDark?: string;
   imageNetwork?: string;
   imageNetworkDark?: string;
+  imageOg?: string;
+  imageSuperbridgeLogo?: string;
+  imageSuperbridgeLogoDark?: string;
   input?: string;
   'input-dark'?: string;
   muted?: string;

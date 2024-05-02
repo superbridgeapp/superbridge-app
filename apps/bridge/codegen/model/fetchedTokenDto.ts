@@ -6,7 +6,7 @@
  * OpenAPI spec version: 1.0
  */
 
-export interface FetchedOptimismTokenDto {
+export interface FetchedTokenDto {
   address: string;
   bridge: string;
   chainId: number;

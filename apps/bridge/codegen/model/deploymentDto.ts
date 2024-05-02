@@ -11,7 +11,7 @@ import type { DeploymentDtoContractAddresses } from './deploymentDtoContractAddr
 import type { DeploymentFamily } from './deploymentFamily';
 import type { ChainDto } from './chainDto';
 import type { DeploymentDtoTheme } from './deploymentDtoTheme';
-import type { FetchedMultichainOptimismTokenDto } from './fetchedMultichainOptimismTokenDto';
+import type { FetchedMultichainTokenDto } from './fetchedMultichainTokenDto';
 import type { DeploymentType } from './deploymentType';
 
 export interface DeploymentDto {
@@ -28,6 +28,6 @@ export interface DeploymentDto {
   name: string;
   supportsNftBridging: boolean;
   theme: DeploymentDtoTheme;
-  tokens: FetchedMultichainOptimismTokenDto[];
+  tokens: FetchedMultichainTokenDto[];
   type: DeploymentType;
 }

@@ -42,7 +42,7 @@ import { Theme } from "@/types/theme";
 import { buildPendingTx } from "@/utils/build-pending-tx";
 import { isEth, isNativeToken } from "@/utils/is-eth";
 import { isNativeUsdc } from "@/utils/is-usdc";
-import { useSanctioned } from "@/hooks/use-sanctioned";
+import { useStatusCheck } from "@/hooks/use-status-check";
 
 import { FromTo } from "./FromTo";
 import { AddressModal } from "./address-modal";
@@ -167,7 +167,7 @@ export const BridgeBody = () => {
   const updatePendingTransactionHash =
     usePendingTransactions.useUpdateTransactionByHash();
   const nativeToken = useNativeToken();
-  const sanctioned = useSanctioned();
+  const statusCheck = useStatusCheck();
 
   const track = useBridgeControllerTrack();
 
@@ -237,7 +237,7 @@ export const BridgeBody = () => {
       await switchChain(deployment!.l2);
     }
 
-    if (sanctioned) {
+    if (statusCheck) {
       return;
     }
 
