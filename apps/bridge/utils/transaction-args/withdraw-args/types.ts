@@ -27,6 +27,7 @@ export type WithdrawArgs = {
   l1FeeData?: UseEstimateFeesPerGasReturnType;
   l2FeeData?: UseEstimateFeesPerGasReturnType;
   hyperlaneGasQuote?: bigint | undefined;
+  gasToken: MultiChainToken | null;
 };
 
 export type WithdrawTxResolver = (

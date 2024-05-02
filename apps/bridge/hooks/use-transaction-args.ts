@@ -77,6 +77,7 @@ export const useTransactionArgs = () => {
       options: { forceViaL1, easyMode },
       l1FeeData,
       l2FeeData,
+      gasToken,
     });
   } else {
     return depositArgs({
