@@ -9,7 +9,7 @@ import {
   MultiChainOptimismToken,
   MultiChainToken,
 } from "@/types/token";
-import { getArbitrumNativeTokenForDeployment } from "@/utils/get-arbitrum-native-token";
+import { getNativeTokenForDeployment } from "@/utils/get-native-token";
 import { isArbitrumToken, isOptimismToken } from "@/utils/guards";
 import { isNativeToken } from "@/utils/is-eth";
 import { isBridgedUsdc, isNativeUsdc } from "@/utils/is-usdc";
@@ -92,14 +92,12 @@ function useDeploymentTokens(): MultiChainToken[] {
   );
 }
 
-function useArbitrumNativeTokens(): MultiChainToken[] {
+function useNativeTokens(): MultiChainToken[] {
   const { deployments } = useDeployments();
 
   return useMemo(
     () =>
-      deployments
-        .map((d) => getArbitrumNativeTokenForDeployment(d))
-        .filter(isPresent),
+      deployments.map((d) => getNativeTokenForDeployment(d)).filter(isPresent),
     [deployments]
   );
 }
@@ -109,7 +107,7 @@ export function useAllTokens() {
   const tokens = useConfigState.useTokens();
   const customTokens = useSettingsState.useCustomTokens();
   const deploymentTokens = useDeploymentTokens();
-  const arbitrumNativeTokens = useArbitrumNativeTokens();
+  const nativeTokens = useNativeTokens();
 
   const { deployments } = useDeployments();
 
@@ -133,8 +131,8 @@ export function useAllTokens() {
                 };
               }
 
-              const arbitrumNativeToken = arbitrumNativeTokens[deploymentIndex];
-              if (arbitrumNativeToken) {
+              const nativeToken = nativeTokens[deploymentIndex];
+              if (nativeToken) {
                 return copy;
               }
 
@@ -153,10 +151,10 @@ export function useAllTokens() {
         })
         .filter(isPresent),
       ...customTokens,
-      ...arbitrumNativeTokens.filter(isPresent),
+      ...nativeTokens.filter(isPresent),
       ...deploymentTokens,
     ],
-    [deployment, tokens, customTokens, arbitrumNativeTokens, deploymentTokens]
+    [deployment, tokens, customTokens, nativeTokens, deploymentTokens]
   );
 }
 

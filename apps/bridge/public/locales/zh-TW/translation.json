@@ -180,6 +180,10 @@
     "receiveDeposit": "在{{rollup}}上接收",
     "approve": "批准{{symbol}}",
     "approved": "已批准",
+    "approveGasToken": "批准氣體代幣",
+    "switchToApproveGasToken": "切換到批准氣體代幣",
+    "approvingGasToken": "正在批准氣體代幣",
+    "approvedGasToken": "已批准氣體代幣",
 
     "checkbox1Cctp": "我理解在我證明提款後，需要約{{mins}}分鐘才能在{{to}}上收取我的資金",
     "checkbox1Deposit": "我理解在我的資金到達{{rollup}}後，需要約{{mins}}分鐘",

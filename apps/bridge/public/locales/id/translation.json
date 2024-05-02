@@ -180,6 +180,10 @@
     "receiveDeposit": "Terima di {{rollup}}",
     "approve": "Setujui {{symbol}}",
     "approved": "Disetujui",
+    "approveGasToken": "Menyetujui token gas",
+    "switchToApproveGasToken": "Beralih ke menyetujui token gas",
+    "approvingGasToken": "Menyetujui token gas",
+    "approvedGasToken": "Token gas disetujui",
 
     "checkbox1Cctp": "Saya mengerti bahwa membutuhkan waktu ~{{mins}} menit hingga dana saya dapat diklaim di {{to}}",
     "checkbox1Deposit": "Saya mengerti bahwa membutuhkan waktu ~{{mins}} menit hingga dana saya berada di {{rollup}}",

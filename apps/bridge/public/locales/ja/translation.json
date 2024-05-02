@@ -180,6 +180,10 @@
     "receiveDeposit": "{{rollup}} で受け取る",
     "approve": "{{symbol}} を承認",
     "approved": "承認済み",
+    "approveGasToken": "ガストークンを承認",
+    "switchToApproveGasToken": "ガストークンの承認に切り替える",
+    "approvingGasToken": "ガストークンを承認中",
+    "approvedGasToken": "ガストークンが承認されました",
 
     "checkbox1Cctp": "{{to}} でのアプローチが約{{mins}}分かかることを理解しています",
     "checkbox1Deposit": "{{rollup}} にアプローチが約{{mins}}分かかることを理解しています",

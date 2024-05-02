@@ -180,6 +180,10 @@
     "receiveDeposit": "รับบน {{rollup}}",
     "approve": "อนุมัติ {{symbol}}",
     "approved": "อนุมัติแล้ว",
+    "approveGasToken": "อนุมัติโทเค็นแก๊ส",
+    "switchToApproveGasToken": "สลับไปยังการอนุมัติโทเค็นแก๊ส",
+    "approvingGasToken": "กำลังอนุมัติโทเค็นแก๊ส",
+    "approvedGasToken": "อนุมัติโทเค็นแก๊สแล้ว",
 
     "checkbox1Cctp": "ฉันเข้าใจว่าจะใช้เวลาประมาณ {{mins}} นาทีจนกว่าเงินของฉันจะถูกเรียกร้องบน {{to}}",
     "checkbox1Deposit": "ฉันเข้าใจว่าจะใช้เวลาประมาณ {{mins}} นาทีจนกว่าเงินของฉันจะอยู่บน {{rollup}}",

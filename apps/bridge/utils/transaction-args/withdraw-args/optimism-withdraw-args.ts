@@ -1,17 +1,17 @@
-import { Address, encodeFunctionData } from "viem";
+import { Address, encodeFunctionData, encodeAbiParameters } from "viem";
 
-import { OptimismToken } from "@/types/token";
-import { GRAFFITI } from "@/constants/extra-data";
 import { L2BridgeAbi } from "@/abis/L2Bridge";
 import { L2StandardBridgeAbi } from "@/abis/L2StandardBridge";
-import { OptimismPortalAbi } from "@/abis/OptimismPortal";
+import { GRAFFITI } from "@/constants/extra-data";
+import { MultiChainToken, OptimismToken } from "@/types/token";
 
 import { isOptimismToken } from "../../guards";
 import { isEth } from "../../is-eth";
 import { OptimismDeploymentDto, isOptimism } from "../../is-mainnet";
 import { withdrawValue } from "../../withdraw-value";
-import { TransactionArgs, WithdrawTxResolver } from "./types";
 import { forceTransaction } from "./force";
+import { TransactionArgs, WithdrawTxResolver } from "./types";
+import { L2ToL1MessagePasserAbi } from "@/abis/L2ToL1MessagePasser";
 
 const impl = (
   deployment: OptimismDeploymentDto,
@@ -21,7 +21,8 @@ const impl = (
   l2TokenIsLegacy: boolean,
   recipient: Address,
   weiAmount: bigint,
-  easyMode: boolean
+  easyMode: boolean,
+  gasToken: MultiChainToken | null
 ): TransactionArgs | undefined => {
   // proxy
   if (proxyBridge && easyMode) {
@@ -91,6 +92,25 @@ const impl = (
 
   // standard bridge
   if (isEth(l2Token)) {
+    if (gasToken) {
+      return {
+        approvalAddress: undefined,
+        tx: {
+          to: deployment.contractAddresses.l2.L2ToL1MessagePasser as Address,
+          data: encodeFunctionData({
+            abi: L2ToL1MessagePasserAbi,
+            functionName: "initiateWithdrawal",
+            args: [
+              recipient, // _to
+              BigInt(200_000), // _gasLimit
+              "0x", // _data
+            ],
+          }),
+          value: weiAmount,
+          chainId: deployment.l2.id,
+        },
+      };
+    }
     return {
       approvalAddress: undefined,
       tx: {
@@ -162,6 +182,7 @@ export const optimismWithdrawArgs: WithdrawTxResolver = ({
   l2TokenIsLegacy,
   weiAmount,
   options,
+  gasToken,
 }) => {
   const l1Token = stateToken[deployment.l1.id];
   const l2Token = stateToken[deployment.l2.id];
@@ -185,7 +206,8 @@ export const optimismWithdrawArgs: WithdrawTxResolver = ({
     l2TokenIsLegacy,
     recipient,
     weiAmount,
-    options.easyMode
+    options.easyMode,
+    gasToken
   );
 
   if (!result) {

@@ -3,52 +3,57 @@ import { useState } from "react";
 import { Address, erc20Abi, maxUint256 } from "viem";
 import { useConfig, useWriteContract } from "wagmi";
 
-import { useConfigState } from "@/state/config";
-import { getArbitrumNativeTokenForDeployment } from "@/utils/get-arbitrum-native-token";
-import { isArbitrum } from "@/utils/is-mainnet";
+import { getNativeTokenForDeployment } from "@/utils/get-native-token";
+import { isArbitrum, isOptimism } from "@/utils/is-mainnet";
 
 import { useFromChain } from "./use-chain";
 import { useDeployment } from "./use-deployment";
 import { useDeployments } from "./use-deployments";
 
-export const useArbitrumGasTokenForDeployment = (
-  deploymentId: string | undefined
-) => {
+export const useGasTokenForDeployment = (deploymentId: string | undefined) => {
   const { deployments } = useDeployments();
   const deploymentIndex = deployments.findIndex((x) => x.id === deploymentId);
   const deployment = deployments[deploymentIndex];
   if (!deployment) {
     return null;
   }
-  return getArbitrumNativeTokenForDeployment(deployment);
+  return getNativeTokenForDeployment(deployment);
 };
 
-export const useArbitrumGasToken = () => {
+export const useGasToken = () => {
   const deployment = useDeployment();
-  return useArbitrumGasTokenForDeployment(deployment?.id);
+  return useGasTokenForDeployment(deployment?.id);
 };
 
-export function useApproveArbitrumGasToken(
+export function useApproveGasToken(
   refreshAllowance: () => void,
   refreshTx: () => void
 ) {
   const { writeContractAsync } = useWriteContract();
   const config = useConfig();
   const [isLoading, setIsLoading] = useState(false);
-  const gasToken = useArbitrumGasToken();
+  const gasToken = useGasToken();
   const from = useFromChain();
   const deployment = useDeployment();
 
   return {
     write: async () => {
       const baseGasToken = gasToken?.[from?.id ?? 0];
-      if (!baseGasToken || !deployment || !isArbitrum(deployment)) return;
+      if (!baseGasToken || !deployment) return;
       setIsLoading(true);
       try {
+        const address = isArbitrum(deployment)
+          ? (deployment.contractAddresses.inbox as Address)
+          : isOptimism(deployment)
+          ? (deployment.contractAddresses.optimismPortal as Address)
+          : null;
+        if (!address) {
+          throw new Error("Invalid address");
+        }
         const hash = await writeContractAsync({
           abi: erc20Abi,
           address: baseGasToken.address,
-          args: [deployment.contractAddresses.inbox as Address, maxUint256],
+          args: [address, maxUint256],
           functionName: "approve",
           chainId: from?.id,
         });

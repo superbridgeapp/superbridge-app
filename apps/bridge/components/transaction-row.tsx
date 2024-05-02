@@ -22,7 +22,7 @@ import { useFinaliseArbitrum } from "@/hooks/arbitrum/use-arbitrum-finalise";
 import { useRedeemArbitrum } from "@/hooks/arbitrum/use-arbitrum-redeem";
 import { useFinaliseOptimism } from "@/hooks/optimism/use-optimism-finalise";
 import { useProveOptimism } from "@/hooks/optimism/use-optimism-prove";
-import { useArbitrumGasTokenForDeployment } from "@/hooks/use-approve-arbitrum-gas-token";
+import { useGasTokenForDeployment } from "@/hooks/use-approve-gas-token";
 import { useMintCctp } from "@/hooks/use-cctp-mint";
 import { useSwitchChain } from "@/hooks/use-switch-chain";
 import { useAllTokens } from "@/hooks/use-tokens";
@@ -332,7 +332,7 @@ function useToken(tx: Transaction, tokens: MultiChainToken[]) {
   const deployment = isForcedWithdrawal(tx)
     ? tx.deposit.deployment
     : tx.deployment;
-  const arbitrumGasToken = useArbitrumGasTokenForDeployment(deployment.id);
+  const gasToken = useGasTokenForDeployment(deployment.id);
 
   if (isCctpBridge(tx)) {
     return getToken(tokens, {
@@ -352,10 +352,10 @@ function useToken(tx: Transaction, tokens: MultiChainToken[]) {
 
   return match(metadata)
     .with({ type: "eth-deposit" }, () => {
-      if (arbitrumGasToken) {
+      if (gasToken) {
         return isDeposit(tx)
-          ? arbitrumGasToken[deployment.l1.id]
-          : arbitrumGasToken[deployment.l2.id];
+          ? gasToken[deployment.l1.id]
+          : gasToken[deployment.l2.id];
       }
       return getNativeToken(tokens, chainId);
     })

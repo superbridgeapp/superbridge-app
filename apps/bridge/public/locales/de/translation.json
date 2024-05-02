@@ -180,6 +180,10 @@
     "receiveDeposit": "Empfangen auf {{rollup}}",
     "approve": "Genehmigen von {{symbol}}",
     "approved": "Genehmigt",
+    "approveGasToken": "Gas-Token genehmigen",
+    "switchToApproveGasToken": "Zu Gas-Token genehmigen wechseln",
+    "approvingGasToken": "Gas-Token wird genehmigt",
+    "approvedGasToken": "Gas-Token genehmigt",
 
     "checkbox1Cctp": "Ich verstehe, dass es ungefähr {{mins}} Minuten dauern wird, bis meine Mittel auf {{to}} beansprucht werden können.",
     "checkbox1Deposit": "Ich verstehe, dass es ungefähr {{mins}} Minuten dauern wird, bis meine Mittel auf {{rollup}} sind.",

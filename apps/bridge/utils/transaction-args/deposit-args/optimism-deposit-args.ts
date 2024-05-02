@@ -2,8 +2,9 @@ import { Address, encodeFunctionData } from "viem";
 
 import { L1BridgeAbi } from "@/abis/L1Bridge";
 import { L1StandardBridgeAbi } from "@/abis/L1StandardBridge";
+import { OptimismPortalAbi } from "@/abis/OptimismPortal";
 import { GRAFFITI } from "@/constants/extra-data";
-import { OptimismToken } from "@/types/token";
+import { MultiChainToken, OptimismToken } from "@/types/token";
 
 import { isOptimismToken } from "../../guards";
 import { isEth } from "../../is-eth";
@@ -21,7 +22,8 @@ const impl = (
   l2Token: OptimismToken,
   proxyBridge: Address | undefined,
   recipient: Address,
-  weiAmount: bigint
+  weiAmount: bigint,
+  gasToken: MultiChainToken | null
 ): TransactionArgs | undefined => {
   if (isMainnet(deployment) && proxyBridge) {
     // proxy
@@ -67,7 +69,29 @@ const impl = (
   }
 
   // standard bridge
-  if (isEth(l1Token)) {
+  if (isEth(l2Token)) {
+    if (gasToken) {
+      return {
+        approvalAddress: deployment.contractAddresses.optimismPortal as Address,
+        tx: {
+          to: deployment.contractAddresses.optimismPortal as Address,
+          data: encodeFunctionData({
+            abi: OptimismPortalAbi,
+            functionName: "depositERC20Transaction",
+            args: [
+              recipient, // _to
+              weiAmount, // _mint
+              weiAmount, // _value
+              BigInt(100_000), // _gasLimit
+              false, // _isCreation
+              GRAFFITI, // _extraData
+            ],
+          }),
+          value: BigInt(0),
+          chainId: deployment.l1.id,
+        },
+      };
+    }
     return {
       approvalAddress: undefined,
       tx: {
@@ -117,6 +141,7 @@ export const optimismDepositArgs: DepositTxResolver = ({
   proxyBridge,
   recipient,
   weiAmount,
+  gasToken,
 }) => {
   const l1Token = stateToken[deployment.l1.id];
   const l2Token = stateToken[deployment.l2.id];
@@ -131,5 +156,13 @@ export const optimismDepositArgs: DepositTxResolver = ({
     return;
   }
 
-  return impl(deployment, l1Token, l2Token, proxyBridge, recipient, weiAmount);
+  return impl(
+    deployment,
+    l1Token,
+    l2Token,
+    proxyBridge,
+    recipient,
+    weiAmount,
+    gasToken
+  );
 };
