@@ -48,9 +48,9 @@ export function getNativeTokenForDeployment(
         decimals: d.arbitrumNativeToken.decimals,
         chainId: d.l1.id,
         logoURI: "",
-        opTokenId: "XXX",
+        opTokenId: `native-${d.arbitrumNativeToken.symbol}`,
         standardBridgeAddresses: {
-          // [d.l2.id]: d.contractAddresses. as Address,
+          [d.l2.id]: "0x",
         },
       },
       [d.l2.id]: {
@@ -60,9 +60,9 @@ export function getNativeTokenForDeployment(
         decimals: d.arbitrumNativeToken.decimals,
         chainId: d.l2.id,
         logoURI: "",
-        opTokenId: "XXX",
+        opTokenId: `native-${d.arbitrumNativeToken.symbol}`,
         standardBridgeAddresses: {
-          // [d.l1.id]: d.contractAddresses.l2GatewayRouter as Address,
+          [d.l1.id]: "0x",
         },
       },
     };
