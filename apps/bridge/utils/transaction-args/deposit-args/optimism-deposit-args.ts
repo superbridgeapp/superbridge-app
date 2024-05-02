@@ -82,7 +82,7 @@ const impl = (
               recipient, // _to
               weiAmount, // _mint
               weiAmount, // _value
-              BigInt(200_000), // _gasLimit
+              BigInt(100_000), // _gasLimit
               false, // _isCreation
               GRAFFITI, // _extraData
             ],

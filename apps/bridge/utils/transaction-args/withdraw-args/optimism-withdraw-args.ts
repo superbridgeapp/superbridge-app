@@ -92,9 +92,7 @@ const impl = (
 
   // standard bridge
   if (isEth(l2Token)) {
-    console.log("wow");
     if (gasToken) {
-      console.log("hier");
       return {
         approvalAddress: undefined,
         tx: {

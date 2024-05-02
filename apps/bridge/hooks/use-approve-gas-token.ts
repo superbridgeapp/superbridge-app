@@ -4,7 +4,7 @@ import { Address, erc20Abi, maxUint256 } from "viem";
 import { useConfig, useWriteContract } from "wagmi";
 
 import { getNativeTokenForDeployment } from "@/utils/get-native-token";
-import { isArbitrum } from "@/utils/is-mainnet";
+import { isArbitrum, isOptimism } from "@/utils/is-mainnet";
 
 import { useFromChain } from "./use-chain";
 import { useDeployment } from "./use-deployment";
@@ -42,15 +42,18 @@ export function useApproveGasToken(
       if (!baseGasToken || !deployment) return;
       setIsLoading(true);
       try {
+        const address = isArbitrum(deployment)
+          ? (deployment.contractAddresses.inbox as Address)
+          : isOptimism(deployment)
+          ? (deployment.contractAddresses.optimismPortal as Address)
+          : null;
+        if (!address) {
+          throw new Error("Invalid address");
+        }
         const hash = await writeContractAsync({
           abi: erc20Abi,
           address: baseGasToken.address,
-          args: [
-            isArbitrum(deployment)
-              ? (deployment.contractAddresses.inbox as Address)
-              : (deployment.contractAddresses.optimismPortal as Address),
-            maxUint256,
-          ],
+          args: [address, maxUint256],
           functionName: "approve",
           chainId: from?.id,
         });

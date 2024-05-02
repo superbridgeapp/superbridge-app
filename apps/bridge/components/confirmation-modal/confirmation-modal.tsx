@@ -578,30 +578,32 @@ export const ConfirmationModal = ({
         fee: fee(finalizeCost, 2),
       },
     ])
-    .with({ withdrawing: false, family: "optimism" }, (c) => [
-      c.gasToken
-        ? {
-            text: t("confirmationModal.approveGasToken"),
-            icon: ApproveIcon,
-            fee: fee(approveGasTokenCost, 4),
-          }
-        : null,
-      {
-        text: t("confirmationModal.initiateDeposit"),
-        icon: InitiateIcon,
-        fee: fee(initiateCost, 4),
-      },
-      {
-        text: t("confirmationModal.waitMinutes", {
-          count: totalBridgeTime?.value,
-        }),
-        icon: WaitIcon,
-      },
-      {
-        text: t("confirmationModal.receiveDeposit", common),
-        icon: ReceiveIcon,
-      },
-    ])
+    .with({ withdrawing: false, family: "optimism" }, (c) =>
+      [
+        c.gasToken
+          ? {
+              text: t("confirmationModal.approveGasToken"),
+              icon: ApproveIcon,
+              fee: fee(approveGasTokenCost, 4),
+            }
+          : null,
+        {
+          text: t("confirmationModal.initiateDeposit"),
+          icon: InitiateIcon,
+          fee: fee(initiateCost, 4),
+        },
+        {
+          text: t("confirmationModal.waitMinutes", {
+            count: totalBridgeTime?.value,
+          }),
+          icon: WaitIcon,
+        },
+        {
+          text: t("confirmationModal.receiveDeposit", common),
+          icon: ReceiveIcon,
+        },
+      ].filter(isPresent)
+    )
     .with({ withdrawing: false, family: "arbitrum" }, (c) =>
       [
         c.gasToken
