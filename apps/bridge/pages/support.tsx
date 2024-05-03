@@ -23,7 +23,10 @@ export default function Support({
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const [open, setOpen] = useState(false);
 
-  const name = deployments[0].displayName;
+  const settlementChain = isSuperbridge
+    ? "Ethereum Mainnet"
+    : deployments[0].l1.name;
+  const rollupChain = deployments[0].l2.name;
 
   const whatIsSuperbridge = isSuperbridge ? (
     <>
@@ -53,20 +56,15 @@ export default function Support({
         >
           Native Bridge contracts
         </a>{" "}
-        for {name}.
+        for {rollupChain}.
       </p>
       <p>
         Please note Superbridge does not control or contribute to the Native
         Bridge contracts. The Native Bridges are a set of smart contracts owned
-        and operated by the {name} team.
+        and operated by the {rollupChain} team.
       </p>
     </>
   );
-
-  const settlementChain = isSuperbridge
-    ? "Ethereum Mainnet"
-    : deployments[0].l1.name;
-  const rollupChain = deployments[0].l2.name;
 
   const finalizationPeriod = getFinalizationPeriod(deployments[0], false);
 

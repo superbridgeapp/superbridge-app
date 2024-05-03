@@ -10,8 +10,8 @@ function useMetadata(deployments: DeploymentDto[]) {
     const [deployment] = deployments;
 
     return {
-      title: `${deployment.displayName} Bridge`,
-      description: `"Bridge ETH and ERC20 tokens into and out of ${deployment.displayName}`,
+      title: `${deployment.l2.name} Bridge`,
+      description: `"Bridge ETH and ERC20 tokens into and out of ${deployment.l2.name}`,
     };
   }
 
