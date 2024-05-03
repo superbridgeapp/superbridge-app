@@ -1,5 +1,6 @@
-import { Period } from "@/hooks/use-finalization-period";
 import { useTranslation } from "react-i18next";
+
+import { Period } from "@/hooks/use-finalization-period";
 
 export const usePeriodText = () => {
   const { t } = useTranslation();

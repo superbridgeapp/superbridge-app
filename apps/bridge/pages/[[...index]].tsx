@@ -49,7 +49,6 @@ export const getServerSideProps = async ({
   req,
 }: GetServerSidePropsContext) => {
   const ignored = ["favicon", "locales", "_vercel"];
-
   if (!req.url || !req.headers.host) return { props: { deployments: [] } };
 
   if (ignored.find((x) => req.url?.includes(x))) {
@@ -69,7 +68,7 @@ export const getServerSideProps = async ({
 
   if (req.headers.host?.includes("localhost")) {
     const { data } = await bridgeControllerGetDeployments({
-      names: ["weak-yellow-stork-mlvdg4f70d"],
+      names: ["arbitrum-one"],
     });
     return { props: { deployments: data } };
   }
@@ -110,14 +109,14 @@ export const getServerSideProps = async ({
     const { data } = await bridgeControllerGetDeployments({
       names: [id],
     });
-    return { props: { deployments: data, isSuperbridge: false } };
+    return { props: { deployments: data } };
   }
 
   const { data } = await bridgeControllerGetDeploymentsByDomain(
     req.headers.host
   );
 
-  return { props: { deployments: data, isSuperbridge: false } };
+  return { props: { deployments: data } };
 };
 
 export default function IndexRoot({
