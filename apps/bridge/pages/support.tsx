@@ -87,7 +87,7 @@ export default function Support() {
               </AccordionTrigger>
               <AccordionContent>
                 <div className="prose">
-                  <p>No, bridges cannot be cancelled once submitted.</p>
+                  <p>No, a bridge cannot be cancelled once submitted.</p>
                   <p>
                     Before initiating a bridge we try to be as clear as possible
                     about the potential network fees, wait periods, and the
@@ -150,16 +150,18 @@ export default function Support() {
                     Because of the way the Superchain Native Bridge operates,
                     users are required to wait for a period of one week when
                     moving assets out of Optimism Superchains into the Ethereum
-                    mainnet. This period of time is called the Challenge Period
+                    mainnet. This period of time is called the{" "}
+                    <span className="font-bold">Challenge Period</span>
                     and serves to help secure the assets stored on Optimism
                     Superchains. You can find more information about the
                     Challenge Period here.
                   </p>
                   <p>
                     If you need a faster bridge transaction you might be able to
-                    use a third party bridge. They provide faster bridging
-                    services (but charge a small extra fee). They also usually
-                    support multiple networks.
+                    use a{" "}
+                    <Link href="/alternative-bridges">third party bridge.</Link>{" "}
+                    They provide faster bridging services (but charge a small
+                    extra fee). They also usually support multiple networks.
                   </p>
                   <p>
                     Please note that their token selection may be more limited.
