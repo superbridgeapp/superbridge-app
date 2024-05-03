@@ -102,7 +102,7 @@ export const TosModal = () => {
             </p>
           </div>
 
-          <div className="flex gap-3">
+          {/* <div className="flex gap-3">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="60"
@@ -146,7 +146,7 @@ export const TosModal = () => {
                 support@{isSuperbridge ? "superbridge" : "rollbridge"}.app
               </Link>
             </p>
-          </div>
+          </div> */}
           {/* <div className="flex gap-3">
             <svg
               xmlns="http://www.w3.org/2000/svg"
