@@ -20,7 +20,7 @@ export default function Support() {
         <section className="max-w-3xl mx-auto p-8">
           <header className="py-16">
             <h1 className="font-bold text-6xl tracking-tighter">
-              Frequently asked questions
+              FAQs &amp; Support
             </h1>
           </header>
           <Accordion type="single" collapsible className="w-full">
