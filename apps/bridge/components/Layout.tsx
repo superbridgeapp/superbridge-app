@@ -46,6 +46,11 @@ export function Layout({ children }: { children: any }) {
 
   return (
     <div className="bg-background w-screen h-screen overflow-hidden z-40 relative transition-colors duration-1000 tracking-tight flex justify-center">
+      <motion.div
+        animate={{ opacity: pathname === "/" ? 1 : 0 }}
+        initial={{ opacity: 0 }}
+        className="bg-gradient-to-t from-violet-500 to-violet-500/0 dark:from-violet-500/50 dark:to-violet-500/0 inset-0 z-0 fixed mix-blend-plus-lighter"
+      ></motion.div>
       <div
         className={clsx(`inset-0 z-0 fixed transition-all bg-cover`)}
         style={{
@@ -63,12 +68,6 @@ export function Layout({ children }: { children: any }) {
           backgroundPosition: backgroundImagePosition,
         }}
       />
-
-      <motion.div
-        animate={{ opacity: pathname === "/" ? 1 : 0 }}
-        initial={{ opacity: 0 }}
-        className="bg-gradient-to-t from-violet-500 to-violet-500/0 dark:from-violet-500/50 dark:to-violet-500/0 mix-blend-plus-lighter  inset-0 z-0 fixed transition-all bg-cover"
-      ></motion.div>
 
       <TosModal />
       <CustomTokenListModal />
