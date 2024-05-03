@@ -8,9 +8,8 @@ import { ClosedActivity } from "@/components/activity/closed-activity";
 import { OpenActivity } from "@/components/activity/open-activity";
 import { Footer } from "@/components/footer";
 import { isSuperbridge } from "@/config/superbridge";
-import { deploymentTheme } from "@/config/theme";
-import { useDeployment } from "@/hooks/use-deployment";
 import { useDeployments } from "@/hooks/use-deployments";
+import { useInitialise } from "@/hooks/use-initialise";
 import { useNavigate } from "@/hooks/use-navigate";
 import {
   useBackgroundIcon,
@@ -28,9 +27,10 @@ import { SettingsModal } from "./settings/settings-modal";
 import { TosModal } from "./tos-modal";
 
 export function Layout({ children }: { children: any }) {
+  useInitialise();
+
   const deployments = useDeployments();
   const navigate = useNavigate();
-  const deployment = useDeployment();
   const displayTransactions = useConfigState.useDisplayTransactions();
   const setSettingsModal = useConfigState.useSetSettingsModal();
   const settingsModal = useConfigState.useSettingsModal();

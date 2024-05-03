@@ -151,7 +151,6 @@ export default function IndexRoot({
 }
 
 function Index() {
-  useInitialise();
   const deployment = useDeployment();
   const { deployments } = useDeployments();
 
