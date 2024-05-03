@@ -45,7 +45,7 @@ export const useNetworkIcon = () => {
 };
 
 export const useBackgroundIcon = () => {
-  const { deployments } = useDeployments();
+  const deployment = useDeployment();
   const theme = useContext(ThemeContext);
   const { resolvedTheme } = useTheme();
 
@@ -54,14 +54,14 @@ export const useBackgroundIcon = () => {
   if (resolvedTheme === "light") {
     return (
       theme?.imageBackground ??
-      deployments[0]?.theme?.theme.imageBackground ??
+      deployment?.theme?.theme.imageBackground ??
       defaultIcon
     );
   }
 
   return (
     theme?.imageBackgroundDark ??
-    deployments[0]?.theme?.theme.imageBackgroundDark ??
+    deployment?.theme?.theme.imageBackgroundDark ??
     defaultIcon
   );
 };
@@ -96,7 +96,7 @@ export const useBackgroundImageBlendMode = () => {
 };
 
 export const useBackgroundImageOpacity = () => {
-  const { deployments } = useDeployments();
+  const deployment = useDeployment();
   const { resolvedTheme } = useTheme();
 
   const theme = useContext(ThemeContext);
@@ -105,44 +105,44 @@ export const useBackgroundImageOpacity = () => {
     if (theme?.backgroundImageOpacity !== undefined) {
       return theme.backgroundImageOpacity;
     }
-    return deployments[0]?.theme?.theme.backgroundImageOpacity;
+    return deployment?.theme?.theme.backgroundImageOpacity;
   }
   if (resolvedTheme === "dark")
     if (theme?.backgroundImageOpacityDark !== undefined) {
       return theme.backgroundImageOpacityDark;
     }
-  return deployments[0]?.theme?.theme.backgroundImageOpacityDark;
+  return deployment?.theme?.theme.backgroundImageOpacityDark;
 };
 
 export const useBackgroundImageSize = () => {
-  const { deployments } = useDeployments();
+  const deployment = useDeployment();
 
   const theme = useContext(ThemeContext);
 
   if (theme?.backgroundImageSize !== undefined) {
     return theme.backgroundImageSize;
   }
-  return deployments[0]?.theme?.theme.backgroundImageSize;
+  return deployment?.theme?.theme.backgroundImageSize;
 };
 
 export const useBackgroundImagePosition = () => {
-  const { deployments } = useDeployments();
+  const deployment = useDeployment();
 
   const theme = useContext(ThemeContext);
 
   if (theme?.backgroundImagePosition !== undefined) {
     return theme.backgroundImagePosition;
   }
-  return deployments[0]?.theme?.theme.backgroundImagePosition;
+  return deployment?.theme?.theme.backgroundImagePosition;
 };
 
 export const useBackgroundImageRepeat = () => {
-  const { deployments } = useDeployments();
+  const deployment = useDeployment();
 
   const theme = useContext(ThemeContext);
 
   if (theme?.backgroundImageRepeat !== undefined) {
     return theme.backgroundImageRepeat;
   }
-  return deployments[0]?.theme?.theme.backgroundImageRepeat;
+  return deployment?.theme?.theme.backgroundImageRepeat;
 };
