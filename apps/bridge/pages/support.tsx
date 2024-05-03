@@ -303,7 +303,9 @@ export default function Support({
                   <p>
                     When you’re in a hurry or only withdrawing small amounts, it
                     might make sense to use other bridges... So we put together
-                    a handy list of alternative third party bridges.
+                    a handy list of alternative{" "}
+                    <Link href="/alternative-bridges">third party bridges</Link>
+                    .
                   </p>
                   <p>
                     They provide faster bridging services (but often charge a
