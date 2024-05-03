@@ -29,12 +29,12 @@ export function Footer() {
 
   const links: LinkDto[] = isSuperbridge
     ? [
-        { url: "mailto:support@superbridge.app", label: t("support") },
+        { url: "/support", label: t("support") },
         { url: "https://twitter.com/superbridgeapp", label: "x.com" },
       ]
     : [
         ...(deployments.deployments[0]?.theme?.links ?? []),
-        { url: "mailto:support@superbridge.app", label: t("support") },
+        { url: "/support", label: t("support") },
         { url: "https://rollbridge.app", label: "Powered by Superbridge" },
       ];
 

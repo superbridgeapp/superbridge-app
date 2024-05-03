@@ -42,14 +42,7 @@ export function Head() {
       <meta property="og:title" content={metadata.title} />
       <meta name="description" content={metadata.description} />
       <meta property="og:description" content={metadata.description} />
-      <meta
-        property="og:url"
-        content={
-          isSuperbridge
-            ? `https://superbridge.app`
-            : "https://app.rollbridge.app"
-        }
-      />
+      <meta property="og:url" content={`https://superbridge.app`} />
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />
       <meta property="og:image:alt" content={metadata.title} />

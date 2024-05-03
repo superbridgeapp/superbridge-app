@@ -3,9 +3,7 @@ import { isSuperbridge } from "@/config/superbridge";
 
 export const title = dedicatedDeployment?.og.title
   ? dedicatedDeployment?.og.title
-  : isSuperbridge
-  ? "Superbridge"
-  : "Rollbridge";
+  : "Superbridge";
 export const description = dedicatedDeployment?.og.description
   ? dedicatedDeployment?.og.description
   : isSuperbridge
