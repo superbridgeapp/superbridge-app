@@ -4,7 +4,6 @@ import { ThemeDto } from "@/codegen/model";
 import { isSuperbridge } from "@/config/superbridge";
 
 import { useDeployment } from "./use-deployment";
-import { useTheme } from "next-themes";
 
 const superbridgeTheme: Partial<ThemeDto> = {
   darkModeEnabled: true,
