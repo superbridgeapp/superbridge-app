@@ -5,6 +5,7 @@ import { isSuperbridge } from "@/config/superbridge";
 import { ThemeContext } from "@/state/theme";
 
 import { useDeployments } from "./use-deployments";
+import { useDeployment } from "./use-deployment";
 
 export const useNavIcon = () => {
   const { deployments } = useDeployments();
@@ -30,12 +31,14 @@ export const useNavIcon = () => {
 
 export const useNetworkIcon = () => {
   const { deployments } = useDeployments();
+  const deployment = useDeployment();
   const theme = useContext(ThemeContext);
 
   const defaultIcon = "/img/L2.svg";
 
   return (
     theme?.imageNetwork ??
+    deployment?.theme?.theme.imageNetwork ??
     deployments[0].theme?.theme.imageNetwork ??
     defaultIcon
   );
