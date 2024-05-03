@@ -1,21 +1,28 @@
+import Link from "next/link";
 import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
 
 import { Checkbox } from "@/components/ui/checkbox";
+import { isSuperbridge } from "@/config/superbridge";
+import { Period } from "@/hooks/use-finalization-period";
 
-import { Dialog, DialogContent } from "../ui/dialog";
 import { Button } from "../ui/button";
-import Link from "next/link";
+import { Dialog, DialogContent } from "../ui/dialog";
 
 export const SupportModal = ({
   open,
   setOpen,
+
+  rollupChain,
+  settlementChain,
+  finalizationPeriod,
 }: {
   open: boolean;
   setOpen: (b: boolean) => void;
-}) => {
-  const { t } = useTranslation();
 
+  rollupChain: string;
+  settlementChain: string;
+  finalizationPeriod: Period;
+}) => {
   const [checkbox1, setCheckbox1] = useState(false);
   const [checkbox2, setCheckbox2] = useState(false);
   const [checkbox3, setCheckbox3] = useState(false);
@@ -76,8 +83,9 @@ export const SupportModal = ({
                 htmlFor="speed"
                 className="text-sm font-medium text-muted-foreground"
               >
-                Withdrawals take 7 days from the time of proving until they can
-                be finalized on Ethereum
+                Withdrawals take {finalizationPeriod?.value}{" "}
+                {finalizationPeriod?.period} from the time of proving until they
+                can be finalized on Ethereum
               </label>
             </div>
             <div className="flex gap-2">
@@ -90,7 +98,11 @@ export const SupportModal = ({
                 htmlFor="gas"
                 className="text-sm font-medium text-muted-foreground"
               >
-                You need gas on the Rollup and Ethereum to complete a withdrawal
+                You need gas on{" "}
+                {isSuperbridge
+                  ? "the rollup and Ethereum Mainnet"
+                  : `${rollupChain} and ${settlementChain}`}{" "}
+                to complete a withdrawal
               </label>
             </div>
           </div>

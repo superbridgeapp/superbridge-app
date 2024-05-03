@@ -17,6 +17,7 @@ import { getRemainingTimePeriod } from "./get-remaining-period";
 export const useArbitrumDepositProgressRows = () => {
   const { t } = useTranslation();
   const transformPeriodText = usePeriodText();
+
   return (
     tx: Pick<
       ArbitrumDepositRetryableDto | ArbitrumDepositEthDto,

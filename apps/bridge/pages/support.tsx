@@ -1,7 +1,11 @@
+import { InferGetServerSidePropsType } from "next";
+import Link from "next/link";
 import { useState } from "react";
-import { SupportModal } from "@/components/support-modal";
-import PageNav from "@/components/page-nav";
+
+import { DeploymentFamily } from "@/codegen/model";
 import PageFooter from "@/components/page-footer";
+import PageNav from "@/components/page-nav";
+import { SupportModal } from "@/components/support-modal";
 import {
   Accordion,
   AccordionContent,
@@ -9,10 +13,63 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
+import { isSuperbridge } from "@/config/superbridge";
+import { getFinalizationPeriod } from "@/hooks/use-finalization-period";
 
-export default function Support() {
+import { getServerSideProps as indexGetServerSideProps } from "./[[...index]]";
+
+export default function Support({
+  deployments,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const [open, setOpen] = useState(false);
+
+  const name = deployments[0].displayName;
+
+  const whatIsSuperbridge = isSuperbridge ? (
+    <>
+      <p>
+        Superbridge is a pretty user interface over the{" "}
+        <a href="https://docs.optimism.io/builders/app-developers/bridging/standard-bridge">
+          Native Bridge contracts
+        </a>{" "}
+        for Optimism Superchain rollups.
+      </p>
+      <p>
+        Please note Superbridge does not control or contribute to the Native
+        Bridge contracts. The Native Bridges are a set of smart contracts owned
+        and operated by the respective Optimism Superchain teams.
+      </p>
+    </>
+  ) : (
+    <>
+      <p>
+        Superbridge is a pretty user interface over the{" "}
+        <a
+          href={
+            deployments[0].family === DeploymentFamily.optimism
+              ? "https://docs.optimism.io/builders/app-developers/bridging/standard-bridge"
+              : "https://docs.arbitrum.io/build-decentralized-apps/cross-chain-messaging"
+          }
+        >
+          Native Bridge contracts
+        </a>{" "}
+        for {name}.
+      </p>
+      <p>
+        Please note Superbridge does not control or contribute to the Native
+        Bridge contracts. The Native Bridges are a set of smart contracts owned
+        and operated by the {name} team.
+      </p>
+    </>
+  );
+
+  const settlementChain = isSuperbridge
+    ? "Ethereum Mainnet"
+    : deployments[0].l1.name;
+  const rollupChain = deployments[0].l2.name;
+
+  const finalizationPeriod = getFinalizationPeriod(deployments[0], false);
+
   return (
     <div className="w-screen h-screen overflow-y-auto bg-purple-100">
       <PageNav />
@@ -28,22 +85,10 @@ export default function Support() {
               <AccordionTrigger>What is Superbridge?</AccordionTrigger>
               <AccordionContent>
                 <div className="prose">
-                  <p>
-                    Superbridge is a pretty user interface over the{" "}
-                    <a href="https://docs.optimism.io/builders/app-developers/bridging/standard-bridge">
-                      Native Bridge contracts
-                    </a>{" "}
-                    for Optimism Superchain rollups.
-                  </p>
-                  <p>
-                    Please note Superbridge does not control or contribute to
-                    the Native Bridge contracts. The Native Bridges are a set of
-                    smart contracts owned and operated by the respective
-                    Optimism Superchain teams.{" "}
-                  </p>
+                  {whatIsSuperbridge}
                   <p className="font-bold">
                     Here’s some of the benefits of using the Native Bridge via
-                    the Superbridge interface:
+                    Superbridge:
                   </p>
                   <ul>
                     <li>
@@ -73,10 +118,11 @@ export default function Support() {
                 <div className="prose">
                   <p>
                     Superbridge does not charge any extra fees for using the
-                    Superchain Native Bridge contracts. However, standard
-                    network fees still apply. These fees are not collected by
-                    Superbridge. The specific transaction fee can vary depending
-                    on the transaction type and the current network congestion.
+                    {isSuperbridge ? " Superchain" : ""} Native Bridge
+                    contracts. However, standard network fees still apply. These
+                    fees are not collected by Superbridge. The specific
+                    transaction fee can vary depending on the transaction type
+                    and the current network congestion.
                   </p>
                 </div>
               </AccordionContent>
@@ -123,14 +169,21 @@ export default function Support() {
             </AccordionItem>
             <AccordionItem value="item-5">
               <AccordionTrigger>
-                What happens if I don’t prove or finalize my withdrawal to
-                Ethereum Mainnet?
+                What happens if I don’t{" "}
+                {deployments[0].family === DeploymentFamily.optimism
+                  ? "prove or "
+                  : ""}
+                finalize my withdrawal to {settlementChain}?
               </AccordionTrigger>
               <AccordionContent>
                 <div className="prose">
                   <p>
-                    If you don't prove or finalize the withdrawal your funds
-                    will remain in the bridge until you do so.
+                    If you don't{" "}
+                    {deployments[0].family === DeploymentFamily.optimism
+                      ? "prove or "
+                      : ""}{" "}
+                    finalize the withdrawal your funds will remain in the bridge
+                    until you do so.
                   </p>
                   <p>
                     Before initiating a bridge we try to be as clear as possible
@@ -142,19 +195,24 @@ export default function Support() {
             </AccordionItem>
             <AccordionItem value="item-6">
               <AccordionTrigger>
-                Why does it take 7 days to withdraw to Ethereum Mainnet?
+                Why does it take {finalizationPeriod?.value}{" "}
+                {finalizationPeriod?.period} to withdraw to {settlementChain}?
               </AccordionTrigger>
               <AccordionContent>
                 <div className="prose">
                   <p>
-                    Because of the way the Superchain Native Bridge operates,
-                    users are required to wait for a period of one week when
-                    moving assets out of Optimism Superchains into the Ethereum
-                    mainnet. This period of time is called the{" "}
-                    <span className="font-bold">Challenge Period</span>
-                    and serves to help secure the assets stored on Optimism
-                    Superchains. You can find more information about the
-                    Challenge Period here.
+                    Because of the way the {isSuperbridge ? "Superchain" : ""}{" "}
+                    Native Bridge operates, users are required to wait when
+                    moving assets out of{" "}
+                    {isSuperbridge
+                      ? "Optimism Superchains into the Ethereum Mainnet"
+                      : `${rollupChain} into ${settlementChain}`}
+                    . This period of time is called the{" "}
+                    <span className="font-bold">Challenge Period</span> and
+                    serves to help secure the assets stored on{" "}
+                    {isSuperbridge ? "Optimism Superchains" : rollupChain}. You
+                    can find more information about the Challenge Period{" "}
+                    <a href="https://docs.rollbridge.app/withdrawals">here</a>.
                   </p>
                   <p>
                     If you need a faster bridge transaction you might be able to
@@ -171,28 +229,40 @@ export default function Support() {
             </AccordionItem>
             <AccordionItem value="item-7">
               <AccordionTrigger>
-                Why does it take multiple transactions to withdraw to Ethereum?
+                Why does it take multiple transactions to withdraw to{" "}
+                {settlementChain}?
               </AccordionTrigger>
               <AccordionContent>
                 <div className="prose">
                   <p>
-                    Superbridge uses the Superchain Native Bridge which is
-                    highly secure, and requires a lot of processing. It is also
-                    trustless, which is why it requires multiple transactions
-                    and wait periods.
+                    Superbridge uses the {isSuperbridge ? "Superchain " : ""}
+                    Native Bridge contracts which are highly secure, and require
+                    a lot of processing. They are also trustless, which is why
+                    multiple transactions and wait periods are required.
                   </p>
                   <h4 className="font-bold">Required steps to withdraw:</h4>
                   <ol>
-                    <li>Initiate the withdrawal on a Superchain Rollup.</li>
                     <li>
-                      Wait until the withdrawals root is published on Ethereum,
-                      which is typically not longer than an hour or two, but
-                      could take longer in the case of an outage.
+                      Initiate the withdrawal on{" "}
+                      {isSuperbridge ? "a Superchain Rollup" : rollupChain}.
                     </li>
-                    <li>Prove the withdrawal.</li>
+
+                    {(isSuperbridge ||
+                      deployments[0].family === DeploymentFamily.optimism) && (
+                      <>
+                        <li>
+                          Wait until the withdrawals root is published on{" "}
+                          {settlementChain}, which is typically not longer than
+                          an hour or two, but could take longer in the case of
+                          an outage.
+                        </li>
+                        <li>Prove the withdrawal.</li>
+                      </>
+                    )}
                     <li>
-                      Wait the verification challenge period, which is seven
-                      days from the time the withdrawal is proved on Ethereum.
+                      Wait the verification challenge period, which is{" "}
+                      {finalizationPeriod?.value} {finalizationPeriod?.period}{" "}
+                      from the time the withdrawal is proved on Ethereum.
                     </li>
                     <li>Claim the withdrawal.</li>
                   </ol>
@@ -257,10 +327,18 @@ export default function Support() {
             <Button onClick={() => setOpen(true)}>Contact us</Button>
           </div>
 
-          <SupportModal open={open} setOpen={setOpen} />
+          <SupportModal
+            open={open}
+            setOpen={setOpen}
+            finalizationPeriod={finalizationPeriod}
+            settlementChain={settlementChain}
+            rollupChain={rollupChain}
+          />
         </section>
       </main>
       <PageFooter />
     </div>
   );
 }
+
+export const getServerSideProps = indexGetServerSideProps;
