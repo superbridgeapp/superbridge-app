@@ -37,7 +37,9 @@ export const useInjectedStore = <T,>(
   const injectedStoreContext = useContext(InjectedStoreContext);
 
   if (!injectedStoreContext) {
-    throw new Error(`useCounterStore must be use within InjectedStoreProvider`);
+    throw new Error(
+      `useInjectedStore must be use within InjectedStoreProvider`
+    );
   }
 
   return useStore(injectedStoreContext, selector);
