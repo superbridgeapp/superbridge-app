@@ -8,6 +8,7 @@ import { formatUnits } from "viem";
 import { useAccount, useEstimateFeesPerGas } from "wagmi";
 
 import { Checkbox } from "@/components/ui/checkbox";
+import { isSuperbridge } from "@/config/superbridge";
 import { currencySymbolMap } from "@/constants/currency-symbol-map";
 import { FINALIZE_GAS, PROVE_GAS } from "@/constants/gas-limits";
 import { useAllowance } from "@/hooks/use-allowance";
@@ -781,17 +782,15 @@ export const ConfirmationModal = ({
               {initiateButton.buttonText}
             </Button>
 
-            {typeof window !== "undefined" &&
-              window.location.host === "superbridge.app" &&
-              (withdrawing || isNativeUsdc(stateToken)) && (
-                <Link
-                  className={`mt-2 leading-3 text-center text-xs font-medium tracking-tight cursor-pointer transition-all opacity-70 hover:opacity-100`}
-                  href="/alternative-bridges"
-                  target="_blank"
-                >
-                  {t("confirmationModal.viewAlternateBridges")}
-                </Link>
-              )}
+            {isSuperbridge && (withdrawing || isNativeUsdc(stateToken)) && (
+              <Link
+                className={`mt-2 leading-3 text-center text-xs font-medium tracking-tight cursor-pointer transition-all opacity-70 hover:opacity-100`}
+                href="/alternative-bridges"
+                target="_blank"
+              >
+                {t("confirmationModal.viewAlternateBridges")}
+              </Link>
+            )}
           </div>
         </div>
       </DialogContent>
