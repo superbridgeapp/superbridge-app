@@ -1,6 +1,7 @@
 import { InferGetServerSidePropsType } from "next";
 import Link from "next/link";
 import { useState } from "react";
+import { match } from "ts-pattern";
 
 import { DeploymentFamily } from "@/codegen/model";
 import PageFooter from "@/components/page-footer";
@@ -15,58 +16,258 @@ import {
 import { Button } from "@/components/ui/button";
 import { isSuperbridge } from "@/config/superbridge";
 import { getFinalizationPeriod } from "@/hooks/use-finalization-period";
+import { defaultImages } from "@/hooks/use-theme";
 
 import { getServerSideProps as indexGetServerSideProps } from "./[[...index]]";
 
 export default function Support({
   deployments,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const deployment = deployments[0];
   const [open, setOpen] = useState(false);
 
   const settlementChain = isSuperbridge
     ? "Ethereum Mainnet"
-    : deployments[0].l1.name;
-  const rollupChain = deployments[0].l2.name;
+    : deployment.l1.name;
+  const rollupChain = deployment.l2.name;
 
-  const whatIsSuperbridge = isSuperbridge ? (
-    <>
-      <p>
-        Superbridge is a pretty user interface over the{" "}
-        <a href="https://docs.optimism.io/builders/app-developers/bridging/standard-bridge">
-          Native Bridge contracts
-        </a>{" "}
-        for Optimism Superchain rollups.
-      </p>
-      <p>
-        Please note Superbridge does not control or contribute to the Native
-        Bridge contracts. The Native Bridges are a set of smart contracts owned
-        and operated by the respective Optimism Superchain teams.
-      </p>
-    </>
-  ) : (
-    <>
-      <p>
-        Superbridge is a pretty user interface over the{" "}
-        <a
-          href={
-            deployments[0].family === DeploymentFamily.optimism
-              ? "https://docs.optimism.io/builders/app-developers/bridging/standard-bridge"
-              : "https://docs.arbitrum.io/build-decentralized-apps/cross-chain-messaging"
-          }
-        >
-          Native Bridge contracts
-        </a>{" "}
-        for {rollupChain}.
-      </p>
-      <p>
-        Please note Superbridge does not control or contribute to the Native
-        Bridge contracts. The Native Bridges are a set of smart contracts owned
-        and operated by the {rollupChain} team.
-      </p>
-    </>
-  );
+  const navIcon = isSuperbridge
+    ? "/img/logo.svg"
+    : deployment?.theme?.theme.imageLogo ?? defaultImages.nav;
+  const backgroundIcon = isSuperbridge
+    ? null
+    : deployment?.theme?.theme.imageBackground;
 
-  const finalizationPeriod = getFinalizationPeriod(deployments[0], false);
+  const backgroundImageBlendMode =
+    deployment?.theme?.theme.backgroundImageBlendMode;
+
+  const backgroundImageOpacity =
+    deployment?.theme?.theme.backgroundImageOpacity;
+
+  const backgroundImageSize = deployment?.theme?.theme.backgroundImageSize;
+
+  const backgroundImagePosition =
+    deployment?.theme?.theme.backgroundImagePosition;
+  const backgroundImageRepeat = deployment?.theme?.theme.backgroundImageRepeat;
+
+  const what = match({ isSuperbridge })
+    .with({ isSuperbridge: true }, () => ({
+      title: "What is Superbridge?",
+      description: (
+        <div className="prose">
+          <p>
+            Superbridge is a pretty user interface over the{" "}
+            <a href="https://docs.optimism.io/builders/app-developers/bridging/standard-bridge">
+              Native Bridge contracts
+            </a>{" "}
+            for Optimism Superchain rollups.
+          </p>
+          <p>
+            Please note Superbridge does not control or contribute to the Native
+            Bridge contracts. The Native Bridges are a set of smart contracts
+            owned and operated by the respective Optimism Superchain teams.
+          </p>
+          <p className="font-bold">
+            Here’s some of the benefits of using the Native Bridge via
+            Superbridge:
+          </p>
+          <ul>
+            <li>
+              You get the canonical, native asset on the destination chain.
+            </li>
+            <li>
+              It’s generally the most secure form of bridging, because by using
+              the Native Bridge you have the same trust assumptions as using the
+              rollup itself
+            </li>
+          </ul>
+          <p>
+            Using the Native Bridge does have some UX quirks, and for users
+            moving smaller amounts (especially when withdrawing){" "}
+            <Link href="/alternative-bridges">retail bridges</Link> may be a
+            better choice. So please read on…
+          </p>
+        </div>
+      ),
+    }))
+    .with({ isSuperbridge: false }, () => ({
+      title: `What is the ${rollupChain} bridge?`,
+      description: (
+        <div className="prose">
+          <p>
+            The {rollupChain} bridge is a pretty user interface over the{" "}
+            <a
+              href={
+                deployment.family === DeploymentFamily.optimism
+                  ? "https://docs.optimism.io/builders/app-developers/bridging/standard-bridge"
+                  : "https://docs.arbitrum.io/build-decentralized-apps/cross-chain-messaging"
+              }
+            >
+              Native Bridge contracts
+            </a>
+            .
+          </p>
+          <p>
+            The {rollupChain} bridge is provided by{" "}
+            <a href="https://superbridge.app">Superbridge</a>, Superbridge does
+            not control or contribute to the Native Bridge contracts. The Native
+            Bridges are a set of smart contracts owned and operated by the{" "}
+            {rollupChain} team.
+          </p>
+          <p className="font-bold">
+            Here’s some of the benefits of using the Native Bridge:
+          </p>
+          <ul>
+            <li>
+              You get the canonical, native asset on the destination chain.
+            </li>
+            <li>
+              It’s generally the most secure form of bridging, because by using
+              the Native Bridge you have the same trust assumptions as using the
+              rollup itself
+            </li>
+          </ul>
+          <p>
+            Using the Native Bridge does have some UX quirks, and for users
+            moving smaller amounts (especially when withdrawing){" "}
+            <Link href="/alternative-bridges">retail bridges</Link> may be a
+            better choice. So please read on…
+          </p>
+        </div>
+      ),
+    }))
+    .exhaustive();
+
+  const fees = match({ isSuperbridge })
+    .with({ isSuperbridge: true }, () => ({
+      title: "Does Superbridge charge any extra fees?",
+      description: (
+        <div className="prose">
+          <p>
+            Superbridge does not charge any extra fees for using the Superchain
+            Native Bridge contracts. However, standard network fees still apply.
+            These fees are not collected by Superbridge. The specific
+            transaction fee can vary depending on the transaction type and the
+            current network congestion.
+          </p>
+        </div>
+      ),
+    }))
+    .with({ isSuperbridge: false }, () => ({
+      title: `Does ${rollupChain} bridge charge any extra fees?`,
+      description: (
+        <div className="prose">
+          <p>
+            {rollupChain} bridge does not charge any extra fees for using the
+            Native Bridge contracts. However, standard network fees still apply.
+            These fees are not collected by {rollupChain} bridge. The specific
+            transaction fee can vary depending on the transaction type and the
+            current network congestion.
+          </p>
+        </div>
+      ),
+    }))
+    .exhaustive();
+
+  const speed = match({ isSuperbridge })
+    .with({ isSuperbridge: true }, () => ({
+      description: (
+        <div className="prose">
+          <p>
+            If you have already started a bridge with Superbridge, then you
+            cannot speed it up.{" "}
+          </p>
+          <p>
+            You will need to complete all required steps and wait periods to
+            receive your tokens.
+          </p>
+          <p>
+            If you need a faster bridge transaction you might be able to use a{" "}
+            <Link href="/alternative-bridges">third party bridge.</Link> They
+            provide faster bridging services (but charge a small extra fee).
+            They also usually support multiple networks.
+          </p>
+          <p>Please note that their token selection may be more limited.</p>
+        </div>
+      ),
+    }))
+    .with({ isSuperbridge: false }, () => ({
+      description: (
+        <div className="prose">
+          <p>
+            If you have already started a bridge with the {rollupChain} bridge,
+            then you cannot speed it up.{" "}
+          </p>
+          <p>
+            You will need to complete all required steps and wait periods to
+            receive your tokens.
+          </p>
+          <p>
+            If you need a faster bridge transaction you might be able to use a{" "}
+            <Link href="/alternative-bridges">third party bridge.</Link> They
+            provide faster bridging services (but charge a small extra fee).
+            They also usually support multiple networks.
+          </p>
+          <p>Please note that their token selection may be more limited.</p>
+        </div>
+      ),
+    }))
+    .exhaustive();
+  const whatIfIDontProve = match({
+    isSuperbridge,
+    isOptimism: deployment?.family === DeploymentFamily.optimism,
+  })
+    .with({ isSuperbridge: true }, () => ({
+      title: `What happens if I don’t prove or finalize my withdrawal to Ethereum Mainnet?`,
+      description: (
+        <div className="prose">
+          <p>
+            If you don't prove or finalize the withdrawal your funds will remain
+            in the bridge until you do so.
+          </p>
+          <p>
+            Before initiating a bridge we try to be as clear as possible about
+            the potential network fees, wait periods, and the extra steps needed
+            to complete a bridge.
+          </p>
+        </div>
+      ),
+    }))
+    .with({ isOptimism: true }, (w) => ({
+      title: `What happens if I don’t prove or finalize my withdrawal to ${settlementChain}?`,
+      description: (
+        <div className="prose">
+          <p>
+            If you don't prove or finalize the withdrawal your funds will remain
+            in the bridge until you do so.
+          </p>
+          <p>
+            Before initiating a bridge we try to be as clear as possible about
+            the potential network fees, wait periods, and the extra steps needed
+            to complete a bridge.
+          </p>
+        </div>
+      ),
+    }))
+    .with({ isSuperbridge: false, isOptimism: false }, () => ({
+      title: `What happens if I don’t finalize my withdrawal to ${settlementChain}?`,
+      description: (
+        <div className="prose">
+          <p>
+            If you don't finalize the withdrawal your funds will remain in the
+            bridge until you do so.
+          </p>
+          <p>
+            Before initiating a bridge we try to be as clear as possible about
+            the potential network fees, wait periods, and the extra steps needed
+            to complete a bridge.
+          </p>
+        </div>
+      ),
+    }))
+    .exhaustive();
+
+  const finalizationPeriod = getFinalizationPeriod(deployment, false);
 
   return (
     <div className="w-screen h-screen overflow-y-auto bg-purple-100">
@@ -80,50 +281,12 @@ export default function Support({
           </header>
           <Accordion type="single" collapsible className="w-full">
             <AccordionItem value="item-1">
-              <AccordionTrigger>What is Superbridge?</AccordionTrigger>
-              <AccordionContent>
-                <div className="prose">
-                  {whatIsSuperbridge}
-                  <p className="font-bold">
-                    Here’s some of the benefits of using the Native Bridge via
-                    Superbridge:
-                  </p>
-                  <ul>
-                    <li>
-                      You get the canonical, native asset on the destination
-                      chain.
-                    </li>
-                    <li>
-                      It’s generally the most secure form of bridging, because
-                      by using the Native Bridge you have the same trust
-                      assumptions as using the rollup itself
-                    </li>
-                  </ul>
-                  <p>
-                    Using the Native Bridge does have some UX quirks, and for
-                    users moving smaller amounts (especially when withdrawing){" "}
-                    <Link href="/alternative-bridges">retail bridges</Link> may
-                    be a better choice. So please read on…
-                  </p>
-                </div>
-              </AccordionContent>
+              <AccordionTrigger>{what.title}</AccordionTrigger>
+              <AccordionContent>{what.description}</AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-2">
-              <AccordionTrigger>
-                Does Superbridge charge any extra fees?
-              </AccordionTrigger>
-              <AccordionContent>
-                <div className="prose">
-                  <p>
-                    Superbridge does not charge any extra fees for using the
-                    {isSuperbridge ? " Superchain" : ""} Native Bridge
-                    contracts. However, standard network fees still apply. These
-                    fees are not collected by Superbridge. The specific
-                    transaction fee can vary depending on the transaction type
-                    and the current network congestion.
-                  </p>
-                </div>
-              </AccordionContent>
+              <AccordionTrigger>{fees.title}</AccordionTrigger>
+              <AccordionContent>{fees.description}</AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-3">
               <AccordionTrigger>
@@ -142,53 +305,12 @@ export default function Support({
             </AccordionItem>
             <AccordionItem value="item-4">
               <AccordionTrigger>Can I speed up my bridge?</AccordionTrigger>
-              <AccordionContent>
-                <div className="prose">
-                  <p>
-                    If you have already started a bridge with Superbridge, then
-                    you cannot speed it up.{" "}
-                  </p>
-                  <p>
-                    You will need to complete all required steps and wait
-                    periods to receive your tokens.
-                  </p>
-                  <p>
-                    If you need a faster bridge transaction you might be able to
-                    use a{" "}
-                    <Link href="/alternative-bridges">third party bridge.</Link>{" "}
-                    They provide faster bridging services (but charge a small
-                    extra fee). They also usually support multiple networks.
-                  </p>
-                  <p>
-                    Please note that their token selection may be more limited.
-                  </p>
-                </div>
-              </AccordionContent>
+              <AccordionContent>{speed.description}</AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-5">
-              <AccordionTrigger>
-                What happens if I don’t{" "}
-                {deployments[0].family === DeploymentFamily.optimism
-                  ? "prove or "
-                  : ""}
-                finalize my withdrawal to {settlementChain}?
-              </AccordionTrigger>
+              <AccordionTrigger>{whatIfIDontProve.title}</AccordionTrigger>
               <AccordionContent>
-                <div className="prose">
-                  <p>
-                    If you don't{" "}
-                    {deployments[0].family === DeploymentFamily.optimism
-                      ? "prove or "
-                      : ""}{" "}
-                    finalize the withdrawal your funds will remain in the bridge
-                    until you do so.
-                  </p>
-                  <p>
-                    Before initiating a bridge we try to be as clear as possible
-                    about the potential network fees, wait periods, and the
-                    extra steps needed to complete a bridge.
-                  </p>
-                </div>
+                {whatIfIDontProve.description}
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-6">
@@ -246,7 +368,7 @@ export default function Support({
                     </li>
 
                     {(isSuperbridge ||
-                      deployments[0].family === DeploymentFamily.optimism) && (
+                      deployment.family === DeploymentFamily.optimism) && (
                       <>
                         <li>
                           Wait until the withdrawals root is published on{" "}

@@ -7,6 +7,11 @@ import { ThemeContext } from "@/state/theme";
 import { useDeployments } from "./use-deployments";
 import { useDeployment } from "./use-deployment";
 
+export const defaultImages = {
+  nav: "/img/rollbridge-logo.svg",
+  navDark: "/img/rollbridge-logo-dark.svg",
+};
+
 export const useNavIcon = () => {
   const { deployments } = useDeployments();
   const theme = useContext(ThemeContext);
@@ -18,14 +23,14 @@ export const useNavIcon = () => {
     return (
       theme?.imageLogo ??
       deployments[0]?.theme?.theme.imageLogo ??
-      "/img/rollbridge-logo.svg"
+      defaultImages.nav
     );
   }
 
   return (
     theme?.imageLogoDark ??
     deployments[0]?.theme?.theme.imageLogoDark ??
-    "/img/rollbridge-logo-dark.svg"
+    defaultImages.navDark
   );
 };
 
