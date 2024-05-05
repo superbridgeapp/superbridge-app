@@ -82,7 +82,8 @@ export const useDarkModeEnabled = () => {
 };
 
 export const useBackgroundImageBlendMode = () => {
-  const { deployments } = useDeployments();
+  const deployment = useDeployment();
+
   const { resolvedTheme } = useTheme();
 
   const theme = useContext(ThemeContext);
@@ -91,13 +92,13 @@ export const useBackgroundImageBlendMode = () => {
     if (theme?.backgroundImageBlendMode !== undefined) {
       return theme.backgroundImageBlendMode;
     }
-    return deployments[0]?.theme?.theme.backgroundImageBlendMode;
+    return deployment?.theme?.theme.backgroundImageBlendMode;
   }
   if (resolvedTheme === "dark")
     if (theme?.backgroundImageBlendModeDark !== undefined) {
       return theme.backgroundImageBlendModeDark;
     }
-  return deployments[0]?.theme?.theme.backgroundImageBlendModeDark;
+  return deployment?.theme?.theme.backgroundImageBlendModeDark;
 };
 
 export const useBackgroundImageOpacity = () => {
