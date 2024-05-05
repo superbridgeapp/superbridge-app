@@ -15,15 +15,14 @@ import { Layout } from "@/components/Layout";
 import { PageTransition } from "@/components/PageTransition";
 import { Providers } from "@/components/Providers";
 import { Bridge } from "@/components/bridge";
+import { Head } from "@/components/head";
 import { isSuperbridge } from "@/config/superbridge";
 import { useDeployment } from "@/hooks/use-deployment";
 import { useDeployments } from "@/hooks/use-deployments";
 import { InjectedStoreProvider } from "@/state/injected";
 import { ThemeProvider } from "@/state/theme";
-import { useInitialise } from "@/hooks/use-initialise";
-import { Head } from "@/components/head";
 
-const SUPERCHAIN_MAINNETS = [
+export const SUPERCHAIN_MAINNETS = [
   "optimism",
   "base",
   "zora",
@@ -35,7 +34,7 @@ const SUPERCHAIN_MAINNETS = [
   "metal-mainnet",
 ];
 
-const SUPERCHAIN_TESTNETS = [
+export const SUPERCHAIN_TESTNETS = [
   "op-sepolia",
   "base-sepolia",
   "zora-sepolia-0thyhxtf5e",
@@ -48,14 +47,22 @@ const SUPERCHAIN_TESTNETS = [
 export const getServerSideProps = async ({
   req,
 }: GetServerSidePropsContext) => {
-  const ignored = ["favicon", "locales", "_vercel"];
-  if (!req.url || !req.headers.host) return { props: { deployments: [] } };
-
-  if (ignored.find((x) => req.url?.includes(x))) {
+  const ignored = ["favicon", "locales", "_vercel", "_next"];
+  if (
+    !req.url ||
+    !req.headers.host ||
+    ignored.find((x) => req.url?.includes(x))
+  )
     return { props: { deployments: [] } };
-  }
 
   if (isSuperbridge) {
+    const [name] = req.url.split(/[?\/]/).filter(Boolean);
+    if (SUPERCHAIN_TESTNETS.includes(name)) {
+      const { data } = await bridgeControllerGetDeployments({
+        names: SUPERCHAIN_TESTNETS,
+      });
+      return { props: { deployments: data, testnets: true } };
+    }
     const names =
       req.headers.host === "testnets.superbridge.app"
         ? SUPERCHAIN_TESTNETS
@@ -121,6 +128,7 @@ export const getServerSideProps = async ({
 
 export default function IndexRoot({
   deployments,
+  testnets,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const router = useRouter();
 
@@ -136,7 +144,12 @@ export default function IndexRoot({
 
   return (
     <InjectedStoreProvider
-      initialValues={{ deployments, deployment, withdrawing: false }}
+      initialValues={{
+        deployments,
+        deployment,
+        withdrawing: router.query.direction === "withdraw",
+        testnets: testnets ?? false,
+      }}
     >
       <ThemeProvider>
         <Providers>
