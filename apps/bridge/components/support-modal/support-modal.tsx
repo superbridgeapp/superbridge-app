@@ -35,7 +35,25 @@ export const SupportModal = ({
     setCheckbox4(false);
   }, [open]);
 
-  const mailLink = "mailto:support@superbridge.app";
+  const body = [
+    "Hi there,",
+    "",
+    `Hi there, I'm having an issue with ${
+      isSuperbridge ? "Superbridge" : `${rollupChain} bridge`
+    }`,
+    "",
+    "- The address of my wallet:",
+    `- The wallet I'm using: `,
+    "- The network I'm bridging from is:",
+    "- The network I'm bridging to is:",
+    "- The browser I'm using is:",
+    "- The device I'm using is:",
+    "",
+    "Thanks",
+  ];
+  const mailLink = `mailto:support@superbridge.app?subject=${
+    isSuperbridge ? "Superbridge" : `${rollupChain} bridge`
+  } support query&body=${body.join("%0D%0A")}`;
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
