@@ -26,7 +26,7 @@ export const NetworkIcon = ({
   const isRollup = chain?.id === deployment?.l2.id;
   const isL3 = !L1_BASE_CHAINS.includes(deployment?.l1.id ?? 0);
 
-  const rollupIcon = useNetworkIcon();
+  const rollupIcon = useNetworkIcon(deployment?.id);
 
   let src = "";
 

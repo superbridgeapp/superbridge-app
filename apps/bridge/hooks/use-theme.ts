@@ -34,7 +34,7 @@ export const useNavIcon = () => {
   );
 };
 
-export const useNetworkIcon = () => {
+export const useNetworkIcon = (deploymentId?: string) => {
   const { deployments } = useDeployments();
   const deployment = useDeployment();
   const theme = useContext(ThemeContext);
@@ -44,7 +44,7 @@ export const useNetworkIcon = () => {
   return (
     theme?.imageNetwork ??
     deployment?.theme?.theme.imageNetwork ??
-    deployments[0].theme?.theme.imageNetwork ??
+    deployments.find((d) => d.id === deploymentId)?.theme?.theme.imageNetwork ??
     defaultIcon
   );
 };
