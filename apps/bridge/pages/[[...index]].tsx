@@ -15,13 +15,12 @@ import { Layout } from "@/components/Layout";
 import { PageTransition } from "@/components/PageTransition";
 import { Providers } from "@/components/Providers";
 import { Bridge } from "@/components/bridge";
+import { Head } from "@/components/head";
 import { isSuperbridge } from "@/config/superbridge";
 import { useDeployment } from "@/hooks/use-deployment";
 import { useDeployments } from "@/hooks/use-deployments";
 import { InjectedStoreProvider } from "@/state/injected";
 import { ThemeProvider } from "@/state/theme";
-import { useInitialise } from "@/hooks/use-initialise";
-import { Head } from "@/components/head";
 
 export const SUPERCHAIN_MAINNETS = [
   "optimism",
@@ -49,11 +48,12 @@ export const getServerSideProps = async ({
   req,
 }: GetServerSidePropsContext) => {
   const ignored = ["favicon", "locales", "_vercel", "_next"];
-  if (!req.url || !req.headers.host) return { props: { deployments: [] } };
-
-  if (ignored.find((x) => req.url?.includes(x))) {
+  if (
+    !req.url ||
+    !req.headers.host ||
+    ignored.find((x) => req.url?.includes(x))
+  )
     return { props: { deployments: [] } };
-  }
 
   if (isSuperbridge) {
     const [name] = req.url.split(/[?\/]/).filter(Boolean);
