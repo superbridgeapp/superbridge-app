@@ -36,14 +36,12 @@ export const useNavIcon = () => {
 
 export const useNetworkIcon = (deploymentId?: string) => {
   const { deployments } = useDeployments();
-  const deployment = useDeployment();
   const theme = useContext(ThemeContext);
 
   const defaultIcon = "/img/L2.svg";
 
   return (
     theme?.imageNetwork ??
-    deployment?.theme?.theme.imageNetwork ??
     deployments.find((d) => d.id === deploymentId)?.theme?.theme.imageNetwork ??
     defaultIcon
   );
