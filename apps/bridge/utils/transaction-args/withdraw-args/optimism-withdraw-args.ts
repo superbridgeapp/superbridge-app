@@ -1,8 +1,7 @@
-import { Address, encodeFunctionData, encodeAbiParameters } from "viem";
+import { Address, encodeFunctionData, encodeAbiParameters, Hex } from "viem";
 
 import { L2BridgeAbi } from "@/abis/L2Bridge";
 import { L2StandardBridgeAbi } from "@/abis/L2StandardBridge";
-import { GRAFFITI } from "@/constants/extra-data";
 import { MultiChainToken, OptimismToken } from "@/types/token";
 
 import { isOptimismToken } from "../../guards";
@@ -22,7 +21,8 @@ const impl = (
   recipient: Address,
   weiAmount: bigint,
   easyMode: boolean,
-  gasToken: MultiChainToken | null
+  gasToken: MultiChainToken | null,
+  graffiti: Hex
 ): TransactionArgs | undefined => {
   // proxy
   if (proxyBridge && easyMode) {
@@ -121,7 +121,7 @@ const impl = (
           args: [
             recipient, // _to
             200_000, // _gas
-            GRAFFITI, // _extraData
+            graffiti, // _extraData
           ],
         }),
         value: weiAmount,
@@ -143,7 +143,7 @@ const impl = (
             recipient, // _to
             weiAmount, // _amount
             200_000, // _minGasLimit
-            GRAFFITI, // _extraData
+            graffiti, // _extraData
           ],
         }),
         value: BigInt(0),
@@ -165,7 +165,7 @@ const impl = (
           recipient, // _to
           weiAmount, // _amount
           200_000, // _minGasLimit
-          GRAFFITI, // _extraData
+          graffiti, // _extraData
         ],
       }),
       value: BigInt(0),
@@ -183,6 +183,7 @@ export const optimismWithdrawArgs: WithdrawTxResolver = ({
   weiAmount,
   options,
   gasToken,
+  graffiti,
 }) => {
   const l1Token = stateToken[deployment.l1.id];
   const l2Token = stateToken[deployment.l2.id];
@@ -207,7 +208,8 @@ export const optimismWithdrawArgs: WithdrawTxResolver = ({
     recipient,
     weiAmount,
     options.easyMode,
-    gasToken
+    gasToken,
+    graffiti
   );
 
   if (!result) {

@@ -132,9 +132,11 @@ export default function IndexRoot({
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const router = useRouter();
 
-  const [, id] = router.asPath.split("/");
+  const [name]: (string | undefined)[] = router.asPath
+    .split(/[?\/]/)
+    .filter(Boolean);
 
-  const found = deployments.find((x) => x.name === id);
+  const found = deployments.find((x) => x.name === name);
   let deployment = null;
   if (deployments.length === 1) {
     deployment = deployments[0];

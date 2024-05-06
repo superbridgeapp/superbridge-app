@@ -1,4 +1,4 @@
-import { Address } from "viem";
+import { Address, Hex } from "viem";
 import { UseEstimateFeesPerGasReturnType } from "wagmi";
 
 import { CctpDomainDto, DeploymentDto } from "@/codegen/model";
@@ -28,6 +28,7 @@ export type WithdrawArgs = {
   l2FeeData?: UseEstimateFeesPerGasReturnType;
   hyperlaneGasQuote?: bigint | undefined;
   gasToken: MultiChainToken | null;
+  graffiti: Hex;
 };
 
 export type WithdrawTxResolver = (

@@ -12,6 +12,7 @@ import { useL2TokenIsLegacy } from "./use-l2-token-is-legacy";
 import { useWeiAmount } from "./use-wei-amount";
 import { useGasToken } from "./use-approve-gas-token";
 import { useDeployment } from "./use-deployment";
+import { useGraffiti } from "./use-graffiti";
 
 export const useTransactionArgs = () => {
   const account = useAccount();
@@ -41,6 +42,7 @@ export const useTransactionArgs = () => {
   });
   const cctpDomains = useBridgeControllerGetCctpDomains();
   const gasToken = useGasToken();
+  const graffiti = useGraffiti();
 
   if (!deployment || !account.address || !recipient || !weiAmount) {
     return;
@@ -78,6 +80,7 @@ export const useTransactionArgs = () => {
       l1FeeData,
       l2FeeData,
       gasToken,
+      graffiti,
     });
   } else {
     return depositArgs({
@@ -89,6 +92,7 @@ export const useTransactionArgs = () => {
       l1FeeData: l1FeeData.data,
       l2FeeData: l2FeeData.data,
       gasToken,
+      graffiti,
     });
   }
 };

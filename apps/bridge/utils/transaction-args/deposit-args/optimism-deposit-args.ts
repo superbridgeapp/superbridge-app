@@ -1,9 +1,8 @@
-import { Address, encodeFunctionData } from "viem";
+import { Address, Hex, encodeFunctionData } from "viem";
 
 import { L1BridgeAbi } from "@/abis/L1Bridge";
 import { L1StandardBridgeAbi } from "@/abis/L1StandardBridge";
 import { OptimismPortalAbi } from "@/abis/OptimismPortal";
-import { GRAFFITI } from "@/constants/extra-data";
 import { MultiChainToken, OptimismToken } from "@/types/token";
 
 import { isOptimismToken } from "../../guards";
@@ -23,7 +22,8 @@ const impl = (
   proxyBridge: Address | undefined,
   recipient: Address,
   weiAmount: bigint,
-  gasToken: MultiChainToken | null
+  gasToken: MultiChainToken | null,
+  graffiti: Hex
 ): TransactionArgs | undefined => {
   if (isMainnet(deployment) && proxyBridge) {
     // proxy
@@ -84,7 +84,7 @@ const impl = (
               weiAmount, // _value
               BigInt(100_000), // _gasLimit
               false, // _isCreation
-              GRAFFITI, // _extraData
+              graffiti, // _extraData
             ],
           }),
           value: BigInt(0),
@@ -102,7 +102,7 @@ const impl = (
           args: [
             recipient, // _to
             200_000, // _gas
-            GRAFFITI, // _extraData
+            graffiti, // _extraData
           ],
         }),
         value: weiAmount,
@@ -126,7 +126,7 @@ const impl = (
           recipient, // _to
           weiAmount, // _amount
           200_000, // _minGasLimit
-          GRAFFITI, // _extraData
+          graffiti, // _extraData
         ],
       }),
       value: BigInt(0),
@@ -142,6 +142,7 @@ export const optimismDepositArgs: DepositTxResolver = ({
   recipient,
   weiAmount,
   gasToken,
+  graffiti,
 }) => {
   const l1Token = stateToken[deployment.l1.id];
   const l2Token = stateToken[deployment.l2.id];
@@ -163,6 +164,7 @@ export const optimismDepositArgs: DepositTxResolver = ({
     proxyBridge,
     recipient,
     weiAmount,
-    gasToken
+    gasToken,
+    graffiti
   );
 };
