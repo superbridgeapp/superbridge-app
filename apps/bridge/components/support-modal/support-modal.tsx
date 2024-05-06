@@ -38,12 +38,13 @@ export const SupportModal = ({
   const body = [
     "Hi there,",
     "",
-    `Hi there, I'm having an issue with ${
+    `I'm having an issue with ${
       isSuperbridge ? "Superbridge" : `${rollupChain} bridge`
     }`,
     "",
+    "- The problem I'm having:",
     "- The address of my wallet:",
-    `- The wallet I'm using: `,
+    `- The wallet I'm using:`,
     "- The network I'm bridging from is:",
     "- The network I'm bridging to is:",
     "- The browser I'm using is:",
