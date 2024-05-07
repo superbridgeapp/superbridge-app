@@ -12,6 +12,8 @@ export interface SuperchainToken {
   extensions: {
     optimismBridgeAddress?: string;
     baseBridgeAddress?: string;
+    modeBridgeAddress?: string;
+    pgnBridgeAddress?: string;
     opListId: string;
     opTokenId: string;
   };
