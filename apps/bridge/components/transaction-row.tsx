@@ -420,9 +420,14 @@ function getDepositAmount(tx: Transaction, token: Token | null | undefined) {
   }
 
   const dto = metadata as TokenDepositDto;
-  return `${formatUnits(BigInt(dto.data.amount), token?.decimals ?? 18)} ${
-    token?.symbol
-  }`;
+
+  const float = parseFloat(
+    formatUnits(BigInt(dto.data.amount), token?.decimals ?? 18)
+  );
+  const formatted = float.toLocaleString("en", {
+    maximumFractionDigits: float > 1 ? 4 : 8,
+  });
+  return `${formatted} ${token?.symbol}`;
 }
 
 export const TransactionRow = ({ tx }: { tx: Transaction }) => {
