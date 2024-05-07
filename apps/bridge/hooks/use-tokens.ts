@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { isPresent } from "ts-is-present";
 import { Address } from "viem";
+import { bsc, bscGreenfield, bscTestnet, rollux, syscoin } from "viem/chains";
 
 import { useConfigState } from "@/state/config";
 import { useSettingsState } from "@/state/settings";
@@ -102,6 +103,9 @@ function useNativeTokens(): MultiChainToken[] {
   );
 }
 
+const BNB_CHAINS: number[] = [bsc.id, bscTestnet.id, bscGreenfield.id];
+const SYS_CHAINS: number[] = [syscoin.id];
+
 export function useAllTokens() {
   const deployment = useDeployment();
   const tokens = useConfigState.useTokens();
@@ -120,6 +124,16 @@ export function useAllTokens() {
             deployments.forEach((d, deploymentIndex) => {
               let l1Ether = copy[1]!;
               let l2Ether = copy[10]!;
+
+              if (BNB_CHAINS.includes(d.l1.id)) {
+                l1Ether.logoURI = "/img/bsc/network.png";
+                l2Ether.logoURI = "/img/bsc/network.png";
+              }
+
+              if (SYS_CHAINS.includes(d.l1.id)) {
+                l1Ether.logoURI = "https://bridge.rollux.com/syscoin-logo.svg";
+                l2Ether.logoURI = "https://bridge.rollux.com/syscoin-logo.svg";
+              }
 
               // ensure every deployment has a native token registered
               if (!copy[d.l1.id]) {

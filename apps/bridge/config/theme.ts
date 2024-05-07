@@ -1,26 +1,28 @@
-import { DeploymentDto } from "@/codegen/model";
-import { Theme } from "@/types/theme";
 import {
   arbitrum,
-  arbitrumGoerli,
   arbitrumNova,
   arbitrumSepolia,
+  base,
   baseSepolia,
+  bsc,
+  bscTestnet,
+  holesky,
   kroma,
+  mainnet,
+  mode,
+  modeTestnet,
+  optimism,
   optimismSepolia,
   pgn,
-  zoraSepolia,
-  base,
-  mode,
-  optimism,
-  zora,
-  modeTestnet,
-  sepolia,
-  mainnet,
-  holesky,
-  syscoin,
   rollux,
+  sepolia,
+  syscoin,
+  zora,
+  zoraSepolia,
 } from "viem/chains";
+
+import { DeploymentDto } from "@/codegen/model";
+import { Theme } from "@/types/theme";
 
 export const chainIcons: { [chainId: number]: string | undefined } = {
   [mainnet.id]: "/img/network-ethereum.svg",
@@ -43,6 +45,8 @@ export const chainIcons: { [chainId: number]: string | undefined } = {
   [baseSepolia.id]: "/img/base/network.svg",
   [optimism.id]: "/img/optimism/network.svg",
   [optimismSepolia.id]: "/img/optimism/network.svg",
+  [bsc.id]: "/img/bsc/network.png",
+  [bscTestnet.id]: "/img/bsc/network.png",
 };
 
 const defaultTheme: Theme = {
