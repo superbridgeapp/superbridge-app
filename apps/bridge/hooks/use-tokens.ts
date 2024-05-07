@@ -1,7 +1,14 @@
 import { useMemo } from "react";
 import { isPresent } from "ts-is-present";
 import { Address } from "viem";
-import { bsc, bscGreenfield, bscTestnet, rollux, syscoin } from "viem/chains";
+import {
+  bsc,
+  bscGreenfield,
+  bscTestnet,
+  rollux,
+  syscoin,
+  syscoinTestnet,
+} from "viem/chains";
 
 import { useConfigState } from "@/state/config";
 import { useSettingsState } from "@/state/settings";
@@ -103,8 +110,10 @@ function useNativeTokens(): MultiChainToken[] {
   );
 }
 
-const BNB_CHAINS: number[] = [bsc.id, bscTestnet.id, bscGreenfield.id];
-const SYS_CHAINS: number[] = [syscoin.id];
+const BNB_TESTNET_CHAINS: number[] = [bscTestnet.id];
+const BNB_MAINNET_CHAINS: number[] = [bsc.id];
+const BNB_CHAINS: number[] = [...BNB_TESTNET_CHAINS, ...BNB_MAINNET_CHAINS];
+const SYS_CHAINS: number[] = [syscoinTestnet.id, syscoin.id];
 
 export function useAllTokens() {
   const deployment = useDeployment();
@@ -128,6 +137,16 @@ export function useAllTokens() {
               if (BNB_CHAINS.includes(d.l1.id)) {
                 l1Ether.logoURI = "/img/bsc/network.png";
                 l2Ether.logoURI = "/img/bsc/network.png";
+
+                // TODO: temp fix. Move name/symbol to backend
+                if (BNB_MAINNET_CHAINS.includes(d.l1.id)) {
+                  l1Ether.name = bsc.nativeCurrency.name;
+                  l1Ether.symbol = bsc.nativeCurrency.symbol;
+                }
+                if (BNB_TESTNET_CHAINS.includes(d.l1.id)) {
+                  l1Ether.name = bscTestnet.nativeCurrency.name;
+                  l1Ether.symbol = bscTestnet.nativeCurrency.symbol;
+                }
               }
 
               if (SYS_CHAINS.includes(d.l1.id)) {
