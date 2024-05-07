@@ -219,5 +219,12 @@
     "pleaseNote": "Please note",
     "learnMore": "Learn more…",
     "agreeAndContinue": "Agree & continue"
+  },
+
+  "noGasModal": {
+    "usdc": "Bridging USDC will require a second transaction on {{to}}, you need {{gas}} to send this transaction.",
+    "opWithdrawing": "Withdrawing {{token}} will require two additional transactions on {{to}}. You don't have any {{gas}} to complete these transactions.",
+    "arbWithdrawing": "Withdrawing {{token}} will require an additional transaction on {{to}}. You don't have any {{gas}} to complete this transaction.",
+    "depositing": "You won't be able to transfer your {{token}} or do anything with it without gas."
   }
 }
