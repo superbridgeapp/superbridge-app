@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { P, match } from "ts-pattern";
 
-import { CctpBridgeDto } from "@/codegen/model";
+import { CctpBridgeDto, DeploymentType } from "@/codegen/model";
 import { getFinalizationPeriod } from "@/hooks/use-finalization-period";
 import { usePeriodText } from "@/hooks/use-period-text";
 import { usePendingTransactions } from "@/state/pending-txs";
@@ -67,10 +67,10 @@ export const useCctpProgressRows = () => {
         }))
 
         .otherwise(({ tx }) => {
-          const TIME = tx.from.testnet ? 1000 * 60 * 3 : 1000 * 60 * 15;
-          // because we use Hyperlane let's give Hyperlane some time
-          // to relay.
-          // const BUFFER = 1000 * 60 * 10;
+          const TIME =
+            tx.deployment.type === DeploymentType.mainnet
+              ? 1000 * 60 * 16
+              : 1000 * 60 * 3;
           if (tx.bridge.timestamp < Date.now() - TIME) {
             return {
               label: t("activity.readyToMint"),
