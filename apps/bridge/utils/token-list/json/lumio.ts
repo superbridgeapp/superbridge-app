@@ -37,18 +37,18 @@ export const FULLY_QUALIFIED_TOKENS = [
 ] as const;
 
 export const tokens = [
-  {
-    chainId,
-    address: "0x22355bE576bB6a5CCCb294E77b514b7040C71Cc0",
-    name: "Tether USD",
-    symbol: "USDT",
-    decimals: 6,
-    logoURI: "https://ethereum-optimism.github.io/data/USDT/logo.png",
-    standardBridgeAddresses: {
-      [1]: "0x4200000000000000000000000000000000000010",
-    },
-    opTokenId: "USDT",
-  },
+  // {
+  //   chainId,
+  //   address: "0x22355bE576bB6a5CCCb294E77b514b7040C71Cc0",
+  //   name: "Tether USD",
+  //   symbol: "USDT",
+  //   decimals: 6,
+  //   logoURI: "https://ethereum-optimism.github.io/data/USDT/logo.png",
+  //   standardBridgeAddresses: {
+  //     [1]: "0x4200000000000000000000000000000000000010",
+  //   },
+  //   opTokenId: "USDT",
+  // },
   {
     chainId,
     address: "0xd08a2917653d4e460893203471f0000826fb4034",
