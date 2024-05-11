@@ -133,15 +133,15 @@ export const useTotalBridgeTime = (
   const finalize = getFinalizationPeriod(deployment, isNativeUsdc(stateToken));
   const deposit = useDepositTime(deployment);
 
-  if (!withdrawing) {
-    return deposit;
-  }
-
   if (isNativeUsdc(stateToken)) {
     if (escapeHatch) {
       return addPeriods(deposit, cctpPeriod(deployment));
     }
     return cctpPeriod(deployment);
+  }
+
+  if (!withdrawing) {
+    return deposit;
   }
 
   if (!prove) {
