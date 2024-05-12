@@ -37,12 +37,12 @@ export default function Support({
 export const getServerSideProps = async ({
   req,
 }: GetServerSidePropsContext) => {
-  if (isSuperbridge) {
-    const { data } = await bridgeControllerGetDeployments({
-      names: [...SUPERCHAIN_MAINNETS, ...SUPERCHAIN_TESTNETS],
-    });
-    return { props: { deployments: data } };
-  }
+  // if (isSuperbridge) {
+  const { data } = await bridgeControllerGetDeployments({
+    names: [...SUPERCHAIN_MAINNETS, ...SUPERCHAIN_TESTNETS],
+  });
+  return { props: { deployments: data } };
+  // }
 
   return { props: { deployments: [] } };
 };
