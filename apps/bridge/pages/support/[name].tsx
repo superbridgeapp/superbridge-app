@@ -1,8 +1,9 @@
-import { InferGetServerSidePropsType } from "next";
+import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import Link from "next/link";
 import { useState } from "react";
 import { match } from "ts-pattern";
 
+import { bridgeControllerGetDeployments } from "@/codegen/index";
 import { DeploymentFamily } from "@/codegen/model";
 import PageFooter from "@/components/page-footer";
 import PageNav from "@/components/page-nav";
@@ -18,13 +19,14 @@ import { isSuperbridge } from "@/config/superbridge";
 import { getFinalizationPeriod } from "@/hooks/use-finalization-period";
 import { defaultImages } from "@/hooks/use-theme";
 
-import { getServerSideProps as indexGetServerSideProps } from "./[[...index]]";
-
 export default function Support({
-  deployments,
+  deployment,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const deployment = deployments[0];
   const [open, setOpen] = useState(false);
+
+  if (!deployment) {
+    return <div>Not Found</div>;
+  }
 
   const settlementChain = isSuperbridge
     ? "Ethereum Mainnet"
@@ -463,4 +465,17 @@ export default function Support({
   );
 }
 
-export const getServerSideProps = indexGetServerSideProps;
+export const getServerSideProps = async ({
+  req,
+  params,
+  query,
+}: GetServerSidePropsContext) => {
+  if (!req.url || !params?.name) {
+    return { props: { deployment: null } };
+  }
+  const { data } = await bridgeControllerGetDeployments({
+    names: [params.name as string],
+  });
+
+  return { props: { deployment: data[0] } };
+};
