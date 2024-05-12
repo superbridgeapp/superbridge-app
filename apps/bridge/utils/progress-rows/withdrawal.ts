@@ -126,6 +126,9 @@ export const useOptimismWithdrawalProgressRows = () => {
         w.withdrawal.timestamp || Date.now(),
         provePeriod
       );
+      if (!remainingTimePeriod) {
+        return "";
+      }
       return transformPeriodText("activity.remaining", {}, remainingTimePeriod);
     })();
 

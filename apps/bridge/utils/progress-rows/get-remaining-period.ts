@@ -21,6 +21,9 @@ export const getRemainingTimePeriod = (
   duration: Period
 ): Period => {
   const remainingTime = getRemainingTimeMs(initiatedTime, duration);
+  if (remainingTime < 0) {
+    return null;
+  }
 
   if (remainingTime > ONE_DAY) {
     return {
