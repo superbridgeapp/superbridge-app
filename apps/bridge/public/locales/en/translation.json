@@ -219,7 +219,10 @@
     "superbridge4": "By using this interface you agree to our <0>Terms and Privacy Policy</0>.",
 
     "dedicated1": "This interface is only a layer over the native bridge contracts for <0>{{name}}</0>.",
-    "agreeAndContinue": "Agree & continue"
+    "agreeAndContinue": "Agree & continue",
+
+    "forceReadTerms": "Please read and agree to the Terms of Service",
+    "forceReadPrivacy": "Please read and agree to the Privacy Policy"
   },
 
   "legal": {
