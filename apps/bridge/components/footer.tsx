@@ -14,6 +14,7 @@ import { isSuperbridge } from "@/config/superbridge";
 import { useDeployments } from "@/hooks/use-deployments";
 import { useDarkModeEnabled } from "@/hooks/use-theme";
 import { useConfigState } from "@/state/config";
+import { Button } from "./ui/button";
 
 export function Footer() {
   const { setTheme, resolvedTheme } = useTheme();
@@ -21,22 +22,32 @@ export function Footer() {
   const deployments = useDeployments();
   const { t } = useTranslation();
   const setSettingsModal = useConfigState.useSetSettingsModal();
+  const setLegalModal = useConfigState.useSetLegalModal();
   const darkModeEnabled = useDarkModeEnabled();
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  const links: LinkDto[] = isSuperbridge
-    ? [
-        { url: "/support", label: t("support") },
-        { url: "https://twitter.com/superbridgeapp", label: "x.com" },
-      ]
-    : [
-        ...(deployments.deployments[0]?.theme?.links ?? []),
-        { url: "/support", label: t("support") },
-        { url: "https://rollbridge.app", label: "Powered by Superbridge" },
-      ];
+  const links: (LinkDto | { onClick: () => void; label: string })[] =
+    isSuperbridge
+      ? [
+          { url: "/support", label: t("support") },
+          {
+            onClick: () => setLegalModal(true),
+            label: t("legal.footerButton"),
+          },
+          { url: "https://twitter.com/superbridgeapp", label: "x.com" },
+        ]
+      : [
+          ...(deployments.deployments[0]?.theme?.links ?? []),
+          { url: "/support", label: t("support") },
+          {
+            onClick: () => setLegalModal(true),
+            label: t("legal.footerButton"),
+          },
+          { url: "https://rollbridge.app", label: "Powered by Superbridge" },
+        ];
 
   return (
     <footer className="flex flex-row justify-between px-1.5 md:px-6 py-3 md:py-4 fixed bottom-0 left-0 w-screen z-50 bg-gradient-to-t from-zinc-950/40 md:from-transparent">
@@ -144,17 +155,28 @@ export function Footer() {
                 </svg>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" side="bottom">
-                {links.map(({ label, url }) => (
-                  <DropdownMenuItem key={label}>
-                    <Link
-                      href={url}
-                      target="_blank"
-                      className="font-medium text-sm w-full"
-                    >
-                      {label}
-                    </Link>
-                  </DropdownMenuItem>
-                ))}
+                {links.map((link) => {
+                  return (
+                    <DropdownMenuItem key={link.label}>
+                      {(link as any).url ? (
+                        <Link
+                          href={(link as any).url}
+                          target="_blank"
+                          className="font-medium text-sm w-full"
+                        >
+                          {link.label}
+                        </Link>
+                      ) : (
+                        <button
+                          onClick={(link as any).onClick}
+                          className="font-medium text-sm"
+                        >
+                          {link.label}
+                        </button>
+                      )}
+                    </DropdownMenuItem>
+                  );
+                })}
               </DropdownMenuContent>
             </DropdownMenu>
           </div>

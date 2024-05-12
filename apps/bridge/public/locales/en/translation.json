@@ -219,5 +219,14 @@
     "pleaseNote": "Please note",
     "learnMore": "Learn more…",
     "agreeAndContinue": "Agree & continue"
+  },
+
+  "legal": {
+    "footerButton": "Terms & Privacy",
+    "title": "Terms & Privacy",
+    "superbridgeTerms": "Superbridge Terms of Service",
+    "superbridgePrivacy": "Superbridge Privacy Policy",
+    "dedicatedTerms": "{{name}} Terms of Service",
+    "dedicatedPrivacy": "{{name}} Privacy Policy"
   }
 }

@@ -25,6 +25,7 @@ import { useConfigState } from "@/state/config";
 import { CustomTokenListModal } from "./settings/custom-token-list-modal";
 import { SettingsModal } from "./settings/settings-modal";
 import { TosModal } from "./tos-modal";
+import { LegalModal } from "./legal-modal";
 
 export function Layout({ children }: { children: any }) {
   useInitialise();
@@ -72,6 +73,7 @@ export function Layout({ children }: { children: any }) {
       />
 
       <TosModal />
+      <LegalModal />
       <CustomTokenListModal />
 
       <nav className="flex flex-row justify-between items-center p-3 md:p-6 fixed top-0 left-0 w-screen z-10">
