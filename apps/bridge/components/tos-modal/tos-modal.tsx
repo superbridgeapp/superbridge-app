@@ -35,7 +35,7 @@ export const TosModal = () => {
             <p className="text-sm font-bold">
               <Trans
                 i18nKey={isSuperbridge ? "tos.superbridge1" : "tos.dedicated1"}
-                components={[<span key="name" className="font-bold" />]}
+                components={[<span key="name" className="underline" />]}
                 values={{ name: deployment?.l2.name }}
               />
             </p>
