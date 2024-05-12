@@ -212,12 +212,13 @@
 
   "tos": {
     "welcome": "Welcome to {{name}}",
-    "descriptionSuperbridge": "This interface is only a layer over the <0>native bridge contracts</0> for official Superchain rollups. No funds are held in custody by Superbridge at any point.",
-    "descriptionSuperbridgeDedicated": "This interface is only a layer over the <0>native bridge contracts</0> for {{name}}. No funds are held in custody by Superbridge at any point.",
-    "descriptionRollbridge": "This interface is only a layer over the <0>native bridge contracts</0> for various rollups. No funds are held in custody by Rollbridge at any point.",
-    "descriptionRollbridgeDedicated": "This interface is only a layer over the <0>native bridge contracts</0> for {{name}}. No funds are held in custody by Rollbridge at any point.",
-    "pleaseNote": "Please note",
-    "learnMore": "Learn more…",
+    "poweredBy": "Powered by Superbridge",
+    "superbridge1": "This interface is only a layer over the <0>native bridge contracts</0> for official Superchain rollups.",
+    "superbridge2": "No funds are held in custody by Superbridge at any point.",
+    "superbridge3": "For bridging help please head over to <0>support & FAQs</0>.",
+    "superbridge4": "By using this interface you agree to our <0>Terms and Privacy Policy</0>.",
+
+    "dedicated1": "This interface is only a layer over the <0>native bridge contracts</0> for {{name}}.",
     "agreeAndContinue": "Agree & continue"
   },
 

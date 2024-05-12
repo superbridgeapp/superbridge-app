@@ -24,7 +24,7 @@ import { useConfigState } from "@/state/config";
 
 import { CustomTokenListModal } from "./settings/custom-token-list-modal";
 import { SettingsModal } from "./settings/settings-modal";
-import { TosModal } from "./tos-modal";
+import { TosModal } from "./tos-modal/tos-modal";
 import { LegalModal } from "./legal-modal";
 
 export function Layout({ children }: { children: any }) {
