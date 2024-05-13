@@ -145,7 +145,10 @@ export const TosModal = () => {
 
   return (
     <Dialog open={!hasViewedTos} onOpenChange={() => {}}>
-      <DialogContent hideCloseButton>
+      <DialogContent
+        hideCloseButton
+        onOpenAutoFocus={(e) => e.preventDefault()}
+      >
         {tabs.length > 1 && (
           <div className="flex justify-between items center p-4 border-b border-muted">
             <div className="w-10 h-10 shrink-0">
