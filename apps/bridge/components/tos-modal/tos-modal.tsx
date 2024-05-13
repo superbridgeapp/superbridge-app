@@ -2,6 +2,7 @@ import clsx from "clsx";
 import Link from "next/link";
 import { useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
+import ReactMarkdown from "react-markdown";
 
 import { isSuperbridge } from "@/config/superbridge";
 import { useDeployment } from "@/hooks/use-deployment";
@@ -12,7 +13,6 @@ import { useSettingsState } from "@/state/settings";
 import { Button } from "../ui/button";
 import { Dialog, DialogContent } from "../ui/dialog";
 import { DocumentIcon, QuestionMark, NoFundsIcon, SparkleIcon } from "./icons";
-import ReactMarkdown from "react-markdown";
 
 export const TosModal = () => {
   const { t } = useTranslation();
@@ -103,44 +103,83 @@ export const TosModal = () => {
     </div>
   );
 
-  const terms = (
-    <div className="flex flex-col">
-      <div className="max-h-[320px] prose prose-sm prose-headings:font-bold dark:prose-invert overflow-y-scroll p-6">
-        <h1 className="text-lg font-bold text-foreground">
-          {t("tos.forceReadTerms")}
-        </h1>
-        <ReactMarkdown>{deployment?.tos?.customTermsOfService}</ReactMarkdown>
-      </div>
-      <div className="border-t border-muted p-6">
-        <Button className="w-full" onClick={onNext}>
-          {t("tos.agreeAndContinue")}
-        </Button>
-      </div>
-    </div>
-  );
+  const Terms = () => {
+    const [scrolled, setScrolled] = useState(false);
+    const handleScroll = (e: any) => {
+      const bottom =
+        Math.abs(
+          e.target.scrollHeight - e.target.clientHeight - e.target.scrollTop
+        ) < 1;
+      if (bottom) {
+        setScrolled(true);
+      }
+    };
 
-  const privacy = (
-    <div className="flex flex-col">
-      <div className="max-h-[320px] prose prose-sm prose-headings:font-bold dark:prose-invert overflow-y-scroll p-6">
-        <h1 className="text-lg font-bold text-foreground">
-          {t("tos.forceReadPrivacy")}
-        </h1>
-        <ReactMarkdown>{deployment?.tos?.customPrivacyPolicy}</ReactMarkdown>
+    const onClick = () => {
+      if (!scrolled) return;
+      onNext();
+    };
+    return (
+      <div className="flex flex-col">
+        <div
+          className="max-h-[320px] prose prose-sm prose-headings:font-bold dark:prose-invert overflow-y-scroll p-6"
+          onScroll={handleScroll}
+        >
+          <h1 className="text-lg font-bold text-foreground">
+            {t("tos.forceReadTerms")}
+          </h1>
+          <ReactMarkdown>{deployment?.tos?.customTermsOfService}</ReactMarkdown>
+        </div>
+        <div className="border-t border-muted p-6">
+          <Button disabled={!scrolled} className="w-full" onClick={onClick}>
+            {t("tos.agreeAndContinue")}
+          </Button>
+        </div>
       </div>
-      <div className="border-t border-muted p-6">
-        <Button className="w-full" onClick={onNext}>
-          {t("tos.agreeAndContinue")}
-        </Button>
+    );
+  };
+  const Privacy = () => {
+    const [scrolled, setScrolled] = useState(false);
+    const handleScroll = (e: any) => {
+      const bottom =
+        Math.abs(
+          e.target.scrollHeight - e.target.clientHeight - e.target.scrollTop
+        ) < 1;
+      if (bottom) {
+        setScrolled(true);
+      }
+    };
+
+    const onClick = () => {
+      if (!scrolled) return;
+      onNext();
+    };
+    return (
+      <div className="flex flex-col">
+        <div
+          onScroll={handleScroll}
+          className="max-h-[320px] prose prose-sm prose-headings:font-bold dark:prose-invert overflow-y-scroll p-6"
+        >
+          <h1 className="text-lg font-bold text-foreground">
+            {t("tos.forceReadPrivacy")}
+          </h1>
+          <ReactMarkdown>{deployment?.tos?.customPrivacyPolicy}</ReactMarkdown>
+        </div>
+        <div className="border-t border-muted p-6">
+          <Button disabled={!scrolled} className="w-full" onClick={onClick}>
+            {t("tos.agreeAndContinue")}
+          </Button>
+        </div>
       </div>
-    </div>
-  );
+    );
+  };
 
   const tabs = [tab1];
   if (deployment?.tos?.forceReadTermsOfService) {
-    tabs.push(terms);
+    tabs.push(<Terms />);
   }
   if (deployment?.tos?.forceReadPrivacyPolicy) {
-    tabs.push(privacy);
+    tabs.push(<Privacy />);
   }
 
   return (
