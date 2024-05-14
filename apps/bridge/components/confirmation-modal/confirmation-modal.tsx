@@ -301,17 +301,17 @@ export const ConfirmationModal = ({
     withdrawing,
     isNativeToken: isNativeToken(stateToken),
   })
+    .with({ bridge: { isLoading: true } }, (d) => ({
+      onSubmit: () => {},
+      buttonText: d.withdrawing ? t("withdrawing") : t("depositing"),
+      disabled: true,
+    }))
     .with({ needsApprove: true }, (d) => ({
       onSubmit: () => {},
       buttonText: d.withdrawing
         ? t("confirmationModal.initiateWithdrawal")
         : t("confirmationModal.initiateDeposit"),
       disabled: true,
-    }))
-    .with({ bridge: { write: { isLoading: true } } }, (d) => ({
-      onSubmit: () => {},
-      buttonText: d.withdrawing ? t("withdrawing") : t("depositing"),
-      disabled: false,
     }))
     .otherwise((d) => ({
       onSubmit: onConfirm,

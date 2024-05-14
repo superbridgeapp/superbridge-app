@@ -329,17 +329,13 @@ export const BridgeBody = () => {
     },
   ].filter(isPresent);
 
-  const onSubmit = async () => {
+  const initiateBridge = async () => {
     await onWrite();
     allowance.refetch();
     setConfirmationModal(false);
   };
 
-  const handleSubmitClick = () => {
-    if (!nft && weiAmount === BigInt(0)) {
-      return;
-    }
-
+  const onSubmit = () => {
     const conditions = [
       withdrawing, // need to prove/finalize
       isNativeUsdc(stateToken), // need to mint
@@ -348,8 +344,16 @@ export const BridgeBody = () => {
     if (conditions.some((x) => x) && toEthBalance.data?.value === BigInt(0)) {
       setNoGasModal(true);
     } else {
-      setConfirmationModal(true);
+      initiateBridge();
     }
+  };
+
+  const handleSubmitClick = () => {
+    if (!nft && weiAmount === BigInt(0)) {
+      return;
+    }
+
+    setConfirmationModal(true);
   };
 
   const submitButton = match({
@@ -361,14 +365,7 @@ export const BridgeBody = () => {
     account: account.address,
     hasInsufficientBalance,
     hasInsufficientGas,
-    forceViaL1,
-    allowance: allowance.data,
-    nftAllowance: nftAllowance.data,
-    approve,
-    approveNft,
-    token,
     nft,
-    isEth: isEth(token),
     recipient,
   })
     .with({ disabled: true }, ({ withdrawing }) => ({
@@ -399,6 +396,11 @@ export const BridgeBody = () => {
       // Let's not disable here because people could actually submit with
       // a lower gas price via their wallet. A little power-usery but important imo
       disabled: false,
+    }))
+    .with({ isSubmitting: true }, (d) => ({
+      onSubmit: () => {},
+      buttonText: d.withdrawing ? t("withdrawing") : t("depositing"),
+      disabled: true,
     }))
     .otherwise((d) => ({
       onSubmit: handleSubmitClick,
@@ -432,10 +434,9 @@ export const BridgeBody = () => {
       <NoGasModal
         open={noGasModal}
         setOpen={setNoGasModal}
-        onBack={() => setNoGasModal(false)}
         onProceed={() => {
-          setNoGasModal(true);
-          setConfirmationModal(true);
+          setNoGasModal(false);
+          initiateBridge();
         }}
       />
       <FromTo />

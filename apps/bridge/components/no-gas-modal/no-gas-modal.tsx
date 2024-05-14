@@ -31,12 +31,10 @@ const supportsAcross = (deployment: DeploymentDto) => {
 
 export const NoGasModal = ({
   onProceed,
-  onBack,
   open,
   setOpen,
 }: {
   onProceed: () => void;
-  onBack: () => void;
   open: boolean;
   setOpen: (b: boolean) => void;
 }) => {
@@ -112,7 +110,7 @@ export const NoGasModal = ({
               <GasDrop />
             </div>
             <h1 className="font-bold text-2xl tracking-tight text-pretty">
-              You need gas on {common.to}
+              {t("noGasModal.youNeedGasOn", common)}
             </h1>
             <p className="text-xs md:text-sm prose-sm font-bold text-muted-foreground text-pretty text-center">
               {description}
@@ -120,18 +118,18 @@ export const NoGasModal = ({
           </div>
 
           <div className="flex flex-col gap-2">
-            <Link
-              href="/support"
-              prefetch={false}
+            <a
+              href={`https://superbridge.app/support/${deployment?.name}`}
+              target="_blank"
               className="text-xs text-center font-bold text-foreground hover:underline mb-2"
             >
-              Need help? View FAQs
-            </Link>
+              {t("noGasModal.needHelp")}
+            </a>
 
             <Button onClick={cancelButton.onClick}>{cancelButton.text}</Button>
 
             <Button variant={"secondary"} onClick={onProceed}>
-              <span>Proceed anyway</span>
+              <span>{t("noGasModal.proceedAnyway")}</span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
