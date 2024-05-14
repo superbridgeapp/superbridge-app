@@ -7,6 +7,7 @@ import { isSuperbridge } from "@/config/superbridge";
 
 import { bridgeControllerGetDeployments } from "@/codegen/index";
 import { SUPERCHAIN_MAINNETS, SUPERCHAIN_TESTNETS } from "../[[...index]]";
+import { getServerSideProps as getServerSidePropsFromDomain } from "../client-terms";
 
 export default function Support({
   deployments,
@@ -51,15 +52,20 @@ export default function Support({
   );
 }
 
-export const getServerSideProps = async ({
-  req,
-}: GetServerSidePropsContext) => {
-  // if (isSuperbridge) {
+export const getServerSideProps = async (args: GetServerSidePropsContext) => {
+  if (!isSuperbridge) {
+    const { props } = await getServerSidePropsFromDomain(args);
+    if (props.deployment) {
+      return {
+        redirect: {
+          destination: `https://superbridge.app/support/${props.deployment.name}`,
+          permanent: false,
+        },
+      };
+    }
+  }
   const { data } = await bridgeControllerGetDeployments({
     names: [...SUPERCHAIN_MAINNETS, ...SUPERCHAIN_TESTNETS],
   });
   return { props: { deployments: data } };
-  // }
-
-  return { props: { deployments: [] } };
 };

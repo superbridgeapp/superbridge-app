@@ -493,11 +493,11 @@ export default function Support({
 export const getServerSideProps = async ({
   req,
   params,
-  query,
 }: GetServerSidePropsContext) => {
-  if (!req.url || !params?.name) {
+  if (!req.url || !params?.name || !isSuperbridge) {
     return { props: { deployment: null } };
   }
+
   const { data } = await bridgeControllerGetDeployments({
     names: [params.name as string],
   });
