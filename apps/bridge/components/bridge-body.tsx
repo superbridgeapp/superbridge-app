@@ -345,11 +345,11 @@ export const BridgeBody = () => {
       isNativeUsdc(stateToken), // need to mint
       !withdrawing && !isEth(stateToken?.[to?.id ?? 0]), // depositing an ERC20 with no gas on the destination (won't be able to do anything with it)
     ];
-    // if (conditions.some((x) => x) && toEthBalance.data?.value === BigInt(0)) {
-    setNoGasModal(true);
-    // } else {
-    //   setConfirmationModal(true);
-    // }
+    if (conditions.some((x) => x) && toEthBalance.data?.value === BigInt(0)) {
+      setNoGasModal(true);
+    } else {
+      setConfirmationModal(true);
+    }
   };
 
   const submitButton = match({

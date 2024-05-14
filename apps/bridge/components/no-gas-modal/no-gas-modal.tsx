@@ -1,10 +1,11 @@
+import Link from "next/link";
 import { useTranslation } from "react-i18next";
 import { match } from "ts-pattern";
 
 import { DeploymentFamily } from "@/codegen/model";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
 import { useDeployment } from "@/hooks/use-deployment";
-import { useToNativeToken } from "@/hooks/use-native-token";
+import { useNativeToken, useToNativeToken } from "@/hooks/use-native-token";
 import { useSelectedToken } from "@/hooks/use-selected-token";
 import { useConfigState } from "@/state/config";
 import { isNativeToken } from "@/utils/is-eth";
@@ -13,7 +14,6 @@ import { GasDrop } from "./icons";
 
 import { Button } from "../ui/button";
 import { Dialog, DialogContent } from "../ui/dialog";
-import Link from "next/link";
 
 export const NoGasModal = ({
   onProceed,
@@ -28,12 +28,14 @@ export const NoGasModal = ({
 }) => {
   const { t } = useTranslation();
   const stateToken = useConfigState.useToken();
+  const setStateToken = useConfigState.useSetToken();
   const withdrawing = useConfigState.useWithdrawing();
   const from = useFromChain();
   const to = useToChain();
   const token = useSelectedToken();
   const deployment = useDeployment();
   const toNativeToken = useToNativeToken();
+  const nativeToken = useNativeToken();
 
   const common = {
     from: from?.name,
@@ -49,6 +51,7 @@ export const NoGasModal = ({
     family: deployment?.family,
     isEth: isNativeToken(stateToken),
   })
+    .with({ withdrawing: false }, () => t("noGasModal.depositing", common))
     .with({ isUsdc: true }, () => t("noGasModal.usdc", common))
     .with({ withdrawing: true, family: DeploymentFamily.optimism }, () =>
       t("noGasModal.opWithdrawing", common)
@@ -56,8 +59,31 @@ export const NoGasModal = ({
     .with({ withdrawing: true, family: DeploymentFamily.arbitrum }, () =>
       t("noGasModal.arbWithdrawing", common)
     )
-    .with({ withdrawing: false }, () => t("noGasModal.depositing", common))
     .otherwise(() => null);
+
+  const cancelButton = match({
+    withdrawing,
+    supportsAcross: false as boolean,
+  })
+    .with({ withdrawing: false }, () => ({
+      text: t("noGasModal.topup", common),
+      onClick: () => {
+        setStateToken(nativeToken ?? null);
+        setOpen(false);
+      },
+    }))
+    .with({ supportsAcross: true }, () => ({
+      text: t("noGasModal.goBack", common),
+      onClick: () => {
+        setOpen(false);
+      },
+    }))
+    .otherwise(() => ({
+      text: t("noGasModal.goBack", common),
+      onClick: () => {
+        setOpen(false);
+      },
+    }));
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -76,17 +102,15 @@ export const NoGasModal = ({
           </div>
 
           <div className="flex flex-col gap-2">
-            <a
+            <Link
               href="/support"
+              prefetch={false}
               className="text-xs text-center font-bold text-foreground hover:underline mb-2"
             >
               Need help? View FAQs
-            </a>
-            <Button onClick={onBack}>
-              <Link href="https://www.gas.zip/" target="_blank">
-                Top up gas on {common.to}
-              </Link>
-            </Button>
+            </Link>
+
+            <Button onClick={cancelButton.onClick}>{cancelButton.text}</Button>
 
             <Button variant={"secondary"} onClick={onProceed}>
               <span>Proceed anyway</span>
