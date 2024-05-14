@@ -272,14 +272,37 @@ export default function Support({
   const finalizationPeriod = getFinalizationPeriod(deployment, false);
 
   return (
-    <div className="w-screen h-screen overflow-y-auto bg-purple-100">
+    <div className="w-screen h-screen overflow-y-auto bg-zinc-50">
       <PageNav />
       <main>
         <section className="max-w-3xl mx-auto p-8">
-          <header className="py-16">
-            <h1 className="font-bold text-6xl tracking-tighter">
+          <header className="flex flex-col items-center py-16 gap-4">
+            <img
+              src={deployment?.theme?.theme.imageNetwork}
+              alt={rollupChain}
+              className="w-24 h-24 rounded-full"
+            />
+            <h1 className="font-bold text-6xl tracking-tighter text-center">
+              {rollupChain}
+              <br />
               FAQs &amp; Support
             </h1>
+            <Link
+              className="rounded-full shadow-sm bg-white dark:bg-zinc-800 text-sm font-medium tracking-tighter py-2 px-4 hover:scale-105 transition-transform cursor-pointer grow-0 flex items-center leading-4"
+              href="/support"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="14"
+                height="14"
+                viewBox="0 0 14 14"
+                fill="none"
+                className="fill-zinc-900 mr-1"
+              >
+                <path d="M7 0.677246C6.70724 0.677246 6.41553 0.769919 6.1849 0.984753L0.523395 5.9849C0.246428 6.23133 0 6.55463 0 7.0001C0 7.44556 0.246428 7.76887 0.523395 8.01529L6.1849 13.0154C6.41553 13.2313 6.70829 13.323 7 13.323C7.67715 13.323 8.23108 12.769 8.23108 12.0919C8.23108 11.738 8.09312 11.4147 7.81616 11.1693L4.49361 8.23118H12.7689C13.4461 8.23118 14 7.67725 14 7.0001C14 6.32295 13.4461 5.76902 12.7689 5.76902H4.49255L7.8151 2.83085C8.09207 2.58442 8.23003 2.26217 8.23003 1.90833C8.23003 1.23118 7.67609 0.677246 6.99895 0.677246L7 0.677246Z" />
+              </svg>
+              <span>All chains</span>
+            </Link>
           </header>
           <Accordion type="single" collapsible className="w-full">
             <AccordionItem value="item-1">
@@ -440,16 +463,18 @@ export default function Support({
                 </div>
               </AccordionContent>
             </AccordionItem>
+            <AccordionItem value="item-10">
+              <AccordionTrigger>Have more questions?</AccordionTrigger>
+              <AccordionContent>
+                <div className="prose pb-2">
+                  <p>
+                    If you have additional questions, feel free to reach out.
+                  </p>
+                </div>
+                <Button onClick={() => setOpen(true)}>Contact us</Button>
+              </AccordionContent>
+            </AccordionItem>
           </Accordion>
-          <div className=" py-8 flex gap-8 items-start justify-between">
-            <div>
-              <h3 className="font-bold tracking-tight text-2xl">
-                Have more questions?
-              </h3>
-              <p>If you have additional questions, feel free to reach out.</p>
-            </div>
-            <Button onClick={() => setOpen(true)}>Contact us</Button>
-          </div>
 
           <SupportModal
             open={open}
