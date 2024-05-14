@@ -55,6 +55,7 @@ import { TokenModal } from "./tokens/Modal";
 import { CustomTokenImportModal } from "./tokens/custom-token-import-modal";
 import { Button } from "./ui/button";
 import { WithdrawSettingsModal } from "./withdraw-settings/modal";
+import { NoGasModal } from "./no-gas-modal";
 
 const RecipientAddress = ({
   openAddressDialog,
@@ -141,6 +142,7 @@ export const BridgeBody = () => {
   const [tokensDialog, setTokensDialog] = useState(false);
   const [withdrawSettingsDialog, setWithdrawSettingsDialog] = useState(false);
   const [addressDialog, setAddressDialog] = useState(false);
+  const [noGasModal, setNoGasModal] = useState(false);
 
   const deployment = useDeployment();
   const setConfirmationModal = useConfigState.useSetDisplayConfirmationModal();
@@ -163,9 +165,13 @@ export const BridgeBody = () => {
 
   const initiatingChainId =
     forceViaL1 && withdrawing ? deployment?.l1.id : from?.id;
-  const ethBalance = useBalance({
+  const fromEthBalance = useBalance({
     address: account.address,
     chainId: initiatingChainId,
+  });
+  const toEthBalance = useBalance({
+    address: account.address,
+    chainId: to?.id,
   });
   const tokenBalance = useTokenBalance(token);
   const feeData = useEstimateFeesPerGas({
@@ -204,7 +210,7 @@ export const BridgeBody = () => {
   const hasInsufficientGas =
     networkFee &&
     BigInt(parseUnits(networkFee.toFixed(18), 18)) >
-      (ethBalance.data?.value ?? BigInt(0));
+      (fromEthBalance.data?.value ?? BigInt(0));
 
   const isCustomToken = useIsCustomToken(stateToken);
   const isCustomTokenFromList = useIsCustomTokenFromList(stateToken);
@@ -334,7 +340,16 @@ export const BridgeBody = () => {
       return;
     }
 
-    setConfirmationModal(true);
+    const conditions = [
+      withdrawing, // need to prove/finalize
+      isNativeUsdc(stateToken), // need to mint
+      !withdrawing && !isEth(stateToken?.[to?.id ?? 0]), // depositing an ERC20 with no gas on the destination (won't be able to do anything with it)
+    ];
+    // if (conditions.some((x) => x) && toEthBalance.data?.value === BigInt(0)) {
+    setNoGasModal(true);
+    // } else {
+    //   setConfirmationModal(true);
+    // }
   };
 
   const submitButton = match({
@@ -413,6 +428,15 @@ export const BridgeBody = () => {
         approve={approve}
         allowance={allowance}
         bridge={bridge}
+      />
+      <NoGasModal
+        open={noGasModal}
+        setOpen={setNoGasModal}
+        onBack={() => setNoGasModal(false)}
+        onProceed={() => {
+          setNoGasModal(true);
+          setConfirmationModal(true);
+        }}
       />
       <FromTo />
 

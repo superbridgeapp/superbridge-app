@@ -232,5 +232,12 @@
     "superbridgePrivacy": "Superbridge Privacy Policy",
     "dedicatedTerms": "{{name}} Terms of Service",
     "dedicatedPrivacy": "{{name}} Privacy Policy"
+  },
+
+  "noGasModal": {
+    "usdc": "Bridging USDC requires an extra transaction on {{to}}. Please top up {{gas}} on {{to}} to complete this bridge.",
+    "opWithdrawing": "Withdrawing requires 2 extra transactions on {{to}}. Please top up {{gas}} on {{to}} to complete this withdrawal.",
+    "arbWithdrawing": "Withdrawing {{token}} requires an extra transaction on {{to}}. Please top up {{gas}} on {{to}} to complete this withdrawal.",
+    "depositing": "Without gas on {{to}} you won't be able to make any transactions. Please top up {{gas}} on {{to}} before attempting this bridge."
   }
 }
