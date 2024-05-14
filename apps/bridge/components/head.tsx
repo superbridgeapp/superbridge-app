@@ -11,13 +11,13 @@ function useMetadata(deployments: DeploymentDto[]) {
 
     return {
       title: `${deployment.l2.name} Bridge`,
-      description: `"Bridge ETH and ERC20 tokens into and out of ${deployment.l2.name}`,
+      description: `Bridge ETH and ERC20 tokens into and out of ${deployment.l2.name}`,
     };
   }
 
   return {
     title: `Superbridge`,
-    description: `"Bridge ETH and ERC20 tokens into and out of the Superchain`,
+    description: `Bridge ETH and ERC20 tokens into and out of the Superchain`,
   };
 }
 
