@@ -169,7 +169,7 @@ export function Footer() {
                       ) : (
                         <button
                           onClick={(link as any).onClick}
-                          className="font-medium text-sm"
+                          className="font-medium text-sm w-full text-left"
                         >
                           {link.label}
                         </button>

@@ -1,14 +1,10 @@
 import Link from "next/link";
-import { Trans, useTranslation } from "react-i18next";
+import { useTranslation } from "react-i18next";
 
-import { isSuperbridge } from "@/config/superbridge";
 import { useDeployment } from "@/hooks/use-deployment";
-import { useMetadata } from "@/hooks/use-metadata";
-import { useSettingsState } from "@/state/settings";
 
-import { Button } from "./ui/button";
-import { Dialog, DialogContent } from "./ui/dialog";
 import { useConfigState } from "@/state/config";
+import { Dialog, DialogContent } from "./ui/dialog";
 
 export const LegalModal = () => {
   const { t } = useTranslation();
@@ -28,29 +24,29 @@ export const LegalModal = () => {
 
           {deployment?.tos?.customTermsOfService && (
             <div>
-              <a href={deployment.tos.customTermsOfService} target="_blank">
+              <Link href={"/client-terms"} target="_blank" prefetch={false}>
                 {t("legal.dedicatedTerms", { name: deployment.displayName })}
-              </a>
+              </Link>
             </div>
           )}
 
           {deployment?.tos?.customTermsOfService && (
             <div>
-              <a href={deployment.tos.customTermsOfService} target="_blank">
+              <Link href={"/client-privacy"} target="_blank" prefetch={false}>
                 {t("legal.dedicatedPrivacy", { name: deployment.displayName })}
-              </a>
+              </Link>
             </div>
           )}
 
           <div>
-            <Link href={"/terms"} target="_blank">
+            <a href="https://superbridge.app/terms" target="_blank">
               {t("legal.superbridgeTerms")}
-            </Link>
+            </a>
           </div>
           <div>
-            <Link href={"/privacy"} target="_blank">
+            <a href="https://superbridge.app/privacy" target="_blank">
               {t("legal.superbridgePrivacy")}
-            </Link>
+            </a>
           </div>
         </div>
       </DialogContent>
