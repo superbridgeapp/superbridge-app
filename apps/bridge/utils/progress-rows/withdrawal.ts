@@ -77,7 +77,9 @@ export const useOptimismWithdrawalProgressRows = () => {
         label: t("activity.proved"),
         status: ProgressRowStatus.Done,
         buttonComponent: undefined,
-        link: transactionLink(w!.prove!.transactionHash, w!.deployment.l1),
+        link: w?.prove?.transactionHash
+          ? transactionLink(w.prove.transactionHash, w.deployment.l1)
+          : undefined,
       }));
 
     const finalise = match({ ...w, pendingFinalise })
