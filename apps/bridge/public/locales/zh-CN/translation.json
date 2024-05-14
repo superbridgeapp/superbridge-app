@@ -208,13 +208,34 @@
   },
 
   "tos": {
-    "welcome": "欢迎来到{{name}}",
-    "descriptionSuperbridge": "此界面仅为官方Superchain Rollups的<0>本地桥接合约</0>上的一层。在任何时候，Superbridge都不会代为保管资金。",
-    "descriptionSuperbridgeDedicated": "此界面仅为{{name}}的<0>本地桥接合约</0>上的一层。在任何时候，Superbridge都不会代为保管资金。",
-    "descriptionRollbridge": "此界面仅为各种Rollups的<0>本地桥接合约</0>上的一层。在任何时候，Rollbridge都不会代为保管资金。",
-    "descriptionRollbridgeDedicated": "此界面仅为{{name}}的<0>本地桥接合约</0>上的一层。在任何时候，Rollbridge都不会代为保管资金。",
-    "pleaseNote": "请注意",
-    "learnMore": "了解更多…",
-    "agreeAndContinue": "同意并继续"
+    "welcome": "欢迎来到 {{name}}",
+    "poweredBy": "由 Superbridge 提供支持",
+    "superbridge1": "此界面仅是超级链官方 Rollup 的本地桥合约上的一层。",
+    "superbridge2": "Superbridge 在任何时候都不保管任何资金。",
+    "superbridge3": "如需桥接帮助，请前往 <0>支持和常见问题</0>。",
+    "superbridge4": "通过使用此界面，您同意我们的 <0>服务条款和隐私政策</0>。",
+    "dedicated1": "此界面仅是 {{name}} 的本地桥合约上的一层。",
+    "agreeAndContinue": "同意并继续",
+    "forceReadTerms": "请阅读并同意服务条款",
+    "forceReadPrivacy": "请阅读并同意隐私政策"
+  },
+  "legal": {
+    "footerButton": "条款和隐私政策",
+    "title": "条款和隐私政策",
+    "superbridgeTerms": "Superbridge 服务条款",
+    "superbridgePrivacy": "Superbridge 隐私政策",
+    "dedicatedTerms": "{{name}} 服务条款",
+    "dedicatedPrivacy": "{{name}} 隐私政策"
+  },
+  "noGasModal": {
+    "youNeedGasOn": "您需要在 {{to}} 上有足够的 Gas",
+    "needHelp": "需要帮助？查看常见问题",
+    "usdc": "桥接 USDC 需要在 {{to}} 上进行额外的交易。请在 {{to}} 上充值 {{gas}} 以完成此桥接。",
+    "opWithdrawing": "提现需要在 {{to}} 上进行 2 笔额外的交易。请在 {{to}} 上充值 {{gas}} 以完成此提现。",
+    "arbWithdrawing": "提现 {{token}} 需要在 {{to}} 上进行额外的交易。请在 {{to}} 上充值 {{gas}} 以完成此提现。",
+    "depositing": "在 {{to}} 上没有 Gas，您将无法进行任何交易。请在尝试此桥接前在 {{to}} 上充值 {{gas}}。",
+    "topup": "在 {{to}} 上充值 Gas",
+    "goBack": "返回",
+    "proceedAnyway": "仍然继续"
   }
 }

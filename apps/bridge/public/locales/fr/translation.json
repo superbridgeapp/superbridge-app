@@ -209,12 +209,33 @@
 
   "tos": {
     "welcome": "Bienvenue sur {{name}}",
-    "descriptionSuperbridge": "Cette interface n'est qu'une couche au-dessus des <0>contrats de pont natifs</0> pour les rollups officiels de Superchain. Aucun fonds n'est détenu en garde par Superbridge à aucun moment.",
-    "descriptionSuperbridgeDedicated": "Cette interface n'est qu'une couche au-dessus des <0>contrats de pont natifs</0> pour {{name}}. Aucun fonds n'est détenu en garde par Superbridge à aucun moment.",
-    "descriptionRollbridge": "Cette interface n'est qu'une couche au-dessus des <0>contrats de pont natifs</0> pour divers rollups. Aucun fonds n'est détenu en garde par Rollbridge à aucun moment.",
-    "descriptionRollbridgeDedicated": "Cette interface n'est qu'une couche au-dessus des <0>contrats de pont natifs</0> pour {{name}}. Aucun fonds n'est détenu en garde par Rollbridge à aucun moment.",
-    "pleaseNote": "Veuillez noter",
-    "learnMore": "En savoir plus…",
-    "agreeAndContinue": "Accepter et continuer"
+    "poweredBy": "Propulsé par Superbridge",
+    "superbridge1": "Cette interface n'est qu'une couche au-dessus des contrats de pont natifs pour les rollups officiels de Superchain.",
+    "superbridge2": "Aucun fonds n'est détenu en garde par Superbridge à aucun moment.",
+    "superbridge3": "Pour obtenir de l'aide sur le pont, veuillez vous rendre sur <0>support et FAQ</0>.",
+    "superbridge4": "En utilisant cette interface, vous acceptez nos <0>Conditions et Politique de confidentialité</0>.",
+    "dedicated1": "Cette interface n'est qu'une couche au-dessus des contrats de pont natifs pour <0>{{name}}</0>.",
+    "agreeAndContinue": "Accepter et continuer",
+    "forceReadTerms": "Veuillez lire et accepter les Conditions d'utilisation",
+    "forceReadPrivacy": "Veuillez lire et accepter la Politique de confidentialité"
+  },
+  "legal": {
+    "footerButton": "Conditions et Confidentialité",
+    "title": "Conditions et Confidentialité",
+    "superbridgeTerms": "Conditions d'utilisation de Superbridge",
+    "superbridgePrivacy": "Politique de confidentialité de Superbridge",
+    "dedicatedTerms": "Conditions d'utilisation de {{name}}",
+    "dedicatedPrivacy": "Politique de confidentialité de {{name}}"
+  },
+  "noGasModal": {
+    "youNeedGasOn": "Vous avez besoin de gaz sur {{to}}",
+    "needHelp": "Besoin d'aide? Voir les FAQ",
+    "usdc": "La création d'un pont pour USDC nécessite une transaction supplémentaire sur {{to}}. Veuillez recharger {{gas}} sur {{to}} pour compléter ce pont.",
+    "opWithdrawing": "Le retrait nécessite 2 transactions supplémentaires sur {{to}}. Veuillez recharger {{gas}} sur {{to}} pour compléter ce retrait.",
+    "arbWithdrawing": "Le retrait de {{token}} nécessite une transaction supplémentaire sur {{to}}. Veuillez recharger {{gas}} sur {{to}} pour compléter ce retrait.",
+    "depositing": "Sans gaz sur {{to}}, vous ne pourrez effectuer aucune transaction. Veuillez recharger {{gas}} sur {{to}} avant d'essayer ce pont.",
+    "topup": "Recharger le gaz sur {{to}}",
+    "goBack": "Retourner",
+    "proceedAnyway": "Continuer quand même"
   }
 }

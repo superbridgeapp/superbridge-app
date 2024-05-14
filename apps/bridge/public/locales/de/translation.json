@@ -209,12 +209,37 @@
 
   "tos": {
     "welcome": "Willkommen bei {{name}}",
-    "descriptionSuperbridge": "Diese Oberfläche ist nur eine Schicht über den <0>nativen Brückenverträgen</0> für offizielle Superchain-Rollups. Zu keinem Zeitpunkt werden Gelder von Superbridge in Verwahrung genommen.",
-    "descriptionSuperbridgeDedicated": "Diese Oberfläche ist nur eine Schicht über den <0>nativen Brückenverträgen</0> für {{name}}. Zu keinem Zeitpunkt werden Gelder von Superbridge in Verwahrung genommen.",
-    "descriptionRollbridge": "Diese Oberfläche ist nur eine Schicht über den <0>nativen Brückenverträgen</0> für verschiedene Rollups. Zu keinem Zeitpunkt werden Gelder von Rollbridge in Verwahrung genommen.",
-    "descriptionRollbridgeDedicated": "Diese Oberfläche ist nur eine Schicht über den <0>nativen Brückenverträgen</0> für {{name}}. Zu keinem Zeitpunkt werden Gelder von Rollbridge in Verwahrung genommen.",
-    "pleaseNote": "Bitte beachten Sie",
-    "learnMore": "Mehr erfahren…",
-    "agreeAndContinue": "Zustimmen und fortsetzen"
+    "poweredBy": "Powered by Superbridge",
+    "superbridge1": "Diese Oberfläche ist nur eine Ebene über den nativen Brückenverträgen für offizielle Superchain-Rollups.",
+    "superbridge2": "Keine Gelder werden zu irgendeinem Zeitpunkt von Superbridge in Verwahrung genommen.",
+    "superbridge3": "Für Hilfe bei der Brückenbildung gehen Sie bitte zu <0>Support & FAQs</0>.",
+    "superbridge4": "Durch die Verwendung dieser Schnittstelle stimmen Sie unseren <0>Bedingungen und Datenschutzbestimmungen</0> zu.",
+
+    "dedicated1": "Diese Oberfläche ist nur eine Ebene über den nativen Brückenverträgen für <0>{{name}}</0>.",
+    "agreeAndContinue": "Zustimmen & fortfahren",
+
+    "forceReadTerms": "Bitte lesen Sie die Nutzungsbedingungen und stimmen Sie diesen zu",
+    "forceReadPrivacy": "Bitte lesen und stimmen Sie der Datenschutzrichtlinie zu"
+  },
+
+  "legal": {
+    "footerButton": "Bedingungen & Datenschutz",
+    "title": "Bedingungen & Datenschutz",
+    "superbridgeTerms": "Superbridge-Nutzungsbedingungen",
+    "superbridgePrivacy": "Superbridge-Datenschutzbestimmungen",
+    "dedicatedTerms": "{{name}}-Nutzungsbedingungen",
+    "dedicatedPrivacy": "{{name}}-Datenschutzbestimmungen"
+  },
+
+  "noGasModal": {
+    "youNeedGasOn": "Sie benötigen Gas auf {{to}}",
+    "needHelp": "Brauchen Sie Hilfe? Häufig gestellte Fragen anzeigen",
+    "usdc": "Das Überbrücken von USDC erfordert eine zusätzliche Transaktion auf {{to}}. Bitte füllen Sie {{gas}} auf {{to}} auf, um diese Brücke abzuschließen.",
+    "opWithdrawing": "Das Abheben erfordert 2 zusätzliche Transaktionen auf {{to}}. Bitte füllen Sie {{gas}} auf {{to}} auf, um diesen Rückzug abzuschließen.",
+    "arbWithdrawing": "Das Abheben von {{token}} erfordert eine zusätzliche Transaktion auf {{to}}. Bitte füllen Sie {{gas}} auf {{to}} auf, um diesen Rückzug abzuschließen.",
+    "depositing": "Ohne Gas auf {{to}} können Sie keine Transaktionen durchführen. Bitte füllen Sie {{gas}} auf {{to}} auf, bevor Sie diese Brücke versuchen.",
+    "topup": "Gas auf {{to}} aufladen",
+    "goBack": "Zurück",
+    "proceedAnyway": "Trotzdem fortfahren"
   }
 }

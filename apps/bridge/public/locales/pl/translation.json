@@ -208,13 +208,34 @@
   },
 
   "tos": {
-    "welcome": "Witaj w {{name}}",
-    "descriptionSuperbridge": "Ten interfejs to tylko warstwa nad <0>natywnymi umowami mostowymi</0> dla oficjalnych rollupów Superchain. W żadnym momencie Superbridge nie przechowuje środków w depozycie.",
-    "descriptionSuperbridgeDedicated": "Ten interfejs to tylko warstwa nad <0>natywnymi umowami mostowymi</0> dla {{name}}. W żadnym momencie Superbridge nie przechowuje środków w depozycie.",
-    "descriptionRollbridge": "Ten interfejs to tylko warstwa nad <0>natywnymi umowami mostowymi</0> dla różnych rollupów. W żadnym momencie Rollbridge nie przechowuje środków w depozycie.",
-    "descriptionRollbridgeDedicated": "Ten interfejs to tylko warstwa nad <0>natywnymi umowami mostowymi</0> dla {{name}}. W żadnym momencie Rollbridge nie przechowuje środków w depozycie.",
-    "pleaseNote": "Prosimy o uwagę",
-    "learnMore": "Dowiedz się więcej…",
-    "agreeAndContinue": "Zgadzam się i kontynuuję"
+    "welcome": "Witamy na stronie {{name}}",
+    "poweredBy": "Napędzane przez Superbridge",
+    "superbridge1": "Ta interfejs jest tylko warstwą nad oryginalnymi umowami mostowymi dla oficjalnych rollupów Superchain.",
+    "superbridge2": "W żadnym momencie Superbridge nie przechowuje środków w depozycie.",
+    "superbridge3": "W razie potrzeby pomocy w mostowaniu, udaj się do <0>wsparcie i FAQ</0>.",
+    "superbridge4": "Korzystając z tego interfejsu, zgadzasz się na nasze <0>Warunki świadczenia usług i Politykę prywatności</0>.",
+    "dedicated1": "Ten interfejs jest tylko warstwą nad oryginalnymi umowami mostowymi dla {{name}}.",
+    "agreeAndContinue": "Zgadzam się i kontynuuję",
+    "forceReadTerms": "Prosimy przeczytać i zaakceptować Warunki świadczenia usług",
+    "forceReadPrivacy": "Prosimy przeczytać i zaakceptować Politykę prywatności"
+  },
+  "legal": {
+    "footerButton": "Warunki i Prywatność",
+    "title": "Warunki i Prywatność",
+    "superbridgeTerms": "Warunki świadczenia usług Superbridge",
+    "superbridgePrivacy": "Polityka prywatności Superbridge",
+    "dedicatedTerms": "Warunki świadczenia usług {{name}}",
+    "dedicatedPrivacy": "Polityka prywatności {{name}}"
+  },
+  "noGasModal": {
+    "youNeedGasOn": "Potrzebujesz gazu na {{to}}",
+    "needHelp": "Potrzebna pomoc? Zobacz FAQ",
+    "usdc": "Mostowanie USDC wymaga dodatkowej transakcji na {{to}}. Prosimy doładować {{gas}} na {{to}}, aby ukończyć ten most.",
+    "opWithdrawing": "Wypłata wymaga 2 dodatkowych transakcji na {{to}}. Prosimy doładować {{gas}} na {{to}}, aby ukończyć tę wypłatę.",
+    "arbWithdrawing": "Wypłata {{token}} wymaga dodatkowej transakcji na {{to}}. Prosimy doładować {{gas}} na {{to}}, aby ukończyć tę wypłatę.",
+    "depositing": "Bez gazu na {{to}} nie będziesz mógł wykonać żadnych transakcji. Prosimy doładować {{gas}} na {{to}} przed próbą tego mostu.",
+    "topup": "Doładuj gaz na {{to}}",
+    "goBack": "Powrót",
+    "proceedAnyway": "Kontynuuj mimo to"
   }
 }

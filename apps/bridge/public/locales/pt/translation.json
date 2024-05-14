@@ -209,12 +209,33 @@
 
   "tos": {
     "welcome": "Bem-vindo ao {{name}}",
-    "descriptionSuperbridge": "Esta interface é apenas uma camada sobre os <0>contratos de ponte nativos</0> para rollups oficiais da Superchain. Em nenhum momento a Superbridge mantém fundos em custódia.",
-    "descriptionSuperbridgeDedicated": "Esta interface é apenas uma camada sobre os <0>contratos de ponte nativos</0> para {{name}}. Em nenhum momento a Superbridge mantém fundos em custódia.",
-    "descriptionRollbridge": "Esta interface é apenas uma camada sobre os <0>contratos de ponte nativos</0> para vários rollups. Em nenhum momento a Rollbridge mantém fundos em custódia.",
-    "descriptionRollbridgeDedicated": "Esta interface é apenas uma camada sobre os <0>contratos de ponte nativos</0> para {{name}}. Em nenhum momento a Rollbridge mantém fundos em custódia.",
-    "pleaseNote": "Por favor, note",
-    "learnMore": "Saiba mais…",
-    "agreeAndContinue": "Concordar e continuar"
+    "poweredBy": "Desenvolvido por Superbridge",
+    "superbridge1": "Esta interface é apenas uma camada sobre os contratos de ponte nativos para os rollups oficiais do Superchain.",
+    "superbridge2": "Em nenhum momento a Superbridge mantém fundos em custódia.",
+    "superbridge3": "Para obter ajuda com a ponte, visite <0>suporte e perguntas frequentes</0>.",
+    "superbridge4": "Ao usar esta interface, você concorda com nossos <0>Termos de Serviço e Política de Privacidade</0>.",
+    "dedicated1": "Esta interface é apenas uma camada sobre os contratos de ponte nativos para o {{name}}.",
+    "agreeAndContinue": "Concordar e continuar",
+    "forceReadTerms": "Por favor, leia e concorde com os Termos de Serviço",
+    "forceReadPrivacy": "Por favor, leia e concorde com a Política de Privacidade"
+  },
+  "legal": {
+    "footerButton": "Termos & Privacidade",
+    "title": "Termos & Privacidade",
+    "superbridgeTerms": "Termos de Serviço da Superbridge",
+    "superbridgePrivacy": "Política de Privacidade da Superbridge",
+    "dedicatedTerms": "Termos de Serviço do {{name}}",
+    "dedicatedPrivacy": "Política de Privacidade do {{name}}"
+  },
+  "noGasModal": {
+    "youNeedGasOn": "Você precisa de gás em {{to}}",
+    "needHelp": "Precisa de ajuda? Ver FAQs",
+    "usdc": "A ponte do USDC requer uma transação extra em {{to}}. Por favor, recarregue {{gas}} em {{to}} para completar esta ponte.",
+    "opWithdrawing": "A retirada requer 2 transações extras em {{to}}. Por favor, recarregue {{gas}} em {{to}} para completar esta retirada.",
+    "arbWithdrawing": "A retirada de {{token}} requer uma transação extra em {{to}}. Por favor, recarregue {{gas}} em {{to}} para completar esta retirada.",
+    "depositing": "Sem gás em {{to}}, você não poderá fazer nenhuma transação. Por favor, recarregue {{gas}} em {{to}} antes de tentar esta ponte.",
+    "topup": "Recarregar gás em {{to}}",
+    "goBack": "Voltar",
+    "proceedAnyway": "Prosseguir mesmo assim"
   }
 }
