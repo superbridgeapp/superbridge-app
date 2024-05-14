@@ -1,8 +1,9 @@
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
 import { match } from "ts-pattern";
+import { arbitrum, base, mainnet, optimism } from "viem/chains";
 
-import { DeploymentFamily } from "@/codegen/model";
+import { DeploymentDto, DeploymentFamily } from "@/codegen/model";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
 import { useDeployment } from "@/hooks/use-deployment";
 import { useNativeToken, useToNativeToken } from "@/hooks/use-native-token";
@@ -14,6 +15,19 @@ import { GasDrop } from "./icons";
 
 import { Button } from "../ui/button";
 import { Dialog, DialogContent } from "../ui/dialog";
+
+const ACROSS_NETWORKS: number[] = [
+  mainnet.id,
+  optimism.id,
+  base.id,
+  arbitrum.id,
+];
+const supportsAcross = (deployment: DeploymentDto) => {
+  return (
+    !!ACROSS_NETWORKS.includes(deployment.l1.id) &&
+    !!ACROSS_NETWORKS.includes(deployment.l2.id)
+  );
+};
 
 export const NoGasModal = ({
   onProceed,
@@ -36,6 +50,7 @@ export const NoGasModal = ({
   const deployment = useDeployment();
   const toNativeToken = useToNativeToken();
   const nativeToken = useNativeToken();
+  const amount = useConfigState.useRawAmount();
 
   const common = {
     from: from?.name,
@@ -63,7 +78,7 @@ export const NoGasModal = ({
 
   const cancelButton = match({
     withdrawing,
-    supportsAcross: false as boolean,
+    supportsAcross: !!deployment && supportsAcross(deployment),
   })
     .with({ withdrawing: false }, () => ({
       text: t("noGasModal.topup", common),
@@ -73,9 +88,12 @@ export const NoGasModal = ({
       },
     }))
     .with({ supportsAcross: true }, () => ({
-      text: t("noGasModal.goBack", common),
+      text: t("noGasModal.topup", common),
       onClick: () => {
-        setOpen(false);
+        window.open(
+          `https://app.across.to/bridge?from=${from?.id}&to=${to?.id}&asset=eth&amount=${amount}`,
+          "_blank"
+        );
       },
     }))
     .otherwise(() => ({
