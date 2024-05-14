@@ -27,7 +27,7 @@ export default function Support({
               {deployments.map((d) => {
                 const theme = d.theme?.theme;
                 return (
-                  <li className="border-b border-zinc-50 flex">
+                  <li key={d.name} className="border-b border-zinc-50 flex">
                     <Link
                       href={`/support/${d.name}`}
                       prefetch={false}

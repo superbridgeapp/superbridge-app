@@ -227,7 +227,7 @@ export default function Support({
             ]
               .filter(isPresent)
               .map(({ title, description }) => (
-                <AccordionItem value={title}>
+                <AccordionItem key={title} value={title}>
                   <AccordionTrigger>{title}</AccordionTrigger>
                   <AccordionContent>{description}</AccordionContent>
                 </AccordionItem>

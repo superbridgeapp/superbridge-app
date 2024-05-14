@@ -174,12 +174,12 @@ export const TosModal = () => {
     );
   };
 
-  const tabs = [tab1];
+  const tabs = [{ name: "tab1", component: tab1 }];
   if (deployment?.tos?.forceReadTermsOfService) {
-    tabs.push(<Terms />);
+    tabs.push({ name: "terms", component: <Terms /> });
   }
   if (deployment?.tos?.forceReadPrivacyPolicy) {
-    tabs.push(<Privacy />);
+    tabs.push({ name: "privacy", component: <Privacy /> });
   }
 
   return (
@@ -215,6 +215,7 @@ export const TosModal = () => {
             <div className="flex items-center gap-1 justify-center w-full">
               {tabs.map((tab, index) => (
                 <div
+                  key={tab.name}
                   className={clsx(
                     "w-10 h-1 rounded-full",
                     index === activeIndex ? "bg-primary" : "bg-muted"
@@ -225,7 +226,7 @@ export const TosModal = () => {
             <div className="w-10 h-10 shrink-0" />
           </div>
         )}
-        {tabs[activeIndex]}
+        {tabs[activeIndex].component}
       </DialogContent>
     </Dialog>
   );
