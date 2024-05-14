@@ -84,7 +84,7 @@ export const NoGasModal = ({
             </a>
             <Button onClick={onBack}>
               <Link href="https://www.gas.zip/" target="_blank">
-                Top up {common.to} gas
+                Top up gas on {common.to}
               </Link>
             </Button>
 
