@@ -222,9 +222,9 @@
   },
 
   "noGasModal": {
-    "usdc": "Bridging USDC will require a second transaction on {{to}}, you need {{gas}} to send this transaction.",
-    "opWithdrawing": "Withdrawing {{token}} will require two additional transactions on {{to}}. You don't have any {{gas}} to complete these transactions.",
-    "arbWithdrawing": "Withdrawing {{token}} will require an additional transaction on {{to}}. You don't have any {{gas}} to complete this transaction.",
-    "depositing": "You won't be able to transfer your {{token}} or do anything with it without gas."
+    "usdc": "Bridging USDC requires an extra transaction on {{to}}. Please top up {{gas}} on {{to}} to complete this bridge.",
+    "opWithdrawing": "Withdrawing requires 2 extra transactions on {{to}}. Please top up {{gas}} on {{to}} to complete this withdrawal.",
+    "arbWithdrawing": "Withdrawing {{token}} requires an extra transaction on {{to}}. Please top up {{gas}} on {{to}} to complete this withdrawal.",
+    "depositing": "Without gas on {{to}} you won't be able to make any transactions. Please top up {{gas}} on {{to}} before attempting this bridge."
   }
 }
