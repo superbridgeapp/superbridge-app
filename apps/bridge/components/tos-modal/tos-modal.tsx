@@ -40,6 +40,23 @@ export const TosModal = () => {
     }
   };
 
+  const ScrollArrow = () => (
+    <div className="absolute inset-0 -top-12 grow flex justify-center">
+      <div className="flex items-center justify-center bg-muted w-8 h-8 rounded-full animate-bounce ">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="14"
+          height="14"
+          viewBox="0 0 14 14"
+          fill="none"
+          className="w-3 h-auto fill-foreground"
+        >
+          <path d="M0.677124 7.00012C0.677124 7.29289 0.769797 7.5846 0.984631 7.81523L5.98478 13.4767C6.23121 13.7537 6.55451 14.0001 6.99998 14.0001C7.44544 14.0001 7.76874 13.7537 8.01517 13.4767L13.0153 7.81523C13.2312 7.5846 13.3228 7.29183 13.3228 7.00012C13.3228 6.32297 12.7689 5.76904 12.0917 5.76904C11.7379 5.76904 11.4146 5.907 11.1692 6.18396L8.23106 9.50652V1.2312C8.23106 0.554056 7.67712 0.00012207 6.99998 0.00012207C6.32283 0.00012207 5.76889 0.554056 5.76889 1.2312L5.76889 9.50757L2.83073 6.18502C2.5843 5.90805 2.26205 5.77009 1.90821 5.77009C1.23106 5.77009 0.677124 6.32403 0.677124 7.00118L0.677124 7.00012Z" />
+        </svg>
+      </div>
+    </div>
+  );
+
   const tab1 = (
     <div className="flex flex-col gap-6 p-6">
       <div className="flex flex-col gap-2">
@@ -130,7 +147,8 @@ export const TosModal = () => {
           </h1>
           <ReactMarkdown>{deployment?.tos?.customTermsOfService}</ReactMarkdown>
         </div>
-        <div className="border-t border-muted p-6">
+        <div className="border-t border-muted p-6 relative">
+          {!scrolled && <ScrollArrow />}
           <Button disabled={!scrolled} className="w-full" onClick={onClick}>
             {t("tos.agreeAndContinue")}
           </Button>
@@ -165,7 +183,8 @@ export const TosModal = () => {
           </h1>
           <ReactMarkdown>{deployment?.tos?.customPrivacyPolicy}</ReactMarkdown>
         </div>
-        <div className="border-t border-muted p-6">
+        <div className="border-t border-muted p-6 relative">
+          {!scrolled && <ScrollArrow />}
           <Button disabled={!scrolled} className="w-full" onClick={onClick}>
             {t("tos.agreeAndContinue")}
           </Button>
