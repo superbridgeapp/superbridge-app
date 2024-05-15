@@ -209,12 +209,33 @@
 
   "tos": {
     "welcome": "Chào mừng bạn đến với {{name}}",
-    "descriptionSuperbridge": "Giao diện này chỉ là một lớp trên các <0>hợp đồng cầu nguyên gốc</0> cho các rollup chính thức của Superchain. Tại bất kỳ thời điểm nào, Superbridge cũng không giữ tiền trong tài khoản.",
-    "descriptionSuperbridgeDedicated": "Giao diện này chỉ là một lớp trên các <0>hợp đồng cầu nguyên gốc</0> cho {{name}}. Tại bất kỳ thời điểm nào, Superbridge cũng không giữ tiền trong tài khoản.",
-    "descriptionRollbridge": "Giao diện này chỉ là một lớp trên các <0>hợp đồng cầu nguyên gốc</0> cho các rollup khác nhau. Tại bất kỳ thời điểm nào, Rollbridge cũng không giữ tiền trong tài khoản.",
-    "descriptionRollbridgeDedicated": "Giao diện này chỉ là một lớp trên các <0>hợp đồng cầu nguyên gốc</0> cho {{name}}. Tại bất kỳ thời điểm nào, Rollbridge cũng không giữ tiền trong tài khoản.",
-    "pleaseNote": "Vui lòng lưu ý",
-    "learnMore": "Tìm hiểu thêm…",
-    "agreeAndContinue": "Đồng ý & tiếp tục"
+    "poweredBy": "Được hỗ trợ bởi Superbridge",
+    "superbridge1": "Giao diện này chỉ là một lớp trên các hợp đồng cầu mạc gốc cho các rollup chính thức của Superchain.",
+    "superbridge2": "Không có dự trữ nào được giữ bởi Superbridge tại bất kỳ điểm nào.",
+    "superbridge3": "Để biết trợ giúp về cầu, vui lòng truy cập <0>hỗ trợ và câu hỏi thường gặp</0>.",
+    "superbridge4": "Bằng cách sử dụng giao diện này, bạn đồng ý với <0>Điều khoản và Chính sách Bảo mật</0> của chúng tôi.",
+    "dedicated1": "Giao diện này chỉ là một lớp trên các hợp đồng cầu mạc gốc cho {{name}}.",
+    "agreeAndContinue": "Đồng ý & tiếp tục",
+    "forceReadTerms": "Vui lòng đọc và đồng ý với Điều khoản Dịch vụ",
+    "forceReadPrivacy": "Vui lòng đọc và đồng ý với Chính sách Bảo mật"
+  },
+  "legal": {
+    "footerButton": "Điều khoản & Bảo mật",
+    "title": "Điều khoản & Bảo mật",
+    "superbridgeTerms": "Điều khoản Dịch vụ của Superbridge",
+    "superbridgePrivacy": "Chính sách Bảo mật của Superbridge",
+    "dedicatedTerms": "Điều khoản Dịch vụ của {{name}}",
+    "dedicatedPrivacy": "Chính sách Bảo mật của {{name}}"
+  },
+  "noGasModal": {
+    "youNeedGasOn": "Bạn cần gas trên {{to}}",
+    "needHelp": "Cần giúp đỡ? Xem Câu hỏi thường gặp",
+    "usdc": "Tạo cầu cho USDC yêu cầu một giao dịch phụ trên {{to}}. Vui lòng nạp thêm {{gas}} trên {{to}} để hoàn thành cầu này.",
+    "opWithdrawing": "Rút cầu yêu cầu 2 giao dịch phụ trên {{to}}. Vui lòng nạp thêm {{gas}} trên {{to}} để hoàn thành rút này.",
+    "arbWithdrawing": "Rút {{token}} yêu cầu một giao dịch phụ trên {{to}}. Vui lòng nạp thêm {{gas}} trên {{to}} để hoàn thành rút này.",
+    "depositing": "Không có gas trên {{to}}, bạn sẽ không thể thực hiện bất kỳ giao dịch nào. Vui lòng nạp thêm {{gas}} trên {{to}} trước khi thử cầu này.",
+    "topup": "Nạp gas trên {{to}}",
+    "goBack": "Quay lại",
+    "proceedAnyway": "Tiếp tục dù sao"
   }
 }

@@ -210,13 +210,34 @@
   },
 
   "tos": {
-    "welcome": "{{name}}'e hoş geldiniz",
-    "descriptionSuperbridge": "Bu arayüz, resmi Superchain rollup'lar için <0>yerel köprü sözleşmeleri</0> üzerine sadece bir katmandır. Herhangi bir zamanda Superbridge tarafından teminat altına alınan fon bulunmamaktadır.",
-    "descriptionSuperbridgeDedicated": "Bu arayüz, {{name}} için <0>yerel köprü sözleşmeleri</0> üzerine sadece bir katmandır. Herhangi bir zamanda Superbridge tarafından teminat altına alınan fon bulunmamaktadır.",
-    "descriptionRollbridge": "Bu arayüz, çeşitli rollup'lar için <0>yerel köprü sözleşmeleri</0> üzerine sadece bir katmandır. Herhangi bir zamanda Rollbridge tarafından teminat altına alınan fon bulunmamaktadır.",
-    "descriptionRollbridgeDedicated": "Bu arayüz, {{name}} için <0>yerel köprü sözleşmeleri</0> üzerine sadece bir katmandır. Herhangi bir zamanda Rollbridge tarafından teminat altına alınan fon bulunmamaktadır.",
-    "pleaseNote": "Lütfen dikkat",
-    "learnMore": "Daha fazla bilgi edin…",
-    "agreeAndContinue": "Kabul et ve devam et"
+    "welcome": "{{name}}'a hoş geldiniz",
+    "poweredBy": "Superbridge tarafından desteklenmektedir",
+    "superbridge1": "Bu arayüz, resmi Superchain rollup'larının yerel köprü sözleşmelerinin üzerindeki yalnızca bir katmandır.",
+    "superbridge2": "Superbridge hiçbir zaman emanet altında fon tutmaz.",
+    "superbridge3": "Köprüleme yardımı için lütfen <0>destek ve SSS'ye</0> gidin.",
+    "superbridge4": "Bu arayüzü kullanarak, <0>Hizmet Koşulları ve Gizlilik Politikamızı</0> kabul etmiş olursunuz.",
+    "dedicated1": "Bu arayüz, {{name}} için yerel köprü sözleşmelerinin üzerindeki yalnızca bir katmandır.",
+    "agreeAndContinue": "Katılıyorum ve devam ediyorum",
+    "forceReadTerms": "Lütfen Hizmet Koşullarını okuyun ve kabul edin",
+    "forceReadPrivacy": "Lütfen Gizlilik Politikamızı okuyun ve kabul edin"
+  },
+  "legal": {
+    "footerButton": "Koşullar & Gizlilik",
+    "title": "Koşullar & Gizlilik",
+    "superbridgeTerms": "Superbridge Hizmet Koşulları",
+    "superbridgePrivacy": "Superbridge Gizlilik Politikası",
+    "dedicatedTerms": "{{name}} Hizmet Koşulları",
+    "dedicatedPrivacy": "{{name}} Gizlilik Politikası"
+  },
+  "noGasModal": {
+    "youNeedGasOn": "{{to}} adresinde gazınız olmalıdır",
+    "needHelp": "Yardıma mı ihtiyacınız var? SSS'yi Görüntüle",
+    "usdc": "USDC köprüleme için {{to}} üzerinde ek bir işlem gerekmektedir. Bu köprüyü tamamlamak için lütfen {{to}} üzerinde {{gas}} yükleyin.",
+    "opWithdrawing": "Çekim yapmak için {{to}} adresinde 2 ek işlem gerekmektedir. Bu çekimi tamamlamak için lütfen {{to}} adresine {{gas}} yükleyin.",
+    "arbWithdrawing": "{{token}} çekmek için {{to}} üzerinde ek bir işlem gerekmektedir. Bu çekimi tamamlamak için lütfen {{to}} üzerine {{gas}} yükleyin.",
+    "depositing": "{{to}} adresinde gaz olmadan herhangi bir işlem yapamazsınız. Bu köprüyü denemeden önce lütfen {{to}} adresinde {{gas}} yükleyin.",
+    "topup": "{{to}} adresinde gaz yükleyin",
+    "goBack": "Geri git",
+    "proceedAnyway": "Yine de devam et"
   }
 }

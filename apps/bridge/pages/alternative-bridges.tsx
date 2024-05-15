@@ -1,9 +1,7 @@
 import Image from "next/image";
 
-import { PageTransition } from "@/components/PageTransition";
-import { useTheme } from "next-themes";
-import PageNav from "@/components/page-nav";
 import PageFooter from "@/components/page-footer";
+import PageNav from "@/components/page-nav";
 
 const BridgeCard = ({
   title,

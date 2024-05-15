@@ -209,12 +209,33 @@
 
   "tos": {
     "welcome": "Bienvenido a {{name}}",
-    "descriptionSuperbridge": "Esta interfaz es solo una capa sobre los <0>contratos de puente nativos</0> para los rollups oficiales de Superchain. En ningún momento Superbridge retiene fondos en custodia.",
-    "descriptionSuperbridgeDedicated": "Esta interfaz es solo una capa sobre los <0>contratos de puente nativos</0> para {{name}}. En ningún momento Superbridge retiene fondos en custodia.",
-    "descriptionRollbridge": "Esta interfaz es solo una capa sobre los <0>contratos de puente nativos</0> para varios rollups. En ningún momento Rollbridge retiene fondos en custodia.",
-    "descriptionRollbridgeDedicated": "Esta interfaz es solo una capa sobre los <0>contratos de puente nativos</0> para {{name}}. En ningún momento Rollbridge retiene fondos en custodia.",
-    "pleaseNote": "Ten en cuenta",
-    "learnMore": "Más información…",
-    "agreeAndContinue": "Aceptar y continuar"
+    "poweredBy": "Desarrollado por Superbridge",
+    "superbridge1": "Esta interfaz es solo una capa sobre los contratos de puente nativos para los rollups oficiales de Superchain.",
+    "superbridge2": "En ningún momento Superbridge retiene fondos en custodia.",
+    "superbridge3": "Para obtener ayuda sobre el puente, diríjase a <0>soporte y preguntas frecuentes</0>.",
+    "superbridge4": "Al utilizar esta interfaz, acepta nuestros <0>Términos y Política de Privacidad</0>.",
+    "dedicated1": "Esta interfaz es solo una capa sobre los contratos de puente nativos para <0>{{name}}</0>.",
+    "agreeAndContinue": "Aceptar y continuar",
+    "forceReadTerms": "Lea y acepte los Términos de Servicio",
+    "forceReadPrivacy": "Lea y acepte la Política de Privacidad"
+  },
+  "legal": {
+    "footerButton": "Términos y Privacidad",
+    "title": "Términos y Privacidad",
+    "superbridgeTerms": "Términos de Servicio de Superbridge",
+    "superbridgePrivacy": "Política de Privacidad de Superbridge",
+    "dedicatedTerms": "Términos de Servicio de {{name}}",
+    "dedicatedPrivacy": "Política de Privacidad de {{name}}"
+  },
+  "noGasModal": {
+    "youNeedGasOn": "Necesitas gas en {{to}}",
+    "needHelp": "¿Necesitas ayuda? Ver preguntas frecuentes",
+    "usdc": "La creación de puentes para USDC requiere una transacción adicional en {{to}}. Por favor, recarga {{gas}} en {{to}} para completar este puente.",
+    "opWithdrawing": "El retiro requiere 2 transacciones adicionales en {{to}}. Por favor, recarga {{gas}} en {{to}} para completar este retiro.",
+    "arbWithdrawing": "El retiro de {{token}} requiere una transacción adicional en {{to}}. Por favor, recarga {{gas}} en {{to}} para completar este retiro.",
+    "depositing": "Sin gas en {{to}}, no podrás realizar ninguna transacción. Por favor, recarga {{gas}} en {{to}} antes de intentar este puente.",
+    "topup": "Recargar gas en {{to}}",
+    "goBack": "Regresar",
+    "proceedAnyway": "Continuar de todos modos"
   }
 }

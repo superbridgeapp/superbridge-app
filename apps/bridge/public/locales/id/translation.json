@@ -209,12 +209,33 @@
 
   "tos": {
     "welcome": "Selamat datang di {{name}}",
-    "descriptionSuperbridge": "Antarmuka ini hanya lapisan di atas <0>kontrak jembatan asli</0> untuk rollups Superchain resmi. Tidak ada dana yang disimpan dalam penahanan oleh Superbridge pada titik mana pun.",
-    "descriptionSuperbridgeDedicated": "Antarmuka ini hanya lapisan di atas <0>kontrak jembatan asli</0> untuk {{name}}. Tidak ada dana yang disimpan dalam penahanan oleh Superbridge pada titik mana pun.",
-    "descriptionRollbridge": "Antarmuka ini hanya lapisan di atas <0>kontrak jembatan asli</0> untuk rollup berbagai jenis. Tidak ada dana yang disimpan dalam penahanan oleh Rollbridge pada titik mana pun.",
-    "descriptionRollbridgeDedicated": "Antarmuka ini hanya lapisan di atas <0>kontrak jembatan asli</0> untuk {{name}}. Tidak ada dana yang disimpan dalam penahanan oleh Rollbridge pada titik mana pun.",
-    "pleaseNote": "Harap diperhatikan",
-    "learnMore": "Pelajari lebih lanjut…",
-    "agreeAndContinue": "Setuju & lanjutkan"
+    "poweredBy": "Didukung oleh Superbridge",
+    "superbridge1": "Antarmuka ini hanya merupakan lapisan di atas kontrak jembatan asli untuk rollups resmi Superchain.",
+    "superbridge2": "Tidak ada dana yang disimpan dalam keamanan oleh Superbridge pada titik mana pun.",
+    "superbridge3": "Untuk bantuan bridging, silakan ke <0>dukungan & FAQ</0>.",
+    "superbridge4": "Dengan menggunakan antarmuka ini, Anda menyetujui <0>Syarat dan Kebijakan Privasi</0> kami.",
+    "dedicated1": "Antarmuka ini hanya merupakan lapisan di atas kontrak jembatan asli untuk <0>{{name}}</0>.",
+    "agreeAndContinue": "Setuju & lanjutkan",
+    "forceReadTerms": "Harap baca dan setujui Ketentuan Layanan",
+    "forceReadPrivacy": "Harap baca dan setujui Kebijakan Privasi"
+  },
+  "legal": {
+    "footerButton": "Ketentuan & Privasi",
+    "title": "Ketentuan & Privasi",
+    "superbridgeTerms": "Ketentuan Layanan Superbridge",
+    "superbridgePrivacy": "Kebijakan Privasi Superbridge",
+    "dedicatedTerms": "Ketentuan Layanan {{name}}",
+    "dedicatedPrivacy": "Kebijakan Privasi {{name}}"
+  },
+  "noGasModal": {
+    "youNeedGasOn": "Anda memerlukan gas di {{to}}",
+    "needHelp": "Butuh bantuan? Lihat FAQ",
+    "usdc": "Pembuatan jembatan USDC memerlukan transaksi tambahan di {{to}}. Silakan isi ulang {{gas}} di {{to}} untuk menyelesaikan jembatan ini.",
+    "opWithdrawing": "Penarikan memerlukan 2 transaksi tambahan di {{to}}. Silakan isi ulang {{gas}} di {{to}} untuk menyelesaikan penarikan ini.",
+    "arbWithdrawing": "Penarikan {{token}} memerlukan transaksi tambahan di {{to}}. Silakan isi ulang {{gas}} di {{to}} untuk menyelesaikan penarikan ini.",
+    "depositing": "Tanpa gas di {{to}}, Anda tidak akan dapat melakukan transaksi apa pun. Silakan isi ulang {{gas}} di {{to}} sebelum mencoba jembatan ini.",
+    "topup": "Isi ulang gas di {{to}}",
+    "goBack": "Kembali",
+    "proceedAnyway": "Lanjutkan saja"
   }
 }

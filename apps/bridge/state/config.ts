@@ -18,6 +18,9 @@ interface ConfigState {
   settingsModal: boolean;
   setSettingsModal: (x: boolean) => void;
 
+  legalModal: boolean;
+  setLegalModal: (x: boolean) => void;
+
   forceViaL1: boolean;
   toggleForceViaL1: () => void;
   setForceViaL1: (b: boolean) => void;
@@ -106,6 +109,9 @@ const ConfigState = create<ConfigState>()((set) => ({
 
   settingsModal: false,
   setSettingsModal: (settingsModal) => set({ settingsModal }),
+
+  legalModal: false,
+  setLegalModal: (legalModal) => set({ legalModal }),
 
   displayConfirmationModal: false,
   setDisplayConfirmationModal: (displayConfirmationModal) =>

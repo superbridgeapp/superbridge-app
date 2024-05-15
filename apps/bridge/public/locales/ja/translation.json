@@ -209,12 +209,33 @@
 
   "tos": {
     "welcome": "{{name}}へようこそ",
-    "descriptionSuperbridge": "このインターフェースは、公式のスーパーチェーンロールアップの<0>ネイティブブリッジ契約</0>の上にある層に過ぎません。いかなる時点でも、Superbridgeは資金を管理していません。",
-    "descriptionSuperbridgeDedicated": "このインターフェースは、{{name}}の<0>ネイティブブリッジ契約</0>の上にある層に過ぎません。いかなる時点でも、Superbridgeは資金を管理していません。",
-    "descriptionRollbridge": "このインターフェースは、さまざまなロールアップの<0>ネイティブブリッジ契約</0>の上にある層に過ぎません。いかなる時点でも、Rollbridgeは資金を管理していません。",
-    "descriptionRollbridgeDedicated": "このインターフェースは、{{name}}の<0>ネイティブブリッジ契約</0>の上にある層に過ぎません。いかなる時点でも、Rollbridgeは資金を管理していません。",
-    "pleaseNote": "ご注意ください",
-    "learnMore": "詳細を見る…",
-    "agreeAndContinue": "同意して続行"
+    "poweredBy": "Powered by Superbridge",
+    "superbridge1": "このインターフェースは、公式のSuperchainロールアップ用のネイティブブリッジ契約の上にあるレイヤーに過ぎません。",
+    "superbridge2": "いかなる時点でも、Superbridgeは保管中の資金を保持しません。",
+    "superbridge3": "ブリッジングのヘルプは<0>サポート＆FAQ</0>に移動してください。",
+    "superbridge4": "このインターフェースを使用することにより、<0>利用規約およびプライバシーポリシー</0>に同意するものとします。",
+    "dedicated1": "このインターフェースは、<0>{{name}}</0>用のネイティブブリッジ契約の上にあるレイヤーに過ぎません。",
+    "agreeAndContinue": "同意して続行",
+    "forceReadTerms": "利用規約をお読みいただき、同意してください",
+    "forceReadPrivacy": "プライバシーポリシーをお読みいただき、同意してください"
+  },
+  "legal": {
+    "footerButton": "利用規約とプライバシー",
+    "title": "利用規約とプライバシー",
+    "superbridgeTerms": "Superbridge利用規約",
+    "superbridgePrivacy": "Superbridgeプライバシーポリシー",
+    "dedicatedTerms": "{{name}}利用規約",
+    "dedicatedPrivacy": "{{name}}プライバシーポリシー"
+  },
+  "noGasModal": {
+    "youNeedGasOn": "{{to}}にガスが必要です",
+    "needHelp": "ヘルプが必要ですか？ FAQを表示",
+    "usdc": "USDCのブリッジ作成には、{{to}}での追加トランザクションが必要です。 このブリッジを完了するには、{{to}}で{{gas}}をチャージしてください。",
+    "opWithdrawing": "引き出しには{{to}}で2つの追加トランザクションが必要です。 この引き出しを完了するには、{{to}}で{{gas}}をチャージしてください。",
+    "arbWithdrawing": "{{token}}の引き出しには、{{to}}で追加のトランザクションが必要です。 この引き出しを完了するには、{{to}}で{{gas}}をチャージしてください。",
+    "depositing": "{{to}}でガスがないと、トランザクションを行うことができません。 このブリッジを試す前に、{{to}}で{{gas}}をチャージしてください。",
+    "topup": "{{to}}でガスをチャージする",
+    "goBack": "戻る",
+    "proceedAnyway": "とにかく進む"
   }
 }

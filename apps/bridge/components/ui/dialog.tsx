@@ -47,23 +47,16 @@ const DialogContent = React.forwardRef<
       >
         {children}
         {props.hideCloseButton ? null : (
-          <DialogPrimitive.Close className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
+          <DialogPrimitive.Close className="absolute right-4 top-4 rounded-full w-10 h-10 shrink-0 flex items-center justify-center bg-muted transition-opacity hover:scale-105 transition-all focus:outline-none disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
+              width="14"
+              height="14"
+              viewBox="0 0 14 14"
               fill="none"
-              viewBox="0 0 24 24"
-              className={"fill-accent-foreground"}
+              className="fill-foreground w-3.5 h-3.5"
             >
-              <g clipPath="url(#clip0_322_6261)">
-                <path d="M11.991 0C5.381 0 0 5.38 0 11.991c0 6.61 5.38 11.991 11.991 11.991 6.61 0 11.991-5.38 11.991-11.99C23.982 5.38 18.62 0 11.992 0zm2.031 12.526l3.314 3.314c.214.213.321.48.321.748 0 .588-.481 1.069-1.087 1.069a.998.998 0 01-.748-.32l-3.314-3.297a.713.713 0 00-1.016 0l-3.314 3.296c-.196.214-.48.321-.748.321a1.072 1.072 0 01-1.07-1.069c0-.285.09-.552.304-.748l3.314-3.314a.713.713 0 00.213-.517.674.674 0 00-.213-.499L6.664 8.196a1.047 1.047 0 01-.303-.766A1.06 1.06 0 017.43 6.36c.285 0 .552.108.748.322l3.314 3.314c.143.142.32.213.517.213a.647.647 0 00.499-.213l3.314-3.314c.214-.214.48-.321.748-.321.642 0 1.087.517 1.087 1.069 0 .285-.125.552-.32.766l-3.315 3.314a.703.703 0 00-.213.499c0 .178.07.374.213.517z"></path>
-              </g>
-              <defs>
-                <clipPath id="clip0_322_6261">
-                  <path fill="#fff" d="M0 0H24V24H0z"></path>
-                </clipPath>
-              </defs>
+              <path d="M0.562404 13.4244C-0.205637 12.6425 -0.187241 11.8653 0.617592 11.0697L4.68315 7.00411L0.617592 2.95695C-0.178043 2.14752 -0.205637 1.37028 0.589998 0.574646C1.38563 -0.220989 2.13528 -0.193394 2.95851 0.616038L7.01027 4.6678L11.062 0.629835C11.8577 -0.179597 12.6349 -0.193394 13.4167 0.574646C14.2124 1.37028 14.1848 2.16132 13.3891 2.97075L9.33738 7.00871L13.3891 11.0329C14.1986 11.8561 14.1986 12.6196 13.4167 13.4152C12.6349 14.197 11.8577 14.1832 11.0482 13.3876L7.01027 9.33583L2.95851 13.4014C2.14907 14.197 1.35804 14.2108 0.562404 13.429V13.4244Z" />
             </svg>
             <span className="sr-only">Close</span>
           </DialogPrimitive.Close>

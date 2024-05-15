@@ -31,10 +31,9 @@ const PageFooter = () => {
         </Link>
         <Link
           className="rounded-full shadow-sm bg-white dark:bg-zinc-800 text-sm font-medium tracking-tighter py-2 px-4 hover:scale-105 transition-transform cursor-pointer grow-0 flex items-center leading-4"
-          href="https://superbridge.app/blog"
-          target="_blank"
+          href="/support"
         >
-          Blog
+          Support
         </Link>
         <Link
           className="rounded-full shadow-sm bg-white dark:bg-zinc-800 text-sm font-medium tracking-tighter py-2 px-4 hover:scale-105 transition-transform cursor-pointer grow-0 flex items-center leading-4"
