@@ -17,6 +17,7 @@ export default function ClientTerms({
       <PageNav />
       <main>
         <section className="max-w-3xl mx-auto p-8 prose prose-sm prose-headings:font-bold dark:prose-invert">
+          <h1>{deployment?.l2.name} Terms of Service</h1>
           <ReactMarkdown>{deployment?.tos?.customTermsOfService}</ReactMarkdown>
         </section>
       </main>

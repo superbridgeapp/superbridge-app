@@ -77,7 +77,7 @@ export const LegalModal = () => {
                 <ArrowIcon />
               </a>
             </div>
-            {/* <div>
+            <div>
               <a
                 href="https://superbridge.app/privacy"
                 target="_blank"
@@ -86,7 +86,7 @@ export const LegalModal = () => {
                 {t("legal.superbridgePrivacy")}
                 <ArrowIcon />
               </a>
-            </div> */}
+            </div>
           </div>
         </div>
       </DialogContent>
