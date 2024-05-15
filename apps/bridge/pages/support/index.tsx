@@ -67,5 +67,8 @@ export const getServerSideProps = async (args: GetServerSidePropsContext) => {
   const { data } = await bridgeControllerGetDeployments({
     names: [...SUPERCHAIN_MAINNETS, ...SUPERCHAIN_TESTNETS],
   });
+
+  data.sort((a, b) => a.displayName.localeCompare(b.displayName));
+
   return { props: { deployments: data } };
 };
