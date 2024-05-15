@@ -442,7 +442,8 @@ const Terms = () => {
             </strong>
             You expressly agree that you assume all risks in connection with
             your use of the Interface and your interaction with the Protocol.
-            You further expressly waive and release the Company, as well as its
+            You further expressly waive and release the Company, The Optimism
+            Foundation, and Coinbase Technologies, Inc., as well as their
             affiliates and service providers, and each of their respective past,
             present and future officers, directors, members, employees,
             consultants, representatives and agents, and each of their
