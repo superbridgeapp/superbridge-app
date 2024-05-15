@@ -6,9 +6,9 @@ const Terms = () => {
     <div className="w-screen h-screen overflow-y-auto">
       <PageNav />
       <div className="bg-zinc-50 dark:bg-zinc-950 w-full">
-        <div className="max-w-2xl mx-auto py-40 px-8 ">
-          <h1 className="font-bold text-2xl">TERMS AND CONDITIONS</h1>
-          <p className="text-base">
+        <div className="max-w-2xl mx-auto py-40 px-8 prose-sm prose-headings:font-bold">
+          <h1>TERMS AND CONDITIONS</h1>
+          <p>
             Welcome to Superbridge, a website-hosted user interface (the
             &quot;Interface&quot;) provided by Blob Engineering Pte. Ltd. (the
             &quot;Company&quot;, &quot;we&quot;, &quot;our&quot;, or
@@ -129,33 +129,31 @@ const Terms = () => {
               3. Interface vs. Protocol
               <br />‍<br />‍
             </strong>
-            The Interface facilitates your ability to access OP Mainnet, a
-            decentralized, peer-to-peer Layer 2 rollup protocol on the Ethereum
-            public blockchain (the “Protocol”). The Interface is distinct from
-            the Protocol. It provides one, but not the exclusive, means of
-            accessing the Protocol. The Company does not own or control the
-            Protocol, which is public, permissionless, and runs on open-source
-            self-executing smart contracts.
+            The Interface facilitates your ability to access decentralized,
+            peer-to-peer rollup protocols on top public blockchains (the
+            “Protocol”). The Interface is distinct from the Protocol. It
+            provides one, but not the exclusive, means of accessing the
+            Protocol. The Company does not own or control the Protocol, which is
+            public, permissionless, and runs on open-source self-executing smart
+            contracts.
             <br />
             <br />
             The Protocol enables people to do various things, such as processing
-            Ethereum transactions more efficiently, viewing, deriving, and
-            verifying information on the Ethereum and OP Mainnet public
-            blockchains, passing messages, information, and tokens (including
-            digital assets) between the Ethereum and OP Mainnet public
-            blockchains (“bridging”), and interacting with smart contract-based
-            applications (“dApps”).
+            blockchain transactions more efficiently, viewing, deriving, and
+            verifying information on the public blockchains, passing messages,
+            information, and tokens (including digital assets) between the
+            public blockchains (“bridging”), and interacting with smart
+            contract-based applications (“dApps”).
             <br />
             <br />
             The Interface, on the other hand, enables you to initiate messages
-            to the Protocol to bridge digital assets between the Ethereum and OP
-            Mainnet public blockchains, and between OP Mainnet and other public
-            blockchains. Depending on how you use the Interface (a) these
-            messages may be sent directly to the Protocol or routed through
-            various third-party interfaces and dApps, and (b) the bridging smart
-            contracts you interact with may be inherent to the Protocol itself
-            or independently developed and deployed by various third parties
-            (“non-standard bridges”).
+            to the Protocol to bridge digital assets between public blockchains,
+            and between public blockchains. Depending on how you use the
+            Interface (a) these messages may be sent directly to the Protocol or
+            routed through various third-party interfaces and dApps, and (b) the
+            bridging smart contracts you interact with may be inherent to the
+            Protocol itself or independently developed and deployed by various
+            third parties (“non-standard bridges”).
             <br />
             <br />
             The Interface is experimental in nature. It represents an example
@@ -235,7 +233,7 @@ const Terms = () => {
             risks described below, any or all of which could lead to losses and
             damages, including the total and irrevocable loss of your assets.
           </p>
-          <ul role="list" className="list-3">
+          <ul role="list">
             <li>
               <strong>Wallet security and safekeeping. </strong>You are solely
               responsible for the safeguarding and security of your Web3
@@ -341,8 +339,7 @@ const Terms = () => {
               assets, bridging, the Protocol, or the Interface.
             </li>
           </ul>
-          <ul role="list" className="list-2 w-list-unstyled"></ul>
-          <p className="paragraph-2">
+          <p>
             In summary, by using the Interface, you represent that you
             understand, and agree to accept full responsibility for all of the
             risks. That includes, but is not limited to, those listed above.
@@ -357,7 +354,7 @@ const Terms = () => {
             with the Interface, in a manner that:
             <br />
           </p>
-          <ul role="list" className="list-3">
+          <ul role="list">
             <li>
               Infringes or violates the intellectual property rights or any
               other rights of anyone else (including us);
@@ -379,7 +376,7 @@ const Terms = () => {
             </li>
             <li>Otherwise violates the Interface Terms.</li>
           </ul>
-          <p className="paragraph-2">
+          <p>
             A violation of any of the above is grounds for termination of your
             right to use the Interface. We reserve the right to take whatever
             action we deem appropriate, including but not limited to suspending
@@ -531,8 +528,8 @@ const Terms = () => {
             </strong>
             <br />
           </p>
-          <ul role="list" className="list-3">
-            <li className="list-item-4">
+          <ul role="list">
+            <li>
               <strong>Applicability of this Arbitration Agreement.</strong>
               &nbsp; You agree that any dispute, claim, or request for relief
               relating in any way to the Interface Terms or to any aspect of
@@ -548,7 +545,7 @@ const Terms = () => {
               effective date of the Interface Terms or any prior version of the
               Interface Terms.<strong> </strong>&nbsp;
             </li>
-            <li className="list-item-4">
+            <li>
               <strong>Arbitration rules and forum.&nbsp; </strong>The Federal
               Arbitration Act governs the interpretation and enforcement of this
               Arbitration Agreement. To begin an arbitration proceeding, you
@@ -601,7 +598,7 @@ const Terms = () => {
               Agreement while such challenge remains pending before JAMS, the
               arbitrator, or a court of competent jurisdiction.
             </li>
-            <li className="list-item-4">
+            <li>
               <strong>Authority of arbitrator.&nbsp; </strong>The arbitrator
               shall have exclusive authority to (i) determine the scope and
               enforceability of this Arbitration Agreement, and (ii) resolve any
@@ -633,7 +630,7 @@ const Terms = () => {
               any dispute with anyone who is not a named party to the
               arbitration.
             </li>
-            <li className="list-item-4">
+            <li>
               <strong>Waiver of jury trial.&nbsp;</strong> YOU HEREBY WAIVE ANY
               CONSTITUTIONAL AND STATUTORY RIGHTS TO SUE IN COURT AND HAVE A
               TRIAL IN FRONT OF A JUDGE OR A JURY. You and we are instead
@@ -646,7 +643,7 @@ const Terms = () => {
               is no judge or jury in arbitration, and court review of an
               arbitration award is subject to very limited review.
             </li>
-            <li className="list-item-4">
+            <li>
               <strong>
                 Waiver of class or other non-individualized relief.&nbsp;{" "}
               </strong>
@@ -662,7 +659,7 @@ const Terms = () => {
               Singapore. All other disputes, claims, or requests for relief
               shall be arbitrated.
             </li>
-            <li className="list-item-4">
+            <li>
               <strong>30-day right to opt out.&nbsp; </strong>You have the right
               to opt out of the provisions of this Arbitration Agreement by
               sending written notice of your decision to opt out to
@@ -677,7 +674,7 @@ const Terms = () => {
               Agreement has no effect on any other arbitration agreements that
               you may currently have, or may enter in the future, with us.
             </li>
-            <li className="list-item-4">
+            <li>
               <strong>Severability.&nbsp; </strong>Except as provided in Section
               16e (Waiver of class or other non-individualized relief), if any
               part or parts of this Arbitration Agreement are held by a court or
@@ -687,12 +684,12 @@ const Terms = () => {
               remainder of the Arbitration Agreement shall continue in full
               force and effect.
             </li>
-            <li className="list-item-4">
+            <li>
               <strong>Survival of Agreement.&nbsp;</strong> This Arbitration
               Agreement will survive the termination of your relationship with
               us.
             </li>
-            <li className="list-item-4">
+            <li>
               <strong>Modification.&nbsp; </strong>Notwithstanding any provision
               in the Interface Terms to the contrary, we agree that if we make
               any future material change to this Arbitration Agreement, you may
@@ -701,7 +698,7 @@ const Terms = () => {
               opting out of this Arbitration Agreement.
             </li>
           </ul>
-          <p className="paragraph-2">
+          <p>
             <strong>
               17. Severability
               <br />‍<br />‍
@@ -714,7 +711,7 @@ const Terms = () => {
             Terms will continue in full force and effect.&nbsp;&nbsp;
             <br />‍<br />
           </p>
-          <p className="vis-signature">Date last updated: May 15, 2024</p>
+          <p>Date last updated: May 15, 2024</p>
         </div>
         <PageFooter />
       </div>
