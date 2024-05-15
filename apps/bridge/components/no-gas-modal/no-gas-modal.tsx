@@ -42,6 +42,8 @@ export const NoGasModal = ({
   const stateToken = useConfigState.useToken();
   const setStateToken = useConfigState.useSetToken();
   const withdrawing = useConfigState.useWithdrawing();
+  const setDisplayConfirmationModal =
+    useConfigState.useSetDisplayConfirmationModal();
   const from = useFromChain();
   const to = useToChain();
   const token = useSelectedToken();
@@ -83,6 +85,7 @@ export const NoGasModal = ({
       onClick: () => {
         setStateToken(nativeToken ?? null);
         setOpen(false);
+        setDisplayConfirmationModal(false);
       },
     }))
     .with({ supportsAcross: true }, () => ({
