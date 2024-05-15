@@ -714,7 +714,7 @@ const Terms = () => {
             Terms will continue in full force and effect.&nbsp;&nbsp;
             <br />‍<br />
           </p>
-          <p className="vis-signature">Date last updated: Feb 6, 2024</p>
+          <p className="vis-signature">Date last updated: May 15, 2024</p>
         </div>
         <PageFooter />
       </div>
