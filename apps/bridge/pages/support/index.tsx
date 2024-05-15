@@ -1,17 +1,21 @@
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import Link from "next/link";
 
+import { bridgeControllerGetDeployments } from "@/codegen/index";
 import PageFooter from "@/components/page-footer";
 import PageNav from "@/components/page-nav";
 import { isSuperbridge } from "@/config/superbridge";
 
-import { bridgeControllerGetDeployments } from "@/codegen/index";
 import { SUPERCHAIN_MAINNETS, SUPERCHAIN_TESTNETS } from "../[[...index]]";
 import { getServerSideProps as getServerSidePropsFromDomain } from "../client-terms";
 
 export default function Support({
   deployments,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  if (!isSuperbridge) {
+    return <div>Not Found</div>;
+  }
+
   return (
     <div className="w-screen h-screen overflow-y-auto bg-zinc-50">
       <PageNav />
