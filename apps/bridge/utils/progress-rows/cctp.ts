@@ -1,8 +1,11 @@
 import { useTranslation } from "react-i18next";
 import { P, match } from "ts-pattern";
 
-import { CctpBridgeDto, DeploymentType } from "@/codegen/model";
-import { getFinalizationPeriod } from "@/hooks/use-finalization-period";
+import { CctpBridgeDto } from "@/codegen/model";
+import {
+  cctpPeriod,
+  getFinalizationPeriod,
+} from "@/hooks/use-finalization-period";
 import { usePeriodText } from "@/hooks/use-period-text";
 import { usePendingTransactions } from "@/state/pending-txs";
 
@@ -67,11 +70,8 @@ export const useCctpProgressRows = () => {
         }))
 
         .otherwise(({ tx }) => {
-          const TIME =
-            tx.deployment.type === DeploymentType.mainnet
-              ? 1000 * 60 * 20
-              : 1000 * 60 * 5;
-          if (tx.bridge.timestamp < Date.now() - TIME) {
+          const mins = bridgeTime?.value ?? 20;
+          if (tx.bridge.timestamp < Date.now() - mins * 1000) {
             return {
               label: t("activity.readyToMint"),
               status: ProgressRowStatus.InProgress,

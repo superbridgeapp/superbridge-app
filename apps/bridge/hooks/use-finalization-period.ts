@@ -15,9 +15,9 @@ export type Period =
   | { period: "mins"; value: number }
   | null;
 
-const cctpPeriod = (deployment: DeploymentDto | null): Period => {
+export const cctpPeriod = (deployment: DeploymentDto | null): Period => {
   if (!deployment) return null;
-  return { period: "mins", value: isMainnet(deployment) ? 15 : 3 };
+  return { period: "mins", value: isMainnet(deployment) ? 20 : 5 };
 };
 
 const getPeriod = (seconds: number): Period => {
