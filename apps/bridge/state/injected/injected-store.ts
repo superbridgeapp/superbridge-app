@@ -6,7 +6,6 @@ import { SuperbridgeTokenList, SuperchainTokenList } from "@/types/token-lists";
 export type InjectedState = {
   deployment: DeploymentDto | null;
   deployments: DeploymentDto[];
-  withdrawing: boolean;
   testnets: boolean;
   fiatPrices: FiatPricesDto;
   prices: PricesDto;
@@ -18,7 +17,6 @@ export type InjectedState = {
 export type InjectedActions = {
   setDeployment: (d: DeploymentDto | null) => void;
   setDeployments: (d: DeploymentDto[]) => void;
-  toggleWithdrawing: () => void;
   setTestnets: (b: boolean) => void;
 };
 
@@ -27,7 +25,6 @@ export type InjectedStore = InjectedState & InjectedActions;
 const defaultInitState: Partial<InjectedState> = {
   deployment: null,
   deployments: [],
-  withdrawing: false,
   testnets: false,
   fiatPrices: {},
   prices: {},
@@ -40,7 +37,6 @@ export const createInjectedStore = (initState: InjectedState) => {
 
     setDeployment: (deployment) => set({ deployment }),
     setDeployments: (deployments) => set({ deployments }),
-    toggleWithdrawing: () => set((s) => ({ withdrawing: !s.withdrawing })),
     setTestnets: (testnets) => set({ testnets }),
   }));
 };

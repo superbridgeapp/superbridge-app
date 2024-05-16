@@ -4,6 +4,7 @@ import type {
   InferGetServerSidePropsType,
 } from "next";
 import { useRouter } from "next/router";
+import { match } from "ts-pattern";
 
 import {
   bridgeControllerFiatPrices,
@@ -23,7 +24,6 @@ import { useDeployment } from "@/hooks/use-deployment";
 import { useDeployments } from "@/hooks/use-deployments";
 import { InjectedStoreProvider } from "@/state/injected";
 import { ThemeProvider } from "@/state/theme";
-import { match } from "ts-pattern";
 
 export const SUPERCHAIN_MAINNETS = [
   "optimism",
@@ -154,7 +154,6 @@ export default function IndexRoot(
       initialValues={{
         ...props,
         deployment,
-        withdrawing: router.query.direction === "withdraw",
       }}
     >
       <ThemeProvider>
