@@ -60,12 +60,8 @@ export const useTransactionArgs = () => {
     return;
   }
 
-  const l1Cctp = cctpDomains.data?.data.find(
-    (x) => x.chainId === deployment.l1.id
-  );
-  const l2Cctp = cctpDomains.data?.data.find(
-    (x) => x.chainId === deployment.l2.id
-  );
+  const l1Cctp = cctpDomains.data?.find((x) => x.chainId === deployment.l1.id);
+  const l2Cctp = cctpDomains.data?.find((x) => x.chainId === deployment.l2.id);
 
   if (withdrawing) {
     return withdrawArgs({

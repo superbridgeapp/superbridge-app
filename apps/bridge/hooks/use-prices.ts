@@ -12,7 +12,7 @@ export const useTokenPrice = (token: MultiChainToken | null) => {
   const fiat = useBridgeControllerFiatPrices();
   const currency = useSettingsState.useCurrency();
 
-  const fiatPriceInUsd = fiat.data?.data?.[currency] ?? null;
+  const fiatPriceInUsd = fiat.data?.[currency] ?? null;
   let tokenPrice = null;
 
   const fromId = useFromChain()?.id;
@@ -21,16 +21,15 @@ export const useTokenPrice = (token: MultiChainToken | null) => {
   if (t?.coinGeckoId) {
     tokenPrice =
       // @ts-expect-error
-      prices.data?.data?.[`coingecko:${t.coinGeckoId}`]?.price ?? null;
+      prices.data?.[`coingecko:${t.coinGeckoId}`]?.price ?? null;
   } else if (token?.[1]?.coinGeckoId) {
     tokenPrice =
       // @ts-expect-error
-      prices.data?.data?.[`coingecko:${token?.[1]?.coinGeckoId}`]?.price ??
-      null;
+      prices.data?.[`coingecko:${token?.[1]?.coinGeckoId}`]?.price ?? null;
   } else {
     tokenPrice =
       // @ts-expect-error
-      prices.data?.data?.[`ethereum:${token?.[1]?.address}`]?.price ?? null;
+      prices.data?.[`ethereum:${token?.[1]?.address}`]?.price ?? null;
   }
 
   if (fiatPriceInUsd && tokenPrice) {

@@ -21,7 +21,7 @@ import { chainIcons } from "@/config/theme";
 import { useDeployment } from "@/hooks/use-deployment";
 import { useDeployments } from "@/hooks/use-deployments";
 import { useMetadata } from "@/hooks/use-metadata";
-import { queryClient } from "@/utils/query-client";
+import { queryClient } from "@/services/query-client";
 
 import { Loading } from "./Loading";
 

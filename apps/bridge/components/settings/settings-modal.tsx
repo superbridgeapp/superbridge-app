@@ -110,7 +110,7 @@ export const SettingsModal = ({ open, setOpen }: SettingsModalProps) => {
                     <SelectValue placeholder={currency} />
                   </SelectTrigger>
                   <SelectContent>
-                    {Object.keys(fiat.data?.data ?? {}).map((symbol) => (
+                    {Object.keys(fiat.data ?? {}).map((symbol) => (
                       <SelectItem key={symbol} value={symbol}>
                         {flagSymbolMap[symbol]} {symbol}
                       </SelectItem>

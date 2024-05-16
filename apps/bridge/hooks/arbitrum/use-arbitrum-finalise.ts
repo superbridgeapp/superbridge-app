@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Address, Chain } from "viem";
+import { Address, Chain, Hex } from "viem";
 import { useAccount, useWalletClient } from "wagmi";
 
 import { useBridgeControllerGetArbitrumFinaliseTransactionV2 } from "@/codegen";
@@ -31,10 +31,12 @@ export function useFinaliseArbitrum({ id, deployment }: ArbitrumWithdrawalDto) {
     try {
       setLoading(true);
 
-      const data = await finaliseTransaction.mutateAsync({ data: { id } });
+      const { data, to } = await finaliseTransaction.mutateAsync({
+        data: { id },
+      });
       const hash = await wallet.data.sendTransaction({
-        to: data.data.to as Address,
-        data: data.data.data as Address,
+        to: to as Address,
+        data: data as Hex,
         chain: deployment.l1 as unknown as Chain,
       });
       if (hash) {

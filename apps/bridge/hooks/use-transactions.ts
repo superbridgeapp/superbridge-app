@@ -35,7 +35,7 @@ export const useTransactions = () => {
   );
 
   useEffect(() => {
-    response.data?.data.transactions.forEach((tx) => {
+    response.data?.transactions.forEach((tx) => {
       const hash = getInitiatingHash(tx);
       if (hash) removePending(hash);
 
@@ -50,14 +50,14 @@ export const useTransactions = () => {
       }
     });
   }, [
-    response.data?.data.transactions,
+    response.data?.transactions,
     removePending,
     removeProving,
     removeFinalising,
   ]);
 
   return {
-    transactions: response.data?.data.transactions ?? [],
+    transactions: response.data?.transactions ?? [],
     isLoading: response.isLoading,
     isError: response.isError,
   };

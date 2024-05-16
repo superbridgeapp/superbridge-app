@@ -36,7 +36,6 @@ const activityAnimations = {
 export const ClosedActivity = () => {
   const open = useConfigState.useDisplayTransactions();
   const setDisplayTransactions = useConfigState.useSetDisplayTransactions();
-  const deployment = useDeployment();
   const pendingTransactions = usePendingTransactions.useTransactions();
   const { t } = useTranslation();
   const { transactions } = useTransactions();

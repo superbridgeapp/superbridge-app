@@ -32,8 +32,8 @@ export function useMintCctp({ id, to }: CctpBridgeDto) {
 
       const data = await finaliseTransaction.mutateAsync({ data: { id } });
       const hash = await wallet.data.sendTransaction({
-        to: data.data.to as Address,
-        data: data.data.data as Address,
+        to: data.to as Address,
+        data: data.data as Address,
         chain: to as unknown as Chain,
       });
       if (hash) {

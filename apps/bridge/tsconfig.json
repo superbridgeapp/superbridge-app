@@ -2,6 +2,7 @@
   "extends": "tsconfig/nextjs.json",
   "compilerOptions": {
     "plugins": [{ "name": "next" }],
+    "target": "es6",
     "strict": true,
     "baseUrl": ".",
     "paths": {
