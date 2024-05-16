@@ -10,20 +10,19 @@ export const customInstance = async <T>({
 }: {
   url: string;
   method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
-  params?: any;
-  data?: any;
+  params?: Record<string, string>;
+  data?: BodyInit;
   headers?: HeadersInit;
   signal?: AbortSignal;
 }): Promise<T> => {
-  const response = await fetch(
-    `${baseURL}${url}` + new URLSearchParams(params),
-    {
-      method,
-      headers,
-      signal,
-      ...(data ? { body: JSON.stringify(data) } : {}),
-    }
-  );
+  const searchParams = params ? `?${new URLSearchParams(params)}` : "";
+  console.log(`${baseURL}${url}${searchParams}`);
+  const response = await fetch(`${baseURL}${url}${searchParams}`, {
+    method,
+    headers,
+    signal,
+    ...(data ? { body: JSON.stringify(data) } : {}),
+  });
 
   return response.json();
 };

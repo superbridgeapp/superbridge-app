@@ -67,9 +67,12 @@ export const getServerSideProps = async ({
       req.headers.host === "testnets.superbridge.app"
         ? SUPERCHAIN_TESTNETS
         : SUPERCHAIN_MAINNETS;
+    console.log(names);
     const data = await bridgeControllerGetDeployments({
       names,
     });
+    console.log(data);
+
     return { props: { deployments: data } };
   }
 
@@ -77,6 +80,7 @@ export const getServerSideProps = async ({
     const data = await bridgeControllerGetDeployments({
       names: ["arbitrum-one"],
     });
+    console.log(data);
     return { props: { deployments: data } };
   }
 
