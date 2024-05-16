@@ -69,8 +69,8 @@ export const useCctpProgressRows = () => {
         .otherwise(({ tx }) => {
           const TIME =
             tx.deployment.type === DeploymentType.mainnet
-              ? 1000 * 60 * 16
-              : 1000 * 60 * 3;
+              ? 1000 * 60 * 20
+              : 1000 * 60 * 5;
           if (tx.bridge.timestamp < Date.now() - TIME) {
             return {
               label: t("activity.readyToMint"),
