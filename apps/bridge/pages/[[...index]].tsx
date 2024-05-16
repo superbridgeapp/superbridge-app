@@ -58,7 +58,7 @@ export const getServerSideProps = async ({
   if (isSuperbridge) {
     const [name] = req.url.split(/[?\/]/).filter(Boolean);
     if (SUPERCHAIN_TESTNETS.includes(name)) {
-      const { data } = await bridgeControllerGetDeployments({
+      const data = await bridgeControllerGetDeployments({
         names: SUPERCHAIN_TESTNETS,
       });
       return { props: { deployments: data, testnets: true } };
@@ -67,14 +67,14 @@ export const getServerSideProps = async ({
       req.headers.host === "testnets.superbridge.app"
         ? SUPERCHAIN_TESTNETS
         : SUPERCHAIN_MAINNETS;
-    const { data } = await bridgeControllerGetDeployments({
+    const data = await bridgeControllerGetDeployments({
       names,
     });
     return { props: { deployments: data } };
   }
 
   if (req.headers.host?.includes("localhost")) {
-    const { data } = await bridgeControllerGetDeployments({
+    const data = await bridgeControllerGetDeployments({
       names: ["arbitrum-one"],
     });
     return { props: { deployments: data } };
@@ -89,7 +89,7 @@ export const getServerSideProps = async ({
     req.headers.host.includes("devnets.superbridge.app") ||
     req.headers.host.includes("devnets.rollbridge.app")
   ) {
-    const { data } = await bridgeControllerGetDeployments({
+    const data = await bridgeControllerGetDeployments({
       names: [id],
     });
     return { props: { deployments: data } };
@@ -101,7 +101,7 @@ export const getServerSideProps = async ({
     req.headers.host.includes("testnets.superbridge.app") ||
     req.headers.host.includes("testnets.rollbridge.app")
   ) {
-    const { data } = await bridgeControllerGetDeployments({
+    const data = await bridgeControllerGetDeployments({
       names: [id],
     });
     return { props: { deployments: data } };
@@ -113,15 +113,13 @@ export const getServerSideProps = async ({
     req.headers.host.includes("mainnets.superbridge.app") ||
     req.headers.host.includes("mainnets.rollbridge.app")
   ) {
-    const { data } = await bridgeControllerGetDeployments({
+    const data = await bridgeControllerGetDeployments({
       names: [id],
     });
     return { props: { deployments: data } };
   }
 
-  const { data } = await bridgeControllerGetDeploymentsByDomain(
-    req.headers.host
-  );
+  const data = await bridgeControllerGetDeploymentsByDomain(req.headers.host);
 
   return { props: { deployments: data } };
 };

@@ -385,7 +385,7 @@ export const getServerSideProps = async ({
     return { props: { deployment: null } };
   }
 
-  const { data } = await bridgeControllerGetDeployments({
+  const data = await bridgeControllerGetDeployments({
     names: [params.name as string],
   });
 

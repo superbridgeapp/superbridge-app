@@ -51,13 +51,13 @@ export const SettingsModal = ({ open, setOpen }: SettingsModalProps) => {
       setTestnets(true);
       navigate("/");
       bridgeControllerGetDeployments({ names: SUPERCHAIN_TESTNETS }).then((x) =>
-        setDeployments(x.data)
+        setDeployments(x)
       );
     } else {
       setTestnets(false);
       navigate("/");
       bridgeControllerGetDeployments({ names: SUPERCHAIN_MAINNETS }).then((x) =>
-        setDeployments(x.data)
+        setDeployments(x)
       );
     }
   };
