@@ -23,12 +23,9 @@ export const useCctpProgressRows = () => {
     const bridgeTime = getFinalizationPeriod(tx.deployment, true);
 
     const l2ConfirmationText = (() => {
+      if (!bridgeTime || tx.relay) return "";
       if (!tx.bridge.blockNumber) {
         return transformPeriodText("transferTime", {}, bridgeTime);
-      }
-
-      if (tx.relay) {
-        return "";
       }
 
       const remainingTimePeriod = getRemainingTimePeriod(
