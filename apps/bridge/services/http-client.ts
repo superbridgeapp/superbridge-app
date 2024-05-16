@@ -1,3 +1,5 @@
+import qs from "qs";
+
 const baseURL = process.env["NEXT_PUBLIC_API_URL"];
 
 export const customInstance = async <T>({
@@ -15,8 +17,7 @@ export const customInstance = async <T>({
   headers?: HeadersInit;
   signal?: AbortSignal;
 }): Promise<T> => {
-  const searchParams = params ? `?${new URLSearchParams(params)}` : "";
-  console.log(`${baseURL}${url}${searchParams}`);
+  const searchParams = params ? `?${qs.stringify(params, {})}` : "";
   const response = await fetch(`${baseURL}${url}${searchParams}`, {
     method,
     headers,
