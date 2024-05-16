@@ -14,6 +14,7 @@
   "approveNft": "Approuver {{tokenId}}",
   "insufficientFunds": "Fonds insuffisants",
   "insufficientGas": "Insuffisant en {{symbol}} pour le gaz",
+  "enterAnAmount": "Entrez un montant",
   "loading": "Chargement",
   "error": "Erreur",
   "noAccountConnected": "Aucun compte connecté",

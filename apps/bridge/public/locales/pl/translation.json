@@ -14,6 +14,7 @@
   "approveNft": "Zatwierdź {{tokenId}}",
   "insufficientFunds": "Niewystarczające środki",
   "insufficientGas": "Niewystarczające {{symbol}} na opłatę za gaz",
+  "enterAnAmount": "Wprowadź kwotę",
   "loading": "Ładowanie",
   "error": "Błąd",
   "noAccountConnected": "Brak połączonego konta",
