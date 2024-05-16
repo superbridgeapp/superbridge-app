@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { useTranslation } from "react-i18next";
 import { match } from "ts-pattern";
 import { arbitrum, base, mainnet, optimism } from "viem/chains";

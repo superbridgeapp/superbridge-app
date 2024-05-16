@@ -47,7 +47,11 @@ function Web3Provider({ children }: { children: React.ReactNode }) {
                 // @ts-expect-error
                 d.l1.iconUrl = chainIcons[d.l1.id];
               }
-              if (chainIcons[d.l2.id]) {
+
+              if (d.theme?.theme.imageNetwork) {
+                // @ts-expect-error
+                d.l2.iconUrl = d.theme?.theme.imageNetwork;
+              } else if (chainIcons[d.l2.id]) {
                 // @ts-expect-error
                 d.l2.iconUrl = chainIcons[d.l2.id];
               }
