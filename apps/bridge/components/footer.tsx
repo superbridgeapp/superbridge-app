@@ -32,7 +32,7 @@ export function Footer() {
   const links: (LinkDto | { onClick: () => void; label: string })[] =
     isSuperbridge
       ? [
-          { url: "/support", label: t("support") },
+          { url: "https://superbridge.app/support", label: t("support") },
           {
             onClick: () => setLegalModal(true),
             label: t("legal.footerButton"),
@@ -41,7 +41,10 @@ export function Footer() {
         ]
       : [
           ...(deployments.deployments[0]?.theme?.links ?? []),
-          { url: "/support", label: t("support") },
+          {
+            url: `https://superbridge.app/support/${deployments.deployments[0].name}`,
+            label: t("support"),
+          },
           {
             onClick: () => setLegalModal(true),
             label: t("legal.footerButton"),
