@@ -1,7 +1,7 @@
 import { Address, erc20Abi, formatUnits, isAddressEqual } from "viem";
 import { useAccount, useBalance, useReadContracts } from "wagmi";
 
-import { useBridgeControllerGetTokenPrices } from "@/codegen";
+import { useInjectedStore } from "@/state/injected";
 import { Token } from "@/types/token";
 import { isEth } from "@/utils/is-eth";
 
@@ -13,8 +13,8 @@ export function useTokenBalances(chainId: number | undefined) {
     chainId: chainId,
     address: account.address,
   });
-  const prices = useBridgeControllerGetTokenPrices();
   const tokens = useActiveTokens();
+  const prices = useInjectedStore((s) => s.prices);
 
   const reads = useReadContracts({
     allowFailure: true,
@@ -42,9 +42,7 @@ export function useTokenBalances(chainId: number | undefined) {
       const id = token[chainId ?? 0]?.coinGeckoId
         ? `coingecko:${token[chainId ?? 0]?.coinGeckoId}`
         : `ethereum:${token[1]?.address}`;
-      const price: number =
-        // @ts-expect-error
-        prices.data?.[id]?.price ?? 0;
+      const price: number = prices[id]?.price ?? 0;
       const usdValue =
         parseFloat(
           formatUnits(balance, Object.values(token)[0]?.decimals ?? 18)

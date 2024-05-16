@@ -106,8 +106,8 @@ export const getServerSideProps = async ({
         );
         return { deployments: data };
       }),
-    bridgeControllerGetTokenPrices(),
-    bridgeControllerFiatPrices(),
+    bridgeControllerGetTokenPrices().catch(() => ({})),
+    bridgeControllerFiatPrices().catch(() => ({})),
     fetch(
       "https://raw.githubusercontent.com/ethereum-optimism/ethereum-optimism.github.io/master/optimism.tokenlist.json"
     )
