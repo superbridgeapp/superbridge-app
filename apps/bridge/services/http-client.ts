@@ -23,6 +23,9 @@ export const customInstance = async <T>({
     headers,
     signal,
     ...(data ? { body: JSON.stringify(data) } : {}),
+    next: {
+      revalidate: 60,
+    },
   });
 
   return response.json();
