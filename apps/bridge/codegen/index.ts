@@ -5,7 +5,10 @@
  * API docs
  * OpenAPI spec version: 1.0
  */
-import { useMutation, useQuery } from "@tanstack/react-query";
+import {
+  useMutation,
+  useQuery
+} from '@tanstack/react-query'
 import type {
   MutationFunction,
   QueryFunction,
@@ -13,8 +16,8 @@ import type {
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
-  UseQueryResult,
-} from "@tanstack/react-query";
+  UseQueryResult
+} from '@tanstack/react-query'
 import type {
   ActionDto,
   ActivityDto,
@@ -29,2004 +32,1448 @@ import type {
   CreateConduitDeploymentDto,
   CreateMainnetConduitDeploymentDto,
   DeploymentDto,
+  FiatPricesDto,
   IdDto,
+  PricesDto,
   SyncStatusDto,
-  TransactionDto,
-} from "./model";
-import { customInstance } from "../services/http-client";
+  TransactionDto
+} from './model'
+import { customInstance } from '../services/http-client';
+
+
+
 
 export const bridgeControllerGetActivity = (
-  address: string,
-  params: BridgeControllerGetActivityParams,
-  signal?: AbortSignal
+    address: string,
+    params: BridgeControllerGetActivityParams,
+ signal?: AbortSignal
 ) => {
-  return customInstance<ActivityDto>({
-    url: `/api/bridge/activity/${address}`,
-    method: "GET",
-    params,
-    signal,
-  });
-};
+      
+      
+      return customInstance<ActivityDto>(
+      {url: `/api/bridge/activity/${address}`, method: 'GET',
+        params, signal
+    },
+      );
+    }
+  
 
-export const getBridgeControllerGetActivityQueryKey = (
-  address: string,
-  params: BridgeControllerGetActivityParams
+export const getBridgeControllerGetActivityQueryKey = (address: string,
+    params: BridgeControllerGetActivityParams,) => {
+    return [`/api/bridge/activity/${address}`, ...(params ? [params]: [])] as const;
+    }
+
+    
+export const getBridgeControllerGetActivityQueryOptions = <TData = Awaited<ReturnType<typeof bridgeControllerGetActivity>>, TError = unknown>(address: string,
+    params: BridgeControllerGetActivityParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetActivity>>, TError, TData>, }
 ) => {
-  return [
-    `/api/bridge/activity/${address}`,
-    ...(params ? [params] : []),
-  ] as const;
-};
 
-export const getBridgeControllerGetActivityQueryOptions = <
-  TData = Awaited<ReturnType<typeof bridgeControllerGetActivity>>,
-  TError = unknown
->(
-  address: string,
-  params: BridgeControllerGetActivityParams,
-  options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof bridgeControllerGetActivity>>,
-      TError,
-      TData
-    >;
-  }
-) => {
-  const { query: queryOptions } = options ?? {};
+const {query: queryOptions} = options ?? {};
 
-  const queryKey =
-    queryOptions?.queryKey ??
-    getBridgeControllerGetActivityQueryKey(address, params);
+  const queryKey =  queryOptions?.queryKey ?? getBridgeControllerGetActivityQueryKey(address,params);
 
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof bridgeControllerGetActivity>>
-  > = ({ signal }) => bridgeControllerGetActivity(address, params, signal);
+  
 
-  return {
-    queryKey,
-    queryFn,
-    enabled: !!address,
-    ...queryOptions,
-  } as UseQueryOptions<
-    Awaited<ReturnType<typeof bridgeControllerGetActivity>>,
-    TError,
-    TData
-  > & { queryKey: QueryKey };
-};
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof bridgeControllerGetActivity>>> = ({ signal }) => bridgeControllerGetActivity(address,params, signal);
 
-export type BridgeControllerGetActivityQueryResult = NonNullable<
-  Awaited<ReturnType<typeof bridgeControllerGetActivity>>
->;
-export type BridgeControllerGetActivityQueryError = unknown;
+      
 
-export const useBridgeControllerGetActivity = <
-  TData = Awaited<ReturnType<typeof bridgeControllerGetActivity>>,
-  TError = unknown
->(
-  address: string,
-  params: BridgeControllerGetActivityParams,
-  options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof bridgeControllerGetActivity>>,
-      TError,
-      TData
-    >;
-  }
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-  const queryOptions = getBridgeControllerGetActivityQueryOptions(
-    address,
-    params,
-    options
-  );
+      
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey;
-  };
+   return  { queryKey, queryFn, enabled: !!(address), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetActivity>>, TError, TData> & { queryKey: QueryKey }
+}
 
-  query.queryKey = queryOptions.queryKey;
+export type BridgeControllerGetActivityQueryResult = NonNullable<Awaited<ReturnType<typeof bridgeControllerGetActivity>>>
+export type BridgeControllerGetActivityQueryError = unknown
+
+export const useBridgeControllerGetActivity = <TData = Awaited<ReturnType<typeof bridgeControllerGetActivity>>, TError = unknown>(
+ address: string,
+    params: BridgeControllerGetActivityParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetActivity>>, TError, TData>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+
+  const queryOptions = getBridgeControllerGetActivityQueryOptions(address,params,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
 
   return query;
-};
+}
+
+
+
 
 export const bridgeControllerGetProveTransactionV2 = (
-  id: string,
-  signal?: AbortSignal
+    id: string,
+ signal?: AbortSignal
 ) => {
-  return customInstance<TransactionDto>({
-    url: `/api/bridge/prove_transaction_v2/${id}`,
-    method: "GET",
-    signal,
-  });
-};
+      
+      
+      return customInstance<TransactionDto>(
+      {url: `/api/bridge/prove_transaction_v2/${id}`, method: 'GET', signal
+    },
+      );
+    }
+  
 
-export const getBridgeControllerGetProveTransactionV2QueryKey = (
-  id: string
+export const getBridgeControllerGetProveTransactionV2QueryKey = (id: string,) => {
+    return [`/api/bridge/prove_transaction_v2/${id}`] as const;
+    }
+
+    
+export const getBridgeControllerGetProveTransactionV2QueryOptions = <TData = Awaited<ReturnType<typeof bridgeControllerGetProveTransactionV2>>, TError = unknown>(id: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetProveTransactionV2>>, TError, TData>, }
 ) => {
-  return [`/api/bridge/prove_transaction_v2/${id}`] as const;
-};
 
-export const getBridgeControllerGetProveTransactionV2QueryOptions = <
-  TData = Awaited<ReturnType<typeof bridgeControllerGetProveTransactionV2>>,
-  TError = unknown
->(
-  id: string,
-  options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof bridgeControllerGetProveTransactionV2>>,
-      TError,
-      TData
-    >;
-  }
-) => {
-  const { query: queryOptions } = options ?? {};
+const {query: queryOptions} = options ?? {};
 
-  const queryKey =
-    queryOptions?.queryKey ??
-    getBridgeControllerGetProveTransactionV2QueryKey(id);
+  const queryKey =  queryOptions?.queryKey ?? getBridgeControllerGetProveTransactionV2QueryKey(id);
 
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof bridgeControllerGetProveTransactionV2>>
-  > = ({ signal }) => bridgeControllerGetProveTransactionV2(id, signal);
+  
 
-  return {
-    queryKey,
-    queryFn,
-    enabled: !!id,
-    ...queryOptions,
-  } as UseQueryOptions<
-    Awaited<ReturnType<typeof bridgeControllerGetProveTransactionV2>>,
-    TError,
-    TData
-  > & { queryKey: QueryKey };
-};
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof bridgeControllerGetProveTransactionV2>>> = ({ signal }) => bridgeControllerGetProveTransactionV2(id, signal);
 
-export type BridgeControllerGetProveTransactionV2QueryResult = NonNullable<
-  Awaited<ReturnType<typeof bridgeControllerGetProveTransactionV2>>
->;
-export type BridgeControllerGetProveTransactionV2QueryError = unknown;
+      
 
-export const useBridgeControllerGetProveTransactionV2 = <
-  TData = Awaited<ReturnType<typeof bridgeControllerGetProveTransactionV2>>,
-  TError = unknown
->(
-  id: string,
-  options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof bridgeControllerGetProveTransactionV2>>,
-      TError,
-      TData
-    >;
-  }
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-  const queryOptions = getBridgeControllerGetProveTransactionV2QueryOptions(
-    id,
-    options
-  );
+      
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey;
-  };
+   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetProveTransactionV2>>, TError, TData> & { queryKey: QueryKey }
+}
 
-  query.queryKey = queryOptions.queryKey;
+export type BridgeControllerGetProveTransactionV2QueryResult = NonNullable<Awaited<ReturnType<typeof bridgeControllerGetProveTransactionV2>>>
+export type BridgeControllerGetProveTransactionV2QueryError = unknown
+
+export const useBridgeControllerGetProveTransactionV2 = <TData = Awaited<ReturnType<typeof bridgeControllerGetProveTransactionV2>>, TError = unknown>(
+ id: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetProveTransactionV2>>, TError, TData>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+
+  const queryOptions = getBridgeControllerGetProveTransactionV2QueryOptions(id,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
 
   return query;
-};
+}
 
-export const bridgeControllerGetProveTransaction = (idDto: IdDto) => {
-  return customInstance<TransactionDto>({
-    url: `/api/bridge/op_prove`,
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    data: idDto,
-  });
-};
 
-export const getBridgeControllerGetProveTransactionMutationOptions = <
-  TError = unknown,
-  TContext = unknown
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof bridgeControllerGetProveTransaction>>,
-    TError,
-    { data: IdDto },
-    TContext
-  >;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof bridgeControllerGetProveTransaction>>,
-  TError,
-  { data: IdDto },
-  TContext
-> => {
-  const { mutation: mutationOptions } = options ?? {};
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof bridgeControllerGetProveTransaction>>,
-    { data: IdDto }
-  > = (props) => {
-    const { data } = props ?? {};
 
-    return bridgeControllerGetProveTransaction(data);
-  };
+export const bridgeControllerGetProveTransaction = (
+    idDto: IdDto,
+ ) => {
+      
+      
+      return customInstance<TransactionDto>(
+      {url: `/api/bridge/op_prove`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: idDto
+    },
+      );
+    }
+  
 
-  return { mutationFn, ...mutationOptions };
-};
 
-export type BridgeControllerGetProveTransactionMutationResult = NonNullable<
-  Awaited<ReturnType<typeof bridgeControllerGetProveTransaction>>
->;
-export type BridgeControllerGetProveTransactionMutationBody = IdDto;
-export type BridgeControllerGetProveTransactionMutationError = unknown;
+export const getBridgeControllerGetProveTransactionMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerGetProveTransaction>>, TError,{data: IdDto}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerGetProveTransaction>>, TError,{data: IdDto}, TContext> => {
+const {mutation: mutationOptions} = options ?? {};
 
-export const useBridgeControllerGetProveTransaction = <
-  TError = unknown,
-  TContext = unknown
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof bridgeControllerGetProveTransaction>>,
-    TError,
-    { data: IdDto },
-    TContext
-  >;
-}): UseMutationResult<
-  Awaited<ReturnType<typeof bridgeControllerGetProveTransaction>>,
-  TError,
-  { data: IdDto },
-  TContext
-> => {
-  const mutationOptions =
-    getBridgeControllerGetProveTransactionMutationOptions(options);
+      
 
-  return useMutation(mutationOptions);
-};
 
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof bridgeControllerGetProveTransaction>>, {data: IdDto}> = (props) => {
+          const {data} = props ?? {};
+
+          return  bridgeControllerGetProveTransaction(data,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type BridgeControllerGetProveTransactionMutationResult = NonNullable<Awaited<ReturnType<typeof bridgeControllerGetProveTransaction>>>
+    export type BridgeControllerGetProveTransactionMutationBody = IdDto
+    export type BridgeControllerGetProveTransactionMutationError = unknown
+
+    export const useBridgeControllerGetProveTransaction = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerGetProveTransaction>>, TError,{data: IdDto}, TContext>, }
+): UseMutationResult<
+        Awaited<ReturnType<typeof bridgeControllerGetProveTransaction>>,
+        TError,
+        {data: IdDto},
+        TContext
+      > => {
+
+      const mutationOptions = getBridgeControllerGetProveTransactionMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
 export const bridgeControllerGetFinaliseTransactionV2 = (
-  id: string,
-  signal?: AbortSignal
+    id: string,
+ signal?: AbortSignal
 ) => {
-  return customInstance<TransactionDto>({
-    url: `/api/bridge/finalise_transaction_v2/${id}`,
-    method: "GET",
-    signal,
-  });
-};
+      
+      
+      return customInstance<TransactionDto>(
+      {url: `/api/bridge/finalise_transaction_v2/${id}`, method: 'GET', signal
+    },
+      );
+    }
+  
 
-export const getBridgeControllerGetFinaliseTransactionV2QueryKey = (
-  id: string
+export const getBridgeControllerGetFinaliseTransactionV2QueryKey = (id: string,) => {
+    return [`/api/bridge/finalise_transaction_v2/${id}`] as const;
+    }
+
+    
+export const getBridgeControllerGetFinaliseTransactionV2QueryOptions = <TData = Awaited<ReturnType<typeof bridgeControllerGetFinaliseTransactionV2>>, TError = unknown>(id: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetFinaliseTransactionV2>>, TError, TData>, }
 ) => {
-  return [`/api/bridge/finalise_transaction_v2/${id}`] as const;
-};
 
-export const getBridgeControllerGetFinaliseTransactionV2QueryOptions = <
-  TData = Awaited<ReturnType<typeof bridgeControllerGetFinaliseTransactionV2>>,
-  TError = unknown
->(
-  id: string,
-  options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof bridgeControllerGetFinaliseTransactionV2>>,
-      TError,
-      TData
-    >;
-  }
-) => {
-  const { query: queryOptions } = options ?? {};
+const {query: queryOptions} = options ?? {};
 
-  const queryKey =
-    queryOptions?.queryKey ??
-    getBridgeControllerGetFinaliseTransactionV2QueryKey(id);
+  const queryKey =  queryOptions?.queryKey ?? getBridgeControllerGetFinaliseTransactionV2QueryKey(id);
 
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof bridgeControllerGetFinaliseTransactionV2>>
-  > = ({ signal }) => bridgeControllerGetFinaliseTransactionV2(id, signal);
+  
 
-  return {
-    queryKey,
-    queryFn,
-    enabled: !!id,
-    ...queryOptions,
-  } as UseQueryOptions<
-    Awaited<ReturnType<typeof bridgeControllerGetFinaliseTransactionV2>>,
-    TError,
-    TData
-  > & { queryKey: QueryKey };
-};
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof bridgeControllerGetFinaliseTransactionV2>>> = ({ signal }) => bridgeControllerGetFinaliseTransactionV2(id, signal);
 
-export type BridgeControllerGetFinaliseTransactionV2QueryResult = NonNullable<
-  Awaited<ReturnType<typeof bridgeControllerGetFinaliseTransactionV2>>
->;
-export type BridgeControllerGetFinaliseTransactionV2QueryError = unknown;
+      
 
-export const useBridgeControllerGetFinaliseTransactionV2 = <
-  TData = Awaited<ReturnType<typeof bridgeControllerGetFinaliseTransactionV2>>,
-  TError = unknown
->(
-  id: string,
-  options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof bridgeControllerGetFinaliseTransactionV2>>,
-      TError,
-      TData
-    >;
-  }
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-  const queryOptions = getBridgeControllerGetFinaliseTransactionV2QueryOptions(
-    id,
-    options
-  );
+      
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey;
-  };
+   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetFinaliseTransactionV2>>, TError, TData> & { queryKey: QueryKey }
+}
 
-  query.queryKey = queryOptions.queryKey;
+export type BridgeControllerGetFinaliseTransactionV2QueryResult = NonNullable<Awaited<ReturnType<typeof bridgeControllerGetFinaliseTransactionV2>>>
+export type BridgeControllerGetFinaliseTransactionV2QueryError = unknown
+
+export const useBridgeControllerGetFinaliseTransactionV2 = <TData = Awaited<ReturnType<typeof bridgeControllerGetFinaliseTransactionV2>>, TError = unknown>(
+ id: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetFinaliseTransactionV2>>, TError, TData>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+
+  const queryOptions = getBridgeControllerGetFinaliseTransactionV2QueryOptions(id,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
 
   return query;
-};
+}
 
-export const bridgeControllerGetFinaliseTransaction = (idDto: IdDto) => {
-  return customInstance<TransactionDto>({
-    url: `/api/bridge/op_finalise`,
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    data: idDto,
-  });
-};
 
-export const getBridgeControllerGetFinaliseTransactionMutationOptions = <
-  TError = unknown,
-  TContext = unknown
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof bridgeControllerGetFinaliseTransaction>>,
-    TError,
-    { data: IdDto },
-    TContext
-  >;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof bridgeControllerGetFinaliseTransaction>>,
-  TError,
-  { data: IdDto },
-  TContext
-> => {
-  const { mutation: mutationOptions } = options ?? {};
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof bridgeControllerGetFinaliseTransaction>>,
-    { data: IdDto }
-  > = (props) => {
-    const { data } = props ?? {};
 
-    return bridgeControllerGetFinaliseTransaction(data);
-  };
+export const bridgeControllerGetFinaliseTransaction = (
+    idDto: IdDto,
+ ) => {
+      
+      
+      return customInstance<TransactionDto>(
+      {url: `/api/bridge/op_finalise`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: idDto
+    },
+      );
+    }
+  
 
-  return { mutationFn, ...mutationOptions };
-};
 
-export type BridgeControllerGetFinaliseTransactionMutationResult = NonNullable<
-  Awaited<ReturnType<typeof bridgeControllerGetFinaliseTransaction>>
->;
-export type BridgeControllerGetFinaliseTransactionMutationBody = IdDto;
-export type BridgeControllerGetFinaliseTransactionMutationError = unknown;
+export const getBridgeControllerGetFinaliseTransactionMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerGetFinaliseTransaction>>, TError,{data: IdDto}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerGetFinaliseTransaction>>, TError,{data: IdDto}, TContext> => {
+const {mutation: mutationOptions} = options ?? {};
 
-export const useBridgeControllerGetFinaliseTransaction = <
-  TError = unknown,
-  TContext = unknown
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof bridgeControllerGetFinaliseTransaction>>,
-    TError,
-    { data: IdDto },
-    TContext
-  >;
-}): UseMutationResult<
-  Awaited<ReturnType<typeof bridgeControllerGetFinaliseTransaction>>,
-  TError,
-  { data: IdDto },
-  TContext
-> => {
-  const mutationOptions =
-    getBridgeControllerGetFinaliseTransactionMutationOptions(options);
+      
 
-  return useMutation(mutationOptions);
-};
 
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof bridgeControllerGetFinaliseTransaction>>, {data: IdDto}> = (props) => {
+          const {data} = props ?? {};
+
+          return  bridgeControllerGetFinaliseTransaction(data,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type BridgeControllerGetFinaliseTransactionMutationResult = NonNullable<Awaited<ReturnType<typeof bridgeControllerGetFinaliseTransaction>>>
+    export type BridgeControllerGetFinaliseTransactionMutationBody = IdDto
+    export type BridgeControllerGetFinaliseTransactionMutationError = unknown
+
+    export const useBridgeControllerGetFinaliseTransaction = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerGetFinaliseTransaction>>, TError,{data: IdDto}, TContext>, }
+): UseMutationResult<
+        Awaited<ReturnType<typeof bridgeControllerGetFinaliseTransaction>>,
+        TError,
+        {data: IdDto},
+        TContext
+      > => {
+
+      const mutationOptions = getBridgeControllerGetFinaliseTransactionMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
 export const bridgeControllerGetArbitrumFinaliseTransaction = (
-  id: string,
-  signal?: AbortSignal
+    id: string,
+ signal?: AbortSignal
 ) => {
-  return customInstance<TransactionDto>({
-    url: `/api/bridge/arbitrum_finalise_transaction/${id}`,
-    method: "GET",
-    signal,
-  });
-};
+      
+      
+      return customInstance<TransactionDto>(
+      {url: `/api/bridge/arbitrum_finalise_transaction/${id}`, method: 'GET', signal
+    },
+      );
+    }
+  
 
-export const getBridgeControllerGetArbitrumFinaliseTransactionQueryKey = (
-  id: string
+export const getBridgeControllerGetArbitrumFinaliseTransactionQueryKey = (id: string,) => {
+    return [`/api/bridge/arbitrum_finalise_transaction/${id}`] as const;
+    }
+
+    
+export const getBridgeControllerGetArbitrumFinaliseTransactionQueryOptions = <TData = Awaited<ReturnType<typeof bridgeControllerGetArbitrumFinaliseTransaction>>, TError = unknown>(id: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetArbitrumFinaliseTransaction>>, TError, TData>, }
 ) => {
-  return [`/api/bridge/arbitrum_finalise_transaction/${id}`] as const;
-};
 
-export const getBridgeControllerGetArbitrumFinaliseTransactionQueryOptions = <
-  TData = Awaited<
-    ReturnType<typeof bridgeControllerGetArbitrumFinaliseTransaction>
-  >,
-  TError = unknown
->(
-  id: string,
-  options?: {
-    query?: UseQueryOptions<
-      Awaited<
-        ReturnType<typeof bridgeControllerGetArbitrumFinaliseTransaction>
-      >,
-      TError,
-      TData
-    >;
-  }
-) => {
-  const { query: queryOptions } = options ?? {};
+const {query: queryOptions} = options ?? {};
 
-  const queryKey =
-    queryOptions?.queryKey ??
-    getBridgeControllerGetArbitrumFinaliseTransactionQueryKey(id);
+  const queryKey =  queryOptions?.queryKey ?? getBridgeControllerGetArbitrumFinaliseTransactionQueryKey(id);
 
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof bridgeControllerGetArbitrumFinaliseTransaction>>
-  > = ({ signal }) =>
-    bridgeControllerGetArbitrumFinaliseTransaction(id, signal);
+  
 
-  return {
-    queryKey,
-    queryFn,
-    enabled: !!id,
-    ...queryOptions,
-  } as UseQueryOptions<
-    Awaited<ReturnType<typeof bridgeControllerGetArbitrumFinaliseTransaction>>,
-    TError,
-    TData
-  > & { queryKey: QueryKey };
-};
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof bridgeControllerGetArbitrumFinaliseTransaction>>> = ({ signal }) => bridgeControllerGetArbitrumFinaliseTransaction(id, signal);
 
-export type BridgeControllerGetArbitrumFinaliseTransactionQueryResult =
-  NonNullable<
-    Awaited<ReturnType<typeof bridgeControllerGetArbitrumFinaliseTransaction>>
-  >;
-export type BridgeControllerGetArbitrumFinaliseTransactionQueryError = unknown;
+      
 
-export const useBridgeControllerGetArbitrumFinaliseTransaction = <
-  TData = Awaited<
-    ReturnType<typeof bridgeControllerGetArbitrumFinaliseTransaction>
-  >,
-  TError = unknown
->(
-  id: string,
-  options?: {
-    query?: UseQueryOptions<
-      Awaited<
-        ReturnType<typeof bridgeControllerGetArbitrumFinaliseTransaction>
-      >,
-      TError,
-      TData
-    >;
-  }
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-  const queryOptions =
-    getBridgeControllerGetArbitrumFinaliseTransactionQueryOptions(id, options);
+      
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey;
-  };
+   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetArbitrumFinaliseTransaction>>, TError, TData> & { queryKey: QueryKey }
+}
 
-  query.queryKey = queryOptions.queryKey;
+export type BridgeControllerGetArbitrumFinaliseTransactionQueryResult = NonNullable<Awaited<ReturnType<typeof bridgeControllerGetArbitrumFinaliseTransaction>>>
+export type BridgeControllerGetArbitrumFinaliseTransactionQueryError = unknown
+
+export const useBridgeControllerGetArbitrumFinaliseTransaction = <TData = Awaited<ReturnType<typeof bridgeControllerGetArbitrumFinaliseTransaction>>, TError = unknown>(
+ id: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetArbitrumFinaliseTransaction>>, TError, TData>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+
+  const queryOptions = getBridgeControllerGetArbitrumFinaliseTransactionQueryOptions(id,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
 
   return query;
-};
+}
+
+
+
 
 export const bridgeControllerGetArbitrumFinaliseTransactionV2 = (
-  idDto: IdDto
-) => {
-  return customInstance<TransactionDto>({
-    url: `/api/bridge/arb_finalise`,
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    data: idDto,
-  });
-};
+    idDto: IdDto,
+ ) => {
+      
+      
+      return customInstance<TransactionDto>(
+      {url: `/api/bridge/arb_finalise`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: idDto
+    },
+      );
+    }
+  
 
-export const getBridgeControllerGetArbitrumFinaliseTransactionV2MutationOptions =
-  <TError = unknown, TContext = unknown>(options?: {
-    mutation?: UseMutationOptions<
-      Awaited<
-        ReturnType<typeof bridgeControllerGetArbitrumFinaliseTransactionV2>
-      >,
-      TError,
-      { data: IdDto },
-      TContext
-    >;
-  }): UseMutationOptions<
-    Awaited<
-      ReturnType<typeof bridgeControllerGetArbitrumFinaliseTransactionV2>
-    >,
-    TError,
-    { data: IdDto },
-    TContext
-  > => {
-    const { mutation: mutationOptions } = options ?? {};
 
-    const mutationFn: MutationFunction<
-      Awaited<
-        ReturnType<typeof bridgeControllerGetArbitrumFinaliseTransactionV2>
-      >,
-      { data: IdDto }
-    > = (props) => {
-      const { data } = props ?? {};
+export const getBridgeControllerGetArbitrumFinaliseTransactionV2MutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerGetArbitrumFinaliseTransactionV2>>, TError,{data: IdDto}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerGetArbitrumFinaliseTransactionV2>>, TError,{data: IdDto}, TContext> => {
+const {mutation: mutationOptions} = options ?? {};
 
-      return bridgeControllerGetArbitrumFinaliseTransactionV2(data);
-    };
+      
 
-    return { mutationFn, ...mutationOptions };
-  };
 
-export type BridgeControllerGetArbitrumFinaliseTransactionV2MutationResult =
-  NonNullable<
-    Awaited<ReturnType<typeof bridgeControllerGetArbitrumFinaliseTransactionV2>>
-  >;
-export type BridgeControllerGetArbitrumFinaliseTransactionV2MutationBody =
-  IdDto;
-export type BridgeControllerGetArbitrumFinaliseTransactionV2MutationError =
-  unknown;
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof bridgeControllerGetArbitrumFinaliseTransactionV2>>, {data: IdDto}> = (props) => {
+          const {data} = props ?? {};
 
-export const useBridgeControllerGetArbitrumFinaliseTransactionV2 = <
-  TError = unknown,
-  TContext = unknown
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<
-      ReturnType<typeof bridgeControllerGetArbitrumFinaliseTransactionV2>
-    >,
-    TError,
-    { data: IdDto },
-    TContext
-  >;
-}): UseMutationResult<
-  Awaited<ReturnType<typeof bridgeControllerGetArbitrumFinaliseTransactionV2>>,
-  TError,
-  { data: IdDto },
-  TContext
-> => {
-  const mutationOptions =
-    getBridgeControllerGetArbitrumFinaliseTransactionV2MutationOptions(options);
+          return  bridgeControllerGetArbitrumFinaliseTransactionV2(data,)
+        }
 
-  return useMutation(mutationOptions);
-};
+        
 
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type BridgeControllerGetArbitrumFinaliseTransactionV2MutationResult = NonNullable<Awaited<ReturnType<typeof bridgeControllerGetArbitrumFinaliseTransactionV2>>>
+    export type BridgeControllerGetArbitrumFinaliseTransactionV2MutationBody = IdDto
+    export type BridgeControllerGetArbitrumFinaliseTransactionV2MutationError = unknown
+
+    export const useBridgeControllerGetArbitrumFinaliseTransactionV2 = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerGetArbitrumFinaliseTransactionV2>>, TError,{data: IdDto}, TContext>, }
+): UseMutationResult<
+        Awaited<ReturnType<typeof bridgeControllerGetArbitrumFinaliseTransactionV2>>,
+        TError,
+        {data: IdDto},
+        TContext
+      > => {
+
+      const mutationOptions = getBridgeControllerGetArbitrumFinaliseTransactionV2MutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
 export const bridgeControllerGetCctpMintTransaction = (
-  id: string,
-  signal?: AbortSignal
+    id: string,
+ signal?: AbortSignal
 ) => {
-  return customInstance<TransactionDto>({
-    url: `/api/bridge/cctp_mint/${id}`,
-    method: "GET",
-    signal,
-  });
-};
+      
+      
+      return customInstance<TransactionDto>(
+      {url: `/api/bridge/cctp_mint/${id}`, method: 'GET', signal
+    },
+      );
+    }
+  
 
-export const getBridgeControllerGetCctpMintTransactionQueryKey = (
-  id: string
+export const getBridgeControllerGetCctpMintTransactionQueryKey = (id: string,) => {
+    return [`/api/bridge/cctp_mint/${id}`] as const;
+    }
+
+    
+export const getBridgeControllerGetCctpMintTransactionQueryOptions = <TData = Awaited<ReturnType<typeof bridgeControllerGetCctpMintTransaction>>, TError = unknown>(id: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetCctpMintTransaction>>, TError, TData>, }
 ) => {
-  return [`/api/bridge/cctp_mint/${id}`] as const;
-};
 
-export const getBridgeControllerGetCctpMintTransactionQueryOptions = <
-  TData = Awaited<ReturnType<typeof bridgeControllerGetCctpMintTransaction>>,
-  TError = unknown
->(
-  id: string,
-  options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof bridgeControllerGetCctpMintTransaction>>,
-      TError,
-      TData
-    >;
-  }
-) => {
-  const { query: queryOptions } = options ?? {};
+const {query: queryOptions} = options ?? {};
 
-  const queryKey =
-    queryOptions?.queryKey ??
-    getBridgeControllerGetCctpMintTransactionQueryKey(id);
+  const queryKey =  queryOptions?.queryKey ?? getBridgeControllerGetCctpMintTransactionQueryKey(id);
 
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof bridgeControllerGetCctpMintTransaction>>
-  > = ({ signal }) => bridgeControllerGetCctpMintTransaction(id, signal);
+  
 
-  return {
-    queryKey,
-    queryFn,
-    enabled: !!id,
-    ...queryOptions,
-  } as UseQueryOptions<
-    Awaited<ReturnType<typeof bridgeControllerGetCctpMintTransaction>>,
-    TError,
-    TData
-  > & { queryKey: QueryKey };
-};
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof bridgeControllerGetCctpMintTransaction>>> = ({ signal }) => bridgeControllerGetCctpMintTransaction(id, signal);
 
-export type BridgeControllerGetCctpMintTransactionQueryResult = NonNullable<
-  Awaited<ReturnType<typeof bridgeControllerGetCctpMintTransaction>>
->;
-export type BridgeControllerGetCctpMintTransactionQueryError = unknown;
+      
 
-export const useBridgeControllerGetCctpMintTransaction = <
-  TData = Awaited<ReturnType<typeof bridgeControllerGetCctpMintTransaction>>,
-  TError = unknown
->(
-  id: string,
-  options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof bridgeControllerGetCctpMintTransaction>>,
-      TError,
-      TData
-    >;
-  }
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-  const queryOptions = getBridgeControllerGetCctpMintTransactionQueryOptions(
-    id,
-    options
-  );
+      
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey;
-  };
+   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetCctpMintTransaction>>, TError, TData> & { queryKey: QueryKey }
+}
 
-  query.queryKey = queryOptions.queryKey;
+export type BridgeControllerGetCctpMintTransactionQueryResult = NonNullable<Awaited<ReturnType<typeof bridgeControllerGetCctpMintTransaction>>>
+export type BridgeControllerGetCctpMintTransactionQueryError = unknown
+
+export const useBridgeControllerGetCctpMintTransaction = <TData = Awaited<ReturnType<typeof bridgeControllerGetCctpMintTransaction>>, TError = unknown>(
+ id: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetCctpMintTransaction>>, TError, TData>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+
+  const queryOptions = getBridgeControllerGetCctpMintTransactionQueryOptions(id,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
 
   return query;
-};
+}
 
-export const bridgeControllerGetCctpMintTransactionV2 = (idDto: IdDto) => {
-  return customInstance<TransactionDto>({
-    url: `/api/bridge/cctp_mint`,
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    data: idDto,
-  });
-};
 
-export const getBridgeControllerGetCctpMintTransactionV2MutationOptions = <
-  TError = unknown,
-  TContext = unknown
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof bridgeControllerGetCctpMintTransactionV2>>,
-    TError,
-    { data: IdDto },
-    TContext
-  >;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof bridgeControllerGetCctpMintTransactionV2>>,
-  TError,
-  { data: IdDto },
-  TContext
-> => {
-  const { mutation: mutationOptions } = options ?? {};
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof bridgeControllerGetCctpMintTransactionV2>>,
-    { data: IdDto }
-  > = (props) => {
-    const { data } = props ?? {};
 
-    return bridgeControllerGetCctpMintTransactionV2(data);
-  };
+export const bridgeControllerGetCctpMintTransactionV2 = (
+    idDto: IdDto,
+ ) => {
+      
+      
+      return customInstance<TransactionDto>(
+      {url: `/api/bridge/cctp_mint`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: idDto
+    },
+      );
+    }
+  
 
-  return { mutationFn, ...mutationOptions };
-};
 
-export type BridgeControllerGetCctpMintTransactionV2MutationResult =
-  NonNullable<
-    Awaited<ReturnType<typeof bridgeControllerGetCctpMintTransactionV2>>
-  >;
-export type BridgeControllerGetCctpMintTransactionV2MutationBody = IdDto;
-export type BridgeControllerGetCctpMintTransactionV2MutationError = unknown;
+export const getBridgeControllerGetCctpMintTransactionV2MutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerGetCctpMintTransactionV2>>, TError,{data: IdDto}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerGetCctpMintTransactionV2>>, TError,{data: IdDto}, TContext> => {
+const {mutation: mutationOptions} = options ?? {};
 
-export const useBridgeControllerGetCctpMintTransactionV2 = <
-  TError = unknown,
-  TContext = unknown
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof bridgeControllerGetCctpMintTransactionV2>>,
-    TError,
-    { data: IdDto },
-    TContext
-  >;
-}): UseMutationResult<
-  Awaited<ReturnType<typeof bridgeControllerGetCctpMintTransactionV2>>,
-  TError,
-  { data: IdDto },
-  TContext
-> => {
-  const mutationOptions =
-    getBridgeControllerGetCctpMintTransactionV2MutationOptions(options);
+      
 
-  return useMutation(mutationOptions);
-};
 
-export const bridgeControllerFiatPrices = (signal?: AbortSignal) => {
-  return customInstance<void>({
-    url: `/api/bridge/fiat_prices`,
-    method: "GET",
-    signal,
-  });
-};
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof bridgeControllerGetCctpMintTransactionV2>>, {data: IdDto}> = (props) => {
+          const {data} = props ?? {};
+
+          return  bridgeControllerGetCctpMintTransactionV2(data,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type BridgeControllerGetCctpMintTransactionV2MutationResult = NonNullable<Awaited<ReturnType<typeof bridgeControllerGetCctpMintTransactionV2>>>
+    export type BridgeControllerGetCctpMintTransactionV2MutationBody = IdDto
+    export type BridgeControllerGetCctpMintTransactionV2MutationError = unknown
+
+    export const useBridgeControllerGetCctpMintTransactionV2 = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerGetCctpMintTransactionV2>>, TError,{data: IdDto}, TContext>, }
+): UseMutationResult<
+        Awaited<ReturnType<typeof bridgeControllerGetCctpMintTransactionV2>>,
+        TError,
+        {data: IdDto},
+        TContext
+      > => {
+
+      const mutationOptions = getBridgeControllerGetCctpMintTransactionV2MutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+export const bridgeControllerFiatPrices = (
+    
+ signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<FiatPricesDto>(
+      {url: `/api/bridge/fiat_prices`, method: 'GET', signal
+    },
+      );
+    }
+  
 
 export const getBridgeControllerFiatPricesQueryKey = () => {
-  return [`/api/bridge/fiat_prices`] as const;
-};
+    return [`/api/bridge/fiat_prices`] as const;
+    }
 
-export const getBridgeControllerFiatPricesQueryOptions = <
-  TData = Awaited<ReturnType<typeof bridgeControllerFiatPrices>>,
-  TError = unknown
->(options?: {
-  query?: UseQueryOptions<
-    Awaited<ReturnType<typeof bridgeControllerFiatPrices>>,
-    TError,
-    TData
-  >;
-}) => {
-  const { query: queryOptions } = options ?? {};
+    
+export const getBridgeControllerFiatPricesQueryOptions = <TData = Awaited<ReturnType<typeof bridgeControllerFiatPrices>>, TError = unknown>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerFiatPrices>>, TError, TData>, }
+) => {
 
-  const queryKey =
-    queryOptions?.queryKey ?? getBridgeControllerFiatPricesQueryKey();
+const {query: queryOptions} = options ?? {};
 
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof bridgeControllerFiatPrices>>
-  > = ({ signal }) => bridgeControllerFiatPrices(signal);
+  const queryKey =  queryOptions?.queryKey ?? getBridgeControllerFiatPricesQueryKey();
 
-  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
-    Awaited<ReturnType<typeof bridgeControllerFiatPrices>>,
-    TError,
-    TData
-  > & { queryKey: QueryKey };
-};
+  
 
-export type BridgeControllerFiatPricesQueryResult = NonNullable<
-  Awaited<ReturnType<typeof bridgeControllerFiatPrices>>
->;
-export type BridgeControllerFiatPricesQueryError = unknown;
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof bridgeControllerFiatPrices>>> = ({ signal }) => bridgeControllerFiatPrices(signal);
 
-export const useBridgeControllerFiatPrices = <
-  TData = Awaited<ReturnType<typeof bridgeControllerFiatPrices>>,
-  TError = unknown
->(options?: {
-  query?: UseQueryOptions<
-    Awaited<ReturnType<typeof bridgeControllerFiatPrices>>,
-    TError,
-    TData
-  >;
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-  const queryOptions = getBridgeControllerFiatPricesQueryOptions(options);
+      
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey;
-  };
+      
 
-  query.queryKey = queryOptions.queryKey;
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerFiatPrices>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type BridgeControllerFiatPricesQueryResult = NonNullable<Awaited<ReturnType<typeof bridgeControllerFiatPrices>>>
+export type BridgeControllerFiatPricesQueryError = unknown
+
+export const useBridgeControllerFiatPrices = <TData = Awaited<ReturnType<typeof bridgeControllerFiatPrices>>, TError = unknown>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerFiatPrices>>, TError, TData>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+
+  const queryOptions = getBridgeControllerFiatPricesQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
 
   return query;
-};
+}
 
-export const bridgeControllerGetTokenPrices = (signal?: AbortSignal) => {
-  return customInstance<void>({
-    url: `/api/bridge/token_prices`,
-    method: "GET",
-    signal,
-  });
-};
+
+
+
+export const bridgeControllerGetTokenPrices = (
+    
+ signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<PricesDto>(
+      {url: `/api/bridge/token_prices`, method: 'GET', signal
+    },
+      );
+    }
+  
 
 export const getBridgeControllerGetTokenPricesQueryKey = () => {
-  return [`/api/bridge/token_prices`] as const;
-};
+    return [`/api/bridge/token_prices`] as const;
+    }
 
-export const getBridgeControllerGetTokenPricesQueryOptions = <
-  TData = Awaited<ReturnType<typeof bridgeControllerGetTokenPrices>>,
-  TError = unknown
->(options?: {
-  query?: UseQueryOptions<
-    Awaited<ReturnType<typeof bridgeControllerGetTokenPrices>>,
-    TError,
-    TData
-  >;
-}) => {
-  const { query: queryOptions } = options ?? {};
+    
+export const getBridgeControllerGetTokenPricesQueryOptions = <TData = Awaited<ReturnType<typeof bridgeControllerGetTokenPrices>>, TError = unknown>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetTokenPrices>>, TError, TData>, }
+) => {
 
-  const queryKey =
-    queryOptions?.queryKey ?? getBridgeControllerGetTokenPricesQueryKey();
+const {query: queryOptions} = options ?? {};
 
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof bridgeControllerGetTokenPrices>>
-  > = ({ signal }) => bridgeControllerGetTokenPrices(signal);
+  const queryKey =  queryOptions?.queryKey ?? getBridgeControllerGetTokenPricesQueryKey();
 
-  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
-    Awaited<ReturnType<typeof bridgeControllerGetTokenPrices>>,
-    TError,
-    TData
-  > & { queryKey: QueryKey };
-};
+  
 
-export type BridgeControllerGetTokenPricesQueryResult = NonNullable<
-  Awaited<ReturnType<typeof bridgeControllerGetTokenPrices>>
->;
-export type BridgeControllerGetTokenPricesQueryError = unknown;
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof bridgeControllerGetTokenPrices>>> = ({ signal }) => bridgeControllerGetTokenPrices(signal);
 
-export const useBridgeControllerGetTokenPrices = <
-  TData = Awaited<ReturnType<typeof bridgeControllerGetTokenPrices>>,
-  TError = unknown
->(options?: {
-  query?: UseQueryOptions<
-    Awaited<ReturnType<typeof bridgeControllerGetTokenPrices>>,
-    TError,
-    TData
-  >;
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-  const queryOptions = getBridgeControllerGetTokenPricesQueryOptions(options);
+      
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey;
-  };
+      
 
-  query.queryKey = queryOptions.queryKey;
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetTokenPrices>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type BridgeControllerGetTokenPricesQueryResult = NonNullable<Awaited<ReturnType<typeof bridgeControllerGetTokenPrices>>>
+export type BridgeControllerGetTokenPricesQueryError = unknown
+
+export const useBridgeControllerGetTokenPrices = <TData = Awaited<ReturnType<typeof bridgeControllerGetTokenPrices>>, TError = unknown>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetTokenPrices>>, TError, TData>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+
+  const queryOptions = getBridgeControllerGetTokenPricesQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
 
   return query;
-};
+}
 
-export const bridgeControllerAdminGetDeployments = (signal?: AbortSignal) => {
-  return customInstance<DeploymentDto[]>({
-    url: `/api/bridge/admin/deployment`,
-    method: "GET",
-    signal,
-  });
-};
+
+
+
+export const bridgeControllerAdminGetDeployments = (
+    
+ signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<DeploymentDto[]>(
+      {url: `/api/bridge/admin/deployment`, method: 'GET', signal
+    },
+      );
+    }
+  
 
 export const getBridgeControllerAdminGetDeploymentsQueryKey = () => {
-  return [`/api/bridge/admin/deployment`] as const;
-};
+    return [`/api/bridge/admin/deployment`] as const;
+    }
 
-export const getBridgeControllerAdminGetDeploymentsQueryOptions = <
-  TData = Awaited<ReturnType<typeof bridgeControllerAdminGetDeployments>>,
-  TError = unknown
->(options?: {
-  query?: UseQueryOptions<
-    Awaited<ReturnType<typeof bridgeControllerAdminGetDeployments>>,
-    TError,
-    TData
-  >;
-}) => {
-  const { query: queryOptions } = options ?? {};
+    
+export const getBridgeControllerAdminGetDeploymentsQueryOptions = <TData = Awaited<ReturnType<typeof bridgeControllerAdminGetDeployments>>, TError = unknown>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerAdminGetDeployments>>, TError, TData>, }
+) => {
 
-  const queryKey =
-    queryOptions?.queryKey ?? getBridgeControllerAdminGetDeploymentsQueryKey();
+const {query: queryOptions} = options ?? {};
 
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof bridgeControllerAdminGetDeployments>>
-  > = ({ signal }) => bridgeControllerAdminGetDeployments(signal);
+  const queryKey =  queryOptions?.queryKey ?? getBridgeControllerAdminGetDeploymentsQueryKey();
 
-  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
-    Awaited<ReturnType<typeof bridgeControllerAdminGetDeployments>>,
-    TError,
-    TData
-  > & { queryKey: QueryKey };
-};
+  
 
-export type BridgeControllerAdminGetDeploymentsQueryResult = NonNullable<
-  Awaited<ReturnType<typeof bridgeControllerAdminGetDeployments>>
->;
-export type BridgeControllerAdminGetDeploymentsQueryError = unknown;
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof bridgeControllerAdminGetDeployments>>> = ({ signal }) => bridgeControllerAdminGetDeployments(signal);
 
-export const useBridgeControllerAdminGetDeployments = <
-  TData = Awaited<ReturnType<typeof bridgeControllerAdminGetDeployments>>,
-  TError = unknown
->(options?: {
-  query?: UseQueryOptions<
-    Awaited<ReturnType<typeof bridgeControllerAdminGetDeployments>>,
-    TError,
-    TData
-  >;
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-  const queryOptions =
-    getBridgeControllerAdminGetDeploymentsQueryOptions(options);
+      
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey;
-  };
+      
 
-  query.queryKey = queryOptions.queryKey;
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerAdminGetDeployments>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type BridgeControllerAdminGetDeploymentsQueryResult = NonNullable<Awaited<ReturnType<typeof bridgeControllerAdminGetDeployments>>>
+export type BridgeControllerAdminGetDeploymentsQueryError = unknown
+
+export const useBridgeControllerAdminGetDeployments = <TData = Awaited<ReturnType<typeof bridgeControllerAdminGetDeployments>>, TError = unknown>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerAdminGetDeployments>>, TError, TData>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+
+  const queryOptions = getBridgeControllerAdminGetDeploymentsQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
 
   return query;
-};
+}
 
-export const bridgeControllerAdminAddDeployment = (idDto: IdDto) => {
-  return customInstance<IdDto>({
-    url: `/api/bridge/admin/deployment`,
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    data: idDto,
-  });
-};
 
-export const getBridgeControllerAdminAddDeploymentMutationOptions = <
-  TError = unknown,
-  TContext = unknown
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof bridgeControllerAdminAddDeployment>>,
-    TError,
-    { data: IdDto },
-    TContext
-  >;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof bridgeControllerAdminAddDeployment>>,
-  TError,
-  { data: IdDto },
-  TContext
-> => {
-  const { mutation: mutationOptions } = options ?? {};
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof bridgeControllerAdminAddDeployment>>,
-    { data: IdDto }
-  > = (props) => {
-    const { data } = props ?? {};
 
-    return bridgeControllerAdminAddDeployment(data);
-  };
+export const bridgeControllerAdminAddDeployment = (
+    idDto: IdDto,
+ ) => {
+      
+      
+      return customInstance<IdDto>(
+      {url: `/api/bridge/admin/deployment`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: idDto
+    },
+      );
+    }
+  
 
-  return { mutationFn, ...mutationOptions };
-};
 
-export type BridgeControllerAdminAddDeploymentMutationResult = NonNullable<
-  Awaited<ReturnType<typeof bridgeControllerAdminAddDeployment>>
->;
-export type BridgeControllerAdminAddDeploymentMutationBody = IdDto;
-export type BridgeControllerAdminAddDeploymentMutationError = unknown;
+export const getBridgeControllerAdminAddDeploymentMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerAdminAddDeployment>>, TError,{data: IdDto}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerAdminAddDeployment>>, TError,{data: IdDto}, TContext> => {
+const {mutation: mutationOptions} = options ?? {};
 
-export const useBridgeControllerAdminAddDeployment = <
-  TError = unknown,
-  TContext = unknown
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof bridgeControllerAdminAddDeployment>>,
-    TError,
-    { data: IdDto },
-    TContext
-  >;
-}): UseMutationResult<
-  Awaited<ReturnType<typeof bridgeControllerAdminAddDeployment>>,
-  TError,
-  { data: IdDto },
-  TContext
-> => {
-  const mutationOptions =
-    getBridgeControllerAdminAddDeploymentMutationOptions(options);
+      
 
-  return useMutation(mutationOptions);
-};
 
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof bridgeControllerAdminAddDeployment>>, {data: IdDto}> = (props) => {
+          const {data} = props ?? {};
+
+          return  bridgeControllerAdminAddDeployment(data,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type BridgeControllerAdminAddDeploymentMutationResult = NonNullable<Awaited<ReturnType<typeof bridgeControllerAdminAddDeployment>>>
+    export type BridgeControllerAdminAddDeploymentMutationBody = IdDto
+    export type BridgeControllerAdminAddDeploymentMutationError = unknown
+
+    export const useBridgeControllerAdminAddDeployment = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerAdminAddDeployment>>, TError,{data: IdDto}, TContext>, }
+): UseMutationResult<
+        Awaited<ReturnType<typeof bridgeControllerAdminAddDeployment>>,
+        TError,
+        {data: IdDto},
+        TContext
+      > => {
+
+      const mutationOptions = getBridgeControllerAdminAddDeploymentMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
 export const bridgeControllerGetDeployments = (
-  params?: BridgeControllerGetDeploymentsParams,
-  signal?: AbortSignal
+    params?: BridgeControllerGetDeploymentsParams,
+ signal?: AbortSignal
 ) => {
-  return customInstance<DeploymentDto[]>({
-    url: `/api/bridge/deployments`,
-    method: "GET",
-    params,
-    signal,
-  });
-};
+      
+      
+      return customInstance<DeploymentDto[]>(
+      {url: `/api/bridge/deployments`, method: 'GET',
+        params, signal
+    },
+      );
+    }
+  
 
-export const getBridgeControllerGetDeploymentsQueryKey = (
-  params?: BridgeControllerGetDeploymentsParams
+export const getBridgeControllerGetDeploymentsQueryKey = (params?: BridgeControllerGetDeploymentsParams,) => {
+    return [`/api/bridge/deployments`, ...(params ? [params]: [])] as const;
+    }
+
+    
+export const getBridgeControllerGetDeploymentsQueryOptions = <TData = Awaited<ReturnType<typeof bridgeControllerGetDeployments>>, TError = unknown>(params?: BridgeControllerGetDeploymentsParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetDeployments>>, TError, TData>, }
 ) => {
-  return [`/api/bridge/deployments`, ...(params ? [params] : [])] as const;
-};
 
-export const getBridgeControllerGetDeploymentsQueryOptions = <
-  TData = Awaited<ReturnType<typeof bridgeControllerGetDeployments>>,
-  TError = unknown
->(
-  params?: BridgeControllerGetDeploymentsParams,
-  options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof bridgeControllerGetDeployments>>,
-      TError,
-      TData
-    >;
-  }
-) => {
-  const { query: queryOptions } = options ?? {};
+const {query: queryOptions} = options ?? {};
 
-  const queryKey =
-    queryOptions?.queryKey ?? getBridgeControllerGetDeploymentsQueryKey(params);
+  const queryKey =  queryOptions?.queryKey ?? getBridgeControllerGetDeploymentsQueryKey(params);
 
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof bridgeControllerGetDeployments>>
-  > = ({ signal }) => bridgeControllerGetDeployments(params, signal);
+  
 
-  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
-    Awaited<ReturnType<typeof bridgeControllerGetDeployments>>,
-    TError,
-    TData
-  > & { queryKey: QueryKey };
-};
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof bridgeControllerGetDeployments>>> = ({ signal }) => bridgeControllerGetDeployments(params, signal);
 
-export type BridgeControllerGetDeploymentsQueryResult = NonNullable<
-  Awaited<ReturnType<typeof bridgeControllerGetDeployments>>
->;
-export type BridgeControllerGetDeploymentsQueryError = unknown;
+      
 
-export const useBridgeControllerGetDeployments = <
-  TData = Awaited<ReturnType<typeof bridgeControllerGetDeployments>>,
-  TError = unknown
->(
-  params?: BridgeControllerGetDeploymentsParams,
-  options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof bridgeControllerGetDeployments>>,
-      TError,
-      TData
-    >;
-  }
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-  const queryOptions = getBridgeControllerGetDeploymentsQueryOptions(
-    params,
-    options
-  );
+      
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey;
-  };
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetDeployments>>, TError, TData> & { queryKey: QueryKey }
+}
 
-  query.queryKey = queryOptions.queryKey;
+export type BridgeControllerGetDeploymentsQueryResult = NonNullable<Awaited<ReturnType<typeof bridgeControllerGetDeployments>>>
+export type BridgeControllerGetDeploymentsQueryError = unknown
+
+export const useBridgeControllerGetDeployments = <TData = Awaited<ReturnType<typeof bridgeControllerGetDeployments>>, TError = unknown>(
+ params?: BridgeControllerGetDeploymentsParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetDeployments>>, TError, TData>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+
+  const queryOptions = getBridgeControllerGetDeploymentsQueryOptions(params,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
 
   return query;
-};
+}
+
+
+
 
 export const bridgeControllerGetDeploymentsByDomain = (
-  domain: string,
-  signal?: AbortSignal
+    domain: string,
+ signal?: AbortSignal
 ) => {
-  return customInstance<DeploymentDto[]>({
-    url: `/api/bridge/deployments_by_domain/${domain}`,
-    method: "GET",
-    signal,
-  });
-};
+      
+      
+      return customInstance<DeploymentDto[]>(
+      {url: `/api/bridge/deployments_by_domain/${domain}`, method: 'GET', signal
+    },
+      );
+    }
+  
 
-export const getBridgeControllerGetDeploymentsByDomainQueryKey = (
-  domain: string
+export const getBridgeControllerGetDeploymentsByDomainQueryKey = (domain: string,) => {
+    return [`/api/bridge/deployments_by_domain/${domain}`] as const;
+    }
+
+    
+export const getBridgeControllerGetDeploymentsByDomainQueryOptions = <TData = Awaited<ReturnType<typeof bridgeControllerGetDeploymentsByDomain>>, TError = unknown>(domain: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetDeploymentsByDomain>>, TError, TData>, }
 ) => {
-  return [`/api/bridge/deployments_by_domain/${domain}`] as const;
-};
 
-export const getBridgeControllerGetDeploymentsByDomainQueryOptions = <
-  TData = Awaited<ReturnType<typeof bridgeControllerGetDeploymentsByDomain>>,
-  TError = unknown
->(
-  domain: string,
-  options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof bridgeControllerGetDeploymentsByDomain>>,
-      TError,
-      TData
-    >;
-  }
-) => {
-  const { query: queryOptions } = options ?? {};
+const {query: queryOptions} = options ?? {};
 
-  const queryKey =
-    queryOptions?.queryKey ??
-    getBridgeControllerGetDeploymentsByDomainQueryKey(domain);
+  const queryKey =  queryOptions?.queryKey ?? getBridgeControllerGetDeploymentsByDomainQueryKey(domain);
 
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof bridgeControllerGetDeploymentsByDomain>>
-  > = ({ signal }) => bridgeControllerGetDeploymentsByDomain(domain, signal);
+  
 
-  return {
-    queryKey,
-    queryFn,
-    enabled: !!domain,
-    ...queryOptions,
-  } as UseQueryOptions<
-    Awaited<ReturnType<typeof bridgeControllerGetDeploymentsByDomain>>,
-    TError,
-    TData
-  > & { queryKey: QueryKey };
-};
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof bridgeControllerGetDeploymentsByDomain>>> = ({ signal }) => bridgeControllerGetDeploymentsByDomain(domain, signal);
 
-export type BridgeControllerGetDeploymentsByDomainQueryResult = NonNullable<
-  Awaited<ReturnType<typeof bridgeControllerGetDeploymentsByDomain>>
->;
-export type BridgeControllerGetDeploymentsByDomainQueryError = unknown;
+      
 
-export const useBridgeControllerGetDeploymentsByDomain = <
-  TData = Awaited<ReturnType<typeof bridgeControllerGetDeploymentsByDomain>>,
-  TError = unknown
->(
-  domain: string,
-  options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof bridgeControllerGetDeploymentsByDomain>>,
-      TError,
-      TData
-    >;
-  }
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-  const queryOptions = getBridgeControllerGetDeploymentsByDomainQueryOptions(
-    domain,
-    options
-  );
+      
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey;
-  };
+   return  { queryKey, queryFn, enabled: !!(domain), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetDeploymentsByDomain>>, TError, TData> & { queryKey: QueryKey }
+}
 
-  query.queryKey = queryOptions.queryKey;
+export type BridgeControllerGetDeploymentsByDomainQueryResult = NonNullable<Awaited<ReturnType<typeof bridgeControllerGetDeploymentsByDomain>>>
+export type BridgeControllerGetDeploymentsByDomainQueryError = unknown
+
+export const useBridgeControllerGetDeploymentsByDomain = <TData = Awaited<ReturnType<typeof bridgeControllerGetDeploymentsByDomain>>, TError = unknown>(
+ domain: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetDeploymentsByDomain>>, TError, TData>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+
+  const queryOptions = getBridgeControllerGetDeploymentsByDomainQueryOptions(domain,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
 
   return query;
-};
+}
 
-export const bridgeControllerGetCctpDomains = (signal?: AbortSignal) => {
-  return customInstance<CctpDomainDto[]>({
-    url: `/api/bridge/cctp_domains`,
-    method: "GET",
-    signal,
-  });
-};
+
+
+
+export const bridgeControllerGetCctpDomains = (
+    
+ signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<CctpDomainDto[]>(
+      {url: `/api/bridge/cctp_domains`, method: 'GET', signal
+    },
+      );
+    }
+  
 
 export const getBridgeControllerGetCctpDomainsQueryKey = () => {
-  return [`/api/bridge/cctp_domains`] as const;
-};
+    return [`/api/bridge/cctp_domains`] as const;
+    }
 
-export const getBridgeControllerGetCctpDomainsQueryOptions = <
-  TData = Awaited<ReturnType<typeof bridgeControllerGetCctpDomains>>,
-  TError = unknown
->(options?: {
-  query?: UseQueryOptions<
-    Awaited<ReturnType<typeof bridgeControllerGetCctpDomains>>,
-    TError,
-    TData
-  >;
-}) => {
-  const { query: queryOptions } = options ?? {};
+    
+export const getBridgeControllerGetCctpDomainsQueryOptions = <TData = Awaited<ReturnType<typeof bridgeControllerGetCctpDomains>>, TError = unknown>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetCctpDomains>>, TError, TData>, }
+) => {
 
-  const queryKey =
-    queryOptions?.queryKey ?? getBridgeControllerGetCctpDomainsQueryKey();
+const {query: queryOptions} = options ?? {};
 
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof bridgeControllerGetCctpDomains>>
-  > = ({ signal }) => bridgeControllerGetCctpDomains(signal);
+  const queryKey =  queryOptions?.queryKey ?? getBridgeControllerGetCctpDomainsQueryKey();
 
-  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
-    Awaited<ReturnType<typeof bridgeControllerGetCctpDomains>>,
-    TError,
-    TData
-  > & { queryKey: QueryKey };
-};
+  
 
-export type BridgeControllerGetCctpDomainsQueryResult = NonNullable<
-  Awaited<ReturnType<typeof bridgeControllerGetCctpDomains>>
->;
-export type BridgeControllerGetCctpDomainsQueryError = unknown;
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof bridgeControllerGetCctpDomains>>> = ({ signal }) => bridgeControllerGetCctpDomains(signal);
 
-export const useBridgeControllerGetCctpDomains = <
-  TData = Awaited<ReturnType<typeof bridgeControllerGetCctpDomains>>,
-  TError = unknown
->(options?: {
-  query?: UseQueryOptions<
-    Awaited<ReturnType<typeof bridgeControllerGetCctpDomains>>,
-    TError,
-    TData
-  >;
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-  const queryOptions = getBridgeControllerGetCctpDomainsQueryOptions(options);
+      
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey;
-  };
+      
 
-  query.queryKey = queryOptions.queryKey;
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetCctpDomains>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type BridgeControllerGetCctpDomainsQueryResult = NonNullable<Awaited<ReturnType<typeof bridgeControllerGetCctpDomains>>>
+export type BridgeControllerGetCctpDomainsQueryError = unknown
+
+export const useBridgeControllerGetCctpDomains = <TData = Awaited<ReturnType<typeof bridgeControllerGetCctpDomains>>, TError = unknown>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetCctpDomains>>, TError, TData>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+
+  const queryOptions = getBridgeControllerGetCctpDomainsQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
 
   return query;
-};
+}
+
+
+
 
 export const bridgeControllerGetDeploymentSyncStatus = (
-  deploymentId: string,
-  signal?: AbortSignal
+    deploymentId: string,
+ signal?: AbortSignal
 ) => {
-  return customInstance<SyncStatusDto[]>({
-    url: `/api/bridge/sync_status/${deploymentId}`,
-    method: "GET",
-    signal,
-  });
-};
+      
+      
+      return customInstance<SyncStatusDto[]>(
+      {url: `/api/bridge/sync_status/${deploymentId}`, method: 'GET', signal
+    },
+      );
+    }
+  
 
-export const getBridgeControllerGetDeploymentSyncStatusQueryKey = (
-  deploymentId: string
+export const getBridgeControllerGetDeploymentSyncStatusQueryKey = (deploymentId: string,) => {
+    return [`/api/bridge/sync_status/${deploymentId}`] as const;
+    }
+
+    
+export const getBridgeControllerGetDeploymentSyncStatusQueryOptions = <TData = Awaited<ReturnType<typeof bridgeControllerGetDeploymentSyncStatus>>, TError = unknown>(deploymentId: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetDeploymentSyncStatus>>, TError, TData>, }
 ) => {
-  return [`/api/bridge/sync_status/${deploymentId}`] as const;
-};
 
-export const getBridgeControllerGetDeploymentSyncStatusQueryOptions = <
-  TData = Awaited<ReturnType<typeof bridgeControllerGetDeploymentSyncStatus>>,
-  TError = unknown
->(
-  deploymentId: string,
-  options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof bridgeControllerGetDeploymentSyncStatus>>,
-      TError,
-      TData
-    >;
-  }
-) => {
-  const { query: queryOptions } = options ?? {};
+const {query: queryOptions} = options ?? {};
 
-  const queryKey =
-    queryOptions?.queryKey ??
-    getBridgeControllerGetDeploymentSyncStatusQueryKey(deploymentId);
+  const queryKey =  queryOptions?.queryKey ?? getBridgeControllerGetDeploymentSyncStatusQueryKey(deploymentId);
 
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof bridgeControllerGetDeploymentSyncStatus>>
-  > = ({ signal }) =>
-    bridgeControllerGetDeploymentSyncStatus(deploymentId, signal);
+  
 
-  return {
-    queryKey,
-    queryFn,
-    enabled: !!deploymentId,
-    ...queryOptions,
-  } as UseQueryOptions<
-    Awaited<ReturnType<typeof bridgeControllerGetDeploymentSyncStatus>>,
-    TError,
-    TData
-  > & { queryKey: QueryKey };
-};
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof bridgeControllerGetDeploymentSyncStatus>>> = ({ signal }) => bridgeControllerGetDeploymentSyncStatus(deploymentId, signal);
 
-export type BridgeControllerGetDeploymentSyncStatusQueryResult = NonNullable<
-  Awaited<ReturnType<typeof bridgeControllerGetDeploymentSyncStatus>>
->;
-export type BridgeControllerGetDeploymentSyncStatusQueryError = unknown;
+      
 
-export const useBridgeControllerGetDeploymentSyncStatus = <
-  TData = Awaited<ReturnType<typeof bridgeControllerGetDeploymentSyncStatus>>,
-  TError = unknown
->(
-  deploymentId: string,
-  options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof bridgeControllerGetDeploymentSyncStatus>>,
-      TError,
-      TData
-    >;
-  }
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-  const queryOptions = getBridgeControllerGetDeploymentSyncStatusQueryOptions(
-    deploymentId,
-    options
-  );
+      
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey;
-  };
+   return  { queryKey, queryFn, enabled: !!(deploymentId), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetDeploymentSyncStatus>>, TError, TData> & { queryKey: QueryKey }
+}
 
-  query.queryKey = queryOptions.queryKey;
+export type BridgeControllerGetDeploymentSyncStatusQueryResult = NonNullable<Awaited<ReturnType<typeof bridgeControllerGetDeploymentSyncStatus>>>
+export type BridgeControllerGetDeploymentSyncStatusQueryError = unknown
+
+export const useBridgeControllerGetDeploymentSyncStatus = <TData = Awaited<ReturnType<typeof bridgeControllerGetDeploymentSyncStatus>>, TError = unknown>(
+ deploymentId: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetDeploymentSyncStatus>>, TError, TData>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+
+  const queryOptions = getBridgeControllerGetDeploymentSyncStatusQueryOptions(deploymentId,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
 
   return query;
-};
+}
+
+
+
 
 export const bridgeControllerGetCctpSyncStatus = (
-  chainId: string,
-  signal?: AbortSignal
+    chainId: string,
+ signal?: AbortSignal
 ) => {
-  return customInstance<SyncStatusDto[]>({
-    url: `/api/bridge/cctp_sync_status/${chainId}`,
-    method: "GET",
-    signal,
-  });
-};
+      
+      
+      return customInstance<SyncStatusDto[]>(
+      {url: `/api/bridge/cctp_sync_status/${chainId}`, method: 'GET', signal
+    },
+      );
+    }
+  
 
-export const getBridgeControllerGetCctpSyncStatusQueryKey = (
-  chainId: string
+export const getBridgeControllerGetCctpSyncStatusQueryKey = (chainId: string,) => {
+    return [`/api/bridge/cctp_sync_status/${chainId}`] as const;
+    }
+
+    
+export const getBridgeControllerGetCctpSyncStatusQueryOptions = <TData = Awaited<ReturnType<typeof bridgeControllerGetCctpSyncStatus>>, TError = unknown>(chainId: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetCctpSyncStatus>>, TError, TData>, }
 ) => {
-  return [`/api/bridge/cctp_sync_status/${chainId}`] as const;
-};
 
-export const getBridgeControllerGetCctpSyncStatusQueryOptions = <
-  TData = Awaited<ReturnType<typeof bridgeControllerGetCctpSyncStatus>>,
-  TError = unknown
->(
-  chainId: string,
-  options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof bridgeControllerGetCctpSyncStatus>>,
-      TError,
-      TData
-    >;
-  }
-) => {
-  const { query: queryOptions } = options ?? {};
+const {query: queryOptions} = options ?? {};
 
-  const queryKey =
-    queryOptions?.queryKey ??
-    getBridgeControllerGetCctpSyncStatusQueryKey(chainId);
+  const queryKey =  queryOptions?.queryKey ?? getBridgeControllerGetCctpSyncStatusQueryKey(chainId);
 
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof bridgeControllerGetCctpSyncStatus>>
-  > = ({ signal }) => bridgeControllerGetCctpSyncStatus(chainId, signal);
+  
 
-  return {
-    queryKey,
-    queryFn,
-    enabled: !!chainId,
-    ...queryOptions,
-  } as UseQueryOptions<
-    Awaited<ReturnType<typeof bridgeControllerGetCctpSyncStatus>>,
-    TError,
-    TData
-  > & { queryKey: QueryKey };
-};
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof bridgeControllerGetCctpSyncStatus>>> = ({ signal }) => bridgeControllerGetCctpSyncStatus(chainId, signal);
 
-export type BridgeControllerGetCctpSyncStatusQueryResult = NonNullable<
-  Awaited<ReturnType<typeof bridgeControllerGetCctpSyncStatus>>
->;
-export type BridgeControllerGetCctpSyncStatusQueryError = unknown;
+      
 
-export const useBridgeControllerGetCctpSyncStatus = <
-  TData = Awaited<ReturnType<typeof bridgeControllerGetCctpSyncStatus>>,
-  TError = unknown
->(
-  chainId: string,
-  options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof bridgeControllerGetCctpSyncStatus>>,
-      TError,
-      TData
-    >;
-  }
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-  const queryOptions = getBridgeControllerGetCctpSyncStatusQueryOptions(
-    chainId,
-    options
-  );
+      
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey;
-  };
+   return  { queryKey, queryFn, enabled: !!(chainId), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetCctpSyncStatus>>, TError, TData> & { queryKey: QueryKey }
+}
 
-  query.queryKey = queryOptions.queryKey;
+export type BridgeControllerGetCctpSyncStatusQueryResult = NonNullable<Awaited<ReturnType<typeof bridgeControllerGetCctpSyncStatus>>>
+export type BridgeControllerGetCctpSyncStatusQueryError = unknown
+
+export const useBridgeControllerGetCctpSyncStatus = <TData = Awaited<ReturnType<typeof bridgeControllerGetCctpSyncStatus>>, TError = unknown>(
+ chainId: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetCctpSyncStatus>>, TError, TData>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+
+  const queryOptions = getBridgeControllerGetCctpSyncStatusQueryOptions(chainId,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
 
   return query;
-};
+}
+
+
+
 
 export const bridgeControllerHandleCctpHyperlane = (
-  ccipReadDto: CcipReadDto
-) => {
-  return customInstance<CcipReadResponseDto[]>({
-    url: `/api/bridge/cctp`,
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    data: ccipReadDto,
-  });
-};
+    ccipReadDto: CcipReadDto,
+ ) => {
+      
+      
+      return customInstance<CcipReadResponseDto[]>(
+      {url: `/api/bridge/cctp`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: ccipReadDto
+    },
+      );
+    }
+  
 
-export const getBridgeControllerHandleCctpHyperlaneMutationOptions = <
-  TError = unknown,
-  TContext = unknown
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof bridgeControllerHandleCctpHyperlane>>,
-    TError,
-    { data: CcipReadDto },
-    TContext
-  >;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof bridgeControllerHandleCctpHyperlane>>,
-  TError,
-  { data: CcipReadDto },
-  TContext
-> => {
-  const { mutation: mutationOptions } = options ?? {};
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof bridgeControllerHandleCctpHyperlane>>,
-    { data: CcipReadDto }
-  > = (props) => {
-    const { data } = props ?? {};
+export const getBridgeControllerHandleCctpHyperlaneMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerHandleCctpHyperlane>>, TError,{data: CcipReadDto}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerHandleCctpHyperlane>>, TError,{data: CcipReadDto}, TContext> => {
+const {mutation: mutationOptions} = options ?? {};
 
-    return bridgeControllerHandleCctpHyperlane(data);
-  };
+      
 
-  return { mutationFn, ...mutationOptions };
-};
 
-export type BridgeControllerHandleCctpHyperlaneMutationResult = NonNullable<
-  Awaited<ReturnType<typeof bridgeControllerHandleCctpHyperlane>>
->;
-export type BridgeControllerHandleCctpHyperlaneMutationBody = CcipReadDto;
-export type BridgeControllerHandleCctpHyperlaneMutationError = unknown;
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof bridgeControllerHandleCctpHyperlane>>, {data: CcipReadDto}> = (props) => {
+          const {data} = props ?? {};
 
-export const useBridgeControllerHandleCctpHyperlane = <
-  TError = unknown,
-  TContext = unknown
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof bridgeControllerHandleCctpHyperlane>>,
-    TError,
-    { data: CcipReadDto },
-    TContext
-  >;
-}): UseMutationResult<
-  Awaited<ReturnType<typeof bridgeControllerHandleCctpHyperlane>>,
-  TError,
-  { data: CcipReadDto },
-  TContext
-> => {
-  const mutationOptions =
-    getBridgeControllerHandleCctpHyperlaneMutationOptions(options);
+          return  bridgeControllerHandleCctpHyperlane(data,)
+        }
 
-  return useMutation(mutationOptions);
-};
+        
 
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type BridgeControllerHandleCctpHyperlaneMutationResult = NonNullable<Awaited<ReturnType<typeof bridgeControllerHandleCctpHyperlane>>>
+    export type BridgeControllerHandleCctpHyperlaneMutationBody = CcipReadDto
+    export type BridgeControllerHandleCctpHyperlaneMutationError = unknown
+
+    export const useBridgeControllerHandleCctpHyperlane = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerHandleCctpHyperlane>>, TError,{data: CcipReadDto}, TContext>, }
+): UseMutationResult<
+        Awaited<ReturnType<typeof bridgeControllerHandleCctpHyperlane>>,
+        TError,
+        {data: CcipReadDto},
+        TContext
+      > => {
+
+      const mutationOptions = getBridgeControllerHandleCctpHyperlaneMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
 export const bridgeControllerCreateConduitDeployment = (
-  createConduitDeploymentDto: CreateConduitDeploymentDto
-) => {
-  return customInstance<ConduitDeploymentConfigDto>({
-    url: `/api/bridge/conduit/deployment`,
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    data: createConduitDeploymentDto,
-  });
-};
+    createConduitDeploymentDto: CreateConduitDeploymentDto,
+ ) => {
+      
+      
+      return customInstance<ConduitDeploymentConfigDto>(
+      {url: `/api/bridge/conduit/deployment`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: createConduitDeploymentDto
+    },
+      );
+    }
+  
 
-export const getBridgeControllerCreateConduitDeploymentMutationOptions = <
-  TError = unknown,
-  TContext = unknown
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof bridgeControllerCreateConduitDeployment>>,
-    TError,
-    { data: CreateConduitDeploymentDto },
-    TContext
-  >;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof bridgeControllerCreateConduitDeployment>>,
-  TError,
-  { data: CreateConduitDeploymentDto },
-  TContext
-> => {
-  const { mutation: mutationOptions } = options ?? {};
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof bridgeControllerCreateConduitDeployment>>,
-    { data: CreateConduitDeploymentDto }
-  > = (props) => {
-    const { data } = props ?? {};
+export const getBridgeControllerCreateConduitDeploymentMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerCreateConduitDeployment>>, TError,{data: CreateConduitDeploymentDto}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerCreateConduitDeployment>>, TError,{data: CreateConduitDeploymentDto}, TContext> => {
+const {mutation: mutationOptions} = options ?? {};
 
-    return bridgeControllerCreateConduitDeployment(data);
-  };
+      
 
-  return { mutationFn, ...mutationOptions };
-};
 
-export type BridgeControllerCreateConduitDeploymentMutationResult = NonNullable<
-  Awaited<ReturnType<typeof bridgeControllerCreateConduitDeployment>>
->;
-export type BridgeControllerCreateConduitDeploymentMutationBody =
-  CreateConduitDeploymentDto;
-export type BridgeControllerCreateConduitDeploymentMutationError = unknown;
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof bridgeControllerCreateConduitDeployment>>, {data: CreateConduitDeploymentDto}> = (props) => {
+          const {data} = props ?? {};
 
-export const useBridgeControllerCreateConduitDeployment = <
-  TError = unknown,
-  TContext = unknown
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof bridgeControllerCreateConduitDeployment>>,
-    TError,
-    { data: CreateConduitDeploymentDto },
-    TContext
-  >;
-}): UseMutationResult<
-  Awaited<ReturnType<typeof bridgeControllerCreateConduitDeployment>>,
-  TError,
-  { data: CreateConduitDeploymentDto },
-  TContext
-> => {
-  const mutationOptions =
-    getBridgeControllerCreateConduitDeploymentMutationOptions(options);
+          return  bridgeControllerCreateConduitDeployment(data,)
+        }
 
-  return useMutation(mutationOptions);
-};
+        
 
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type BridgeControllerCreateConduitDeploymentMutationResult = NonNullable<Awaited<ReturnType<typeof bridgeControllerCreateConduitDeployment>>>
+    export type BridgeControllerCreateConduitDeploymentMutationBody = CreateConduitDeploymentDto
+    export type BridgeControllerCreateConduitDeploymentMutationError = unknown
+
+    export const useBridgeControllerCreateConduitDeployment = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerCreateConduitDeployment>>, TError,{data: CreateConduitDeploymentDto}, TContext>, }
+): UseMutationResult<
+        Awaited<ReturnType<typeof bridgeControllerCreateConduitDeployment>>,
+        TError,
+        {data: CreateConduitDeploymentDto},
+        TContext
+      > => {
+
+      const mutationOptions = getBridgeControllerCreateConduitDeploymentMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
 export const bridgeControllerCreateMainnetConduitDeployment = (
-  createMainnetConduitDeploymentDto: CreateMainnetConduitDeploymentDto
-) => {
-  return customInstance<ConduitDeploymentConfigDto>({
-    url: `/api/bridge/mainnet_conduit_deployment`,
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    data: createMainnetConduitDeploymentDto,
-  });
-};
+    createMainnetConduitDeploymentDto: CreateMainnetConduitDeploymentDto,
+ ) => {
+      
+      
+      return customInstance<ConduitDeploymentConfigDto>(
+      {url: `/api/bridge/mainnet_conduit_deployment`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: createMainnetConduitDeploymentDto
+    },
+      );
+    }
+  
 
-export const getBridgeControllerCreateMainnetConduitDeploymentMutationOptions =
-  <TError = unknown, TContext = unknown>(options?: {
-    mutation?: UseMutationOptions<
-      Awaited<
-        ReturnType<typeof bridgeControllerCreateMainnetConduitDeployment>
-      >,
-      TError,
-      { data: CreateMainnetConduitDeploymentDto },
-      TContext
-    >;
-  }): UseMutationOptions<
-    Awaited<ReturnType<typeof bridgeControllerCreateMainnetConduitDeployment>>,
-    TError,
-    { data: CreateMainnetConduitDeploymentDto },
-    TContext
-  > => {
-    const { mutation: mutationOptions } = options ?? {};
 
-    const mutationFn: MutationFunction<
-      Awaited<
-        ReturnType<typeof bridgeControllerCreateMainnetConduitDeployment>
-      >,
-      { data: CreateMainnetConduitDeploymentDto }
-    > = (props) => {
-      const { data } = props ?? {};
+export const getBridgeControllerCreateMainnetConduitDeploymentMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerCreateMainnetConduitDeployment>>, TError,{data: CreateMainnetConduitDeploymentDto}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerCreateMainnetConduitDeployment>>, TError,{data: CreateMainnetConduitDeploymentDto}, TContext> => {
+const {mutation: mutationOptions} = options ?? {};
 
-      return bridgeControllerCreateMainnetConduitDeployment(data);
-    };
+      
 
-    return { mutationFn, ...mutationOptions };
-  };
 
-export type BridgeControllerCreateMainnetConduitDeploymentMutationResult =
-  NonNullable<
-    Awaited<ReturnType<typeof bridgeControllerCreateMainnetConduitDeployment>>
-  >;
-export type BridgeControllerCreateMainnetConduitDeploymentMutationBody =
-  CreateMainnetConduitDeploymentDto;
-export type BridgeControllerCreateMainnetConduitDeploymentMutationError =
-  unknown;
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof bridgeControllerCreateMainnetConduitDeployment>>, {data: CreateMainnetConduitDeploymentDto}> = (props) => {
+          const {data} = props ?? {};
 
-export const useBridgeControllerCreateMainnetConduitDeployment = <
-  TError = unknown,
-  TContext = unknown
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof bridgeControllerCreateMainnetConduitDeployment>>,
-    TError,
-    { data: CreateMainnetConduitDeploymentDto },
-    TContext
-  >;
-}): UseMutationResult<
-  Awaited<ReturnType<typeof bridgeControllerCreateMainnetConduitDeployment>>,
-  TError,
-  { data: CreateMainnetConduitDeploymentDto },
-  TContext
-> => {
-  const mutationOptions =
-    getBridgeControllerCreateMainnetConduitDeploymentMutationOptions(options);
+          return  bridgeControllerCreateMainnetConduitDeployment(data,)
+        }
 
-  return useMutation(mutationOptions);
-};
+        
 
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type BridgeControllerCreateMainnetConduitDeploymentMutationResult = NonNullable<Awaited<ReturnType<typeof bridgeControllerCreateMainnetConduitDeployment>>>
+    export type BridgeControllerCreateMainnetConduitDeploymentMutationBody = CreateMainnetConduitDeploymentDto
+    export type BridgeControllerCreateMainnetConduitDeploymentMutationError = unknown
+
+    export const useBridgeControllerCreateMainnetConduitDeployment = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerCreateMainnetConduitDeployment>>, TError,{data: CreateMainnetConduitDeploymentDto}, TContext>, }
+): UseMutationResult<
+        Awaited<ReturnType<typeof bridgeControllerCreateMainnetConduitDeployment>>,
+        TError,
+        {data: CreateMainnetConduitDeploymentDto},
+        TContext
+      > => {
+
+      const mutationOptions = getBridgeControllerCreateMainnetConduitDeploymentMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
 export const bridgeControllerGetConduitDeployment = (
-  id: string,
-  signal?: AbortSignal
+    id: string,
+ signal?: AbortSignal
 ) => {
-  return customInstance<ConduitDeploymentConfigDto>({
-    url: `/api/bridge/conduit/deployment/${id}`,
-    method: "GET",
-    signal,
-  });
-};
+      
+      
+      return customInstance<ConduitDeploymentConfigDto>(
+      {url: `/api/bridge/conduit/deployment/${id}`, method: 'GET', signal
+    },
+      );
+    }
+  
 
-export const getBridgeControllerGetConduitDeploymentQueryKey = (id: string) => {
-  return [`/api/bridge/conduit/deployment/${id}`] as const;
-};
+export const getBridgeControllerGetConduitDeploymentQueryKey = (id: string,) => {
+    return [`/api/bridge/conduit/deployment/${id}`] as const;
+    }
 
-export const getBridgeControllerGetConduitDeploymentQueryOptions = <
-  TData = Awaited<ReturnType<typeof bridgeControllerGetConduitDeployment>>,
-  TError = unknown
->(
-  id: string,
-  options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof bridgeControllerGetConduitDeployment>>,
-      TError,
-      TData
-    >;
-  }
+    
+export const getBridgeControllerGetConduitDeploymentQueryOptions = <TData = Awaited<ReturnType<typeof bridgeControllerGetConduitDeployment>>, TError = unknown>(id: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetConduitDeployment>>, TError, TData>, }
 ) => {
-  const { query: queryOptions } = options ?? {};
 
-  const queryKey =
-    queryOptions?.queryKey ??
-    getBridgeControllerGetConduitDeploymentQueryKey(id);
+const {query: queryOptions} = options ?? {};
 
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof bridgeControllerGetConduitDeployment>>
-  > = ({ signal }) => bridgeControllerGetConduitDeployment(id, signal);
+  const queryKey =  queryOptions?.queryKey ?? getBridgeControllerGetConduitDeploymentQueryKey(id);
 
-  return {
-    queryKey,
-    queryFn,
-    enabled: !!id,
-    ...queryOptions,
-  } as UseQueryOptions<
-    Awaited<ReturnType<typeof bridgeControllerGetConduitDeployment>>,
-    TError,
-    TData
-  > & { queryKey: QueryKey };
-};
+  
 
-export type BridgeControllerGetConduitDeploymentQueryResult = NonNullable<
-  Awaited<ReturnType<typeof bridgeControllerGetConduitDeployment>>
->;
-export type BridgeControllerGetConduitDeploymentQueryError = unknown;
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof bridgeControllerGetConduitDeployment>>> = ({ signal }) => bridgeControllerGetConduitDeployment(id, signal);
 
-export const useBridgeControllerGetConduitDeployment = <
-  TData = Awaited<ReturnType<typeof bridgeControllerGetConduitDeployment>>,
-  TError = unknown
->(
-  id: string,
-  options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof bridgeControllerGetConduitDeployment>>,
-      TError,
-      TData
-    >;
-  }
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-  const queryOptions = getBridgeControllerGetConduitDeploymentQueryOptions(
-    id,
-    options
-  );
+      
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey;
-  };
+      
 
-  query.queryKey = queryOptions.queryKey;
+   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetConduitDeployment>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type BridgeControllerGetConduitDeploymentQueryResult = NonNullable<Awaited<ReturnType<typeof bridgeControllerGetConduitDeployment>>>
+export type BridgeControllerGetConduitDeploymentQueryError = unknown
+
+export const useBridgeControllerGetConduitDeployment = <TData = Awaited<ReturnType<typeof bridgeControllerGetConduitDeployment>>, TError = unknown>(
+ id: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetConduitDeployment>>, TError, TData>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+
+  const queryOptions = getBridgeControllerGetConduitDeploymentQueryOptions(id,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
 
   return query;
-};
+}
 
-export const bridgeControllerTrack = (actionDto: ActionDto) => {
-  return customInstance<void>({
-    url: `/api/bridge/track`,
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    data: actionDto,
-  });
-};
 
-export const getBridgeControllerTrackMutationOptions = <
-  TError = unknown,
-  TContext = unknown
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof bridgeControllerTrack>>,
-    TError,
-    { data: ActionDto },
-    TContext
-  >;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof bridgeControllerTrack>>,
-  TError,
-  { data: ActionDto },
-  TContext
-> => {
-  const { mutation: mutationOptions } = options ?? {};
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof bridgeControllerTrack>>,
-    { data: ActionDto }
-  > = (props) => {
-    const { data } = props ?? {};
 
-    return bridgeControllerTrack(data);
-  };
+export const bridgeControllerTrack = (
+    actionDto: ActionDto,
+ ) => {
+      
+      
+      return customInstance<void>(
+      {url: `/api/bridge/track`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: actionDto
+    },
+      );
+    }
+  
 
-  return { mutationFn, ...mutationOptions };
-};
 
-export type BridgeControllerTrackMutationResult = NonNullable<
-  Awaited<ReturnType<typeof bridgeControllerTrack>>
->;
-export type BridgeControllerTrackMutationBody = ActionDto;
-export type BridgeControllerTrackMutationError = unknown;
+export const getBridgeControllerTrackMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerTrack>>, TError,{data: ActionDto}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerTrack>>, TError,{data: ActionDto}, TContext> => {
+const {mutation: mutationOptions} = options ?? {};
 
-export const useBridgeControllerTrack = <
-  TError = unknown,
-  TContext = unknown
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof bridgeControllerTrack>>,
-    TError,
-    { data: ActionDto },
-    TContext
-  >;
-}): UseMutationResult<
-  Awaited<ReturnType<typeof bridgeControllerTrack>>,
-  TError,
-  { data: ActionDto },
-  TContext
-> => {
-  const mutationOptions = getBridgeControllerTrackMutationOptions(options);
+      
 
-  return useMutation(mutationOptions);
-};
 
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof bridgeControllerTrack>>, {data: ActionDto}> = (props) => {
+          const {data} = props ?? {};
+
+          return  bridgeControllerTrack(data,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type BridgeControllerTrackMutationResult = NonNullable<Awaited<ReturnType<typeof bridgeControllerTrack>>>
+    export type BridgeControllerTrackMutationBody = ActionDto
+    export type BridgeControllerTrackMutationError = unknown
+
+    export const useBridgeControllerTrack = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerTrack>>, TError,{data: ActionDto}, TContext>, }
+): UseMutationResult<
+        Awaited<ReturnType<typeof bridgeControllerTrack>>,
+        TError,
+        {data: ActionDto},
+        TContext
+      > => {
+
+      const mutationOptions = getBridgeControllerTrackMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
 export const bridgeControllerGetNfts = (
-  deploymentId: string,
-  withdrawing: string,
-  address: string,
-  signal?: AbortSignal
+    deploymentId: string,
+    withdrawing: string,
+    address: string,
+ signal?: AbortSignal
 ) => {
-  return customInstance<BridgeNftDto[]>({
-    url: `/api/bridge/nfts/${deploymentId}/${withdrawing}/${address}`,
-    method: "GET",
-    signal,
-  });
-};
+      
+      
+      return customInstance<BridgeNftDto[]>(
+      {url: `/api/bridge/nfts/${deploymentId}/${withdrawing}/${address}`, method: 'GET', signal
+    },
+      );
+    }
+  
 
-export const getBridgeControllerGetNftsQueryKey = (
-  deploymentId: string,
-  withdrawing: string,
-  address: string
+export const getBridgeControllerGetNftsQueryKey = (deploymentId: string,
+    withdrawing: string,
+    address: string,) => {
+    return [`/api/bridge/nfts/${deploymentId}/${withdrawing}/${address}`] as const;
+    }
+
+    
+export const getBridgeControllerGetNftsQueryOptions = <TData = Awaited<ReturnType<typeof bridgeControllerGetNfts>>, TError = unknown>(deploymentId: string,
+    withdrawing: string,
+    address: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetNfts>>, TError, TData>, }
 ) => {
-  return [
-    `/api/bridge/nfts/${deploymentId}/${withdrawing}/${address}`,
-  ] as const;
-};
 
-export const getBridgeControllerGetNftsQueryOptions = <
-  TData = Awaited<ReturnType<typeof bridgeControllerGetNfts>>,
-  TError = unknown
->(
-  deploymentId: string,
-  withdrawing: string,
-  address: string,
-  options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof bridgeControllerGetNfts>>,
-      TError,
-      TData
-    >;
-  }
-) => {
-  const { query: queryOptions } = options ?? {};
+const {query: queryOptions} = options ?? {};
 
-  const queryKey =
-    queryOptions?.queryKey ??
-    getBridgeControllerGetNftsQueryKey(deploymentId, withdrawing, address);
+  const queryKey =  queryOptions?.queryKey ?? getBridgeControllerGetNftsQueryKey(deploymentId,withdrawing,address);
 
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof bridgeControllerGetNfts>>
-  > = ({ signal }) =>
-    bridgeControllerGetNfts(deploymentId, withdrawing, address, signal);
+  
 
-  return {
-    queryKey,
-    queryFn,
-    enabled: !!(deploymentId && withdrawing && address),
-    ...queryOptions,
-  } as UseQueryOptions<
-    Awaited<ReturnType<typeof bridgeControllerGetNfts>>,
-    TError,
-    TData
-  > & { queryKey: QueryKey };
-};
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof bridgeControllerGetNfts>>> = ({ signal }) => bridgeControllerGetNfts(deploymentId,withdrawing,address, signal);
 
-export type BridgeControllerGetNftsQueryResult = NonNullable<
-  Awaited<ReturnType<typeof bridgeControllerGetNfts>>
->;
-export type BridgeControllerGetNftsQueryError = unknown;
+      
 
-export const useBridgeControllerGetNfts = <
-  TData = Awaited<ReturnType<typeof bridgeControllerGetNfts>>,
-  TError = unknown
->(
-  deploymentId: string,
-  withdrawing: string,
-  address: string,
-  options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof bridgeControllerGetNfts>>,
-      TError,
-      TData
-    >;
-  }
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-  const queryOptions = getBridgeControllerGetNftsQueryOptions(
-    deploymentId,
-    withdrawing,
-    address,
-    options
-  );
+      
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey;
-  };
+   return  { queryKey, queryFn, enabled: !!(deploymentId && withdrawing && address), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetNfts>>, TError, TData> & { queryKey: QueryKey }
+}
 
-  query.queryKey = queryOptions.queryKey;
+export type BridgeControllerGetNftsQueryResult = NonNullable<Awaited<ReturnType<typeof bridgeControllerGetNfts>>>
+export type BridgeControllerGetNftsQueryError = unknown
+
+export const useBridgeControllerGetNfts = <TData = Awaited<ReturnType<typeof bridgeControllerGetNfts>>, TError = unknown>(
+ deploymentId: string,
+    withdrawing: string,
+    address: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetNfts>>, TError, TData>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+
+  const queryOptions = getBridgeControllerGetNftsQueryOptions(deploymentId,withdrawing,address,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
 
   return query;
-};
+}
+
+
+
 
 export const bridgeControllerGetTrmFlaggedStatus = (
-  address: string,
-  signal?: AbortSignal
+    address: string,
+ signal?: AbortSignal
 ) => {
-  return customInstance<BoolDto>({
-    url: `/api/bridge/trm_flagged_status/${address}`,
-    method: "GET",
-    signal,
-  });
-};
+      
+      
+      return customInstance<BoolDto>(
+      {url: `/api/bridge/trm_flagged_status/${address}`, method: 'GET', signal
+    },
+      );
+    }
+  
 
-export const getBridgeControllerGetTrmFlaggedStatusQueryKey = (
-  address: string
+export const getBridgeControllerGetTrmFlaggedStatusQueryKey = (address: string,) => {
+    return [`/api/bridge/trm_flagged_status/${address}`] as const;
+    }
+
+    
+export const getBridgeControllerGetTrmFlaggedStatusQueryOptions = <TData = Awaited<ReturnType<typeof bridgeControllerGetTrmFlaggedStatus>>, TError = unknown>(address: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetTrmFlaggedStatus>>, TError, TData>, }
 ) => {
-  return [`/api/bridge/trm_flagged_status/${address}`] as const;
-};
 
-export const getBridgeControllerGetTrmFlaggedStatusQueryOptions = <
-  TData = Awaited<ReturnType<typeof bridgeControllerGetTrmFlaggedStatus>>,
-  TError = unknown
->(
-  address: string,
-  options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof bridgeControllerGetTrmFlaggedStatus>>,
-      TError,
-      TData
-    >;
-  }
-) => {
-  const { query: queryOptions } = options ?? {};
+const {query: queryOptions} = options ?? {};
 
-  const queryKey =
-    queryOptions?.queryKey ??
-    getBridgeControllerGetTrmFlaggedStatusQueryKey(address);
+  const queryKey =  queryOptions?.queryKey ?? getBridgeControllerGetTrmFlaggedStatusQueryKey(address);
 
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof bridgeControllerGetTrmFlaggedStatus>>
-  > = ({ signal }) => bridgeControllerGetTrmFlaggedStatus(address, signal);
+  
 
-  return {
-    queryKey,
-    queryFn,
-    enabled: !!address,
-    ...queryOptions,
-  } as UseQueryOptions<
-    Awaited<ReturnType<typeof bridgeControllerGetTrmFlaggedStatus>>,
-    TError,
-    TData
-  > & { queryKey: QueryKey };
-};
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof bridgeControllerGetTrmFlaggedStatus>>> = ({ signal }) => bridgeControllerGetTrmFlaggedStatus(address, signal);
 
-export type BridgeControllerGetTrmFlaggedStatusQueryResult = NonNullable<
-  Awaited<ReturnType<typeof bridgeControllerGetTrmFlaggedStatus>>
->;
-export type BridgeControllerGetTrmFlaggedStatusQueryError = unknown;
+      
 
-export const useBridgeControllerGetTrmFlaggedStatus = <
-  TData = Awaited<ReturnType<typeof bridgeControllerGetTrmFlaggedStatus>>,
-  TError = unknown
->(
-  address: string,
-  options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof bridgeControllerGetTrmFlaggedStatus>>,
-      TError,
-      TData
-    >;
-  }
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-  const queryOptions = getBridgeControllerGetTrmFlaggedStatusQueryOptions(
-    address,
-    options
-  );
+      
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey;
-  };
+   return  { queryKey, queryFn, enabled: !!(address), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetTrmFlaggedStatus>>, TError, TData> & { queryKey: QueryKey }
+}
 
-  query.queryKey = queryOptions.queryKey;
+export type BridgeControllerGetTrmFlaggedStatusQueryResult = NonNullable<Awaited<ReturnType<typeof bridgeControllerGetTrmFlaggedStatus>>>
+export type BridgeControllerGetTrmFlaggedStatusQueryError = unknown
+
+export const useBridgeControllerGetTrmFlaggedStatus = <TData = Awaited<ReturnType<typeof bridgeControllerGetTrmFlaggedStatus>>, TError = unknown>(
+ address: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetTrmFlaggedStatus>>, TError, TData>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+
+  const queryOptions = getBridgeControllerGetTrmFlaggedStatusQueryOptions(address,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
 
   return query;
-};
+}
+
+
+
 
 export const bridgeControllerGetStatus = (
-  address: string,
-  signal?: AbortSignal
+    address: string,
+ signal?: AbortSignal
 ) => {
-  return customInstance<BoolDto>({
-    url: `/api/bridge/status/${address}`,
-    method: "GET",
-    signal,
-  });
-};
+      
+      
+      return customInstance<BoolDto>(
+      {url: `/api/bridge/status/${address}`, method: 'GET', signal
+    },
+      );
+    }
+  
 
-export const getBridgeControllerGetStatusQueryKey = (address: string) => {
-  return [`/api/bridge/status/${address}`] as const;
-};
+export const getBridgeControllerGetStatusQueryKey = (address: string,) => {
+    return [`/api/bridge/status/${address}`] as const;
+    }
 
-export const getBridgeControllerGetStatusQueryOptions = <
-  TData = Awaited<ReturnType<typeof bridgeControllerGetStatus>>,
-  TError = unknown
->(
-  address: string,
-  options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof bridgeControllerGetStatus>>,
-      TError,
-      TData
-    >;
-  }
+    
+export const getBridgeControllerGetStatusQueryOptions = <TData = Awaited<ReturnType<typeof bridgeControllerGetStatus>>, TError = unknown>(address: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetStatus>>, TError, TData>, }
 ) => {
-  const { query: queryOptions } = options ?? {};
 
-  const queryKey =
-    queryOptions?.queryKey ?? getBridgeControllerGetStatusQueryKey(address);
+const {query: queryOptions} = options ?? {};
 
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof bridgeControllerGetStatus>>
-  > = ({ signal }) => bridgeControllerGetStatus(address, signal);
+  const queryKey =  queryOptions?.queryKey ?? getBridgeControllerGetStatusQueryKey(address);
 
-  return {
-    queryKey,
-    queryFn,
-    enabled: !!address,
-    ...queryOptions,
-  } as UseQueryOptions<
-    Awaited<ReturnType<typeof bridgeControllerGetStatus>>,
-    TError,
-    TData
-  > & { queryKey: QueryKey };
-};
+  
 
-export type BridgeControllerGetStatusQueryResult = NonNullable<
-  Awaited<ReturnType<typeof bridgeControllerGetStatus>>
->;
-export type BridgeControllerGetStatusQueryError = unknown;
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof bridgeControllerGetStatus>>> = ({ signal }) => bridgeControllerGetStatus(address, signal);
 
-export const useBridgeControllerGetStatus = <
-  TData = Awaited<ReturnType<typeof bridgeControllerGetStatus>>,
-  TError = unknown
->(
-  address: string,
-  options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof bridgeControllerGetStatus>>,
-      TError,
-      TData
-    >;
-  }
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-  const queryOptions = getBridgeControllerGetStatusQueryOptions(
-    address,
-    options
-  );
+      
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey;
-  };
+      
 
-  query.queryKey = queryOptions.queryKey;
+   return  { queryKey, queryFn, enabled: !!(address), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetStatus>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type BridgeControllerGetStatusQueryResult = NonNullable<Awaited<ReturnType<typeof bridgeControllerGetStatus>>>
+export type BridgeControllerGetStatusQueryError = unknown
+
+export const useBridgeControllerGetStatus = <TData = Awaited<ReturnType<typeof bridgeControllerGetStatus>>, TError = unknown>(
+ address: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetStatus>>, TError, TData>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+
+  const queryOptions = getBridgeControllerGetStatusQueryOptions(address,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
 
   return query;
-};
+}
+
+
+
+

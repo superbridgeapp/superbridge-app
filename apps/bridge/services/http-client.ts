@@ -13,7 +13,7 @@ export const customInstance = async <T>({
   url: string;
   method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
   params?: Record<string, string>;
-  data?: BodyInit;
+  data?: any;
   headers?: HeadersInit;
   signal?: AbortSignal;
 }): Promise<T> => {

@@ -6,8 +6,10 @@ import type {
 import { useRouter } from "next/router";
 
 import {
+  bridgeControllerFiatPrices,
   bridgeControllerGetDeployments,
   bridgeControllerGetDeploymentsByDomain,
+  bridgeControllerGetTokenPrices,
 } from "@/codegen";
 import { DeploymentsGrid } from "@/components/Deployments";
 import { ErrorComponent } from "@/components/Error";
@@ -21,6 +23,7 @@ import { useDeployment } from "@/hooks/use-deployment";
 import { useDeployments } from "@/hooks/use-deployments";
 import { InjectedStoreProvider } from "@/state/injected";
 import { ThemeProvider } from "@/state/theme";
+import { match } from "ts-pattern";
 
 export const SUPERCHAIN_MAINNETS = [
   "optimism",
@@ -47,98 +50,101 @@ export const SUPERCHAIN_TESTNETS = [
 export const getServerSideProps = async ({
   req,
 }: GetServerSidePropsContext) => {
-  const ignored = ["favicon", "locales", "_vercel", "_next"];
-  if (
-    !req.url ||
-    !req.headers.host ||
-    ignored.find((x) => req.url?.includes(x))
-  )
-    return { props: { deployments: [] } };
+  const [
+    { deployments, testnets },
+    prices,
+    fiatPrices,
+    superchainTokenList,
+    superbridgeTokenList,
+  ] = await Promise.all([
+    match({
+      isSuperbridge,
+      localhost: req.headers.host?.includes("localhost"),
+      default:
+        req.headers.host?.includes("testnets.superbridge.app") ||
+        req.headers.host?.includes("testnets.rollbridge.app") ||
+        req.headers.host?.includes("mainnets.superbridge.app") ||
+        req.headers.host?.includes("mainnets.rollbridge.app") ||
+        req.headers.host?.includes("devnets.superbridge.app") ||
+        req.headers.host?.includes("devnets.rollbridge.app"),
+    })
+      .with({ isSuperbridge: true }, async () => {
+        const [name] = req.url!.split(/[?\/]/).filter(Boolean);
+        if (SUPERCHAIN_TESTNETS.includes(name)) {
+          const data = await bridgeControllerGetDeployments({
+            names: SUPERCHAIN_TESTNETS,
+          });
+          return { deployments: data, testnets: true };
+        }
+        const names =
+          req.headers.host === "testnets.superbridge.app"
+            ? SUPERCHAIN_TESTNETS
+            : SUPERCHAIN_MAINNETS;
+        const data = await bridgeControllerGetDeployments({
+          names,
+        });
 
-  if (isSuperbridge) {
-    const [name] = req.url.split(/[?\/]/).filter(Boolean);
-    if (SUPERCHAIN_TESTNETS.includes(name)) {
-      const data = await bridgeControllerGetDeployments({
-        names: SUPERCHAIN_TESTNETS,
-      });
-      return { props: { deployments: data, testnets: true } };
-    }
-    const names =
-      req.headers.host === "testnets.superbridge.app"
-        ? SUPERCHAIN_TESTNETS
-        : SUPERCHAIN_MAINNETS;
-    const data = await bridgeControllerGetDeployments({
-      names,
-    });
+        return { deployments: data };
+      })
+      .with({ localhost: true }, async () => {
+        const data = await bridgeControllerGetDeployments({
+          names: ["arbitrum-one"],
+        });
+        return { deployments: data };
+      })
+      .with({ default: true }, async () => {
+        const [id] = req.headers.host!.split(".");
 
-    return { props: { deployments: data } };
-  }
+        const data = await bridgeControllerGetDeployments({
+          names: [id],
+        });
+        return { deployments: data };
+      })
+      .otherwise(async () => {
+        const data = await bridgeControllerGetDeploymentsByDomain(
+          req.headers.host!
+        );
+        return { deployments: data };
+      }),
+    bridgeControllerGetTokenPrices(),
+    bridgeControllerFiatPrices(),
+    fetch(
+      "https://raw.githubusercontent.com/ethereum-optimism/ethereum-optimism.github.io/master/optimism.tokenlist.json"
+    )
+      .then((x) => x.json())
+      .catch(() => null),
+    fetch(
+      "https://raw.githubusercontent.com/superbridgeapp/token-lists/main/superchain.tokenlist.json"
+    )
+      .then((x) => x.json())
+      .catch(() => null),
+  ]);
 
-  if (req.headers.host?.includes("localhost")) {
-    const data = await bridgeControllerGetDeployments({
-      names: ["arbitrum-one"],
-    });
-    return { props: { deployments: data } };
-  }
-
-  // these need to go last so they don't clash with devnets. or testnets. subdomains
-  const [id] = req.headers.host?.split(".");
-
-  // [id].devnets.superbridge|rollbridge.app
-  // [id].test.devnets.superbridge|rollbridge.app
-  if (
-    req.headers.host.includes("devnets.superbridge.app") ||
-    req.headers.host.includes("devnets.rollbridge.app")
-  ) {
-    const data = await bridgeControllerGetDeployments({
-      names: [id],
-    });
-    return { props: { deployments: data } };
-  }
-
-  // [id].testnets.superbridge|rollbridge.app
-  // [id].test.testnets.superbridge|rollbridge.app
-  if (
-    req.headers.host.includes("testnets.superbridge.app") ||
-    req.headers.host.includes("testnets.rollbridge.app")
-  ) {
-    const data = await bridgeControllerGetDeployments({
-      names: [id],
-    });
-    return { props: { deployments: data } };
-  }
-
-  // [id].mainnets.superbridge|rollbridge.app
-  // [id].test.mainnets.superbridge|rollbridge.app
-  if (
-    req.headers.host.includes("mainnets.superbridge.app") ||
-    req.headers.host.includes("mainnets.rollbridge.app")
-  ) {
-    const data = await bridgeControllerGetDeployments({
-      names: [id],
-    });
-    return { props: { deployments: data } };
-  }
-
-  const data = await bridgeControllerGetDeploymentsByDomain(req.headers.host);
-
-  return { props: { deployments: data } };
+  return {
+    props: {
+      deployments,
+      prices,
+      fiatPrices,
+      testnets: testnets ?? false,
+      superbridgeTokenList,
+      superchainTokenList,
+    },
+  };
 };
 
-export default function IndexRoot({
-  deployments,
-  testnets,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function IndexRoot(
+  props: InferGetServerSidePropsType<typeof getServerSideProps>
+) {
   const router = useRouter();
 
   const [name]: (string | undefined)[] = router.asPath
     .split(/[?\/]/)
     .filter(Boolean);
 
-  const found = deployments.find((x) => x.name === name);
+  const found = props.deployments.find((x) => x.name === name);
   let deployment = null;
-  if (deployments.length === 1) {
-    deployment = deployments[0];
+  if (props.deployments.length === 1) {
+    deployment = props.deployments[0];
   } else if (isSuperbridge && found) {
     deployment = found;
   }
@@ -146,10 +152,9 @@ export default function IndexRoot({
   return (
     <InjectedStoreProvider
       initialValues={{
-        deployments,
+        ...props,
         deployment,
         withdrawing: router.query.direction === "withdraw",
-        testnets: testnets ?? false,
       }}
     >
       <ThemeProvider>

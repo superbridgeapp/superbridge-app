@@ -1,12 +1,18 @@
 import { createStore } from "zustand";
 
-import { DeploymentDto } from "@/codegen/model";
+import { DeploymentDto, FiatPricesDto, PricesDto } from "@/codegen/model";
+import { SuperbridgeTokenList, SuperchainTokenList } from "@/types/token-lists";
 
 export type InjectedState = {
   deployment: DeploymentDto | null;
   deployments: DeploymentDto[];
   withdrawing: boolean;
   testnets: boolean;
+  fiatPrices: FiatPricesDto;
+  prices: PricesDto;
+
+  superchainTokenList: SuperchainTokenList | null;
+  superbridgeTokenList: SuperbridgeTokenList | null;
 };
 
 export type InjectedActions = {
@@ -18,14 +24,16 @@ export type InjectedActions = {
 
 export type InjectedStore = InjectedState & InjectedActions;
 
-const defaultInitState: InjectedState = {
+const defaultInitState: Partial<InjectedState> = {
   deployment: null,
   deployments: [],
   withdrawing: false,
   testnets: false,
+  fiatPrices: {},
+  prices: {},
 };
 
-export const createInjectedStore = (initState: Partial<InjectedState>) => {
+export const createInjectedStore = (initState: InjectedState) => {
   return createStore<InjectedStore>()((set) => ({
     ...defaultInitState,
     ...initState,
