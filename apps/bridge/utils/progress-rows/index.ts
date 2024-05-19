@@ -30,6 +30,7 @@ import AnimDepositProgress from "../../animation/deposit-progress.json";
 import AnimDepositSuccess from "../../animation/deposit-success.json";
 import AnimWithdrawProgress from "../../animation/withdraw-progress.json";
 import AnimWithdrawSuccess from "../../animation/withdraw-success.json";
+import { useDeploymentById } from "@/hooks/use-deployment-by-id";
 
 interface TransactionRowProps {
   title: string;
@@ -179,12 +180,9 @@ const useCctpProps =
   };
 
 export const useTxActivityProps = () => (tx: Transaction) => {
-  const pendingFinalises = usePendingTransactions.usePendingFinalises();
-  const pendingProves = usePendingTransactions.usePendingProves();
-
-  const deployment = isForcedWithdrawal(tx)
-    ? tx.deposit.deployment
-    : tx.deployment;
+  const deployment = useDeploymentById(
+    isForcedWithdrawal(tx) ? tx.deposit.deploymentId : tx.deploymentId
+  );
 
   return (
     match(tx)
@@ -236,7 +234,7 @@ export const useTxActivityProps = () => (tx: Transaction) => {
         const b = w as CctpBridgeDto;
         return useCctpProps()(
           w as CctpBridgeDto,
-          b.from.id === deployment.l2.id
+          b.from.id === deployment?.l2.id
         );
       })
   );

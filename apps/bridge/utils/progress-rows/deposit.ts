@@ -4,6 +4,7 @@ import { P, match } from "ts-pattern";
 import { PortalDepositDto, TransactionStatus } from "@/codegen/model";
 import { getDepositTime } from "@/hooks/use-finalization-period";
 import { usePeriodText } from "@/hooks/use-period-text";
+import { useDeployments } from "@/hooks/use-deployments";
 
 import { transactionLink } from "../transaction-link";
 import { ExpandedItem, ProgressRowStatus } from "./common";
@@ -12,11 +13,20 @@ import { getRemainingTimePeriod } from "./get-remaining-period";
 export const useOptimismDepositProgressRows = () => {
   const { t } = useTranslation();
   const transformPeriodText = usePeriodText();
+  const { deployments } = useDeployments();
 
   return (
-    tx: Pick<PortalDepositDto, "deposit" | "relay" | "deployment">
+    tx: Pick<PortalDepositDto, "deposit" | "relay" | "deploymentId">
   ): ExpandedItem[] => {
-    const depositTime = getDepositTime(tx.deployment);
+    const deployment =
+      deployments.find((x) => tx.deploymentId === x.id) ?? null;
+    if (!deployment) {
+      return [];
+    }
+
+    const depositTime = getDepositTime(
+      deployments.find((x) => tx.deploymentId === x.id) ?? null
+    );
     const l2ConfirmationText = (() => {
       if (!tx.deposit.blockNumber) {
         return transformPeriodText("transferTime", {}, depositTime);
@@ -43,7 +53,7 @@ export const useOptimismDepositProgressRows = () => {
           {
             label: t("activity.deposited"),
             status: ProgressRowStatus.Done,
-            link: transactionLink(d.deposit.transactionHash, d.deployment.l1),
+            link: transactionLink(d.deposit.transactionHash, deployment.l1),
           },
           {
             label: t("activity.l2Confirmation"),
@@ -51,7 +61,7 @@ export const useOptimismDepositProgressRows = () => {
               d.relay.status === TransactionStatus.confirmed
                 ? ProgressRowStatus.Done
                 : ProgressRowStatus.Reverted,
-            link: transactionLink(d.relay.transactionHash, d.deployment.l2),
+            link: transactionLink(d.relay.transactionHash, deployment.l2),
           },
         ]
       )
@@ -59,7 +69,7 @@ export const useOptimismDepositProgressRows = () => {
         {
           label: t("activity.depositing"),
           status: ProgressRowStatus.InProgress,
-          link: transactionLink(d.deposit.transactionHash, d.deployment.l1),
+          link: transactionLink(d.deposit.transactionHash, deployment.l1),
         },
         {
           label: t("activity.l2Confirmation"),
@@ -71,7 +81,7 @@ export const useOptimismDepositProgressRows = () => {
         {
           label: t("activity.deposited"),
           status: ProgressRowStatus.Done,
-          link: transactionLink(d.deposit.transactionHash, d.deployment.l1),
+          link: transactionLink(d.deposit.transactionHash, deployment.l1),
         },
         {
           label: t("activity.waitingForL2"),
