@@ -18,14 +18,17 @@ export const customInstance = async <T>({
   signal?: AbortSignal;
 }): Promise<T> => {
   const searchParams = params ? `?${qs.stringify(params, {})}` : "";
+
+  const next: NextFetchRequestConfig = {
+    revalidate: url.includes("deployments") ? 0 : 60,
+  };
+
   const response = await fetch(`${baseURL}${url}${searchParams}`, {
     method,
     headers,
     signal,
     ...(data ? { body: JSON.stringify(data) } : {}),
-    next: {
-      revalidate: 60,
-    },
+    next,
   });
 
   return response.json();
