@@ -81,6 +81,7 @@ export const useArbitrumWithdrawalProgressRows = () => {
         w.withdrawal.timestamp || Date.now(),
         finalizationPeriod
       );
+      if (!remainingTimePeriod) return "";
       return transformPeriodText("activity.remaining", {}, remainingTimePeriod);
     })();
 

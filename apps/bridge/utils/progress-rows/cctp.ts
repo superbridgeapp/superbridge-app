@@ -32,6 +32,7 @@ export const useCctpProgressRows = () => {
         tx.bridge.timestamp,
         bridgeTime
       );
+      if (!remainingTimePeriod) return "";
       return transformPeriodText("activity.remaining", {}, remainingTimePeriod);
     })();
     return [
