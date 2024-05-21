@@ -85,9 +85,9 @@ export const AddressModal = ({
   const transactions = useTransactions();
   const { t } = useTranslation();
 
-  const profile = useQuery(
-    [`profile-${debouncedInput}`],
-    async () => {
+  const profile = useQuery({
+    queryKey: ["profile", debouncedInput],
+    queryFn: async () => {
       if (debouncedInput.endsWith(".eth")) {
         const profile = await resolveName(debouncedInput);
         if (!profile) {
@@ -116,10 +116,8 @@ export const AddressModal = ({
         avatar: null,
       };
     },
-    {
-      enabled: isAddress(debouncedInput) || debouncedInput.endsWith(".eth"),
-    }
-  );
+    enabled: isAddress(debouncedInput) || debouncedInput.endsWith(".eth"),
+  });
 
   const onSave = async () => {
     if (profile.isLoading || !profile.data) {

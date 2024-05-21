@@ -1,6 +1,11 @@
 import { createStore } from "zustand";
 
-import { DeploymentDto, FiatPricesDto, PricesDto } from "@/codegen/model";
+import {
+  CctpDomainDto,
+  DeploymentDto,
+  FiatPricesDto,
+  PricesDto,
+} from "@/codegen/model";
 import { SuperbridgeTokenList, SuperchainTokenList } from "@/types/token-lists";
 
 export type InjectedState = {
@@ -12,6 +17,8 @@ export type InjectedState = {
 
   superchainTokenList: SuperchainTokenList | null;
   superbridgeTokenList: SuperbridgeTokenList | null;
+
+  cctpDomains: CctpDomainDto[];
 };
 
 export type InjectedActions = {

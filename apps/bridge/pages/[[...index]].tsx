@@ -8,6 +8,7 @@ import { match } from "ts-pattern";
 
 import {
   bridgeControllerFiatPrices,
+  bridgeControllerGetCctpDomains,
   bridgeControllerGetDeployments,
   bridgeControllerGetDeploymentsByDomain,
   bridgeControllerGetTokenPrices,
@@ -56,6 +57,7 @@ export const getServerSideProps = async ({
     fiatPrices,
     superchainTokenList,
     superbridgeTokenList,
+    cctpDomains,
   ] = await Promise.all([
     match({
       isSuperbridge,
@@ -118,6 +120,7 @@ export const getServerSideProps = async ({
     )
       .then((x) => x.json())
       .catch(() => null),
+    bridgeControllerGetCctpDomains(),
   ]);
 
   return {
@@ -128,6 +131,7 @@ export const getServerSideProps = async ({
       testnets: testnets ?? false,
       superbridgeTokenList,
       superchainTokenList,
+      cctpDomains,
     },
   };
 };

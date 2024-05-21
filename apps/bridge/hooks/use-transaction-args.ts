@@ -1,18 +1,18 @@
 import { useAccount, useEstimateFeesPerGas } from "wagmi";
 
-import { useBridgeControllerGetCctpDomains } from "@/codegen";
 import { configurations } from "@/config/contract-addresses";
 import { useConfigState } from "@/state/config";
+import { useInjectedStore } from "@/state/injected";
 import { isArbitrum } from "@/utils/is-mainnet";
 import { depositArgs } from "@/utils/transaction-args/deposit-args";
 import { optimismBridgeNftArgs } from "@/utils/transaction-args/nft-args/optimism-bridge-nft-args";
 import { withdrawArgs } from "@/utils/transaction-args/withdraw-args";
 
-import { useL2TokenIsLegacy } from "./use-l2-token-is-legacy";
-import { useWeiAmount } from "./use-wei-amount";
 import { useGasToken } from "./use-approve-gas-token";
 import { useDeployment } from "./use-deployment";
 import { useGraffiti } from "./use-graffiti";
+import { useL2TokenIsLegacy } from "./use-l2-token-is-legacy";
+import { useWeiAmount } from "./use-wei-amount";
 
 export const useTransactionArgs = () => {
   const account = useAccount();
@@ -40,7 +40,7 @@ export const useTransactionArgs = () => {
       enabled: !!deployment && isArbitrum(deployment),
     },
   });
-  const cctpDomains = useBridgeControllerGetCctpDomains();
+  const cctpDomains = useInjectedStore((s) => s.cctpDomains);
   const gasToken = useGasToken();
   const graffiti = useGraffiti();
 
@@ -60,8 +60,8 @@ export const useTransactionArgs = () => {
     return;
   }
 
-  const l1Cctp = cctpDomains.data?.find((x) => x.chainId === deployment.l1.id);
-  const l2Cctp = cctpDomains.data?.find((x) => x.chainId === deployment.l2.id);
+  const l1Cctp = cctpDomains.find((x) => x.chainId === deployment.l1.id);
+  const l2Cctp = cctpDomains.find((x) => x.chainId === deployment.l2.id);
 
   if (withdrawing) {
     return withdrawArgs({
