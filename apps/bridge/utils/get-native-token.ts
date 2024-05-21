@@ -11,13 +11,6 @@ export function getNativeTokenForDeployment(
     return null;
   }
 
-  // MetaMask doesn't like SYMBOL lengths of 1
-  // for native tokens
-  const symbol =
-    d.arbitrumNativeToken.symbol.length === 1
-      ? `${d.arbitrumNativeToken.symbol}.`
-      : d.arbitrumNativeToken.symbol;
-
   if (isArbitrum(d)) {
     const token: MultiChainToken = {
       [d.l1.id]: {
@@ -34,7 +27,7 @@ export function getNativeTokenForDeployment(
       [d.l2.id]: {
         address: zeroAddress,
         name: d.arbitrumNativeToken.name,
-        symbol,
+        symbol: d.arbitrumNativeToken.symbol,
         decimals: d.arbitrumNativeToken.decimals,
         chainId: d.l2.id,
         logoURI: "",
@@ -63,7 +56,7 @@ export function getNativeTokenForDeployment(
       [d.l2.id]: {
         address: zeroAddress,
         name: d.arbitrumNativeToken.name,
-        symbol,
+        symbol: d.arbitrumNativeToken.symbol,
         decimals: d.arbitrumNativeToken.decimals,
         chainId: d.l2.id,
         logoURI: "",
