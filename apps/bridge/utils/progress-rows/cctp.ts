@@ -28,18 +28,16 @@ export const useCctpProgressRows = () => {
     const bridgeTime = getFinalizationPeriod(deployment, true);
 
     const l2ConfirmationText = (() => {
+      if (!bridgeTime || tx.relay) return "";
       if (!tx.bridge.blockNumber) {
         return transformPeriodText("transferTime", {}, bridgeTime);
-      }
-
-      if (tx.relay) {
-        return "";
       }
 
       const remainingTimePeriod = getRemainingTimePeriod(
         tx.bridge.timestamp,
         bridgeTime
       );
+      if (!remainingTimePeriod) return "";
       return transformPeriodText("activity.remaining", {}, remainingTimePeriod);
     })();
     return [

@@ -45,6 +45,7 @@ export const useArbitrumDepositProgressRows = () => {
         tx.deposit.timestamp,
         depositTime
       );
+      if (!remainingTimePeriod) return "";
       return transformPeriodText("activity.remaining", {}, remainingTimePeriod);
     })();
 

@@ -367,6 +367,7 @@ export const BridgeBody = () => {
     hasInsufficientGas,
     nft,
     recipient,
+    weiAmount,
   })
     .with({ disabled: true }, ({ withdrawing }) => ({
       onSubmit: () => {},
@@ -381,6 +382,11 @@ export const BridgeBody = () => {
     .with({ recipient: "" }, ({ withdrawing }) => ({
       onSubmit: () => {},
       buttonText: withdrawing ? t("withdraw") : t("deposit"),
+      disabled: true,
+    }))
+    .with({ weiAmount: BigInt("0") }, () => ({
+      onSubmit: () => {},
+      buttonText: t("enterAnAmount"),
       disabled: true,
     }))
     .with({ hasInsufficientBalance: true }, () => ({

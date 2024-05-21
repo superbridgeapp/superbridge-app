@@ -44,15 +44,19 @@ export const SupportModal = ({
     "",
     "- The problem I'm having:",
     "- The address of my wallet:",
-    `- The wallet I'm using:`,
+    `- The wallet I'm using (eg MetaMask):`,
     "- The network I'm bridging from is:",
     "- The network I'm bridging to is:",
+    "- The token I'm bridging:",
+    "- The website I'm using:",
     "- The browser I'm using is:",
     "- The device I'm using is:",
     "",
     "Thanks",
   ];
-  const mailLink = `mailto:support@superbridge.app?subject=${
+
+  const email = "support@superbridge.app";
+  const mailLink = `mailto:${email}?subject=${
     isSuperbridge ? "Superbridge" : `${rollupChain} bridge`
   } support query&body=${body.join("%0D%0A")}`;
 
@@ -127,7 +131,7 @@ export const SupportModal = ({
           </div>
           {checkbox1 && checkbox2 && checkbox3 && checkbox4 ? (
             <Button asChild>
-              <Link href={mailLink}>Contact us</Link>
+              <Link href={mailLink}>Contact {email}</Link>
             </Button>
           ) : (
             <div className="bg-muted text-muted-foreground rounded-full h-12 flex justify-center items-center text-sm font-bold ">

@@ -142,16 +142,26 @@ export function useAllTokens() {
                 if (BNB_MAINNET_CHAINS.includes(d.l1.id)) {
                   l1Ether.name = bsc.nativeCurrency.name;
                   l1Ether.symbol = bsc.nativeCurrency.symbol;
+                  l1Ether.coinGeckoId = "binancecoin";
+                  l2Ether.name = bsc.nativeCurrency.name;
+                  l2Ether.symbol = bsc.nativeCurrency.symbol;
+                  l2Ether.coinGeckoId = "binancecoin";
                 }
                 if (BNB_TESTNET_CHAINS.includes(d.l1.id)) {
                   l1Ether.name = bscTestnet.nativeCurrency.name;
                   l1Ether.symbol = bscTestnet.nativeCurrency.symbol;
+                  l1Ether.coinGeckoId = "binancecoin";
+                  l2Ether.name = bscTestnet.nativeCurrency.name;
+                  l2Ether.symbol = bscTestnet.nativeCurrency.symbol;
+                  l2Ether.coinGeckoId = "binancecoin";
                 }
               }
 
               if (SYS_CHAINS.includes(d.l1.id)) {
                 l1Ether.logoURI = "https://bridge.rollux.com/syscoin-logo.svg";
                 l2Ether.logoURI = "https://bridge.rollux.com/syscoin-logo.svg";
+                l1Ether.coinGeckoId = "syscoin";
+                l2Ether.coinGeckoId = "syscoin";
               }
 
               // ensure every deployment has a native token registered

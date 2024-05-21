@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import clsx from "clsx";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { match } from "ts-pattern";
 import { useDebounce } from "use-debounce";
@@ -75,10 +75,13 @@ export const AddressModal = ({
   const isContractAccount = useIsContractAccount();
   const account = useAccount();
 
-  const [nonSavedRecipient, setNonSavedRecipient] = useState(
-    recipientName || recipientAddress
-  );
-  const [debouncedInput] = useDebounce(nonSavedRecipient, 750);
+  const [input, setInput] = useState("");
+
+  useEffect(() => {
+    setInput(recipientName || recipientAddress || "");
+  }, [recipientName, recipientAddress, open]);
+
+  const [debouncedInput] = useDebounce(input, 750);
 
   const setRecipientName = useConfigState.useSetRecipientName();
   const setRecipientAddress = useConfigState.useSetRecipientAddress();
@@ -154,9 +157,8 @@ export const AddressModal = ({
                     />
                   </div>
                   <Input
-                    value={nonSavedRecipient}
-                    onChange={(e) => setNonSavedRecipient(e.target.value)}
-                    // className="rounded-lg p-4 bg-zinc-200 dark:bg-zinc-800 text-xs font-medium  outline-zinc-300 dark:outline-zinc-700 transition-all"
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
                   />
                   <div className="mt-2">
                     {match({
