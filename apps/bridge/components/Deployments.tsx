@@ -19,18 +19,8 @@ const SUPERCHAIN_COMING_SOON = [
     type: DeploymentType.mainnet,
   },
   {
-    name: "lisk-mainnet",
-    displayName: "Lisk",
-    type: DeploymentType.mainnet,
-  },
-  {
     name: "redstone-mainnet",
     displayName: "Redstone",
-    type: DeploymentType.mainnet,
-  },
-  {
-    name: "ancient8",
-    displayName: "Ancient8",
     type: DeploymentType.mainnet,
   },
 ];
