@@ -18,11 +18,6 @@ const SUPERCHAIN_COMING_SOON = [
     displayName: "World Chain",
     type: DeploymentType.mainnet,
   },
-  {
-    name: "redstone-mainnet",
-    displayName: "Redstone",
-    type: DeploymentType.mainnet,
-  },
 ];
 const COMING_SOON = [
   {

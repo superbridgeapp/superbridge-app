@@ -35,6 +35,7 @@ export const SUPERCHAIN_MAINNETS = [
   "fraxtal-mainnet-l2",
   "lisk-mainnet",
   "cyber-mainnet",
+  "redstone-mainnet",
 ];
 
 export const SUPERCHAIN_TESTNETS = [
@@ -48,6 +49,7 @@ export const SUPERCHAIN_TESTNETS = [
   "fraxtal-testnet-l2",
   "lisk-sepolia",
   "cyber-testnet",
+  "lattice-testnet",
 ];
 
 export const getServerSideProps = async ({
