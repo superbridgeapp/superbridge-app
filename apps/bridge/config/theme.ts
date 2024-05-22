@@ -651,6 +651,14 @@ const worldchainTheme: Theme = {
   },
 };
 
+const cyberTheme: Theme = {
+  ...defaultTheme,
+  iconSrc: "/img/cyber-mainnet/icon.svg",
+  card: {
+    className: "bg-black",
+  },
+};
+
 export const themes: { [name: string]: Theme | undefined } = {
   ["base"]: baseTheme,
   ["base-sepolia"]: baseTheme,
@@ -702,6 +710,8 @@ export const themes: { [name: string]: Theme | undefined } = {
   ["mint-sepolia-testnet-ijtsrc4ffq"]: mintTheme,
   ["worldchain-mainnet"]: worldchainTheme,
   ["sepolia-superseed-826s35710w"]: superseedTheme,
+  ["cyber-mainnet"]: cyberTheme,
+  ["cyber-testnet"]: cyberTheme,
 };
 
 export const deploymentTheme = (
