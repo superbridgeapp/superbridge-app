@@ -651,6 +651,14 @@ const worldchainTheme: Theme = {
   },
 };
 
+const cyberTheme: Theme = {
+  ...defaultTheme,
+  iconSrc: "/img/cyber-mainnet/icon.svg",
+  card: {
+    className: "bg-black",
+  },
+};
+
 export const themes: { [name: string]: Theme | undefined } = {
   ["base"]: baseTheme,
   ["base-sepolia"]: baseTheme,
@@ -694,13 +702,16 @@ export const themes: { [name: string]: Theme | undefined } = {
   ["metal-l2-testnet-3bbzi9kufn"]: metalTheme,
   ["camp-network-4xje7wy105"]: campTheme,
   ["clique-mainnet"]: cliqueTheme,
-  ["frax-mainnet"]: fraxTheme,
+  ["fraxtal-mainnet-l2"]: fraxTheme,
+  ["fraxtal-testnet-l2"]: fraxTheme,
   ["test-figaro-cuqjfe7wkd"]: ebiTheme,
   ["grubby-red-rodent-a6u9rz8x70"]: ebiTheme,
   ["ebi-mainnet"]: ebiTheme,
   ["mint-sepolia-testnet-ijtsrc4ffq"]: mintTheme,
   ["worldchain-mainnet"]: worldchainTheme,
   ["sepolia-superseed-826s35710w"]: superseedTheme,
+  ["cyber-mainnet"]: cyberTheme,
+  ["cyber-testnet"]: cyberTheme,
 };
 
 export const deploymentTheme = (

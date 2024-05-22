@@ -32,6 +32,10 @@ export const SUPERCHAIN_MAINNETS = [
   "lyra",
   "lumio-mainnet",
   "metal-mainnet",
+  "fraxtal-mainnet-l2",
+  "lisk-mainnet",
+  "cyber-mainnet",
+  "redstone-mainnet",
 ];
 
 export const SUPERCHAIN_TESTNETS = [
@@ -42,6 +46,10 @@ export const SUPERCHAIN_TESTNETS = [
   "mode-sepolia-vtnhnpim72",
   "orderly-l2-4460-sepolia-8tc3sd7dvy",
   "metal-l2-testnet-3bbzi9kufn",
+  "fraxtal-testnet-l2",
+  "lisk-sepolia",
+  "cyber-testnet",
+  "lattice-testnet",
 ];
 
 export const getServerSideProps = async ({
