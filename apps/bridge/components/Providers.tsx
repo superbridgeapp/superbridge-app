@@ -63,15 +63,15 @@ function Web3Provider({ children }: { children: React.ReactNode }) {
               };
             }, {})
           );
-    const transports = chains.reduce(
-      (accum, chain) => ({
+    const transports = chains.reduce((accum, chain) => {
+      const urls = chain.rpcUrls.public?.http?.length
+        ? chain.rpcUrls.public.http
+        : chain.rpcUrls.default.http;
+      return {
         ...accum,
-        [chain.id]: fallback(
-          chain.rpcUrls.default.http.map((url) => http(url))
-        ),
-      }),
-      {}
-    );
+        [chain.id]: fallback(urls.map((url) => http(url))),
+      };
+    }, {});
 
     const { wallets } = getDefaultWallets();
 
