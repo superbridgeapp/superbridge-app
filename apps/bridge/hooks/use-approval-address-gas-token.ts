@@ -19,7 +19,7 @@ export function useApprovalAddressGasToken(): Address | undefined {
 
   if (isArbitrum(deployment)) {
     if (token && isArbitrumToken(token)) {
-      return token.arbitrumBridgeInfo[to?.id ?? 0];
+      return token.arbitrumBridgeInfo?.[to?.id ?? 0];
     }
     return deployment.contractAddresses.inbox as Address;
   }
