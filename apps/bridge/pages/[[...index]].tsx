@@ -36,6 +36,7 @@ export const SUPERCHAIN_MAINNETS = [
   "lisk-mainnet",
   "cyber-mainnet",
   "redstone-mainnet",
+  "mint-mainnet-0",
 ];
 
 export const SUPERCHAIN_TESTNETS = [
@@ -50,6 +51,7 @@ export const SUPERCHAIN_TESTNETS = [
   "lisk-sepolia",
   "cyber-testnet",
   "lattice-testnet",
+  "mint-sepolia-testnet-ijtsrc4ffq",
 ];
 
 export const getServerSideProps = async ({

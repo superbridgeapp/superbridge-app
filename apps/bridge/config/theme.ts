@@ -708,6 +708,7 @@ export const themes: { [name: string]: Theme | undefined } = {
   ["grubby-red-rodent-a6u9rz8x70"]: ebiTheme,
   ["ebi-mainnet"]: ebiTheme,
   ["mint-sepolia-testnet-ijtsrc4ffq"]: mintTheme,
+  ["mint-mainnet-0"]: mintTheme,
   ["worldchain-mainnet"]: worldchainTheme,
   ["sepolia-superseed-826s35710w"]: superseedTheme,
   ["cyber-mainnet"]: cyberTheme,
