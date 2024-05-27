@@ -9,5 +9,6 @@
 export interface CctpContractAddressesDto {
   bridge: string;
   messageTransmitter: string;
+  minter: string;
   tokenMessenger: string;
 }
