@@ -14,6 +14,8 @@
   "approveNft": "Approve {{tokenId}}",
   "insufficientFunds": "Insufficient funds",
   "insufficientGas": "Insufficient {{symbol}} for gas",
+  "bridgeLimitFallback": "Limit exceeded",
+  "bridgeLimit": "{{amount}} {{symbol}} limit",
   "enterAnAmount": "Enter an amount",
   "loading": "Loading",
   "error": "Error",
