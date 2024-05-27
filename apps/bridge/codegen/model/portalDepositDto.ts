@@ -14,6 +14,7 @@ import type { OptimismTransactionType } from './optimismTransactionType';
 export interface PortalDepositDto {
   createdAt: string;
   deployment: DeploymentDto;
+  deploymentId: string;
   deposit: ConfirmationDto;
   id: string;
   l2TransactionHash: string;

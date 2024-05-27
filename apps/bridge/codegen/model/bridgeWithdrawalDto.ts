@@ -13,6 +13,7 @@ import type { OptimismTransactionType } from './optimismTransactionType';
 export interface BridgeWithdrawalDto {
   createdAt: string;
   deployment: DeploymentDto;
+  deploymentId: string;
   finalise?: ConfirmationDto;
   id: string;
   l1ChainId: number;

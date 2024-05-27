@@ -13,6 +13,7 @@ import type { ArbitrumTransactionType } from './arbitrumTransactionType';
 export interface ArbitrumDepositRetryableDto {
   createdAt: string;
   deployment: DeploymentDto;
+  deploymentId: string;
   deposit: ConfirmationDto;
   id: string;
   l2TransactionHash: string;

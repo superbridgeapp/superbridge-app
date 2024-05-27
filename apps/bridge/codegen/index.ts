@@ -36,9 +36,10 @@ import type {
   CctpDomainDto,
   ConduitDeploymentConfigDto,
   CreateConduitDeploymentDto,
-  CreateMainnetConduitDeploymentDto,
   DeploymentDto,
+  FiatPricesDto,
   IdDto,
+  PricesDto,
   SyncStatusDto,
   TransactionDto
 } from './model'
@@ -515,7 +516,7 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
     
 export const bridgeControllerFiatPrices = (
      options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
+ ): Promise<AxiosResponse<FiatPricesDto>> => {
     
     return axios.get(
       `/api/bridge/fiat_prices`,options
@@ -568,7 +569,7 @@ export const useBridgeControllerFiatPrices = <TData = Awaited<ReturnType<typeof 
 
 export const bridgeControllerGetTokenPrices = (
      options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
+ ): Promise<AxiosResponse<PricesDto>> => {
     
     return axios.get(
       `/api/bridge/token_prices`,options
@@ -672,55 +673,6 @@ export const useBridgeControllerAdminGetDeployments = <TData = Awaited<ReturnTyp
 
 
 
-export const bridgeControllerAdminAddDeployment = (
-    idDto: IdDto, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<IdDto>> => {
-    
-    return axios.post(
-      `/api/bridge/admin/deployment`,
-      idDto,options
-    );
-  }
-
-
-
-export const getBridgeControllerAdminAddDeploymentMutationOptions = <TError = AxiosError<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerAdminAddDeployment>>, TError,{data: IdDto}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerAdminAddDeployment>>, TError,{data: IdDto}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
-
-      
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof bridgeControllerAdminAddDeployment>>, {data: IdDto}> = (props) => {
-          const {data} = props ?? {};
-
-          return  bridgeControllerAdminAddDeployment(data,axiosOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type BridgeControllerAdminAddDeploymentMutationResult = NonNullable<Awaited<ReturnType<typeof bridgeControllerAdminAddDeployment>>>
-    export type BridgeControllerAdminAddDeploymentMutationBody = IdDto
-    export type BridgeControllerAdminAddDeploymentMutationError = AxiosError<unknown>
-
-    export const useBridgeControllerAdminAddDeployment = <TError = AxiosError<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerAdminAddDeployment>>, TError,{data: IdDto}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationResult<
-        Awaited<ReturnType<typeof bridgeControllerAdminAddDeployment>>,
-        TError,
-        {data: IdDto},
-        TContext
-      > => {
-
-      const mutationOptions = getBridgeControllerAdminAddDeploymentMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    
 export const bridgeControllerGetDeployments = (
     params?: BridgeControllerGetDeploymentsParams, options?: AxiosRequestConfig
  ): Promise<AxiosResponse<DeploymentDto[]>> => {
@@ -1082,55 +1034,6 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
       > => {
 
       const mutationOptions = getBridgeControllerCreateConduitDeploymentMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    
-export const bridgeControllerCreateMainnetConduitDeployment = (
-    createMainnetConduitDeploymentDto: CreateMainnetConduitDeploymentDto, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<ConduitDeploymentConfigDto>> => {
-    
-    return axios.post(
-      `/api/bridge/mainnet_conduit_deployment`,
-      createMainnetConduitDeploymentDto,options
-    );
-  }
-
-
-
-export const getBridgeControllerCreateMainnetConduitDeploymentMutationOptions = <TError = AxiosError<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerCreateMainnetConduitDeployment>>, TError,{data: CreateMainnetConduitDeploymentDto}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerCreateMainnetConduitDeployment>>, TError,{data: CreateMainnetConduitDeploymentDto}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
-
-      
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof bridgeControllerCreateMainnetConduitDeployment>>, {data: CreateMainnetConduitDeploymentDto}> = (props) => {
-          const {data} = props ?? {};
-
-          return  bridgeControllerCreateMainnetConduitDeployment(data,axiosOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type BridgeControllerCreateMainnetConduitDeploymentMutationResult = NonNullable<Awaited<ReturnType<typeof bridgeControllerCreateMainnetConduitDeployment>>>
-    export type BridgeControllerCreateMainnetConduitDeploymentMutationBody = CreateMainnetConduitDeploymentDto
-    export type BridgeControllerCreateMainnetConduitDeploymentMutationError = AxiosError<unknown>
-
-    export const useBridgeControllerCreateMainnetConduitDeployment = <TError = AxiosError<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerCreateMainnetConduitDeployment>>, TError,{data: CreateMainnetConduitDeploymentDto}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationResult<
-        Awaited<ReturnType<typeof bridgeControllerCreateMainnetConduitDeployment>>,
-        TError,
-        {data: CreateMainnetConduitDeploymentDto},
-        TContext
-      > => {
-
-      const mutationOptions = getBridgeControllerCreateMainnetConduitDeploymentMutationOptions(options);
 
       return useMutation(mutationOptions);
     }
