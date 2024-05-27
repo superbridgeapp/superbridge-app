@@ -19,7 +19,7 @@ export function getNativeTokenForDeployment(
         symbol: d.arbitrumNativeToken.symbol,
         decimals: d.arbitrumNativeToken.decimals,
         chainId: d.l1.id,
-        logoURI: "",
+        logoURI: d.arbitrumNativeToken.logoURI ?? "",
         arbitrumBridgeInfo: {
           [d.l2.id]: d.contractAddresses.l1GatewayRouter as Address,
         },
@@ -30,7 +30,7 @@ export function getNativeTokenForDeployment(
         symbol: d.arbitrumNativeToken.symbol,
         decimals: d.arbitrumNativeToken.decimals,
         chainId: d.l2.id,
-        logoURI: "",
+        logoURI: d.arbitrumNativeToken.logoURI ?? "",
         arbitrumBridgeInfo: {
           [d.l1.id]: d.contractAddresses.l2GatewayRouter as Address,
         },
