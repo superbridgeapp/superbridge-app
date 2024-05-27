@@ -20,16 +20,13 @@ export const useTokenPrice = (token: MultiChainToken | null) => {
 
   if (t?.coinGeckoId) {
     tokenPrice =
-      // @ts-expect-error
       prices.data?.data?.[`coingecko:${t.coinGeckoId}`]?.price ?? null;
   } else if (token?.[1]?.coinGeckoId) {
     tokenPrice =
-      // @ts-expect-error
       prices.data?.data?.[`coingecko:${token?.[1]?.coinGeckoId}`]?.price ??
       null;
   } else {
     tokenPrice =
-      // @ts-expect-error
       prices.data?.data?.[`ethereum:${token?.[1]?.address}`]?.price ?? null;
   }
 

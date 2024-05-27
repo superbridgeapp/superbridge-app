@@ -478,13 +478,6 @@ export const TransactionRow = ({ tx }: { tx: Transaction }) => {
 
   return (
     <div className="flex p-6 border-b relative" key={tx.id}>
-      {/* @ts-expect-error */}
-      {tx.mock && (
-        <div className="absolute right-0 top-0 text-pink-400 border border-pink-400 text-pink-400 text-xs rounded-full px-2 py-1 scale-50">
-          MOCK
-        </div>
-      )}
-
       <div className="relative h-fit mr-4">
         {nft ? (
           <>
