@@ -1,7 +1,10 @@
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import Link from "next/link";
 
-import { bridgeControllerGetDeployments } from "@/codegen/index";
+import {
+  bridgeControllerGetDeployments,
+  bridgeControllerGetDeploymentsV2,
+} from "@/codegen/index";
 import PageFooter from "@/components/page-footer";
 import PageNav from "@/components/page-nav";
 import { isSuperbridge } from "@/config/superbridge";
@@ -69,9 +72,8 @@ export const getServerSideProps = async (args: GetServerSidePropsContext) => {
     }
   }
 
-  const data = await bridgeControllerGetDeployments({
-    // hotfix
-    names: [...SUPERCHAIN_MAINNETS, ...SUPERCHAIN_TESTNETS].slice(0, 21),
+  const data = await bridgeControllerGetDeploymentsV2({
+    names: [...SUPERCHAIN_MAINNETS, ...SUPERCHAIN_TESTNETS],
   });
 
   data.sort((a, b) => a.displayName.localeCompare(b.displayName));
