@@ -12,8 +12,8 @@ import {
   OptimismTransactionType,
   PortalDepositDto,
 } from "@/codegen/model";
+import { useDeploymentById } from "@/hooks/use-deployment-by-id";
 import i18n from "@/services/i18n";
-import { usePendingTransactions } from "@/state/pending-txs";
 import { Transaction } from "@/types/transaction";
 import { isArbitrumDeposit, isForcedWithdrawal } from "@/utils/guards";
 import { useArbitrumDepositProgressRows } from "@/utils/progress-rows/arbitrum-deposit";
@@ -30,7 +30,6 @@ import AnimDepositProgress from "../../animation/deposit-progress.json";
 import AnimDepositSuccess from "../../animation/deposit-success.json";
 import AnimWithdrawProgress from "../../animation/withdraw-progress.json";
 import AnimWithdrawSuccess from "../../animation/withdraw-success.json";
-import { useDeploymentById } from "@/hooks/use-deployment-by-id";
 
 interface TransactionRowProps {
   title: string;
