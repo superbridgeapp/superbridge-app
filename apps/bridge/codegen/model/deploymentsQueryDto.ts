@@ -5,10 +5,9 @@
  * API docs
  * OpenAPI spec version: 1.0
  */
-import type { DeploymentFamily } from './deploymentFamily';
 import type { DeploymentType } from './deploymentType';
 
-export interface TempDto {
-  family: DeploymentFamily;
-  type: DeploymentType;
+export interface DeploymentsQueryDto {
+  names?: string[];
+  type?: DeploymentType;
 }
