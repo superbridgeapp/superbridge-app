@@ -14,6 +14,8 @@
   "approveNft": "{{tokenId}} को मंजूर करें",
   "insufficientFunds": "अपर्याप्त धन",
   "insufficientGas": "गैस के लिए {{symbol}} अपर्याप्त",
+  "bridgeLimitFallback": "सीमा पार हो गई",
+  "bridgeLimit": "{{amount}} {{symbol}} सीमा",
   "enterAnAmount": "राशि दर्ज करें",
   "loading": "लोड हो रहा है",
   "error": "त्रुटि",

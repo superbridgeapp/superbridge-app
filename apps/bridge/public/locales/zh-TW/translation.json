@@ -14,6 +14,8 @@
   "approveNft": "批准 {{tokenId}}",
   "insufficientFunds": "資金不足",
   "insufficientGas": "{{symbol}} 不足以支付 Gas 費",
+  "bridgeLimitFallback": "超出限制",
+  "bridgeLimit": "{{amount}} {{symbol}} 限制",
   "enterAnAmount": "输入金额",
   "loading": "載入中",
   "error": "錯誤",

@@ -14,6 +14,8 @@
   "approveNft": "Setujui {{tokenId}}",
   "insufficientFunds": "Dana tidak mencukupi",
   "insufficientGas": "Gas tidak mencukupi untuk {{symbol}}",
+  "bridgeLimitFallback": "Batas terlampaui",
+  "bridgeLimit": "{{amount}} {{symbol}} batas",
   "enterAnAmount": "Masukkan jumlah",
   "loading": "Sedang memuat",
   "error": "Error",

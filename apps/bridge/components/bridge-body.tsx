@@ -41,8 +41,9 @@ import { useSettingsState } from "@/state/settings";
 import { buildPendingTx } from "@/utils/build-pending-tx";
 import { isEth, isNativeToken } from "@/utils/is-eth";
 import { isNativeUsdc } from "@/utils/is-usdc";
-
+import { useBridgeLimit } from "@/hooks/use-bridge-limit";
 import { useDeployment } from "@/hooks/use-deployment";
+
 import { FromTo } from "./FromTo";
 import { AddressModal } from "./address-modal";
 import { ConfirmationModal } from "./confirmation-modal";
@@ -160,7 +161,7 @@ export const BridgeBody = () => {
     usePendingTransactions.useUpdateTransactionByHash();
   const nativeToken = useNativeToken();
   const statusCheck = useStatusCheck();
-
+  const bridgeLimit = useBridgeLimit();
   const track = useBridgeControllerTrack();
 
   const initiatingChainId =
@@ -368,6 +369,8 @@ export const BridgeBody = () => {
     nft,
     recipient,
     weiAmount,
+    limitExceeded:
+      typeof bridgeLimit !== "undefined" && weiAmount > bridgeLimit,
   })
     .with({ disabled: true }, ({ withdrawing }) => ({
       onSubmit: () => {},
@@ -392,6 +395,25 @@ export const BridgeBody = () => {
     .with({ hasInsufficientBalance: true }, () => ({
       onSubmit: () => {},
       buttonText: t("insufficientFunds"),
+      disabled: true,
+    }))
+    .with({ limitExceeded: true }, () => ({
+      onSubmit: () => {},
+      buttonText: (() => {
+        const token = stateToken?.[from?.id ?? 0];
+        if (!token || !bridgeLimit) {
+          return t("bridgeLimitFallback");
+        }
+
+        const formatted = formatUnits(bridgeLimit, token.decimals);
+        return t("bridgeLimit", {
+          amount: parseInt(formatted).toLocaleString("en", {
+            notation: "compact",
+            compactDisplay: "short",
+          }),
+          symbol: token.symbol,
+        });
+      })(),
       disabled: true,
     }))
     .with({ hasInsufficientGas: true }, (d) => ({
