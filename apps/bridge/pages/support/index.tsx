@@ -68,8 +68,10 @@ export const getServerSideProps = async (args: GetServerSidePropsContext) => {
       };
     }
   }
+
   const data = await bridgeControllerGetDeployments({
-    names: [...SUPERCHAIN_MAINNETS, ...SUPERCHAIN_TESTNETS],
+    // hotfix
+    names: [...SUPERCHAIN_MAINNETS, ...SUPERCHAIN_TESTNETS].slice(0, 21),
   });
 
   data.sort((a, b) => a.displayName.localeCompare(b.displayName));
