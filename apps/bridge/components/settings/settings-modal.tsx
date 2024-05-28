@@ -1,9 +1,6 @@
 import { useTranslation } from "react-i18next";
 
-import {
-  bridgeControllerGetDeployments,
-  useBridgeControllerFiatPrices,
-} from "@/codegen/index";
+import { bridgeControllerGetDeployments } from "@/codegen/index";
 import {
   Select,
   SelectContent,
@@ -33,15 +30,12 @@ export interface SettingsModalProps {
 export const SettingsModal = ({ open, setOpen }: SettingsModalProps) => {
   const { t, i18n } = useTranslation();
 
-  const setDeployments = useInjectedStore((store) => store.setDeployments);
-  const testnets = useInjectedStore((store) => store.testnets);
-  const setTestnets = useInjectedStore((store) => store.setTestnets);
+  const { setDeployments, testnets, setTestnets, fiatPrices } =
+    useInjectedStore((s) => s);
   const navigate = useNavigate();
 
   const currency = useSettingsState.useCurrency();
   const setCurrency = useSettingsState.useSetCurrency();
-
-  const fiat = useBridgeControllerFiatPrices();
 
   const preferredExplorer = useSettingsState.usePreferredExplorer();
   const setPreferredExplorer = useSettingsState.useSetPreferredExplorer();
@@ -110,7 +104,7 @@ export const SettingsModal = ({ open, setOpen }: SettingsModalProps) => {
                     <SelectValue placeholder={currency} />
                   </SelectTrigger>
                   <SelectContent>
-                    {Object.keys(fiat.data ?? {}).map((symbol) => (
+                    {Object.keys(fiatPrices).map((symbol) => (
                       <SelectItem key={symbol} value={symbol}>
                         {flagSymbolMap[symbol]} {symbol}
                       </SelectItem>
