@@ -12,8 +12,8 @@ import {
   OptimismTransactionType,
   PortalDepositDto,
 } from "@/codegen/model";
+import { useDeploymentById } from "@/hooks/use-deployment-by-id";
 import i18n from "@/services/i18n";
-import { usePendingTransactions } from "@/state/pending-txs";
 import { Transaction } from "@/types/transaction";
 import { isArbitrumDeposit, isForcedWithdrawal } from "@/utils/guards";
 import { useArbitrumDepositProgressRows } from "@/utils/progress-rows/arbitrum-deposit";
@@ -179,12 +179,9 @@ const useCctpProps =
   };
 
 export const useTxActivityProps = () => (tx: Transaction) => {
-  const pendingFinalises = usePendingTransactions.usePendingFinalises();
-  const pendingProves = usePendingTransactions.usePendingProves();
-
-  const deployment = isForcedWithdrawal(tx)
-    ? tx.deposit.deployment
-    : tx.deployment;
+  const deployment = useDeploymentById(
+    isForcedWithdrawal(tx) ? tx.deposit.deploymentId : tx.deploymentId
+  );
 
   return (
     match(tx)
@@ -236,7 +233,7 @@ export const useTxActivityProps = () => (tx: Transaction) => {
         const b = w as CctpBridgeDto;
         return useCctpProps()(
           w as CctpBridgeDto,
-          b.from.id === deployment.l2.id
+          b.from.id === deployment?.l2.id
         );
       })
   );

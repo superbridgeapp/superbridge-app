@@ -68,7 +68,7 @@ export const getServerSideProps = async (args: GetServerSidePropsContext) => {
       };
     }
   }
-  const { data } = await bridgeControllerGetDeployments({
+  const data = await bridgeControllerGetDeployments({
     names: [...SUPERCHAIN_MAINNETS, ...SUPERCHAIN_TESTNETS],
   });
 

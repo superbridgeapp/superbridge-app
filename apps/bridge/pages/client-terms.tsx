@@ -33,10 +33,8 @@ export const getServerSideProps = async ({
     return { props: { deployment: null } };
   }
 
-  const { data } = await bridgeControllerGetDeploymentsByDomain(
-    req.headers.host
-  );
-  // const { data } = await bridgeControllerGetDeployments({
+  const data = await bridgeControllerGetDeploymentsByDomain(req.headers.host);
+  // const data = await bridgeControllerGetDeployments({
   //   names: ["arbitrum-one"],
   // });
 

@@ -53,6 +53,7 @@ import { NetworkIcon } from "./network-icon";
 import { NftImage } from "./nft";
 import { TokenIcon } from "./token-icon";
 import { Button } from "./ui/button";
+import { useDeploymentById } from "@/hooks/use-deployment-by-id";
 
 const Prove = ({ tx }: { tx: BridgeWithdrawalDto | ForcedWithdrawalDto }) => {
   const prove = useProveOptimism(isWithdrawal(tx) ? tx : tx.withdrawal!);
@@ -107,18 +108,23 @@ const RedeemArbitrum: FC<{
   const redeem = useRedeemArbitrum(tx);
   const { t } = useTranslation();
   const switchChain = useSwitchChain();
-
-  const deploymentL1 = isArbitrumForcedWithdrawal(tx)
-    ? tx.deposit.deployment.l1
-    : tx.deployment.l1;
-  if (chainId === deploymentL1.id)
+  const l1 = useDeploymentById(
+    isArbitrumForcedWithdrawal(tx) ? tx.deposit.deploymentId : tx.deploymentId
+  )?.l1;
+  if (chainId === l1?.id)
     return (
       <Button className="rounded-full" onClick={redeem.write} size={"sm"}>
         {t("buttons.redeem")}
       </Button>
     );
   return (
-    <Button onClick={() => switchChain(deploymentL1)} size={"sm"}>
+    <Button
+      onClick={() => {
+        if (!l1) return;
+        switchChain(l1);
+      }}
+      size={"sm"}
+    >
       {t("buttons.switchChain")}
     </Button>
   );
@@ -334,10 +340,14 @@ const getNativeToken = (tokens: MultiChainToken[], chainId: number) => {
   })?.[chainId];
 };
 function useToken(tx: Transaction, tokens: MultiChainToken[]) {
-  const deployment = isForcedWithdrawal(tx)
-    ? tx.deposit.deployment
-    : tx.deployment;
-  const gasToken = useGasTokenForDeployment(deployment.id);
+  const deployment = useDeploymentById(
+    isForcedWithdrawal(tx) ? tx.deposit.deploymentId : tx.deploymentId
+  );
+  const gasToken = useGasTokenForDeployment(deployment?.id);
+
+  if (!deployment) {
+    return null;
+  }
 
   if (isCctpBridge(tx)) {
     return getToken(tokens, {
@@ -394,10 +404,6 @@ function useNft(tx: Transaction) {
       ? tx.deposit.metadata
       : tx.metadata;
 
-  const deployment = isForcedWithdrawal(tx)
-    ? tx.deposit.deployment
-    : tx.deployment;
-
   if (metadata.type === "nft-deposit") {
     return metadata as NftDepositDto;
   }
@@ -448,9 +454,9 @@ export const TransactionRow = ({ tx }: { tx: Transaction }) => {
 
   const [expanded, setExpanded] = useState(false);
 
-  const deployment = isForcedWithdrawal(tx)
-    ? tx.deposit.deployment
-    : tx.deployment;
+  const deployment = useDeploymentById(
+    isForcedWithdrawal(tx) ? tx.deposit.deploymentId : tx.deploymentId
+  );
 
   const config = useTxActivityProps()(tx);
   const progressRows = useProgressRows()(tx);
@@ -462,13 +468,17 @@ export const TransactionRow = ({ tx }: { tx: Transaction }) => {
     (x) => x.status === ProgressRowStatus.Reverted
   );
 
+  if (!deployment) {
+    return null;
+  }
+
   const [from, to] = isForcedWithdrawal(tx)
-    ? [tx.deposit.deployment.l2, tx.deposit.deployment.l1]
+    ? [deployment.l2, deployment.l1]
     : isCctpBridge(tx)
     ? [tx.from, tx.to]
     : isDeposit(tx)
-    ? [tx.deployment.l1, tx.deployment.l2]
-    : [tx.deployment.l2, tx.deployment.l1];
+    ? [deployment.l1, deployment.l2]
+    : [deployment.l2, deployment.l1];
 
   const indicatorStyles = clsx(
     `w-4 h-4 outline outline-2 outline-zinc-50 dark:outline-zinc-900 absolute -right-1 bottom-0 rounded-full bg-card fill-green-400`,

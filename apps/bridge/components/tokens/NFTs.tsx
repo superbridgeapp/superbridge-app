@@ -31,7 +31,7 @@ export const NonFungibleTokenPicker = ({
 
   const setNft = useConfigState.useSetNft();
 
-  const filteredTokens = nfts.data?.data.filter((nft) => {
+  const filteredTokens = nfts.data?.filter((nft) => {
     if (search) return nft.name.toLowerCase().includes(search.toLowerCase());
     return true;
   });

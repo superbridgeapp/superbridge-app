@@ -7,6 +7,7 @@ import {
   ArbitrumForcedWithdrawalDto,
 } from "@/codegen/model";
 import { isArbitrumDeposit } from "@/utils/guards";
+import { useDeploymentById } from "../use-deployment-by-id";
 
 export function useRedeemArbitrum(
   tx: ArbitrumDepositRetryableDto | ArbitrumForcedWithdrawalDto
@@ -15,15 +16,15 @@ export function useRedeemArbitrum(
   const wallet = useWalletClient();
   const { writeContract, isLoading } = useWriteContract();
 
-  const deployment = isArbitrumDeposit(tx)
-    ? tx.deployment
-    : tx.deposit.deployment;
+  const deployment = useDeploymentById(
+    isArbitrumDeposit(tx) ? tx.deploymentId : tx.deposit.deploymentId
+  );
   const l2TransactionHash = isArbitrumDeposit(tx)
     ? tx.l2TransactionHash
     : tx.deposit.l2TransactionHash;
 
   const onRedeem = async () => {
-    if (!account.address || !wallet.data) {
+    if (!account.address || !wallet.data || !deployment) {
       return;
     }
 

@@ -12,7 +12,7 @@ export const InjectedStoreContext =
 
 export interface InjectedStoreProviderProps {
   children: ReactNode;
-  initialValues: Partial<InjectedState>;
+  initialValues: InjectedState;
 }
 
 export const InjectedStoreProvider = ({

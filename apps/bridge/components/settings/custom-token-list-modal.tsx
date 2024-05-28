@@ -5,7 +5,6 @@ import { isPresent } from "ts-is-present";
 import { useDebounce } from "use-debounce";
 
 import { Input } from "@/components/ui/input";
-import { useDeployment } from "@/hooks/use-deployment";
 import { useMetadata } from "@/hooks/use-metadata";
 import { useConfigState } from "@/state/config";
 import { useSettingsState } from "@/state/settings";
@@ -35,11 +34,9 @@ export const CustomTokenListModal = () => {
   const [debouncedUrl] = useDebounce(url, 400);
   const [disclaimerChecked, setDisclaimerChecked] = useState(false);
 
-  const deployment = useDeployment();
-
-  const tokensImported = useQuery(
-    ["custom tokens", debouncedUrl],
-    async () => {
+  const tokensImported = useQuery({
+    queryKey: ["custom tokens", debouncedUrl],
+    queryFn: async () => {
       const response = await fetch(debouncedUrl);
       const result = await response.json();
 
@@ -47,8 +44,8 @@ export const CustomTokenListModal = () => {
         .map((t: any) => transformIntoOptimismToken(t))
         .filter(isPresent).length;
     },
-    { retry: false }
-  );
+    retry: false,
+  });
 
   useEffect(() => {
     if (typeof tokenListOrOpen === "object") {

@@ -23,8 +23,11 @@ import { wsteth } from "@/utils/token-list/json/wsteth";
 import { transformArbitrumTokenList } from "@/utils/token-list/transform-arbitrum-token-list";
 import { transformIntoOptimismToken } from "@/utils/token-list/transform-optimism-token";
 import { seam } from "@/utils/token-list/json/seam";
+import { useInjectedStore } from "@/state/injected";
 
 export const useTokenLists = () => {
+  const superbridgeTokenList = useInjectedStore((s) => s.superbridgeTokenList);
+  const superchainTokenList = useInjectedStore((s) => s.superchainTokenList);
   const customTokenLists = useSettingsState.useCustomTokenLists();
   const setTokens = useConfigState.useSetTokens();
   const setTokensImportedFromLists =
@@ -39,17 +42,7 @@ export const useTokenLists = () => {
      * Only Superchain token lists for now
      */
 
-    const [
-      superchainTokenListResponse,
-      superbridgeTokenListResponse,
-      ...customTokenListResponses
-    ] = await Promise.all([
-      fetch(
-        "https://raw.githubusercontent.com/ethereum-optimism/ethereum-optimism.github.io/master/optimism.tokenlist.json"
-      ).catch(() => null),
-      fetch(
-        "https://raw.githubusercontent.com/superbridgeapp/token-lists/main/superchain.tokenlist.json"
-      ).catch(() => null),
+    const customTokenListResponses = await Promise.all([
       ...customTokenLists
         .filter((x) => x.enabled)
         .map(async (x) => ({
@@ -58,17 +51,10 @@ export const useTokenLists = () => {
         })),
     ]);
 
-    const [
-      superchainTokenListResult,
-      superbridgeTokenListResult,
-      ...customTokenListResults
-    ]: [
-      SuperchainTokenList | null,
-      SuperbridgeTokenList | null,
-      ...({ tokenList: CustomTokenList; result: SuperchainTokenList } | null)[]
-    ] = await Promise.all([
-      superchainTokenListResponse?.json().catch(() => null),
-      superbridgeTokenListResponse?.json().catch(() => null),
+    const customTokenListResults: ({
+      tokenList: CustomTokenList;
+      result: SuperchainTokenList;
+    } | null)[] = await Promise.all([
       ...customTokenListResponses
         .filter((x) => x?.response?.status === 200)
         .map(async (x) => ({
@@ -77,7 +63,7 @@ export const useTokenLists = () => {
         })),
     ]);
 
-    superchainTokenListResult?.tokens.forEach((t) => {
+    superchainTokenList?.tokens.forEach((t) => {
       const tok = transformIntoOptimismToken(t);
       if (!tok || Object.keys(tok.standardBridgeAddresses).length == 0) {
         return;
@@ -90,7 +76,7 @@ export const useTokenLists = () => {
       }
     });
 
-    superbridgeTokenListResult?.tokens.forEach((t) => {
+    superbridgeTokenList?.tokens.forEach((t) => {
       const tok: OptimismToken = {
         ...t,
         standardBridgeAddresses: t.extensions.standardBridgeAddresses,

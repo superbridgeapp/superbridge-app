@@ -147,18 +147,16 @@ export function NftImage({
     }
   }
 
-  const imageRead = useQuery(
-    ["nft", tokenUri],
-    async () => {
+  const imageRead = useQuery({
+    queryKey: ["nft", tokenUri],
+    queryFn: async () => {
       if (!tokenUri) throw new Error("No token URI");
 
       const metadata = await fetch(tokenUri).then((x) => x.json());
       return ipfs(metadata.image);
     },
-    {
-      enabled: !nft.image && !!tokenUri && !tokenUri.startsWith("ethereum:"),
-    }
-  );
+    enabled: !nft.image && !!tokenUri && !tokenUri.startsWith("ethereum:"),
+  });
 
   let image = nft.image ?? imageRead.data;
 

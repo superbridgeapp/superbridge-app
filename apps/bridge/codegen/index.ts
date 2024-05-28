@@ -18,12 +18,6 @@ import type {
   UseQueryOptions,
   UseQueryResult
 } from '@tanstack/react-query'
-import axios from 'axios'
-import type {
-  AxiosError,
-  AxiosRequestConfig,
-  AxiosResponse
-} from 'axios'
 import type {
   ActionDto,
   ActivityDto,
@@ -43,22 +37,25 @@ import type {
   SyncStatusDto,
   TransactionDto
 } from './model'
+import { customInstance } from '../services/http-client';
 
 
 
 
 export const bridgeControllerGetActivity = (
     address: string,
-    params: BridgeControllerGetActivityParams, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<ActivityDto>> => {
-    
-    return axios.get(
-      `/api/bridge/activity/${address}`,{
-    ...options,
-        params: {...params, ...options?.params},}
-    );
-  }
-
+    params: BridgeControllerGetActivityParams,
+ signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<ActivityDto>(
+      {url: `/api/bridge/activity/${address}`, method: 'GET',
+        params, signal
+    },
+      );
+    }
+  
 
 export const getBridgeControllerGetActivityQueryKey = (address: string,
     params: BridgeControllerGetActivityParams,) => {
@@ -66,17 +63,17 @@ export const getBridgeControllerGetActivityQueryKey = (address: string,
     }
 
     
-export const getBridgeControllerGetActivityQueryOptions = <TData = Awaited<ReturnType<typeof bridgeControllerGetActivity>>, TError = AxiosError<unknown>>(address: string,
-    params: BridgeControllerGetActivityParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetActivity>>, TError, TData>, axios?: AxiosRequestConfig}
+export const getBridgeControllerGetActivityQueryOptions = <TData = Awaited<ReturnType<typeof bridgeControllerGetActivity>>, TError = unknown>(address: string,
+    params: BridgeControllerGetActivityParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetActivity>>, TError, TData>, }
 ) => {
 
-const {query: queryOptions, axios: axiosOptions} = options ?? {};
+const {query: queryOptions} = options ?? {};
 
   const queryKey =  queryOptions?.queryKey ?? getBridgeControllerGetActivityQueryKey(address,params);
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof bridgeControllerGetActivity>>> = ({ signal }) => bridgeControllerGetActivity(address,params, { signal, ...axiosOptions });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof bridgeControllerGetActivity>>> = ({ signal }) => bridgeControllerGetActivity(address,params, signal);
 
       
 
@@ -86,11 +83,11 @@ const {query: queryOptions, axios: axiosOptions} = options ?? {};
 }
 
 export type BridgeControllerGetActivityQueryResult = NonNullable<Awaited<ReturnType<typeof bridgeControllerGetActivity>>>
-export type BridgeControllerGetActivityQueryError = AxiosError<unknown>
+export type BridgeControllerGetActivityQueryError = unknown
 
-export const useBridgeControllerGetActivity = <TData = Awaited<ReturnType<typeof bridgeControllerGetActivity>>, TError = AxiosError<unknown>>(
+export const useBridgeControllerGetActivity = <TData = Awaited<ReturnType<typeof bridgeControllerGetActivity>>, TError = unknown>(
  address: string,
-    params: BridgeControllerGetActivityParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetActivity>>, TError, TData>, axios?: AxiosRequestConfig}
+    params: BridgeControllerGetActivityParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetActivity>>, TError, TData>, }
 
   ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
 
@@ -107,30 +104,33 @@ export const useBridgeControllerGetActivity = <TData = Awaited<ReturnType<typeof
 
 
 export const bridgeControllerGetProveTransactionV2 = (
-    id: string, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<TransactionDto>> => {
-    
-    return axios.get(
-      `/api/bridge/prove_transaction_v2/${id}`,options
-    );
-  }
-
+    id: string,
+ signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<TransactionDto>(
+      {url: `/api/bridge/prove_transaction_v2/${id}`, method: 'GET', signal
+    },
+      );
+    }
+  
 
 export const getBridgeControllerGetProveTransactionV2QueryKey = (id: string,) => {
     return [`/api/bridge/prove_transaction_v2/${id}`] as const;
     }
 
     
-export const getBridgeControllerGetProveTransactionV2QueryOptions = <TData = Awaited<ReturnType<typeof bridgeControllerGetProveTransactionV2>>, TError = AxiosError<unknown>>(id: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetProveTransactionV2>>, TError, TData>, axios?: AxiosRequestConfig}
+export const getBridgeControllerGetProveTransactionV2QueryOptions = <TData = Awaited<ReturnType<typeof bridgeControllerGetProveTransactionV2>>, TError = unknown>(id: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetProveTransactionV2>>, TError, TData>, }
 ) => {
 
-const {query: queryOptions, axios: axiosOptions} = options ?? {};
+const {query: queryOptions} = options ?? {};
 
   const queryKey =  queryOptions?.queryKey ?? getBridgeControllerGetProveTransactionV2QueryKey(id);
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof bridgeControllerGetProveTransactionV2>>> = ({ signal }) => bridgeControllerGetProveTransactionV2(id, { signal, ...axiosOptions });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof bridgeControllerGetProveTransactionV2>>> = ({ signal }) => bridgeControllerGetProveTransactionV2(id, signal);
 
       
 
@@ -140,10 +140,10 @@ const {query: queryOptions, axios: axiosOptions} = options ?? {};
 }
 
 export type BridgeControllerGetProveTransactionV2QueryResult = NonNullable<Awaited<ReturnType<typeof bridgeControllerGetProveTransactionV2>>>
-export type BridgeControllerGetProveTransactionV2QueryError = AxiosError<unknown>
+export type BridgeControllerGetProveTransactionV2QueryError = unknown
 
-export const useBridgeControllerGetProveTransactionV2 = <TData = Awaited<ReturnType<typeof bridgeControllerGetProveTransactionV2>>, TError = AxiosError<unknown>>(
- id: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetProveTransactionV2>>, TError, TData>, axios?: AxiosRequestConfig}
+export const useBridgeControllerGetProveTransactionV2 = <TData = Awaited<ReturnType<typeof bridgeControllerGetProveTransactionV2>>, TError = unknown>(
+ id: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetProveTransactionV2>>, TError, TData>, }
 
   ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
 
@@ -160,21 +160,24 @@ export const useBridgeControllerGetProveTransactionV2 = <TData = Awaited<ReturnT
 
 
 export const bridgeControllerGetProveTransaction = (
-    idDto: IdDto, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<TransactionDto>> => {
-    
-    return axios.post(
-      `/api/bridge/op_prove`,
-      idDto,options
-    );
-  }
+    idDto: IdDto,
+ ) => {
+      
+      
+      return customInstance<TransactionDto>(
+      {url: `/api/bridge/op_prove`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: idDto
+    },
+      );
+    }
+  
 
 
-
-export const getBridgeControllerGetProveTransactionMutationOptions = <TError = AxiosError<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerGetProveTransaction>>, TError,{data: IdDto}, TContext>, axios?: AxiosRequestConfig}
+export const getBridgeControllerGetProveTransactionMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerGetProveTransaction>>, TError,{data: IdDto}, TContext>, }
 ): UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerGetProveTransaction>>, TError,{data: IdDto}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+const {mutation: mutationOptions} = options ?? {};
 
       
 
@@ -182,7 +185,7 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof bridgeControllerGetProveTransaction>>, {data: IdDto}> = (props) => {
           const {data} = props ?? {};
 
-          return  bridgeControllerGetProveTransaction(data,axiosOptions)
+          return  bridgeControllerGetProveTransaction(data,)
         }
 
         
@@ -192,10 +195,10 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
 
     export type BridgeControllerGetProveTransactionMutationResult = NonNullable<Awaited<ReturnType<typeof bridgeControllerGetProveTransaction>>>
     export type BridgeControllerGetProveTransactionMutationBody = IdDto
-    export type BridgeControllerGetProveTransactionMutationError = AxiosError<unknown>
+    export type BridgeControllerGetProveTransactionMutationError = unknown
 
-    export const useBridgeControllerGetProveTransaction = <TError = AxiosError<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerGetProveTransaction>>, TError,{data: IdDto}, TContext>, axios?: AxiosRequestConfig}
+    export const useBridgeControllerGetProveTransaction = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerGetProveTransaction>>, TError,{data: IdDto}, TContext>, }
 ): UseMutationResult<
         Awaited<ReturnType<typeof bridgeControllerGetProveTransaction>>,
         TError,
@@ -209,30 +212,33 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
     }
     
 export const bridgeControllerGetFinaliseTransactionV2 = (
-    id: string, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<TransactionDto>> => {
-    
-    return axios.get(
-      `/api/bridge/finalise_transaction_v2/${id}`,options
-    );
-  }
-
+    id: string,
+ signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<TransactionDto>(
+      {url: `/api/bridge/finalise_transaction_v2/${id}`, method: 'GET', signal
+    },
+      );
+    }
+  
 
 export const getBridgeControllerGetFinaliseTransactionV2QueryKey = (id: string,) => {
     return [`/api/bridge/finalise_transaction_v2/${id}`] as const;
     }
 
     
-export const getBridgeControllerGetFinaliseTransactionV2QueryOptions = <TData = Awaited<ReturnType<typeof bridgeControllerGetFinaliseTransactionV2>>, TError = AxiosError<unknown>>(id: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetFinaliseTransactionV2>>, TError, TData>, axios?: AxiosRequestConfig}
+export const getBridgeControllerGetFinaliseTransactionV2QueryOptions = <TData = Awaited<ReturnType<typeof bridgeControllerGetFinaliseTransactionV2>>, TError = unknown>(id: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetFinaliseTransactionV2>>, TError, TData>, }
 ) => {
 
-const {query: queryOptions, axios: axiosOptions} = options ?? {};
+const {query: queryOptions} = options ?? {};
 
   const queryKey =  queryOptions?.queryKey ?? getBridgeControllerGetFinaliseTransactionV2QueryKey(id);
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof bridgeControllerGetFinaliseTransactionV2>>> = ({ signal }) => bridgeControllerGetFinaliseTransactionV2(id, { signal, ...axiosOptions });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof bridgeControllerGetFinaliseTransactionV2>>> = ({ signal }) => bridgeControllerGetFinaliseTransactionV2(id, signal);
 
       
 
@@ -242,10 +248,10 @@ const {query: queryOptions, axios: axiosOptions} = options ?? {};
 }
 
 export type BridgeControllerGetFinaliseTransactionV2QueryResult = NonNullable<Awaited<ReturnType<typeof bridgeControllerGetFinaliseTransactionV2>>>
-export type BridgeControllerGetFinaliseTransactionV2QueryError = AxiosError<unknown>
+export type BridgeControllerGetFinaliseTransactionV2QueryError = unknown
 
-export const useBridgeControllerGetFinaliseTransactionV2 = <TData = Awaited<ReturnType<typeof bridgeControllerGetFinaliseTransactionV2>>, TError = AxiosError<unknown>>(
- id: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetFinaliseTransactionV2>>, TError, TData>, axios?: AxiosRequestConfig}
+export const useBridgeControllerGetFinaliseTransactionV2 = <TData = Awaited<ReturnType<typeof bridgeControllerGetFinaliseTransactionV2>>, TError = unknown>(
+ id: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetFinaliseTransactionV2>>, TError, TData>, }
 
   ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
 
@@ -262,21 +268,24 @@ export const useBridgeControllerGetFinaliseTransactionV2 = <TData = Awaited<Retu
 
 
 export const bridgeControllerGetFinaliseTransaction = (
-    idDto: IdDto, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<TransactionDto>> => {
-    
-    return axios.post(
-      `/api/bridge/op_finalise`,
-      idDto,options
-    );
-  }
+    idDto: IdDto,
+ ) => {
+      
+      
+      return customInstance<TransactionDto>(
+      {url: `/api/bridge/op_finalise`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: idDto
+    },
+      );
+    }
+  
 
 
-
-export const getBridgeControllerGetFinaliseTransactionMutationOptions = <TError = AxiosError<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerGetFinaliseTransaction>>, TError,{data: IdDto}, TContext>, axios?: AxiosRequestConfig}
+export const getBridgeControllerGetFinaliseTransactionMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerGetFinaliseTransaction>>, TError,{data: IdDto}, TContext>, }
 ): UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerGetFinaliseTransaction>>, TError,{data: IdDto}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+const {mutation: mutationOptions} = options ?? {};
 
       
 
@@ -284,7 +293,7 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof bridgeControllerGetFinaliseTransaction>>, {data: IdDto}> = (props) => {
           const {data} = props ?? {};
 
-          return  bridgeControllerGetFinaliseTransaction(data,axiosOptions)
+          return  bridgeControllerGetFinaliseTransaction(data,)
         }
 
         
@@ -294,10 +303,10 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
 
     export type BridgeControllerGetFinaliseTransactionMutationResult = NonNullable<Awaited<ReturnType<typeof bridgeControllerGetFinaliseTransaction>>>
     export type BridgeControllerGetFinaliseTransactionMutationBody = IdDto
-    export type BridgeControllerGetFinaliseTransactionMutationError = AxiosError<unknown>
+    export type BridgeControllerGetFinaliseTransactionMutationError = unknown
 
-    export const useBridgeControllerGetFinaliseTransaction = <TError = AxiosError<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerGetFinaliseTransaction>>, TError,{data: IdDto}, TContext>, axios?: AxiosRequestConfig}
+    export const useBridgeControllerGetFinaliseTransaction = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerGetFinaliseTransaction>>, TError,{data: IdDto}, TContext>, }
 ): UseMutationResult<
         Awaited<ReturnType<typeof bridgeControllerGetFinaliseTransaction>>,
         TError,
@@ -311,30 +320,33 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
     }
     
 export const bridgeControllerGetArbitrumFinaliseTransaction = (
-    id: string, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<TransactionDto>> => {
-    
-    return axios.get(
-      `/api/bridge/arbitrum_finalise_transaction/${id}`,options
-    );
-  }
-
+    id: string,
+ signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<TransactionDto>(
+      {url: `/api/bridge/arbitrum_finalise_transaction/${id}`, method: 'GET', signal
+    },
+      );
+    }
+  
 
 export const getBridgeControllerGetArbitrumFinaliseTransactionQueryKey = (id: string,) => {
     return [`/api/bridge/arbitrum_finalise_transaction/${id}`] as const;
     }
 
     
-export const getBridgeControllerGetArbitrumFinaliseTransactionQueryOptions = <TData = Awaited<ReturnType<typeof bridgeControllerGetArbitrumFinaliseTransaction>>, TError = AxiosError<unknown>>(id: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetArbitrumFinaliseTransaction>>, TError, TData>, axios?: AxiosRequestConfig}
+export const getBridgeControllerGetArbitrumFinaliseTransactionQueryOptions = <TData = Awaited<ReturnType<typeof bridgeControllerGetArbitrumFinaliseTransaction>>, TError = unknown>(id: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetArbitrumFinaliseTransaction>>, TError, TData>, }
 ) => {
 
-const {query: queryOptions, axios: axiosOptions} = options ?? {};
+const {query: queryOptions} = options ?? {};
 
   const queryKey =  queryOptions?.queryKey ?? getBridgeControllerGetArbitrumFinaliseTransactionQueryKey(id);
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof bridgeControllerGetArbitrumFinaliseTransaction>>> = ({ signal }) => bridgeControllerGetArbitrumFinaliseTransaction(id, { signal, ...axiosOptions });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof bridgeControllerGetArbitrumFinaliseTransaction>>> = ({ signal }) => bridgeControllerGetArbitrumFinaliseTransaction(id, signal);
 
       
 
@@ -344,10 +356,10 @@ const {query: queryOptions, axios: axiosOptions} = options ?? {};
 }
 
 export type BridgeControllerGetArbitrumFinaliseTransactionQueryResult = NonNullable<Awaited<ReturnType<typeof bridgeControllerGetArbitrumFinaliseTransaction>>>
-export type BridgeControllerGetArbitrumFinaliseTransactionQueryError = AxiosError<unknown>
+export type BridgeControllerGetArbitrumFinaliseTransactionQueryError = unknown
 
-export const useBridgeControllerGetArbitrumFinaliseTransaction = <TData = Awaited<ReturnType<typeof bridgeControllerGetArbitrumFinaliseTransaction>>, TError = AxiosError<unknown>>(
- id: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetArbitrumFinaliseTransaction>>, TError, TData>, axios?: AxiosRequestConfig}
+export const useBridgeControllerGetArbitrumFinaliseTransaction = <TData = Awaited<ReturnType<typeof bridgeControllerGetArbitrumFinaliseTransaction>>, TError = unknown>(
+ id: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetArbitrumFinaliseTransaction>>, TError, TData>, }
 
   ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
 
@@ -364,21 +376,24 @@ export const useBridgeControllerGetArbitrumFinaliseTransaction = <TData = Awaite
 
 
 export const bridgeControllerGetArbitrumFinaliseTransactionV2 = (
-    idDto: IdDto, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<TransactionDto>> => {
-    
-    return axios.post(
-      `/api/bridge/arb_finalise`,
-      idDto,options
-    );
-  }
+    idDto: IdDto,
+ ) => {
+      
+      
+      return customInstance<TransactionDto>(
+      {url: `/api/bridge/arb_finalise`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: idDto
+    },
+      );
+    }
+  
 
 
-
-export const getBridgeControllerGetArbitrumFinaliseTransactionV2MutationOptions = <TError = AxiosError<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerGetArbitrumFinaliseTransactionV2>>, TError,{data: IdDto}, TContext>, axios?: AxiosRequestConfig}
+export const getBridgeControllerGetArbitrumFinaliseTransactionV2MutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerGetArbitrumFinaliseTransactionV2>>, TError,{data: IdDto}, TContext>, }
 ): UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerGetArbitrumFinaliseTransactionV2>>, TError,{data: IdDto}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+const {mutation: mutationOptions} = options ?? {};
 
       
 
@@ -386,7 +401,7 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof bridgeControllerGetArbitrumFinaliseTransactionV2>>, {data: IdDto}> = (props) => {
           const {data} = props ?? {};
 
-          return  bridgeControllerGetArbitrumFinaliseTransactionV2(data,axiosOptions)
+          return  bridgeControllerGetArbitrumFinaliseTransactionV2(data,)
         }
 
         
@@ -396,10 +411,10 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
 
     export type BridgeControllerGetArbitrumFinaliseTransactionV2MutationResult = NonNullable<Awaited<ReturnType<typeof bridgeControllerGetArbitrumFinaliseTransactionV2>>>
     export type BridgeControllerGetArbitrumFinaliseTransactionV2MutationBody = IdDto
-    export type BridgeControllerGetArbitrumFinaliseTransactionV2MutationError = AxiosError<unknown>
+    export type BridgeControllerGetArbitrumFinaliseTransactionV2MutationError = unknown
 
-    export const useBridgeControllerGetArbitrumFinaliseTransactionV2 = <TError = AxiosError<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerGetArbitrumFinaliseTransactionV2>>, TError,{data: IdDto}, TContext>, axios?: AxiosRequestConfig}
+    export const useBridgeControllerGetArbitrumFinaliseTransactionV2 = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerGetArbitrumFinaliseTransactionV2>>, TError,{data: IdDto}, TContext>, }
 ): UseMutationResult<
         Awaited<ReturnType<typeof bridgeControllerGetArbitrumFinaliseTransactionV2>>,
         TError,
@@ -413,30 +428,33 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
     }
     
 export const bridgeControllerGetCctpMintTransaction = (
-    id: string, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<TransactionDto>> => {
-    
-    return axios.get(
-      `/api/bridge/cctp_mint/${id}`,options
-    );
-  }
-
+    id: string,
+ signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<TransactionDto>(
+      {url: `/api/bridge/cctp_mint/${id}`, method: 'GET', signal
+    },
+      );
+    }
+  
 
 export const getBridgeControllerGetCctpMintTransactionQueryKey = (id: string,) => {
     return [`/api/bridge/cctp_mint/${id}`] as const;
     }
 
     
-export const getBridgeControllerGetCctpMintTransactionQueryOptions = <TData = Awaited<ReturnType<typeof bridgeControllerGetCctpMintTransaction>>, TError = AxiosError<unknown>>(id: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetCctpMintTransaction>>, TError, TData>, axios?: AxiosRequestConfig}
+export const getBridgeControllerGetCctpMintTransactionQueryOptions = <TData = Awaited<ReturnType<typeof bridgeControllerGetCctpMintTransaction>>, TError = unknown>(id: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetCctpMintTransaction>>, TError, TData>, }
 ) => {
 
-const {query: queryOptions, axios: axiosOptions} = options ?? {};
+const {query: queryOptions} = options ?? {};
 
   const queryKey =  queryOptions?.queryKey ?? getBridgeControllerGetCctpMintTransactionQueryKey(id);
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof bridgeControllerGetCctpMintTransaction>>> = ({ signal }) => bridgeControllerGetCctpMintTransaction(id, { signal, ...axiosOptions });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof bridgeControllerGetCctpMintTransaction>>> = ({ signal }) => bridgeControllerGetCctpMintTransaction(id, signal);
 
       
 
@@ -446,10 +464,10 @@ const {query: queryOptions, axios: axiosOptions} = options ?? {};
 }
 
 export type BridgeControllerGetCctpMintTransactionQueryResult = NonNullable<Awaited<ReturnType<typeof bridgeControllerGetCctpMintTransaction>>>
-export type BridgeControllerGetCctpMintTransactionQueryError = AxiosError<unknown>
+export type BridgeControllerGetCctpMintTransactionQueryError = unknown
 
-export const useBridgeControllerGetCctpMintTransaction = <TData = Awaited<ReturnType<typeof bridgeControllerGetCctpMintTransaction>>, TError = AxiosError<unknown>>(
- id: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetCctpMintTransaction>>, TError, TData>, axios?: AxiosRequestConfig}
+export const useBridgeControllerGetCctpMintTransaction = <TData = Awaited<ReturnType<typeof bridgeControllerGetCctpMintTransaction>>, TError = unknown>(
+ id: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetCctpMintTransaction>>, TError, TData>, }
 
   ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
 
@@ -466,21 +484,24 @@ export const useBridgeControllerGetCctpMintTransaction = <TData = Awaited<Return
 
 
 export const bridgeControllerGetCctpMintTransactionV2 = (
-    idDto: IdDto, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<TransactionDto>> => {
-    
-    return axios.post(
-      `/api/bridge/cctp_mint`,
-      idDto,options
-    );
-  }
+    idDto: IdDto,
+ ) => {
+      
+      
+      return customInstance<TransactionDto>(
+      {url: `/api/bridge/cctp_mint`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: idDto
+    },
+      );
+    }
+  
 
 
-
-export const getBridgeControllerGetCctpMintTransactionV2MutationOptions = <TError = AxiosError<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerGetCctpMintTransactionV2>>, TError,{data: IdDto}, TContext>, axios?: AxiosRequestConfig}
+export const getBridgeControllerGetCctpMintTransactionV2MutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerGetCctpMintTransactionV2>>, TError,{data: IdDto}, TContext>, }
 ): UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerGetCctpMintTransactionV2>>, TError,{data: IdDto}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+const {mutation: mutationOptions} = options ?? {};
 
       
 
@@ -488,7 +509,7 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof bridgeControllerGetCctpMintTransactionV2>>, {data: IdDto}> = (props) => {
           const {data} = props ?? {};
 
-          return  bridgeControllerGetCctpMintTransactionV2(data,axiosOptions)
+          return  bridgeControllerGetCctpMintTransactionV2(data,)
         }
 
         
@@ -498,10 +519,10 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
 
     export type BridgeControllerGetCctpMintTransactionV2MutationResult = NonNullable<Awaited<ReturnType<typeof bridgeControllerGetCctpMintTransactionV2>>>
     export type BridgeControllerGetCctpMintTransactionV2MutationBody = IdDto
-    export type BridgeControllerGetCctpMintTransactionV2MutationError = AxiosError<unknown>
+    export type BridgeControllerGetCctpMintTransactionV2MutationError = unknown
 
-    export const useBridgeControllerGetCctpMintTransactionV2 = <TError = AxiosError<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerGetCctpMintTransactionV2>>, TError,{data: IdDto}, TContext>, axios?: AxiosRequestConfig}
+    export const useBridgeControllerGetCctpMintTransactionV2 = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerGetCctpMintTransactionV2>>, TError,{data: IdDto}, TContext>, }
 ): UseMutationResult<
         Awaited<ReturnType<typeof bridgeControllerGetCctpMintTransactionV2>>,
         TError,
@@ -515,30 +536,33 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
     }
     
 export const bridgeControllerFiatPrices = (
-     options?: AxiosRequestConfig
- ): Promise<AxiosResponse<FiatPricesDto>> => {
     
-    return axios.get(
-      `/api/bridge/fiat_prices`,options
-    );
-  }
-
+ signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<FiatPricesDto>(
+      {url: `/api/bridge/fiat_prices`, method: 'GET', signal
+    },
+      );
+    }
+  
 
 export const getBridgeControllerFiatPricesQueryKey = () => {
     return [`/api/bridge/fiat_prices`] as const;
     }
 
     
-export const getBridgeControllerFiatPricesQueryOptions = <TData = Awaited<ReturnType<typeof bridgeControllerFiatPrices>>, TError = AxiosError<unknown>>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerFiatPrices>>, TError, TData>, axios?: AxiosRequestConfig}
+export const getBridgeControllerFiatPricesQueryOptions = <TData = Awaited<ReturnType<typeof bridgeControllerFiatPrices>>, TError = unknown>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerFiatPrices>>, TError, TData>, }
 ) => {
 
-const {query: queryOptions, axios: axiosOptions} = options ?? {};
+const {query: queryOptions} = options ?? {};
 
   const queryKey =  queryOptions?.queryKey ?? getBridgeControllerFiatPricesQueryKey();
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof bridgeControllerFiatPrices>>> = ({ signal }) => bridgeControllerFiatPrices({ signal, ...axiosOptions });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof bridgeControllerFiatPrices>>> = ({ signal }) => bridgeControllerFiatPrices(signal);
 
       
 
@@ -548,10 +572,10 @@ const {query: queryOptions, axios: axiosOptions} = options ?? {};
 }
 
 export type BridgeControllerFiatPricesQueryResult = NonNullable<Awaited<ReturnType<typeof bridgeControllerFiatPrices>>>
-export type BridgeControllerFiatPricesQueryError = AxiosError<unknown>
+export type BridgeControllerFiatPricesQueryError = unknown
 
-export const useBridgeControllerFiatPrices = <TData = Awaited<ReturnType<typeof bridgeControllerFiatPrices>>, TError = AxiosError<unknown>>(
-  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerFiatPrices>>, TError, TData>, axios?: AxiosRequestConfig}
+export const useBridgeControllerFiatPrices = <TData = Awaited<ReturnType<typeof bridgeControllerFiatPrices>>, TError = unknown>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerFiatPrices>>, TError, TData>, }
 
   ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
 
@@ -568,30 +592,33 @@ export const useBridgeControllerFiatPrices = <TData = Awaited<ReturnType<typeof 
 
 
 export const bridgeControllerGetTokenPrices = (
-     options?: AxiosRequestConfig
- ): Promise<AxiosResponse<PricesDto>> => {
     
-    return axios.get(
-      `/api/bridge/token_prices`,options
-    );
-  }
-
+ signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<PricesDto>(
+      {url: `/api/bridge/token_prices`, method: 'GET', signal
+    },
+      );
+    }
+  
 
 export const getBridgeControllerGetTokenPricesQueryKey = () => {
     return [`/api/bridge/token_prices`] as const;
     }
 
     
-export const getBridgeControllerGetTokenPricesQueryOptions = <TData = Awaited<ReturnType<typeof bridgeControllerGetTokenPrices>>, TError = AxiosError<unknown>>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetTokenPrices>>, TError, TData>, axios?: AxiosRequestConfig}
+export const getBridgeControllerGetTokenPricesQueryOptions = <TData = Awaited<ReturnType<typeof bridgeControllerGetTokenPrices>>, TError = unknown>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetTokenPrices>>, TError, TData>, }
 ) => {
 
-const {query: queryOptions, axios: axiosOptions} = options ?? {};
+const {query: queryOptions} = options ?? {};
 
   const queryKey =  queryOptions?.queryKey ?? getBridgeControllerGetTokenPricesQueryKey();
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof bridgeControllerGetTokenPrices>>> = ({ signal }) => bridgeControllerGetTokenPrices({ signal, ...axiosOptions });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof bridgeControllerGetTokenPrices>>> = ({ signal }) => bridgeControllerGetTokenPrices(signal);
 
       
 
@@ -601,10 +628,10 @@ const {query: queryOptions, axios: axiosOptions} = options ?? {};
 }
 
 export type BridgeControllerGetTokenPricesQueryResult = NonNullable<Awaited<ReturnType<typeof bridgeControllerGetTokenPrices>>>
-export type BridgeControllerGetTokenPricesQueryError = AxiosError<unknown>
+export type BridgeControllerGetTokenPricesQueryError = unknown
 
-export const useBridgeControllerGetTokenPrices = <TData = Awaited<ReturnType<typeof bridgeControllerGetTokenPrices>>, TError = AxiosError<unknown>>(
-  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetTokenPrices>>, TError, TData>, axios?: AxiosRequestConfig}
+export const useBridgeControllerGetTokenPrices = <TData = Awaited<ReturnType<typeof bridgeControllerGetTokenPrices>>, TError = unknown>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetTokenPrices>>, TError, TData>, }
 
   ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
 
@@ -621,30 +648,33 @@ export const useBridgeControllerGetTokenPrices = <TData = Awaited<ReturnType<typ
 
 
 export const bridgeControllerAdminGetDeployments = (
-     options?: AxiosRequestConfig
- ): Promise<AxiosResponse<DeploymentDto[]>> => {
     
-    return axios.get(
-      `/api/bridge/admin/deployment`,options
-    );
-  }
-
+ signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<DeploymentDto[]>(
+      {url: `/api/bridge/admin/deployment`, method: 'GET', signal
+    },
+      );
+    }
+  
 
 export const getBridgeControllerAdminGetDeploymentsQueryKey = () => {
     return [`/api/bridge/admin/deployment`] as const;
     }
 
     
-export const getBridgeControllerAdminGetDeploymentsQueryOptions = <TData = Awaited<ReturnType<typeof bridgeControllerAdminGetDeployments>>, TError = AxiosError<unknown>>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerAdminGetDeployments>>, TError, TData>, axios?: AxiosRequestConfig}
+export const getBridgeControllerAdminGetDeploymentsQueryOptions = <TData = Awaited<ReturnType<typeof bridgeControllerAdminGetDeployments>>, TError = unknown>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerAdminGetDeployments>>, TError, TData>, }
 ) => {
 
-const {query: queryOptions, axios: axiosOptions} = options ?? {};
+const {query: queryOptions} = options ?? {};
 
   const queryKey =  queryOptions?.queryKey ?? getBridgeControllerAdminGetDeploymentsQueryKey();
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof bridgeControllerAdminGetDeployments>>> = ({ signal }) => bridgeControllerAdminGetDeployments({ signal, ...axiosOptions });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof bridgeControllerAdminGetDeployments>>> = ({ signal }) => bridgeControllerAdminGetDeployments(signal);
 
       
 
@@ -654,10 +684,10 @@ const {query: queryOptions, axios: axiosOptions} = options ?? {};
 }
 
 export type BridgeControllerAdminGetDeploymentsQueryResult = NonNullable<Awaited<ReturnType<typeof bridgeControllerAdminGetDeployments>>>
-export type BridgeControllerAdminGetDeploymentsQueryError = AxiosError<unknown>
+export type BridgeControllerAdminGetDeploymentsQueryError = unknown
 
-export const useBridgeControllerAdminGetDeployments = <TData = Awaited<ReturnType<typeof bridgeControllerAdminGetDeployments>>, TError = AxiosError<unknown>>(
-  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerAdminGetDeployments>>, TError, TData>, axios?: AxiosRequestConfig}
+export const useBridgeControllerAdminGetDeployments = <TData = Awaited<ReturnType<typeof bridgeControllerAdminGetDeployments>>, TError = unknown>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerAdminGetDeployments>>, TError, TData>, }
 
   ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
 
@@ -674,32 +704,34 @@ export const useBridgeControllerAdminGetDeployments = <TData = Awaited<ReturnTyp
 
 
 export const bridgeControllerGetDeployments = (
-    params?: BridgeControllerGetDeploymentsParams, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<DeploymentDto[]>> => {
-    
-    return axios.get(
-      `/api/bridge/deployments`,{
-    ...options,
-        params: {...params, ...options?.params},}
-    );
-  }
-
+    params?: BridgeControllerGetDeploymentsParams,
+ signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<DeploymentDto[]>(
+      {url: `/api/bridge/deployments`, method: 'GET',
+        params, signal
+    },
+      );
+    }
+  
 
 export const getBridgeControllerGetDeploymentsQueryKey = (params?: BridgeControllerGetDeploymentsParams,) => {
     return [`/api/bridge/deployments`, ...(params ? [params]: [])] as const;
     }
 
     
-export const getBridgeControllerGetDeploymentsQueryOptions = <TData = Awaited<ReturnType<typeof bridgeControllerGetDeployments>>, TError = AxiosError<unknown>>(params?: BridgeControllerGetDeploymentsParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetDeployments>>, TError, TData>, axios?: AxiosRequestConfig}
+export const getBridgeControllerGetDeploymentsQueryOptions = <TData = Awaited<ReturnType<typeof bridgeControllerGetDeployments>>, TError = unknown>(params?: BridgeControllerGetDeploymentsParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetDeployments>>, TError, TData>, }
 ) => {
 
-const {query: queryOptions, axios: axiosOptions} = options ?? {};
+const {query: queryOptions} = options ?? {};
 
   const queryKey =  queryOptions?.queryKey ?? getBridgeControllerGetDeploymentsQueryKey(params);
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof bridgeControllerGetDeployments>>> = ({ signal }) => bridgeControllerGetDeployments(params, { signal, ...axiosOptions });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof bridgeControllerGetDeployments>>> = ({ signal }) => bridgeControllerGetDeployments(params, signal);
 
       
 
@@ -709,10 +741,10 @@ const {query: queryOptions, axios: axiosOptions} = options ?? {};
 }
 
 export type BridgeControllerGetDeploymentsQueryResult = NonNullable<Awaited<ReturnType<typeof bridgeControllerGetDeployments>>>
-export type BridgeControllerGetDeploymentsQueryError = AxiosError<unknown>
+export type BridgeControllerGetDeploymentsQueryError = unknown
 
-export const useBridgeControllerGetDeployments = <TData = Awaited<ReturnType<typeof bridgeControllerGetDeployments>>, TError = AxiosError<unknown>>(
- params?: BridgeControllerGetDeploymentsParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetDeployments>>, TError, TData>, axios?: AxiosRequestConfig}
+export const useBridgeControllerGetDeployments = <TData = Awaited<ReturnType<typeof bridgeControllerGetDeployments>>, TError = unknown>(
+ params?: BridgeControllerGetDeploymentsParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetDeployments>>, TError, TData>, }
 
   ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
 
@@ -729,30 +761,33 @@ export const useBridgeControllerGetDeployments = <TData = Awaited<ReturnType<typ
 
 
 export const bridgeControllerGetDeploymentsByDomain = (
-    domain: string, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<DeploymentDto[]>> => {
-    
-    return axios.get(
-      `/api/bridge/deployments_by_domain/${domain}`,options
-    );
-  }
-
+    domain: string,
+ signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<DeploymentDto[]>(
+      {url: `/api/bridge/deployments_by_domain/${domain}`, method: 'GET', signal
+    },
+      );
+    }
+  
 
 export const getBridgeControllerGetDeploymentsByDomainQueryKey = (domain: string,) => {
     return [`/api/bridge/deployments_by_domain/${domain}`] as const;
     }
 
     
-export const getBridgeControllerGetDeploymentsByDomainQueryOptions = <TData = Awaited<ReturnType<typeof bridgeControllerGetDeploymentsByDomain>>, TError = AxiosError<unknown>>(domain: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetDeploymentsByDomain>>, TError, TData>, axios?: AxiosRequestConfig}
+export const getBridgeControllerGetDeploymentsByDomainQueryOptions = <TData = Awaited<ReturnType<typeof bridgeControllerGetDeploymentsByDomain>>, TError = unknown>(domain: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetDeploymentsByDomain>>, TError, TData>, }
 ) => {
 
-const {query: queryOptions, axios: axiosOptions} = options ?? {};
+const {query: queryOptions} = options ?? {};
 
   const queryKey =  queryOptions?.queryKey ?? getBridgeControllerGetDeploymentsByDomainQueryKey(domain);
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof bridgeControllerGetDeploymentsByDomain>>> = ({ signal }) => bridgeControllerGetDeploymentsByDomain(domain, { signal, ...axiosOptions });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof bridgeControllerGetDeploymentsByDomain>>> = ({ signal }) => bridgeControllerGetDeploymentsByDomain(domain, signal);
 
       
 
@@ -762,10 +797,10 @@ const {query: queryOptions, axios: axiosOptions} = options ?? {};
 }
 
 export type BridgeControllerGetDeploymentsByDomainQueryResult = NonNullable<Awaited<ReturnType<typeof bridgeControllerGetDeploymentsByDomain>>>
-export type BridgeControllerGetDeploymentsByDomainQueryError = AxiosError<unknown>
+export type BridgeControllerGetDeploymentsByDomainQueryError = unknown
 
-export const useBridgeControllerGetDeploymentsByDomain = <TData = Awaited<ReturnType<typeof bridgeControllerGetDeploymentsByDomain>>, TError = AxiosError<unknown>>(
- domain: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetDeploymentsByDomain>>, TError, TData>, axios?: AxiosRequestConfig}
+export const useBridgeControllerGetDeploymentsByDomain = <TData = Awaited<ReturnType<typeof bridgeControllerGetDeploymentsByDomain>>, TError = unknown>(
+ domain: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetDeploymentsByDomain>>, TError, TData>, }
 
   ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
 
@@ -782,30 +817,33 @@ export const useBridgeControllerGetDeploymentsByDomain = <TData = Awaited<Return
 
 
 export const bridgeControllerGetCctpDomains = (
-     options?: AxiosRequestConfig
- ): Promise<AxiosResponse<CctpDomainDto[]>> => {
     
-    return axios.get(
-      `/api/bridge/cctp_domains`,options
-    );
-  }
-
+ signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<CctpDomainDto[]>(
+      {url: `/api/bridge/cctp_domains`, method: 'GET', signal
+    },
+      );
+    }
+  
 
 export const getBridgeControllerGetCctpDomainsQueryKey = () => {
     return [`/api/bridge/cctp_domains`] as const;
     }
 
     
-export const getBridgeControllerGetCctpDomainsQueryOptions = <TData = Awaited<ReturnType<typeof bridgeControllerGetCctpDomains>>, TError = AxiosError<unknown>>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetCctpDomains>>, TError, TData>, axios?: AxiosRequestConfig}
+export const getBridgeControllerGetCctpDomainsQueryOptions = <TData = Awaited<ReturnType<typeof bridgeControllerGetCctpDomains>>, TError = unknown>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetCctpDomains>>, TError, TData>, }
 ) => {
 
-const {query: queryOptions, axios: axiosOptions} = options ?? {};
+const {query: queryOptions} = options ?? {};
 
   const queryKey =  queryOptions?.queryKey ?? getBridgeControllerGetCctpDomainsQueryKey();
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof bridgeControllerGetCctpDomains>>> = ({ signal }) => bridgeControllerGetCctpDomains({ signal, ...axiosOptions });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof bridgeControllerGetCctpDomains>>> = ({ signal }) => bridgeControllerGetCctpDomains(signal);
 
       
 
@@ -815,10 +853,10 @@ const {query: queryOptions, axios: axiosOptions} = options ?? {};
 }
 
 export type BridgeControllerGetCctpDomainsQueryResult = NonNullable<Awaited<ReturnType<typeof bridgeControllerGetCctpDomains>>>
-export type BridgeControllerGetCctpDomainsQueryError = AxiosError<unknown>
+export type BridgeControllerGetCctpDomainsQueryError = unknown
 
-export const useBridgeControllerGetCctpDomains = <TData = Awaited<ReturnType<typeof bridgeControllerGetCctpDomains>>, TError = AxiosError<unknown>>(
-  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetCctpDomains>>, TError, TData>, axios?: AxiosRequestConfig}
+export const useBridgeControllerGetCctpDomains = <TData = Awaited<ReturnType<typeof bridgeControllerGetCctpDomains>>, TError = unknown>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetCctpDomains>>, TError, TData>, }
 
   ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
 
@@ -835,30 +873,33 @@ export const useBridgeControllerGetCctpDomains = <TData = Awaited<ReturnType<typ
 
 
 export const bridgeControllerGetDeploymentSyncStatus = (
-    deploymentId: string, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<SyncStatusDto[]>> => {
-    
-    return axios.get(
-      `/api/bridge/sync_status/${deploymentId}`,options
-    );
-  }
-
+    deploymentId: string,
+ signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<SyncStatusDto[]>(
+      {url: `/api/bridge/sync_status/${deploymentId}`, method: 'GET', signal
+    },
+      );
+    }
+  
 
 export const getBridgeControllerGetDeploymentSyncStatusQueryKey = (deploymentId: string,) => {
     return [`/api/bridge/sync_status/${deploymentId}`] as const;
     }
 
     
-export const getBridgeControllerGetDeploymentSyncStatusQueryOptions = <TData = Awaited<ReturnType<typeof bridgeControllerGetDeploymentSyncStatus>>, TError = AxiosError<unknown>>(deploymentId: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetDeploymentSyncStatus>>, TError, TData>, axios?: AxiosRequestConfig}
+export const getBridgeControllerGetDeploymentSyncStatusQueryOptions = <TData = Awaited<ReturnType<typeof bridgeControllerGetDeploymentSyncStatus>>, TError = unknown>(deploymentId: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetDeploymentSyncStatus>>, TError, TData>, }
 ) => {
 
-const {query: queryOptions, axios: axiosOptions} = options ?? {};
+const {query: queryOptions} = options ?? {};
 
   const queryKey =  queryOptions?.queryKey ?? getBridgeControllerGetDeploymentSyncStatusQueryKey(deploymentId);
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof bridgeControllerGetDeploymentSyncStatus>>> = ({ signal }) => bridgeControllerGetDeploymentSyncStatus(deploymentId, { signal, ...axiosOptions });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof bridgeControllerGetDeploymentSyncStatus>>> = ({ signal }) => bridgeControllerGetDeploymentSyncStatus(deploymentId, signal);
 
       
 
@@ -868,10 +909,10 @@ const {query: queryOptions, axios: axiosOptions} = options ?? {};
 }
 
 export type BridgeControllerGetDeploymentSyncStatusQueryResult = NonNullable<Awaited<ReturnType<typeof bridgeControllerGetDeploymentSyncStatus>>>
-export type BridgeControllerGetDeploymentSyncStatusQueryError = AxiosError<unknown>
+export type BridgeControllerGetDeploymentSyncStatusQueryError = unknown
 
-export const useBridgeControllerGetDeploymentSyncStatus = <TData = Awaited<ReturnType<typeof bridgeControllerGetDeploymentSyncStatus>>, TError = AxiosError<unknown>>(
- deploymentId: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetDeploymentSyncStatus>>, TError, TData>, axios?: AxiosRequestConfig}
+export const useBridgeControllerGetDeploymentSyncStatus = <TData = Awaited<ReturnType<typeof bridgeControllerGetDeploymentSyncStatus>>, TError = unknown>(
+ deploymentId: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetDeploymentSyncStatus>>, TError, TData>, }
 
   ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
 
@@ -888,30 +929,33 @@ export const useBridgeControllerGetDeploymentSyncStatus = <TData = Awaited<Retur
 
 
 export const bridgeControllerGetCctpSyncStatus = (
-    chainId: string, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<SyncStatusDto[]>> => {
-    
-    return axios.get(
-      `/api/bridge/cctp_sync_status/${chainId}`,options
-    );
-  }
-
+    chainId: string,
+ signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<SyncStatusDto[]>(
+      {url: `/api/bridge/cctp_sync_status/${chainId}`, method: 'GET', signal
+    },
+      );
+    }
+  
 
 export const getBridgeControllerGetCctpSyncStatusQueryKey = (chainId: string,) => {
     return [`/api/bridge/cctp_sync_status/${chainId}`] as const;
     }
 
     
-export const getBridgeControllerGetCctpSyncStatusQueryOptions = <TData = Awaited<ReturnType<typeof bridgeControllerGetCctpSyncStatus>>, TError = AxiosError<unknown>>(chainId: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetCctpSyncStatus>>, TError, TData>, axios?: AxiosRequestConfig}
+export const getBridgeControllerGetCctpSyncStatusQueryOptions = <TData = Awaited<ReturnType<typeof bridgeControllerGetCctpSyncStatus>>, TError = unknown>(chainId: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetCctpSyncStatus>>, TError, TData>, }
 ) => {
 
-const {query: queryOptions, axios: axiosOptions} = options ?? {};
+const {query: queryOptions} = options ?? {};
 
   const queryKey =  queryOptions?.queryKey ?? getBridgeControllerGetCctpSyncStatusQueryKey(chainId);
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof bridgeControllerGetCctpSyncStatus>>> = ({ signal }) => bridgeControllerGetCctpSyncStatus(chainId, { signal, ...axiosOptions });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof bridgeControllerGetCctpSyncStatus>>> = ({ signal }) => bridgeControllerGetCctpSyncStatus(chainId, signal);
 
       
 
@@ -921,10 +965,10 @@ const {query: queryOptions, axios: axiosOptions} = options ?? {};
 }
 
 export type BridgeControllerGetCctpSyncStatusQueryResult = NonNullable<Awaited<ReturnType<typeof bridgeControllerGetCctpSyncStatus>>>
-export type BridgeControllerGetCctpSyncStatusQueryError = AxiosError<unknown>
+export type BridgeControllerGetCctpSyncStatusQueryError = unknown
 
-export const useBridgeControllerGetCctpSyncStatus = <TData = Awaited<ReturnType<typeof bridgeControllerGetCctpSyncStatus>>, TError = AxiosError<unknown>>(
- chainId: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetCctpSyncStatus>>, TError, TData>, axios?: AxiosRequestConfig}
+export const useBridgeControllerGetCctpSyncStatus = <TData = Awaited<ReturnType<typeof bridgeControllerGetCctpSyncStatus>>, TError = unknown>(
+ chainId: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetCctpSyncStatus>>, TError, TData>, }
 
   ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
 
@@ -941,21 +985,24 @@ export const useBridgeControllerGetCctpSyncStatus = <TData = Awaited<ReturnType<
 
 
 export const bridgeControllerHandleCctpHyperlane = (
-    ccipReadDto: CcipReadDto, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<CcipReadResponseDto[]>> => {
-    
-    return axios.post(
-      `/api/bridge/cctp`,
-      ccipReadDto,options
-    );
-  }
+    ccipReadDto: CcipReadDto,
+ ) => {
+      
+      
+      return customInstance<CcipReadResponseDto[]>(
+      {url: `/api/bridge/cctp`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: ccipReadDto
+    },
+      );
+    }
+  
 
 
-
-export const getBridgeControllerHandleCctpHyperlaneMutationOptions = <TError = AxiosError<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerHandleCctpHyperlane>>, TError,{data: CcipReadDto}, TContext>, axios?: AxiosRequestConfig}
+export const getBridgeControllerHandleCctpHyperlaneMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerHandleCctpHyperlane>>, TError,{data: CcipReadDto}, TContext>, }
 ): UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerHandleCctpHyperlane>>, TError,{data: CcipReadDto}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+const {mutation: mutationOptions} = options ?? {};
 
       
 
@@ -963,7 +1010,7 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof bridgeControllerHandleCctpHyperlane>>, {data: CcipReadDto}> = (props) => {
           const {data} = props ?? {};
 
-          return  bridgeControllerHandleCctpHyperlane(data,axiosOptions)
+          return  bridgeControllerHandleCctpHyperlane(data,)
         }
 
         
@@ -973,10 +1020,10 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
 
     export type BridgeControllerHandleCctpHyperlaneMutationResult = NonNullable<Awaited<ReturnType<typeof bridgeControllerHandleCctpHyperlane>>>
     export type BridgeControllerHandleCctpHyperlaneMutationBody = CcipReadDto
-    export type BridgeControllerHandleCctpHyperlaneMutationError = AxiosError<unknown>
+    export type BridgeControllerHandleCctpHyperlaneMutationError = unknown
 
-    export const useBridgeControllerHandleCctpHyperlane = <TError = AxiosError<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerHandleCctpHyperlane>>, TError,{data: CcipReadDto}, TContext>, axios?: AxiosRequestConfig}
+    export const useBridgeControllerHandleCctpHyperlane = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerHandleCctpHyperlane>>, TError,{data: CcipReadDto}, TContext>, }
 ): UseMutationResult<
         Awaited<ReturnType<typeof bridgeControllerHandleCctpHyperlane>>,
         TError,
@@ -990,21 +1037,24 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
     }
     
 export const bridgeControllerCreateConduitDeployment = (
-    createConduitDeploymentDto: CreateConduitDeploymentDto, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<ConduitDeploymentConfigDto>> => {
-    
-    return axios.post(
-      `/api/bridge/conduit/deployment`,
-      createConduitDeploymentDto,options
-    );
-  }
+    createConduitDeploymentDto: CreateConduitDeploymentDto,
+ ) => {
+      
+      
+      return customInstance<ConduitDeploymentConfigDto>(
+      {url: `/api/bridge/conduit/deployment`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: createConduitDeploymentDto
+    },
+      );
+    }
+  
 
 
-
-export const getBridgeControllerCreateConduitDeploymentMutationOptions = <TError = AxiosError<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerCreateConduitDeployment>>, TError,{data: CreateConduitDeploymentDto}, TContext>, axios?: AxiosRequestConfig}
+export const getBridgeControllerCreateConduitDeploymentMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerCreateConduitDeployment>>, TError,{data: CreateConduitDeploymentDto}, TContext>, }
 ): UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerCreateConduitDeployment>>, TError,{data: CreateConduitDeploymentDto}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+const {mutation: mutationOptions} = options ?? {};
 
       
 
@@ -1012,7 +1062,7 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof bridgeControllerCreateConduitDeployment>>, {data: CreateConduitDeploymentDto}> = (props) => {
           const {data} = props ?? {};
 
-          return  bridgeControllerCreateConduitDeployment(data,axiosOptions)
+          return  bridgeControllerCreateConduitDeployment(data,)
         }
 
         
@@ -1022,10 +1072,10 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
 
     export type BridgeControllerCreateConduitDeploymentMutationResult = NonNullable<Awaited<ReturnType<typeof bridgeControllerCreateConduitDeployment>>>
     export type BridgeControllerCreateConduitDeploymentMutationBody = CreateConduitDeploymentDto
-    export type BridgeControllerCreateConduitDeploymentMutationError = AxiosError<unknown>
+    export type BridgeControllerCreateConduitDeploymentMutationError = unknown
 
-    export const useBridgeControllerCreateConduitDeployment = <TError = AxiosError<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerCreateConduitDeployment>>, TError,{data: CreateConduitDeploymentDto}, TContext>, axios?: AxiosRequestConfig}
+    export const useBridgeControllerCreateConduitDeployment = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerCreateConduitDeployment>>, TError,{data: CreateConduitDeploymentDto}, TContext>, }
 ): UseMutationResult<
         Awaited<ReturnType<typeof bridgeControllerCreateConduitDeployment>>,
         TError,
@@ -1039,30 +1089,33 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
     }
     
 export const bridgeControllerGetConduitDeployment = (
-    id: string, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<ConduitDeploymentConfigDto>> => {
-    
-    return axios.get(
-      `/api/bridge/conduit/deployment/${id}`,options
-    );
-  }
-
+    id: string,
+ signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<ConduitDeploymentConfigDto>(
+      {url: `/api/bridge/conduit/deployment/${id}`, method: 'GET', signal
+    },
+      );
+    }
+  
 
 export const getBridgeControllerGetConduitDeploymentQueryKey = (id: string,) => {
     return [`/api/bridge/conduit/deployment/${id}`] as const;
     }
 
     
-export const getBridgeControllerGetConduitDeploymentQueryOptions = <TData = Awaited<ReturnType<typeof bridgeControllerGetConduitDeployment>>, TError = AxiosError<unknown>>(id: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetConduitDeployment>>, TError, TData>, axios?: AxiosRequestConfig}
+export const getBridgeControllerGetConduitDeploymentQueryOptions = <TData = Awaited<ReturnType<typeof bridgeControllerGetConduitDeployment>>, TError = unknown>(id: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetConduitDeployment>>, TError, TData>, }
 ) => {
 
-const {query: queryOptions, axios: axiosOptions} = options ?? {};
+const {query: queryOptions} = options ?? {};
 
   const queryKey =  queryOptions?.queryKey ?? getBridgeControllerGetConduitDeploymentQueryKey(id);
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof bridgeControllerGetConduitDeployment>>> = ({ signal }) => bridgeControllerGetConduitDeployment(id, { signal, ...axiosOptions });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof bridgeControllerGetConduitDeployment>>> = ({ signal }) => bridgeControllerGetConduitDeployment(id, signal);
 
       
 
@@ -1072,10 +1125,10 @@ const {query: queryOptions, axios: axiosOptions} = options ?? {};
 }
 
 export type BridgeControllerGetConduitDeploymentQueryResult = NonNullable<Awaited<ReturnType<typeof bridgeControllerGetConduitDeployment>>>
-export type BridgeControllerGetConduitDeploymentQueryError = AxiosError<unknown>
+export type BridgeControllerGetConduitDeploymentQueryError = unknown
 
-export const useBridgeControllerGetConduitDeployment = <TData = Awaited<ReturnType<typeof bridgeControllerGetConduitDeployment>>, TError = AxiosError<unknown>>(
- id: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetConduitDeployment>>, TError, TData>, axios?: AxiosRequestConfig}
+export const useBridgeControllerGetConduitDeployment = <TData = Awaited<ReturnType<typeof bridgeControllerGetConduitDeployment>>, TError = unknown>(
+ id: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetConduitDeployment>>, TError, TData>, }
 
   ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
 
@@ -1092,21 +1145,24 @@ export const useBridgeControllerGetConduitDeployment = <TData = Awaited<ReturnTy
 
 
 export const bridgeControllerTrack = (
-    actionDto: ActionDto, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
-    
-    return axios.post(
-      `/api/bridge/track`,
-      actionDto,options
-    );
-  }
+    actionDto: ActionDto,
+ ) => {
+      
+      
+      return customInstance<void>(
+      {url: `/api/bridge/track`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: actionDto
+    },
+      );
+    }
+  
 
 
-
-export const getBridgeControllerTrackMutationOptions = <TError = AxiosError<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerTrack>>, TError,{data: ActionDto}, TContext>, axios?: AxiosRequestConfig}
+export const getBridgeControllerTrackMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerTrack>>, TError,{data: ActionDto}, TContext>, }
 ): UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerTrack>>, TError,{data: ActionDto}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+const {mutation: mutationOptions} = options ?? {};
 
       
 
@@ -1114,7 +1170,7 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof bridgeControllerTrack>>, {data: ActionDto}> = (props) => {
           const {data} = props ?? {};
 
-          return  bridgeControllerTrack(data,axiosOptions)
+          return  bridgeControllerTrack(data,)
         }
 
         
@@ -1124,10 +1180,10 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
 
     export type BridgeControllerTrackMutationResult = NonNullable<Awaited<ReturnType<typeof bridgeControllerTrack>>>
     export type BridgeControllerTrackMutationBody = ActionDto
-    export type BridgeControllerTrackMutationError = AxiosError<unknown>
+    export type BridgeControllerTrackMutationError = unknown
 
-    export const useBridgeControllerTrack = <TError = AxiosError<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerTrack>>, TError,{data: ActionDto}, TContext>, axios?: AxiosRequestConfig}
+    export const useBridgeControllerTrack = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerTrack>>, TError,{data: ActionDto}, TContext>, }
 ): UseMutationResult<
         Awaited<ReturnType<typeof bridgeControllerTrack>>,
         TError,
@@ -1143,14 +1199,17 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
 export const bridgeControllerGetNfts = (
     deploymentId: string,
     withdrawing: string,
-    address: string, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<BridgeNftDto[]>> => {
-    
-    return axios.get(
-      `/api/bridge/nfts/${deploymentId}/${withdrawing}/${address}`,options
-    );
-  }
-
+    address: string,
+ signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<BridgeNftDto[]>(
+      {url: `/api/bridge/nfts/${deploymentId}/${withdrawing}/${address}`, method: 'GET', signal
+    },
+      );
+    }
+  
 
 export const getBridgeControllerGetNftsQueryKey = (deploymentId: string,
     withdrawing: string,
@@ -1159,18 +1218,18 @@ export const getBridgeControllerGetNftsQueryKey = (deploymentId: string,
     }
 
     
-export const getBridgeControllerGetNftsQueryOptions = <TData = Awaited<ReturnType<typeof bridgeControllerGetNfts>>, TError = AxiosError<unknown>>(deploymentId: string,
+export const getBridgeControllerGetNftsQueryOptions = <TData = Awaited<ReturnType<typeof bridgeControllerGetNfts>>, TError = unknown>(deploymentId: string,
     withdrawing: string,
-    address: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetNfts>>, TError, TData>, axios?: AxiosRequestConfig}
+    address: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetNfts>>, TError, TData>, }
 ) => {
 
-const {query: queryOptions, axios: axiosOptions} = options ?? {};
+const {query: queryOptions} = options ?? {};
 
   const queryKey =  queryOptions?.queryKey ?? getBridgeControllerGetNftsQueryKey(deploymentId,withdrawing,address);
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof bridgeControllerGetNfts>>> = ({ signal }) => bridgeControllerGetNfts(deploymentId,withdrawing,address, { signal, ...axiosOptions });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof bridgeControllerGetNfts>>> = ({ signal }) => bridgeControllerGetNfts(deploymentId,withdrawing,address, signal);
 
       
 
@@ -1180,12 +1239,12 @@ const {query: queryOptions, axios: axiosOptions} = options ?? {};
 }
 
 export type BridgeControllerGetNftsQueryResult = NonNullable<Awaited<ReturnType<typeof bridgeControllerGetNfts>>>
-export type BridgeControllerGetNftsQueryError = AxiosError<unknown>
+export type BridgeControllerGetNftsQueryError = unknown
 
-export const useBridgeControllerGetNfts = <TData = Awaited<ReturnType<typeof bridgeControllerGetNfts>>, TError = AxiosError<unknown>>(
+export const useBridgeControllerGetNfts = <TData = Awaited<ReturnType<typeof bridgeControllerGetNfts>>, TError = unknown>(
  deploymentId: string,
     withdrawing: string,
-    address: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetNfts>>, TError, TData>, axios?: AxiosRequestConfig}
+    address: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetNfts>>, TError, TData>, }
 
   ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
 
@@ -1202,30 +1261,33 @@ export const useBridgeControllerGetNfts = <TData = Awaited<ReturnType<typeof bri
 
 
 export const bridgeControllerGetTrmFlaggedStatus = (
-    address: string, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<BoolDto>> => {
-    
-    return axios.get(
-      `/api/bridge/trm_flagged_status/${address}`,options
-    );
-  }
-
+    address: string,
+ signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<BoolDto>(
+      {url: `/api/bridge/trm_flagged_status/${address}`, method: 'GET', signal
+    },
+      );
+    }
+  
 
 export const getBridgeControllerGetTrmFlaggedStatusQueryKey = (address: string,) => {
     return [`/api/bridge/trm_flagged_status/${address}`] as const;
     }
 
     
-export const getBridgeControllerGetTrmFlaggedStatusQueryOptions = <TData = Awaited<ReturnType<typeof bridgeControllerGetTrmFlaggedStatus>>, TError = AxiosError<unknown>>(address: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetTrmFlaggedStatus>>, TError, TData>, axios?: AxiosRequestConfig}
+export const getBridgeControllerGetTrmFlaggedStatusQueryOptions = <TData = Awaited<ReturnType<typeof bridgeControllerGetTrmFlaggedStatus>>, TError = unknown>(address: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetTrmFlaggedStatus>>, TError, TData>, }
 ) => {
 
-const {query: queryOptions, axios: axiosOptions} = options ?? {};
+const {query: queryOptions} = options ?? {};
 
   const queryKey =  queryOptions?.queryKey ?? getBridgeControllerGetTrmFlaggedStatusQueryKey(address);
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof bridgeControllerGetTrmFlaggedStatus>>> = ({ signal }) => bridgeControllerGetTrmFlaggedStatus(address, { signal, ...axiosOptions });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof bridgeControllerGetTrmFlaggedStatus>>> = ({ signal }) => bridgeControllerGetTrmFlaggedStatus(address, signal);
 
       
 
@@ -1235,10 +1297,10 @@ const {query: queryOptions, axios: axiosOptions} = options ?? {};
 }
 
 export type BridgeControllerGetTrmFlaggedStatusQueryResult = NonNullable<Awaited<ReturnType<typeof bridgeControllerGetTrmFlaggedStatus>>>
-export type BridgeControllerGetTrmFlaggedStatusQueryError = AxiosError<unknown>
+export type BridgeControllerGetTrmFlaggedStatusQueryError = unknown
 
-export const useBridgeControllerGetTrmFlaggedStatus = <TData = Awaited<ReturnType<typeof bridgeControllerGetTrmFlaggedStatus>>, TError = AxiosError<unknown>>(
- address: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetTrmFlaggedStatus>>, TError, TData>, axios?: AxiosRequestConfig}
+export const useBridgeControllerGetTrmFlaggedStatus = <TData = Awaited<ReturnType<typeof bridgeControllerGetTrmFlaggedStatus>>, TError = unknown>(
+ address: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetTrmFlaggedStatus>>, TError, TData>, }
 
   ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
 
@@ -1255,30 +1317,33 @@ export const useBridgeControllerGetTrmFlaggedStatus = <TData = Awaited<ReturnTyp
 
 
 export const bridgeControllerGetStatus = (
-    address: string, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<BoolDto>> => {
-    
-    return axios.get(
-      `/api/bridge/status/${address}`,options
-    );
-  }
-
+    address: string,
+ signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<BoolDto>(
+      {url: `/api/bridge/status/${address}`, method: 'GET', signal
+    },
+      );
+    }
+  
 
 export const getBridgeControllerGetStatusQueryKey = (address: string,) => {
     return [`/api/bridge/status/${address}`] as const;
     }
 
     
-export const getBridgeControllerGetStatusQueryOptions = <TData = Awaited<ReturnType<typeof bridgeControllerGetStatus>>, TError = AxiosError<unknown>>(address: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetStatus>>, TError, TData>, axios?: AxiosRequestConfig}
+export const getBridgeControllerGetStatusQueryOptions = <TData = Awaited<ReturnType<typeof bridgeControllerGetStatus>>, TError = unknown>(address: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetStatus>>, TError, TData>, }
 ) => {
 
-const {query: queryOptions, axios: axiosOptions} = options ?? {};
+const {query: queryOptions} = options ?? {};
 
   const queryKey =  queryOptions?.queryKey ?? getBridgeControllerGetStatusQueryKey(address);
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof bridgeControllerGetStatus>>> = ({ signal }) => bridgeControllerGetStatus(address, { signal, ...axiosOptions });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof bridgeControllerGetStatus>>> = ({ signal }) => bridgeControllerGetStatus(address, signal);
 
       
 
@@ -1288,10 +1353,10 @@ const {query: queryOptions, axios: axiosOptions} = options ?? {};
 }
 
 export type BridgeControllerGetStatusQueryResult = NonNullable<Awaited<ReturnType<typeof bridgeControllerGetStatus>>>
-export type BridgeControllerGetStatusQueryError = AxiosError<unknown>
+export type BridgeControllerGetStatusQueryError = unknown
 
-export const useBridgeControllerGetStatus = <TData = Awaited<ReturnType<typeof bridgeControllerGetStatus>>, TError = AxiosError<unknown>>(
- address: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetStatus>>, TError, TData>, axios?: AxiosRequestConfig}
+export const useBridgeControllerGetStatus = <TData = Awaited<ReturnType<typeof bridgeControllerGetStatus>>, TError = unknown>(
+ address: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetStatus>>, TError, TData>, }
 
   ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
 

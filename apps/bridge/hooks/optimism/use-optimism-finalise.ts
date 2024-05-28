@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Address, Chain } from "viem";
+import { Address, Chain, Hex } from "viem";
 import { useAccount, useWalletClient } from "wagmi";
 
 import { useBridgeControllerGetFinaliseTransaction } from "@/codegen";
@@ -32,12 +32,12 @@ export function useFinaliseOptimism({ id, deployment }: BridgeWithdrawalDto) {
     try {
       setLoading(true);
 
-      const { data } = await getFinaliseTransaction.mutateAsync({
+      const { data, to } = await getFinaliseTransaction.mutateAsync({
         data: { id },
       });
       const hash = await wallet.data.sendTransaction({
-        to: data.to as Address,
-        data: data.data as Address,
+        to: to as Address,
+        data: data as Hex,
         chain: deployment.l1 as unknown as Chain,
       });
       if (hash) {
