@@ -1,4 +1,3 @@
-import { deploymentTheme } from "@/config/theme";
 import clsx from "clsx";
 import { FC, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -40,6 +39,7 @@ import {
   isWithdrawal,
 } from "@/utils/guards";
 import { isNativeToken } from "@/utils/is-eth";
+import { useProgressRows, useTxActivityProps } from "@/utils/progress-rows";
 import {
   ButtonComponent,
   ExpandedItem,
@@ -48,7 +48,6 @@ import {
 
 import inProgress from "../animation/loading.json";
 
-import { useProgressRows, useTxActivityProps } from "@/utils/progress-rows";
 import { CctpBadge } from "./cttp-badge";
 import { NetworkIcon } from "./network-icon";
 import { NftImage } from "./nft";
@@ -302,15 +301,6 @@ const TransactionProgressRow = ({
   );
 };
 
-interface TransactionRowProps {
-  title: string;
-  icon: string;
-  anim: any;
-  segments: number[][];
-  loop: boolean;
-  items: ExpandedItem[];
-}
-
 const getToken = (
   tokens: MultiChainToken[],
   {
@@ -319,14 +309,29 @@ const getToken = (
   }: {
     chainId: number;
     tokenAddress: string;
-  }
+  },
+  destChainId?: number
 ) => {
-  return tokens.find((x) => {
-    return (
-      x[chainId]?.address &&
-      isAddressEqual(x[chainId]!.address, tokenAddress as Address)
-    );
-  })?.[chainId];
+  let match: Token | null = null;
+  for (const t of tokens) {
+    if (
+      destChainId &&
+      t[chainId]?.address &&
+      t[destChainId]?.address &&
+      isAddressEqual(t[chainId]!.address, tokenAddress as Address)
+    ) {
+      return t[chainId]!;
+    }
+
+    if (
+      t[chainId]?.address &&
+      isAddressEqual(t[chainId]!.address, tokenAddress as Address)
+    ) {
+      match = t[chainId]!;
+    }
+  }
+
+  return match;
 };
 
 const getNativeToken = (tokens: MultiChainToken[], chainId: number) => {
@@ -359,6 +364,7 @@ function useToken(tx: Transaction, tokens: MultiChainToken[]) {
       : tx.metadata;
 
   const chainId = isDeposit(tx) ? deployment.l1.id : deployment.l2.id;
+  const destChainId = isDeposit(tx) ? deployment.l2.id : deployment.l1.id;
 
   return match(metadata)
     .with({ type: "eth-deposit" }, () => {
@@ -374,10 +380,14 @@ function useToken(tx: Transaction, tokens: MultiChainToken[]) {
       const tokenAddress = isDeposit(tx)
         ? dto.data.l1TokenAddress
         : dto.data.l2TokenAddress;
-      return getToken(tokens, {
-        chainId,
-        tokenAddress,
-      });
+      return getToken(
+        tokens,
+        {
+          chainId,
+          tokenAddress,
+        },
+        destChainId
+      );
     })
     .otherwise(() => null);
 }

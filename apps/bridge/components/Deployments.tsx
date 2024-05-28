@@ -18,27 +18,6 @@ const SUPERCHAIN_COMING_SOON = [
     displayName: "World Chain",
     type: DeploymentType.mainnet,
   },
-  {
-    name: "lisk-mainnet",
-    displayName: "Lisk",
-    type: DeploymentType.mainnet,
-  },
-  {
-    name: "frax-mainnet",
-    displayName: "Fraxtal",
-    type: DeploymentType.mainnet,
-  },
-  {
-    name: "redstone-mainnet",
-    displayName: "Redstone",
-    type: DeploymentType.mainnet,
-  },
-
-  {
-    name: "ancient8",
-    displayName: "Ancient8",
-    type: DeploymentType.mainnet,
-  },
 ];
 const COMING_SOON = [
   {

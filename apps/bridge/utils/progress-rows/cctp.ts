@@ -74,7 +74,7 @@ export const useCctpProgressRows = () => {
 
         .otherwise(({ tx }) => {
           const mins = bridgeTime?.value ?? 20;
-          if (tx.bridge.timestamp < Date.now() - mins * 1000) {
+          if (tx.bridge.timestamp < Date.now() - mins * 60 * 1000) {
             return {
               label: t("activity.readyToMint"),
               status: ProgressRowStatus.InProgress,

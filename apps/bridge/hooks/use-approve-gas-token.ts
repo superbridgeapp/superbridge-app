@@ -1,11 +1,11 @@
 import { waitForTransactionReceipt } from "@wagmi/core";
 import { useState } from "react";
-import { Address, erc20Abi, maxUint256 } from "viem";
+import { erc20Abi, maxUint256 } from "viem";
 import { useConfig, useWriteContract } from "wagmi";
 
 import { getNativeTokenForDeployment } from "@/utils/get-native-token";
-import { isArbitrum, isOptimism } from "@/utils/is-mainnet";
 
+import { useApprovalAddressGasToken } from "./use-approval-address-gas-token";
 import { useFromChain } from "./use-chain";
 import { useDeployment } from "./use-deployment";
 import { useDeployments } from "./use-deployments";
@@ -36,28 +36,21 @@ export function useApproveGasToken(
   const from = useFromChain();
   const deployment = useDeployment();
 
+  const approvalAddress = useApprovalAddressGasToken();
   return {
     write: async () => {
       const baseGasToken = gasToken?.[from?.id ?? 0];
-      if (!baseGasToken || !deployment) return;
+      if (!baseGasToken || !deployment || !approvalAddress) return;
       setIsLoading(true);
       try {
-        const address = isArbitrum(deployment)
-          ? (deployment.contractAddresses.inbox as Address)
-          : isOptimism(deployment)
-          ? (deployment.contractAddresses.optimismPortal as Address)
-          : null;
-        if (!address) {
-          throw new Error("Invalid address");
-        }
         const hash = await writeContractAsync({
           abi: erc20Abi,
           address: baseGasToken.address,
-          args: [address, maxUint256],
+          args: [approvalAddress, maxUint256],
           functionName: "approve",
           chainId: from?.id,
         });
-        const receipt = await waitForTransactionReceipt(config, {
+        await waitForTransactionReceipt(config, {
           hash,
           chainId: from?.id,
         });
@@ -68,7 +61,6 @@ export function useApproveGasToken(
           refreshTx();
         }, 200);
       } catch {
-        setIsLoading(false);
       } finally {
         setIsLoading(false);
       }

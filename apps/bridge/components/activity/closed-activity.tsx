@@ -2,8 +2,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import Lottie from "react-lottie-player";
 
-import { useDeployment } from "@/hooks/use-deployment";
 import { useHasPendingAction } from "@/hooks/use-has-pending-action";
+import { useStatusCheck } from "@/hooks/use-status-check";
 import { useTransactions } from "@/hooks/use-transactions";
 import { useConfigState } from "@/state/config";
 import { usePendingTransactions } from "@/state/pending-txs";
@@ -40,17 +40,19 @@ export const ClosedActivity = () => {
   const { t } = useTranslation();
   const { transactions } = useTransactions();
   const hasPendingAction = useHasPendingAction();
+  const statusCheck = useStatusCheck();
 
-  const inProgressCount =
-    transactions.filter((x) => {
-      if (isDeposit(x)) return !x.relay;
-      if (isWithdrawal(x)) return !x.finalise;
-      if (isForcedWithdrawal(x)) !x.withdrawal?.finalise;
-      if (isArbitrumDeposit(x)) return !x.relay;
-      if (isArbitrumWithdrawal(x)) return !x.finalise;
-      if (isArbitrumForcedWithdrawal(x)) return !x.withdrawal?.finalise;
-      if (isCctpBridge(x)) return !x.relay;
-    }).length + pendingTransactions.length;
+  const inProgressCount = statusCheck
+    ? 0
+    : transactions.filter((x) => {
+        if (isDeposit(x)) return !x.relay;
+        if (isWithdrawal(x)) return !x.finalise;
+        if (isForcedWithdrawal(x)) !x.withdrawal?.finalise;
+        if (isArbitrumDeposit(x)) return !x.relay;
+        if (isArbitrumWithdrawal(x)) return !x.finalise;
+        if (isArbitrumForcedWithdrawal(x)) return !x.withdrawal?.finalise;
+        if (isCctpBridge(x)) return !x.relay;
+      }).length + pendingTransactions.length;
 
   return (
     <div className="h-16 fixed bottom-0 w-[50%] z-[55] flex justify-center items-center">

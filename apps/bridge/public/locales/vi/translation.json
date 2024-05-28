@@ -14,6 +14,8 @@
   "approveNft": "Phê duyệt {{tokenId}}",
   "insufficientFunds": "Không đủ tiền",
   "insufficientGas": "Không đủ {{symbol}} để thanh toán gas",
+  "bridgeLimitFallback": "Vượt quá giới hạn",
+  "bridgeLimit": "{{amount}} {{symbol}} giới hạn",
   "enterAnAmount": "Nhập một số tiền",
   "loading": "Đang tải",
   "error": "Lỗi",

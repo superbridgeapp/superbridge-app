@@ -11,13 +11,6 @@ export function getNativeTokenForDeployment(
     return null;
   }
 
-  // MetaMask doesn't like SYMBOL lengths of 1
-  // for native tokens
-  const symbol =
-    d.arbitrumNativeToken.symbol.length === 1
-      ? `${d.arbitrumNativeToken.symbol}.`
-      : d.arbitrumNativeToken.symbol;
-
   if (isArbitrum(d)) {
     const token: MultiChainToken = {
       [d.l1.id]: {
@@ -26,7 +19,7 @@ export function getNativeTokenForDeployment(
         symbol: d.arbitrumNativeToken.symbol,
         decimals: d.arbitrumNativeToken.decimals,
         chainId: d.l1.id,
-        logoURI: "",
+        logoURI: d.arbitrumNativeToken.logoURI ?? "",
         arbitrumBridgeInfo: {
           [d.l2.id]: d.contractAddresses.l1GatewayRouter as Address,
         },
@@ -34,10 +27,10 @@ export function getNativeTokenForDeployment(
       [d.l2.id]: {
         address: zeroAddress,
         name: d.arbitrumNativeToken.name,
-        symbol,
+        symbol: d.arbitrumNativeToken.symbol,
         decimals: d.arbitrumNativeToken.decimals,
         chainId: d.l2.id,
-        logoURI: "",
+        logoURI: d.arbitrumNativeToken.logoURI ?? "",
         arbitrumBridgeInfo: {
           [d.l1.id]: d.contractAddresses.l2GatewayRouter as Address,
         },
@@ -54,7 +47,7 @@ export function getNativeTokenForDeployment(
         symbol: d.arbitrumNativeToken.symbol,
         decimals: d.arbitrumNativeToken.decimals,
         chainId: d.l1.id,
-        logoURI: "",
+        logoURI: d.arbitrumNativeToken.logoURI ?? "",
         opTokenId: `native-${d.arbitrumNativeToken.symbol}`,
         standardBridgeAddresses: {
           [d.l2.id]: "0x",
@@ -63,10 +56,10 @@ export function getNativeTokenForDeployment(
       [d.l2.id]: {
         address: zeroAddress,
         name: d.arbitrumNativeToken.name,
-        symbol,
+        symbol: d.arbitrumNativeToken.symbol,
         decimals: d.arbitrumNativeToken.decimals,
         chainId: d.l2.id,
-        logoURI: "",
+        logoURI: d.arbitrumNativeToken.logoURI ?? "",
         opTokenId: `native-${d.arbitrumNativeToken.symbol}`,
         standardBridgeAddresses: {
           [d.l1.id]: "0x",
