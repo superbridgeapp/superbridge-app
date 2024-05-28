@@ -113,6 +113,7 @@ export const getServerSideProps = async ({
         return { deployments: data };
       })
       .otherwise(async () => {
+        console.log(req.headers.host);
         const data = await bridgeControllerGetDeploymentsByDomain(
           req.headers.host!
         );
@@ -123,12 +124,12 @@ export const getServerSideProps = async ({
     fetch(
       "https://raw.githubusercontent.com/ethereum-optimism/ethereum-optimism.github.io/master/optimism.tokenlist.json"
     )
-      .then((x) => ({ tokens: [] }))
+      .then((x) => x.json())
       .catch(() => null),
     fetch(
       "https://raw.githubusercontent.com/superbridgeapp/token-lists/main/superchain.tokenlist.json"
     )
-      .then((x) => ({ tokens: [] }))
+      .then((x) => x.json())
       .catch(() => null),
     bridgeControllerGetCctpDomains().catch(() => []),
   ]);
@@ -165,7 +166,6 @@ export default function IndexRoot(
 
   return (
     <InjectedStoreProvider
-      // @ts-expect-error
       initialValues={{
         ...props,
         deployment,
