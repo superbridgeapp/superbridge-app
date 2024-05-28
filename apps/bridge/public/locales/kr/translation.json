@@ -14,6 +14,8 @@
   "approveNft": "{{tokenId}} 승인",
   "insufficientFunds": "자금이 부족합니다",
   "insufficientGas": "가스를 위한 {{symbol}}이(가) 부족합니다",
+  "bridgeLimitFallback": "한도 초과",
+  "bridgeLimit": "{{amount}} {{symbol}} 한도",
   "enterAnAmount": "금액 입력",
   "loading": "로딩 중",
   "error": "에러",

@@ -14,6 +14,8 @@
   "approveNft": "الموافقة على {{tokenId}}",
   "insufficientFunds": "أموال غير كافية",
   "insufficientGas": "كمية {{symbol}} غير كافية للغاز",
+  "bridgeLimitFallback": "تم تجاوز الحد",
+  "bridgeLimit": "{{amount}} {{symbol}} الحد",
   "enterAnAmount": "أدخل مبلغًا",
   "loading": "جارٍ التحميل",
   "error": "خطأ",

@@ -14,6 +14,8 @@
   "approveNft": "{{tokenId}} genehmigen",
   "insufficientFunds": "Unzureichende Mittel",
   "insufficientGas": "Unzureichendes {{symbol}} für Gas",
+  "bridgeLimitFallback": "Limit überschritten",
+  "bridgeLimit": "{{amount}} {{symbol}} Limit",
   "enterAnAmount": "Betrag eingeben",
   "loading": "Laden",
   "error": "Fehler",

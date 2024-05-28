@@ -14,6 +14,8 @@
   "approveNft": "อนุมัติ {{tokenId}}",
   "insufficientFunds": "เงินไม่เพียงพอ",
   "insufficientGas": "ไม่เพียงพอ {{symbol}} สำหรับค่าแก๊ส",
+  "bridgeLimitFallback": "เกินขีดจำกัด",
+  "bridgeLimit": "{{amount}} {{symbol}} ขีดจำกัด",
   "enterAnAmount": "ใส่จำนวน",
   "loading": "กำลังโหลด",
   "error": "ข้อผิดพลาด",
