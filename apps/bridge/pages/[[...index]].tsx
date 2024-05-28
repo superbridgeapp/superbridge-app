@@ -113,6 +113,7 @@ export const getServerSideProps = async ({
         return { deployments: data };
       })
       .otherwise(async () => {
+        console.log(req.headers.host);
         const data = await bridgeControllerGetDeploymentsByDomain(
           req.headers.host!
         );
