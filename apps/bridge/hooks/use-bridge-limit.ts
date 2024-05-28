@@ -2,19 +2,18 @@ import { Address } from "viem";
 import { useReadContract } from "wagmi";
 
 import { TokenMinterAbi } from "@/abis/cctp/TokenMinter";
-import { useBridgeControllerGetCctpDomains } from "@/codegen";
 import { useConfigState } from "@/state/config";
+import { useInjectedStore } from "@/state/injected";
 import { isNativeUsdc } from "@/utils/is-usdc";
 
 import { useFromChain } from "./use-chain";
 
 export const useBridgeLimit = () => {
-  const domains = useBridgeControllerGetCctpDomains();
-
+  const domains = useInjectedStore((s) => s.cctpDomains);
   const stateToken = useConfigState.useToken();
   const from = useFromChain();
 
-  const fromDomain = domains.data?.data.find((x) => x.chainId === from?.id);
+  const fromDomain = domains.find((x) => x.chainId === from?.id);
 
   const burnLimitsPerMessage = useReadContract({
     abi: TokenMinterAbi,
