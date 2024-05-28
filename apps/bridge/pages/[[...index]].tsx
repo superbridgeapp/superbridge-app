@@ -130,7 +130,7 @@ export const getServerSideProps = async ({
     )
       .then((x) => x.json())
       .catch(() => null),
-    bridgeControllerGetCctpDomains(),
+    bridgeControllerGetCctpDomains().catch(() => []),
   ]);
 
   return {
