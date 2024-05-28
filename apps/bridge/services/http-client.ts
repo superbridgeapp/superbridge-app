@@ -20,7 +20,7 @@ export const customInstance = async <T>({
   const searchParams = params ? `?${qs.stringify(params, {})}` : "";
 
   const next: NextFetchRequestConfig = {
-    revalidate: url.includes("deployments") ? 0 : 60,
+    revalidate: url.includes("deployments") ? 10 : 60,
   };
 
   const response = await fetch(`${baseURL}${url}${searchParams}`, {
