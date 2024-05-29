@@ -298,7 +298,7 @@ export const ConfirmationModal = ({
   const initiateButton = match({
     needsApprove: !isNativeToken(stateToken) && !approved,
     needsGasTokenApprove:
-      !!deployment?.arbitrumNativeToken && !approvedGasToken,
+      !!deployment?.arbitrumNativeToken && !approvedGasToken && !withdrawing,
     bridge,
     withdrawing,
     isNativeToken: isNativeToken(stateToken),
