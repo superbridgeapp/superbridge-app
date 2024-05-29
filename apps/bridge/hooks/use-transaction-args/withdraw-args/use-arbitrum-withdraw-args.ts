@@ -1,23 +1,20 @@
 import { Address, encodeFunctionData } from "viem";
 
 import { ArbSysAbi } from "@/abis/arbitrum/ArbSys";
-import { L2BridgeArbitrumAbi } from "@/abis/arbitrum/L2Bridge";
 import { L2GatewayRouterAbi } from "@/abis/arbitrum/L2GatewayRouter";
-
 import { useDeployment } from "@/hooks/use-deployment";
-import { useConfigState } from "@/state/config";
-import { isArbitrumToken } from "../../../utils/guards";
-import { isEth } from "../../../utils/is-eth";
-import { isArbitrum } from "../../../utils/is-mainnet";
-import { withdrawValue } from "../../../utils/withdraw-value";
 import { useWeiAmount } from "@/hooks/use-wei-amount";
+import { useConfigState } from "@/state/config";
+import { isArbitrumToken } from "@/utils/guards";
+import { isEth } from "@/utils/is-eth";
+import { isArbitrum } from "@/utils/is-mainnet";
+import { withdrawValue } from "@/utils/withdraw-value";
 
 export const ARB_SYS: Address = "0x0000000000000000000000000000000000000064";
 
 export const useArbitrumWithdrawArgs = () => {
   const stateToken = useConfigState.useToken();
   const recipientAddress = useConfigState.useRecipientAddress();
-  const withdrawing = useConfigState.useWithdrawing();
   const easyMode = useConfigState.useEasyMode();
 
   const deployment = useDeployment();
@@ -33,8 +30,7 @@ export const useArbitrumWithdrawArgs = () => {
     !l2Token ||
     !isArbitrumToken(l1Token) ||
     !isArbitrumToken(l2Token) ||
-    !recipientAddress ||
-    !withdrawing
+    !recipientAddress
   ) {
     return;
   }

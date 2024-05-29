@@ -1,10 +1,12 @@
 import { useReadContracts } from "wagmi";
 
-import { DeploymentDto } from "@/codegen/model";
-import { Token } from "@/types/token";
+import { useConfigState } from "@/state/config";
 import { isOptimismToken } from "@/utils/guards";
 import { isEth } from "@/utils/is-eth";
 import { l2TokenIsLegacy } from "@/utils/l2-token-is-legacy";
+
+import { useFromChain } from "./use-chain";
+import { useDeployment } from "./use-deployment";
 
 const L2StandardERC20 = [
   {
@@ -23,10 +25,13 @@ const L2StandardERC20 = [
   },
 ] as const;
 
-export const useL2TokenIsLegacy = (
-  token: Token | undefined,
-  deployment: DeploymentDto | null
-) => {
+export const useL2TokenIsLegacy = () => {
+  const stateToken = useConfigState.useToken();
+
+  const deployment = useDeployment();
+  const from = useFromChain();
+
+  const token = stateToken?.[from?.id ?? 0];
   const reads = useReadContracts({
     contracts: [
       {

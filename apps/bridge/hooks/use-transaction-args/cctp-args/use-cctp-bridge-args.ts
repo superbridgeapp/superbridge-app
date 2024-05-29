@@ -1,12 +1,12 @@
 import { Address, encodeFunctionData } from "viem";
 
 import { TokenMessengerAbi } from "@/abis/cctp/TokenMessenger";
-
 import { useBridgeControllerGetCctpDomains } from "@/codegen/index";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
 import { useWeiAmount } from "@/hooks/use-wei-amount";
 import { useConfigState } from "@/state/config";
-import { addressToBytes32 } from "./common";
+
+import { addressToBytes32, isCctpBridgeOperation } from "./common";
 
 export const useCctpArgs = () => {
   const cctpDomains = useBridgeControllerGetCctpDomains();
@@ -23,7 +23,14 @@ export const useCctpArgs = () => {
   const fromToken = stateToken?.[from?.id ?? 0];
   const toToken = stateToken?.[to?.id ?? 0];
 
-  if (!fromToken || !toToken || !fromCctp || !toCctp || !recipientAddress) {
+  if (
+    !fromToken ||
+    !toToken ||
+    !fromCctp ||
+    !toCctp ||
+    !recipientAddress ||
+    !isCctpBridgeOperation(stateToken)
+  ) {
     return;
   }
 

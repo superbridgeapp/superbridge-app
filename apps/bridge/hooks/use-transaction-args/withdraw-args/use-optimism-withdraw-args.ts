@@ -1,22 +1,27 @@
 import { Address, encodeFunctionData } from "viem";
 
 import { L2StandardBridgeAbi } from "@/abis/L2StandardBridge";
-
 import { L2ToL1MessagePasserAbi } from "@/abis/L2ToL1MessagePasser";
 import { useGasToken } from "@/hooks/use-approve-gas-token";
 import { useDeployment } from "@/hooks/use-deployment";
 import { useGraffiti } from "@/hooks/use-graffiti";
+import { useL2TokenIsLegacy } from "@/hooks/use-l2-token-is-legacy";
+import { useWeiAmount } from "@/hooks/use-wei-amount";
 import { useConfigState } from "@/state/config";
-import { isOptimismToken } from "../../../utils/guards";
-import { isEth } from "../../../utils/is-eth";
-import { isOptimism } from "../../../utils/is-mainnet";
+import { isOptimismToken } from "@/utils/guards";
+import { isEth } from "@/utils/is-eth";
+import { isOptimism } from "@/utils/is-mainnet";
 
 export const useOptimismWithdrawArgs = () => {
-  const deployment = useDeployment();
   const stateToken = useConfigState.useToken();
   const recipientAddress = useConfigState.useRecipientAddress();
+
+  const deployment = useDeployment();
   const gasToken = useGasToken();
   const graffiti = useGraffiti();
+  const weiAmount = useWeiAmount();
+
+  const l2TokenIsLegacy = useL2TokenIsLegacy();
 
   const l1Token = stateToken?.[deployment?.l1.id ?? 0];
   const l2Token = stateToken?.[deployment?.l2.id ?? 0];
@@ -28,7 +33,8 @@ export const useOptimismWithdrawArgs = () => {
     !isOptimismToken(l1Token) ||
     !isOptimismToken(l2Token) ||
     !isOptimism(deployment) ||
-    typeof l2TokenIsLegacy === "undefined"
+    typeof l2TokenIsLegacy === "undefined" ||
+    !recipientAddress
   ) {
     return;
   }
@@ -66,7 +72,7 @@ export const useOptimismWithdrawArgs = () => {
           abi: L2StandardBridgeAbi,
           functionName: "bridgeETHTo",
           args: [
-            recipient, // _to
+            recipientAddress, // _to
             200_000, // _gas
             graffiti, // _extraData
           ],
@@ -87,7 +93,7 @@ export const useOptimismWithdrawArgs = () => {
           functionName: "withdrawTo",
           args: [
             l2Token.address, // _localToken
-            recipient, // _to
+            recipientAddress, // _to
             weiAmount, // _amount
             200_000, // _minGasLimit
             graffiti, // _extraData
@@ -109,7 +115,7 @@ export const useOptimismWithdrawArgs = () => {
         args: [
           l2Token.address, // _localToken
           l1Token.address, // _remoteToken
-          recipient, // _to
+          recipientAddress, // _to
           weiAmount, // _amount
           200_000, // _minGasLimit
           graffiti, // _extraData

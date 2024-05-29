@@ -1,5 +1,5 @@
-import { useDepositArgs } from "@/hooks/use-transaction-args/deposit-args/use-deposit-args";
 import { useCctpArgs } from "./cctp-args/use-cctp-bridge-args";
+import { useDepositArgs } from "./deposit-args/use-deposit-args";
 import { useWithdrawArgs } from "./withdraw-args/use-withdraw-args";
 
 export const useTransactionArgs = () => {
