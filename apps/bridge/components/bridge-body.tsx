@@ -20,17 +20,17 @@ import { currencySymbolMap } from "@/constants/currency-symbol-map";
 import { useAllowance } from "@/hooks/use-allowance";
 import { useAllowanceNft } from "@/hooks/use-allowance-nft";
 import { useApprove } from "@/hooks/use-approve";
-import { useApproveNft } from "@/hooks/use-approve-nft";
 import { useTokenBalance } from "@/hooks/use-balances";
 import { useBridge } from "@/hooks/use-bridge";
-import { useBridgeFee } from "@/hooks/use-bridge-fee";
+import { useBridgeLimit } from "@/hooks/use-bridge-limit";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
+import { useDeployment } from "@/hooks/use-deployment";
 import { useIsCustomToken } from "@/hooks/use-is-custom-token";
 import { useIsCustomTokenFromList } from "@/hooks/use-is-custom-token-from-list";
 import { useNativeToken } from "@/hooks/use-native-token";
 import { useTokenPrice } from "@/hooks/use-prices";
-import { useStatusCheck } from "@/hooks/use-status-check";
 import { useSelectedToken } from "@/hooks/use-selected-token";
+import { useStatusCheck } from "@/hooks/use-status-check";
 import { useSwitchChain } from "@/hooks/use-switch-chain";
 import { useActiveTokens } from "@/hooks/use-tokens";
 import { useTransferTime } from "@/hooks/use-transfer-time";
@@ -41,8 +41,6 @@ import { useSettingsState } from "@/state/settings";
 import { buildPendingTx } from "@/utils/build-pending-tx";
 import { isEth, isNativeToken } from "@/utils/is-eth";
 import { isNativeUsdc } from "@/utils/is-usdc";
-import { useBridgeLimit } from "@/hooks/use-bridge-limit";
-import { useDeployment } from "@/hooks/use-deployment";
 
 import { FromTo } from "./FromTo";
 import { AddressModal } from "./address-modal";
@@ -51,12 +49,12 @@ import { CctpBadge } from "./cttp-badge";
 import { DepositFees } from "./fees/deposit-fees";
 import { WithdrawFees } from "./fees/withdraw-fees";
 import { NftImage } from "./nft";
+import { NoGasModal } from "./no-gas-modal";
 import { TokenIcon } from "./token-icon";
 import { TokenModal } from "./tokens/Modal";
 import { CustomTokenImportModal } from "./tokens/custom-token-import-modal";
 import { Button } from "./ui/button";
 import { WithdrawSettingsModal } from "./withdraw-settings/modal";
-import { NoGasModal } from "./no-gas-modal";
 
 const RecipientAddress = ({
   openAddressDialog,
@@ -131,7 +129,6 @@ export const BridgeBody = () => {
   const account = useAccount();
   const from = useFromChain();
   const to = useToChain();
-  const bridgeFee = useBridgeFee();
   const bridge = useBridge();
   const switchChain = useSwitchChain();
   const tokens = useActiveTokens();
@@ -198,14 +195,9 @@ export const BridgeBody = () => {
     bridge.refetch,
     weiAmount
   );
-  const approveNft = useApproveNft(nftAllowance.refetch, bridge.refetch);
   const usdPrice = useTokenPrice(stateToken);
 
-  const fee = parseInt(((bridgeFee.data as bigint) ?? BigInt(0)).toString());
-
-  const parsedRawAmount = parseFloat(rawAmount) || 0;
-  const appliedFee = (fee / 10_000) * parsedRawAmount;
-  const receive = parsedRawAmount - appliedFee;
+  const receive = parseFloat(rawAmount) || 0;
 
   const hasInsufficientBalance = weiAmount > tokenBalance;
   const hasInsufficientGas =
@@ -553,7 +545,7 @@ export const BridgeBody = () => {
             <div>
               {usdPrice && (
                 <span className="text-muted-foreground text-xs font-medium">
-                  ${(parsedRawAmount * usdPrice).toLocaleString("en")}
+                  ${(receive * usdPrice).toLocaleString("en")}
                 </span>
               )}
             </div>
