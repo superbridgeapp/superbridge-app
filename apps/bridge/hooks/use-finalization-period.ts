@@ -20,7 +20,7 @@ export const cctpPeriod = (deployment: DeploymentDto | null): Period => {
   return { period: "mins", value: isMainnet(deployment) ? 20 : 5 };
 };
 
-const getPeriod = (seconds: number): Period => {
+export const getPeriod = (seconds: number): Period => {
   if (seconds >= ONE_DAY) {
     return {
       period: "days",

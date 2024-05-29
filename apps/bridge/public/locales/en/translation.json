@@ -79,6 +79,7 @@
     "readyToProve": "Ready to prove",
     "proved": "Proved",
     "waitingForStateRoot": "Waiting for state root…",
+    "waitingForDisputeGame": "Waiting for dispute game…",
     "stateRootPublished": "State root published",
     "challengePeriod": "Challenge period",
     "finalizing": "Finalizing…",

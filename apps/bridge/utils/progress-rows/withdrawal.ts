@@ -4,7 +4,9 @@ import { P, match } from "ts-pattern";
 import { BridgeWithdrawalDto } from "@/codegen/model";
 import { MessageStatus } from "@/constants/optimism-message-status";
 import {
+  addPeriods,
   getFinalizationPeriod,
+  getPeriod,
   getProvePeriod,
 } from "@/hooks/use-finalization-period";
 import { usePeriodText } from "@/hooks/use-period-text";
@@ -13,6 +15,7 @@ import { usePendingTransactions } from "@/state/pending-txs";
 import { transactionLink } from "../transaction-link";
 import { ButtonComponent, ExpandedItem, ProgressRowStatus } from "./common";
 import { getRemainingTimePeriod } from "./get-remaining-period";
+import { isOptimism } from "../is-mainnet";
 
 export const useOptimismWithdrawalProgressRows = () => {
   const pendingFinalises = usePendingTransactions.usePendingFinalises();
@@ -21,10 +24,10 @@ export const useOptimismWithdrawalProgressRows = () => {
   const { t } = useTranslation();
 
   return (w: BridgeWithdrawalDto | undefined): ExpandedItem[] => {
-    const finalizationPeriod = getFinalizationPeriod(
-      w?.deployment ?? null,
-      false
-    );
+    const deployment =
+      w?.deployment && isOptimism(w.deployment) ? w.deployment : null;
+
+    const finalizationPeriod = getFinalizationPeriod(deployment, false);
     const provePeriod = getProvePeriod(w?.deployment ?? null);
     const pendingProve = pendingProves[w?.id ?? ""];
     const pendingFinalise = pendingFinalises[w?.id ?? ""];
@@ -116,6 +119,7 @@ export const useOptimismWithdrawalProgressRows = () => {
       }));
 
     const waitingForStateRootText = (() => {
+      // weird case, not sure what it's for
       if (!w?.status || w.status < MessageStatus.STATE_ROOT_NOT_PUBLISHED) {
         return transformPeriodText("transferTime", {}, finalizationPeriod);
       }
@@ -145,10 +149,24 @@ export const useOptimismWithdrawalProgressRows = () => {
         return "";
       }
 
-      const remainingTimePeriod = getRemainingTimePeriod(
+      let remainingTimePeriod = getRemainingTimePeriod(
         w.prove.timestamp,
         finalizationPeriod
       );
+      if (
+        deployment?.contractAddresses.disputeGameFactory &&
+        deployment?.config.disputeGameFinalityDelaySeconds &&
+        w.prove.game?.resolvedAt
+      ) {
+        remainingTimePeriod = addPeriods(
+          remainingTimePeriod,
+          getRemainingTimePeriod(
+            w.prove.game.resolvedAt,
+            getPeriod(deployment.config.disputeGameFinalityDelaySeconds)
+          )
+        );
+      }
+
       if (!remainingTimePeriod) return "";
       return transformPeriodText("activity.remaining", {}, remainingTimePeriod);
     })();
@@ -164,7 +182,9 @@ export const useOptimismWithdrawalProgressRows = () => {
       {
         label:
           w?.status === MessageStatus.STATE_ROOT_NOT_PUBLISHED
-            ? t("activity.waitingForStateRoot")
+            ? deployment?.contractAddresses.disputeGameFactory
+              ? t("activity.waitingForDisputeGame")
+              : t("activity.waitingForStateRoot")
             : t("activity.stateRootPublished"),
         status: w
           ? w?.status === MessageStatus.STATE_ROOT_NOT_PUBLISHED

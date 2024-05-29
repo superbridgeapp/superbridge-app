@@ -8,6 +8,7 @@
 import type { DeploymentDto } from './deploymentDto';
 import type { ConfirmationDto } from './confirmationDto';
 import type { BridgeWithdrawalDtoMetadata } from './bridgeWithdrawalDtoMetadata';
+import type { ProveConfirmationDto } from './proveConfirmationDto';
 import type { OptimismTransactionType } from './optimismTransactionType';
 
 export interface BridgeWithdrawalDto {
@@ -19,7 +20,7 @@ export interface BridgeWithdrawalDto {
   l1ChainId: number;
   l2ChainId: number;
   metadata: BridgeWithdrawalDtoMetadata;
-  prove?: ConfirmationDto;
+  prove?: ProveConfirmationDto;
   status: number;
   type: OptimismTransactionType;
   updatedAt: string;

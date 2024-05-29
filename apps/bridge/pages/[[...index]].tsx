@@ -85,7 +85,7 @@ export const getServerSideProps = async ({
 
   if (req.headers.host?.includes("localhost")) {
     const { data } = await bridgeControllerGetDeployments({
-      names: ["arbitrum-one"],
+      names: ["op-sepolia"],
     });
     return { props: { deployments: data } };
   }
