@@ -3,19 +3,8 @@ import { useTranslation } from "react-i18next";
 import Lottie from "react-lottie-player";
 
 import { useHasPendingAction } from "@/hooks/use-has-pending-action";
-import { useStatusCheck } from "@/hooks/use-status-check";
-import { useTransactions } from "@/hooks/use-transactions";
 import { useConfigState } from "@/state/config";
-import { usePendingTransactions } from "@/state/pending-txs";
-import {
-  isArbitrumDeposit,
-  isArbitrumForcedWithdrawal,
-  isArbitrumWithdrawal,
-  isCctpBridge,
-  isDeposit,
-  isForcedWithdrawal,
-  isWithdrawal,
-} from "@/utils/guards";
+import { useInProgressTxCount } from "@/hooks/use-in-progress-tx-count";
 
 import inProgressDark from "../../animation/loading-dark.json";
 import inProgress from "../../animation/loading.json";
@@ -36,23 +25,9 @@ const activityAnimations = {
 export const ClosedActivity = () => {
   const open = useConfigState.useDisplayTransactions();
   const setDisplayTransactions = useConfigState.useSetDisplayTransactions();
-  const pendingTransactions = usePendingTransactions.useTransactions();
   const { t } = useTranslation();
-  const { transactions } = useTransactions();
   const hasPendingAction = useHasPendingAction();
-  const statusCheck = useStatusCheck();
-
-  const inProgressCount = statusCheck
-    ? 0
-    : transactions.filter((x) => {
-        if (isDeposit(x)) return !x.relay;
-        if (isWithdrawal(x)) return !x.finalise;
-        if (isForcedWithdrawal(x)) !x.withdrawal?.finalise;
-        if (isArbitrumDeposit(x)) return !x.relay;
-        if (isArbitrumWithdrawal(x)) return !x.finalise;
-        if (isArbitrumForcedWithdrawal(x)) return !x.withdrawal?.finalise;
-        if (isCctpBridge(x)) return !x.relay;
-      }).length + pendingTransactions.length;
+  const inProgressCount = useInProgressTxCount();
 
   return (
     <div className="h-16 fixed bottom-0 w-[50%] z-[55] flex justify-center items-center">
