@@ -60,7 +60,7 @@ export const TosModal = () => {
   const tab1 = (
     <div className="flex flex-col gap-6 p-6">
       <div className="flex flex-col gap-2">
-        <h1 className="font-bold text-3xl tracking-tighter text-center text-foreground">
+        <h1 className="font-bold text-3xl  text-center text-foreground">
           {t("tos.welcome", { name: metadata.title })}
         </h1>
 
@@ -72,7 +72,7 @@ export const TosModal = () => {
       </div>
       <div className="flex gap-3">
         <SparkleIcon />
-        <p className="text-sm font-medium">
+        <p className="text-sm ">
           <Trans
             i18nKey={isSuperbridge ? "tos.superbridge1" : "tos.dedicated1"}
             components={[<span key="name" className="underline" />]}
@@ -83,12 +83,12 @@ export const TosModal = () => {
 
       <div className="flex gap-3">
         <NoFundsIcon />
-        <p className="text-sm font-medium">{t("tos.superbridge2")}</p>
+        <p className="text-sm ">{t("tos.superbridge2")}</p>
       </div>
 
       <div className="flex gap-3">
         <QuestionMark />
-        <p className="text-sm font-medium">
+        <p className="text-sm ">
           <Trans
             i18nKey={"tos.superbridge3"}
             components={[
@@ -101,7 +101,7 @@ export const TosModal = () => {
 
       <div className="flex gap-3">
         <DocumentIcon />
-        <p className="text-sm font-medium">
+        <p className="text-sm ">
           <Trans
             i18nKey={"tos.superbridge4"}
             components={[

@@ -111,7 +111,7 @@ export const NoGasModal = ({
             <div className="animate-bounce">
               <GasDrop />
             </div>
-            <h1 className="font-bold text-2xl tracking-tight text-pretty">
+            <h1 className="font-bold text-2xl  text-pretty">
               {t("noGasModal.youNeedGasOn", common)}
             </h1>
             <p className="text-xs md:text-sm prose-sm font-bold text-muted-foreground text-pretty text-center">

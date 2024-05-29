@@ -23,7 +23,7 @@ const PageNav = () => {
       </a>
       <a
         href="/"
-        className="flex rounded-full shadow-sm bg-zinc-900 dark:bg-zinc-50 text-white dark:text-zinc-900 text-sm font-bold tracking-tighter py-2 md:py-3 px-4 hover:scale-105 transition-transform cursor-pointer grow-0 items-center leading-4"
+        className="flex rounded-full shadow-sm bg-zinc-900 dark:bg-zinc-50 text-white dark:text-zinc-900 text-sm font-bold  py-2 md:py-3 px-4 hover:scale-105 transition-transform cursor-pointer grow-0 items-center leading-4"
       >
         Launch App
       </a>

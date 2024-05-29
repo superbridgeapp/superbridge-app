@@ -177,7 +177,7 @@ export const AddressModal = ({
                     })
                       .with({ isLoading: true }, () => (
                         <div className="inline-flex gap-1 px-2 py-1 rounded-full bg-zinc-100 dark:bg-zinc-900">
-                          <span className="text-xs font-medium text-muted-foreground">
+                          <span className="text-xs  text-muted-foreground">
                             Checking address…
                           </span>
                         </div>
@@ -191,7 +191,7 @@ export const AddressModal = ({
                             height={14}
                             width={14}
                           />
-                          <span className="text-xs font-medium text-red-500">
+                          <span className="text-xs  text-red-500">
                             {t("recipient.invalidAddress")}
                           </span>
                         </div>
@@ -211,7 +211,7 @@ export const AddressModal = ({
                               height={14}
                               width={14}
                             />
-                            <span className="text-xs font-medium text-green-500">
+                            <span className="text-xs  text-green-500">
                               {t("recipient.yourChainAddress", {
                                 chain: toChain?.name,
                               })}
@@ -272,7 +272,7 @@ export const AddressModal = ({
                                   height={14}
                                   width={14}
                                 />
-                                <span className="text-xs font-medium text-green-500">
+                                <span className="text-xs  text-green-500">
                                   {t("recipient.usedBefore")}
                                 </span>
                               </div>
@@ -288,7 +288,7 @@ export const AddressModal = ({
                                   height={14}
                                   width={14}
                                 />
-                                <span className="text-xs font-medium text-green-500">
+                                <span className="text-xs  text-green-500">
                                   {t("recipient.usedBeforeMultiple", { count })}
                                 </span>
                               </div>
@@ -303,7 +303,7 @@ export const AddressModal = ({
                                 height={14}
                                 width={14}
                               />
-                              <span className="text-xs font-medium text-orange-500">
+                              <span className="text-xs  text-orange-500">
                                 {t("recipient.newAddress")}
                               </span>
                             </div>

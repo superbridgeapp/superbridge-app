@@ -29,7 +29,7 @@ const BridgeCard = ({
               alt={alt}
             />
           </figure>
-          <h4 className="text-xl font-bold tracking-tight">{title}</h4>
+          <h4 className="text-xl font-bold ">{title}</h4>
         </div>
         <p className="text-sm">{desc}</p>
       </a>
@@ -44,10 +44,10 @@ const AlternativeBridges = () => {
       <div className="bg-zinc-50 dark:bg-zinc-950 w-full">
         <div className="p-8 md:p-24">
           <div className="flex flex-col gap-3 items-center md:px-8 pt-16 pb-10">
-            <h3 className="text-5xl md:text-6xl font-bold tracking-tighter text-center">
+            <h3 className="text-5xl md:text-6xl font-bold  text-center">
               Alternative Bridges
             </h3>
-            <p className="text-base md:text-xl text-pretty font-medium tracking-tighter text-center max-w-xl">
+            <p className="text-base md:text-xl text-pretty   text-center max-w-xl">
               Sometimes you need something a little different to the{" "}
               <span className="underline">Superchain Native Bridge.</span>{" "}
               {"Here's"} some great alternatives depending on your needs…

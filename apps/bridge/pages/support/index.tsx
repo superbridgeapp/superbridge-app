@@ -22,9 +22,7 @@ export default function Support({
       <main>
         <section className="max-w-3xl mx-auto p-8">
           <header className="py-16">
-            <h1 className="font-bold text-6xl tracking-tighter">
-              FAQs &amp; Support
-            </h1>
+            <h1 className="font-bold text-6xl ">FAQs &amp; Support</h1>
           </header>
           <div className="rounded-xl bg-white">
             <ul>

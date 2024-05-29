@@ -106,6 +106,7 @@ html.dark {
   }
 }
 
+/* 
 @font-face {
   font-family: GT-Maru;
   font-style: normal;
@@ -122,10 +123,24 @@ html.dark {
   font-family: GT-Maru;
   font-style: normal;
   font-weight: 700;
-  src: url("https://superbridge-fonts.vercel.app/GT-Maru-Bold.woff2");
+  src: url("https://superbridge-fonts.vercel.app/GT-Maru-Bold.woff2"); 
+}
+*/
+
+@font-face {
+  font-family: MainFont;
+  font-style: normal;
+  font-weight: 400;
+  src: url("/font-test/GT-Walsheim-Regular.woff");
+}
+@font-face {
+  font-family: MainFont;
+  font-style: normal;
+  font-weight: 700;
+  src: url("/font-test/GT-Walsheim-Bold.woff");
 }
 
 html {
-  font-family: GT-Maru, SFRounded, ui-rounded, "SF Pro Rounded", system-ui,
+  font-family: MainFont, SFRounded, ui-rounded, "SF Pro Rounded", system-ui,
     "Helvetica Neue", Arial, Helvetica, sans-serif;
 }

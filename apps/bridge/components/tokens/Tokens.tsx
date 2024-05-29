@@ -55,13 +55,13 @@ const TokenComponent = ({
             </span>
             {isNativeUsdc(token) && <CctpBadge />}
           </div>
-          <span className="text-xs font-medium text-muted-foreground">
+          <span className="text-xs  text-muted-foreground">
             {token[from?.id ?? 0]?.symbol}
           </span>
         </div>
       </div>
       <div className="ml-auto flex flex-col text-right gap-1">
-        <span className="text-sm font-medium text-muted-foreground">
+        <span className="text-sm  text-muted-foreground">
           {parseFloat(
             formatUnits(balance, token[from?.id ?? 0]?.decimals ?? 18)
           ).toLocaleString("en", { maximumFractionDigits: 4 })}
@@ -96,7 +96,7 @@ const TokenComponent = ({
                 </clipPath>
               </defs>
             </svg>
-            <span className="text-[10px] tracking-tight font-bold leading-4 text-orange-500 whitespace-nowrap">
+            <span className="text-[10px]  font-bold leading-4 text-orange-500 whitespace-nowrap">
               {isCustomToken
                 ? t("tokens.customImport")
                 : t("tokens.customImportFromList", {
@@ -170,7 +170,7 @@ const TokenImport = ({ address }: { address: Address }) => {
     <div className="flex justify-between hover:bg-black/[0.025] hover:dark:bg-white/[0.05] transition p-4 rounded-sm">
       <div className="flex items-center space-x-4">
         <div className="rounded-full bg-zinc-100 dark:bg-zinc-800 h-8 w-8 flex items-center justify-center">
-          <span className="text-[10px] tracking-tight font-bold text-muted-foreground leading-4 mt-0.5">
+          <span className="text-[10px]  font-bold text-muted-foreground leading-4 mt-0.5">
             {symbol?.substring(0, 3)}
           </span>
         </div>
@@ -178,13 +178,11 @@ const TokenImport = ({ address }: { address: Address }) => {
           <div className="flex items-center gap-1">
             <span className="text-sm font-bold">{name}</span>
           </div>
-          <span className="text-xs font-medium text-muted-foreground">
-            {symbol}
-          </span>
+          <span className="text-xs  text-muted-foreground">{symbol}</span>
         </div>
       </div>
       <div className="ml-auto flex flex-col text-right gap-1">
-        <span className="text-sm font-medium text-muted-foreground">
+        <span className="text-sm  text-muted-foreground">
           {parseFloat(
             formatUnits(BigInt(balance ?? "0"), decimals ?? 0)
           ).toLocaleString("en", {
@@ -221,7 +219,7 @@ const TokenImport = ({ address }: { address: Address }) => {
                 </clipPath>
               </defs>
             </svg>
-            <span className="text-[10px] tracking-tight font-bold leading-4 text-orange-500 ">
+            <span className="text-[10px]  font-bold leading-4 text-orange-500 ">
               {t("tokens.notBridgeable")}
             </span>
           </div>
@@ -282,7 +280,7 @@ export const FungibleTokenPicker = ({
           spellCheck="false"
           name="token"
           id="token"
-          // className="bg-muted block w-full rounded-lg border-0 py-3 px-4 pr-10 text-sm font-medium  outline-none focus:ring-2 ring-inset ring-zinc-900/5 dark:ring-zinc-50/5 placeholder:text-muted-foreground sm:leading-6"
+          // className="bg-muted block w-full rounded-lg border-0 py-3 px-4 pr-10 text-sm   outline-none focus:ring-2 ring-inset ring-zinc-900/5 dark:ring-zinc-50/5 placeholder:text-muted-foreground sm:leading-6"
           placeholder="Search"
         />
 
@@ -316,7 +314,7 @@ export const FungibleTokenPicker = ({
                     src={token[from?.id ?? 0]?.logoURI}
                     className="h-5 w-5 rounded-full"
                   />
-                  <span className="text-sm font-medium inline-flex">
+                  <span className="text-sm  inline-flex">
                     {token[from?.id ?? 0]?.symbol}
                   </span>
                 </div>

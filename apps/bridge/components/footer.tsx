@@ -123,7 +123,7 @@ export function Footer() {
         ) : (
           <div className="bg-card h-10 pl-2.5 pr-3 gap-1 inline-flex items-center rounded-full transition-all border-black/[0.0125] dark:border-white/[0.0125]">
             <button
-              className={`text-xs font-medium  transition-all hover:scale-105 inline-flex`}
+              className={`text-xs   transition-all hover:scale-105 inline-flex`}
               onClick={() => setSettingsModal(true)}
             >
               <svg
@@ -168,14 +168,14 @@ export function Footer() {
                         <Link
                           href={(link as any).url}
                           target="_blank"
-                          className="font-medium text-sm w-full"
+                          className=" text-sm w-full"
                         >
                           {link.label}
                         </Link>
                       ) : (
                         <button
                           onClick={(link as any).onClick}
-                          className="font-medium text-sm w-full text-left"
+                          className=" text-sm w-full text-left"
                         >
                           {link.label}
                         </button>

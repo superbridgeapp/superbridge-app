@@ -57,12 +57,12 @@ export const BridgePlaceholder = ({
       </div>
       {/* coming soon */}
       {comingSoon && (
-        <span className="text-[10px] font-medium inline-flex leading-none bg-black/30 text-white font-medium absolute bottom-6 left-1/2 -translate-x-1/2 rounded-full px-2 py-1">
+        <span className="text-[10px]  inline-flex leading-none bg-black/30 text-white  absolute bottom-6 left-1/2 -translate-x-1/2 rounded-full px-2 py-1">
           {t("comingSoon")}
         </span>
       )}
       {!comingSoon && deployment.type === DeploymentType.testnet && (
-        <span className="text-[10px] font-medium inline-flex leading-none bg-black/30 text-white font-medium absolute bottom-6 left-1/2 -translate-x-1/2 rounded-full px-2 py-1">
+        <span className="text-[10px]  inline-flex leading-none bg-black/30 text-white  absolute bottom-6 left-1/2 -translate-x-1/2 rounded-full px-2 py-1">
           Testnet
         </span>
       )}

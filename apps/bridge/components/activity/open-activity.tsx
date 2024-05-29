@@ -65,7 +65,7 @@ export const OpenActivity = ({}) => {
                 inProgressCount <= 0 ? "hidden" : "visible"
               }`}
             >
-              <span className="text-xs font-medium text-foreground">
+              <span className="text-xs  text-foreground">
                 {inProgressCount}
               </span>
             </div>

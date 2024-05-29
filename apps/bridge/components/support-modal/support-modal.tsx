@@ -64,7 +64,7 @@ export const SupportModal = ({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent>
         <div className="flex flex-col p-6 pt-8">
-          <h1 className="font-bold text-xl tracking-tight">
+          <h1 className="font-bold text-xl ">
             Hey!
             <br />
             Please acknowledge that you understand the following:
@@ -78,7 +78,7 @@ export const SupportModal = ({
               />
               <label
                 htmlFor="cancel"
-                className="text-sm font-medium text-muted-foreground"
+                className="text-sm  text-muted-foreground"
               >
                 A bridge cannot be cancelled or reversed
               </label>
@@ -91,7 +91,7 @@ export const SupportModal = ({
               />
               <label
                 htmlFor="multistep"
-                className="text-sm font-medium text-muted-foreground"
+                className="text-sm  text-muted-foreground"
               >
                 Withdrawing is a multi-step process
               </label>
@@ -102,10 +102,7 @@ export const SupportModal = ({
                 checked={checkbox3}
                 onCheckedChange={(c) => setCheckbox3(c as boolean)}
               />
-              <label
-                htmlFor="speed"
-                className="text-sm font-medium text-muted-foreground"
-              >
+              <label htmlFor="speed" className="text-sm  text-muted-foreground">
                 Withdrawals take {finalizationPeriod?.value}{" "}
                 {finalizationPeriod?.period} from the time of proving until they
                 can be finalized on Ethereum
@@ -117,10 +114,7 @@ export const SupportModal = ({
                 checked={checkbox4}
                 onCheckedChange={(c) => setCheckbox4(c as boolean)}
               />
-              <label
-                htmlFor="gas"
-                className="text-sm font-medium text-muted-foreground"
-              >
+              <label htmlFor="gas" className="text-sm  text-muted-foreground">
                 You need gas on{" "}
                 {isSuperbridge
                   ? "the rollup and Ethereum Mainnet"

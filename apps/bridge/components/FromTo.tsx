@@ -24,13 +24,11 @@ export const FromTo = () => {
           className="pointer-events-none"
         />
         <div>
-          <span
-            className={`text-muted-foreground text-xs font-medium leading-4 block `}
-          >
+          <span className={`text-muted-foreground text-xs  leading-4 block `}>
             {t("from")}
           </span>
           <span
-            className={`text-sm md:text-sm font-medium leading-4 block tracking-tight`}
+            className={`text-sm md:text-sm  leading-4 block `}
             style={{ lineHeight: "1em" }}
           >
             {from?.name}
@@ -51,12 +49,12 @@ export const FromTo = () => {
       <div className="grow flex gap-2 justify-end items-start w-1/2 pl-3">
         <div>
           <span
-            className={`text-muted-foreground text-xs text-right font-medium leading-4 block `}
+            className={`text-muted-foreground text-xs text-right  leading-4 block `}
           >
             {t("to")}
           </span>
           <span
-            className={`text-sm md:text-sm font-medium text-right leading-4 block tracking-tight`}
+            className={`text-sm md:text-sm  text-right leading-4 block `}
             style={{ lineHeight: "1.125em" }}
           >
             {to?.name}

@@ -35,11 +35,11 @@ export const WithdrawFees = ({
             height={16}
             width={16}
           />
-          <span className={`text-xs font-medium`}>{t("fees.fees")}</span>
+          <span className={`text-xs `}>{t("fees.fees")}</span>
         </div>
 
         <div className="flex items-center gap-2">
-          <span className={`text-xs font-medium text-foreground ml-auto`}>
+          <span className={`text-xs  text-foreground ml-auto`}>
             {currencySymbolMap[currency]}
             {fees
               .reduce((accum, fee) => (fee.usd?.raw ?? 0) + accum, 0)
@@ -59,7 +59,7 @@ export const WithdrawFees = ({
         <div
           className={clsx(
             forceViaL1 ? "bg-green-400" : "bg-muted",
-            "rounded-full flex flex-shrink items-center max-w-fit gap-1 font-medium pl-2 pr-3 py-1 transition-all hover:scale-105"
+            "rounded-full flex flex-shrink items-center max-w-fit gap-1  pl-2 pr-3 py-1 transition-all hover:scale-105"
           )}
           role="button"
         >
@@ -93,7 +93,7 @@ export const WithdrawFees = ({
           <div
             className={clsx(
               easyMode ? "bg-green-400" : "bg-muted",
-              "rounded-full flex flex-shrink items-center max-w-fit gap-1 font-medium pl-2 pr-3 py-1 transition-all hover:scale-105"
+              "rounded-full flex flex-shrink items-center max-w-fit gap-1  pl-2 pr-3 py-1 transition-all hover:scale-105"
             )}
             role="button"
           >

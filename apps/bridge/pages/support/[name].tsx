@@ -194,13 +194,13 @@ export default function Support({
               alt={rollupChain}
               className="w-24 h-24 rounded-full"
             />
-            <h1 className="font-bold text-6xl tracking-tighter text-center">
+            <h1 className="font-bold text-6xl  text-center">
               {rollupChain}
               <br />
               FAQs &amp; Support
             </h1>
             <Link
-              className="rounded-full shadow-sm bg-white dark:bg-zinc-800 text-sm font-medium tracking-tighter py-2 px-4 hover:scale-105 transition-transform cursor-pointer grow-0 flex items-center leading-4"
+              className="rounded-full shadow-sm bg-white dark:bg-zinc-800 text-sm   py-2 px-4 hover:scale-105 transition-transform cursor-pointer grow-0 flex items-center leading-4"
               href="/support"
             >
               <svg

@@ -53,7 +53,7 @@ export const NonFungibleTokenPicker = ({
           spellCheck="false"
           name="token"
           id="token"
-          // className="bg-muted block w-full rounded-lg border-0 py-3 px-4 pr-10 text-sm font-medium  outline-0 ring-0 placeholder:text-muted-foreground sm:leading-6"
+          // className="bg-muted block w-full rounded-lg border-0 py-3 px-4 pr-10 text-sm   outline-0 ring-0 placeholder:text-muted-foreground sm:leading-6"
           placeholder="Search"
         />
       </div>

@@ -133,15 +133,13 @@ export const CustomTokenImportModal = () => {
         <div className="p-6 pb-0">
           <div className="flex gap-2 items-center">
             <div className="rounded-full bg-zinc-100 dark:bg-zinc-800 h-10 w-10 flex items-center justify-center">
-              <span className="text-[10px] tracking-tight font-bold text-muted-foreground leading-4 mt-0.5">
+              <span className="text-[10px]  font-bold text-muted-foreground leading-4 mt-0.5">
                 {symbol?.substring(0, 3)}
               </span>
             </div>
             <div className="flex flex-col gap-1">
-              <h3 className="text-xl tracking-tight font-bold leading-4">
-                {name}
-              </h3>
-              <p className="text-sm tracking-tight font-bold text-muted-foreground leading-4">
+              <h3 className="text-xl  font-bold leading-4">{name}</h3>
+              <p className="text-sm  font-bold text-muted-foreground leading-4">
                 {symbol}
               </p>
             </div>
@@ -150,9 +148,7 @@ export const CustomTokenImportModal = () => {
         <div className="p-6">
           <div className="border  rounded-[16px]">
             <div className="flex gap-4 p-4 border-b">
-              <p className="font-medium text-sm">
-                {t("tokens.customImportCheck")}
-              </p>
+              <p className=" text-sm">{t("tokens.customImportCheck")}</p>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="12"
@@ -185,7 +181,7 @@ export const CustomTokenImportModal = () => {
             </div>
             <div className="p-4 border-b">
               <div className="flex justify-between">
-                <h4 className="font-medium text-sm">
+                <h4 className=" text-sm">
                   {t(
                     isL3 ? "tokens.customL2Address" : "tokens.customL1Address"
                   )}
@@ -193,18 +189,18 @@ export const CustomTokenImportModal = () => {
                 <a
                   target="_blank"
                   href={l1Link.link}
-                  className={`text-xs tracking-tight font-medium leading-3 rounded-full px-2 py-1 hover:scale-105 transition-all `}
+                  className={`text-xs   leading-3 rounded-full px-2 py-1 hover:scale-105 transition-all `}
                 >
                   {l1Link.name} →
                 </a>
               </div>
-              <span className="font-medium text-xs text-muted-foreground break-words leading-3">
+              <span className=" text-xs text-muted-foreground break-words leading-3">
                 {OP_L1_TOKEN ?? ARB_L1_TOKEN}
               </span>
             </div>
             <div className="p-4">
               <div className="flex justify-between">
-                <h4 className="font-medium text-sm">
+                <h4 className=" text-sm">
                   {t(
                     isL3 ? "tokens.customL3Address" : "tokens.customL2Address"
                   )}
@@ -212,12 +208,12 @@ export const CustomTokenImportModal = () => {
                 <a
                   target="_blank"
                   href={l2Link.link}
-                  className={`text-xs tracking-tight font-medium leading-3 rounded-full px-2 py-1 hover:scale-105 transition-all `}
+                  className={`text-xs   leading-3 rounded-full px-2 py-1 hover:scale-105 transition-all `}
                 >
                   {l2Link.name} →
                 </a>
               </div>
-              <span className="font-medium text-xs text-muted-foreground break-words leading-3">
+              <span className=" text-xs text-muted-foreground break-words leading-3">
                 {open}
               </span>
             </div>
@@ -230,7 +226,7 @@ export const CustomTokenImportModal = () => {
             />
             <label
               htmlFor="importAgree"
-              className="text-[11px] text-muted-foreground tracking-tight"
+              className="text-[11px] text-muted-foreground "
             >
               {t("customTokenLists.disclaimer", { app: metadata.title })}
             </label>

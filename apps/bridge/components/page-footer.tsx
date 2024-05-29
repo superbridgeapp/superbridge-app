@@ -18,39 +18,39 @@ const PageFooter = () => {
         alt={"Superbridge Logo"}
         className="hidden dark:inline-flex w-32 h-32"
       />
-      <h1 className="font-black text-zinc-900 dark:text-white text-3xl uppercase text-center tracking-tighter">
+      <h1 className="font-black text-zinc-900 dark:text-white text-3xl uppercase text-center ">
         Superbridge
       </h1>
       <div className="flex gap-2 mt-6 flex-wrap justify-center">
         <Link
-          className="rounded-full shadow-sm bg-white dark:bg-zinc-800 text-sm font-medium tracking-tighter py-2 px-4 hover:scale-105 transition-transform cursor-pointer grow-0 flex items-center leading-4"
+          className="rounded-full shadow-sm bg-white dark:bg-zinc-800 text-sm   py-2 px-4 hover:scale-105 transition-transform cursor-pointer grow-0 flex items-center leading-4"
           href="https://superbridge.app/docs"
           target="_blank"
         >
           Docs
         </Link>
         <Link
-          className="rounded-full shadow-sm bg-white dark:bg-zinc-800 text-sm font-medium tracking-tighter py-2 px-4 hover:scale-105 transition-transform cursor-pointer grow-0 flex items-center leading-4"
+          className="rounded-full shadow-sm bg-white dark:bg-zinc-800 text-sm   py-2 px-4 hover:scale-105 transition-transform cursor-pointer grow-0 flex items-center leading-4"
           href="/support"
         >
           Support
         </Link>
         <Link
-          className="rounded-full shadow-sm bg-white dark:bg-zinc-800 text-sm font-medium tracking-tighter py-2 px-4 hover:scale-105 transition-transform cursor-pointer grow-0 flex items-center leading-4"
+          className="rounded-full shadow-sm bg-white dark:bg-zinc-800 text-sm   py-2 px-4 hover:scale-105 transition-transform cursor-pointer grow-0 flex items-center leading-4"
           href="https://github.com/superbridgeapp"
           target="_blank"
         >
           GitHub
         </Link>
         <Link
-          className="rounded-full shadow-sm bg-white dark:bg-zinc-800 text-sm font-medium tracking-tighter py-2 px-4 hover:scale-105 transition-transform cursor-pointer grow-0 flex items-center leading-4"
+          className="rounded-full shadow-sm bg-white dark:bg-zinc-800 text-sm   py-2 px-4 hover:scale-105 transition-transform cursor-pointer grow-0 flex items-center leading-4"
           href="https://x.com/superbridgeapp"
           target="_blank"
         >
           x.com
         </Link>
         <Link
-          className="rounded-full shadow-sm bg-white dark:bg-zinc-800 text-sm font-medium tracking-tighter py-2 px-4 hover:scale-105 transition-transform cursor-pointer grow-0 flex items-center leading-4"
+          className="rounded-full shadow-sm bg-white dark:bg-zinc-800 text-sm   py-2 px-4 hover:scale-105 transition-transform cursor-pointer grow-0 flex items-center leading-4"
           href="https://warpcast.com/superbridge"
           target="_blank"
         >

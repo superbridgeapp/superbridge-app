@@ -32,9 +32,7 @@ export const LegalModal = () => {
       <DialogContent>
         <div className="flex flex-col gap-6 p-6 pt-8">
           <div className="flex flex-col gap-2">
-            <h1 className="font-bold text-2xl tracking-tight">
-              {t("legal.title")}
-            </h1>
+            <h1 className="font-bold text-2xl ">{t("legal.title")}</h1>
           </div>
           <div className="flex flex-col gap-2">
             {deployment?.tos?.customTermsOfService && (

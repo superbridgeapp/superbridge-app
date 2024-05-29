@@ -230,7 +230,7 @@ const TransactionProgressRow = ({
               ></path>
             </svg>
           )}
-          <span className="text-xs font-medium">{item.label}</span>
+          <span className="text-xs ">{item.label}</span>
           {item.link && (
             // arrow
             <svg
@@ -252,7 +252,7 @@ const TransactionProgressRow = ({
       </Wrapper>
 
       {item.time && (
-        <div className="bg-muted rounded-full font-medium text-sm py-1 px-2 space-x-1 flex items-center whitespace-nowrap">
+        <div className="bg-muted rounded-full  text-sm py-1 px-2 space-x-1 flex items-center whitespace-nowrap">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             data-name="Layer 2"
@@ -269,7 +269,7 @@ const TransactionProgressRow = ({
             </g>
           </svg>
 
-          <div className="text-xs font-medium">{item.time}</div>
+          <div className="text-xs ">{item.time}</div>
         </div>
       )}
       {item.buttonComponent === ButtonComponent.Prove &&
@@ -554,12 +554,12 @@ export const TransactionRow = ({ tx }: { tx: Transaction }) => {
         )}
       </div>
 
-      <div className="w-full font-medium">
+      <div className="w-full ">
         <div
           className="flex flex-col gap-1 cursor-pointer"
           onClick={() => setExpanded((e) => !e)}
         >
-          <div className="flex justify-between font-medium text-sm">
+          <div className="flex justify-between  text-sm">
             <span>{config.title}</span>
             <div className="flex items-center gap-2">
               {tx.type === "cctp-bridge" && <CctpBadge />}
@@ -576,7 +576,7 @@ export const TransactionRow = ({ tx }: { tx: Transaction }) => {
                 height={12}
                 width={12}
               />
-              <span className="text-xs font-medium">{from.name}</span>
+              <span className="text-xs ">{from.name}</span>
             </div>
             <div className="mx-2">
               <svg
@@ -599,7 +599,7 @@ export const TransactionRow = ({ tx }: { tx: Transaction }) => {
                 height={12}
                 width={12}
               />
-              <span className="text-xs font-medium">{to.name}</span>
+              <span className="text-xs ">{to.name}</span>
             </div>
             <button className="ml-auto">
               <svg

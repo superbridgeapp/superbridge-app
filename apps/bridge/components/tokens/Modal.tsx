@@ -42,7 +42,7 @@ export const TokenModal = (props: {
                   onClick={() => setNfts((n) => !n)}
                 >
                   <span
-                    className={`text-xs text-center font-medium inline-flex ${
+                    className={`text-xs text-center  inline-flex ${
                       !nfts ? "text-primary" : "bg-transparent"
                     }`}
                   >
@@ -57,7 +57,7 @@ export const TokenModal = (props: {
                   onClick={() => setNfts((n) => !n)}
                 >
                   <span
-                    className={`text-xs text-center font-medium inline-flex ${
+                    className={`text-xs text-center  inline-flex ${
                       nfts ? "text-primary" : "text-muted-foreground"
                     }`}
                   >
