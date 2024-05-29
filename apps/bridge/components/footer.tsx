@@ -42,7 +42,10 @@ export function Footer() {
       : [
           ...(deployments.deployments[0]?.theme?.links ?? []),
           {
-            url: `https://superbridge.app/support/${deployments.deployments[0].name}`,
+            url:
+              deployments.deployments[0].name === "gravity-mainnet"
+                ? "https://discord.gg/GravityChain"
+                : `https://superbridge.app/support/${deployments.deployments[0].name}`,
             label: t("support"),
           },
           {
