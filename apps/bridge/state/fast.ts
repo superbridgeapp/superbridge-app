@@ -7,10 +7,11 @@ import { MultiChainToken } from "@/types/token";
 
 import { CustomTokenList } from "./settings";
 
-interface ConfigState {
-  withdrawing: boolean;
-  toggleWithdrawing: () => void;
-  setWithdrawing: (b: boolean) => void;
+interface FastState {
+  fromChainId: number;
+  setFromChainId: (id: number) => void;
+  toChainId: number;
+  setToChainId: (id: number) => void;
 
   displayConfirmationModal: boolean;
   setDisplayConfirmationModal: (x: boolean) => void;
@@ -20,17 +21,6 @@ interface ConfigState {
 
   legalModal: boolean;
   setLegalModal: (x: boolean) => void;
-
-  fast: boolean;
-  setFast: (x: boolean) => void;
-
-  forceViaL1: boolean;
-  toggleForceViaL1: () => void;
-  setForceViaL1: (b: boolean) => void;
-
-  easyMode: boolean;
-  toggleEasyMode: () => void;
-  setEasyMode: (b: boolean) => void;
 
   token: MultiChainToken | null;
   setToken: (token: MultiChainToken | null) => void;
@@ -68,21 +58,16 @@ interface ConfigState {
   setArbitrumCustomGasTokens: (b: (MultiChainToken | null)[]) => void;
 }
 
-const ConfigState = create<ConfigState>()((set) => ({
-  withdrawing: false,
-  toggleWithdrawing: () => set((s) => ({ withdrawing: !s.withdrawing })),
-  setWithdrawing: (withdrawing) => set({ withdrawing }),
+const FastState = create<FastState>()((set, get) => ({
+  // todo: inject available domains so we can
+  // switch between when you click the same
+  fromChainId: 1,
+  toChainId: 10,
 
-  fast: false,
-  setFast: (fast: boolean) => set({ fast }),
-
-  forceViaL1: false,
-  toggleForceViaL1: () => set((s) => ({ forceViaL1: !s.forceViaL1 })),
-  setForceViaL1: (forceViaL1) => set({ forceViaL1 }),
-
-  easyMode: false,
-  toggleEasyMode: () => set((s) => ({ easyMode: !s.easyMode })),
-  setEasyMode: (easyMode) => set({ easyMode }),
+  setFromChainId: (fromChainId) => {
+    set({ fromChainId });
+  },
+  setToChainId: (toChainId) => set({ toChainId }),
 
   token: null,
   setToken: (token) => set({ token, nft: null }),
@@ -136,4 +121,4 @@ const ConfigState = create<ConfigState>()((set) => ({
     set({ arbitrumCustomGasTokens }),
 }));
 
-export const useConfigState = createSelectorHooks(ConfigState);
+export const useFastState = createSelectorHooks(FastState);

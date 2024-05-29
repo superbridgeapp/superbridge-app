@@ -6,9 +6,12 @@ import { useDeployment } from "@/hooks/use-deployment";
 import { useDeployments } from "@/hooks/use-deployments";
 import { useToggleWithdrawing } from "@/hooks/use-toggle-withdrawing";
 import { useConfigState } from "@/state/config";
+import { Checkbox } from "./ui/checkbox";
 
 export const BridgeHeader = () => {
   const withdrawing = useConfigState.useWithdrawing();
+  const fast = useConfigState.useFast();
+  const setFast = useConfigState.useSetFast();
   const deployment = useDeployment();
   const toggleWithdrawing = useToggleWithdrawing();
   const { resolvedTheme } = useTheme();
@@ -117,6 +120,14 @@ export const BridgeHeader = () => {
                   </span>
                 </div>
               </div>
+            </div>
+
+            <div>
+              <div className="text-xs">Fast Mode</div>
+              <Checkbox
+                checked={fast}
+                onCheckedChange={(e) => setFast(e as boolean)}
+              />
             </div>
           </>
         )}

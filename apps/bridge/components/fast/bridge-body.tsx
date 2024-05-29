@@ -24,7 +24,7 @@ import { useApproveNft } from "@/hooks/use-approve-nft";
 import { useTokenBalance } from "@/hooks/use-balances";
 import { useBridge } from "@/hooks/use-bridge";
 import { useBridgeFee } from "@/hooks/use-bridge-fee";
-import { useFromChain, useToChain } from "@/hooks/use-chain";
+import { useFromChain, useToChain } from "@/hooks/fast/use-chain";
 import { useIsCustomToken } from "@/hooks/use-is-custom-token";
 import { useIsCustomTokenFromList } from "@/hooks/use-is-custom-token-from-list";
 import { useNativeToken } from "@/hooks/use-native-token";
@@ -44,21 +44,19 @@ import { isNativeUsdc } from "@/utils/is-usdc";
 import { useBridgeLimit } from "@/hooks/use-bridge-limit";
 import { useDeployment } from "@/hooks/use-deployment";
 
-import { FromTo } from "./FromTo";
-import { AddressModal } from "./address-modal";
-import { ConfirmationModal } from "./confirmation-modal";
-import { CctpBadge } from "./cttp-badge";
-import { DepositFees } from "./fees/deposit-fees";
-import { WithdrawFees } from "./fees/withdraw-fees";
-import { NftImage } from "./nft";
-import { TokenIcon } from "./token-icon";
-import { TokenModal } from "./tokens/Modal";
-import { CustomTokenImportModal } from "./tokens/custom-token-import-modal";
-import { Button } from "./ui/button";
-import { WithdrawSettingsModal } from "./withdraw-settings/modal";
-import { NoGasModal } from "./no-gas-modal";
-import { FastFromTo } from "./fast/FromTo";
-import { useAcrossQuote } from "@/hooks/across/use-across-quote";
+import { FastFromTo } from "./FromTo";
+import { AddressModal } from "../address-modal";
+import { ConfirmationModal } from "../confirmation-modal";
+import { CctpBadge } from "../cttp-badge";
+import { DepositFees } from "../fees/deposit-fees";
+import { WithdrawFees } from "../fees/withdraw-fees";
+import { NftImage } from "../nft";
+import { TokenIcon } from "../token-icon";
+import { TokenModal } from "../tokens/Modal";
+import { CustomTokenImportModal } from "../tokens/custom-token-import-modal";
+import { Button } from "../ui/button";
+import { WithdrawSettingsModal } from "../withdraw-settings/modal";
+import { NoGasModal } from "../no-gas-modal";
 
 const RecipientAddress = ({
   openAddressDialog,
@@ -127,7 +125,7 @@ const RecipientAddress = ({
   );
 };
 
-export const BridgeBody = () => {
+export const FastBridgeBody = () => {
   const { openConnectModal } = useConnectModal();
   const wallet = useWalletClient();
   const account = useAccount();
@@ -152,9 +150,7 @@ export const BridgeBody = () => {
   const withdrawing = useConfigState.useWithdrawing();
   const rawAmount = useConfigState.useRawAmount();
   const stateToken = useConfigState.useToken();
-  const forceViaL1 = useConfigState.useForceViaL1();
   const setRawAmount = useConfigState.useSetRawAmount();
-  const fast = useConfigState.useFast();
   const nft = useConfigState.useNft();
   const recipient = useConfigState.useRecipientAddress();
   const setToken = useConfigState.useSetToken();
@@ -167,13 +163,9 @@ export const BridgeBody = () => {
   const bridgeLimit = useBridgeLimit();
   const track = useBridgeControllerTrack();
 
-  console.log(useAcrossQuote().data);
-
-  const initiatingChainId =
-    forceViaL1 && withdrawing ? deployment?.l1.id : from?.id;
   const fromEthBalance = useBalance({
     address: account.address,
-    chainId: initiatingChainId,
+    chainId: from?.id,
   });
   const toEthBalance = useBalance({
     address: account.address,
@@ -181,7 +173,7 @@ export const BridgeBody = () => {
   });
   const tokenBalance = useTokenBalance(token);
   const feeData = useEstimateFeesPerGas({
-    chainId: initiatingChainId,
+    chainId: from?.id,
   });
   const wagmiConfig = useConfig();
 
@@ -222,21 +214,19 @@ export const BridgeBody = () => {
   const isCustomTokenFromList = useIsCustomTokenFromList(stateToken);
 
   const onWrite = async () => {
-    if (!account.address || !wallet.data || !bridge.valid || !recipient) {
+    if (
+      !account.address ||
+      !wallet.data ||
+      !bridge.valid ||
+      !recipient ||
+      !from
+    ) {
       console.warn("Missing connected account");
       return;
     }
 
-    if (!withdrawing && account.chainId !== deployment!.l1.id) {
-      await switchChain(deployment!.l1);
-    }
-
-    if (withdrawing && forceViaL1 && account.chainId !== deployment!.l1.id) {
-      await switchChain(deployment!.l1);
-    }
-
-    if (!forceViaL1 && withdrawing && account.chainId !== deployment!.l2.id) {
-      await switchChain(deployment!.l2);
+    if (account.chainId !== from.id) {
+      await switchChain(from);
     }
 
     if (statusCheck) {
@@ -247,11 +237,7 @@ export const BridgeBody = () => {
       const hash = await bridge.write!();
       waitForTransactionReceipt(wagmiConfig, {
         hash,
-        chainId: withdrawing
-          ? forceViaL1
-            ? deployment!.l1.id
-            : deployment?.l2.id
-          : deployment?.l1.id,
+        chainId: from.id,
         onReplaced: ({ replacedTransaction, transaction }) => {
           updatePendingTransactionHash(
             replacedTransaction.hash,
@@ -259,18 +245,18 @@ export const BridgeBody = () => {
           );
         },
       });
-      track.mutate({
-        data: {
-          amount: weiAmount.toString(),
-          deploymentId: deployment!.id,
-          transactionHash: hash,
-          action: withdrawing
-            ? forceViaL1
-              ? "force-withdraw"
-              : "withdraw"
-            : "deposit",
-        },
-      });
+      // track.mutate({
+      //   data: {
+      //     amount: weiAmount.toString(),
+      //     deploymentId: deployment!.id,
+      //     transactionHash: hash,
+      //     action: withdrawing
+      //       ? forceViaL1
+      //         ? "force-withdraw"
+      //         : "withdraw"
+      //       : "deposit",
+      //   },
+      // });
 
       const pending = buildPendingTx(
         deployment!,
@@ -281,7 +267,7 @@ export const BridgeBody = () => {
         nft,
         withdrawing,
         hash,
-        forceViaL1
+        false
       );
       if (pending) addPendingTransaction(pending);
 
@@ -335,6 +321,7 @@ export const BridgeBody = () => {
     },
   ].filter(isPresent);
 
+  console.log(token);
   const initiateBridge = async () => {
     await onWrite();
     allowance.refetch();
@@ -363,9 +350,6 @@ export const BridgeBody = () => {
   };
 
   const submitButton = match({
-    disabled:
-      (deployment?.name === "orb3-mainnet" && !withdrawing) ||
-      deployment?.name === "surprised-harlequin-bonobo-fvcy2k9oqh",
     withdrawing,
     isSubmitting: bridge.isLoading,
     account: account.address,
@@ -377,11 +361,6 @@ export const BridgeBody = () => {
     limitExceeded:
       typeof bridgeLimit !== "undefined" && weiAmount > bridgeLimit,
   })
-    .with({ disabled: true }, ({ withdrawing }) => ({
-      onSubmit: () => {},
-      buttonText: withdrawing ? "Withdrawals disabled" : t("depositDisabled"),
-      disabled: true,
-    }))
     .with({ account: undefined }, () => ({
       onSubmit: () => openConnectModal?.(),
       buttonText: t("connectWallet"),
@@ -472,8 +451,7 @@ export const BridgeBody = () => {
           initiateBridge();
         }}
       />
-
-      {fast ? <FastFromTo /> : <FromTo />}
+      <FastFromTo />
 
       {token ? (
         <div
@@ -578,47 +556,6 @@ export const BridgeBody = () => {
             </div>
           </div>
         </div>
-      ) : nft ? (
-        <>
-          <div
-            className={`relative rounded-[16px] px-4 py-3 border-2 border-transparent focus-within:border-border transition-colors bg-muted `}
-          >
-            <label
-              htmlFor="amount"
-              className={`block text-xs font-medium leading-6 text-foreground`}
-            >
-              {withdrawing ? t("withdraw") : t("deposit")}
-            </label>
-            <div className="relative">
-              <div
-                className="flex justify-between items-center gap-2 cursor-pointer group"
-                onClick={() => setTokensDialog(true)}
-                role="button"
-              >
-                <div className="flex gap-2  items-center ">
-                  <NftImage nft={nft} className="h-12 w-12 rounded-lg" />
-                  <div className="flex flex-col gap-0">
-                    <div>#{nft.tokenId}</div>
-                    <div className="text-xs">{nft.name}</div>
-                  </div>
-                </div>
-                <div
-                  className={`flex h-8 w-8 justify-center rounded-full p-2 items-center font-medium transition-all group-hover:scale-105 text-foreground bg-card`}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width={14}
-                    height={14}
-                    className={`w-3.5 h-3.5 fill-zinc-900 dark:fill-zinc-50 `}
-                    viewBox="0 0 16 16"
-                  >
-                    <path d="M13.53 6.031l-5 5a.75.75 0 01-1.062 0l-5-5A.751.751 0 113.531 4.97L8 9.439l4.47-4.47a.751.751 0 011.062 1.062h-.001z"></path>
-                  </svg>
-                </div>
-              </div>
-            </div>
-          </div>
-        </>
       ) : null}
 
       <div
