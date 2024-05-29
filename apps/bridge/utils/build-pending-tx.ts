@@ -17,7 +17,7 @@ import { MultiChainToken } from "@/types/token";
 import { isEth } from "@/utils/is-eth";
 import { isArbitrum, isOptimism } from "@/utils/is-mainnet";
 
-import { isCctpBridgeOperation } from "./transaction-args/cctp-args/common";
+import { isCctpBridgeOperation } from "../hooks/transaction-args/cctp-args/common";
 
 export const buildPendingTx = (
   deployment: DeploymentDto,

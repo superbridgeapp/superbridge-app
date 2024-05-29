@@ -1,0 +1,122 @@
+import { Address, encodeFunctionData } from "viem";
+
+import { L2StandardBridgeAbi } from "@/abis/L2StandardBridge";
+
+import { L2ToL1MessagePasserAbi } from "@/abis/L2ToL1MessagePasser";
+import { useGasToken } from "@/hooks/use-approve-gas-token";
+import { useDeployment } from "@/hooks/use-deployment";
+import { useGraffiti } from "@/hooks/use-graffiti";
+import { useConfigState } from "@/state/config";
+import { isOptimismToken } from "../../../utils/guards";
+import { isEth } from "../../../utils/is-eth";
+import { isOptimism } from "../../../utils/is-mainnet";
+
+export const useOptimismWithdrawArgs = () => {
+  const deployment = useDeployment();
+  const stateToken = useConfigState.useToken();
+  const recipientAddress = useConfigState.useRecipientAddress();
+  const gasToken = useGasToken();
+  const graffiti = useGraffiti();
+
+  const l1Token = stateToken?.[deployment?.l1.id ?? 0];
+  const l2Token = stateToken?.[deployment?.l2.id ?? 0];
+
+  if (
+    !deployment ||
+    !l1Token ||
+    !l2Token ||
+    !isOptimismToken(l1Token) ||
+    !isOptimismToken(l2Token) ||
+    !isOptimism(deployment) ||
+    typeof l2TokenIsLegacy === "undefined"
+  ) {
+    return;
+  }
+
+  // if (options.forceViaL1) {
+  //   return forceTransaction(deployment, result);
+  // }
+
+  // standard bridge
+  if (isEth(l2Token)) {
+    if (gasToken) {
+      return {
+        approvalAddress: undefined,
+        tx: {
+          to: deployment.contractAddresses.l2.L2ToL1MessagePasser as Address,
+          data: encodeFunctionData({
+            abi: L2ToL1MessagePasserAbi,
+            functionName: "initiateWithdrawal",
+            args: [
+              recipientAddress, // _to
+              BigInt(200_000), // _gasLimit
+              graffiti, // _extraData
+            ],
+          }),
+          value: weiAmount,
+          chainId: deployment.l2.id,
+        },
+      };
+    }
+    return {
+      approvalAddress: undefined,
+      tx: {
+        to: deployment.contractAddresses.l2.L2StandardBridge as Address,
+        data: encodeFunctionData({
+          abi: L2StandardBridgeAbi,
+          functionName: "bridgeETHTo",
+          args: [
+            recipient, // _to
+            200_000, // _gas
+            graffiti, // _extraData
+          ],
+        }),
+        value: weiAmount,
+        chainId: deployment.l2.id,
+      },
+    };
+  }
+
+  if (l2TokenIsLegacy) {
+    return {
+      approvalAddress: l2Token.standardBridgeAddresses[deployment.l1.id]!,
+      tx: {
+        to: l2Token.standardBridgeAddresses[deployment.l1.id]!,
+        data: encodeFunctionData({
+          abi: L2StandardBridgeAbi,
+          functionName: "withdrawTo",
+          args: [
+            l2Token.address, // _localToken
+            recipient, // _to
+            weiAmount, // _amount
+            200_000, // _minGasLimit
+            graffiti, // _extraData
+          ],
+        }),
+        value: BigInt(0),
+        chainId: deployment.l2.id,
+      },
+    };
+  }
+
+  return {
+    approvalAddress: l2Token.standardBridgeAddresses[deployment.l1.id]!,
+    tx: {
+      to: l2Token.standardBridgeAddresses[deployment.l1.id]!,
+      data: encodeFunctionData({
+        abi: L2StandardBridgeAbi,
+        functionName: "bridgeERC20To",
+        args: [
+          l2Token.address, // _localToken
+          l1Token.address, // _remoteToken
+          recipient, // _to
+          weiAmount, // _amount
+          200_000, // _minGasLimit
+          graffiti, // _extraData
+        ],
+      }),
+      value: BigInt(0),
+      chainId: deployment.l2.id,
+    },
+  };
+};

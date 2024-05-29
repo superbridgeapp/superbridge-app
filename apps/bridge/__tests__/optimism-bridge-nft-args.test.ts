@@ -3,7 +3,7 @@ import { expect, test } from "vitest";
 
 import { L1ERC721BridgeAbi } from "@/abis/L1ERC721Bridge";
 import { GRAFFITI } from "@/constants/extra-data";
-import { optimismBridgeNftArgs } from "@/utils/transaction-args/nft-args/optimism-bridge-nft-args";
+import { optimismBridgeNftArgs } from "@/hooks/transaction-args/nft-args/optimism-bridge-nft-args";
 
 import { deployments, getAddress } from "./constants";
 

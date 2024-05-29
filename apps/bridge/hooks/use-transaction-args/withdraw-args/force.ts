@@ -3,7 +3,7 @@ import { Address, encodeFunctionData } from "viem";
 import { OptimismPortalAbi } from "@/abis/OptimismPortal";
 import { OptimismDeploymentDto } from "@/utils/is-mainnet";
 
-import { TransactionArgs } from "./types";
+import { TransactionArgs } from "../types";
 
 export function forceTransaction(
   deployment: OptimismDeploymentDto,

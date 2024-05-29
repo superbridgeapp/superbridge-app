@@ -5,7 +5,7 @@ import { FetchFeeDataResult } from "@wagmi/core";
 import { InboxAbi } from "@/abis/arbitrum/Inbox";
 import { L1BridgeArbitrum } from "@/abis/arbitrum/L1Bridge";
 import { L1GatewayRouterAbi } from "@/abis/arbitrum/L1GatewayRouter";
-import { arbitrumDepositArgs } from "@/utils/transaction-args/deposit-args/arbitrum-deposit-args";
+import { arbitrumDepositArgs } from "@/hooks/transaction-args/deposit-args/arbitrum-deposit-args";
 
 import {
   chainIds,

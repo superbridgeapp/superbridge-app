@@ -7,7 +7,7 @@ import {
   hyperlaneDomains,
 } from "@/constants/hyperlane";
 import { useConfigState } from "@/state/config";
-import { isCctpBridgeOperation } from "@/utils/transaction-args/cctp-args/common";
+import { isCctpBridgeOperation } from "@/hooks/transaction-args/cctp-args/common";
 
 import { useDeployment } from "../use-deployment";
 
