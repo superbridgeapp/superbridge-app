@@ -21,7 +21,6 @@ import { useDeployment } from "@/hooks/use-deployment";
 import { useDeployments } from "@/hooks/use-deployments";
 import { InjectedStoreProvider } from "@/state/injected";
 import { ThemeProvider } from "@/state/theme";
-import { FastBridge } from "@/components/fast/bridge";
 
 export const SUPERCHAIN_MAINNETS = [
   "optimism",
@@ -180,14 +179,10 @@ function Index() {
   const deployment = useDeployment();
   const { deployments } = useDeployments();
 
-  const router = useRouter();
-
   return (
     <PageTransition key={"index"}>
       <AnimatePresence mode="sync">
-        {router.asPath === "/fast" ? (
-          <FastBridge key={"fast-bridge"} />
-        ) : deployment ? (
+        {deployment ? (
           <PageTransition key={"bridge"}>
             <Bridge key={"bridge"} />
           </PageTransition>

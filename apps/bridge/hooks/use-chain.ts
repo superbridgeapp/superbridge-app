@@ -20,9 +20,10 @@ export const useFromChain = () => {
   const fastFromChainId = useFastState.useFromChainId();
   const deployment = useDeployment();
   const withdrawing = useConfigState.useWithdrawing();
+  const fastFromChain = useChain(fastFromChainId);
 
   if (fast) {
-    return useChain(fastFromChainId);
+    return fastFromChain;
   }
   return withdrawing ? deployment?.l2 : deployment?.l1;
 };
@@ -32,9 +33,10 @@ export const useToChain = () => {
   const fastToChainId = useFastState.useToChainId();
   const deployment = useDeployment();
   const withdrawing = useConfigState.useWithdrawing();
+  const fastToChain = useChain(fastToChainId);
 
   if (fast) {
-    return useChain(fastToChainId);
+    return fastToChain;
   }
 
   return withdrawing ? deployment?.l1 : deployment?.l2;
