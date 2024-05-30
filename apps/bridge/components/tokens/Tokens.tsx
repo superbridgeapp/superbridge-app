@@ -35,6 +35,8 @@ const TokenComponent = ({
   const { t } = useTranslation();
   const selectedToken = useSelectedToken();
 
+  const fast = useConfigState.useFast();
+
   const isCustomToken = useIsCustomToken(token);
   const isCustomTokenFromList = useIsCustomTokenFromList(token);
 
@@ -53,7 +55,7 @@ const TokenComponent = ({
             <span className="text-sm font-bold">
               {token[from?.id ?? 0]?.name}
             </span>
-            {isNativeUsdc(token) && <CctpBadge />}
+            {isNativeUsdc(token) && !fast && <CctpBadge />}
           </div>
           <span className="text-xs font-medium text-muted-foreground">
             {token[from?.id ?? 0]?.symbol}
@@ -248,19 +250,27 @@ export const FungibleTokenPicker = ({
   const to = useToChain();
   const deployment = useDeployment();
   const setToken = useConfigState.useSetToken();
+  const fast = useConfigState.useFast();
   const tokens = useTokenBalances(from?.id);
   const { t } = useTranslation();
 
   const filteredTokens = tokens.data.filter(({ token }) => {
+    if (fast) {
+      return (
+        token[from?.id ?? 0]?.symbol === "USDC" ||
+        token[from?.id ?? 0]?.symbol === "ETH"
+      );
+    }
+
     if (search)
       return (
-        token[from?.id ?? 0]!.name.toLowerCase().includes(
-          search.toLowerCase()
-        ) ||
-        token[to?.id ?? 0]!.symbol.toLowerCase().includes(
-          search.toLowerCase()
-        ) ||
-        token[to?.id ?? 0]!.address.toLowerCase().includes(search.toLowerCase())
+        token[from?.id ?? 0]?.name
+          .toLowerCase()
+          .includes(search.toLowerCase()) ||
+        token[to?.id ?? 0]?.symbol
+          .toLowerCase()
+          .includes(search.toLowerCase()) ||
+        token[to?.id ?? 0]?.address.toLowerCase().includes(search.toLowerCase())
       );
     return true;
   });
@@ -273,56 +283,60 @@ export const FungibleTokenPicker = ({
   return (
     <>
       <div className="flex flex-col gap-2 p-4 border-b ">
-        <Input
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          type="text"
-          autoComplete="off"
-          autoCorrect="off"
-          spellCheck="false"
-          name="token"
-          id="token"
-          // className="bg-muted block w-full rounded-lg border-0 py-3 px-4 pr-10 text-sm font-medium  outline-none focus:ring-2 ring-inset ring-zinc-900/5 dark:ring-zinc-50/5 placeholder:text-muted-foreground sm:leading-6"
-          placeholder="Search"
-        />
+        {!fast && (
+          <Input
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            type="text"
+            autoComplete="off"
+            autoCorrect="off"
+            spellCheck="false"
+            name="token"
+            id="token"
+            // className="bg-muted block w-full rounded-lg border-0 py-3 px-4 pr-10 text-sm font-medium  outline-none focus:ring-2 ring-inset ring-zinc-900/5 dark:ring-zinc-50/5 placeholder:text-muted-foreground sm:leading-6"
+            placeholder="Search"
+          />
+        )}
 
         {/* highlighted tokens */}
-        <div className="flex flex-wrap items-center gap-1">
-          {[
-            "ETH",
-            "USDC",
-            "DAI",
-            "USDT",
-            // "rETH",
-            "BITCOIN", // HarryPotterObamaSonicInu
-            "WBTC",
-            "wstETH",
-          ]
-            .filter(Boolean)
-            .map((symbol) => {
-              const token = tokens.data.find(
-                (t) => t.token[deployment?.l2.id ?? 0]?.symbol === symbol
-              )?.token;
-              if (!token) {
-                return null;
-              }
-              return (
-                <div
-                  key={token[from?.id ?? 0]?.address ?? "0x"}
-                  className="border rounded-full flex items-center space-x-1 px-2 pr-3 py-1  cursor-pointer hover:bg-muted transition"
-                  onClick={() => onClickToken(token)}
-                >
-                  <img
-                    src={token[from?.id ?? 0]?.logoURI}
-                    className="h-5 w-5 rounded-full"
-                  />
-                  <span className="text-sm font-medium inline-flex">
-                    {token[from?.id ?? 0]?.symbol}
-                  </span>
-                </div>
-              );
-            })}
-        </div>
+        {!fast && (
+          <div className="flex flex-wrap items-center gap-1">
+            {[
+              "ETH",
+              "USDC",
+              "DAI",
+              "USDT",
+              // "rETH",
+              "BITCOIN", // HarryPotterObamaSonicInu
+              "WBTC",
+              "wstETH",
+            ]
+              .filter(Boolean)
+              .map((symbol) => {
+                const token = tokens.data.find(
+                  (t) => t.token[deployment?.l2.id ?? 0]?.symbol === symbol
+                )?.token;
+                if (!token) {
+                  return null;
+                }
+                return (
+                  <div
+                    key={token[from?.id ?? 0]?.address ?? "0x"}
+                    className="border rounded-full flex items-center space-x-1 px-2 pr-3 py-1  cursor-pointer hover:bg-muted transition"
+                    onClick={() => onClickToken(token)}
+                  >
+                    <img
+                      src={token[from?.id ?? 0]?.logoURI}
+                      className="h-5 w-5 rounded-full"
+                    />
+                    <span className="text-sm font-medium inline-flex">
+                      {token[from?.id ?? 0]?.symbol}
+                    </span>
+                  </div>
+                );
+              })}
+          </div>
+        )}
       </div>
 
       <div className="overflow-y-scroll flex flex-col basis-full">

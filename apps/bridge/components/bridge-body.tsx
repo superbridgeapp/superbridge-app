@@ -141,7 +141,6 @@ export const BridgeBody = () => {
   const transferTime = useTransferTime();
   const { t } = useTranslation();
 
-  const [tokensDialog, setTokensDialog] = useState(false);
   const [withdrawSettingsDialog, setWithdrawSettingsDialog] = useState(false);
   const [addressDialog, setAddressDialog] = useState(false);
   const [noGasModal, setNoGasModal] = useState(false);
@@ -152,7 +151,8 @@ export const BridgeBody = () => {
   const rawAmount = useConfigState.useRawAmount();
   const stateToken = useConfigState.useToken();
   const forceViaL1 = useConfigState.useForceViaL1();
-  const setRawAmount = useConfigState.useSetRawAmount();
+  const tokensModal = useConfigState.useTokensModal();
+  const setTokensModal = useConfigState.useSetTokensModal();
   const fast = useConfigState.useFast();
   const nft = useConfigState.useNft();
   const recipient = useConfigState.useRecipientAddress();
@@ -460,7 +460,7 @@ export const BridgeBody = () => {
 
   return (
     <div className="flex flex-col gap-3 md:gap-4 px-4 pb-4">
-      <TokenModal open={tokensDialog} setOpen={setTokensDialog} />
+      <TokenModal open={tokensModal} setOpen={setTokensModal} />
       <WithdrawSettingsModal
         open={withdrawSettingsDialog}
         setOpen={setWithdrawSettingsDialog}
@@ -502,7 +502,7 @@ export const BridgeBody = () => {
             <div className="relative">
               <div
                 className="flex justify-between items-center gap-2 cursor-pointer group"
-                onClick={() => setTokensDialog(true)}
+                onClick={() => setTokensModal(true)}
                 role="button"
               >
                 <div className="flex gap-2  items-center ">
