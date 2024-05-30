@@ -29,15 +29,14 @@ import {
 } from "@/hooks/use-finalization-period";
 import { useNativeToken, useToNativeToken } from "@/hooks/use-native-token";
 import { useTokenPrice } from "@/hooks/use-prices";
+import { useRequiredCustomGasTokenBalance } from "@/hooks/use-required-custom-gas-token-balance";
 import { useSelectedToken } from "@/hooks/use-selected-token";
 import { useSwitchChain } from "@/hooks/use-switch-chain";
-import { useArbitrumGasCostsInWei } from "@/hooks/use-transaction-args/deposit-args/use-arbitrum-deposit-args";
 import { useWeiAmount } from "@/hooks/use-wei-amount";
 import { useConfigState } from "@/state/config";
 import { useSettingsState } from "@/state/settings";
 import { Token } from "@/types/token";
 import { isNativeToken } from "@/utils/is-eth";
-import { isArbitrum } from "@/utils/is-mainnet";
 import { isNativeUsdc } from "@/utils/is-usdc";
 
 import { Button } from "../ui/button";
@@ -229,17 +228,11 @@ export const ConfirmationModal = ({
   const approved =
     typeof allowance.data !== "undefined" && allowance.data >= weiAmount;
 
-  const arbitrumGasCosts = useArbitrumGasCostsInWei().extraAmount;
-
-  /**
-   * If the it's an Arbitrum custom gas chain, we need to
-   */
-  const approvedGasToken = (() => {
-    if (typeof gasTokenAllowance.data === "undefined") return false;
-    if (!!deployment && isArbitrum(deployment))
-      return gasTokenAllowance.data >= arbitrumGasCosts;
-    return gasTokenAllowance.data >= weiAmount;
-  })();
+  const requiredCustomGasTokenBalance = useRequiredCustomGasTokenBalance();
+  const approvedGasToken =
+    typeof gasTokenAllowance.data !== "undefined" &&
+    !!requiredCustomGasTokenBalance &&
+    gasTokenAllowance.data > requiredCustomGasTokenBalance;
 
   const approveGasTokenButton = match({
     withdrawing,
@@ -752,7 +745,7 @@ export const ConfirmationModal = ({
           </div>
 
           <div className="flex flex-col gap-2">
-            {!withdrawing && gasToken && approveGasTokenButton && (
+            {approveGasTokenButton && (
               <Button
                 onClick={approveGasTokenButton.onSubmit}
                 disabled={
