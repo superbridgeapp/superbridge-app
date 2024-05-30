@@ -7,6 +7,7 @@ import { match } from "ts-pattern";
 import { formatUnits } from "viem";
 import { useAccount, useEstimateFeesPerGas } from "wagmi";
 
+import { DeploymentFamily } from "@/codegen/model";
 import { Checkbox } from "@/components/ui/checkbox";
 import { isSuperbridge } from "@/config/superbridge";
 import { currencySymbolMap } from "@/constants/currency-symbol-map";
@@ -30,11 +31,13 @@ import { useNativeToken, useToNativeToken } from "@/hooks/use-native-token";
 import { useTokenPrice } from "@/hooks/use-prices";
 import { useSelectedToken } from "@/hooks/use-selected-token";
 import { useSwitchChain } from "@/hooks/use-switch-chain";
+import { useArbitrumGasCostsInWei } from "@/hooks/use-transaction-args/deposit-args/use-arbitrum-deposit-args";
 import { useWeiAmount } from "@/hooks/use-wei-amount";
 import { useConfigState } from "@/state/config";
 import { useSettingsState } from "@/state/settings";
 import { Token } from "@/types/token";
 import { isNativeToken } from "@/utils/is-eth";
+import { isArbitrum } from "@/utils/is-mainnet";
 import { isNativeUsdc } from "@/utils/is-usdc";
 
 import { Button } from "../ui/button";
@@ -225,14 +228,34 @@ export const ConfirmationModal = ({
 
   const approved =
     typeof allowance.data !== "undefined" && allowance.data >= weiAmount;
-  const approvedGasToken =
-    typeof gasTokenAllowance.data !== "undefined" &&
-    gasTokenAllowance.data >= 1;
+
+  const arbitrumGasCosts = useArbitrumGasCostsInWei().extraAmount;
+
+  /**
+   * If the it's an Arbitrum custom gas chain, we need to
+   */
+  const approvedGasToken = (() => {
+    if (typeof gasTokenAllowance.data === "undefined") return false;
+    if (!!deployment && isArbitrum(deployment))
+      return gasTokenAllowance.data >= arbitrumGasCosts;
+    return gasTokenAllowance.data >= weiAmount;
+  })();
 
   const approveGasTokenButton = match({
+    withdrawing,
+    gasToken,
+    family: deployment?.family,
+    isNativeToken: !!stateToken && isNativeToken(stateToken),
     approved: approvedGasToken,
     approving: approveGasToken.isLoading,
   })
+    .with({ withdrawing: true }, () => null)
+    .with({ gasToken: null }, () => null)
+    .with({ family: undefined }, () => null)
+    .with(
+      { family: DeploymentFamily.optimism, isNativeToken: false },
+      () => null
+    )
     .with({ approving: true }, () => ({
       onSubmit: () => {},
       buttonText: t("confirmationModal.approvingGasToken"),
