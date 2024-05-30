@@ -440,7 +440,7 @@ export const ConfirmationModal = ({
       transformPeriodText(
         "confirmationModal.opCheckbox1Withdrawal",
         common,
-        totalBridgeTime
+        finalizationTime
       )
     )
     .with({ withdrawing: true, family: "arbitrum" }, () =>

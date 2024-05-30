@@ -1,18 +1,17 @@
 import { Address, encodeFunctionData, isAddress } from "viem";
-import { useAccount } from "wagmi";
 
 import { L1StandardBridgeAbi } from "@/abis/L1StandardBridge";
 import { OptimismPortalAbi } from "@/abis/OptimismPortal";
 import { useGasToken } from "@/hooks/use-approve-gas-token";
 import { useDeployment } from "@/hooks/use-deployment";
 import { useGraffiti } from "@/hooks/use-graffiti";
-import { useL2TokenIsLegacy } from "@/hooks/use-l2-token-is-legacy";
 import { useWeiAmount } from "@/hooks/use-wei-amount";
 import { useConfigState } from "@/state/config";
 import { isOptimismToken } from "@/utils/guards";
 import { isEth } from "@/utils/is-eth";
 import { OptimismDeploymentDto, isOptimism } from "@/utils/is-mainnet";
 
+import { isCctpBridgeOperation } from "../cctp-args/common";
 import { TransactionArgs } from "../types";
 
 const onlyHasNewMethods = (d: OptimismDeploymentDto) => {
@@ -38,7 +37,8 @@ export const useOptimismDepositArgs = (): TransactionArgs | undefined => {
     !isOptimismToken(l2Token) ||
     !isOptimism(deployment) ||
     !recipient ||
-    !isAddress(recipient)
+    !isAddress(recipient) ||
+    isCctpBridgeOperation(stateToken)
   ) {
     return;
   }

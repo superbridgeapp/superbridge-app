@@ -2,6 +2,7 @@ import { Address, encodeFunctionData } from "viem";
 
 import { L2StandardBridgeAbi } from "@/abis/L2StandardBridge";
 import { L2ToL1MessagePasserAbi } from "@/abis/L2ToL1MessagePasser";
+import { OptimismPortalAbi } from "@/abis/OptimismPortal";
 import { useGasToken } from "@/hooks/use-approve-gas-token";
 import { useDeployment } from "@/hooks/use-deployment";
 import { useGraffiti } from "@/hooks/use-graffiti";
@@ -12,7 +13,7 @@ import { isOptimismToken } from "@/utils/guards";
 import { isEth } from "@/utils/is-eth";
 import { isOptimism } from "@/utils/is-mainnet";
 
-export const useOptimismWithdrawArgs = () => {
+export const useOptimismWithdrawArgsImpl = () => {
   const stateToken = useConfigState.useToken();
   const recipientAddress = useConfigState.useRecipientAddress();
 
@@ -125,4 +126,40 @@ export const useOptimismWithdrawArgs = () => {
       chainId: deployment.l2.id,
     },
   };
+};
+
+export const useOptimismWithdrawArgs = () => {
+  const forceViaL1 = useConfigState.useForceViaL1();
+  const deployment = useDeployment();
+
+  const args = useOptimismWithdrawArgsImpl();
+
+  if (!args || !deployment || !isOptimism(deployment)) {
+    return;
+  }
+
+  if (forceViaL1) {
+    return {
+      approvalAddress: args.approvalAddress,
+      tx: {
+        to: deployment.contractAddresses.optimismPortal as Address,
+        data: encodeFunctionData({
+          abi: OptimismPortalAbi,
+          functionName: "depositTransaction",
+          args: [
+            args.tx.to,
+            args.tx.value,
+            BigInt(200_000),
+            false,
+            args.tx.data,
+          ],
+        }),
+        chainId: deployment.l1.id,
+        value: BigInt(0),
+        gas: BigInt("300000"),
+      },
+    };
+  }
+
+  return args;
 };
