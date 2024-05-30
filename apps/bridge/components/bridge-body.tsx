@@ -18,9 +18,9 @@ import {
 import { useBridgeControllerTrack } from "@/codegen";
 import { currencySymbolMap } from "@/constants/currency-symbol-map";
 import { useAllowance } from "@/hooks/use-allowance";
-import { useAllowanceNft } from "@/hooks/use-allowance-nft";
 import { useApprove } from "@/hooks/use-approve";
 import { useTokenBalance } from "@/hooks/use-balances";
+import { useBaseNativeTokenBalance } from "@/hooks/use-base-native-token-balance";
 import { useBridge } from "@/hooks/use-bridge";
 import { useBridgeLimit } from "@/hooks/use-bridge-limit";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
@@ -29,6 +29,7 @@ import { useIsCustomToken } from "@/hooks/use-is-custom-token";
 import { useIsCustomTokenFromList } from "@/hooks/use-is-custom-token-from-list";
 import { useNativeToken } from "@/hooks/use-native-token";
 import { useTokenPrice } from "@/hooks/use-prices";
+import { useRequiredCustomGasTokenBalance } from "@/hooks/use-required-custom-gas-token-balance";
 import { useSelectedToken } from "@/hooks/use-selected-token";
 import { useStatusCheck } from "@/hooks/use-status-check";
 import { useSwitchChain } from "@/hooks/use-switch-chain";
@@ -171,6 +172,7 @@ export const BridgeBody = () => {
     address: account.address,
     chainId: to?.id,
   });
+  const baseNativeTokenBalance = useBaseNativeTokenBalance();
   const tokenBalance = useTokenBalance(token);
   const feeData = useEstimateFeesPerGas({
     chainId: initiatingChainId,
@@ -178,7 +180,6 @@ export const BridgeBody = () => {
   const wagmiConfig = useConfig();
 
   const allowance = useAllowance(token, bridge.address);
-  const nftAllowance = useAllowanceNft();
 
   let networkFee: number | undefined;
   if (feeData.data) {
@@ -205,29 +206,38 @@ export const BridgeBody = () => {
     BigInt(parseUnits(networkFee.toFixed(18), 18)) >
       (fromEthBalance.data?.value ?? BigInt(0));
 
+  const requiredCustomGasTokenBalance = useRequiredCustomGasTokenBalance();
+  /**
+   * Transferring native gas token to rollup, need to make sure wei + extraAmount is < balance
+   * Transferring token to rollup, need to make sure extraAmount < balance
+   */
+  const hasInsufficientBaseNativeTokenBalance =
+    !!requiredCustomGasTokenBalance &&
+    !!baseNativeTokenBalance.data &&
+    requiredCustomGasTokenBalance > baseNativeTokenBalance.data;
+
   const isCustomToken = useIsCustomToken(stateToken);
   const isCustomTokenFromList = useIsCustomTokenFromList(stateToken);
 
   const onWrite = async () => {
-    if (!account.address || !wallet.data || !bridge.valid || !recipient) {
-      console.warn("Missing connected account");
+    if (
+      !account.address ||
+      !wallet.data ||
+      !bridge.valid ||
+      !bridge.args ||
+      !recipient ||
+      !deployment ||
+      statusCheck
+    ) {
       return;
     }
 
-    if (!withdrawing && account.chainId !== deployment!.l1.id) {
-      await switchChain(deployment!.l1);
-    }
-
-    if (withdrawing && forceViaL1 && account.chainId !== deployment!.l1.id) {
-      await switchChain(deployment!.l1);
-    }
-
-    if (!forceViaL1 && withdrawing && account.chainId !== deployment!.l2.id) {
-      await switchChain(deployment!.l2);
-    }
-
-    if (statusCheck) {
-      return;
+    const initiatingChain =
+      bridge.args.tx.chainId === deployment.l1.id
+        ? deployment.l1
+        : deployment.l2;
+    if (initiatingChain.id !== account.chainId) {
+      await switchChain(initiatingChain);
     }
 
     try {
@@ -358,6 +368,7 @@ export const BridgeBody = () => {
     account: account.address,
     hasInsufficientBalance,
     hasInsufficientGas,
+    hasInsufficientBaseNativeTokenBalance,
     nft,
     recipient,
     weiAmount,
@@ -416,6 +427,13 @@ export const BridgeBody = () => {
       // Let's not disable here because people could actually submit with
       // a lower gas price via their wallet. A little power-usery but important imo
       disabled: false,
+    }))
+    .with({ hasInsufficientBaseNativeTokenBalance: true }, (d) => ({
+      onSubmit: handleSubmitClick,
+      buttonText: t("insufficientGas", {
+        symbol: deployment?.arbitrumNativeToken?.symbol,
+      }),
+      disabled: true,
     }))
     .with({ isSubmitting: true }, (d) => ({
       onSubmit: () => {},

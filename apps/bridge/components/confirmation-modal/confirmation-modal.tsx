@@ -7,6 +7,7 @@ import { match } from "ts-pattern";
 import { formatUnits } from "viem";
 import { useAccount, useEstimateFeesPerGas } from "wagmi";
 
+import { DeploymentFamily } from "@/codegen/model";
 import { Checkbox } from "@/components/ui/checkbox";
 import { isSuperbridge } from "@/config/superbridge";
 import { currencySymbolMap } from "@/constants/currency-symbol-map";
@@ -28,6 +29,7 @@ import {
 } from "@/hooks/use-finalization-period";
 import { useNativeToken, useToNativeToken } from "@/hooks/use-native-token";
 import { useTokenPrice } from "@/hooks/use-prices";
+import { useRequiredCustomGasTokenBalance } from "@/hooks/use-required-custom-gas-token-balance";
 import { useSelectedToken } from "@/hooks/use-selected-token";
 import { useSwitchChain } from "@/hooks/use-switch-chain";
 import { useWeiAmount } from "@/hooks/use-wei-amount";
@@ -225,14 +227,28 @@ export const ConfirmationModal = ({
 
   const approved =
     typeof allowance.data !== "undefined" && allowance.data >= weiAmount;
+
+  const requiredCustomGasTokenBalance = useRequiredCustomGasTokenBalance();
   const approvedGasToken =
     typeof gasTokenAllowance.data !== "undefined" &&
-    gasTokenAllowance.data >= 1;
+    !!requiredCustomGasTokenBalance &&
+    gasTokenAllowance.data > requiredCustomGasTokenBalance;
 
   const approveGasTokenButton = match({
+    withdrawing,
+    gasToken,
+    family: deployment?.family,
+    isNativeToken: !!stateToken && isNativeToken(stateToken),
     approved: approvedGasToken,
     approving: approveGasToken.isLoading,
   })
+    .with({ withdrawing: true }, () => null)
+    .with({ gasToken: null }, () => null)
+    .with({ family: undefined }, () => null)
+    .with(
+      { family: DeploymentFamily.optimism, isNativeToken: false },
+      () => null
+    )
     .with({ approving: true }, () => ({
       onSubmit: () => {},
       buttonText: t("confirmationModal.approvingGasToken"),
@@ -440,7 +456,7 @@ export const ConfirmationModal = ({
       transformPeriodText(
         "confirmationModal.opCheckbox1Withdrawal",
         common,
-        totalBridgeTime
+        finalizationTime
       )
     )
     .with({ withdrawing: true, family: "arbitrum" }, () =>
@@ -729,7 +745,7 @@ export const ConfirmationModal = ({
           </div>
 
           <div className="flex flex-col gap-2">
-            {!withdrawing && gasToken && approveGasTokenButton && (
+            {approveGasTokenButton && (
               <Button
                 onClick={approveGasTokenButton.onSubmit}
                 disabled={

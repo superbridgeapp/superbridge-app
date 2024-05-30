@@ -7,9 +7,9 @@ import {
   hyperlaneDomains,
 } from "@/constants/hyperlane";
 import { useConfigState } from "@/state/config";
-import { isCctpBridgeOperation } from "@/utils/transaction-args/cctp-args/common";
 
 import { useDeployment } from "../use-deployment";
+import { isCctpBridgeOperation } from "../use-transaction-args/cctp-args/common";
 
 export const useFromChain = () => {
   const deployment = useDeployment();

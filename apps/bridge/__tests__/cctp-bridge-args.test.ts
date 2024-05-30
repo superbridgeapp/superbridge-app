@@ -4,7 +4,7 @@ import { describe, expect, test } from "vitest";
 import { L1BridgeAbi } from "@/abis/L1Bridge";
 import { L1StandardBridgeAbi } from "@/abis/L1StandardBridge";
 import { GRAFFITI } from "@/constants/extra-data";
-import { depositArgs } from "@/utils/transaction-args/deposit-args";
+import { depositArgs } from "@/hooks/transaction-args/deposit-args";
 
 import {
   chainIds,

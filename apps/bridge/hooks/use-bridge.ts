@@ -19,5 +19,6 @@ export const useBridge = () => {
     address: bridgeArgs?.approvalAddress,
     refetch,
     valid: !!bridgeArgs,
+    args: bridgeArgs,
   };
 };

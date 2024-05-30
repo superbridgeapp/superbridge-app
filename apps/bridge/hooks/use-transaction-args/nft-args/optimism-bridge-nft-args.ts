@@ -4,7 +4,7 @@ import { L1ERC721BridgeAbi } from "@/abis/L1ERC721Bridge";
 import { BridgeNftDto, DeploymentDto } from "@/codegen/model";
 import { GRAFFITI } from "@/constants/extra-data";
 
-import { TransactionArgs } from "../withdraw-args/types";
+import { TransactionArgs } from "../types";
 
 export type NftDepositArgs = {
   deployment: DeploymentDto;

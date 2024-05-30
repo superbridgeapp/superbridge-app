@@ -7,7 +7,7 @@ import { L2GatewayRouterAbi } from "@/abis/arbitrum/L2GatewayRouter";
 import {
   ARB_SYS,
   arbitrumWithdrawArgs,
-} from "@/utils/transaction-args/withdraw-args/arbitrum-withdraw-args";
+} from "@/hooks/transaction-args/withdraw-args/arbitrum-withdraw-args";
 
 import {
   chainIds,
