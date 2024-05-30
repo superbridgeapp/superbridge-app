@@ -8,6 +8,7 @@ import { useArbitrumWithdrawalProgressRows } from "./arbitrum-withdrawal";
 import { ExpandedItem, ProgressRowStatus } from "./common";
 import { useOptimismDepositProgressRows } from "./deposit";
 import { useOptimismWithdrawalProgressRows } from "./withdrawal";
+import { OptimismDeploymentDto } from "../is-mainnet";
 
 export const useOptimismForcedWithdrawalProgressRows = () => {
   const depositRows = useOptimismDepositProgressRows();
@@ -15,7 +16,10 @@ export const useOptimismForcedWithdrawalProgressRows = () => {
 
   return (fw: ForcedWithdrawalDto): ExpandedItem[] => {
     let a = depositRows(fw.deposit);
-    let b = withdrawalRows(fw.withdrawal);
+    let b = withdrawalRows(
+      fw.withdrawal,
+      fw.deposit.deployment as OptimismDeploymentDto
+    );
     if (a[0].status === ProgressRowStatus.InProgress) {
       a[0].label = "Withdrawing on L1";
     } else {

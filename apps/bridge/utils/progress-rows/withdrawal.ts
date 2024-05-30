@@ -12,10 +12,10 @@ import {
 import { usePeriodText } from "@/hooks/use-period-text";
 import { usePendingTransactions } from "@/state/pending-txs";
 
+import { OptimismDeploymentDto } from "../is-mainnet";
 import { transactionLink } from "../transaction-link";
 import { ButtonComponent, ExpandedItem, ProgressRowStatus } from "./common";
 import { getRemainingTimePeriod } from "./get-remaining-period";
-import { isOptimism } from "../is-mainnet";
 
 export const useOptimismWithdrawalProgressRows = () => {
   const pendingFinalises = usePendingTransactions.usePendingFinalises();
@@ -23,12 +23,12 @@ export const useOptimismWithdrawalProgressRows = () => {
   const transformPeriodText = usePeriodText();
   const { t } = useTranslation();
 
-  return (w: BridgeWithdrawalDto | undefined): ExpandedItem[] => {
-    const deployment =
-      w?.deployment && isOptimism(w.deployment) ? w.deployment : null;
-
+  return (
+    w: BridgeWithdrawalDto | undefined,
+    deployment: OptimismDeploymentDto | null
+  ): ExpandedItem[] => {
     const finalizationPeriod = getFinalizationPeriod(deployment, false);
-    const provePeriod = getProvePeriod(w?.deployment ?? null);
+    const provePeriod = getProvePeriod(deployment);
     const pendingProve = pendingProves[w?.id ?? ""];
     const pendingFinalise = pendingFinalises[w?.id ?? ""];
     const prove = match({ w, pendingProve })
@@ -42,7 +42,7 @@ export const useOptimismWithdrawalProgressRows = () => {
           label: t("activity.proving"),
           status: ProgressRowStatus.InProgress,
           buttonComponent: undefined,
-          link: transactionLink(pendingProve!, w!.deployment.l1),
+          link: transactionLink(pendingProve!, deployment?.l1),
         })
       )
       .with({ w: { status: MessageStatus.READY_TO_PROVE } }, () => ({
@@ -96,7 +96,7 @@ export const useOptimismWithdrawalProgressRows = () => {
           label: t("activity.finalizing"),
           status: ProgressRowStatus.InProgress,
           buttonComponent: undefined,
-          link: transactionLink(pendingFinalise!, w!.deployment.l1),
+          link: transactionLink(pendingFinalise!, deployment?.l1),
         })
       )
       .with({ status: MessageStatus.READY_FOR_RELAY }, () => ({

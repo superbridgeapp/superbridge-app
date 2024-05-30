@@ -30,6 +30,7 @@ import AnimDepositProgress from "../../animation/deposit-progress.json";
 import AnimDepositSuccess from "../../animation/deposit-success.json";
 import AnimWithdrawProgress from "../../animation/withdraw-progress.json";
 import AnimWithdrawSuccess from "../../animation/withdraw-success.json";
+import { OptimismDeploymentDto } from "../is-mainnet";
 
 interface TransactionRowProps {
   title: string;
@@ -253,8 +254,10 @@ export const useProgressRows = () => {
 
   return (tx: Transaction) => {
     if (tx.type === "deposit") return optimismDeposit(tx as PortalDepositDto);
-    if (tx.type === "withdrawal")
-      return optimismWithdrawal(tx as BridgeWithdrawalDto);
+    if (tx.type === "withdrawal") {
+      const w = tx as BridgeWithdrawalDto;
+      return optimismWithdrawal(w, w.deployment as OptimismDeploymentDto);
+    }
     if (tx.type === "forced-withdrawal")
       return optimismForcedWithdrawal(tx as ForcedWithdrawalDto);
     if (

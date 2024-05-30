@@ -136,8 +136,8 @@ export const buildPendingTx = (
             deposit: {
               transactionHash: hash,
             },
-            status: MessageStatus.STATE_ROOT_NOT_PUBLISHED,
-            deployment: deployment!,
+            status: MessageStatus.UNCONFIRMED_L1_TO_L2_MESSAGE,
+            deployment,
           },
         };
         return w;
