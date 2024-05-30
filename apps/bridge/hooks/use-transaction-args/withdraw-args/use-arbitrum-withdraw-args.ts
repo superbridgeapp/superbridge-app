@@ -10,6 +10,8 @@ import { isEth } from "@/utils/is-eth";
 import { isArbitrum } from "@/utils/is-mainnet";
 import { withdrawValue } from "@/utils/withdraw-value";
 
+import { isCctpBridgeOperation } from "../cctp-args/common";
+
 export const ARB_SYS: Address = "0x0000000000000000000000000000000000000064";
 
 export const useArbitrumWithdrawArgs = () => {
@@ -30,7 +32,8 @@ export const useArbitrumWithdrawArgs = () => {
     !l2Token ||
     !isArbitrumToken(l1Token) ||
     !isArbitrumToken(l2Token) ||
-    !recipientAddress
+    !recipientAddress ||
+    isCctpBridgeOperation(stateToken)
   ) {
     return;
   }

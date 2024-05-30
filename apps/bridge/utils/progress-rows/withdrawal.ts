@@ -121,7 +121,7 @@ export const useOptimismWithdrawalProgressRows = () => {
     const waitingForStateRootText = (() => {
       // weird case, not sure what it's for
       if (!w?.status || w.status < MessageStatus.STATE_ROOT_NOT_PUBLISHED) {
-        return transformPeriodText("transferTime", {}, finalizationPeriod);
+        return transformPeriodText("transferTime", {}, provePeriod);
       }
 
       if (w.status > MessageStatus.STATE_ROOT_NOT_PUBLISHED) {

@@ -24,13 +24,15 @@ import { useApproveNft } from "@/hooks/use-approve-nft";
 import { useTokenBalance } from "@/hooks/use-balances";
 import { useBridge } from "@/hooks/use-bridge";
 import { useBridgeFee } from "@/hooks/use-bridge-fee";
+import { useBridgeLimit } from "@/hooks/use-bridge-limit";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
+import { useDeployment } from "@/hooks/use-deployment";
 import { useIsCustomToken } from "@/hooks/use-is-custom-token";
 import { useIsCustomTokenFromList } from "@/hooks/use-is-custom-token-from-list";
 import { useNativeToken } from "@/hooks/use-native-token";
 import { useTokenPrice } from "@/hooks/use-prices";
-import { useStatusCheck } from "@/hooks/use-status-check";
 import { useSelectedToken } from "@/hooks/use-selected-token";
+import { useStatusCheck } from "@/hooks/use-status-check";
 import { useSwitchChain } from "@/hooks/use-switch-chain";
 import { useActiveTokens } from "@/hooks/use-tokens";
 import { useTransferTime } from "@/hooks/use-transfer-time";
@@ -41,8 +43,6 @@ import { useSettingsState } from "@/state/settings";
 import { buildPendingTx } from "@/utils/build-pending-tx";
 import { isEth, isNativeToken } from "@/utils/is-eth";
 import { isNativeUsdc } from "@/utils/is-usdc";
-import { useBridgeLimit } from "@/hooks/use-bridge-limit";
-import { useDeployment } from "@/hooks/use-deployment";
 
 import { FromTo } from "./FromTo";
 import { AddressModal } from "./address-modal";
@@ -51,12 +51,12 @@ import { CctpBadge } from "./cttp-badge";
 import { DepositFees } from "./fees/deposit-fees";
 import { WithdrawFees } from "./fees/withdraw-fees";
 import { NftImage } from "./nft";
+import { NoGasModal } from "./no-gas-modal";
 import { TokenIcon } from "./token-icon";
 import { TokenModal } from "./tokens/Modal";
 import { CustomTokenImportModal } from "./tokens/custom-token-import-modal";
 import { Button } from "./ui/button";
 import { WithdrawSettingsModal } from "./withdraw-settings/modal";
-import { NoGasModal } from "./no-gas-modal";
 
 const RecipientAddress = ({
   openAddressDialog,
@@ -217,25 +217,24 @@ export const BridgeBody = () => {
   const isCustomTokenFromList = useIsCustomTokenFromList(stateToken);
 
   const onWrite = async () => {
-    if (!account.address || !wallet.data || !bridge.valid || !recipient) {
-      console.warn("Missing connected account");
+    if (
+      !account.address ||
+      !wallet.data ||
+      !bridge.valid ||
+      !bridge.args ||
+      !recipient ||
+      !deployment ||
+      statusCheck
+    ) {
       return;
     }
 
-    if (!withdrawing && account.chainId !== deployment!.l1.id) {
-      await switchChain(deployment!.l1);
-    }
-
-    if (withdrawing && forceViaL1 && account.chainId !== deployment!.l1.id) {
-      await switchChain(deployment!.l1);
-    }
-
-    if (!forceViaL1 && withdrawing && account.chainId !== deployment!.l2.id) {
-      await switchChain(deployment!.l2);
-    }
-
-    if (statusCheck) {
-      return;
+    const initiatingChain =
+      bridge.args.tx.chainId === deployment.l1.id
+        ? deployment.l1
+        : deployment.l2;
+    if (initiatingChain.id !== account.chainId) {
+      await switchChain(initiatingChain);
     }
 
     try {

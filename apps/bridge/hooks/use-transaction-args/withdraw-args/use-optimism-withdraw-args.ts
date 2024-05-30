@@ -13,7 +13,9 @@ import { isOptimismToken } from "@/utils/guards";
 import { isEth } from "@/utils/is-eth";
 import { isOptimism } from "@/utils/is-mainnet";
 
-export const useOptimismWithdrawArgsImpl = () => {
+import { isCctpBridgeOperation } from "../cctp-args/common";
+
+export const useOptimismWithdrawArgs = () => {
   const stateToken = useConfigState.useToken();
   const recipientAddress = useConfigState.useRecipientAddress();
 
@@ -35,14 +37,11 @@ export const useOptimismWithdrawArgsImpl = () => {
     !isOptimismToken(l2Token) ||
     !isOptimism(deployment) ||
     typeof l2TokenIsLegacy === "undefined" ||
-    !recipientAddress
+    !recipientAddress ||
+    isCctpBridgeOperation(stateToken)
   ) {
     return;
   }
-
-  // if (options.forceViaL1) {
-  //   return forceTransaction(deployment, result);
-  // }
 
   // standard bridge
   if (isEth(l2Token)) {
@@ -126,40 +125,4 @@ export const useOptimismWithdrawArgsImpl = () => {
       chainId: deployment.l2.id,
     },
   };
-};
-
-export const useOptimismWithdrawArgs = () => {
-  const forceViaL1 = useConfigState.useForceViaL1();
-  const deployment = useDeployment();
-
-  const args = useOptimismWithdrawArgsImpl();
-
-  if (!args || !deployment || !isOptimism(deployment)) {
-    return;
-  }
-
-  if (forceViaL1) {
-    return {
-      approvalAddress: args.approvalAddress,
-      tx: {
-        to: deployment.contractAddresses.optimismPortal as Address,
-        data: encodeFunctionData({
-          abi: OptimismPortalAbi,
-          functionName: "depositTransaction",
-          args: [
-            args.tx.to,
-            args.tx.value,
-            BigInt(200_000),
-            false,
-            args.tx.data,
-          ],
-        }),
-        chainId: deployment.l1.id,
-        value: BigInt(0),
-        gas: BigInt("300000"),
-      },
-    };
-  }
-
-  return args;
 };
