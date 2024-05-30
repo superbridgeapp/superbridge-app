@@ -4,10 +4,14 @@ import {
   useSendTransaction,
 } from "wagmi";
 
-import { useTransactionArgs } from "./use-transaction-args";
+import { useConfigState } from "@/state/config";
+
 import { useFromChain } from "./use-chain";
+import { useTransactionArgs } from "./use-transaction-args";
 
 export const useBridge = () => {
+  const withdrawing = useConfigState.useWithdrawing();
+
   const bridgeArgs = useTransactionArgs();
   const { sendTransactionAsync, isLoading } = useSendTransaction();
   const fromFeeData = useEstimateFeesPerGas({ chainId: useFromChain()?.id });
@@ -21,6 +25,8 @@ export const useBridge = () => {
   if (gas) {
     gas = gas + gas / BigInt("10");
   }
+
+  gas = gas ?? BigInt(withdrawing ? 200_000 : 150_000);
 
   return {
     write: !bridgeArgs?.tx
@@ -38,5 +44,6 @@ export const useBridge = () => {
     refetch,
     valid: !!bridgeArgs,
     args: bridgeArgs,
+    gas,
   };
 };

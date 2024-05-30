@@ -185,7 +185,7 @@ export const BridgeBody = () => {
   if (feeData.data) {
     const gwei =
       (feeData.data.gasPrice ?? feeData.data.maxFeePerGas ?? BigInt(0)) *
-      BigInt(withdrawing ? 200_000 : 150_000);
+      bridge.gas;
     networkFee = parseFloat(formatUnits(gwei, 18));
   }
 
