@@ -20,7 +20,7 @@ importers:
     devDependencies:
       '@turbo/gen':
         specifier: ^1.10.16
-        version: 1.10.16(@types/node@20.12.12)(typescript@5.2.2)
+        version: 1.10.16(@types/node@20.12.13)(typescript@5.2.2)
       eslint:
         specifier: ^7.32.0
         version: 7.32.0
@@ -62,7 +62,7 @@ importers:
         version: 1.0.7(@types/react-dom@18.2.4)(@types/react@18.2.23)(react-dom@18.3.1)(react@18.3.1)
       '@rainbow-me/rainbowkit':
         specifier: ^2.1.1
-        version: 2.1.1(@tanstack/react-query@4.36.1)(@types/react@18.2.23)(react-dom@18.3.1)(react@18.3.1)(viem@2.13.1)(wagmi@2.9.7)
+        version: 2.1.1(@tanstack/react-query@4.36.1)(@types/react@18.2.23)(react-dom@18.3.1)(react@18.3.1)(viem@2.13.1)(wagmi@2.9.8)
       '@sentry/react':
         specifier: ^7.116.0
         version: 7.116.0(react@18.3.1)
@@ -79,8 +79,8 @@ importers:
         specifier: ^0.5.20
         version: 0.5.20
       '@wagmi/core':
-        specifier: ^2.10.4
-        version: 2.10.4(@types/react@18.2.23)(react@18.3.1)(typescript@5.4.5)(viem@2.13.1)
+        specifier: ^2.10.5
+        version: 2.10.5(@types/react@18.2.23)(react@18.3.1)(typescript@5.4.5)(viem@2.13.1)
       auto-zustand-selectors-hook:
         specifier: ^2.0.3
         version: 2.0.3(zustand@4.5.2)
@@ -157,8 +157,8 @@ importers:
         specifier: ^2.13.1
         version: 2.13.1(typescript@5.4.5)
       wagmi:
-        specifier: ^2.9.7
-        version: 2.9.7(@tanstack/react-query@4.36.1)(@types/react@18.2.23)(react-dom@18.3.1)(react-i18next@13.5.0)(react-native@0.74.1)(react@18.3.1)(typescript@5.4.5)(viem@2.13.1)
+        specifier: ^2.9.8
+        version: 2.9.8(@tanstack/react-query@4.36.1)(@types/react@18.2.23)(react-dom@18.3.1)(react-i18next@13.5.0)(react-native@0.74.1)(react@18.3.1)(typescript@5.4.5)(viem@2.13.1)
       zustand:
         specifier: ^4.5.2
         version: 4.5.2(@types/react@18.2.23)(react@18.3.1)
@@ -4088,7 +4088,7 @@ packages:
       '@babel/runtime': 7.24.1
     dev: false
 
-  /@rainbow-me/rainbowkit@2.1.1(@tanstack/react-query@4.36.1)(@types/react@18.2.23)(react-dom@18.3.1)(react@18.3.1)(viem@2.13.1)(wagmi@2.9.7):
+  /@rainbow-me/rainbowkit@2.1.1(@tanstack/react-query@4.36.1)(@types/react@18.2.23)(react-dom@18.3.1)(react@18.3.1)(viem@2.13.1)(wagmi@2.9.8):
     resolution: {integrity: sha512-iOn4m1CTv+ezzYpiA4QU+v6JFB94NY6h5ohpQi3Qt/qZXdHzp3NAKUrESQ10kFx2Xc4px80PKdggeES0UPZw0A==}
     engines: {node: '>=12.4'}
     peerDependencies:
@@ -4109,7 +4109,7 @@ packages:
       react-remove-scroll: 2.5.7(@types/react@18.2.23)(react@18.3.1)
       ua-parser-js: 1.0.37
       viem: 2.13.1(typescript@5.4.5)
-      wagmi: 2.9.7(@tanstack/react-query@4.36.1)(@types/react@18.2.23)(react-dom@18.3.1)(react-i18next@13.5.0)(react-native@0.74.1)(react@18.3.1)(typescript@5.4.5)(viem@2.13.1)
+      wagmi: 2.9.8(@tanstack/react-query@4.36.1)(@types/react@18.2.23)(react-dom@18.3.1)(react-i18next@13.5.0)(react-native@0.74.1)(react@18.3.1)(typescript@5.4.5)(viem@2.13.1)
     transitivePeerDependencies:
       - '@types/react'
     dev: false
@@ -5101,7 +5101,7 @@ packages:
     resolution: {integrity: sha512-vxhUy4J8lyeyinH7Azl1pdd43GJhZH/tP2weN8TntQblOY+A0XbT8DJk1/oCPuOOyg/Ja757rG0CgHcWC8OfMA==}
     dev: true
 
-  /@turbo/gen@1.10.16(@types/node@20.12.12)(typescript@5.2.2):
+  /@turbo/gen@1.10.16(@types/node@20.12.13)(typescript@5.2.2):
     resolution: {integrity: sha512-PzyluADjVuy5OcIi+/aRcD70OElQpRVRDdfZ9fH8G5Fv75lQcNrjd1bBGKmhjSw+g+eTEkXMGnY7s6gsCYjYTQ==}
     hasBin: true
     dependencies:
@@ -5113,7 +5113,7 @@ packages:
       minimatch: 9.0.0
       node-plop: 0.26.3
       proxy-agent: 6.3.1
-      ts-node: 10.9.1(@types/node@20.12.12)(typescript@5.2.2)
+      ts-node: 10.9.1(@types/node@20.12.13)(typescript@5.2.2)
       update-check: 1.5.4
       validate-npm-package-name: 5.0.0
     transitivePeerDependencies:
@@ -5251,8 +5251,8 @@ packages:
       undici-types: 5.26.5
     dev: false
 
-  /@types/node@20.12.12:
-    resolution: {integrity: sha512-eWLDGF/FOSPtAvEqeRAQ4C8LSA7M1I7i0ky1I8U7kD1J5ITyW3AsRhQrKVoWf5pFKZ2kILsEGJhsI9r93PYnOw==}
+  /@types/node@20.12.13:
+    resolution: {integrity: sha512-gBGeanV41c1L171rR7wjbMiEpEI/l5XFQdLLfhr/REwpgDy/4U8y89+i8kRiLzDyZdOkXh+cRaTetUnCYutoXA==}
     dependencies:
       undici-types: 5.26.5
     dev: true
@@ -5494,10 +5494,10 @@ packages:
       pretty-format: 29.7.0
     dev: true
 
-  /@wagmi/connectors@5.0.6(@types/react@18.2.23)(@wagmi/core@2.10.4)(react-dom@18.3.1)(react-i18next@13.5.0)(react-native@0.74.1)(react@18.3.1)(typescript@5.4.5)(viem@2.13.1):
-    resolution: {integrity: sha512-eyn2pw9QBKfvNOVZis72GqZw4neo7Ktut7Jt4NSiR/umncWJKpKrni3exLHAJw2+mDTDWtUTHs9YL56ov2tWLw==}
+  /@wagmi/connectors@5.0.7(@types/react@18.2.23)(@wagmi/core@2.10.5)(react-dom@18.3.1)(react-i18next@13.5.0)(react-native@0.74.1)(react@18.3.1)(typescript@5.4.5)(viem@2.13.1):
+    resolution: {integrity: sha512-EoTtRKnUPhKpU/LFU7LU4iK8yNU/akU5vSgX+K21QXHi8ImhEEsd2nPEU5kfkWriGf+D/raD4gLZYsfppDRUaw==}
     peerDependencies:
-      '@wagmi/core': 2.10.4
+      '@wagmi/core': 2.10.5
       typescript: '>=5.0.4'
       viem: 2.x
     peerDependenciesMeta:
@@ -5508,7 +5508,7 @@ packages:
       '@metamask/sdk': 0.20.3(react-dom@18.3.1)(react-i18next@13.5.0)(react-native@0.74.1)(react@18.3.1)
       '@safe-global/safe-apps-provider': 0.18.1(typescript@5.4.5)
       '@safe-global/safe-apps-sdk': 8.1.0(typescript@5.4.5)
-      '@wagmi/core': 2.10.4(@types/react@18.2.23)(react@18.3.1)(typescript@5.4.5)(viem@2.13.1)
+      '@wagmi/core': 2.10.5(@types/react@18.2.23)(react@18.3.1)(typescript@5.4.5)(viem@2.13.1)
       '@walletconnect/ethereum-provider': 2.13.0(@types/react@18.2.23)(react@18.3.1)
       '@walletconnect/modal': 2.6.2(@types/react@18.2.23)(react@18.3.1)
       cbw-sdk: /@coinbase/wallet-sdk@3.9.3
@@ -5542,8 +5542,8 @@ packages:
       - zod
     dev: false
 
-  /@wagmi/core@2.10.4(@types/react@18.2.23)(react@18.3.1)(typescript@5.4.5)(viem@2.13.1):
-    resolution: {integrity: sha512-X/PW4zckkSQ/y4LwkQ5cwLKv551I6kVorH3VsTQghxYt0Vj9K5/XhCCRQg5Q200u6fiUCJ+2WjpmhZu3XYNU9w==}
+  /@wagmi/core@2.10.5(@types/react@18.2.23)(react@18.3.1)(typescript@5.4.5)(viem@2.13.1):
+    resolution: {integrity: sha512-BvqFEdJTTepOKtPnacq7oE8gUZ4llzdxmPSBEYePArd1dvP/e5gwwfS5/8VBcvDvGcoX4N0lw5A4NNOJKL0Q+A==}
     peerDependencies:
       '@tanstack/query-core': '>=5.0.0'
       typescript: '>=5.0.4'
@@ -6287,7 +6287,7 @@ packages:
     engines: {node: '>= 0.4'}
     dependencies:
       array-buffer-byte-length: 1.0.0
-      call-bind: 1.0.5
+      call-bind: 1.0.2
       define-properties: 1.2.1
       es-abstract: 1.22.3
       get-intrinsic: 1.2.2
@@ -7482,7 +7482,7 @@ packages:
       side-channel: 1.0.4
       which-boxed-primitive: 1.0.2
       which-collection: 1.0.1
-      which-typed-array: 1.1.11
+      which-typed-array: 1.1.15
     dev: false
 
   /deep-extend@0.6.0:
@@ -7951,7 +7951,7 @@ packages:
       is-regex: 1.1.4
       is-shared-array-buffer: 1.0.2
       is-string: 1.0.7
-      is-typed-array: 1.1.12
+      is-typed-array: 1.1.13
       is-weakref: 1.0.2
       object-inspect: 1.12.3
       object-keys: 1.1.1
@@ -7967,7 +7967,7 @@ packages:
       typed-array-byte-offset: 1.0.0
       typed-array-length: 1.0.4
       unbox-primitive: 1.0.2
-      which-typed-array: 1.1.11
+      which-typed-array: 1.1.15
     dev: true
 
   /es-abstract@1.22.3:
@@ -7977,7 +7977,7 @@ packages:
       array-buffer-byte-length: 1.0.0
       arraybuffer.prototype.slice: 1.0.2
       available-typed-arrays: 1.0.5
-      call-bind: 1.0.5
+      call-bind: 1.0.7
       es-set-tostringtag: 2.0.2
       es-to-primitive: 1.2.1
       function.prototype.name: 1.1.6
@@ -7996,7 +7996,7 @@ packages:
       is-regex: 1.1.4
       is-shared-array-buffer: 1.0.2
       is-string: 1.0.7
-      is-typed-array: 1.1.12
+      is-typed-array: 1.1.13
       is-weakref: 1.0.2
       object-inspect: 1.13.1
       object-keys: 1.1.1
@@ -9032,8 +9032,8 @@ packages:
     resolution: {integrity: sha512-3PYnM29RFXwvAN6Pc/scUfkI7RwhQ/xqyLUyPNlXUp9S40zI8nup9tUSrTLSVnWGBN38FNiGWbwZOB6uR4OGdw==}
     dev: false
 
-  /flow-parser@0.236.0:
-    resolution: {integrity: sha512-0OEk9Gr+Yj7wjDW2KgaNYUypKau71jAfFyeLQF5iVtxqc6uJHag/MT7pmaEApf4qM7u86DkBcd4ualddYMfbLw==}
+  /flow-parser@0.237.1:
+    resolution: {integrity: sha512-PUeG8GQLmrv49vEcFcag7mriJvVs7Yyegnv1DGskvcokhP8UyqWsLV0KoTQ1iAW3ePVUIGUc3MFfBaXwz9MmIg==}
     engines: {node: '>=0.4.0'}
     dev: false
 
@@ -9152,7 +9152,7 @@ packages:
     resolution: {integrity: sha512-Z5kx79swU5P27WEayXM1tBi5Ze/lbIyiNgU3qyXUOf9b2rgXYyF9Dy9Cx+IQv/Lc8WCG6L82zwUPpSS9hGehIg==}
     engines: {node: '>= 0.4'}
     dependencies:
-      call-bind: 1.0.5
+      call-bind: 1.0.2
       define-properties: 1.2.1
       es-abstract: 1.22.3
       functions-have-names: 1.2.3
@@ -9971,7 +9971,7 @@ packages:
     engines: {node: '>= 0.4'}
     dependencies:
       call-bind: 1.0.2
-      has-tostringtag: 1.0.0
+      has-tostringtag: 1.0.2
 
   /is-callable@1.2.7:
     resolution: {integrity: sha512-1BC0BVFhS/p0qtw6enp8e+8OD0UrK0oFLztSjNzhcKA3WDuJxxAPXzPuPtKkjEY9UUoEWlX/8fgKeu2S8i9JTA==}
@@ -9998,7 +9998,7 @@ packages:
     resolution: {integrity: sha512-9YQaSxsAiSwcvS33MBk3wTCVnWK+HhF8VZR2jRxehM16QcVOdHqPn4VPHmRK4lSr38n9JriurInLcP90xsYNfQ==}
     engines: {node: '>= 0.4'}
     dependencies:
-      has-tostringtag: 1.0.0
+      has-tostringtag: 1.0.2
 
   /is-decimal@2.0.1:
     resolution: {integrity: sha512-AAB9hiomQs5DXWcRB1rqsxGUstbRroFOPPVAomNk/3XHR5JyEZChOyTWe2oayKnsSsr/kcGqF+z6yuH6HHpN0A==}
@@ -10086,7 +10086,7 @@ packages:
     resolution: {integrity: sha512-k1U0IRzLMo7ZlYIfzRu23Oh6MiIFasgpb9X76eqfFZAqwH44UI4KTBvBYIZ1dSL9ZzChTB9ShHfLkR4pdW5krQ==}
     engines: {node: '>= 0.4'}
     dependencies:
-      has-tostringtag: 1.0.0
+      has-tostringtag: 1.0.2
 
   /is-number@7.0.0:
     resolution: {integrity: sha512-41Cifkg6e8TylSpdtTpeLVMqvSBEVzTttHvERD741+pnZ8ANv0004MRL43QKPDlK9cGvNp6NZWZUBlbGXYxxng==}
@@ -10176,7 +10176,7 @@ packages:
     resolution: {integrity: sha512-Z14TF2JNG8Lss5/HMqt0//T9JeHXttXy5pH/DBU4vi98ozO2btxzq9MwYDZYnKwU8nRsz/+GVFVRDq3DkVuSPg==}
     engines: {node: '>= 0.4'}
     dependencies:
-      which-typed-array: 1.1.13
+      which-typed-array: 1.1.11
 
   /is-typed-array@1.1.13:
     resolution: {integrity: sha512-uZ25/bUAlUY5fR4OKT4rZQEBrzQWYV9ZJYGGsUmEJ6thodVJ1HX64ePQ6Z0qPWP+m+Uq6e9UugrE38jeYsDSMw==}
@@ -10416,7 +10416,7 @@ packages:
       '@babel/register': 7.24.6(@babel/core@7.24.6)
       babel-core: 7.0.0-bridge.0(@babel/core@7.24.6)
       chalk: 4.1.2
-      flow-parser: 0.236.0
+      flow-parser: 0.237.1
       graceful-fs: 4.2.11
       micromatch: 4.0.7
       neo-async: 2.6.2
@@ -13219,7 +13219,7 @@ packages:
     resolution: {integrity: sha512-sy6TXMN+hnP/wMy+ISxg3krXx7BAtWVO4UouuCN/ziM9UEne0euamVNafDfvC83bRNr95y0V5iijeDQFUNpvrg==}
     engines: {node: '>= 0.4'}
     dependencies:
-      call-bind: 1.0.5
+      call-bind: 1.0.2
       define-properties: 1.2.1
       set-function-name: 2.0.1
 
@@ -14067,7 +14067,7 @@ packages:
     resolution: {integrity: sha512-lfjY4HcixfQXOfaqCvcBuOIapyaroTXhbkfJN3gcB1OtyupngWK4sEET9Knd0cXd28kTUqu/kHoV4HKSJdnjiQ==}
     engines: {node: '>= 0.4'}
     dependencies:
-      call-bind: 1.0.5
+      call-bind: 1.0.2
       define-properties: 1.2.1
       es-abstract: 1.22.3
     dev: true
@@ -14093,7 +14093,7 @@ packages:
   /string.prototype.trimend@1.0.7:
     resolution: {integrity: sha512-Ni79DqeB72ZFq1uH/L6zJ+DKZTkOtPIHovb3YZHQViE+HDouuU4mBrLOLDn5Dde3RF8qw5qVETEjhu9locMLvA==}
     dependencies:
-      call-bind: 1.0.5
+      call-bind: 1.0.2
       define-properties: 1.2.1
       es-abstract: 1.22.3
     dev: true
@@ -14117,7 +14117,7 @@ packages:
   /string.prototype.trimstart@1.0.7:
     resolution: {integrity: sha512-NGhtDFu3jCEm7B4Fy0DpLewdJQOZcQ0rGbwQ/+stjnrp2i+rlKeCvos9hOIeCmqwratM47OBxY7uFZzjxHXmrg==}
     dependencies:
-      call-bind: 1.0.5
+      call-bind: 1.0.2
       define-properties: 1.2.1
       es-abstract: 1.22.3
     dev: true
@@ -14587,7 +14587,7 @@ packages:
     resolution: {integrity: sha512-cA5MPLWGWYXvnlJb4TamUUx858HVHBsxxdy8l7jxODOLDyGYnQOllob2A2jyDghGa5iJHs2gzFNHvwGJ0ZfR8g==}
     dev: false
 
-  /ts-node@10.9.1(@types/node@20.12.12)(typescript@5.2.2):
+  /ts-node@10.9.1(@types/node@20.12.13)(typescript@5.2.2):
     resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
     hasBin: true
     peerDependencies:
@@ -14606,7 +14606,7 @@ packages:
       '@tsconfig/node12': 1.0.11
       '@tsconfig/node14': 1.0.3
       '@tsconfig/node16': 1.0.4
-      '@types/node': 20.12.12
+      '@types/node': 20.12.13
       acorn: 8.11.3
       acorn-walk: 8.2.0
       arg: 4.1.3
@@ -14779,9 +14779,9 @@ packages:
     resolution: {integrity: sha512-Y8KTSIglk9OZEr8zywiIHG/kmQ7KWyjseXs1CbSo8vC42w7hg2HgYTxSWwP0+is7bWDc1H+Fo026CpHFwm8tkw==}
     engines: {node: '>= 0.4'}
     dependencies:
-      call-bind: 1.0.5
+      call-bind: 1.0.2
       get-intrinsic: 1.2.2
-      is-typed-array: 1.1.12
+      is-typed-array: 1.1.13
     dev: true
 
   /typed-array-buffer@1.0.2:
@@ -14797,10 +14797,10 @@ packages:
     resolution: {integrity: sha512-Or/+kvLxNpeQ9DtSydonMxCx+9ZXOswtwJn17SNLvhptaXYDJvkFFP5zbfU/uLmvnBJlI4yrnXRxpdWH/M5tNA==}
     engines: {node: '>= 0.4'}
     dependencies:
-      call-bind: 1.0.5
+      call-bind: 1.0.2
       for-each: 0.3.3
       has-proto: 1.0.1
-      is-typed-array: 1.1.12
+      is-typed-array: 1.1.13
     dev: true
 
   /typed-array-byte-length@1.0.1:
@@ -14819,10 +14819,10 @@ packages:
     engines: {node: '>= 0.4'}
     dependencies:
       available-typed-arrays: 1.0.5
-      call-bind: 1.0.5
+      call-bind: 1.0.2
       for-each: 0.3.3
       has-proto: 1.0.1
-      is-typed-array: 1.1.12
+      is-typed-array: 1.1.13
     dev: true
 
   /typed-array-byte-offset@1.0.2:
@@ -15519,8 +15519,8 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: false
 
-  /wagmi@2.9.7(@tanstack/react-query@4.36.1)(@types/react@18.2.23)(react-dom@18.3.1)(react-i18next@13.5.0)(react-native@0.74.1)(react@18.3.1)(typescript@5.4.5)(viem@2.13.1):
-    resolution: {integrity: sha512-IZ9Npgs9Te12kdrWousnYJfjzl3JaiyAarXGxJOdEiLB2eia8mMacob4XExg3Mn538ZP9ufsg7VAgWnGaK74lw==}
+  /wagmi@2.9.8(@tanstack/react-query@4.36.1)(@types/react@18.2.23)(react-dom@18.3.1)(react-i18next@13.5.0)(react-native@0.74.1)(react@18.3.1)(typescript@5.4.5)(viem@2.13.1):
+    resolution: {integrity: sha512-uSfYKB0JWtajz8YSntMBO4QQolx1fPPckwAVrRl9X66zQb0FLqgZeXrnf+PjFnmNbNsSyO3neOD/3TQqNL6m4Q==}
     peerDependencies:
       '@tanstack/react-query': '>=5.0.0'
       react: '>=18'
@@ -15531,8 +15531,8 @@ packages:
         optional: true
     dependencies:
       '@tanstack/react-query': 4.36.1(react-dom@18.3.1)(react-native@0.74.1)(react@18.3.1)
-      '@wagmi/connectors': 5.0.6(@types/react@18.2.23)(@wagmi/core@2.10.4)(react-dom@18.3.1)(react-i18next@13.5.0)(react-native@0.74.1)(react@18.3.1)(typescript@5.4.5)(viem@2.13.1)
-      '@wagmi/core': 2.10.4(@types/react@18.2.23)(react@18.3.1)(typescript@5.4.5)(viem@2.13.1)
+      '@wagmi/connectors': 5.0.7(@types/react@18.2.23)(@wagmi/core@2.10.5)(react-dom@18.3.1)(react-i18next@13.5.0)(react-native@0.74.1)(react@18.3.1)(typescript@5.4.5)(viem@2.13.1)
+      '@wagmi/core': 2.10.5(@types/react@18.2.23)(react@18.3.1)(typescript@5.4.5)(viem@2.13.1)
       react: 18.3.1
       typescript: 5.4.5
       use-sync-external-store: 1.2.0(react@18.3.1)
@@ -15653,16 +15653,6 @@ packages:
     dependencies:
       available-typed-arrays: 1.0.5
       call-bind: 1.0.2
-      for-each: 0.3.3
-      gopd: 1.0.1
-      has-tostringtag: 1.0.0
-
-  /which-typed-array@1.1.13:
-    resolution: {integrity: sha512-P5Nra0qjSncduVPEAr7xhoF5guty49ArDTwzJ/yNuPIbZppyRxFQsRCWrocxIY+CnMVG+qfbU2FmDKyvSGClow==}
-    engines: {node: '>= 0.4'}
-    dependencies:
-      available-typed-arrays: 1.0.5
-      call-bind: 1.0.5
       for-each: 0.3.3
       gopd: 1.0.1
       has-tostringtag: 1.0.0

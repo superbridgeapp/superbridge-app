@@ -1,11 +1,22 @@
-import { useEstimateGas, useSendTransaction } from "wagmi";
+import {
+  useEstimateFeesPerGas,
+  useEstimateGas,
+  useSendTransaction,
+} from "wagmi";
 
 import { useTransactionArgs } from "./use-transaction-args";
+import { useFromChain } from "./use-chain";
 
 export const useBridge = () => {
   const bridgeArgs = useTransactionArgs();
   const { sendTransactionAsync, isLoading } = useSendTransaction();
-  let { data: gas, refetch } = useEstimateGas(bridgeArgs?.tx);
+  const fromFeeData = useEstimateFeesPerGas({ chainId: useFromChain()?.id });
+  let { data: gas, refetch } = useEstimateGas({
+    ...bridgeArgs?.tx,
+    gasPrice: fromFeeData.data?.gasPrice,
+    maxFeePerGas: fromFeeData.data?.maxFeePerGas,
+    maxPriorityFeePerGas: fromFeeData.data?.maxPriorityFeePerGas,
+  });
 
   if (gas) {
     gas = gas + gas / BigInt("10");
@@ -14,7 +25,14 @@ export const useBridge = () => {
   return {
     write: !bridgeArgs?.tx
       ? undefined
-      : () => sendTransactionAsync({ ...bridgeArgs.tx, gas }),
+      : () =>
+          sendTransactionAsync({
+            ...bridgeArgs.tx,
+            gas,
+            gasPrice: fromFeeData.data?.gasPrice,
+            maxFeePerGas: fromFeeData.data?.maxFeePerGas,
+            maxPriorityFeePerGas: fromFeeData.data?.maxPriorityFeePerGas,
+          }),
     isLoading,
     address: bridgeArgs?.approvalAddress,
     refetch,
