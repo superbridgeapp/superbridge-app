@@ -56,7 +56,7 @@ export const useOptimismWithdrawArgs = () => {
             args: [
               recipientAddress, // _to
               BigInt(200_000), // _gasLimit
-              graffiti, // _extraData
+              "0x", // _data
             ],
           }),
           value: weiAmount,

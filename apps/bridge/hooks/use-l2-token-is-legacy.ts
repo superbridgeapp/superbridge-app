@@ -5,7 +5,6 @@ import { isOptimismToken } from "@/utils/guards";
 import { isEth } from "@/utils/is-eth";
 import { l2TokenIsLegacy } from "@/utils/l2-token-is-legacy";
 
-import { useFromChain } from "./use-chain";
 import { useDeployment } from "./use-deployment";
 
 const L2StandardERC20 = [
@@ -29,9 +28,8 @@ export const useL2TokenIsLegacy = () => {
   const stateToken = useConfigState.useToken();
 
   const deployment = useDeployment();
-  const from = useFromChain();
 
-  const token = stateToken?.[from?.id ?? 0];
+  const token = stateToken?.[deployment?.l2.id ?? 0];
   const reads = useReadContracts({
     contracts: [
       {

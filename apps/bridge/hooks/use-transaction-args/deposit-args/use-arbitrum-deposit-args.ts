@@ -48,7 +48,7 @@ export const useArbitrumGasCostsInWei = () => {
     l1GasCost,
     l2GasCost,
 
-    maxSubmissionCost: l1GasCost * l1GasLimit,
+    maxSubmissionCost,
     extraAmount: l2GasCost * l2GasLimit + maxSubmissionCost,
   };
 };
