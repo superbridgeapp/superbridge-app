@@ -18,6 +18,9 @@ interface ConfigState {
   settingsModal: boolean;
   setSettingsModal: (x: boolean) => void;
 
+  tokensModal: boolean;
+  setTokensModal: (x: boolean) => void;
+
   legalModal: boolean;
   setLegalModal: (x: boolean) => void;
 
@@ -115,6 +118,9 @@ const ConfigState = create<ConfigState>()((set) => ({
 
   settingsModal: false,
   setSettingsModal: (settingsModal) => set({ settingsModal }),
+
+  tokensModal: false,
+  setTokensModal: (tokensModal) => set({ tokensModal }),
 
   legalModal: false,
   setLegalModal: (legalModal) => set({ legalModal }),
