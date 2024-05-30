@@ -16,5 +16,9 @@ export const useTransferTime = () => {
     return t("transferTimeHours", { count: time.value });
   }
 
+  if (!time) {
+    return "";
+  }
+
   return t("transferTimeDays", { count: time?.value });
 };

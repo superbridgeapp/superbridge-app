@@ -7,9 +7,9 @@ import {
   hyperlaneDomains,
 } from "@/constants/hyperlane";
 import { useConfigState } from "@/state/config";
-import { isCctpBridgeOperation } from "@/utils/transaction-args/cctp-args/common";
 
 import { useToChain } from "../use-chain";
+import { isCctpBridgeOperation } from "../use-transaction-args/cctp-args/common";
 
 export const useHyperlaneGasQuote = () => {
   const token = useConfigState.useToken();

@@ -13,11 +13,10 @@ import {
 } from "@/codegen/model";
 import { MessageStatus } from "@/constants";
 import { ArbitrumMessageStatus } from "@/constants/arbitrum-message-status";
+import { isCctpBridgeOperation } from "@/hooks/use-transaction-args/cctp-args/common";
 import { MultiChainToken } from "@/types/token";
 import { isEth } from "@/utils/is-eth";
 import { isArbitrum, isOptimism } from "@/utils/is-mainnet";
-
-import { isCctpBridgeOperation } from "./transaction-args/cctp-args/common";
 
 export const buildPendingTx = (
   deployment: DeploymentDto,
@@ -137,8 +136,8 @@ export const buildPendingTx = (
             deposit: {
               transactionHash: hash,
             },
-            status: MessageStatus.STATE_ROOT_NOT_PUBLISHED,
-            deployment: deployment!,
+            status: MessageStatus.UNCONFIRMED_L1_TO_L2_MESSAGE,
+            deployment,
           },
         };
         return w;

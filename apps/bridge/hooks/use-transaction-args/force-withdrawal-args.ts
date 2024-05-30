@@ -1,32 +1,31 @@
 import { Address, encodeFunctionData } from "viem";
 
 import { OptimismPortalAbi } from "@/abis/OptimismPortal";
-import { OptimismDeploymentDto } from "@/utils/is-mainnet";
+import { isOptimism } from "@/utils/is-mainnet";
+import { DeploymentDto } from "@/codegen/model";
 
 import { TransactionArgs } from "./types";
 
-export function forceTransaction(
-  deployment: OptimismDeploymentDto,
-  result: TransactionArgs
-) {
+export const forceWithdrawalArgs = (
+  args: TransactionArgs | undefined,
+  deployment: DeploymentDto | null
+) => {
+  if (!args || !deployment || !isOptimism(deployment)) {
+    return;
+  }
+
   return {
-    approvalAddress: result.approvalAddress,
+    approvalAddress: args.approvalAddress,
     tx: {
       to: deployment.contractAddresses.optimismPortal as Address,
       data: encodeFunctionData({
         abi: OptimismPortalAbi,
         functionName: "depositTransaction",
-        args: [
-          result.tx.to,
-          result.tx.value,
-          BigInt(200_000),
-          false,
-          result.tx.data,
-        ],
+        args: [args.tx.to, args.tx.value, BigInt(200_000), false, args.tx.data],
       }),
       chainId: deployment.l1.id,
       value: BigInt(0),
       gas: BigInt("300000"),
     },
   };
-}
+};

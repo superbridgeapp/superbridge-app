@@ -2,9 +2,6 @@ import { useStatusCheck } from "@/hooks/use-status-check";
 import { useTransactions } from "@/hooks/use-transactions";
 import { usePendingTransactions } from "@/state/pending-txs";
 import {
-  isArbitrumDeposit,
-  isArbitrumForcedWithdrawal,
-  isArbitrumWithdrawal,
   isCctpBridge,
   isDeposit,
   isForcedWithdrawal,
@@ -21,10 +18,7 @@ export const useInProgressTxCount = () => {
     : transactions.filter((x) => {
         if (isDeposit(x)) return !x.relay;
         if (isWithdrawal(x)) return !x.finalise;
-        if (isForcedWithdrawal(x)) !x.withdrawal?.finalise;
-        if (isArbitrumDeposit(x)) return !x.relay;
-        if (isArbitrumWithdrawal(x)) return !x.finalise;
-        if (isArbitrumForcedWithdrawal(x)) return !x.withdrawal?.finalise;
+        if (isForcedWithdrawal(x)) return !x.withdrawal?.finalise;
         if (isCctpBridge(x)) return !x.relay;
       }).length + pendingTransactions.length;
 };
