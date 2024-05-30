@@ -22,7 +22,6 @@ import { useApprove } from "@/hooks/use-approve";
 import { useTokenBalance } from "@/hooks/use-balances";
 import { useBaseNativeTokenBalance } from "@/hooks/use-base-native-token-balance";
 import { useBridge } from "@/hooks/use-bridge";
-import { useBridgeFee } from "@/hooks/use-bridge-fee";
 import { useBridgeLimit } from "@/hooks/use-bridge-limit";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
 import { useDeployment } from "@/hooks/use-deployment";
@@ -131,7 +130,6 @@ export const BridgeBody = () => {
   const account = useAccount();
   const from = useFromChain();
   const to = useToChain();
-  const bridgeFee = useBridgeFee();
   const bridge = useBridge();
   const switchChain = useSwitchChain();
   const tokens = useActiveTokens();
@@ -200,11 +198,7 @@ export const BridgeBody = () => {
   );
   const usdPrice = useTokenPrice(stateToken);
 
-  const fee = parseInt(((bridgeFee.data as bigint) ?? BigInt(0)).toString());
-
-  const parsedRawAmount = parseFloat(rawAmount) || 0;
-  const appliedFee = (fee / 10_000) * parsedRawAmount;
-  const receive = parsedRawAmount - appliedFee;
+  const receive = parseFloat(rawAmount) || 0;
 
   const hasInsufficientBalance = weiAmount > tokenBalance;
   const hasInsufficientGas =
@@ -569,7 +563,7 @@ export const BridgeBody = () => {
             <div>
               {usdPrice && (
                 <span className="text-muted-foreground text-xs font-medium">
-                  ${(parsedRawAmount * usdPrice).toLocaleString("en")}
+                  ${(receive * usdPrice).toLocaleString("en")}
                 </span>
               )}
             </div>
