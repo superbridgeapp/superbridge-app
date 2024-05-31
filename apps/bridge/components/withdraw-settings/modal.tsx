@@ -6,7 +6,7 @@ export const WithdrawSettingsModal = (props: SettingsModalProps) => {
   return (
     <Dialog open={props.open} onOpenChange={props.setOpen}>
       <DialogContent>
-        <WithdrawSettings {...props} />
+        <WithdrawSettings />
       </DialogContent>
     </Dialog>
   );

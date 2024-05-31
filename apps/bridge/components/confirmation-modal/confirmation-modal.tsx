@@ -107,6 +107,7 @@ export const ConfirmationModal = ({
   const account = useAccount();
   const withdrawing = useConfigState.useWithdrawing();
   const escapeHatch = useConfigState.useForceViaL1();
+  const fast = useConfigState.useFast();
 
   const gasToken = useGasToken();
   const gasTokenAllowance = useAllowanceGasToken();
@@ -355,11 +356,15 @@ export const ConfirmationModal = ({
   };
 
   const title = match({
+    fast,
     isUsdc: isNativeUsdc(stateToken),
     withdrawing,
     escapeHatch,
     family: deployment?.family,
   })
+    .with({ fast: true }, () => {
+      return "Fast bridging via Across";
+    })
     .with({ isUsdc: true, withdrawing: true, escapeHatch: true }, () =>
       t("confirmationModal.cctpWithdrawalTitleEscapeHatch", {
         mins: totalBridgeTime?.value,
@@ -401,12 +406,18 @@ export const ConfirmationModal = ({
     .otherwise(() => "");
 
   const description = match({
+    fast,
     isUsdc: isNativeUsdc(stateToken),
     withdrawing,
     escapeHatch,
     family: deployment?.family,
     isEth: isNativeToken(stateToken),
   })
+    .with(
+      { fast: true },
+      () =>
+        "Bridge times via Across change with the amount you want to bridge. Try a smaller value for a faster bridge time."
+    )
     .with({ isUsdc: true, withdrawing: true, escapeHatch: true }, () =>
       t("confirmationModal.cctpDescriptionEscapeHatch", common)
     )
@@ -475,12 +486,39 @@ export const ConfirmationModal = ({
     .otherwise(() => null);
 
   const lineItems = match({
+    fast,
     isUsdc: isNativeUsdc(stateToken),
     withdrawing,
     family: deployment?.family,
     escapeHatch,
     gasToken,
   })
+    .with({ fast: true }, (c) =>
+      [
+        c.gasToken
+          ? {
+              text: t("confirmationModal.approveGasToken"),
+              icon: ApproveIcon,
+              fee: fee(approveGasTokenCost, 4),
+            }
+          : null,
+        {
+          text: t("confirmationModal.initiateDeposit"),
+          icon: InitiateIcon,
+          fee: fee(initiateCost, 4),
+        },
+        {
+          text: t("confirmationModal.waitMinutes", {
+            count: totalBridgeTime?.value,
+          }),
+          icon: WaitIcon,
+        },
+        {
+          text: t("confirmationModal.receiveDeposit", common),
+          icon: ReceiveIcon,
+        },
+      ].filter(isPresent)
+    )
     .with({ isUsdc: true, escapeHatch: true }, () => [
       {
         text: t("confirmationModal.initiateBridgeEscapeHatch", common),

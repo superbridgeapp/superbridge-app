@@ -1,15 +1,14 @@
 import Image from "next/image";
 import { useTranslation } from "react-i18next";
-import { Chain } from "viem";
 
-import { useDeployment } from "@/hooks/use-deployment";
-import { useFees } from "@/hooks/use-fees";
+import { useFromChain } from "@/hooks/use-chain";
+import { useFees } from "@/hooks/use-fee-line-items";
 
-export const DepositFees = ({ gasEstimate }: { gasEstimate: number }) => {
-  const deployment = useDeployment();
+export const NetworkFees = () => {
   const { t } = useTranslation();
+  const from = useFromChain();
 
-  const fee = useFees(deployment?.l1 as unknown as Chain, gasEstimate)[0];
+  const fee = useFees(from)[0];
 
   return (
     <div>

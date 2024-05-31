@@ -6,6 +6,7 @@ import { useDeployment } from "@/hooks/use-deployment";
 import { useDeployments } from "@/hooks/use-deployments";
 import { useToggleWithdrawing } from "@/hooks/use-toggle-withdrawing";
 import { useConfigState } from "@/state/config";
+
 import { Checkbox } from "./ui/checkbox";
 
 export const BridgeHeader = () => {
@@ -88,13 +89,13 @@ export const BridgeHeader = () => {
                 <div
                   role="button"
                   className={`rounded-full px-3 py-1 cursor-pointer transition-colors duration-200 ${
-                    !withdrawing ? "bg-primary" : "bg-transparent"
+                    !withdrawing && !fast ? "bg-primary" : "bg-transparent"
                   } `}
                   onClick={toggleWithdrawing}
                 >
                   <span
                     className={`text-xs font-medium leading-3 -translate-y-px inline-flex  ${
-                      !withdrawing
+                      !withdrawing && !fast
                         ? "text-primary-foreground"
                         : "text-muted-foreground"
                     }`}
@@ -105,13 +106,13 @@ export const BridgeHeader = () => {
                 <div
                   role="button"
                   className={`rounded-full px-3 py-1 cursor-pointer transition-colors duration-200 ${
-                    withdrawing ? "bg-primary" : "bg-transparent"
+                    withdrawing && !fast ? "bg-primary" : "bg-transparent"
                   }`}
                   onClick={toggleWithdrawing}
                 >
                   <span
                     className={`text-xs font-medium leading-3 -translate-y-px inline-flex  ${
-                      withdrawing
+                      withdrawing && !fast
                         ? "text-primary-foreground"
                         : "text-muted-foreground"
                     }`}

@@ -4,15 +4,14 @@ import { useTranslation } from "react-i18next";
 import { configurations } from "@/config/contract-addresses";
 import { useToChain } from "@/hooks/use-chain";
 import { useDeployment } from "@/hooks/use-deployment";
-import { useFees } from "@/hooks/use-fees";
+import { useFees } from "@/hooks/use-fee-line-items";
 import { useIsContractAccount } from "@/hooks/use-is-contract-account";
 import { useConfigState } from "@/state/config";
 import { isOptimism } from "@/utils/is-mainnet";
 
 import { Switch } from "../ui/switch";
-import { SettingsModalProps } from "./types";
 
-export const WithdrawSettings = ({ from, gasEstimate }: SettingsModalProps) => {
+export const WithdrawSettings = () => {
   const deployment = useDeployment();
   const easyMode = useConfigState.useEasyMode();
   const toggleEasyMode = useConfigState.useToggleEasyMode();
@@ -22,7 +21,7 @@ export const WithdrawSettings = ({ from, gasEstimate }: SettingsModalProps) => {
   const { t } = useTranslation();
 
   const to = useToChain();
-  const fees = useFees(from, gasEstimate);
+  const fees = useFees(deployment?.l2);
 
   return (
     <div>

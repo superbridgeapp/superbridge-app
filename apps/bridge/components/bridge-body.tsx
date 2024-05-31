@@ -7,16 +7,11 @@ import { useTranslation } from "react-i18next";
 import { isPresent } from "ts-is-present";
 import { match } from "ts-pattern";
 import { formatUnits, parseUnits } from "viem";
-import {
-  useAccount,
-  useBalance,
-  useConfig,
-  useEstimateFeesPerGas,
-  useWalletClient,
-} from "wagmi";
+import { useAccount, useBalance, useConfig, useWalletClient } from "wagmi";
 
 import { useBridgeControllerTrack } from "@/codegen";
 import { currencySymbolMap } from "@/constants/currency-symbol-map";
+import { useAcrossDomains } from "@/hooks/use-across-configs";
 import { useAllowance } from "@/hooks/use-allowance";
 import { useApprove } from "@/hooks/use-approve";
 import { useTokenBalance } from "@/hooks/use-balances";
@@ -25,10 +20,10 @@ import { useBridge } from "@/hooks/use-bridge";
 import { useBridgeLimit } from "@/hooks/use-bridge-limit";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
 import { useDeployment } from "@/hooks/use-deployment";
-import { useIsCustomToken } from "@/hooks/use-is-custom-token";
-import { useIsCustomTokenFromList } from "@/hooks/use-is-custom-token-from-list";
 import { useNativeToken } from "@/hooks/use-native-token";
+import { useNetworkFee } from "@/hooks/use-network-fee";
 import { useTokenPrice } from "@/hooks/use-prices";
+import { useAcrossFee, useReceiveAmount } from "@/hooks/use-receive-amount";
 import { useRequiredCustomGasTokenBalance } from "@/hooks/use-required-custom-gas-token-balance";
 import { useSelectedToken } from "@/hooks/use-selected-token";
 import { useStatusCheck } from "@/hooks/use-status-check";
@@ -43,24 +38,19 @@ import { buildPendingTx } from "@/utils/build-pending-tx";
 import { isEth, isNativeToken } from "@/utils/is-eth";
 import { isNativeUsdc } from "@/utils/is-usdc";
 
-import { useAcrossQuote } from "@/hooks/across/use-across-quote";
 import { FromTo } from "./FromTo";
 import { AddressModal } from "./address-modal";
 import { ConfirmationModal } from "./confirmation-modal";
-import { CctpBadge } from "./cttp-badge";
 import { FastFromTo } from "./fast/FromTo";
-import { DepositFees } from "./fees/deposit-fees";
+import { NetworkFees } from "./fees/network-fees";
 import { WithdrawFees } from "./fees/withdraw-fees";
 import { NftImage } from "./nft";
 import { NoGasModal } from "./no-gas-modal";
-import { TokenIcon } from "./token-icon";
+import { TokenInput } from "./token-input";
 import { TokenModal } from "./tokens/Modal";
 import { CustomTokenImportModal } from "./tokens/custom-token-import-modal";
 import { Button } from "./ui/button";
 import { WithdrawSettingsModal } from "./withdraw-settings/modal";
-import { TokenInput } from "./token-input";
-import { useAcrossDomains } from "@/hooks/use-across-configs";
-import { useAcrossFee, useReceiveAmount } from "@/hooks/use-receive-amount";
 
 const RecipientAddress = ({
   openAddressDialog,
@@ -180,21 +170,12 @@ export const BridgeBody = () => {
   });
   const baseNativeTokenBalance = useBaseNativeTokenBalance();
   const tokenBalance = useTokenBalance(token);
-  const feeData = useEstimateFeesPerGas({
-    chainId: initiatingChainId,
-  });
   const wagmiConfig = useConfig();
 
   const acrossDomains = useAcrossDomains();
   const allowance = useAllowance(token, bridge.address);
 
-  let networkFee: number | undefined;
-  if (feeData.data) {
-    const gwei =
-      (feeData.data.gasPrice ?? feeData.data.maxFeePerGas ?? BigInt(0)) *
-      bridge.gas;
-    networkFee = parseFloat(formatUnits(gwei, 18));
-  }
+  const networkFee = useNetworkFee();
 
   const approve = useApprove(
     token,
@@ -489,8 +470,6 @@ export const BridgeBody = () => {
       <WithdrawSettingsModal
         open={withdrawSettingsDialog}
         setOpen={setWithdrawSettingsDialog}
-        from={from}
-        gasEstimate={200_000}
       />
       <CustomTokenImportModal />
       <AddressModal open={addressDialog} setOpen={setAddressDialog} />
@@ -601,25 +580,11 @@ export const BridgeBody = () => {
 
         {withdrawing ? (
           <WithdrawFees
-            gasEstimate={
-              isNativeUsdc(stateToken)
-                ? 100_000
-                : isNativeToken(stateToken)
-                ? 150_000
-                : 175_000
-            }
+            gasEstimate={bridge.gas}
             openSettings={() => setWithdrawSettingsDialog(true)}
           />
         ) : (
-          <DepositFees
-            gasEstimate={
-              isNativeUsdc(stateToken)
-                ? 100_000
-                : isNativeToken(stateToken)
-                ? 150_000
-                : 175_000
-            }
-          />
+          <NetworkFees />
         )}
       </div>
 

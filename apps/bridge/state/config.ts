@@ -73,7 +73,8 @@ interface ConfigState {
 
 const ConfigState = create<ConfigState>()((set) => ({
   withdrawing: false,
-  toggleWithdrawing: () => set((s) => ({ withdrawing: !s.withdrawing })),
+  toggleWithdrawing: () =>
+    set((s) => ({ withdrawing: !s.withdrawing, fast: false })),
   setWithdrawing: (withdrawing) => set({ withdrawing }),
 
   fast: false,

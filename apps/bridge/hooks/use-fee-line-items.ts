@@ -17,32 +17,17 @@ import { useSettingsState } from "@/state/settings";
 
 import { useDeployment } from "./use-deployment";
 import { useNativeToken } from "./use-native-token";
+import { useNetworkFee } from "./use-network-fee";
 
-export const useFees = (
-  from: Chain | ChainDto | undefined,
-  gasEstimate: number
-) => {
+export const useFees = (from: Chain | ChainDto | undefined) => {
   const deployment = useDeployment();
   const withdrawing = useConfigState.useWithdrawing();
   const forceViaL1 = useConfigState.useForceViaL1();
   const easyMode = useConfigState.useEasyMode();
   const currency = useSettingsState.useCurrency();
   const { t } = useTranslation();
-
   const nativeToken = useNativeToken();
-
-  const feeData = useFeeData({
-    chainId: forceViaL1 && withdrawing ? deployment?.l1.id : from?.id,
-  });
-
-  let networkFee = 0;
-  if (feeData.data) {
-    const gwei =
-      (feeData.data.gasPrice ?? feeData.data.maxFeePerGas)! *
-      BigInt(gasEstimate);
-    networkFee = parseFloat(formatUnits(gwei, 18));
-  }
-
+  const networkFee = useNetworkFee();
   const nativeTokenUsdPrice = useTokenPrice(nativeToken ?? null);
 
   const EASY_MODE_GWEI_THRESHOLD =
