@@ -59,6 +59,7 @@ import { CustomTokenImportModal } from "./tokens/custom-token-import-modal";
 import { Button } from "./ui/button";
 import { WithdrawSettingsModal } from "./withdraw-settings/modal";
 import { TokenInput } from "./token-input";
+import { useAcrossDomains } from "@/hooks/use-across-configs";
 
 const RecipientAddress = ({
   openAddressDialog,
@@ -166,8 +167,6 @@ export const BridgeBody = () => {
   const bridgeLimit = useBridgeLimit();
   const track = useBridgeControllerTrack();
 
-  console.log(useAcrossQuote().data);
-
   const initiatingChainId =
     forceViaL1 && withdrawing ? deployment?.l1.id : from?.id;
   const fromEthBalance = useBalance({
@@ -185,6 +184,7 @@ export const BridgeBody = () => {
   });
   const wagmiConfig = useConfig();
 
+  const acrossDomains = useAcrossDomains();
   const allowance = useAllowance(token, bridge.address);
 
   let networkFee: number | undefined;
@@ -222,9 +222,6 @@ export const BridgeBody = () => {
     !!baseNativeTokenBalance.data &&
     requiredCustomGasTokenBalance > baseNativeTokenBalance.data;
 
-  const isCustomToken = useIsCustomToken(stateToken);
-  const isCustomTokenFromList = useIsCustomTokenFromList(stateToken);
-
   const onWrite = async () => {
     if (
       !account.address ||
@@ -238,10 +235,16 @@ export const BridgeBody = () => {
       return;
     }
 
-    const initiatingChain =
-      bridge.args.tx.chainId === deployment.l1.id
-        ? deployment.l1
-        : deployment.l2;
+    const initiatingChain = fast
+      ? acrossDomains.find((x) => x.chain?.id === bridge.args?.tx.chainId)
+          ?.chain
+      : bridge.args.tx.chainId === deployment.l1.id
+      ? deployment.l1
+      : deployment.l2;
+    if (!initiatingChain) {
+      return;
+    }
+
     if (initiatingChain.id !== account.chainId) {
       await switchChain(initiatingChain);
     }

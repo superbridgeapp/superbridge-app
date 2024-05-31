@@ -42,6 +42,27 @@ interface AcrossLimitsResult {
   recommendedDepositInstant: 2045367713809;
 }
 
+/**
+ * maxDepositInstant: check this value first.
+ *  if the user's amount is less than or equal to this amount, there
+ *  is known to be enough relayer liquidity on the destination chain
+ *  to fill them immediately.
+ *
+ * maxDepositShortDelay: if the user's deposit amount is larger than maxDepositInstant
+ *  If the user's amount is less than or equal to this amount, there is
+ *  known to be enough relayer liquidity that can be moved to the destination
+ * chain within 30 minutes, so you should expect them to be filled within
+ * that time frame.
+ *
+ * maxDeposit: if the user's deposit amount is larger than maxDepositShortDelay
+ *  If the user's amount is less than or equal to this amount, there is enough
+ * liquidity in Across to fill them via a slow fill, which could take up to 3 hours.
+ * If the user's deposit amount is larger than this, Across cannot fulfil the user's
+ * intent.
+ *
+ * reccommendedDepositInstant: this is used for certain integrations to limit the input size,
+ *  and is currently hardcoded to 2 ETH/WETH and 5,000 USDC
+ */
 export const useAcrossLimits = () => {
   const fast = useConfigState.useFast();
   const params = useAcrossParams();

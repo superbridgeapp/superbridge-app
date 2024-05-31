@@ -7,20 +7,27 @@ import { isCctpBridgeOperation } from "./cctp-args/common";
 import { forceWithdrawalArgs } from "./force-withdrawal-args";
 import { useDeployment } from "../use-deployment";
 import { useWeiAmount } from "../use-wei-amount";
+import { useAcrossArgs } from "./use-across-args";
 
 export const useTransactionArgs = () => {
   const stateToken = useConfigState.useToken();
   const forceViaL1 = useConfigState.useForceViaL1();
   const withdrawing = useConfigState.useWithdrawing();
+  const fast = useConfigState.useFast();
 
+  const wei = useWeiAmount();
   const deployment = useDeployment();
   const deposit = useDepositArgs();
   const withdraw = useWithdrawArgs();
   const cctp = useCctpArgs();
-  const wei = useWeiAmount();
+  const across = useAcrossArgs();
 
   if (!stateToken || !wei) {
     return;
+  }
+
+  if (fast) {
+    return across;
   }
 
   if (isCctpBridgeOperation(stateToken)) {
