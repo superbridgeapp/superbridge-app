@@ -89,13 +89,28 @@ export const TosModal = () => {
       <div className="flex gap-3">
         <QuestionMark />
         <p className="text-sm font-medium">
-          <Trans
-            i18nKey={"tos.superbridge3"}
-            components={[
-              <Link href={"/support"} key="name" className="underline" />,
-            ]}
-            values={{ name: deployment?.l2.name }}
-          />
+          {isSuperbridge ? (
+            <Trans
+              i18nKey={"tos.superbridge3"}
+              components={[
+                <Link href="/support" key="name" className="underline" />,
+              ]}
+              values={{ name: deployment?.l2.name }}
+            />
+          ) : (
+            <Trans
+              i18nKey={"tos.superbridge3"}
+              components={[
+                <a
+                  href="https://superbridge.app/support"
+                  key="name"
+                  className="underline"
+                  target="_blank"
+                />,
+              ]}
+              values={{ name: deployment?.l2.name }}
+            />
+          )}
         </p>
       </div>
 
