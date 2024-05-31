@@ -453,10 +453,16 @@ export const ConfirmationModal = ({
     .otherwise(() => null);
 
   const checkbox1Text = match({
+    fast,
     isUsdc: isNativeUsdc(stateToken),
     withdrawing,
     family: deployment?.family,
   })
+    .with(
+      { fast: true },
+      () =>
+        `I understand it will take ~${totalBridgeTime?.value} mins until my funds are on ${to?.name}`
+    )
     .with({ isUsdc: true }, () =>
       t("confirmationModal.checkbox1Cctp", {
         mins: totalBridgeTime?.value,
