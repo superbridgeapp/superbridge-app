@@ -38,7 +38,7 @@ const superbridgeTheme: Partial<ThemeDto> = {
   "primary-foreground-dark": "hsl(240 5.9% 10%)",
   "secondary-dark": "hsl(240 3.7% 15.9%)",
   "secondary-foreground-dark": "hsl(0 0% 98%)",
-  "muted-dark": "hsl(240 4% 16%)",
+  "muted-dark": "hsla(0, 0%, 100%, 0.1)",
   "muted-foreground-dark": "hsl(240 5% 64.9%)",
   "accent-dark": "hsl(240 3.7% 15.9%)",
   "accent-foreground-dark": "hsl(0 0% 98%)",
