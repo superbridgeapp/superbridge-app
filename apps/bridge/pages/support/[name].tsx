@@ -36,7 +36,7 @@ export default function Support({
     title: `What is the ${rollupChain} native bridge`,
     description: (
       <>
-        <div className="prose">
+        <div className="prose dark:prose-invert">
           <p>
             The {rollupChain} native bridge contracts are deployed as part of{" "}
             the {rollupChain} rollup. They control the flow of funds to and from{" "}
@@ -64,7 +64,7 @@ export default function Support({
     title: "What is Superbridge?",
     description: (
       <>
-        <div className="prose">
+        <div className="prose dark:prose-invert">
           <p>
             Superbridge is a pretty user interface over the{" "}
             <a
@@ -112,7 +112,7 @@ export default function Support({
   const cancel = {
     title: "Can I cancel a bridge once it has started?",
     description: (
-      <div className="prose">
+      <div className="prose dark:prose-invert">
         <p>No, a bridge cannot be cancelled once submitted.</p>
         <p>
           Before initiating a bridge we try to be as clear as possible about the
@@ -126,7 +126,7 @@ export default function Support({
   const fees = {
     title: "Does Superbridge charge any extra fees?",
     description: (
-      <div className="prose">
+      <div className="prose dark:prose-invert">
         <p>
           Superbridge does not charge any extra fees for using the {rollupChain}{" "}
           Native Bridge contracts. However, standard network fees still apply.
@@ -141,7 +141,7 @@ export default function Support({
   const speed = {
     title: "Can I speed up my bridge?",
     description: (
-      <div className="prose">
+      <div className="prose dark:prose-invert">
         <p>
           If you have already started a bridge with Superbridge, then you cannot
           speed it up.{" "}
@@ -166,7 +166,7 @@ export default function Support({
       ? {
           title: `What happens if I don’t prove or finalize my withdrawal to ${settlementChain}?`,
           description: (
-            <div className="prose">
+            <div className="prose dark:prose-invert">
               <p>
                 If you don't prove or finalize the withdrawal your funds will
                 remain in the bridge until you do so.
@@ -184,7 +184,7 @@ export default function Support({
   const finalizationPeriod = getFinalizationPeriod(deployment, false);
 
   return (
-    <div className="w-screen h-screen overflow-y-auto bg-zinc-50">
+    <div className="w-screen h-screen overflow-y-auto bg-background">
       <PageNav />
       <main>
         <section className="max-w-3xl mx-auto p-8">
@@ -209,7 +209,7 @@ export default function Support({
                 height="14"
                 viewBox="0 0 14 14"
                 fill="none"
-                className="fill-zinc-900 mr-1"
+                className="fill-foreground mr-2"
               >
                 <path d="M7 0.677246C6.70724 0.677246 6.41553 0.769919 6.1849 0.984753L0.523395 5.9849C0.246428 6.23133 0 6.55463 0 7.0001C0 7.44556 0.246428 7.76887 0.523395 8.01529L6.1849 13.0154C6.41553 13.2313 6.70829 13.323 7 13.323C7.67715 13.323 8.23108 12.769 8.23108 12.0919C8.23108 11.738 8.09312 11.4147 7.81616 11.1693L4.49361 8.23118H12.7689C13.4461 8.23118 14 7.67725 14 7.0001C14 6.32295 13.4461 5.76902 12.7689 5.76902H4.49255L7.8151 2.83085C8.09207 2.58442 8.23003 2.26217 8.23003 1.90833C8.23003 1.23118 7.67609 0.677246 6.99895 0.677246L7 0.677246Z" />
               </svg>
@@ -239,7 +239,7 @@ export default function Support({
                 {finalizationPeriod?.period} to withdraw to {settlementChain}?
               </AccordionTrigger>
               <AccordionContent>
-                <div className="prose">
+                <div className="prose dark:prose-invert">
                   <p>
                     Because of the way the {rollupChain} Native Bridge operates,
                     users are required to wait when moving assets out of{" "}
@@ -269,7 +269,7 @@ export default function Support({
                 {settlementChain}?
               </AccordionTrigger>
               <AccordionContent>
-                <div className="prose">
+                <div className="prose dark:prose-invert">
                   <p>
                     Superbridge uses the {rollupChain}
                     Native Bridge contracts which are highly secure, and require
@@ -306,7 +306,7 @@ export default function Support({
                 Why do USDC bridges via CCTP take multiple transactions?
               </AccordionTrigger>
               <AccordionContent>
-                <div className="prose">
+                <div className="prose dark:prose-invert">
                   <p>
                     As opposed to native bridging with where funds are routed
                     through the rollup smart contracts, native USDC issuance is
@@ -331,7 +331,7 @@ export default function Support({
                 What are some alternatives to Superbridge?
               </AccordionTrigger>
               <AccordionContent>
-                <div className="prose">
+                <div className="prose dark:prose-invert">
                   <p>
                     When you’re in a hurry or only withdrawing small amounts, it
                     might make sense to use other bridges... So we put together
@@ -353,7 +353,7 @@ export default function Support({
             <AccordionItem value="item-10">
               <AccordionTrigger>Have more questions?</AccordionTrigger>
               <AccordionContent>
-                <div className="prose pb-2">
+                <div className="prose dark:prose-invert pb-2">
                   <p>
                     If you have additional questions, feel free to reach out.
                   </p>

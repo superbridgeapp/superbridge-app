@@ -2,7 +2,7 @@ import Image from "next/image";
 
 const PageNav = () => {
   return (
-    <nav className="flex flex-row justify-between items-center pl-1 pr-3 py-2 md:py-4 md:pl-2 md:pr-4 sticky top-0 w-screen z-10 bg-white dark:bg-zinc-950 border-b ">
+    <nav className="flex flex-row justify-between items-center pl-1 pr-3 py-2 md:py-4 md:pl-2 md:pr-4 sticky top-0 w-screen z-10 bg-background border-b ">
       <a href="/" className="cursor-pointer">
         <Image
           src={"/img/logo.svg"}
