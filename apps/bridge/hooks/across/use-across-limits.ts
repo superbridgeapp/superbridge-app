@@ -67,13 +67,26 @@ export const useAcrossLimits = () => {
   const fast = useConfigState.useFast();
   const params = useAcrossParams();
 
-  const paramsString = params ? new URLSearchParams(params).toString() : "";
+  const urlParams = params ? new URLSearchParams(params) : null;
+  urlParams?.delete("recipient");
+  urlParams?.delete("amount");
+  const paramsString = urlParams ? urlParams.toString() : "";
+
   return useQuery({
-    queryKey: ["across quote", paramsString],
-    queryFn: () =>
-      fetch(`https://app.across.to/api/limits?${paramsString}`).then(
-        async (x) => (await x.json()) as AcrossLimitsResult
-      ),
+    queryKey: ["across limits", paramsString],
+    queryFn: async () => {
+      const response = await fetch(
+        `https://app.across.to/api/limits?${paramsString}`
+      );
+
+      if (response.status !== 200) {
+        const err = await response.text();
+        console.log("invalid", err, response.status);
+        throw new Error(err);
+      }
+
+      return (await response.json()) as AcrossLimitsResult;
+    },
     enabled: fast && !!paramsString,
   });
 };

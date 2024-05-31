@@ -87,7 +87,6 @@ export const useAcrossQuote = () => {
       const response = await fetch(
         `https://app.across.to/api/suggested-fees?${paramsString}`
       );
-      console.log(response.status);
       if (response.status !== 200) {
         throw new Error(await response.text());
       }
