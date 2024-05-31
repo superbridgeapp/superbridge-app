@@ -48,7 +48,6 @@ export const useAcrossArgs = () => {
     !from ||
     !quote.data
   ) {
-    console.log("hier", quote);
     return;
   }
 

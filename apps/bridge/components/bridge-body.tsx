@@ -60,6 +60,7 @@ import { Button } from "./ui/button";
 import { WithdrawSettingsModal } from "./withdraw-settings/modal";
 import { TokenInput } from "./token-input";
 import { useAcrossDomains } from "@/hooks/use-across-configs";
+import { useReceiveAmount } from "@/hooks/use-receive-amount";
 
 const RecipientAddress = ({
   openAddressDialog,
@@ -204,7 +205,7 @@ export const BridgeBody = () => {
   );
   const usdPrice = useTokenPrice(stateToken);
 
-  const receive = parseFloat(rawAmount) || 0;
+  const receive = useReceiveAmount();
 
   const hasInsufficientBalance = weiAmount > tokenBalance;
   const hasInsufficientGas =
@@ -304,14 +305,17 @@ export const BridgeBody = () => {
       ? {
           icon: "/img/receive.svg",
           left: t("receiveOnChain", { chain: to?.name }),
-          middle: usdPrice
-            ? `${currencySymbolMap[currency]}${(
-                receive * usdPrice
-              ).toLocaleString("en")}`
-            : undefined,
-          right: `${receive.toLocaleString("en", {
-            maximumFractionDigits: 4,
-          })} ${stateToken?.[to?.id ?? 0]?.symbol}`,
+          middle:
+            receive && usdPrice
+              ? `${currencySymbolMap[currency]}${(
+                  receive * usdPrice
+                ).toLocaleString("en")}`
+              : undefined,
+          right: receive
+            ? `${receive.toLocaleString("en", {
+                maximumFractionDigits: 4,
+              })} ${stateToken?.[to?.id ?? 0]?.symbol}`
+            : "",
         }
       : nft
       ? {

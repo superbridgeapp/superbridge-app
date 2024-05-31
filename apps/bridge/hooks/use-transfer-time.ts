@@ -11,7 +11,6 @@ const useFastTransferPeriod = (): Period => {
   const weiAmount = useWeiAmount();
   const limits = useAcrossLimits();
 
-  console.log(limits.data, limits.error);
   if (!limits.data) {
     return null;
   }
