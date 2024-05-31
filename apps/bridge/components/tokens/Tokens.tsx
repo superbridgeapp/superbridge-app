@@ -316,21 +316,20 @@ export const FungibleTokenPicker = ({
                 const token = tokens.data.find(
                   (t) => t.token[deployment?.l2.id ?? 0]?.symbol === symbol
                 )?.token;
-                if (!token) {
+                const fromToken = token?.[from?.id ?? 0];
+                if (!token || !fromToken) {
                   return null;
                 }
+
                 return (
                   <div
-                    key={token[from?.id ?? 0]?.address ?? "0x"}
+                    key={fromToken.address}
                     className="border rounded-full flex items-center space-x-1 px-2 pr-3 py-1  cursor-pointer hover:bg-muted transition"
                     onClick={() => onClickToken(token)}
                   >
-                    <img
-                      src={token[from?.id ?? 0]?.logoURI}
-                      className="h-5 w-5 rounded-full"
-                    />
+                    <TokenIcon token={fromToken} className="h-5 w-5" />
                     <span className="text-sm font-medium inline-flex">
-                      {token[from?.id ?? 0]?.symbol}
+                      {fromToken.symbol}
                     </span>
                   </div>
                 );
