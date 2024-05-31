@@ -578,13 +578,13 @@ export const BridgeBody = () => {
           </div>
         ))}
 
-        {withdrawing ? (
+        {fast || !withdrawing ? (
+          <NetworkFees />
+        ) : (
           <WithdrawFees
             gasEstimate={bridge.gas}
             openSettings={() => setWithdrawSettingsDialog(true)}
           />
-        ) : (
-          <NetworkFees />
         )}
       </div>
 

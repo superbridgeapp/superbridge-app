@@ -15,11 +15,10 @@ export const BridgeHeader = () => {
   const setFast = useConfigState.useSetFast();
   const deployment = useDeployment();
   const toggleWithdrawing = useToggleWithdrawing();
+  const setWithdrawing = useConfigState.useSetWithdrawing();
   const { resolvedTheme } = useTheme();
   const { t } = useTranslation();
-
   const { deployments } = useDeployments();
-
   return (
     <div>
       <div className="flex items-center justify-between px-4 md:px-6 pt-3 md:pt-6 pb-2 md:pb-8">
@@ -91,7 +90,10 @@ export const BridgeHeader = () => {
                   className={`rounded-full px-3 py-1 cursor-pointer transition-colors duration-200 ${
                     !withdrawing && !fast ? "bg-primary" : "bg-transparent"
                   } `}
-                  onClick={toggleWithdrawing}
+                  onClick={() => {
+                    if (fast) setWithdrawing(false);
+                    else toggleWithdrawing();
+                  }}
                 >
                   <span
                     className={`text-xs font-medium leading-3 -translate-y-px inline-flex  ${
@@ -108,7 +110,10 @@ export const BridgeHeader = () => {
                   className={`rounded-full px-3 py-1 cursor-pointer transition-colors duration-200 ${
                     withdrawing && !fast ? "bg-primary" : "bg-transparent"
                   }`}
-                  onClick={toggleWithdrawing}
+                  onClick={() => {
+                    if (fast) setWithdrawing(true);
+                    else toggleWithdrawing();
+                  }}
                 >
                   <span
                     className={`text-xs font-medium leading-3 -translate-y-px inline-flex  ${

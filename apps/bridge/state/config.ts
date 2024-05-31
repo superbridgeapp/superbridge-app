@@ -75,7 +75,7 @@ const ConfigState = create<ConfigState>()((set) => ({
   withdrawing: false,
   toggleWithdrawing: () =>
     set((s) => ({ withdrawing: !s.withdrawing, fast: false })),
-  setWithdrawing: (withdrawing) => set({ withdrawing }),
+  setWithdrawing: (withdrawing) => set({ withdrawing, fast: false }),
 
   fast: false,
   setFast: (fast: boolean) => set({ fast }),
