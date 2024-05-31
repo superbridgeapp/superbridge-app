@@ -11,7 +11,7 @@ import { useAccount, useBalance, useConfig, useWalletClient } from "wagmi";
 
 import { useBridgeControllerTrack } from "@/codegen";
 import { currencySymbolMap } from "@/constants/currency-symbol-map";
-import { useAcrossDomains } from "@/hooks/use-across-configs";
+import { useAcrossDomains } from "@/hooks/use-across-domains";
 import { useAllowance } from "@/hooks/use-allowance";
 import { useApprove } from "@/hooks/use-approve";
 import { useTokenBalance } from "@/hooks/use-balances";
