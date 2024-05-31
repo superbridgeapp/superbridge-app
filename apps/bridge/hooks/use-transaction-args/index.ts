@@ -6,6 +6,7 @@ import { useWithdrawArgs } from "./withdraw-args/use-withdraw-args";
 import { isCctpBridgeOperation } from "./cctp-args/common";
 import { forceWithdrawalArgs } from "./force-withdrawal-args";
 import { useDeployment } from "../use-deployment";
+import { useWeiAmount } from "../use-wei-amount";
 
 export const useTransactionArgs = () => {
   const stateToken = useConfigState.useToken();
@@ -16,8 +17,9 @@ export const useTransactionArgs = () => {
   const deposit = useDepositArgs();
   const withdraw = useWithdrawArgs();
   const cctp = useCctpArgs();
+  const wei = useWeiAmount();
 
-  if (!stateToken) {
+  if (!stateToken || !wei) {
     return;
   }
 
