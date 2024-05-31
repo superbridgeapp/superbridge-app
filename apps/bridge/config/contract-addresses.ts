@@ -39,28 +39,28 @@ export const configurations: { [name: string]: NetworkConfig | undefined } = {
   //     l2Bridge: "0x3D50EE8FAd8eb2299645CA86237022B82487cEaC",
   //   },
   // },
-  ["kroma"]: {
-    contracts: {
-      l1Bridge: "0xB54047FA231b05Bfe3AA96322D54cC583d40E925",
-      l2Bridge: "0x3A88F50e7B7b039eB67BE5f9E8d15714d9be4b04",
-    },
-  },
-  ["arbitrum-one"]: {
-    contracts: {
-      l1Bridge: "0xFdFb87Be3c5b32e6fe470A6f78f2aA4632398cEf",
-      l2Bridge: "0x3A88F50e7B7b039eB67BE5f9E8d15714d9be4b04",
-    },
-  },
-  ["arbitrum-nova"]: {
-    contracts: {
-      l1Bridge: "0xFdFb87Be3c5b32e6fe470A6f78f2aA4632398cEf",
-      l2Bridge: "0x3A88F50e7B7b039eB67BE5f9E8d15714d9be4b04",
-    },
-  },
-  rollux: {
-    contracts: {
-      l1Bridge: "0x3A88F50e7B7b039eB67BE5f9E8d15714d9be4b04",
-      l2Bridge: "0x3A88F50e7B7b039eB67BE5f9E8d15714d9be4b04",
-    },
-  },
+  // ["kroma"]: {
+  //   contracts: {
+  //     l1Bridge: "0xB54047FA231b05Bfe3AA96322D54cC583d40E925",
+  //     l2Bridge: "0x3A88F50e7B7b039eB67BE5f9E8d15714d9be4b04",
+  //   },
+  // },
+  // ["arbitrum-one"]: {
+  //   contracts: {
+  //     l1Bridge: "0xFdFb87Be3c5b32e6fe470A6f78f2aA4632398cEf",
+  //     l2Bridge: "0x3A88F50e7B7b039eB67BE5f9E8d15714d9be4b04",
+  //   },
+  // },
+  // ["arbitrum-nova"]: {
+  //   contracts: {
+  //     l1Bridge: "0xFdFb87Be3c5b32e6fe470A6f78f2aA4632398cEf",
+  //     l2Bridge: "0x3A88F50e7B7b039eB67BE5f9E8d15714d9be4b04",
+  //   },
+  // },
+  // rollux: {
+  //   contracts: {
+  //     l1Bridge: "0x3A88F50e7B7b039eB67BE5f9E8d15714d9be4b04",
+  //     l2Bridge: "0x3A88F50e7B7b039eB67BE5f9E8d15714d9be4b04",
+  //   },
+  // },
 };
