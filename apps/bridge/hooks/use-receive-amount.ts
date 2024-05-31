@@ -1,17 +1,25 @@
+import { formatUnits } from "viem";
+
 import { useConfigState } from "@/state/config";
 
 import { useAcrossQuote } from "./across/use-across-quote";
-import { useWeiAmount } from "./use-wei-amount";
 import { useSelectedToken } from "./use-selected-token";
-import { formatUnits } from "viem";
+
+export const useAcrossFee = () => {
+  const token = useSelectedToken();
+  const fastRelayFee = useAcrossQuote().data?.totalRelayFee.total;
+
+  return fastRelayFee && token
+    ? parseFloat(formatUnits(BigInt(fastRelayFee), token.decimals))
+    : null;
+};
 
 export const useReceiveAmount = () => {
   const rawAmount = useConfigState.useRawAmount();
-  const weiAmount = useWeiAmount();
   const fast = useConfigState.useFast();
   const token = useSelectedToken();
 
-  const fastRelayFee = useAcrossQuote().data?.totalRelayFee.total;
+  const fastRelayFee = useAcrossFee();
 
   const parsedRawAmount = parseFloat(rawAmount) || 0;
   if (!fast) {
@@ -22,7 +30,5 @@ export const useReceiveAmount = () => {
     return null;
   }
 
-  return parseFloat(
-    formatUnits(weiAmount - BigInt(fastRelayFee), token.decimals)
-  );
+  return parsedRawAmount - fastRelayFee;
 };

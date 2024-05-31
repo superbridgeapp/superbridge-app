@@ -60,7 +60,7 @@ import { Button } from "./ui/button";
 import { WithdrawSettingsModal } from "./withdraw-settings/modal";
 import { TokenInput } from "./token-input";
 import { useAcrossDomains } from "@/hooks/use-across-configs";
-import { useReceiveAmount } from "@/hooks/use-receive-amount";
+import { useAcrossFee, useReceiveAmount } from "@/hooks/use-receive-amount";
 
 const RecipientAddress = ({
   openAddressDialog,
@@ -205,6 +205,7 @@ export const BridgeBody = () => {
   );
   const usdPrice = useTokenPrice(stateToken);
 
+  const fastFee = useAcrossFee();
   const receive = useReceiveAmount();
 
   const hasInsufficientBalance = weiAmount > tokenBalance;
@@ -301,6 +302,23 @@ export const BridgeBody = () => {
   };
 
   const lineItems = [
+    fast
+      ? {
+          icon: "/img/icon-fast-withdraw.svg",
+          left: "Superfast fee",
+          middle:
+            fastFee && usdPrice
+              ? `${currencySymbolMap[currency]}${(
+                  fastFee * usdPrice
+                ).toLocaleString("en")}`
+              : undefined,
+          right: fastFee
+            ? `${fastFee.toLocaleString("en", {
+                maximumFractionDigits: 4,
+              })} ${stateToken?.[to?.id ?? 0]?.symbol}`
+            : "",
+        }
+      : null,
     stateToken
       ? {
           icon: "/img/receive.svg",
