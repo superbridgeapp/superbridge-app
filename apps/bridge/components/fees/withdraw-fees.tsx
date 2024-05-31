@@ -28,8 +28,12 @@ export const WithdrawFees = ({
   const forceIsEnabled = !!deployment && isOptimism(deployment);
   const easyModeEnabled = !!configurations[deployment?.name ?? ""];
 
+  const hasSettings = forceIsEnabled || easyModeEnabled;
   return (
-    <div className="cursor-pointer" onClick={() => openSettings()}>
+    <div
+      className={hasSettings ? "cursor-pointer" : ""}
+      onClick={hasSettings ? () => openSettings() : undefined}
+    >
       <div className="flex justify-between items-center px-3 py-2 md:py-3">
         <div className="flex items-center gap-2">
           <Image
@@ -49,17 +53,20 @@ export const WithdrawFees = ({
               .reduce((accum, fee) => (fee.usd?.raw ?? 0) + accum, 0)
               .toLocaleString("en", { maximumFractionDigits: 2 })}
           </span>
-          <Image
-            alt="fees icon"
-            src={"/img/caret-down.svg"}
-            className="h-4 w-4"
-            height={16}
-            width={16}
-          />
+
+          {hasSettings && (
+            <Image
+              alt="fees icon"
+              src={"/img/caret-down.svg"}
+              className="h-4 w-4"
+              height={16}
+              width={16}
+            />
+          )}
         </div>
       </div>
 
-      {(forceIsEnabled || easyModeEnabled) && (
+      {hasSettings && (
         <div className="flex gap-2 justify-end items-center mb-3 px-3">
           {forceIsEnabled && (
             <div
