@@ -38,6 +38,7 @@ import { useSettingsState } from "@/state/settings";
 import { Token } from "@/types/token";
 import { isNativeToken } from "@/utils/is-eth";
 import { isNativeUsdc } from "@/utils/is-usdc";
+import { isArbitrum } from "@/utils/is-mainnet";
 
 import { Button } from "../ui/button";
 import { Dialog, DialogContent } from "../ui/dialog";
@@ -229,10 +230,18 @@ export const ConfirmationModal = ({
     typeof allowance.data !== "undefined" && allowance.data >= weiAmount;
 
   const requiredCustomGasTokenBalance = useRequiredCustomGasTokenBalance();
-  const approvedGasToken =
-    typeof gasTokenAllowance.data !== "undefined" &&
-    !!requiredCustomGasTokenBalance &&
-    gasTokenAllowance.data > requiredCustomGasTokenBalance;
+  const approvedGasToken = (() => {
+    if (typeof gasTokenAllowance.data === "undefined" || !deployment)
+      return false;
+    if (isArbitrum(deployment)) {
+      return (
+        !!requiredCustomGasTokenBalance &&
+        gasTokenAllowance.data > requiredCustomGasTokenBalance
+      );
+    } else {
+      return isNativeToken(stateToken) && gasTokenAllowance.data >= weiAmount;
+    }
+  })();
 
   const approveGasTokenButton = match({
     withdrawing,
