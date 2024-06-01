@@ -10,4 +10,4 @@ import type { TokenDepositDto } from './tokenDepositDto';
 import type { NftDepositDto } from './nftDepositDto';
 import type { AcrossBridgeMetadataDto } from './acrossBridgeMetadataDto';
 
-export type BridgeWithdrawalDtoMetadata = EthDepositDto | TokenDepositDto | NftDepositDto | AcrossBridgeMetadataDto;
+export type AcrossBridgeDtoMetadata = EthDepositDto | TokenDepositDto | NftDepositDto | AcrossBridgeMetadataDto;

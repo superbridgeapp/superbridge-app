@@ -1,7 +1,10 @@
 import { useEffect } from "react";
 import { useAccount } from "wagmi";
 
-import { useBridgeControllerGetActivity } from "@/codegen";
+import {
+  useBridgeControllerGetActivity,
+  useBridgeControllerGetActivityV2,
+} from "@/codegen";
 import { usePendingTransactions } from "@/state/pending-txs";
 import {
   isForcedWithdrawal,

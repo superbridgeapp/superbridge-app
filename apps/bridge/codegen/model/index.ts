@@ -6,6 +6,11 @@
  * OpenAPI spec version: 1.0
  */
 
+export * from './acrossBridgeDto';
+export * from './acrossBridgeDtoMetadata';
+export * from './acrossBridgeMetadataDataDto';
+export * from './acrossBridgeMetadataDto';
+export * from './acrossTransactionType';
 export * from './actionDto';
 export * from './activityDto';
 export * from './activityDtoTransactionsItem';
