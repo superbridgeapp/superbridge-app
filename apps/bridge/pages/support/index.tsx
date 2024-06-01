@@ -17,7 +17,7 @@ export default function Support({
   }
 
   return (
-    <div className="w-screen h-screen overflow-y-auto bg-zinc-50">
+    <div className="w-screen h-screen overflow-y-auto bg-background">
       <PageNav />
       <main>
         <section className="max-w-3xl mx-auto p-8">
@@ -26,12 +26,12 @@ export default function Support({
               FAQs &amp; Support
             </h1>
           </header>
-          <div className="rounded-xl bg-white">
-            <ul>
+          <div className="rounded-xl bg-card">
+            <ul className="divide-y">
               {deployments.map((d) => {
                 const theme = d.theme?.theme;
                 return (
-                  <li key={d.name} className="border-b border-zinc-50 flex">
+                  <li key={d.name} className="flex">
                     <Link
                       href={`/support/${d.name}`}
                       prefetch={false}
