@@ -18,7 +18,7 @@ export const BridgeHeader = () => {
 
   return (
     <div>
-      <div className="flex items-center justify-between px-4 md:px-6 pt-3 md:pt-6 pb-2 md:pb-8">
+      <div className="flex items-center justify-between px-4 md:px-6 pt-3 md:pt-6 pb-2 md:pb-4">
         {deployments.length === 1 ? (
           <>
             <div className="flex items-center space-x-2 w-full">
