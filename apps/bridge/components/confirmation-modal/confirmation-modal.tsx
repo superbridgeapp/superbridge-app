@@ -322,8 +322,17 @@ export const ConfirmationModal = ({
 
   const initiateButton = match({
     needsApprove: !isNativeToken(stateToken) && !approved,
-    needsGasTokenApprove:
-      !!deployment?.arbitrumNativeToken && !approvedGasToken && !withdrawing,
+    needsGasTokenApprove: (() => {
+      if (!deployment || approvedGasToken || withdrawing) return false;
+
+      // always need to approve arbitrum gas token to pay additional gas
+      if (isArbitrum(deployment)) {
+        return !!deployment?.arbitrumNativeToken;
+      } else {
+        // only need to approve gas token if we're doing a native token deposit
+        return isNativeToken(stateToken);
+      }
+    })(),
     bridge,
     withdrawing,
     isNativeToken: isNativeToken(stateToken),
@@ -615,7 +624,7 @@ export const ConfirmationModal = ({
     ])
     .with({ withdrawing: false, family: "optimism" }, (c) =>
       [
-        c.gasToken
+        c.gasToken && isNativeToken(stateToken)
           ? {
               text: t("confirmationModal.approveGasToken"),
               icon: ApproveIcon,
