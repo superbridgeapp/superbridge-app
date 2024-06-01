@@ -51,6 +51,12 @@ export const useL2TokenIsLegacy = () => {
     },
   });
 
+  // Use the `bridgeERC20To` function to bridge native L2 tokens to L1
+  // https://github.com/ethereum-optimism/optimism/blob/develop/packages/contracts-bedrock/src/L2/L2StandardBridge.sol#L114
+  if (deployment?.arbitrumNativeToken) {
+    return false;
+  }
+
   if (token && !isOptimismToken(token)) {
     return false;
   }
