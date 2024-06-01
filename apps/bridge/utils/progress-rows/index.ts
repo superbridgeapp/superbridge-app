@@ -1,6 +1,8 @@
 import { P, match } from "ts-pattern";
 
 import {
+  AcrossBridgeDto,
+  AcrossTransactionType,
   ArbitrumDepositEthDto,
   ArbitrumDepositRetryableDto,
   ArbitrumForcedWithdrawalDto,
@@ -31,6 +33,7 @@ import AnimDepositSuccess from "../../animation/deposit-success.json";
 import AnimWithdrawProgress from "../../animation/withdraw-progress.json";
 import AnimWithdrawSuccess from "../../animation/withdraw-success.json";
 import { OptimismDeploymentDto } from "../is-mainnet";
+import { useAcrossProgressRows } from "./across";
 
 interface TransactionRowProps {
   title: string;
@@ -162,9 +165,9 @@ const useArbitrumForcedWithdrawalProps =
 
 const useCctpProps =
   () =>
-  (b: CctpBridgeDto, withdrawal: boolean): TransactionRowProps => {
+  (b: CctpBridgeDto): TransactionRowProps => {
     return {
-      title: withdrawal ? i18n.t("withdraw") : i18n.t("deposit"),
+      title: "Bridge",
       icon: b.relay?.blockNumber
         ? "withdraw-complete.png"
         : "withdraw-progress.png",
@@ -179,14 +182,26 @@ const useCctpProps =
     };
   };
 
+const useAcrossProps =
+  () =>
+  (b: AcrossBridgeDto): TransactionRowProps => {
+    return {
+      title: "Bridge",
+      icon: b.fill?.timestamp
+        ? "withdraw-complete.png"
+        : "withdraw-progress.png",
+      anim: b.fill?.timestamp ? AnimWithdrawSuccess : AnimWithdrawProgress,
+      segments: b.fill?.timestamp
+        ? [[0, 20]]
+        : [
+            [0, 15],
+            [15, 48],
+          ],
+      loop: b.fill?.timestamp ? false : true,
+    };
+  };
+
 export const useTxActivityProps = () => (tx: Transaction) => {
-  const pendingFinalises = usePendingTransactions.usePendingFinalises();
-  const pendingProves = usePendingTransactions.usePendingProves();
-
-  const deployment = isForcedWithdrawal(tx)
-    ? tx.deposit.deployment
-    : tx.deployment;
-
   return (
     match(tx)
       .with(
@@ -232,14 +247,14 @@ export const useTxActivityProps = () => (tx: Transaction) => {
         (w) =>
           useArbitrumForcedWithdrawalProps()(w as ArbitrumForcedWithdrawalDto)
       )
+      .with(
+        {
+          type: AcrossTransactionType["across-bridge"],
+        },
+        (w) => useAcrossProps()(w as AcrossBridgeDto)
+      )
       // cctp
-      .otherwise((w) => {
-        const b = w as CctpBridgeDto;
-        return useCctpProps()(
-          w as CctpBridgeDto,
-          b.from.id === deployment.l2.id
-        );
-      })
+      .otherwise((w) => useCctpProps()(w as CctpBridgeDto))
   );
 };
 
@@ -251,6 +266,7 @@ export const useProgressRows = () => {
   const arbitrumWithdrawal = useArbitrumWithdrawalProgressRows();
   const arbitrumForcedWithdrawal = useArbitrumForcedWithdrawalProgressRows();
   const cctp = useCctpProgressRows();
+  const across = useAcrossProgressRows();
 
   return (tx: Transaction) => {
     if (tx.type === "deposit") return optimismDeposit(tx as PortalDepositDto);
@@ -271,6 +287,7 @@ export const useProgressRows = () => {
       return arbitrumWithdrawal(tx as ArbitrumWithdrawalDto);
     if (tx.type === "arbitrum-forced-withdrawal")
       return arbitrumForcedWithdrawal(tx as ArbitrumForcedWithdrawalDto);
+    if (tx.type === "across-bridge") return across(tx as AcrossBridgeDto);
     return cctp(tx as CctpBridgeDto);
   };
 };

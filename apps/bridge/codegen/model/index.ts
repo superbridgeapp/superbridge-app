@@ -46,6 +46,7 @@ export * from './chainNativeCurrencyDto';
 export * from './chainRpcUrlsDto';
 export * from './conduitDeploymentConfigDto';
 export * from './confirmationDto';
+export * from './confirmationDtoV2';
 export * from './createConduitDeploymentDto';
 export * from './deploymentDto';
 export * from './deploymentDtoArbitrumNativeToken';

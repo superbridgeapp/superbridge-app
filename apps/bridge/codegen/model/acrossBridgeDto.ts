@@ -5,16 +5,18 @@
  * API docs
  * OpenAPI spec version: 1.0
  */
-import type { ConfirmationDto } from './confirmationDto';
+import type { ConfirmationDtoV2 } from './confirmationDtoV2';
 import type { AcrossBridgeDtoMetadata } from './acrossBridgeDtoMetadata';
 import type { AcrossTransactionType } from './acrossTransactionType';
 
 export interface AcrossBridgeDto {
   createdAt: string;
-  deposit: ConfirmationDto;
-  fill?: ConfirmationDto;
+  deposit: ConfirmationDtoV2;
+  fill?: ConfirmationDtoV2;
+  fromChainId: number;
   id: string;
   metadata: AcrossBridgeDtoMetadata;
+  toChainId: number;
   type: AcrossTransactionType;
   updatedAt: string;
 }

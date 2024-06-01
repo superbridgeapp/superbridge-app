@@ -7,6 +7,7 @@ import { Address, formatEther, formatUnits, isAddressEqual } from "viem";
 import { useChainId } from "wagmi";
 
 import {
+  AcrossBridgeMetadataDto,
   ArbitrumDepositRetryableDto,
   ArbitrumForcedWithdrawalDto,
   ArbitrumWithdrawalDto,
@@ -28,6 +29,7 @@ import { useAllTokens } from "@/hooks/use-tokens";
 import { MultiChainToken, Token } from "@/types/token";
 import { Transaction } from "@/types/transaction";
 import {
+  isAcrossBridge,
   isArbitrumDeposit,
   isArbitrumForcedWithdrawal,
   isArbitrumWithdrawal,
@@ -53,6 +55,8 @@ import { NetworkIcon } from "./network-icon";
 import { NftImage } from "./nft";
 import { TokenIcon } from "./token-icon";
 import { Button } from "./ui/button";
+import { useFromTo } from "@/hooks/use-from-to";
+import { FastNetworkIcon } from "./fast/network-icon";
 
 const Prove = ({ tx }: { tx: BridgeWithdrawalDto | ForcedWithdrawalDto }) => {
   const prove = useProveOptimism(isWithdrawal(tx) ? tx : tx.withdrawal!);
@@ -334,10 +338,14 @@ const getNativeToken = (tokens: MultiChainToken[], chainId: number) => {
   })?.[chainId];
 };
 function useToken(tx: Transaction, tokens: MultiChainToken[]) {
-  const deployment = isForcedWithdrawal(tx)
+  const deployment = isAcrossBridge(tx)
+    ? null
+    : isForcedWithdrawal(tx)
     ? tx.deposit.deployment
     : tx.deployment;
-  const gasToken = useGasTokenForDeployment(deployment.id);
+  const gasToken = useGasTokenForDeployment(deployment?.id);
+
+  const [from, to] = useFromTo(tx);
 
   if (isCctpBridge(tx)) {
     return getToken(tokens, {
@@ -353,17 +361,14 @@ function useToken(tx: Transaction, tokens: MultiChainToken[]) {
       ? tx.deposit.metadata
       : tx.metadata;
 
-  const chainId = isDeposit(tx) ? deployment.l1.id : deployment.l2.id;
-  const destChainId = isDeposit(tx) ? deployment.l2.id : deployment.l1.id;
-
   return match(metadata)
     .with({ type: "eth-deposit" }, () => {
       if (gasToken) {
         return isDeposit(tx)
-          ? gasToken[deployment.l1.id]
-          : gasToken[deployment.l2.id];
+          ? gasToken[deployment?.l1.id ?? 0]
+          : gasToken[deployment?.l2.id ?? 0];
       }
-      return getNativeToken(tokens, chainId);
+      return getNativeToken(tokens, from.id);
     })
     .with({ type: "token-deposit" }, (m) => {
       const dto = m as TokenDepositDto;
@@ -373,10 +378,22 @@ function useToken(tx: Transaction, tokens: MultiChainToken[]) {
       return getToken(
         tokens,
         {
-          chainId,
+          chainId: from.id,
           tokenAddress,
         },
-        destChainId
+        to.id
+      );
+    })
+    .with({ type: "across-bridge" }, (m) => {
+      const dto = m as AcrossBridgeMetadataDto;
+      const tokenAddress = dto.data.inputTokenAddress;
+      return getToken(
+        tokens,
+        {
+          chainId: from.id,
+          tokenAddress,
+        },
+        to.id
       );
     })
     .otherwise(() => null);
@@ -393,10 +410,6 @@ function useNft(tx: Transaction) {
       : isForcedWithdrawal(tx)
       ? tx.deposit.metadata
       : tx.metadata;
-
-  const deployment = isForcedWithdrawal(tx)
-    ? tx.deposit.deployment
-    : tx.deployment;
 
   if (metadata.type === "nft-deposit") {
     return metadata as NftDepositDto;
@@ -448,10 +461,6 @@ export const TransactionRow = ({ tx }: { tx: Transaction }) => {
 
   const [expanded, setExpanded] = useState(false);
 
-  const deployment = isForcedWithdrawal(tx)
-    ? tx.deposit.deployment
-    : tx.deployment;
-
   const config = useTxActivityProps()(tx);
   const progressRows = useProgressRows()(tx);
 
@@ -462,13 +471,12 @@ export const TransactionRow = ({ tx }: { tx: Transaction }) => {
     (x) => x.status === ProgressRowStatus.Reverted
   );
 
-  const [from, to] = isForcedWithdrawal(tx)
-    ? [tx.deposit.deployment.l2, tx.deposit.deployment.l1]
-    : isCctpBridge(tx)
-    ? [tx.from, tx.to]
-    : isDeposit(tx)
-    ? [tx.deployment.l1, tx.deployment.l2]
-    : [tx.deployment.l2, tx.deployment.l1];
+  const [from, to] = useFromTo(tx);
+  const deployment = isAcrossBridge(tx)
+    ? null
+    : isForcedWithdrawal(tx)
+    ? tx.deposit.deployment
+    : tx.deployment;
 
   const indicatorStyles = clsx(
     `w-4 h-4 outline outline-2 outline-zinc-50 dark:outline-zinc-900 absolute -right-1 bottom-0 rounded-full bg-card fill-green-400`,
@@ -497,7 +505,7 @@ export const TransactionRow = ({ tx }: { tx: Transaction }) => {
           />
         )}
         {isDeposit(tx) ||
-        (isCctpBridge(tx) && tx.from.id === deployment.l1.id) ? (
+        (isCctpBridge(tx) && tx.from.id === tx.deployment.l1.id) ? (
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"
@@ -515,7 +523,7 @@ export const TransactionRow = ({ tx }: { tx: Transaction }) => {
             </defs>
           </svg>
         ) : isWithdrawal(tx) ||
-          (isCctpBridge(tx) && tx.from.id === deployment.l2.id) ? (
+          (isCctpBridge(tx) && tx.from.id === tx.deployment.l2.id) ? (
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"
@@ -532,6 +540,8 @@ export const TransactionRow = ({ tx }: { tx: Transaction }) => {
               </clipPath>
             </defs>
           </svg>
+        ) : isAcrossBridge(tx) ? (
+          <div>Across bridge icon</div>
         ) : (
           // forced withdrawal
           <svg
@@ -569,13 +579,22 @@ export const TransactionRow = ({ tx }: { tx: Transaction }) => {
           </div>
           <div className="flex items-center text-sm text-muted-foreground">
             <div className="flex items-center">
-              <NetworkIcon
-                chain={from}
-                deployment={deployment}
-                className="h-4 w-4 mr-1"
-                height={12}
-                width={12}
-              />
+              {tx.type === "across-bridge" ? (
+                <FastNetworkIcon
+                  chain={from}
+                  className="h-4 w-4 mr-1"
+                  height={12}
+                  width={12}
+                />
+              ) : (
+                <NetworkIcon
+                  chain={from}
+                  deployment={deployment}
+                  className="h-4 w-4 mr-1"
+                  height={12}
+                  width={12}
+                />
+              )}
               <span className="text-xs font-medium">{from.name}</span>
             </div>
             <div className="mx-2">
@@ -592,13 +611,22 @@ export const TransactionRow = ({ tx }: { tx: Transaction }) => {
             </div>
 
             <div className="flex items-center">
-              <NetworkIcon
-                chain={to}
-                deployment={deployment}
-                className="h-4 w-4 mr-1"
-                height={12}
-                width={12}
-              />
+              {tx.type === "across-bridge" ? (
+                <FastNetworkIcon
+                  chain={to}
+                  className="h-4 w-4 mr-1"
+                  height={12}
+                  width={12}
+                />
+              ) : (
+                <NetworkIcon
+                  chain={to}
+                  deployment={deployment}
+                  className="h-4 w-4 mr-1"
+                  height={12}
+                  width={12}
+                />
+              )}
               <span className="text-xs font-medium">{to.name}</span>
             </div>
             <button className="ml-auto">

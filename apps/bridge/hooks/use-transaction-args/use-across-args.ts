@@ -1,4 +1,4 @@
-import { encodeFunctionData, zeroAddress } from "viem";
+import { Address, encodeFunctionData, zeroAddress } from "viem";
 import { useAccount } from "wagmi";
 
 import { SpokePoolAbi } from "@/abis/across/SpokePool";
@@ -54,7 +54,7 @@ export const useAcrossArgs = () => {
   return {
     approvalAddress: isNativeToken(stateToken) ? undefined : pool.spokePool,
     tx: {
-      to: pool.spokePool,
+      to: pool.spokePool as Address,
       data: encodeFunctionData({
         abi: SpokePoolAbi,
         functionName: "depositV3",

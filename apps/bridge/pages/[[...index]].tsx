@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import { base, mainnet, optimism } from "viem/chains";
 
 import {
+  bridgeControllerGetCctpDomains,
   bridgeControllerGetDeployments,
   bridgeControllerGetDeploymentsByDomain,
 } from "@/codegen";
@@ -106,10 +107,13 @@ export const getServerSideProps = async ({
       x.chain.serializers = null;
       return x;
     });
+
+    const cctpDomains = await bridgeControllerGetCctpDomains();
     return {
       props: {
         deployments: data,
         acrossDomains,
+        cctpDomains: cctpDomains.data,
       },
     };
   }
@@ -171,6 +175,7 @@ export default function IndexRoot({
   deployments,
   testnets,
   acrossDomains,
+  cctpDomains,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const router = useRouter();
 
@@ -194,6 +199,7 @@ export default function IndexRoot({
         withdrawing: router.query.direction === "withdraw",
         testnets: testnets ?? false,
         acrossDomains: acrossDomains ?? [],
+        cctpDomains,
       }}
     >
       <ThemeProvider>

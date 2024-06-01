@@ -22,7 +22,7 @@ export const useNetworkFee = () => {
   });
 
   let networkFee = 0;
-  if (feeData.data) {
+  if (feeData.data && gas) {
     const gwei = (feeData.data.gasPrice ?? feeData.data.maxFeePerGas)! * gas;
     networkFee = parseFloat(formatUnits(gwei, 18));
   }

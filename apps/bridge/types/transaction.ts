@@ -1,4 +1,5 @@
 import {
+  AcrossBridgeDto,
   ArbitrumDepositEthDto,
   ArbitrumDepositRetryableDto,
   ArbitrumForcedWithdrawalDto,
@@ -22,4 +23,5 @@ export type OptimismTransaction =
 export type Transaction =
   | AbritrumTransaction
   | OptimismTransaction
-  | CctpBridgeDto;
+  | CctpBridgeDto
+  | AcrossBridgeDto;

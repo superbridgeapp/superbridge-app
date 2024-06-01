@@ -1,6 +1,6 @@
 import { createStore } from "zustand";
 
-import { DeploymentDto } from "@/codegen/model";
+import { CctpDomainDto, DeploymentDto } from "@/codegen/model";
 import { AcrossDomain } from "@/types/across";
 
 export type InjectedState = {
@@ -10,6 +10,7 @@ export type InjectedState = {
   testnets: boolean;
 
   acrossDomains: AcrossDomain[];
+  cctpDomains: CctpDomainDto[];
 };
 
 export type InjectedActions = {
@@ -27,6 +28,7 @@ const defaultInitState: InjectedState = {
   withdrawing: false,
   testnets: false,
   acrossDomains: [],
+  cctpDomains: [],
 };
 
 export const createInjectedStore = (initState: Partial<InjectedState>) => {

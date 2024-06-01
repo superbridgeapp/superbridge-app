@@ -34,6 +34,7 @@ export const FastFromTo = () => {
           <DropdownMenuContent>
             {domains.map((d) => (
               <DropdownMenuItem
+                key={`fast-${d.chain.name}`}
                 onClick={() => {
                   setFromChainId(d.chain.id);
                   if (d.chain.id === to?.id) {
@@ -72,6 +73,7 @@ export const FastFromTo = () => {
           <DropdownMenuContent>
             {domains.map((d) => (
               <DropdownMenuItem
+                key={`fast-${d.chain.name}`}
                 onClick={() => {
                   setToChainId(d.chain.id);
                   if (d.chain.id === from?.id) {
