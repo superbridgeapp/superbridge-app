@@ -182,7 +182,7 @@ export const BridgeBody = () => {
   const allowance = useAllowance(token, bridge.address);
 
   let networkFee: number | undefined;
-  if (feeData.data) {
+  if (feeData.data && bridge.gas) {
     const gwei =
       (feeData.data.gasPrice ?? feeData.data.maxFeePerGas ?? BigInt(0)) *
       bridge.gas;
@@ -459,7 +459,7 @@ export const BridgeBody = () => {
         open={withdrawSettingsDialog}
         setOpen={setWithdrawSettingsDialog}
         from={from}
-        gasEstimate={200_000}
+        gasEstimate={bridge.gas}
       />
       <CustomTokenImportModal />
       <AddressModal open={addressDialog} setOpen={setAddressDialog} />
@@ -670,25 +670,11 @@ export const BridgeBody = () => {
 
         {withdrawing ? (
           <WithdrawFees
-            gasEstimate={
-              isNativeUsdc(stateToken)
-                ? 100_000
-                : isNativeToken(stateToken)
-                ? 150_000
-                : 175_000
-            }
+            gasEstimate={bridge.gas}
             openSettings={() => setWithdrawSettingsDialog(true)}
           />
         ) : (
-          <DepositFees
-            gasEstimate={
-              isNativeUsdc(stateToken)
-                ? 100_000
-                : isNativeToken(stateToken)
-                ? 150_000
-                : 175_000
-            }
-          />
+          <DepositFees gasEstimate={bridge.gas} />
         )}
       </div>
 
