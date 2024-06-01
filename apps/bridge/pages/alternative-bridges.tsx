@@ -17,7 +17,7 @@ const BridgeCard = ({
   url: string;
 }) => {
   return (
-    <article className="rounded-[24px] p-6 border border-zinc-200/50 dark:border-zinc-800 bg-white dark:bg-zinc-900 transition-all hover:scale-105">
+    <article className="rounded-[24px] p-6 border bg-card transition-all hover:scale-105">
       <a href={url} target="_blank" rel="noreferrer">
         <div className="flex gap-2 items-center mb-3">
           <figure>
@@ -41,7 +41,7 @@ const AlternativeBridges = () => {
   return (
     <div className="w-screen h-screen overflow-y-auto">
       <PageNav />
-      <div className="bg-zinc-50 dark:bg-zinc-950 w-full">
+      <div className="bg-background w-full">
         <div className="p-8 md:p-24">
           <div className="flex flex-col gap-3 items-center md:px-8 pt-16 pb-10">
             <h3 className="text-5xl md:text-6xl font-bold tracking-tighter text-center">

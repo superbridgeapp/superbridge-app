@@ -31,7 +31,7 @@ interface SettingsState {
 const SettingsState = create<SettingsState>()(
   persist(
     (set) => ({
-      preferredExplorer: "etherscan",
+      preferredExplorer: "blockscout",
       setPreferredExplorer: (preferredExplorer) => set({ preferredExplorer }),
 
       currency: "USD",
@@ -46,7 +46,17 @@ const SettingsState = create<SettingsState>()(
       customTokens: [] as MultiChainToken[],
       setCustomTokens: (customTokens) => set({ customTokens }),
     }),
-    { name: "settings" }
+    {
+      name: "settings",
+      version: 1,
+      migrate: (persistedState, version) => {
+        if (version === 0) {
+          // @ts-expect-error
+          persistedState.preferredExplorer = "blockscout";
+        }
+        return persistedState;
+      },
+    }
   )
 );
 

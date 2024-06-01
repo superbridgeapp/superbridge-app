@@ -52,19 +52,19 @@ export const OpenActivity = ({}) => {
               </span>
             </div>
             <div
-              className={`flex items-center transition-all cursor-pointer w-8 h-8 flex items-center justify-center rounded-full hover:bg-zinc-100 hover:dark:bg-zinc-800 ${
-                open ? "rotate-180" : "rotate-0"
-              }`}
+              className={`flex items-center transition-all cursor-pointer w-10 h-10 shrink-0 flex items-center justify-center rounded-full bg-muted hover:scale-105`}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 256 256"
-                className="fill-zinc-900 dark:fill-zinc-50"
+                width="14"
+                height="14"
+                viewBox="0 0 14 14"
+                fill="none"
+                className="fill-foreground w-3.5 h-3.5"
               >
-                <path d="M216.49 168.49a12 12 0 01-17 0L128 97l-71.51 71.49a12 12 0 01-17-17l80-80a12 12 0 0117 0l80 80a12 12 0 010 17z"></path>
+                <path d="M0.562404 13.4244C-0.205637 12.6425 -0.187241 11.8653 0.617592 11.0697L4.68315 7.00411L0.617592 2.95695C-0.178043 2.14752 -0.205637 1.37028 0.589998 0.574646C1.38563 -0.220989 2.13528 -0.193394 2.95851 0.616038L7.01027 4.6678L11.062 0.629835C11.8577 -0.179597 12.6349 -0.193394 13.4167 0.574646C14.2124 1.37028 14.1848 2.16132 13.3891 2.97075L9.33738 7.00871L13.3891 11.0329C14.1986 11.8561 14.1986 12.6196 13.4167 13.4152C12.6349 14.197 11.8577 14.1832 11.0482 13.3876L7.01027 9.33583L2.95851 13.4014C2.14907 14.197 1.35804 14.2108 0.562404 13.429V13.4244Z" />
               </svg>
+              <span className="sr-only">Close</span>
             </div>
           </div>
         </div>

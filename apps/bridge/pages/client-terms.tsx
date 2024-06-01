@@ -13,7 +13,7 @@ export default function ClientTerms({
   deployment,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
-    <div className="w-screen h-screen overflow-y-auto bg-zinc-50">
+    <div className="w-screen h-screen overflow-y-auto bg-background">
       <PageNav />
       <main>
         <section className="max-w-3xl mx-auto p-8 prose prose-sm prose-headings:font-bold dark:prose-invert">

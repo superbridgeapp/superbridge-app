@@ -11,10 +11,8 @@ import { useSettingsState } from "@/state/settings";
 import { isOptimism } from "@/utils/is-mainnet";
 
 export const WithdrawFees = ({
-  gasEstimate,
   openSettings,
 }: {
-  gasEstimate: bigint;
   openSettings: () => void;
 }) => {
   const deployment = useDeployment();
