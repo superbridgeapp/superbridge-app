@@ -323,7 +323,13 @@ export const ConfirmationModal = ({
   const initiateButton = match({
     needsApprove: !isNativeToken(stateToken) && !approved,
     needsGasTokenApprove: (() => {
-      if (!deployment || approvedGasToken || withdrawing) return false;
+      if (
+        !deployment ||
+        !deployment.arbitrumNativeToken ||
+        approvedGasToken ||
+        withdrawing
+      )
+        return false;
 
       // always need to approve arbitrum gas token to pay additional gas
       if (isArbitrum(deployment)) {
