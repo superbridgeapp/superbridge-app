@@ -17,7 +17,7 @@ export const Bridge = () => {
   const deployment = useDeployment();
   const { t } = useTranslation();
   const withdrawalsPaused = useWithdrawalsPaused();
-  const faultProofUpgradeTime = useFaultProofUpgradeTime();
+  const faultProofUpgradeTime = useFaultProofUpgradeTime(deployment);
   const hasWithdrawalReadyToFinalize = useHasWithdrawalReadyToFinalize();
 
   return (
