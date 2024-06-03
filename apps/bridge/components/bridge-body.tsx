@@ -58,6 +58,8 @@ import { Button } from "./ui/button";
 import { WithdrawSettingsModal } from "./withdraw-settings/modal";
 import { ExpensiveGasModal } from "./alerts/expensive-gas-modal";
 import { FaultProofsModal } from "./alerts/fault-proofs-modal";
+import { FaultProofInfoModal } from "./fault-proof-info-modal";
+import { WithdrawalReadyToFinalizeModal } from "./withdrawal-ready-to-finalize-modal";
 
 enum AlertModals {
   NoGas = "no-gas",
@@ -504,6 +506,8 @@ export const BridgeBody = () => {
         allowance={allowance}
         bridge={bridge}
       />
+      <FaultProofInfoModal />
+      <WithdrawalReadyToFinalizeModal />
 
       {/* alerts */}
       <NoGasModal

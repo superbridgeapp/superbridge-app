@@ -20,6 +20,9 @@ export const useHasWithdrawalReadyToFinalize = () => {
   const statusCheck = useStatusCheck();
   const faultProofUpgradeTime = useFaultProofUpgradeTime();
 
+  // TODO: remove
+  return true;
+
   if (
     !deployment ||
     statusCheck ||

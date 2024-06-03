@@ -63,6 +63,14 @@ interface ConfigState {
 
   arbitrumCustomGasTokens: (MultiChainToken | null)[];
   setArbitrumCustomGasTokens: (b: (MultiChainToken | null)[]) => void;
+
+  faultProofInfoModal: boolean;
+  setFaultProofInfoModal: (faultProofInfoModal: boolean) => void;
+
+  hasWithdrawalReadyToFinalizeModal: boolean;
+  setHasWithdrawalReadyToFinalizeModal: (
+    hasWithdrawalReadyToFinalizeModal: boolean
+  ) => void;
 }
 
 const ConfigState = create<ConfigState>()((set) => ({
@@ -128,6 +136,13 @@ const ConfigState = create<ConfigState>()((set) => ({
   arbitrumCustomGasTokens: [],
   setArbitrumCustomGasTokens: (arbitrumCustomGasTokens) =>
     set({ arbitrumCustomGasTokens }),
+
+  faultProofInfoModal: false,
+  setFaultProofInfoModal: (faultProofInfoModal) => set({ faultProofInfoModal }),
+
+  hasWithdrawalReadyToFinalizeModal: false,
+  setHasWithdrawalReadyToFinalizeModal: (hasWithdrawalReadyToFinalizeModal) =>
+    set({ hasWithdrawalReadyToFinalizeModal }),
 }));
 
 export const useConfigState = createSelectorHooks(ConfigState);
