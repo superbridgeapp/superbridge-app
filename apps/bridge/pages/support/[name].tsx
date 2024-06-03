@@ -9,6 +9,7 @@ import {
 } from "@/codegen/index";
 import { DeploymentFamily } from "@/codegen/model";
 import { Head } from "@/components/head";
+import { IconAlert } from "@/components/icons";
 import PageFooter from "@/components/page-footer";
 import PageNav from "@/components/page-nav";
 import { SupportModal } from "@/components/support-modal";
@@ -18,10 +19,61 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { isSuperbridge } from "@/config/superbridge";
+import {
+  optimismFaultProofs,
+  optimismFaultProofsUpgrade,
+} from "@/constants/links";
 import { useFaultProofUpgradeTime } from "@/hooks/use-fault-proof-upgrade-time";
 import { getFinalizationPeriod } from "@/hooks/use-finalization-period";
+
+const FaultProofAlert = () => (
+  <Alert size={"lg"}>
+    <IconAlert className="w-6 h-6" />
+    <AlertTitle>OP Mainnet Fault Proof upgrade</AlertTitle>
+    <AlertDescription>
+      <p>
+        The OP Mainnet Fault Proof upgrade has been targeted for June 10. What
+        does that mean for you?
+      </p>
+      <h3 className="text-foreground font-bold">I want to make a withdrawal</h3>
+      <p>You should wait until the upgade is complete.</p>
+      <h3 className="text-foreground font-bold">
+        Why should I wait until the upgrade is complete?
+      </h3>
+      <p>
+        The upgrade will essentally wipe the status of existing prove
+        operations. Any proves done now would need to be resubmitted after the
+        upgrade.
+      </p>
+      <h3 className="text-foreground font-bold">
+        I have a withdrawal in progress
+      </h3>
+      <p>
+        If you can finalize your withdrawal before the upgrade is complete we
+        highly recommend you do that.
+      </p>
+      <h3 className="text-foreground font-bold">
+        What if I don't finalize withdrawals in progress?
+      </h3>
+      <p>
+        You will need to prove again, wait, and then finalize after the upgrade
+        is complete.
+      </p>
+      <p>
+        <a
+          href={optimismFaultProofsUpgrade}
+          target="_blank"
+          className="underline text-foreground font-bold"
+        >
+          For more information please visit Optimism.io
+        </a>
+      </p>
+    </AlertDescription>
+  </Alert>
+);
 
 export default function Support({
   deployment,
@@ -140,19 +192,14 @@ export default function Support({
       <div className="prose dark:prose-invert">
         <p>
           Due to the{" "}
-          <a
-            href="https://docs.optimism.io/builders/notices/fp-changes"
-            target="_blank"
-            className="underline"
-          >
+          <a href={optimismFaultProofs} target="_blank" className="underline">
             Fault Proof upgrade
           </a>{" "}
-          on OP Mainnet on July 10 2024, withdrawals that were not yet
-          finzalized in the 7 days leading up to the upgrade need to proved
-          again to adhere to the new security policy. You can find out more
-          about the upgrade here:{" "}
+          on OP Mainnet on July 10 2024, withdrawals that were not yet finalized
+          need to proved again to adhere to the new security policy. You can
+          find out more about the upgrade here:{" "}
           <a
-            href="https://docs.optimism.io/builders/notices/fp-changes"
+            href={optimismFaultProofsUpgrade}
             target="_blank"
             className="underline"
           >
@@ -228,6 +275,7 @@ export default function Support({
       <Head deployment={deployment} />
       <div className="w-screen h-screen overflow-y-auto bg-background">
         <PageNav />
+
         <main>
           <section className="max-w-3xl mx-auto p-8">
             <header className="flex flex-col items-center py-16 gap-4">
@@ -257,6 +305,8 @@ export default function Support({
                 </svg>
                 <span>All chains</span>
               </Link>
+
+              {faultProofUpgradeTime && <FaultProofAlert />}
             </header>
 
             <Accordion type="single" collapsible className="w-full">

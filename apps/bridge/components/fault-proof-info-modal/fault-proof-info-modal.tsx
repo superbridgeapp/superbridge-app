@@ -1,10 +1,11 @@
 import { useTranslation } from "react-i18next";
 
+import { IconAlert } from "@/components/icons";
+import { optimismFaultProofsUpgrade } from "@/constants/links";
 import { useConfigState } from "@/state/config";
 
 import { Button } from "../ui/button";
 import { Dialog, DialogContent } from "../ui/dialog";
-import { IconAlert } from "@/components/icons";
 
 export const FaultProofInfoModal = () => {
   const { t } = useTranslation();
@@ -43,7 +44,7 @@ export const FaultProofInfoModal = () => {
               <p>
                 Find out more at{" "}
                 <a
-                  href="https://optimism.io"
+                  href={optimismFaultProofsUpgrade}
                   target="_blank"
                   className="text-foreground underline"
                 >

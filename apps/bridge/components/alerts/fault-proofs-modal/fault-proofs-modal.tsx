@@ -1,12 +1,13 @@
 import { useTranslation } from "react-i18next";
 
+import { IconAlert } from "@/components/icons";
+import { optimismFaultProofsUpgrade } from "@/constants/links";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
 import { useToNativeToken } from "@/hooks/use-native-token";
 import { useSelectedToken } from "@/hooks/use-selected-token";
 
 import { Button } from "../../ui/button";
 import { Dialog, DialogContent } from "../../ui/dialog";
-import { IconAlert } from "@/components/icons";
 import { AlertProps } from "../types";
 
 export const FaultProofsModal = ({ onProceed, open, onCancel }: AlertProps) => {
@@ -47,7 +48,7 @@ export const FaultProofsModal = ({ onProceed, open, onCancel }: AlertProps) => {
               <p>
                 Find out more at{" "}
                 <a
-                  href="https://optimism.io"
+                  href={optimismFaultProofsUpgrade}
                   target="_blank"
                   className="text-foreground underline"
                 >

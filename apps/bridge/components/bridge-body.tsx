@@ -386,9 +386,9 @@ export const BridgeBody = () => {
     //   modals.push(AlertModals.GasExpensive);
     // }
 
-    if (deployment?.name === "optimism" && withdrawing) {
-      modals.push(AlertModals.FaultProofs);
-    }
+    // if (deployment?.name === "optimism" && withdrawing) {
+    //   modals.push(AlertModals.FaultProofs);
+    // }
 
     if (modals.length === 0) {
       initiateBridge();
