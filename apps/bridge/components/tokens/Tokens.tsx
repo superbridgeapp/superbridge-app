@@ -124,6 +124,7 @@ const TokenImport = ({ address }: { address: Address }) => {
     name,
     symbol,
     decimals,
+    isL1Token,
 
     isLoading,
     isError,
@@ -159,6 +160,29 @@ const TokenImport = ({ address }: { address: Address }) => {
   }
 
   if (!isValidToken) {
+    if (isL1Token) {
+      return (
+        <div className="py-8 px-4 text-center font-bold text-xs space-y-2">
+          <div>
+            This looks like a token on {deployment?.l1.name}. You need to enter
+            the contract address for a token on {deployment?.l2.name}.
+          </div>
+
+          <div>
+            See our{" "}
+            <a
+              target="_blank"
+              href="https://docs.superbridge.app/custom-tokens"
+              className="underline"
+            >
+              documentation
+            </a>{" "}
+            for more info on bridging unsupported tokens.
+          </div>
+        </div>
+      );
+    }
+
     return (
       <div className="pt-8 pb-12 text-center font-bold text-sm">
         <span>Invalid token</span>

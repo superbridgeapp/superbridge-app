@@ -67,6 +67,14 @@ export const useCustomToken = (address: Address) => {
         chainId: deployment?.l2.id,
         functionName: "l2Gateway",
       },
+
+      // L1
+      {
+        address,
+        abi: erc20Abi,
+        chainId: deployment?.l1.id,
+        functionName: "name",
+      },
     ],
   });
   const name = reads.data?.[0].result;
@@ -79,6 +87,8 @@ export const useCustomToken = (address: Address) => {
 
   const ARB_L1_TOKEN = reads.data?.[6].result;
   const ARB_L2_GATEWAY = reads.data?.[7].result;
+
+  const isL1Token = !!reads.data?.[8].result;
 
   const opL2Bridge = useReadContract({
     address: OP_L2_BRIDGE,
@@ -117,9 +127,12 @@ export const useCustomToken = (address: Address) => {
     isValidToken,
     isOptimismToken,
     isArbitrumToken,
+    isL1Token,
 
     isLoading:
-      reads.isLoading || opL2Bridge.isLoading || arbL2Gateway.isLoading,
+      reads.isLoading ||
+      (OP_L2_BRIDGE && opL2Bridge.isLoading) ||
+      (ARB_L2_GATEWAY && arbL2Gateway.isLoading),
     isError: reads.isError || opL2Bridge.isError || arbL2Gateway.isError,
   };
 };
