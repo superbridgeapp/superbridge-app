@@ -1,6 +1,8 @@
+import Link from "next/link";
 import { useTranslation } from "react-i18next";
 
 import { IconAlert } from "@/components/icons";
+import { isSuperbridge } from "@/config/superbridge";
 import { optimismFaultProofsUpgrade } from "@/constants/links";
 import { useDeployment } from "@/hooks/use-deployment";
 
@@ -93,6 +95,16 @@ export const FaultProofsModal = ({ onProceed, open, onCancel }: AlertProps) => {
                 </defs>
               </svg>
             </Button>
+
+            {isSuperbridge && (
+              <Link
+                className={`mt-2 leading-3 text-center text-xs font-medium tracking-tight cursor-pointer transition-all opacity-70 hover:opacity-100`}
+                href="/alternative-bridges"
+                target="_blank"
+              >
+                {t("confirmationModal.viewAlternateBridges")}
+              </Link>
+            )}
           </div>
         </div>
       </DialogContent>

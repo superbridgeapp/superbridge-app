@@ -39,7 +39,7 @@ const FaultProofAlert = () => (
         that mean for you?
       </p>
       <h3 className="text-foreground font-bold">I want to make a withdrawal</h3>
-      <p>You should wait until the upgade is complete.</p>
+      <p>You should wait until the upgrade is complete.</p>
       <h3 className="text-foreground font-bold">
         Why should I wait until the upgrade is complete?
       </h3>
