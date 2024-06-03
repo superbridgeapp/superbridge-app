@@ -28,52 +28,58 @@ import {
 } from "@/constants/links";
 import { useFaultProofUpgradeTime } from "@/hooks/use-fault-proof-upgrade-time";
 import { getFinalizationPeriod } from "@/hooks/use-finalization-period";
+import { useDeployment } from "@/hooks/use-deployment";
 
-const FaultProofAlert = () => (
-  <Alert size={"lg"}>
-    <IconAlert className="w-6 h-6" />
-    <AlertTitle>OP Mainnet Fault Proof upgrade</AlertTitle>
-    <AlertDescription>
-      <p>
-        The OP Mainnet Fault Proof upgrade has been targeted for June. What does
-        that mean for you?
-      </p>
-      <h3 className="text-foreground font-bold">I want to make a withdrawal</h3>
-      <p>You should wait until the upgrade is complete.</p>
-      <h3 className="text-foreground font-bold">
-        Why should I wait until the upgrade is complete?
-      </h3>
-      <p>
-        The upgrade will essentally wipe the status of existing prove
-        operations. Any proves done now would need to be resubmitted after the
-        upgrade.
-      </p>
-      <h3 className="text-foreground font-bold">
-        I have a withdrawal in progress
-      </h3>
-      <p>
-        If you can finalize your withdrawal before the upgrade is complete we
-        highly recommend you do that.
-      </p>
-      <h3 className="text-foreground font-bold">
-        What if I don't finalize withdrawals in progress?
-      </h3>
-      <p>
-        You will need to prove again, wait, and then finalize after the upgrade
-        is complete.
-      </p>
-      <p>
-        <a
-          href={optimismFaultProofsUpgrade}
-          target="_blank"
-          className="underline text-foreground font-bold"
-        >
-          For more info please visit optimism.io
-        </a>
-      </p>
-    </AlertDescription>
-  </Alert>
-);
+const FaultProofAlert = () => {
+  const deployment = useDeployment();
+  return (
+    <Alert size={"lg"}>
+      <IconAlert className="w-6 h-6" />
+      <AlertTitle>{deployment?.l2.name} Fault Proof upgrade</AlertTitle>
+      <AlertDescription>
+        <p>
+          The {deployment?.l2.name} Fault Proof upgrade has been targeted for
+          June. What does that mean for you?
+        </p>
+        <h3 className="text-foreground font-bold">
+          I want to make a withdrawal
+        </h3>
+        <p>You should wait until the upgrade is complete.</p>
+        <h3 className="text-foreground font-bold">
+          Why should I wait until the upgrade is complete?
+        </h3>
+        <p>
+          The upgrade will essentally wipe the status of existing prove
+          operations. Any proves done now would need to be resubmitted after the
+          upgrade.
+        </p>
+        <h3 className="text-foreground font-bold">
+          I have a withdrawal in progress
+        </h3>
+        <p>
+          If you can finalize your withdrawal before the upgrade is complete we
+          highly recommend you do that.
+        </p>
+        <h3 className="text-foreground font-bold">
+          What if I don't finalize withdrawals in progress?
+        </h3>
+        <p>
+          You will need to prove again, wait, and then finalize after the
+          upgrade is complete.
+        </p>
+        <p>
+          <a
+            href={optimismFaultProofsUpgrade}
+            target="_blank"
+            className="underline text-foreground font-bold"
+          >
+            For more info please visit optimism.io
+          </a>
+        </p>
+      </AlertDescription>
+    </Alert>
+  );
+};
 
 export default function Support({
   deployment,
@@ -195,15 +201,15 @@ export default function Support({
           <a href={optimismFaultProofs} target="_blank" className="underline">
             Fault Proof upgrade
           </a>{" "}
-          on OP Mainnet on July 10 2024, withdrawals that were not yet finalized
-          need to proved again to adhere to the new security policy. You can
-          find out more about the upgrade here:{" "}
+          on {deployment.l2.name}, withdrawals that were not yet finalized need
+          to proved again to adhere to the new security policy. You can find out
+          more about the upgrade here:{" "}
           <a
             href={optimismFaultProofsUpgrade}
             target="_blank"
             className="underline"
           >
-            OP Mainnet Fault Proof upgrade
+            {deployment.l2.name} Fault Proof upgrade
           </a>{" "}
         </p>
       </div>
