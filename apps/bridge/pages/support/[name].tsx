@@ -266,20 +266,28 @@ export default function Support({
                   The OP Mainnet Fault Proof upgrade has been targeted for June
                   10. What does that mean for you?
                 </p>
-                <h3>I want to make a withdrawal</h3>
+                <h3 className="text-foreground font-bold">
+                  I want to make a withdrawal
+                </h3>
                 <p>You should wait until the upgade is complete.</p>
-                <h3>Why should I wait until the upgrade is complete?</h3>
+                <h3 className="text-foreground font-bold">
+                  Why should I wait until the upgrade is complete?
+                </h3>
                 <p>
                   The upgrade will essentally wipe the status of existing prove
                   operations. Any proves done now would need to be resubmitted
                   after the upgrade.
                 </p>
-                <h3>I have a withdrawal in progress</h3>
+                <h3 className="text-foreground font-bold">
+                  I have a withdrawal in progress
+                </h3>
                 <p>
                   If you can finalize your withdrawal before the upgrade is
                   comlete we highly recommend you do that.
                 </p>
-                <h3>What if I don't finalize withdrawals in progress?</h3>
+                <h3 className="text-foreground font-bold">
+                  What if I don't finalize withdrawals in progress?
+                </h3>
                 <p>
                   You will need to prove again, wait, and then finalize after
                   the upgrade is complete.
