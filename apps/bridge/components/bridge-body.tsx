@@ -182,7 +182,7 @@ export const BridgeBody = () => {
   const allowance = useAllowance(token, bridge.address);
 
   let networkFee: number | undefined;
-  if (feeData.data) {
+  if (feeData.data && bridge.gas) {
     const gwei =
       (feeData.data.gasPrice ?? feeData.data.maxFeePerGas ?? BigInt(0)) *
       bridge.gas;
@@ -459,7 +459,7 @@ export const BridgeBody = () => {
         open={withdrawSettingsDialog}
         setOpen={setWithdrawSettingsDialog}
         from={from}
-        gasEstimate={200_000}
+        gasEstimate={bridge.gas}
       />
       <CustomTokenImportModal />
       <AddressModal open={addressDialog} setOpen={setAddressDialog} />
@@ -520,7 +520,7 @@ export const BridgeBody = () => {
                 xmlns="http://www.w3.org/2000/svg"
                 width={14}
                 height={14}
-                className={`w-3.5 h-3.5 fill-zinc-900 dark:fill-zinc-50 `}
+                className={`w-3.5 h-3.5 fill-foreground `}
                 viewBox="0 0 16 16"
               >
                 <path d="M13.53 6.031l-5 5a.75.75 0 01-1.062 0l-5-5A.751.751 0 113.531 4.97L8 9.439l4.47-4.47a.751.751 0 011.062 1.062h-.001z"></path>
@@ -613,7 +613,7 @@ export const BridgeBody = () => {
                     xmlns="http://www.w3.org/2000/svg"
                     width={14}
                     height={14}
-                    className={`w-3.5 h-3.5 fill-zinc-900 dark:fill-zinc-50 `}
+                    className={`w-3.5 h-3.5 fill-foreground `}
                     viewBox="0 0 16 16"
                   >
                     <path d="M13.53 6.031l-5 5a.75.75 0 01-1.062 0l-5-5A.751.751 0 113.531 4.97L8 9.439l4.47-4.47a.751.751 0 011.062 1.062h-.001z"></path>
@@ -670,25 +670,11 @@ export const BridgeBody = () => {
 
         {withdrawing ? (
           <WithdrawFees
-            gasEstimate={
-              isNativeUsdc(stateToken)
-                ? 100_000
-                : isNativeToken(stateToken)
-                ? 150_000
-                : 175_000
-            }
+            gasEstimate={bridge.gas}
             openSettings={() => setWithdrawSettingsDialog(true)}
           />
         ) : (
-          <DepositFees
-            gasEstimate={
-              isNativeUsdc(stateToken)
-                ? 100_000
-                : isNativeToken(stateToken)
-                ? 150_000
-                : 175_000
-            }
-          />
+          <DepositFees gasEstimate={bridge.gas} />
         )}
       </div>
 

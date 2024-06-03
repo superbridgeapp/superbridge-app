@@ -15,7 +15,7 @@ export const WithdrawFees = ({
   gasEstimate,
   openSettings,
 }: {
-  gasEstimate: number;
+  gasEstimate: bigint | undefined;
   openSettings: () => void;
 }) => {
   const deployment = useDeployment();

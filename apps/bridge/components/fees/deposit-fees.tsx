@@ -5,7 +5,11 @@ import { Chain } from "viem";
 import { useDeployment } from "@/hooks/use-deployment";
 import { useFees } from "@/hooks/use-fees";
 
-export const DepositFees = ({ gasEstimate }: { gasEstimate: number }) => {
+export const DepositFees = ({
+  gasEstimate,
+}: {
+  gasEstimate: bigint | undefined;
+}) => {
   const deployment = useDeployment();
   const { t } = useTranslation();
 
