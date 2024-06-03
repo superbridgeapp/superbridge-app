@@ -253,7 +253,11 @@ export const BridgeBody = () => {
       bridge.args.tx.chainId === deployment.l1.id
         ? deployment.l1
         : deployment.l2;
-    if (initiatingChain.id !== account.chainId) {
+
+    if (
+      initiatingChain.id !== account.chainId ||
+      initiatingChain.id !== wallet.data.chain.id
+    ) {
       await switchChain(initiatingChain);
     }
 
