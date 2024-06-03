@@ -7,6 +7,8 @@ import { useDeployments } from "@/hooks/use-deployments";
 import { useToggleWithdrawing } from "@/hooks/use-toggle-withdrawing";
 import { useConfigState } from "@/state/config";
 
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+
 export const BridgeHeader = () => {
   const withdrawing = useConfigState.useWithdrawing();
   const deployment = useDeployment();
@@ -17,7 +19,7 @@ export const BridgeHeader = () => {
   const { deployments } = useDeployments();
 
   return (
-    <div>
+    <>
       <div className="flex items-center justify-between px-4 md:px-6 pt-3 md:pt-6 pb-2 md:pb-4">
         {deployments.length === 1 ? (
           <>
@@ -121,6 +123,6 @@ export const BridgeHeader = () => {
           </>
         )}
       </div>
-    </div>
+    </>
   );
 };
