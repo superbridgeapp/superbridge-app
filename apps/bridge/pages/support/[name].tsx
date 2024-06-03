@@ -263,23 +263,26 @@ export default function Support({
               <AlertTitle>OP Mainnet Fault Proof upgrade</AlertTitle>
               <AlertDescription>
                 <p>
-                  Withdrawals initiated after 12am UTC June 3 will need to be
-                  proved again after the upgrade, which will be at least 7 days
-                  later.
+                  The OP Mainnet Fault Proof upgrade has been targeted for June
+                  10. What does that mean for you?
                 </p>
+                <h3>I want to make a withdrawal</h3>
+                <p>You should wait until the upgade is complete.</p>
+                <h3>Why should I wait until the upgrade is complete?</h3>
                 <p>
-                  <ul className="list-disc">
-                    <li>
-                      We recommend you don’t prove any withdrawals from 12am
-                      UTC, June 3 or you will need to prove again after the
-                      upgrade.
-                    </li>
-                    <li>
-                      If you have a withdrawal that is ready to finalize, you
-                      should do it before 12pm UTC June 10 or you'll need to
-                      prove again and wait a further 7 days.
-                    </li>
-                  </ul>
+                  The upgrade will essentally wipe the status of existing prove
+                  operations. Any proves done now would need to be resubmitted
+                  after the upgrade.
+                </p>
+                <h3>I have a withdrawal in progress</h3>
+                <p>
+                  If you can finalize your withdrawal before the upgrade is
+                  comlete we highly recommend you do that.
+                </p>
+                <h3>What if I don't finalize withdrawals in progress?</h3>
+                <p>
+                  You will need to prove again, wait, and then finalize after
+                  the upgrade is complete.
                 </p>
                 <p>
                   <a
@@ -287,7 +290,7 @@ export default function Support({
                     target="_blank"
                     className="underline text-foreground font-bold"
                   >
-                    More about the upgrade here…
+                    Get updates from Optimism.io
                   </a>
                 </p>
               </AlertDescription>
