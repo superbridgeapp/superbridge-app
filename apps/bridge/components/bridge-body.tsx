@@ -380,7 +380,11 @@ export const BridgeBody = () => {
       modals.push(AlertModals.FaultProofs);
     }
 
-    setAlerts(modals);
+    if (modals.length === 0) {
+      initiateBridge();
+    } else {
+      setAlerts(modals);
+    }
   };
 
   const onCancel = () => {
