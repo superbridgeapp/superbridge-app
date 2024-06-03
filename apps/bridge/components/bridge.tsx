@@ -48,16 +48,25 @@ export const Bridge = () => {
                 fill="black"
               />
             </svg>
-            <AlertTitle>Heads up!</AlertTitle>
+            <AlertTitle>OP Mainnet Fault Proof upgrade</AlertTitle>
             <AlertDescription>
-              OP Mainnet is{" "}
-              <a href="#" target="_blank" className="underline">
-                upgrading Fault Proofs.
-              </a>{" "}
-              This means any withdrawals submitted xxx xxx
+              <p>
+                Withdrawals initiated after 12am UTC June 3 will need to be
+                proved again after the upgrade, which will be at least 7 days
+                later.
+              </p>
+              <p>
+                <a
+                  href="https://superbridge.app/support/optimism"
+                  target="_blank"
+                  className="hover:underline text-foreground font-bold"
+                >
+                  More info…
+                </a>
+              </p>
             </AlertDescription>
           </Alert>
-          {/* Endtart Fault Proof Alert */}
+          {/* End Fault Proof Alert */}
 
           <div
             className={`bg-card mx-auto rounded-[24px] md:rounded-[32px] shadow-sm w-full shrink-0 backdrop-blur-sm`}
