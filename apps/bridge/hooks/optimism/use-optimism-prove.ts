@@ -5,20 +5,29 @@ import { useAccount, useWalletClient } from "wagmi";
 import { useBridgeControllerGetProveTransaction } from "@/codegen";
 import { BridgeWithdrawalDto } from "@/codegen/model";
 import { usePendingTransactions } from "@/state/pending-txs";
+import { useConfigState } from "@/state/config";
 
 import { useSwitchChain } from "../use-switch-chain";
+import { useFaultProofUpgradeTime } from "../use-fault-proof-upgrade-time";
 
 export function useProveOptimism({ id, deployment }: BridgeWithdrawalDto) {
   const account = useAccount();
   const wallet = useWalletClient();
   const setProving = usePendingTransactions.useSetProving();
   const removeProving = usePendingTransactions.useRemoveProving();
+  const setBlockProvingModal = useConfigState.useSetBlockProvingModal();
   const getProveTransaction = useBridgeControllerGetProveTransaction();
   const switchChain = useSwitchChain();
+  const faultProofUpgradeTime = useFaultProofUpgradeTime();
 
   const [loading, setLoading] = useState(false);
 
   const onProve = async () => {
+    if (faultProofUpgradeTime) {
+      setBlockProvingModal(true);
+      return;
+    }
+
     if (!account.address || !wallet.data) {
       return;
     }

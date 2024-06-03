@@ -71,6 +71,9 @@ interface ConfigState {
   setHasWithdrawalReadyToFinalizeModal: (
     hasWithdrawalReadyToFinalizeModal: boolean
   ) => void;
+
+  blockProvingModal: boolean;
+  setBlockProvingModal: (blockProvingModal: boolean) => void;
 }
 
 const ConfigState = create<ConfigState>()((set) => ({
@@ -143,6 +146,9 @@ const ConfigState = create<ConfigState>()((set) => ({
   hasWithdrawalReadyToFinalizeModal: false,
   setHasWithdrawalReadyToFinalizeModal: (hasWithdrawalReadyToFinalizeModal) =>
     set({ hasWithdrawalReadyToFinalizeModal }),
+
+  blockProvingModal: false,
+  setBlockProvingModal: (blockProvingModal) => set({ blockProvingModal }),
 }));
 
 export const useConfigState = createSelectorHooks(ConfigState);
