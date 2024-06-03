@@ -11,6 +11,8 @@ const alertVariants = cva(
         default: "bg-card text-foreground",
         destructive: "bg-card text-red-500 [&>svg]:text-destructive",
         lg: "text-sm",
+        horizontal:
+          "bg-card text-foreground md:pr-4 flex justify-between items-center [&>svg]:translate-y-[3px]",
       },
       size: {
         default: "text-xs [&>h5]:text-sm [&_p]:leading-relaxed [&_p]:mb-1",

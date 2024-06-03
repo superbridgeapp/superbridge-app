@@ -1,10 +1,11 @@
-export const Alert = () => (
+export const IconAlert = ({ className }: any) => (
   <svg
     width="62"
     height="57"
     viewBox="0 0 62 57"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
+    className={className}
   >
     <g clip-path="url(#clip0_0_305)">
       <path

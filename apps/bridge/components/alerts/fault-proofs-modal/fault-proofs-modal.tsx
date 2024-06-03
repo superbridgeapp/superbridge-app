@@ -6,7 +6,7 @@ import { useSelectedToken } from "@/hooks/use-selected-token";
 
 import { Button } from "../../ui/button";
 import { Dialog, DialogContent } from "../../ui/dialog";
-import { Alert } from "./icons";
+import { IconAlert } from "@/components/icons";
 import { AlertProps } from "../types";
 
 export const FaultProofsModal = ({ onProceed, open, onCancel }: AlertProps) => {
@@ -28,34 +28,42 @@ export const FaultProofsModal = ({ onProceed, open, onCancel }: AlertProps) => {
     <Dialog open={open} onOpenChange={onCancel}>
       <DialogContent>
         <div className="flex flex-col gap-8 p-6">
-          <div className="flex flex-col gap-2 items-center pt-10">
-            <div className="animate-bounce">
-              <Alert />
+          <div className="flex flex-col gap-4 pt-6">
+            <div className="animate-bounce mx-auto">
+              <IconAlert className="w-16 h-16" />
             </div>
-            <h1 className="font-bold text-2xl tracking-tight text-pretty text-center">
+            <h1 className="font-bold text-xl tracking-tighter text-left">
               OP Mainnet Fault Proof upgrade
             </h1>
-            <p className="text-xs md:text-sm prose-sm font-bold text-muted-foreground text-pretty">
-              The OP Mainnet Fault Proof upgrade has been targeted for June 10.
-            </p>
-            <p className="text-xs md:text-sm prose-sm font-bold text-muted-foreground text-pretty">
-              Any withdrawals initiated cannot be proved until the upgrade is
-              complete.
-            </p>
-            <p className="text-xs md:text-sm prose-sm font-bold text-muted-foreground text-pretty">
-              Find out more at{" "}
-              <a href="https://ptimism.io" target="_blank">
-                optimism.io
-              </a>{" "}
-              or check the{" "}
-              <a
-                href="https://superbridge.app/support/optimism"
-                target="_blank"
-              >
-                FAQs
-              </a>
-              .
-            </p>
+            <div className="text-xs text-left md:text-sm prose-sm tracking-tight leading-relaxed font-medium text-muted-foreground text-pretty">
+              <p>
+                The OP Mainnet Fault Proof upgrade has been targeted for June
+                10.
+              </p>
+              <p>
+                Any withdrawals initiated cannot be proved until the upgrade is
+                complete.
+              </p>
+              <p>
+                Find out more at{" "}
+                <a
+                  href="https://optimism.io"
+                  target="_blank"
+                  className="text-foreground underline"
+                >
+                  optimism.io
+                </a>{" "}
+                or check the{" "}
+                <a
+                  href="https://superbridge.app/support/optimism"
+                  target="_blank"
+                  className="text-foreground underline"
+                >
+                  FAQs
+                </a>
+                .
+              </p>
+            </div>
           </div>
 
           <div className="flex flex-col gap-2">

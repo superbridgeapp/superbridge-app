@@ -1,11 +1,11 @@
 import { useConfigState } from "@/state/config";
 
 import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
-
+import { Button } from "../ui/button";
 export const FaultProofsBanner = () => {
   const setInfoModalOpen = useConfigState.useSetFaultProofInfoModal();
   return (
-    <Alert>
+    <Alert variant={"horizontal"}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="24"
@@ -29,12 +29,13 @@ export const FaultProofsBanner = () => {
       </svg>
       <AlertTitle>OP Mainnet Fault Proof upgrade</AlertTitle>
       <AlertDescription>
-        <p>
-          Withdrawals initiated after 12am UTC June 3 will need to be proved
-          again after the upgrade, which will be at least 7 days later.
-        </p>
-
-        <button onClick={() => setInfoModalOpen(true)}>More info</button>
+        <Button
+          variant={"secondary"}
+          size={"xs"}
+          onClick={() => setInfoModalOpen(true)}
+        >
+          More
+        </Button>
       </AlertDescription>
     </Alert>
   );

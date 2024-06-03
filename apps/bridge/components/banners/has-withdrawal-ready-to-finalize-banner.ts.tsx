@@ -1,11 +1,12 @@
 import { useConfigState } from "@/state/config";
 import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
+import { Button } from "../ui/button";
 
 export const HasWithdrawalReadyToFinalizeBanner = () => {
   const setReadyToFinalizeModal =
     useConfigState.useSetHasWithdrawalReadyToFinalizeModal();
   return (
-    <Alert>
+    <Alert variant={"horizontal"}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="24"
@@ -29,7 +30,13 @@ export const HasWithdrawalReadyToFinalizeBanner = () => {
       </svg>
       <AlertTitle>Finalize your withdrawals</AlertTitle>
       <AlertDescription>
-        <button onClick={() => setReadyToFinalizeModal(true)}>More</button>
+        <Button
+          variant={"secondary"}
+          size={"xs"}
+          onClick={() => setReadyToFinalizeModal(true)}
+        >
+          More
+        </Button>
       </AlertDescription>
     </Alert>
   );
