@@ -26,6 +26,7 @@ import { CustomTokenListModal } from "./settings/custom-token-list-modal";
 import { SettingsModal } from "./settings/settings-modal";
 import { TosModal } from "./tos-modal/tos-modal";
 import { LegalModal } from "./legal-modal";
+import { BlockProvingModal } from "./fault-proofs/block-proving-modal";
 
 export function Layout({ children }: { children: any }) {
   useInitialise();
@@ -75,6 +76,7 @@ export function Layout({ children }: { children: any }) {
       <TosModal />
       <LegalModal />
       <CustomTokenListModal />
+      <BlockProvingModal />
 
       <nav className="flex flex-row justify-between items-center p-3 md:p-6 fixed top-0 left-0 w-screen z-10">
         <div onClick={() => navigate("/")} className="cursor-pointer">

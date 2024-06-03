@@ -3,8 +3,13 @@ import Link from "next/link";
 import { useState } from "react";
 import { isPresent } from "ts-is-present";
 
-import { bridgeControllerGetDeployments } from "@/codegen/index";
+import {
+  bridgeControllerGetCctpDomains,
+  bridgeControllerGetDeployments,
+} from "@/codegen/index";
 import { DeploymentFamily } from "@/codegen/model";
+import { Head } from "@/components/head";
+import { IconAlert } from "@/components/icons";
 import PageFooter from "@/components/page-footer";
 import PageNav from "@/components/page-nav";
 import { SupportModal } from "@/components/support-modal";
@@ -14,23 +19,87 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { isSuperbridge } from "@/config/superbridge";
+import {
+  optimismFaultProofs,
+  optimismFaultProofsUpgrade,
+} from "@/constants/links";
+import { useFaultProofUpgradeTime } from "@/hooks/use-fault-proof-upgrade-time";
 import { getFinalizationPeriod } from "@/hooks/use-finalization-period";
+import { useDeployment } from "@/hooks/use-deployment";
+
+const FaultProofAlert = () => {
+  const deployment = useDeployment();
+  return (
+    <Alert size={"lg"}>
+      <IconAlert className="w-6 h-6" />
+      <AlertTitle>{deployment?.l2.name} Fault Proof upgrade</AlertTitle>
+      <AlertDescription>
+        <p>
+          The {deployment?.l2.name} Fault Proof upgrade has been targeted for
+          June. What does that mean for you?
+        </p>
+        <h3 className="text-foreground font-bold">
+          I want to make a withdrawal
+        </h3>
+        <p>You should wait until the upgrade is complete.</p>
+        <h3 className="text-foreground font-bold">
+          Why should I wait until the upgrade is complete?
+        </h3>
+        <p>
+          The upgrade will essentally wipe the status of existing prove
+          operations. Any proves done now would need to be resubmitted after the
+          upgrade.
+        </p>
+        <h3 className="text-foreground font-bold">
+          I have a withdrawal in progress
+        </h3>
+        <p>
+          If you can finalize your withdrawal before the upgrade is complete we
+          highly recommend you do that.
+        </p>
+        <h3 className="text-foreground font-bold">
+          What if I don't finalize withdrawals in progress?
+        </h3>
+        <p>
+          You will need to prove again, wait, and then finalize after the
+          upgrade is complete.
+        </p>
+        <p>
+          <a
+            href={optimismFaultProofsUpgrade}
+            target="_blank"
+            className="underline text-foreground font-bold"
+          >
+            For more info please visit optimism.io
+          </a>
+        </p>
+      </AlertDescription>
+    </Alert>
+  );
+};
 
 export default function Support({
   deployment,
+  cctpDomains,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const [open, setOpen] = useState(false);
+
+  const faultProofUpgradeTime = useFaultProofUpgradeTime(deployment);
 
   if (!deployment) {
     return <div>Not Found</div>;
   }
 
-  const settlementChain = isSuperbridge
-    ? "Ethereum Mainnet"
-    : deployment.l1.name;
+  const settlementChain = deployment.l1.name;
   const rollupChain = deployment.l2.name;
+
+  const supportsCctp = !!(
+    cctpDomains.find((x) => x.chainId === deployment.l1.id) &&
+    cctpDomains.find((x) => x.chainId === deployment.l2.id)
+  );
 
   const whatIsTheNativeBridge = {
     title: `What is the ${rollupChain} native bridge`,
@@ -123,6 +192,30 @@ export default function Support({
     ),
   };
 
+  const reprove = {
+    title: "Why do I need to prove my withdrawal again?",
+    description: (
+      <div className="prose dark:prose-invert">
+        <p>
+          Due to the{" "}
+          <a href={optimismFaultProofs} target="_blank" className="underline">
+            Fault Proof upgrade
+          </a>{" "}
+          on {deployment.l2.name}, withdrawals that were not yet finalized need
+          to proved again to adhere to the new security policy. You can find out
+          more about the upgrade here:{" "}
+          <a
+            href={optimismFaultProofsUpgrade}
+            target="_blank"
+            className="underline"
+          >
+            {deployment.l2.name} Fault Proof upgrade
+          </a>{" "}
+        </p>
+      </div>
+    ),
+  };
+
   const fees = {
     title: "Does Superbridge charge any extra fees?",
     description: (
@@ -184,196 +277,215 @@ export default function Support({
   const finalizationPeriod = getFinalizationPeriod(deployment, false);
 
   return (
-    <div className="w-screen h-screen overflow-y-auto bg-background">
-      <PageNav />
-      <main>
-        <section className="max-w-3xl mx-auto p-8">
-          <header className="flex flex-col items-center py-16 gap-4">
-            <img
-              src={deployment?.theme?.theme.imageNetwork}
-              alt={rollupChain}
-              className="w-24 h-24 rounded-full"
-            />
-            <h1 className="font-bold text-6xl tracking-tighter text-center">
-              {rollupChain}
-              <br />
-              FAQs &amp; Support
-            </h1>
-            <Link
-              className="rounded-full shadow-sm bg-white dark:bg-zinc-800 text-sm font-medium tracking-tighter py-2 px-4 hover:scale-105 transition-transform cursor-pointer grow-0 flex items-center leading-4"
-              href="/support"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="14"
-                height="14"
-                viewBox="0 0 14 14"
-                fill="none"
-                className="fill-foreground mr-2"
+    <>
+      <Head deployment={deployment} />
+      <div className="w-screen h-screen overflow-y-auto bg-background">
+        <PageNav />
+
+        <main>
+          <section className="max-w-3xl mx-auto p-8">
+            <header className="flex flex-col items-center py-16 gap-4">
+              <img
+                src={deployment?.theme?.theme.imageNetwork}
+                alt={rollupChain}
+                className="w-24 h-24 rounded-full"
+              />
+              <h1 className="font-bold text-6xl tracking-tighter text-center">
+                {rollupChain}
+                <br />
+                FAQs &amp; Support
+              </h1>
+              <Link
+                className="rounded-full shadow-sm bg-white dark:bg-zinc-800 text-sm font-medium tracking-tighter py-2 px-4 hover:scale-105 transition-transform cursor-pointer grow-0 flex items-center leading-4"
+                href="/support"
               >
-                <path d="M7 0.677246C6.70724 0.677246 6.41553 0.769919 6.1849 0.984753L0.523395 5.9849C0.246428 6.23133 0 6.55463 0 7.0001C0 7.44556 0.246428 7.76887 0.523395 8.01529L6.1849 13.0154C6.41553 13.2313 6.70829 13.323 7 13.323C7.67715 13.323 8.23108 12.769 8.23108 12.0919C8.23108 11.738 8.09312 11.4147 7.81616 11.1693L4.49361 8.23118H12.7689C13.4461 8.23118 14 7.67725 14 7.0001C14 6.32295 13.4461 5.76902 12.7689 5.76902H4.49255L7.8151 2.83085C8.09207 2.58442 8.23003 2.26217 8.23003 1.90833C8.23003 1.23118 7.67609 0.677246 6.99895 0.677246L7 0.677246Z" />
-              </svg>
-              <span>All chains</span>
-            </Link>
-          </header>
-          <Accordion type="single" collapsible className="w-full">
-            {[
-              whatIsTheNativeBridge,
-              whatIsSuperbridge,
-              fees,
-              cancel,
-              speed,
-              whatIfIDontProve,
-            ]
-              .filter(isPresent)
-              .map(({ title, description }) => (
-                <AccordionItem key={title} value={title}>
-                  <AccordionTrigger>{title}</AccordionTrigger>
-                  <AccordionContent>{description}</AccordionContent>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="14"
+                  height="14"
+                  viewBox="0 0 14 14"
+                  fill="none"
+                  className="fill-foreground mr-2"
+                >
+                  <path d="M7 0.677246C6.70724 0.677246 6.41553 0.769919 6.1849 0.984753L0.523395 5.9849C0.246428 6.23133 0 6.55463 0 7.0001C0 7.44556 0.246428 7.76887 0.523395 8.01529L6.1849 13.0154C6.41553 13.2313 6.70829 13.323 7 13.323C7.67715 13.323 8.23108 12.769 8.23108 12.0919C8.23108 11.738 8.09312 11.4147 7.81616 11.1693L4.49361 8.23118H12.7689C13.4461 8.23118 14 7.67725 14 7.0001C14 6.32295 13.4461 5.76902 12.7689 5.76902H4.49255L7.8151 2.83085C8.09207 2.58442 8.23003 2.26217 8.23003 1.90833C8.23003 1.23118 7.67609 0.677246 6.99895 0.677246L7 0.677246Z" />
+                </svg>
+                <span>All chains</span>
+              </Link>
+
+              {faultProofUpgradeTime && <FaultProofAlert />}
+            </header>
+
+            <Accordion type="single" collapsible className="w-full">
+              {[
+                whatIsTheNativeBridge,
+                whatIsSuperbridge,
+                faultProofUpgradeTime ? reprove : null,
+                fees,
+                cancel,
+                speed,
+                whatIfIDontProve,
+              ]
+                .filter(isPresent)
+                .map(({ title, description }) => (
+                  <AccordionItem key={title} value={title}>
+                    <AccordionTrigger>{title}</AccordionTrigger>
+                    <AccordionContent>{description}</AccordionContent>
+                  </AccordionItem>
+                ))}
+
+              <AccordionItem value="item-6">
+                <AccordionTrigger>
+                  Why does it take {finalizationPeriod?.value}{" "}
+                  {finalizationPeriod?.period} to withdraw to {settlementChain}?
+                </AccordionTrigger>
+                <AccordionContent>
+                  <div className="prose dark:prose-invert">
+                    <p>
+                      Because of the way the {rollupChain} Native Bridge
+                      operates, users are required to wait when moving assets
+                      out of {`${rollupChain} into ${settlementChain}`}. This
+                      period of time is called the{" "}
+                      <span className="font-bold">Challenge Period</span> and
+                      serves to help secure the assets stored on {rollupChain}.
+                      You can find more information about the Challenge Period{" "}
+                      <a href="https://docs.rollbridge.app/withdrawals">here</a>
+                      .
+                    </p>
+                    <p>
+                      If you need a faster bridge transaction you might be able
+                      to use a{" "}
+                      <Link href="/alternative-bridges">
+                        third party bridge.
+                      </Link>{" "}
+                      They provide faster bridging services (but charge a small
+                      extra fee). They also usually support multiple networks.
+                    </p>
+                    <p>
+                      Please note that their token selection may be more
+                      limited.
+                    </p>
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="item-7">
+                <AccordionTrigger>
+                  Why does it take multiple transactions to withdraw to{" "}
+                  {settlementChain}?
+                </AccordionTrigger>
+                <AccordionContent>
+                  <div className="prose dark:prose-invert">
+                    <p>
+                      Superbridge uses the {rollupChain}
+                      Native Bridge contracts which are highly secure, and
+                      require a lot of processing. They are also trustless,
+                      which is why multiple transactions and wait periods are
+                      required.
+                    </p>
+                    <h4 className="font-bold">Required steps to withdraw:</h4>
+                    <ol>
+                      <li>Initiate the withdrawal on {rollupChain}.</li>
+
+                      {deployment.family === DeploymentFamily.optimism && (
+                        <>
+                          <li>
+                            Wait until the withdrawals root is published on{" "}
+                            {settlementChain}, which is typically not longer
+                            than an hour or two, but could take longer in the
+                            case of an outage.
+                          </li>
+                          <li>Prove the withdrawal.</li>
+                        </>
+                      )}
+                      <li>
+                        Wait the verification challenge period, which is{" "}
+                        {finalizationPeriod?.value} {finalizationPeriod?.period}{" "}
+                        from the time the withdrawal is proved on Ethereum.
+                      </li>
+                      <li>Claim the withdrawal.</li>
+                    </ol>
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+
+              {supportsCctp && (
+                <AccordionItem value="item-8">
+                  <AccordionTrigger>
+                    Why do USDC bridges via CCTP take multiple transactions?
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <div className="prose dark:prose-invert">
+                      <p>
+                        As opposed to native bridging with where funds are
+                        routed through the rollup smart contracts, native USDC
+                        issuance is a two step mint and burn process via
+                        Circle’s CCTP smart contracts.
+                      </p>
+                      <p>
+                        After initiating the burn transaction on the origin
+                        chain, users are then able to mint the corresponding
+                        amount of USDC on the destination chain.
+                      </p>
+                      <p>
+                        Native USDC bridging takes around 15 minutes, regardless
+                        of whether you’re bridging from or to Ethereum Mainnet.
+                      </p>
+                    </div>
+                  </AccordionContent>
                 </AccordionItem>
-              ))}
+              )}
 
-            <AccordionItem value="item-6">
-              <AccordionTrigger>
-                Why does it take {finalizationPeriod?.value}{" "}
-                {finalizationPeriod?.period} to withdraw to {settlementChain}?
-              </AccordionTrigger>
-              <AccordionContent>
-                <div className="prose dark:prose-invert">
-                  <p>
-                    Because of the way the {rollupChain} Native Bridge operates,
-                    users are required to wait when moving assets out of{" "}
-                    {`${rollupChain} into ${settlementChain}`}. This period of
-                    time is called the{" "}
-                    <span className="font-bold">Challenge Period</span> and
-                    serves to help secure the assets stored on {rollupChain}.
-                    You can find more information about the Challenge Period{" "}
-                    <a href="https://docs.rollbridge.app/withdrawals">here</a>.
-                  </p>
-                  <p>
-                    If you need a faster bridge transaction you might be able to
-                    use a{" "}
-                    <Link href="/alternative-bridges">third party bridge.</Link>{" "}
-                    They provide faster bridging services (but charge a small
-                    extra fee). They also usually support multiple networks.
-                  </p>
-                  <p>
-                    Please note that their token selection may be more limited.
-                  </p>
-                </div>
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="item-7">
-              <AccordionTrigger>
-                Why does it take multiple transactions to withdraw to{" "}
-                {settlementChain}?
-              </AccordionTrigger>
-              <AccordionContent>
-                <div className="prose dark:prose-invert">
-                  <p>
-                    Superbridge uses the {rollupChain}
-                    Native Bridge contracts which are highly secure, and require
-                    a lot of processing. They are also trustless, which is why
-                    multiple transactions and wait periods are required.
-                  </p>
-                  <h4 className="font-bold">Required steps to withdraw:</h4>
-                  <ol>
-                    <li>Initiate the withdrawal on {rollupChain}.</li>
+              <AccordionItem value="item-9">
+                <AccordionTrigger>
+                  What are some alternatives to Superbridge?
+                </AccordionTrigger>
+                <AccordionContent>
+                  <div className="prose dark:prose-invert">
+                    <p>
+                      When you’re in a hurry or only withdrawing small amounts,
+                      it might make sense to use other bridges... So we put
+                      together a handy list of alternative{" "}
+                      <Link href="/alternative-bridges">
+                        third party bridges
+                      </Link>
+                      .
+                    </p>
+                    <p>
+                      They provide faster bridging services (but often charge a
+                      small extra fee). They also usually support multiple
+                      networks.
+                    </p>
+                    <p>
+                      Please note that their token selection may be more
+                      limited.
+                    </p>
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="item-10">
+                <AccordionTrigger>Have more questions?</AccordionTrigger>
+                <AccordionContent>
+                  <div className="prose dark:prose-invert pb-2">
+                    <p>
+                      If you have additional questions, feel free to reach out.
+                    </p>
+                  </div>
+                  <Button onClick={() => setOpen(true)}>Contact us</Button>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
 
-                    {deployment.family === DeploymentFamily.optimism && (
-                      <>
-                        <li>
-                          Wait until the withdrawals root is published on{" "}
-                          {settlementChain}, which is typically not longer than
-                          an hour or two, but could take longer in the case of
-                          an outage.
-                        </li>
-                        <li>Prove the withdrawal.</li>
-                      </>
-                    )}
-                    <li>
-                      Wait the verification challenge period, which is{" "}
-                      {finalizationPeriod?.value} {finalizationPeriod?.period}{" "}
-                      from the time the withdrawal is proved on Ethereum.
-                    </li>
-                    <li>Claim the withdrawal.</li>
-                  </ol>
-                </div>
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="item-8">
-              <AccordionTrigger>
-                Why do USDC bridges via CCTP take multiple transactions?
-              </AccordionTrigger>
-              <AccordionContent>
-                <div className="prose dark:prose-invert">
-                  <p>
-                    As opposed to native bridging with where funds are routed
-                    through the rollup smart contracts, native USDC issuance is
-                    a two step mint and burn process via Circle’s CCTP smart
-                    contracts.
-                  </p>
-                  <p>
-                    After initiating the burn transaction on the origin chain,
-                    users are then able to mint the corresponding amount of USDC
-                    on the destination chain.
-                  </p>
-                  <p>
-                    Native USDC bridging only takes around 15 minutes,
-                    regardless of whether you’re bridging from or too Ethereum
-                    Mainnet.
-                  </p>
-                </div>
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="item-9">
-              <AccordionTrigger>
-                What are some alternatives to Superbridge?
-              </AccordionTrigger>
-              <AccordionContent>
-                <div className="prose dark:prose-invert">
-                  <p>
-                    When you’re in a hurry or only withdrawing small amounts, it
-                    might make sense to use other bridges... So we put together
-                    a handy list of alternative{" "}
-                    <Link href="/alternative-bridges">third party bridges</Link>
-                    .
-                  </p>
-                  <p>
-                    They provide faster bridging services (but often charge a
-                    small extra fee). They also usually support multiple
-                    networks.
-                  </p>
-                  <p>
-                    Please note that their token selection may be more limited.
-                  </p>
-                </div>
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="item-10">
-              <AccordionTrigger>Have more questions?</AccordionTrigger>
-              <AccordionContent>
-                <div className="prose dark:prose-invert pb-2">
-                  <p>
-                    If you have additional questions, feel free to reach out.
-                  </p>
-                </div>
-                <Button onClick={() => setOpen(true)}>Contact us</Button>
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
-
-          <SupportModal
-            open={open}
-            setOpen={setOpen}
-            finalizationPeriod={finalizationPeriod}
-            settlementChain={settlementChain}
-            rollupChain={rollupChain}
-          />
-        </section>
-      </main>
-      <PageFooter />
-    </div>
+            <SupportModal
+              open={open}
+              setOpen={setOpen}
+              finalizationPeriod={finalizationPeriod}
+              settlementChain={settlementChain}
+              rollupChain={rollupChain}
+            />
+          </section>
+        </main>
+        <PageFooter />
+      </div>
+    </>
   );
 }
 
@@ -385,9 +497,12 @@ export const getServerSideProps = async ({
     return { props: { deployment: null } };
   }
 
-  const { data } = await bridgeControllerGetDeployments({
-    names: [params.name as string],
-  });
+  const [{ data: deployments }, { data: cctpDomains }] = await Promise.all([
+    bridgeControllerGetDeployments({
+      names: [params.name as string],
+    }),
+    bridgeControllerGetCctpDomains(),
+  ]);
 
-  return { props: { deployment: data[0] } };
+  return { props: { deployment: deployments[0], cctpDomains } };
 };

@@ -2,29 +2,23 @@ import NextHead from "next/head";
 
 import { DeploymentDto } from "@/codegen/model";
 import { isSuperbridge } from "@/config/superbridge";
-import { useDeployment } from "@/hooks/use-deployment";
-import { useDeployments } from "@/hooks/use-deployments";
 
-function useMetadata(deployments: DeploymentDto[]) {
-  if (deployments.length === 1) {
-    const [deployment] = deployments;
-
+function useMetadata(deployment: DeploymentDto | null) {
+  if (isSuperbridge) {
     return {
-      title: `${deployment.l2.name} Bridge`,
-      description: `Bridge ETH and ERC20 tokens into and out of ${deployment.l2.name}`,
+      title: `Superbridge`,
+      description: `Bridge ETH and ERC20 tokens into and out of the Superchain`,
     };
   }
 
   return {
-    title: `Superbridge`,
-    description: `Bridge ETH and ERC20 tokens into and out of the Superchain`,
+    title: `${deployment?.l2.name} Bridge`,
+    description: `Bridge ETH and ERC20 tokens into and out of ${deployment?.l2.name}`,
   };
 }
 
-export function Head() {
-  const deployment = useDeployment();
-  const { deployments } = useDeployments();
-  const metadata = useMetadata(deployments);
+export function Head({ deployment }: { deployment: DeploymentDto | null }) {
+  const metadata = useMetadata(deployment);
 
   const defaultOg = isSuperbridge
     ? "https://superbridge.app/og/superbridge-og-image.png"
@@ -33,7 +27,7 @@ export function Head() {
 
   const icon = isSuperbridge
     ? "/img/superbridge/favicon-32x32.png"
-    : deployments[0].theme?.theme.imageNetwork;
+    : deployment?.theme?.theme.imageNetwork;
 
   return (
     <NextHead>

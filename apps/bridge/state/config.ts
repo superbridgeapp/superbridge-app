@@ -2,7 +2,7 @@ import { createSelectorHooks } from "auto-zustand-selectors-hook";
 import { Address } from "viem";
 import { create } from "zustand";
 
-import { BridgeNftDto } from "@/codegen/model";
+import { BridgeNftDto, DeploymentDto } from "@/codegen/model";
 import { MultiChainToken } from "@/types/token";
 
 import { CustomTokenList } from "./settings";
@@ -69,6 +69,17 @@ interface ConfigState {
 
   arbitrumCustomGasTokens: (MultiChainToken | null)[];
   setArbitrumCustomGasTokens: (b: (MultiChainToken | null)[]) => void;
+
+  faultProofInfoModal: boolean;
+  setFaultProofInfoModal: (faultProofInfoModal: boolean) => void;
+
+  hasWithdrawalReadyToFinalizeModal: boolean;
+  setHasWithdrawalReadyToFinalizeModal: (
+    hasWithdrawalReadyToFinalizeModal: boolean
+  ) => void;
+
+  blockProvingModal: DeploymentDto | null;
+  setBlockProvingModal: (blockProvingModal: DeploymentDto | null) => void;
 }
 
 const ConfigState = create<ConfigState>()((set) => ({
@@ -141,6 +152,16 @@ const ConfigState = create<ConfigState>()((set) => ({
   arbitrumCustomGasTokens: [],
   setArbitrumCustomGasTokens: (arbitrumCustomGasTokens) =>
     set({ arbitrumCustomGasTokens }),
+
+  faultProofInfoModal: false,
+  setFaultProofInfoModal: (faultProofInfoModal) => set({ faultProofInfoModal }),
+
+  hasWithdrawalReadyToFinalizeModal: false,
+  setHasWithdrawalReadyToFinalizeModal: (hasWithdrawalReadyToFinalizeModal) =>
+    set({ hasWithdrawalReadyToFinalizeModal }),
+
+  blockProvingModal: null,
+  setBlockProvingModal: (blockProvingModal) => set({ blockProvingModal }),
 }));
 
 export const useConfigState = createSelectorHooks(ConfigState);

@@ -3,16 +3,22 @@ import { useTranslation } from "react-i18next";
 import { DeploymentType } from "@/codegen/model";
 import { isSuperbridge } from "@/config/superbridge";
 import { useDeployment } from "@/hooks/use-deployment";
+import { useFaultProofUpgradeTime } from "@/hooks/use-fault-proof-upgrade-time";
+import { useHasWithdrawalReadyToFinalize } from "@/hooks/use-has-withdrawal-ready-to-finalize";
 import { useWithdrawalsPaused } from "@/hooks/use-withdrawals-paused";
 
+import { FaultProofsBanner } from "./banners/fault-proofs-banner";
+import { HasWithdrawalReadyToFinalizeBanner } from "./banners/has-withdrawal-ready-to-finalize-banner.ts";
+import { WithdrawalsPaused } from "./banners/withdrawals-paused";
 import { BridgeBody } from "./bridge-body";
 import { BridgeHeader } from "./bridge-header";
-import { WithdrawalsPaused } from "./withdrawals-paused";
 
 export const Bridge = () => {
   const deployment = useDeployment();
   const { t } = useTranslation();
   const withdrawalsPaused = useWithdrawalsPaused();
+  const faultProofUpgradeTime = useFaultProofUpgradeTime(deployment);
+  const hasWithdrawalReadyToFinalize = useHasWithdrawalReadyToFinalize();
 
   return (
     <main
@@ -20,8 +26,12 @@ export const Bridge = () => {
       key="bridgeMain"
     >
       <div className="w-full px-2 md:px-0  md:w-[420px] aspect-[3/4] relative mb-24 mt-16 md:mt-24 2xl:mt-32">
-        <div className="flex flex-col gap-2 md:gap-2 items-center">
+        <div className="flex flex-col gap-2 items-center">
           {withdrawalsPaused && <WithdrawalsPaused />}
+          {faultProofUpgradeTime && <FaultProofsBanner />}
+          {hasWithdrawalReadyToFinalize && (
+            <HasWithdrawalReadyToFinalizeBanner />
+          )}
 
           <div
             className={`bg-card mx-auto rounded-[24px] md:rounded-[32px] shadow-sm w-full shrink-0 backdrop-blur-sm`}
