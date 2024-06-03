@@ -63,6 +63,7 @@ import {
 import { FaultProofsModal } from "./alerts/fault-proofs-modal";
 import { FaultProofInfoModal } from "./fault-proof-info-modal";
 import { WithdrawalReadyToFinalizeModal } from "./withdrawal-ready-to-finalize-modal";
+import { useFaultProofUpgradeTime } from "@/hooks/use-fault-proof-upgrade-time";
 
 enum AlertModals {
   NoGas = "no-gas",
@@ -154,7 +155,6 @@ export const BridgeBody = () => {
   const [tokensDialog, setTokensDialog] = useState(false);
   const [withdrawSettingsDialog, setWithdrawSettingsDialog] = useState(false);
   const [addressDialog, setAddressDialog] = useState(false);
-  const [noGasModal, setNoGasModal] = useState(false);
 
   const deployment = useDeployment();
   const setConfirmationModal = useConfigState.useSetDisplayConfirmationModal();
@@ -174,6 +174,7 @@ export const BridgeBody = () => {
   const statusCheck = useStatusCheck();
   const bridgeLimit = useBridgeLimit();
   const track = useBridgeControllerTrack();
+  const faultProofUpgradeTime = useFaultProofUpgradeTime(deployment);
 
   const initiatingChainId =
     forceViaL1 && withdrawing ? deployment?.l1.id : from?.id;
@@ -386,9 +387,9 @@ export const BridgeBody = () => {
     //   modals.push(AlertModals.GasExpensive);
     // }
 
-    // if (deployment?.name === "optimism" && withdrawing) {
-    //   modals.push(AlertModals.FaultProofs);
-    // }
+    if (faultProofUpgradeTime && withdrawing) {
+      modals.push(AlertModals.FaultProofs);
+    }
 
     if (modals.length === 0) {
       initiateBridge();

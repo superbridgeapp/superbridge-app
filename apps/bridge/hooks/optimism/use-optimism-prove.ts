@@ -24,7 +24,7 @@ export function useProveOptimism({ id, deployment }: BridgeWithdrawalDto) {
 
   const onProve = async () => {
     if (faultProofUpgradeTime) {
-      setBlockProvingModal(true);
+      setBlockProvingModal(deployment);
       return;
     }
 

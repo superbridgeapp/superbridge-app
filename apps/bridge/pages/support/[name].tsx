@@ -35,8 +35,8 @@ const FaultProofAlert = () => (
     <AlertTitle>OP Mainnet Fault Proof upgrade</AlertTitle>
     <AlertDescription>
       <p>
-        The OP Mainnet Fault Proof upgrade has been targeted for June 10. What
-        does that mean for you?
+        The OP Mainnet Fault Proof upgrade has been targeted for June. What does
+        that mean for you?
       </p>
       <h3 className="text-foreground font-bold">I want to make a withdrawal</h3>
       <p>You should wait until the upgade is complete.</p>
@@ -68,7 +68,7 @@ const FaultProofAlert = () => (
           target="_blank"
           className="underline text-foreground font-bold"
         >
-          For more information please visit Optimism.io
+          For more info please visit optimism.io
         </a>
       </p>
     </AlertDescription>

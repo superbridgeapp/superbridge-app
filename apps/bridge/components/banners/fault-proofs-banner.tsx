@@ -1,9 +1,13 @@
 import { useConfigState } from "@/state/config";
+import { useDeployment } from "@/hooks/use-deployment";
 
 import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 import { Button } from "../ui/button";
+
 export const FaultProofsBanner = () => {
+  const deployment = useDeployment();
   const setInfoModalOpen = useConfigState.useSetFaultProofInfoModal();
+
   return (
     <Alert variant={"horizontal"}>
       <svg
@@ -27,7 +31,7 @@ export const FaultProofsBanner = () => {
           fill="black"
         />
       </svg>
-      <AlertTitle>OP Mainnet Fault Proof upgrade</AlertTitle>
+      <AlertTitle>{deployment?.l2.name} Fault Proof upgrade</AlertTitle>
       <AlertDescription>
         <Button
           variant={"secondary"}

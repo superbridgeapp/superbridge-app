@@ -2,7 +2,7 @@ import { createSelectorHooks } from "auto-zustand-selectors-hook";
 import { Address } from "viem";
 import { create } from "zustand";
 
-import { BridgeNftDto } from "@/codegen/model";
+import { BridgeNftDto, DeploymentDto } from "@/codegen/model";
 import { MultiChainToken } from "@/types/token";
 
 import { CustomTokenList } from "./settings";
@@ -72,8 +72,8 @@ interface ConfigState {
     hasWithdrawalReadyToFinalizeModal: boolean
   ) => void;
 
-  blockProvingModal: boolean;
-  setBlockProvingModal: (blockProvingModal: boolean) => void;
+  blockProvingModal: DeploymentDto | null;
+  setBlockProvingModal: (blockProvingModal: DeploymentDto | null) => void;
 }
 
 const ConfigState = create<ConfigState>()((set) => ({
@@ -147,7 +147,7 @@ const ConfigState = create<ConfigState>()((set) => ({
   setHasWithdrawalReadyToFinalizeModal: (hasWithdrawalReadyToFinalizeModal) =>
     set({ hasWithdrawalReadyToFinalizeModal }),
 
-  blockProvingModal: false,
+  blockProvingModal: null,
   setBlockProvingModal: (blockProvingModal) => set({ blockProvingModal }),
 }));
 

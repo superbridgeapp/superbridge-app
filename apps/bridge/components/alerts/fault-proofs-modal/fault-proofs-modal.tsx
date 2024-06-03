@@ -2,9 +2,7 @@ import { useTranslation } from "react-i18next";
 
 import { IconAlert } from "@/components/icons";
 import { optimismFaultProofsUpgrade } from "@/constants/links";
-import { useFromChain, useToChain } from "@/hooks/use-chain";
-import { useToNativeToken } from "@/hooks/use-native-token";
-import { useSelectedToken } from "@/hooks/use-selected-token";
+import { useDeployment } from "@/hooks/use-deployment";
 
 import { Button } from "../../ui/button";
 import { Dialog, DialogContent } from "../../ui/dialog";
@@ -12,18 +10,7 @@ import { AlertProps } from "../types";
 
 export const FaultProofsModal = ({ onProceed, open, onCancel }: AlertProps) => {
   const { t } = useTranslation();
-  const from = useFromChain();
-  const to = useToChain();
-  const token = useSelectedToken();
-  const toNativeToken = useToNativeToken();
-
-  const common = {
-    from: from?.name,
-    to: to?.name,
-    gas: toNativeToken?.[to?.id ?? 0]?.symbol,
-    symbol: token?.symbol,
-    token: token?.name,
-  };
+  const deployment = useDeployment();
 
   return (
     <Dialog open={open} onOpenChange={onCancel}>
@@ -34,12 +21,12 @@ export const FaultProofsModal = ({ onProceed, open, onCancel }: AlertProps) => {
               <IconAlert className="w-16 h-16" />
             </div>
             <h1 className="font-bold text-xl tracking-tighter text-left">
-              OP Mainnet Fault Proof upgrade
+              {deployment?.l2.name} Fault Proof upgrade
             </h1>
             <div className="text-xs text-left md:text-sm prose-sm tracking-tight leading-relaxed font-medium text-muted-foreground text-pretty">
               <p>
-                The OP Mainnet Fault Proof upgrade has been targeted for June
-                10.
+                The {deployment?.l2.name} Fault Proof upgrade has been targeted
+                for June.
               </p>
               <p>
                 Any withdrawals initiated cannot be proved until the upgrade is
@@ -68,7 +55,7 @@ export const FaultProofsModal = ({ onProceed, open, onCancel }: AlertProps) => {
           </div>
 
           <div className="flex flex-col gap-2">
-            <Button onClick={onCancel}>{t("noGasModal.goBack", common)}</Button>
+            <Button onClick={onCancel}>{t("noGasModal.goBack")}</Button>
 
             <Button variant={"secondary"} onClick={onProceed}>
               <span>{t("noGasModal.proceedAnyway")}</span>

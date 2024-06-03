@@ -1,14 +1,13 @@
-import { useTranslation } from "react-i18next";
-
 import { IconAlert } from "@/components/icons";
 import { optimismFaultProofsUpgrade } from "@/constants/links";
+import { useDeployment } from "@/hooks/use-deployment";
 import { useConfigState } from "@/state/config";
 
 import { Button } from "../ui/button";
 import { Dialog, DialogContent } from "../ui/dialog";
 
 export const FaultProofInfoModal = () => {
-  const { t } = useTranslation();
+  const deployment = useDeployment();
   const open = useConfigState.useFaultProofInfoModal();
   const setOpen = useConfigState.useSetFaultProofInfoModal();
 
@@ -21,12 +20,12 @@ export const FaultProofInfoModal = () => {
               <IconAlert className="w-16 h-16" />
             </div>
             <h1 className="font-bold text-xl tracking-tighter text-left">
-              OP Mainnet Fault Proof upgrade
+              {deployment?.l2.name} Fault Proof upgrade
             </h1>
             <div className="text-xs text-left md:text-sm prose-sm tracking-tight leading-relaxed font-medium text-muted-foreground text-pretty">
               <p>
-                The OP Mainnet Fault Proof upgrade has been targeted for June
-                10.
+                The {deployment?.l2.name} Fault Proof upgrade has been targeted
+                for June.
               </p>
               <p>
                 Withdrawals submitted now cannot be proved and therefore
@@ -52,7 +51,7 @@ export const FaultProofInfoModal = () => {
                 </a>{" "}
                 or check the{" "}
                 <a
-                  href="https://superbridge.app/support/optimism"
+                  href={`https://superbridge.app/support/${deployment?.name}`}
                   target="_blank"
                   className="text-foreground underline"
                 >
