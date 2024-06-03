@@ -11,6 +11,7 @@ import { useAccount, useBalance, useConfig, useWalletClient } from "wagmi";
 
 import { useBridgeControllerTrack } from "@/codegen";
 import { currencySymbolMap } from "@/constants/currency-symbol-map";
+import { useAcrossPaused } from "@/hooks/across/use-across-paused";
 import { useAcrossDomains } from "@/hooks/use-across-domains";
 import { useAllowance } from "@/hooks/use-allowance";
 import { useApprove } from "@/hooks/use-approve";
@@ -20,6 +21,7 @@ import { useBridge } from "@/hooks/use-bridge";
 import { useBridgeLimit } from "@/hooks/use-bridge-limit";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
 import { useDeployment } from "@/hooks/use-deployment";
+import { useFaultProofUpgradeTime } from "@/hooks/use-fault-proof-upgrade-time";
 import { useNativeToken } from "@/hooks/use-native-token";
 import { useNetworkFee } from "@/hooks/use-network-fee";
 import { useTokenPrice } from "@/hooks/use-prices";
@@ -31,14 +33,13 @@ import { useSwitchChain } from "@/hooks/use-switch-chain";
 import { useActiveTokens } from "@/hooks/use-tokens";
 import { useTransferTime } from "@/hooks/use-transfer-time";
 import { useWeiAmount } from "@/hooks/use-wei-amount";
+import { useWithdrawalsPaused } from "@/hooks/use-withdrawals-paused";
 import { useConfigState } from "@/state/config";
 import { usePendingTransactions } from "@/state/pending-txs";
 import { useSettingsState } from "@/state/settings";
 import { buildPendingTx } from "@/utils/build-pending-tx";
 import { isEth, isNativeToken } from "@/utils/is-eth";
 import { isNativeUsdc } from "@/utils/is-usdc";
-
-import { useFaultProofUpgradeTime } from "@/hooks/use-fault-proof-upgrade-time";
 import { FromTo } from "./FromTo";
 import { AddressModal } from "./address-modal";
 import {
@@ -153,7 +154,6 @@ export const BridgeBody = () => {
   const deployment = useDeployment();
   const setConfirmationModal = useConfigState.useSetDisplayConfirmationModal();
   const withdrawing = useConfigState.useWithdrawing();
-  const rawAmount = useConfigState.useRawAmount();
   const stateToken = useConfigState.useToken();
   const forceViaL1 = useConfigState.useForceViaL1();
   const tokensModal = useConfigState.useTokensModal();
@@ -171,6 +171,8 @@ export const BridgeBody = () => {
   const bridgeLimit = useBridgeLimit();
   const track = useBridgeControllerTrack();
   const faultProofUpgradeTime = useFaultProofUpgradeTime(deployment);
+  const acrossPaused = useAcrossPaused();
+  const withdrawalsPaused = useWithdrawalsPaused();
 
   const initiatingChainId =
     forceViaL1 && withdrawing ? deployment?.l1.id : from?.id;
@@ -426,10 +428,11 @@ export const BridgeBody = () => {
   };
 
   const submitButton = match({
-    disabled:
-      (deployment?.name === "orb3-mainnet" && !withdrawing) ||
-      deployment?.name === "surprised-harlequin-bonobo-fvcy2k9oqh",
+    disabled: deployment?.name === "surprised-harlequin-bonobo-fvcy2k9oqh",
     withdrawing,
+    fast,
+    acrossPaused,
+    withdrawalsPaused,
     isSubmitting: bridge.isLoading,
     account: account.address,
     hasInsufficientBalance,
@@ -441,6 +444,16 @@ export const BridgeBody = () => {
     limitExceeded:
       typeof bridgeLimit !== "undefined" && weiAmount > bridgeLimit,
   })
+    .with({ fast: true, acrossPaused: true }, () => ({
+      onSubmit: () => {},
+      buttonText: "Bridging paused",
+      disabled: true,
+    }))
+    .with({ fast: false, withdrawing: true, withdrawalsPaused: true }, () => ({
+      onSubmit: () => {},
+      buttonText: "Withdrawals paused",
+      disabled: true,
+    }))
     .with({ disabled: true }, ({ withdrawing }) => ({
       onSubmit: () => {},
       buttonText: withdrawing ? "Withdrawals disabled" : t("depositDisabled"),

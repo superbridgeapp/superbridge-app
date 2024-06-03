@@ -21,5 +21,5 @@ export const useWithdrawalsPaused = () => {
     chainId: deployment?.l1.id,
   });
 
-  return read.data;
+  return read.data ?? false;
 };
