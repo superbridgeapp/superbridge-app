@@ -1,137 +1,170 @@
-import { useTranslation } from "react-i18next";
-import { match } from "ts-pattern";
-import { arbitrum, base, mainnet, optimism } from "viem/chains";
+import { Trans, useTranslation } from "react-i18next";
+import { formatUnits } from "viem";
+import { useEstimateFeesPerGas } from "wagmi";
 
-import { DeploymentDto, DeploymentFamily } from "@/codegen/model";
+import { currencySymbolMap } from "@/constants/currency-symbol-map";
+import { FINALIZE_GAS, PROVE_GAS } from "@/constants/gas-limits";
+import { useBridge } from "@/hooks/use-bridge";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
 import { useDeployment } from "@/hooks/use-deployment";
 import { useNativeToken, useToNativeToken } from "@/hooks/use-native-token";
+import { useTokenPrice } from "@/hooks/use-prices";
 import { useSelectedToken } from "@/hooks/use-selected-token";
 import { useConfigState } from "@/state/config";
-import { isNativeToken } from "@/utils/is-eth";
-import { isNativeUsdc } from "@/utils/is-usdc";
-import { GasDrop } from "./icons";
+import { useSettingsState } from "@/state/settings";
+import { isOptimism } from "@/utils/is-mainnet";
 
-import { Button } from "../ui/button";
-import { Dialog, DialogContent } from "../ui/dialog";
+import { TokenIcon } from "../../token-icon";
+import { Button } from "../../ui/button";
+import { Dialog, DialogContent } from "../../ui/dialog";
+import { Alert, FeesIcon } from "./icons";
+import { AlertProps } from "../types";
 
-const ACROSS_NETWORKS: number[] = [
-  mainnet.id,
-  optimism.id,
-  base.id,
-  arbitrum.id,
-];
-const supportsAcross = (deployment: DeploymentDto) => {
-  return (
-    !!ACROSS_NETWORKS.includes(deployment.l1.id) &&
-    !!ACROSS_NETWORKS.includes(deployment.l2.id)
-  );
-};
-
-export const NoGasModal = ({
-  onProceed,
-  open,
-  setOpen,
-}: {
-  onProceed: () => void;
-  open: boolean;
-  setOpen: (b: boolean) => void;
-}) => {
-  const { t } = useTranslation();
-  const stateToken = useConfigState.useToken();
-  const setStateToken = useConfigState.useSetToken();
-  const withdrawing = useConfigState.useWithdrawing();
-  const setDisplayConfirmationModal =
-    useConfigState.useSetDisplayConfirmationModal();
+export const useEstimateTotalFeesInFiat = () => {
   const from = useFromChain();
   const to = useToChain();
-  const token = useSelectedToken();
-  const deployment = useDeployment();
-  const toNativeToken = useToNativeToken();
-  const nativeToken = useNativeToken();
-  const amount = useConfigState.useRawAmount();
+  const withdrawing = useConfigState.useWithdrawing();
+  const escapeHatch = useConfigState.useForceViaL1();
 
-  const common = {
-    from: from?.name,
-    to: to?.name,
-    gas: toNativeToken?.[to?.id ?? 0]?.symbol,
-    symbol: token?.symbol,
-    token: token?.name,
+  const deployment = useDeployment();
+
+  const fromFeeData = useEstimateFeesPerGas({ chainId: from?.id });
+  const toFeeData = useEstimateFeesPerGas({ chainId: to?.id });
+
+  const fromNativeToken = useNativeToken();
+  const toNativeToken = useToNativeToken();
+
+  const fromNativeTokenPrice = useTokenPrice(fromNativeToken ?? null);
+  const toNativeTokenPrice = useTokenPrice(toNativeToken ?? null);
+
+  const fromGasPrice =
+    fromFeeData.data?.gasPrice ?? fromFeeData.data?.maxFeePerGas ?? BigInt(0);
+  const toGasPrice =
+    toFeeData.data?.gasPrice ?? toFeeData.data?.maxFeePerGas ?? BigInt(0);
+
+  const fromGas = {
+    token: fromNativeToken?.[from?.id ?? 0],
+    price: fromNativeTokenPrice,
+    gasPrice: fromGasPrice,
+  };
+  const toGas = {
+    token: toNativeToken?.[to?.id ?? 0],
+    price: toNativeTokenPrice,
+    gasPrice: toGasPrice,
   };
 
-  const description = match({
-    isUsdc: isNativeUsdc(stateToken),
-    withdrawing,
-    family: deployment?.family,
-    isEth: isNativeToken(stateToken),
-  })
-    .with({ withdrawing: false }, () => t("noGasModal.depositing", common))
-    .with({ isUsdc: true }, () => t("noGasModal.usdc", common))
-    .with({ withdrawing: true, family: DeploymentFamily.optimism }, () =>
-      t("noGasModal.opWithdrawing", common)
-    )
-    .with({ withdrawing: true, family: DeploymentFamily.arbitrum }, () =>
-      t("noGasModal.arbWithdrawing", common)
-    )
-    .otherwise(() => null);
+  const { gas } = useBridge();
+  const initiateCost = {
+    gasToken: withdrawing && escapeHatch ? toGas : fromGas,
+    gasLimit: gas ?? BigInt(0),
+  };
+  const proveCost = { gasToken: toGas, gasLimit: PROVE_GAS };
+  const finalizeCost = {
+    gasToken: toGas,
+    gasLimit: FINALIZE_GAS,
+  };
 
-  const cancelButton = match({
-    withdrawing,
-    supportsAcross: !!deployment && supportsAcross(deployment),
-  })
-    .with({ withdrawing: false }, () => ({
-      text: t("noGasModal.topup", common),
-      onClick: () => {
-        setStateToken(nativeToken ?? null);
-        setOpen(false);
-        setDisplayConfirmationModal(false);
-      },
-    }))
-    .with({ supportsAcross: true }, () => ({
-      text: t("noGasModal.topup", common),
-      onClick: () => {
-        window.open(
-          `https://app.across.to/bridge?from=${from?.id}&to=${to?.id}&asset=eth&amount=${amount}`,
-          "_blank"
-        );
-      },
-    }))
-    .otherwise(() => ({
-      text: t("noGasModal.goBack", common),
-      onClick: () => {
-        setOpen(false);
-      },
-    }));
+  const costs = [];
+  if (fromNativeTokenPrice && toNativeTokenPrice) {
+    costs.push(initiateCost);
+
+    if (withdrawing) {
+      if (deployment && isOptimism(deployment)) {
+        costs.push(proveCost);
+      }
+      costs.push(finalizeCost);
+    }
+  }
+
+  return costs.reduce((accum, { gasLimit, gasToken }) => {
+    if (!gasToken.price) return accum;
+
+    const nativeTokenAmount = gasLimit * gasToken.gasPrice;
+    const formattedAmount = parseFloat(
+      formatUnits(nativeTokenAmount, gasToken.token?.decimals ?? 18)
+    );
+    return gasToken.price * formattedAmount + accum;
+  }, 0);
+};
+
+export const ExpensiveGasModal = ({
+  onProceed,
+  open,
+  onCancel,
+}: AlertProps) => {
+  const { t } = useTranslation();
+  const stateToken = useConfigState.useToken();
+  const token = useSelectedToken();
+  const totalBridgeFees = useEstimateTotalFeesInFiat();
+
+  const usdPrice = useTokenPrice(stateToken);
+
+  const rawAmount = parseFloat(useConfigState.useRawAmount()) || 0;
+  const currency = useSettingsState.useCurrency();
+
+  const tokenFiatAmount = usdPrice
+    ? `${currencySymbolMap[currency]}${(rawAmount * usdPrice).toLocaleString(
+        "en"
+      )}`
+    : undefined;
+
+  const fees = `${currencySymbolMap[currency]}${totalBridgeFees.toLocaleString(
+    "en"
+  )} `;
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={onCancel}>
       <DialogContent>
         <div className="flex flex-col gap-8 p-6">
           <div className="flex flex-col gap-2 items-center text-center pt-10">
             <div className="animate-bounce">
-              <GasDrop />
+              <Alert />
             </div>
             <h1 className="font-bold text-2xl tracking-tight text-pretty">
-              {t("noGasModal.youNeedGasOn", common)}
+              {t("expensiveGasModal.title")}
             </h1>
             <p className="text-xs md:text-sm prose-sm font-bold text-muted-foreground text-pretty text-center">
-              {description}
+              <Trans
+                i18nKey={"expensiveGasModal.notBestOption"}
+                components={[
+                  <a
+                    target="_blank"
+                    key="link"
+                    className="underline"
+                    href="https://superbridge.app/alternative-bridges"
+                  />,
+                ]}
+              />
             </p>
           </div>
 
-          <div className="flex flex-col gap-2">
-            <a
-              href={`https://superbridge.app/support/${deployment?.name}`}
-              target="_blank"
-              className="text-xs text-center font-bold text-foreground hover:underline mb-2"
-            >
-              {t("noGasModal.needHelp")}
-            </a>
+          <div>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center">
+                <TokenIcon token={token} className="h-4 w-4" />
+                <div>Bridge amount</div>
+              </div>
+              <div className="flex items-center">
+                <div>{tokenFiatAmount}</div>
+              </div>
+            </div>
 
-            <Button onClick={cancelButton.onClick}>{cancelButton.text}</Button>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center">
+                <FeesIcon />
+                <div>Network costs</div>
+              </div>
+              <div className="flex items-center">
+                <div>{fees}</div>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <Button onClick={onCancel}>{t("expensiveGasModal.goBack")}</Button>
 
             <Button variant={"secondary"} onClick={onProceed}>
-              <span>{t("noGasModal.proceedAnyway")}</span>
+              <span>{t("expensiveGasModal.proceedAnyway")}</span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"

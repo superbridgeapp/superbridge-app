@@ -50,12 +50,20 @@ import { CctpBadge } from "./cttp-badge";
 import { DepositFees } from "./fees/deposit-fees";
 import { WithdrawFees } from "./fees/withdraw-fees";
 import { NftImage } from "./nft";
-import { NoGasModal } from "./no-gas-modal";
+import { NoGasModal } from "./alerts/no-gas-modal";
 import { TokenIcon } from "./token-icon";
 import { TokenModal } from "./tokens/Modal";
 import { CustomTokenImportModal } from "./tokens/custom-token-import-modal";
 import { Button } from "./ui/button";
 import { WithdrawSettingsModal } from "./withdraw-settings/modal";
+import { ExpensiveGasModal } from "./alerts/expensive-gas-modal";
+import { FaultProofsModal } from "./alerts/fault-proofs-modal";
+
+enum AlertModals {
+  NoGas = "no-gas",
+  GasExpensive = "gas-expensive",
+  FaultProofs = "fault-proofs",
+}
 
 const RecipientAddress = ({
   openAddressDialog,
@@ -338,17 +346,44 @@ export const BridgeBody = () => {
     setConfirmationModal(false);
   };
 
+  const [alerts, setAlerts] = useState<AlertModals[]>([]);
+
+  const onDismissAlert = (id: AlertModals) => () => {
+    setAlerts(alerts.filter((a) => a !== id));
+    if (alerts.length === 1) {
+      initiateBridge();
+    }
+  };
+
   const onSubmit = () => {
-    const conditions = [
+    const modals: AlertModals[] = [];
+
+    const needDestinationGasConditions = [
       withdrawing, // need to prove/finalize
       isNativeUsdc(stateToken), // need to mint
       !withdrawing && !isEth(stateToken?.[to?.id ?? 0]), // depositing an ERC20 with no gas on the destination (won't be able to do anything with it)
     ];
-    if (conditions.some((x) => x) && toEthBalance.data?.value === BigInt(0)) {
-      setNoGasModal(true);
-    } else {
-      initiateBridge();
+    if (
+      needDestinationGasConditions.some((x) => x) &&
+      toEthBalance.data?.value === BigInt(0)
+    ) {
+      modals.push(AlertModals.NoGas);
     }
+
+    // if (true) {
+    //   a.push(AlertModals.GasExpensive);
+    // }
+
+    if (deployment?.name === "optimism" && withdrawing) {
+      modals.push(AlertModals.FaultProofs);
+    }
+
+    setAlerts(modals);
+  };
+
+  const onCancel = () => {
+    setAlerts([]);
+    setConfirmationModal(false);
   };
 
   const handleSubmitClick = () => {
@@ -469,13 +504,22 @@ export const BridgeBody = () => {
         allowance={allowance}
         bridge={bridge}
       />
+
+      {/* alerts */}
       <NoGasModal
-        open={noGasModal}
-        setOpen={setNoGasModal}
-        onProceed={() => {
-          setNoGasModal(false);
-          initiateBridge();
-        }}
+        open={alerts.includes(AlertModals.NoGas)}
+        onCancel={onCancel}
+        onProceed={onDismissAlert(AlertModals.NoGas)}
+      />
+      <ExpensiveGasModal
+        open={alerts.includes(AlertModals.GasExpensive)}
+        onCancel={onCancel}
+        onProceed={onDismissAlert(AlertModals.GasExpensive)}
+      />
+      <FaultProofsModal
+        open={alerts.includes(AlertModals.FaultProofs)}
+        onCancel={onCancel}
+        onProceed={onDismissAlert(AlertModals.FaultProofs)}
       />
       <FromTo />
 
