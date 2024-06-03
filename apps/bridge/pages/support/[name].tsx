@@ -20,55 +20,8 @@ import {
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { isSuperbridge } from "@/config/superbridge";
-import { getFinalizationPeriod } from "@/hooks/use-finalization-period";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useFaultProofUpgradeTime } from "@/hooks/use-fault-proof-upgrade-time";
-
-const a = (
-  <Alert size={"lg"}>
-    <IconAlert className="w-6 h-6" />
-    <AlertTitle>OP Mainnet Fault Proof upgrade</AlertTitle>
-    <AlertDescription>
-      <p>
-        The OP Mainnet Fault Proof upgrade has been targeted for June 10. What
-        does that mean for you?
-      </p>
-      <h3 className="text-foreground font-bold">I want to make a withdrawal</h3>
-      <p>You should wait until the upgade is complete.</p>
-      <h3 className="text-foreground font-bold">
-        Why should I wait until the upgrade is complete?
-      </h3>
-      <p>
-        The upgrade will essentally wipe the status of existing prove
-        operations. Any proves done now would need to be resubmitted after the
-        upgrade.
-      </p>
-      <h3 className="text-foreground font-bold">
-        I have a withdrawal in progress
-      </h3>
-      <p>
-        If you can finalize your withdrawal before the upgrade is comlete we
-        highly recommend you do that.
-      </p>
-      <h3 className="text-foreground font-bold">
-        What if I don't finalize withdrawals in progress?
-      </h3>
-      <p>
-        You will need to prove again, wait, and then finalize after the upgrade
-        is complete.
-      </p>
-      <p>
-        <a
-          href="#"
-          target="_blank"
-          className="underline text-foreground font-bold"
-        >
-          Get updates from Optimism.io
-        </a>
-      </p>
-    </AlertDescription>
-  </Alert>
-);
+import { getFinalizationPeriod } from "@/hooks/use-finalization-period";
 
 export default function Support({
   deployment,
@@ -187,14 +140,22 @@ export default function Support({
       <div className="prose dark:prose-invert">
         <p>
           Due to the{" "}
-          <a href="#" target="_blank" className="underline">
+          <a
+            href="https://docs.optimism.io/builders/notices/fp-changes"
+            target="_blank"
+            className="underline"
+          >
             Fault Proof upgrade
           </a>{" "}
           on OP Mainnet on July 10 2024, withdrawals that were not yet
           finzalized in the 7 days leading up to the upgrade need to proved
           again to adhere to the new security policy. You can find out more
           about the upgrade here:{" "}
-          <a href="#" target="_blank" className="underline">
+          <a
+            href="https://docs.optimism.io/builders/notices/fp-changes"
+            target="_blank"
+            className="underline"
+          >
             OP Mainnet Fault Proof upgrade
           </a>{" "}
         </p>
