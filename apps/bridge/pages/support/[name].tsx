@@ -22,7 +22,7 @@ import { Button } from "@/components/ui/button";
 import { isSuperbridge } from "@/config/superbridge";
 import { getFinalizationPeriod } from "@/hooks/use-finalization-period";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { IconAlert } from "@/components/icons";
+import { useFaultProofUpgradeTime } from "@/hooks/use-fault-proof-upgrade-time";
 
 const a = (
   <Alert size={"lg"}>
@@ -75,6 +75,8 @@ export default function Support({
   cctpDomains,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const [open, setOpen] = useState(false);
+
+  const faultProofUpgradeTime = useFaultProofUpgradeTime(deployment);
 
   if (!deployment) {
     return <div>Not Found</div>;
@@ -188,10 +190,10 @@ export default function Support({
           <a href="#" target="_blank" className="underline">
             Fault Proof upgrade
           </a>{" "}
-          on OP Mainnet on July 10 2024, withdrawals that we not yet finzalized
-          in the 7 days leading up to the upgrade need to proved again to adhere
-          to the new security policy. You can find out more about the upgrade
-          here:{" "}
+          on OP Mainnet on July 10 2024, withdrawals that were not yet
+          finzalized in the 7 days leading up to the upgrade need to proved
+          again to adhere to the new security policy. You can find out more
+          about the upgrade here:{" "}
           <a href="#" target="_blank" className="underline">
             OP Mainnet Fault Proof upgrade
           </a>{" "}
@@ -300,7 +302,7 @@ export default function Support({
               {[
                 whatIsTheNativeBridge,
                 whatIsSuperbridge,
-                reprove,
+                faultProofUpgradeTime ? reprove : null,
                 fees,
                 cancel,
                 speed,

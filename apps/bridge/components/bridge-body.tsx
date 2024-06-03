@@ -56,7 +56,10 @@ import { TokenModal } from "./tokens/Modal";
 import { CustomTokenImportModal } from "./tokens/custom-token-import-modal";
 import { Button } from "./ui/button";
 import { WithdrawSettingsModal } from "./withdraw-settings/modal";
-import { ExpensiveGasModal } from "./alerts/expensive-gas-modal";
+import {
+  ExpensiveGasModal,
+  useEstimateTotalFeesInFiat,
+} from "./alerts/expensive-gas-modal";
 import { FaultProofsModal } from "./alerts/fault-proofs-modal";
 import { FaultProofInfoModal } from "./fault-proof-info-modal";
 import { WithdrawalReadyToFinalizeModal } from "./withdrawal-ready-to-finalize-modal";
@@ -216,6 +219,9 @@ export const BridgeBody = () => {
     BigInt(parseUnits(networkFee.toFixed(18), 18)) >
       (fromEthBalance.data?.value ?? BigInt(0));
 
+  const totalFeesInFiat = useEstimateTotalFeesInFiat();
+  const fiatValueBeingBridged = usdPrice ? receive * usdPrice : null;
+
   const requiredCustomGasTokenBalance = useRequiredCustomGasTokenBalance();
   /**
    * Transferring native gas token to rollup, need to make sure wei + extraAmount is < balance
@@ -305,10 +311,10 @@ export const BridgeBody = () => {
       ? {
           icon: "/img/receive.svg",
           left: t("receiveOnChain", { chain: to?.name }),
-          middle: usdPrice
-            ? `${currencySymbolMap[currency]}${(
-                receive * usdPrice
-              ).toLocaleString("en")}`
+          middle: fiatValueBeingBridged
+            ? `${
+                currencySymbolMap[currency]
+              }${fiatValueBeingBridged.toLocaleString("en")}`
             : undefined,
           right: `${receive.toLocaleString("en", {
             maximumFractionDigits: 4,
@@ -372,15 +378,23 @@ export const BridgeBody = () => {
       modals.push(AlertModals.NoGas);
     }
 
-    // if (true) {
-    //   a.push(AlertModals.GasExpensive);
+    // if (
+    //   totalFeesInFiat &&
+    //   fiatValueBeingBridged &&
+    //   totalFeesInFiat > fiatValueBeingBridged
+    // ) {
+    //   modals.push(AlertModals.GasExpensive);
     // }
 
     if (deployment?.name === "optimism" && withdrawing) {
       modals.push(AlertModals.FaultProofs);
     }
 
-    setAlerts(modals);
+    if (modals.length === 0) {
+      initiateBridge();
+    } else {
+      setAlerts(modals);
+    }
   };
 
   const onCancel = () => {

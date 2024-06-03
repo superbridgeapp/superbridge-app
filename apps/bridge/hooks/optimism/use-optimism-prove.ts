@@ -18,7 +18,7 @@ export function useProveOptimism({ id, deployment }: BridgeWithdrawalDto) {
   const setBlockProvingModal = useConfigState.useSetBlockProvingModal();
   const getProveTransaction = useBridgeControllerGetProveTransaction();
   const switchChain = useSwitchChain();
-  const faultProofUpgradeTime = useFaultProofUpgradeTime();
+  const faultProofUpgradeTime = useFaultProofUpgradeTime(deployment);
 
   const [loading, setLoading] = useState(false);
 

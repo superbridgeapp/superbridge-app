@@ -18,29 +18,29 @@ export const useHasWithdrawalReadyToFinalize = () => {
   const forcedWithdrawalProgressRows =
     useOptimismForcedWithdrawalProgressRows();
   const statusCheck = useStatusCheck();
-  const faultProofUpgradeTime = useFaultProofUpgradeTime();
+  const faultProofUpgradeTime = useFaultProofUpgradeTime(deployment);
 
-  // TODO: remove
+  // // TODO: remove
   return true;
 
-  if (
-    !deployment ||
-    statusCheck ||
-    !isOptimism(deployment) ||
-    !faultProofUpgradeTime
-  ) {
-    return false;
-  }
+  // if (
+  //   !deployment ||
+  //   statusCheck ||
+  //   !isOptimism(deployment) ||
+  //   !faultProofUpgradeTime
+  // ) {
+  //   return false;
+  // }
 
-  return !!transactions.find((x) => {
-    if (isOptimismWithdrawal(x)) {
-      const rows = withdrawalProgressRows(x, deployment);
-      return !!rows[rows.length - 1].buttonComponent;
-    }
-    if (isOptimismForcedWithdrawal(x)) {
-      const rows = forcedWithdrawalProgressRows(x);
-      return !!rows.find((x) => x.buttonComponent);
-    }
-    return false;
-  });
+  // return !!transactions.find((x) => {
+  //   if (isOptimismWithdrawal(x)) {
+  //     const rows = withdrawalProgressRows(x, deployment);
+  //     return !!rows[rows.length - 1].buttonComponent;
+  //   }
+  //   if (isOptimismForcedWithdrawal(x)) {
+  //     const rows = forcedWithdrawalProgressRows(x);
+  //     return !!rows.find((x) => x.buttonComponent);
+  //   }
+  //   return false;
+  // });
 };
