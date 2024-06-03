@@ -8,6 +8,7 @@ import { Dialog, DialogContent } from "../ui/dialog";
 export const WithdrawalReadyToFinalizeModal = () => {
   const open = useConfigState.useHasWithdrawalReadyToFinalizeModal();
   const setOpen = useConfigState.useSetHasWithdrawalReadyToFinalizeModal();
+  const setDisplayTransactions = useConfigState.useSetDisplayTransactions();
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -51,7 +52,14 @@ export const WithdrawalReadyToFinalizeModal = () => {
               </p>
             </div>
           </div>
-          <Button onClick={() => setOpen(false)}>Ok</Button>
+          <Button
+            onClick={() => {
+              setOpen(false);
+              setDisplayTransactions(true);
+            }}
+          >
+            Ok
+          </Button>
         </div>
       </DialogContent>
     </Dialog>
