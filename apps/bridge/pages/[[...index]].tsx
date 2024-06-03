@@ -165,7 +165,7 @@ export default function IndexRoot({
     >
       <ThemeProvider>
         <Providers>
-          <Head />
+          <Head deployment={deployment} />
           <Layout>
             <Index />
           </Layout>
