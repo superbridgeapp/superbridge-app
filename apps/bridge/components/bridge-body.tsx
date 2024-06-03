@@ -50,12 +50,26 @@ import { CctpBadge } from "./cttp-badge";
 import { DepositFees } from "./fees/deposit-fees";
 import { WithdrawFees } from "./fees/withdraw-fees";
 import { NftImage } from "./nft";
-import { NoGasModal } from "./no-gas-modal";
+import { NoGasModal } from "./alerts/no-gas-modal";
 import { TokenIcon } from "./token-icon";
 import { TokenModal } from "./tokens/Modal";
 import { CustomTokenImportModal } from "./tokens/custom-token-import-modal";
 import { Button } from "./ui/button";
 import { WithdrawSettingsModal } from "./withdraw-settings/modal";
+import {
+  ExpensiveGasModal,
+  useEstimateTotalFeesInFiat,
+} from "./alerts/expensive-gas-modal";
+import { FaultProofsModal } from "./alerts/fault-proofs-modal";
+import { FaultProofInfoModal } from "./fault-proof-info-modal";
+import { WithdrawalReadyToFinalizeModal } from "./withdrawal-ready-to-finalize-modal";
+import { useFaultProofUpgradeTime } from "@/hooks/use-fault-proof-upgrade-time";
+
+enum AlertModals {
+  NoGas = "no-gas",
+  GasExpensive = "gas-expensive",
+  FaultProofs = "fault-proofs",
+}
 
 const RecipientAddress = ({
   openAddressDialog,
@@ -141,7 +155,6 @@ export const BridgeBody = () => {
   const [tokensDialog, setTokensDialog] = useState(false);
   const [withdrawSettingsDialog, setWithdrawSettingsDialog] = useState(false);
   const [addressDialog, setAddressDialog] = useState(false);
-  const [noGasModal, setNoGasModal] = useState(false);
 
   const deployment = useDeployment();
   const setConfirmationModal = useConfigState.useSetDisplayConfirmationModal();
@@ -161,6 +174,7 @@ export const BridgeBody = () => {
   const statusCheck = useStatusCheck();
   const bridgeLimit = useBridgeLimit();
   const track = useBridgeControllerTrack();
+  const faultProofUpgradeTime = useFaultProofUpgradeTime(deployment);
 
   const initiatingChainId =
     forceViaL1 && withdrawing ? deployment?.l1.id : from?.id;
@@ -206,6 +220,9 @@ export const BridgeBody = () => {
     BigInt(parseUnits(networkFee.toFixed(18), 18)) >
       (fromEthBalance.data?.value ?? BigInt(0));
 
+  const totalFeesInFiat = useEstimateTotalFeesInFiat();
+  const fiatValueBeingBridged = usdPrice ? receive * usdPrice : null;
+
   const requiredCustomGasTokenBalance = useRequiredCustomGasTokenBalance();
   /**
    * Transferring native gas token to rollup, need to make sure wei + extraAmount is < balance
@@ -236,7 +253,11 @@ export const BridgeBody = () => {
       bridge.args.tx.chainId === deployment.l1.id
         ? deployment.l1
         : deployment.l2;
-    if (initiatingChain.id !== account.chainId) {
+
+    if (
+      initiatingChain.id !== account.chainId ||
+      initiatingChain.id !== wallet.data.chain.id
+    ) {
       await switchChain(initiatingChain);
     }
 
@@ -295,10 +316,10 @@ export const BridgeBody = () => {
       ? {
           icon: "/img/receive.svg",
           left: t("receiveOnChain", { chain: to?.name }),
-          middle: usdPrice
-            ? `${currencySymbolMap[currency]}${(
-                receive * usdPrice
-              ).toLocaleString("en")}`
+          middle: fiatValueBeingBridged
+            ? `${
+                currencySymbolMap[currency]
+              }${fiatValueBeingBridged.toLocaleString("en")}`
             : undefined,
           right: `${receive.toLocaleString("en", {
             maximumFractionDigits: 4,
@@ -338,17 +359,52 @@ export const BridgeBody = () => {
     setConfirmationModal(false);
   };
 
+  const [alerts, setAlerts] = useState<AlertModals[]>([]);
+
+  const onDismissAlert = (id: AlertModals) => () => {
+    setAlerts(alerts.filter((a) => a !== id));
+    if (alerts.length === 1) {
+      initiateBridge();
+    }
+  };
+
   const onSubmit = () => {
-    const conditions = [
+    const modals: AlertModals[] = [];
+
+    const needDestinationGasConditions = [
       withdrawing, // need to prove/finalize
       isNativeUsdc(stateToken), // need to mint
       !withdrawing && !isEth(stateToken?.[to?.id ?? 0]), // depositing an ERC20 with no gas on the destination (won't be able to do anything with it)
     ];
-    if (conditions.some((x) => x) && toEthBalance.data?.value === BigInt(0)) {
-      setNoGasModal(true);
-    } else {
-      initiateBridge();
+    if (
+      needDestinationGasConditions.some((x) => x) &&
+      toEthBalance.data?.value === BigInt(0)
+    ) {
+      modals.push(AlertModals.NoGas);
     }
+
+    // if (
+    //   totalFeesInFiat &&
+    //   fiatValueBeingBridged &&
+    //   totalFeesInFiat > fiatValueBeingBridged
+    // ) {
+    //   modals.push(AlertModals.GasExpensive);
+    // }
+
+    if (faultProofUpgradeTime && withdrawing) {
+      modals.push(AlertModals.FaultProofs);
+    }
+
+    if (modals.length === 0) {
+      initiateBridge();
+    } else {
+      setAlerts(modals);
+    }
+  };
+
+  const onCancel = () => {
+    setAlerts([]);
+    setConfirmationModal(false);
   };
 
   const handleSubmitClick = () => {
@@ -469,13 +525,24 @@ export const BridgeBody = () => {
         allowance={allowance}
         bridge={bridge}
       />
+      <FaultProofInfoModal />
+      <WithdrawalReadyToFinalizeModal />
+
+      {/* alerts */}
       <NoGasModal
-        open={noGasModal}
-        setOpen={setNoGasModal}
-        onProceed={() => {
-          setNoGasModal(false);
-          initiateBridge();
-        }}
+        open={alerts.includes(AlertModals.NoGas)}
+        onCancel={onCancel}
+        onProceed={onDismissAlert(AlertModals.NoGas)}
+      />
+      <ExpensiveGasModal
+        open={alerts.includes(AlertModals.GasExpensive)}
+        onCancel={onCancel}
+        onProceed={onDismissAlert(AlertModals.GasExpensive)}
+      />
+      <FaultProofsModal
+        open={alerts.includes(AlertModals.FaultProofs)}
+        onCancel={onCancel}
+        onProceed={onDismissAlert(AlertModals.FaultProofs)}
       />
       <FromTo />
 

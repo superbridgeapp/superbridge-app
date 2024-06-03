@@ -248,5 +248,12 @@
     "topup": "Topup gas on {{to}}",
     "goBack": "Go back",
     "proceedAnyway": "Proceed anyway"
+  },
+
+  "expensiveGasModal": {
+    "title": "Network fees will be higher than the token value",
+    "notBestOption": "Superbridge may not be the best option for this bridge amount. Please consider <0>these alternative bridges</0>.",
+    "goBack": "Go back",
+    "proceedAnyway": "Proceed anyway"
   }
 }
