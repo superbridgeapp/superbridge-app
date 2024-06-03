@@ -383,13 +383,13 @@ export const BridgeBody = () => {
       modals.push(AlertModals.NoGas);
     }
 
-    // if (
-    //   totalFeesInFiat &&
-    //   fiatValueBeingBridged &&
-    //   totalFeesInFiat > fiatValueBeingBridged
-    // ) {
-    //   modals.push(AlertModals.GasExpensive);
-    // }
+    if (
+      totalFeesInFiat &&
+      fiatValueBeingBridged &&
+      totalFeesInFiat > fiatValueBeingBridged
+    ) {
+      modals.push(AlertModals.GasExpensive);
+    }
 
     if (faultProofUpgradeTime && withdrawing) {
       modals.push(AlertModals.FaultProofs);
