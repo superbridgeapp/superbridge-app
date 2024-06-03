@@ -3,7 +3,10 @@ import Link from "next/link";
 import { useState } from "react";
 import { isPresent } from "ts-is-present";
 
-import { bridgeControllerGetDeployments } from "@/codegen/index";
+import {
+  bridgeControllerGetCctpDomains,
+  bridgeControllerGetDeployments,
+} from "@/codegen/index";
 import { DeploymentFamily } from "@/codegen/model";
 import PageFooter from "@/components/page-footer";
 import PageNav from "@/components/page-nav";
@@ -20,6 +23,7 @@ import { getFinalizationPeriod } from "@/hooks/use-finalization-period";
 
 export default function Support({
   deployment,
+  cctpDomains,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const [open, setOpen] = useState(false);
 
@@ -27,10 +31,13 @@ export default function Support({
     return <div>Not Found</div>;
   }
 
-  const settlementChain = isSuperbridge
-    ? "Ethereum Mainnet"
-    : deployment.l1.name;
+  const settlementChain = deployment.l1.name;
   const rollupChain = deployment.l2.name;
+
+  const supportsCctp = !!(
+    cctpDomains.find((x) => x.chainId === deployment.l1.id) &&
+    cctpDomains.find((x) => x.chainId === deployment.l2.id)
+  );
 
   const whatIsTheNativeBridge = {
     title: `What is the ${rollupChain} native bridge`,
@@ -301,31 +308,34 @@ export default function Support({
                 </div>
               </AccordionContent>
             </AccordionItem>
-            <AccordionItem value="item-8">
-              <AccordionTrigger>
-                Why do USDC bridges via CCTP take multiple transactions?
-              </AccordionTrigger>
-              <AccordionContent>
-                <div className="prose dark:prose-invert">
-                  <p>
-                    As opposed to native bridging with where funds are routed
-                    through the rollup smart contracts, native USDC issuance is
-                    a two step mint and burn process via Circle’s CCTP smart
-                    contracts.
-                  </p>
-                  <p>
-                    After initiating the burn transaction on the origin chain,
-                    users are then able to mint the corresponding amount of USDC
-                    on the destination chain.
-                  </p>
-                  <p>
-                    Native USDC bridging only takes around 15 minutes,
-                    regardless of whether you’re bridging from or too Ethereum
-                    Mainnet.
-                  </p>
-                </div>
-              </AccordionContent>
-            </AccordionItem>
+
+            {supportsCctp && (
+              <AccordionItem value="item-8">
+                <AccordionTrigger>
+                  Why do USDC bridges via CCTP take multiple transactions?
+                </AccordionTrigger>
+                <AccordionContent>
+                  <div className="prose dark:prose-invert">
+                    <p>
+                      As opposed to native bridging with where funds are routed
+                      through the rollup smart contracts, native USDC issuance
+                      is a two step mint and burn process via Circle’s CCTP
+                      smart contracts.
+                    </p>
+                    <p>
+                      After initiating the burn transaction on the origin chain,
+                      users are then able to mint the corresponding amount of
+                      USDC on the destination chain.
+                    </p>
+                    <p>
+                      Native USDC bridging takes around 15 minutes, regardless
+                      of whether you’re bridging from or to Ethereum Mainnet.
+                    </p>
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+            )}
+
             <AccordionItem value="item-9">
               <AccordionTrigger>
                 What are some alternatives to Superbridge?
@@ -385,9 +395,12 @@ export const getServerSideProps = async ({
     return { props: { deployment: null } };
   }
 
-  const { data } = await bridgeControllerGetDeployments({
-    names: [params.name as string],
-  });
+  const [{ data: deployments }, { data: cctpDomains }] = await Promise.all([
+    bridgeControllerGetDeployments({
+      names: [params.name as string],
+    }),
+    bridgeControllerGetCctpDomains(),
+  ]);
 
-  return { props: { deployment: data[0] } };
+  return { props: { deployment: deployments[0], cctpDomains } };
 };
