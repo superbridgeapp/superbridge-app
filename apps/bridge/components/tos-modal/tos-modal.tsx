@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import Link from "next/link";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import ReactMarkdown from "react-markdown";
 
@@ -40,8 +40,11 @@ export const TosModal = () => {
     }
   };
 
-  const ScrollArrow = () => (
-    <div className="absolute inset-0 -top-12 grow flex justify-center">
+  const ScrollArrow = ({ onClick }: { onClick: () => void }) => (
+    <div
+      className="absolute inset-0 -top-12 grow flex justify-center cursor-pointer"
+      onClick={onClick}
+    >
       <div className="flex items-center justify-center bg-muted w-8 h-8 rounded-full animate-bounce ">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -130,12 +133,14 @@ export const TosModal = () => {
   );
 
   const Terms = () => {
+    const scrollRef = useRef<HTMLDivElement>(null);
     const [scrolled, setScrolled] = useState(false);
     const handleScroll = (e: any) => {
       const bottom =
         Math.abs(
           e.target.scrollHeight - e.target.clientHeight - e.target.scrollTop
         ) < 1;
+
       if (bottom) {
         setScrolled(true);
       }
@@ -145,9 +150,11 @@ export const TosModal = () => {
       if (!scrolled) return;
       onNext();
     };
+
     return (
       <div className="flex flex-col">
         <div
+          ref={scrollRef}
           className="max-h-[320px] prose prose-sm prose-headings:font-bold dark:prose-invert overflow-y-scroll p-6"
           onScroll={handleScroll}
         >
@@ -157,7 +164,15 @@ export const TosModal = () => {
           <ReactMarkdown>{deployment?.tos?.customTermsOfService}</ReactMarkdown>
         </div>
         <div className="border-t border-muted p-6 relative">
-          {!scrolled && <ScrollArrow />}
+          {!scrolled && (
+            <ScrollArrow
+              onClick={() => {
+                if (!scrollRef.current) return;
+                scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+                setScrolled(true);
+              }}
+            />
+          )}
           <Button disabled={!scrolled} className="w-full" onClick={onClick}>
             {t("tos.agreeAndContinue")}
           </Button>
@@ -166,6 +181,7 @@ export const TosModal = () => {
     );
   };
   const Privacy = () => {
+    const scrollRef = useRef<HTMLDivElement>(null);
     const [scrolled, setScrolled] = useState(false);
     const handleScroll = (e: any) => {
       const bottom =
@@ -184,6 +200,7 @@ export const TosModal = () => {
     return (
       <div className="flex flex-col">
         <div
+          ref={scrollRef}
           onScroll={handleScroll}
           className="max-h-[320px] prose prose-sm prose-headings:font-bold dark:prose-invert overflow-y-scroll p-6"
         >
@@ -193,7 +210,15 @@ export const TosModal = () => {
           <ReactMarkdown>{deployment?.tos?.customPrivacyPolicy}</ReactMarkdown>
         </div>
         <div className="border-t border-muted p-6 relative">
-          {!scrolled && <ScrollArrow />}
+          {!scrolled && (
+            <ScrollArrow
+              onClick={() => {
+                if (!scrollRef.current) return;
+                scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+                setScrolled(true);
+              }}
+            />
+          )}
           <Button disabled={!scrolled} className="w-full" onClick={onClick}>
             {t("tos.agreeAndContinue")}
           </Button>
