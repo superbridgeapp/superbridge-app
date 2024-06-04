@@ -14,6 +14,6 @@ export const useMetadata = () => {
 
   return {
     title: `${deployment?.l2.name} Bridge`,
-    description: `Bridge ETH and ERC20 tokens into and out of ${deployment?.l2.name}`,
+    description: `Bridge ${deployment?.l2.nativeCurrency.symbol} and ERC20 tokens into and out of ${deployment?.l2.name}`,
   };
 };
