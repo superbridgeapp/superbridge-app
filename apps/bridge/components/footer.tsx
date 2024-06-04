@@ -11,49 +11,39 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { isSuperbridge } from "@/config/superbridge";
-import { useDeployments } from "@/hooks/use-deployments";
+import { useDeployment } from "@/hooks/use-deployment";
 import { useDarkModeEnabled } from "@/hooks/use-theme";
 import { useConfigState } from "@/state/config";
-import { Button } from "./ui/button";
+
+import { IconArrowUpRight, IconSB } from "./icons";
 
 export function Footer() {
   const { setTheme, resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
-  const deployments = useDeployments();
   const { t } = useTranslation();
   const setSettingsModal = useConfigState.useSetSettingsModal();
   const setLegalModal = useConfigState.useSetLegalModal();
   const darkModeEnabled = useDarkModeEnabled();
+  const deployment = useDeployment();
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
+  const defaultLinks = [
+    { url: "https://superbridge.app/support", label: t("support") },
+    {
+      onClick: () => setLegalModal(true),
+      label: t("legal.footerButton"),
+    },
+    { url: "https://twitter.com/superbridgeapp", label: "x.com" },
+  ];
   const links: (LinkDto | { onClick: () => void; label: string })[] =
     isSuperbridge
-      ? [
-          { url: "https://superbridge.app/support", label: t("support") },
-          {
-            onClick: () => setLegalModal(true),
-            label: t("legal.footerButton"),
-          },
-          { url: "https://twitter.com/superbridgeapp", label: "x.com" },
-        ]
-      : [
-          ...(deployments.deployments[0]?.theme?.links ?? []),
-          {
-            url:
-              deployments.deployments[0].name === "gravity-mainnet"
-                ? "https://discord.gg/GravityChain"
-                : `https://superbridge.app/support/${deployments.deployments[0].name}`,
-            label: t("support"),
-          },
-          {
-            onClick: () => setLegalModal(true),
-            label: t("legal.footerButton"),
-          },
-          { url: "https://rollbridge.app", label: "Powered by Superbridge" },
-        ];
+      ? defaultLinks
+      : deployment?.theme?.links.length
+      ? deployment.theme.links
+      : defaultLinks;
 
   return (
     <footer className="flex flex-row justify-between px-1.5 md:px-6 py-3 md:py-4 fixed bottom-0 left-0 w-screen z-50 bg-gradient-to-t from-zinc-950/40 md:from-transparent">
@@ -118,7 +108,7 @@ export function Footer() {
       )}
 
       <div className="flex gap-3 items-center">
-        {!mounted || deployments.isLoading ? (
+        {!mounted ? (
           <></>
         ) : (
           <div className="bg-card h-10 pl-2.5 pr-3 gap-1 inline-flex items-center rounded-full transition-all border-black/[0.0125] dark:border-white/[0.0125]">
@@ -183,6 +173,48 @@ export function Footer() {
                     </DropdownMenuItem>
                   );
                 })}
+
+                {/* if not Superbridge and deployment has custom links */}
+                {!isSuperbridge &&
+                  deployment?.theme?.links &&
+                  deployment?.theme?.links.length > 0 && (
+                    <div className="bg-muted p-3 rounded-lg flex flex-col gap-3 mt-3">
+                      <a
+                        href="https://superbridge.app"
+                        className="font-medium text-xs tracking-tighter leading-none w-full flex gap-2 items-center"
+                      >
+                        <IconSB className="h-6 w-auto fill-foreground" />
+                        <span>Powered by Superbridge</span>
+                      </a>
+                      <Link
+                        href={`https://superbridge.app/support/${deployment.name}`}
+                        className="font-medium text-xs tracking-tighter leading-none w-full flex gap-2 items-center"
+                      >
+                        <IconArrowUpRight className="h-4 mx-1 w-auto fill-muted-foreground" />
+                        <span>Support & FAQs</span>
+                      </Link>
+                      <button
+                        className="font-medium text-xs tracking-tighter leading-none w-full flex gap-2 items-center"
+                        onClick={() => setLegalModal(true)}
+                      >
+                        <IconArrowUpRight className="h-4 mx-1 w-auto fill-muted-foreground" />
+                        <span>Legal</span>
+                      </button>
+                    </div>
+                  )}
+
+                {/* if not Superbridge and deployment does not have custom links - just show powered by SB and links */}
+                {!isSuperbridge && !deployment?.theme?.links.length && (
+                  <div className="bg-muted p-3 rounded-lg flex flex-col gap-3 mt-3">
+                    <a
+                      href="https://superbridge.app"
+                      className="font-medium text-xs tracking-tighter leading-none w-full flex gap-2 items-center"
+                    >
+                      <IconSB className="h-6 w-auto fill-foreground" />
+                      <span>Powered by Superbridge</span>
+                    </a>
+                  </div>
+                )}
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
