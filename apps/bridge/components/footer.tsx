@@ -15,6 +15,7 @@ import { useDeployments } from "@/hooks/use-deployments";
 import { useDarkModeEnabled } from "@/hooks/use-theme";
 import { useConfigState } from "@/state/config";
 import { Button } from "./ui/button";
+import { IconArrowUpRight, IconSB } from "./icons";
 
 export function Footer() {
   const { setTheme, resolvedTheme } = useTheme();
@@ -183,6 +184,45 @@ export function Footer() {
                     </DropdownMenuItem>
                   );
                 })}
+                {/* TODO: If not Superbridge - and user has custom links */}
+                <div className="bg-muted p-3 rounded-lg flex flex-col gap-3 mt-3">
+                  {/* TODO: update URL when rollies launched */}
+                  <a
+                    href="https://superbridge.app/"
+                    className="font-medium text-xs tracking-tighter leading-none w-full flex gap-2 items-center"
+                  >
+                    <IconSB className="h-6 w-auto fill-foreground" />
+                    <span>Powered by Superbridge</span>
+                  </a>
+                  {/* TODO: make it have the correct support link */}
+                  <Link
+                    href="/support/xxx"
+                    className="font-medium text-xs tracking-tighter leading-none w-full flex gap-2 items-center"
+                  >
+                    <IconArrowUpRight className="h-4 mx-1 w-auto fill-muted-foreground" />
+                    <span>Support & FAQs</span>
+                  </Link>
+                  {/* TODO: Make it open the legal modal */}
+                  <Link
+                    href="#"
+                    className="font-medium text-xs tracking-tighter leading-none w-full flex gap-2 items-center"
+                  >
+                    <IconArrowUpRight className="h-4 mx-1 w-auto fill-muted-foreground" />
+                    <span>Legal</span>
+                  </Link>
+                </div>
+
+                {/* TODO: If not Superbridge - and user does not have custom links - just show powered by SB and links as normal above */}
+                <div className="bg-muted p-3 rounded-lg flex flex-col gap-3 mt-3">
+                  {/* TODO: update URL when rollies launched */}
+                  <a
+                    href="https://superbridge.app/"
+                    className="font-medium text-xs tracking-tighter leading-none w-full flex gap-2 items-center"
+                  >
+                    <IconSB className="h-6 w-auto fill-foreground" />
+                    <span>Powered by Superbridge</span>
+                  </a>
+                </div>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
