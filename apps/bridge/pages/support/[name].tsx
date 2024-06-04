@@ -47,7 +47,7 @@ const FaultProofAlert = ({ deployment }: { deployment: DeploymentDto }) => {
           Why should I wait until the upgrade is complete?
         </h3>
         <p>
-          The upgrade will essentally wipe the status of existing prove
+          The upgrade will essentially wipe the status of existing prove
           operations. Any proves done now would need to be resubmitted after the
           upgrade.
         </p>
