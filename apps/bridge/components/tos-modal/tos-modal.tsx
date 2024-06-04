@@ -145,7 +145,6 @@ export const TosModal = () => {
     });
 
     useMotionValueEvent(scrollYProgress, "change", (latest: any) => {
-      console.log("Page scroll: ", latest);
       if (latest >= 0.8) {
         setScrolled(true);
       }
@@ -163,11 +162,13 @@ export const TosModal = () => {
     };
 
     return (
-      <div className="flex flex-col relative">
-        <motion.div
-          className="absolute w-full top-0 fill-primary h-1"
-          style={{ scaleX }}
-        />
+      <div className="flex flex-col">
+        <div className="flex items-start justify-start bg-muted h-1">
+          <motion.div
+            className="w-full bg-muted-foreground h-1 origin-top-left"
+            style={{ scaleX }}
+          />
+        </div>
         <div
           ref={scrollRef}
           className="max-h-[320px] prose prose-sm prose-headings:font-bold dark:prose-invert overflow-y-scroll p-6"
@@ -213,11 +214,13 @@ export const TosModal = () => {
     };
 
     return (
-      <div className="flex flex-col relative">
-        <motion.div
-          className="absolute w-full top-0 fill-primary h-1"
-          style={{ scaleX }}
-        />
+      <div className="flex flex-col">
+        <div className="flex items-start justify-start bg-muted h-1">
+          <motion.div
+            className="w-full bg-muted-foreground h-1 origin-top-left"
+            style={{ scaleX }}
+          />
+        </div>
         <div
           ref={scrollRef}
           className="max-h-[320px] prose prose-sm prose-headings:font-bold dark:prose-invert overflow-y-scroll p-6"
