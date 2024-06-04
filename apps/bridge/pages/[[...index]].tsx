@@ -62,78 +62,85 @@ export const getServerSideProps = async ({
     !req.url ||
     !req.headers.host ||
     ignored.find((x) => req.url?.includes(x))
-  )
+  ) {
     return { props: { deployments: [] } };
-
-  if (isSuperbridge) {
-    const [name] = req.url.split(/[?\/]/).filter(Boolean);
-    if (SUPERCHAIN_TESTNETS.includes(name)) {
-      const { data } = await bridgeControllerGetDeployments({
-        names: SUPERCHAIN_TESTNETS,
-      });
-      return { props: { deployments: data, testnets: true } };
-    }
-    const names =
-      req.headers.host === "testnets.superbridge.app"
-        ? SUPERCHAIN_TESTNETS
-        : SUPERCHAIN_MAINNETS;
-    const { data } = await bridgeControllerGetDeployments({
-      names,
-    });
-    return { props: { deployments: data } };
   }
 
-  if (req.headers.host?.includes("localhost")) {
-    const { data } = await bridgeControllerGetDeployments({
-      names: ["op-sepolia"],
-    });
-    return { props: { deployments: data } };
-  }
+  // todo: rm this
+  const a = await bridgeControllerGetDeployments({
+    names: ["xterio-chain-eth"],
+  });
+  return { props: { deployments: a.data, testnets: false } };
 
-  // these need to go last so they don't clash with devnets. or testnets. subdomains
-  const [id] = req.headers.host?.split(".");
+  // if (isSuperbridge) {
+  //   const [name] = req.url.split(/[?\/]/).filter(Boolean);
+  //   if (SUPERCHAIN_TESTNETS.includes(name)) {
+  //     const { data } = await bridgeControllerGetDeployments({
+  //       names: SUPERCHAIN_TESTNETS,
+  //     });
+  //     return { props: { deployments: data, testnets: true } };
+  //   }
+  //   const names =
+  //     req.headers.host === "testnets.superbridge.app"
+  //       ? SUPERCHAIN_TESTNETS
+  //       : SUPERCHAIN_MAINNETS;
+  //   const { data } = await bridgeControllerGetDeployments({
+  //     names,
+  //   });
+  //   return { props: { deployments: data } };
+  // }
 
-  // [id].devnets.superbridge|rollbridge.app
-  // [id].test.devnets.superbridge|rollbridge.app
-  if (
-    req.headers.host.includes("devnets.superbridge.app") ||
-    req.headers.host.includes("devnets.rollbridge.app")
-  ) {
-    const { data } = await bridgeControllerGetDeployments({
-      names: [id],
-    });
-    return { props: { deployments: data } };
-  }
+  // if (req.headers.host?.includes("localhost")) {
+  //   const { data } = await bridgeControllerGetDeployments({
+  //     names: ["op-sepolia"],
+  //   });
+  //   return { props: { deployments: data } };
+  // }
 
-  // [id].testnets.superbridge|rollbridge.app
-  // [id].test.testnets.superbridge|rollbridge.app
-  if (
-    req.headers.host.includes("testnets.superbridge.app") ||
-    req.headers.host.includes("testnets.rollbridge.app")
-  ) {
-    const { data } = await bridgeControllerGetDeployments({
-      names: [id],
-    });
-    return { props: { deployments: data } };
-  }
+  // // these need to go last so they don't clash with devnets. or testnets. subdomains
+  // const [id] = req.headers.host?.split(".");
 
-  // [id].mainnets.superbridge|rollbridge.app
-  // [id].test.mainnets.superbridge|rollbridge.app
-  if (
-    req.headers.host.includes("mainnets.superbridge.app") ||
-    req.headers.host.includes("mainnets.rollbridge.app")
-  ) {
-    const { data } = await bridgeControllerGetDeployments({
-      names: [id],
-    });
-    return { props: { deployments: data } };
-  }
+  // // [id].devnets.superbridge|rollbridge.app
+  // // [id].test.devnets.superbridge|rollbridge.app
+  // if (
+  //   req.headers.host.includes("devnets.superbridge.app") ||
+  //   req.headers.host.includes("devnets.rollbridge.app")
+  // ) {
+  //   const { data } = await bridgeControllerGetDeployments({
+  //     names: [id],
+  //   });
+  //   return { props: { deployments: data } };
+  // }
 
-  const { data } = await bridgeControllerGetDeploymentsByDomain(
-    req.headers.host
-  );
+  // // [id].testnets.superbridge|rollbridge.app
+  // // [id].test.testnets.superbridge|rollbridge.app
+  // if (
+  //   req.headers.host.includes("testnets.superbridge.app") ||
+  //   req.headers.host.includes("testnets.rollbridge.app")
+  // ) {
+  //   const { data } = await bridgeControllerGetDeployments({
+  //     names: [id],
+  //   });
+  //   return { props: { deployments: data } };
+  // }
 
-  return { props: { deployments: data } };
+  // // [id].mainnets.superbridge|rollbridge.app
+  // // [id].test.mainnets.superbridge|rollbridge.app
+  // if (
+  //   req.headers.host.includes("mainnets.superbridge.app") ||
+  //   req.headers.host.includes("mainnets.rollbridge.app")
+  // ) {
+  //   const { data } = await bridgeControllerGetDeployments({
+  //     names: [id],
+  //   });
+  //   return { props: { deployments: data } };
+  // }
+
+  // const { data } = await bridgeControllerGetDeploymentsByDomain(
+  //   req.headers.host
+  // );
+
+  // return { props: { deployments: data } };
 };
 
 export default function IndexRoot({
