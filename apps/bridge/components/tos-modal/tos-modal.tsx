@@ -14,6 +14,13 @@ import { Button } from "../ui/button";
 import { Dialog, DialogContent } from "../ui/dialog";
 import { DocumentIcon, QuestionMark, NoFundsIcon, SparkleIcon } from "./icons";
 
+import {
+  motion,
+  useScroll,
+  useSpring,
+  useMotionValueEvent,
+} from "framer-motion";
+
 export const TosModal = () => {
   const { t } = useTranslation();
   const dismiss = useSettingsState.useDismissTos();
@@ -40,11 +47,8 @@ export const TosModal = () => {
     }
   };
 
-  const ScrollArrow = ({ onClick }: { onClick: () => void }) => (
-    <div
-      className="absolute inset-0 -top-12 grow flex justify-center cursor-pointer"
-      onClick={onClick}
-    >
+  const ScrollArrow = () => (
+    <div className="absolute inset-0 -top-12 grow flex justify-center cursor-pointer">
       <div className="flex items-center justify-center bg-muted w-8 h-8 rounded-full animate-bounce ">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -135,16 +139,23 @@ export const TosModal = () => {
   const Terms = () => {
     const scrollRef = useRef<HTMLDivElement>(null);
     const [scrolled, setScrolled] = useState(false);
-    const handleScroll = (e: any) => {
-      const bottom =
-        Math.abs(
-          e.target.scrollHeight - e.target.clientHeight - e.target.scrollTop
-        ) < 1;
 
-      if (bottom) {
+    const { scrollYProgress } = useScroll({
+      container: scrollRef,
+    });
+
+    useMotionValueEvent(scrollYProgress, "change", (latest: any) => {
+      console.log("Page scroll: ", latest);
+      if (latest >= 0.8) {
         setScrolled(true);
       }
-    };
+    });
+
+    const scaleX = useSpring(scrollYProgress, {
+      stiffness: 100,
+      damping: 30,
+      restDelta: 0.001,
+    });
 
     const onClick = () => {
       if (!scrolled) return;
@@ -152,11 +163,14 @@ export const TosModal = () => {
     };
 
     return (
-      <div className="flex flex-col">
+      <div className="flex flex-col relative">
+        <motion.div
+          className="absolute w-full top-0 fill-primary h-1"
+          style={{ scaleX }}
+        />
         <div
           ref={scrollRef}
           className="max-h-[320px] prose prose-sm prose-headings:font-bold dark:prose-invert overflow-y-scroll p-6"
-          onScroll={handleScroll}
         >
           <h1 className="text-lg font-bold text-foreground">
             {t("tos.forceReadTerms")}
@@ -164,15 +178,7 @@ export const TosModal = () => {
           <ReactMarkdown>{deployment?.tos?.customTermsOfService}</ReactMarkdown>
         </div>
         <div className="border-t border-muted p-6 relative">
-          {!scrolled && (
-            <ScrollArrow
-              onClick={() => {
-                if (!scrollRef.current) return;
-                scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-                setScrolled(true);
-              }}
-            />
-          )}
+          {!scrolled && <ScrollArrow />}
           <Button disabled={!scrolled} className="w-full" onClick={onClick}>
             {t("tos.agreeAndContinue")}
           </Button>
@@ -183,25 +189,37 @@ export const TosModal = () => {
   const Privacy = () => {
     const scrollRef = useRef<HTMLDivElement>(null);
     const [scrolled, setScrolled] = useState(false);
-    const handleScroll = (e: any) => {
-      const bottom =
-        Math.abs(
-          e.target.scrollHeight - e.target.clientHeight - e.target.scrollTop
-        ) < 1;
-      if (bottom) {
+
+    const { scrollYProgress } = useScroll({
+      container: scrollRef,
+    });
+
+    useMotionValueEvent(scrollYProgress, "change", (latest: any) => {
+      console.log("Page scroll: ", latest);
+      if (latest >= 0.8) {
         setScrolled(true);
       }
-    };
+    });
+
+    const scaleX = useSpring(scrollYProgress, {
+      stiffness: 100,
+      damping: 30,
+      restDelta: 0.001,
+    });
 
     const onClick = () => {
       if (!scrolled) return;
       onNext();
     };
+
     return (
-      <div className="flex flex-col">
+      <div className="flex flex-col relative">
+        <motion.div
+          className="absolute w-full top-0 fill-primary h-1"
+          style={{ scaleX }}
+        />
         <div
           ref={scrollRef}
-          onScroll={handleScroll}
           className="max-h-[320px] prose prose-sm prose-headings:font-bold dark:prose-invert overflow-y-scroll p-6"
         >
           <h1 className="text-lg font-bold text-foreground">
@@ -210,15 +228,7 @@ export const TosModal = () => {
           <ReactMarkdown>{deployment?.tos?.customPrivacyPolicy}</ReactMarkdown>
         </div>
         <div className="border-t border-muted p-6 relative">
-          {!scrolled && (
-            <ScrollArrow
-              onClick={() => {
-                if (!scrollRef.current) return;
-                scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-                setScrolled(true);
-              }}
-            />
-          )}
+          {!scrolled && <ScrollArrow />}
           <Button disabled={!scrolled} className="w-full" onClick={onClick}>
             {t("tos.agreeAndContinue")}
           </Button>
