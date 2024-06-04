@@ -48,7 +48,7 @@ export const TosModal = () => {
   };
 
   const ScrollArrow = () => (
-    <div className="absolute inset-0 -top-12 grow flex justify-center cursor-pointer">
+    <div className="absolute inset-0 -top-12 grow flex justify-center">
       <div className="flex items-center justify-center bg-muted w-8 h-8 rounded-full animate-bounce ">
         <svg
           xmlns="http://www.w3.org/2000/svg"
