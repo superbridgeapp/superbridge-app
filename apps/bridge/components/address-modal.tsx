@@ -184,7 +184,7 @@ export const AddressModal = ({
                       ))
                       .with({ debouncedInput: "" }, () => null)
                       .with({ isValidProfile: false }, () => (
-                        <div className="inline-flex gap-1 pr-2 pl-1 py-1 rounded-full bg-red-100 dark:bg-red-950">
+                        <div className="inline-flex gap-1 pr-2 pl-1 py-1 rounded-full bg-red-500/10">
                           <Image
                             alt="Address icon"
                             src={"/img/address-error.svg"}
@@ -204,7 +204,7 @@ export const AddressModal = ({
                           !!x.account &&
                           isAddressEqual(x.account, x.profile.address),
                         (x) => (
-                          <div className="inline-flex gap-1 pr-2 pl-1 py-1 rounded-full bg-green-100 dark:bg-green-950">
+                          <div className="inline-flex gap-1 pr-2 pl-1 py-1 rounded-full bg-green-500/10">
                             <Image
                               alt="Address icon"
                               src={"/img/address-ok.svg"}
