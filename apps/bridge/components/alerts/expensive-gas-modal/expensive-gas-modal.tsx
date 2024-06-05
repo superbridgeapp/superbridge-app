@@ -143,7 +143,7 @@ export const ExpensiveGasModal = ({
               <div className="flex items-center gap-2">
                 <TokenIcon token={token} className="h-6 w-6" />
                 <span className="font-bold text-sm tracking-tight">
-                  Bridge amount
+                  {t("expensiveGasModal.bridgeAmount")}
                 </span>
               </div>
               <div className="flex items-center">
@@ -157,7 +157,7 @@ export const ExpensiveGasModal = ({
               <div className="flex items-center gap-2">
                 <IconFees className="h-6 w-6" />
                 <span className="font-bold text-sm tracking-tight">
-                  Network fees
+                  {t("expensiveGasModal.networkFees")}
                 </span>
               </div>
               <div className="flex items-center">

@@ -253,6 +253,8 @@
   "expensiveGasModal": {
     "title": "Network fees will be higher than the token value",
     "notBestOption": "Superbridge may not be the best option for this bridge amount. Please consider <0>these alternative bridges</0>.",
+    "bridgeAmount": "Bridge amount",
+    "networkFees": "Network fees",
     "goBack": "Go back",
     "proceedAnyway": "Proceed anyway"
   }
