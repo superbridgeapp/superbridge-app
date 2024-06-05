@@ -62,8 +62,9 @@ export const getServerSideProps = async ({
     !req.url ||
     !req.headers.host ||
     ignored.find((x) => req.url?.includes(x))
-  )
+  ) {
     return { props: { deployments: [] } };
+  }
 
   if (isSuperbridge) {
     const [name] = req.url.split(/[?\/]/).filter(Boolean);
