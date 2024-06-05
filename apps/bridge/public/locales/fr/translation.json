@@ -240,5 +240,13 @@
     "topup": "Recharger le gaz sur {{to}}",
     "goBack": "Retourner",
     "proceedAnyway": "Continuer quand même"
+  },
+  "expensiveGasModal": {
+    "title": "Les frais de réseau seront supérieurs à la valeur du jeton",
+    "notBestOption": "Superbridge peut ne pas être la meilleure option pour ce montant. Veuillez envisager <0>ces ponts alternatifs</0>.",
+    "bridgeAmount": "Montant à transférer",
+    "networkFees": "Frais de réseau",
+    "goBack": "Retourner",
+    "proceedAnyway": "Procéder quand même"
   }
 }

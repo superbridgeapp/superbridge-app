@@ -242,5 +242,13 @@
     "topup": "{{to}} adresinde gaz yükleyin",
     "goBack": "Geri git",
     "proceedAnyway": "Yine de devam et"
+  },
+  "expensiveGasModal": {
+    "title": "Ağ ücretleri token değerinden yüksek olacak",
+    "notBestOption": "Superbridge bu miktar için en iyi seçenek olmayabilir. Lütfen <0>bu alternatif köprüleri</0> düşünün.",
+    "bridgeAmount": "Köprü miktarı",
+    "networkFees": "Ağ ücretleri",
+    "goBack": "Geri dön",
+    "proceedAnyway": "Yine de devam et"
   }
 }

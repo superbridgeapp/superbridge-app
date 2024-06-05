@@ -240,5 +240,13 @@
     "topup": "在 {{to}} 上充值 Gas",
     "goBack": "返回",
     "proceedAnyway": "仍然继续"
+  },
+  "expensiveGasModal": {
+    "title": "网络费用将高于代币价值",
+    "notBestOption": "Superbridge可能不是此桥接金额的最佳选择。请考虑<0>这些替代桥接</0>。",
+    "bridgeAmount": "桥接金额",
+    "networkFees": "网络费用",
+    "goBack": "返回",
+    "proceedAnyway": "仍然继续"
   }
 }
