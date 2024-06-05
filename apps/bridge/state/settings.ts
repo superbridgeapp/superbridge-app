@@ -31,7 +31,7 @@ interface SettingsState {
 const SettingsState = create<SettingsState>()(
   persist(
     (set) => ({
-      preferredExplorer: "blockscout",
+      preferredExplorer: "etherscan",
       setPreferredExplorer: (preferredExplorer) => set({ preferredExplorer }),
 
       currency: "USD",
@@ -48,11 +48,11 @@ const SettingsState = create<SettingsState>()(
     }),
     {
       name: "settings",
-      version: 1,
+      version: 2,
       migrate: (persistedState, version) => {
-        if (version === 0) {
+        if (version === 1) {
           // @ts-expect-error
-          persistedState.preferredExplorer = "blockscout";
+          persistedState.preferredExplorer = "etherscan";
         }
         return persistedState;
       },

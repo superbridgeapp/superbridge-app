@@ -62,8 +62,9 @@ export const getServerSideProps = async ({
     !req.url ||
     !req.headers.host ||
     ignored.find((x) => req.url?.includes(x))
-  )
+  ) {
     return { props: { deployments: [] } };
+  }
 
   if (isSuperbridge) {
     const [name] = req.url.split(/[?\/]/).filter(Boolean);
@@ -83,7 +84,10 @@ export const getServerSideProps = async ({
     return { props: { deployments: data } };
   }
 
-  if (req.headers.host?.includes("localhost")) {
+  if (
+    req.headers.host?.includes("localhost") ||
+    req.headers.host?.includes("ngrok")
+  ) {
     const { data } = await bridgeControllerGetDeployments({
       names: ["op-sepolia"],
     });

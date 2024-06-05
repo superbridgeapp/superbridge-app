@@ -7,7 +7,7 @@ import {
   bridgeControllerGetCctpDomains,
   bridgeControllerGetDeployments,
 } from "@/codegen/index";
-import { DeploymentFamily } from "@/codegen/model";
+import { DeploymentDto, DeploymentFamily } from "@/codegen/model";
 import { Head } from "@/components/head";
 import { IconAlert } from "@/components/icons";
 import PageFooter from "@/components/page-footer";
@@ -28,10 +28,8 @@ import {
 } from "@/constants/links";
 import { useFaultProofUpgradeTime } from "@/hooks/use-fault-proof-upgrade-time";
 import { getFinalizationPeriod } from "@/hooks/use-finalization-period";
-import { useDeployment } from "@/hooks/use-deployment";
 
-const FaultProofAlert = () => {
-  const deployment = useDeployment();
+const FaultProofAlert = ({ deployment }: { deployment: DeploymentDto }) => {
   return (
     <Alert size={"lg"}>
       <IconAlert className="w-6 h-6" />
@@ -49,7 +47,7 @@ const FaultProofAlert = () => {
           Why should I wait until the upgrade is complete?
         </h3>
         <p>
-          The upgrade will essentally wipe the status of existing prove
+          The upgrade will essentially wipe the status of existing prove
           operations. Any proves done now would need to be resubmitted after the
           upgrade.
         </p>
@@ -312,7 +310,9 @@ export default function Support({
                 <span>All chains</span>
               </Link>
 
-              {faultProofUpgradeTime && <FaultProofAlert />}
+              {faultProofUpgradeTime && (
+                <FaultProofAlert deployment={deployment} />
+              )}
             </header>
 
             <Accordion type="single" collapsible className="w-full">

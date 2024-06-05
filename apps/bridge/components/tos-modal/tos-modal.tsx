@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import Link from "next/link";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import ReactMarkdown from "react-markdown";
 
@@ -13,6 +13,13 @@ import { useSettingsState } from "@/state/settings";
 import { Button } from "../ui/button";
 import { Dialog, DialogContent } from "../ui/dialog";
 import { DocumentIcon, QuestionMark, NoFundsIcon, SparkleIcon } from "./icons";
+
+import {
+  motion,
+  useScroll,
+  useSpring,
+  useMotionValueEvent,
+} from "framer-motion";
 
 export const TosModal = () => {
   const { t } = useTranslation();
@@ -129,72 +136,50 @@ export const TosModal = () => {
     </div>
   );
 
-  const Terms = () => {
+  const ForceReadScroll = ({
+    title,
+    content,
+  }: {
+    title: string;
+    content: string;
+  }) => {
+    const scrollRef = useRef<HTMLDivElement>(null);
     const [scrolled, setScrolled] = useState(false);
-    const handleScroll = (e: any) => {
-      const bottom =
-        Math.abs(
-          e.target.scrollHeight - e.target.clientHeight - e.target.scrollTop
-        ) < 1;
-      if (bottom) {
+
+    const { scrollYProgress } = useScroll({
+      container: scrollRef,
+    });
+
+    useMotionValueEvent(scrollYProgress, "change", (latest: any) => {
+      if (latest >= 0.8) {
         setScrolled(true);
       }
-    };
+    });
 
-    const onClick = () => {
-      if (!scrolled) return;
-      onNext();
-    };
+    const scaleX = useSpring(scrollYProgress, {
+      stiffness: 100,
+      damping: 30,
+      restDelta: 0.001,
+    });
+
     return (
       <div className="flex flex-col">
+        <div className="flex items-start justify-start bg-muted h-1">
+          <motion.div
+            className="w-full bg-muted-foreground h-1 origin-top-left"
+            style={{ scaleX }}
+          />
+        </div>
         <div
+          ref={scrollRef}
           className="max-h-[320px] prose prose-sm prose-headings:font-bold dark:prose-invert overflow-y-scroll p-6"
-          onScroll={handleScroll}
         >
-          <h1 className="text-lg font-bold text-foreground">
-            {t("tos.forceReadTerms")}
-          </h1>
-          <ReactMarkdown>{deployment?.tos?.customTermsOfService}</ReactMarkdown>
+          <h1 className="text-lg font-bold text-foreground">{title}</h1>
+          <ReactMarkdown>{content}</ReactMarkdown>
         </div>
         <div className="border-t border-muted p-6 relative">
           {!scrolled && <ScrollArrow />}
-          <Button disabled={!scrolled} className="w-full" onClick={onClick}>
-            {t("tos.agreeAndContinue")}
-          </Button>
-        </div>
-      </div>
-    );
-  };
-  const Privacy = () => {
-    const [scrolled, setScrolled] = useState(false);
-    const handleScroll = (e: any) => {
-      const bottom =
-        Math.abs(
-          e.target.scrollHeight - e.target.clientHeight - e.target.scrollTop
-        ) < 1;
-      if (bottom) {
-        setScrolled(true);
-      }
-    };
-
-    const onClick = () => {
-      if (!scrolled) return;
-      onNext();
-    };
-    return (
-      <div className="flex flex-col">
-        <div
-          onScroll={handleScroll}
-          className="max-h-[320px] prose prose-sm prose-headings:font-bold dark:prose-invert overflow-y-scroll p-6"
-        >
-          <h1 className="text-lg font-bold text-foreground">
-            {t("tos.forceReadPrivacy")}
-          </h1>
-          <ReactMarkdown>{deployment?.tos?.customPrivacyPolicy}</ReactMarkdown>
-        </div>
-        <div className="border-t border-muted p-6 relative">
-          {!scrolled && <ScrollArrow />}
-          <Button disabled={!scrolled} className="w-full" onClick={onClick}>
+          <Button disabled={!scrolled} className="w-full" onClick={onNext}>
             {t("tos.agreeAndContinue")}
           </Button>
         </div>
@@ -204,10 +189,26 @@ export const TosModal = () => {
 
   const tabs = [{ name: "tab1", component: tab1 }];
   if (deployment?.tos?.forceReadTermsOfService) {
-    tabs.push({ name: "terms", component: <Terms /> });
+    tabs.push({
+      name: "terms",
+      component: (
+        <ForceReadScroll
+          title={t("tos.forceReadTerms")}
+          content={deployment?.tos?.customTermsOfService ?? ""}
+        />
+      ),
+    });
   }
   if (deployment?.tos?.forceReadPrivacyPolicy) {
-    tabs.push({ name: "privacy", component: <Privacy /> });
+    tabs.push({
+      name: "privacy",
+      component: (
+        <ForceReadScroll
+          title={t("tos.forceReadPrivacy")}
+          content={deployment?.tos?.customPrivacyPolicy ?? ""}
+        />
+      ),
+    });
   }
 
   return (
