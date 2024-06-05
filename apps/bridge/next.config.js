@@ -29,22 +29,11 @@ const config = {
         destination: "https://r9vkbxvmyui.typeform.com/to/kvTnybhJ",
         permanent: true,
       },
-      ...[
-        "arbitrum-one",
-        "arbitrum-nova",
-        "kroma",
-        "rollux",
-        "orb3-mainnet",
-        "parallel",
-      ].map((link) => ({
-        source: "/" + link,
-        destination: "https://app.rollbridge.app/" + link,
+      {
+        source: "/rollies",
+        destination: "https://about.superbridge.app/rollies",
         permanent: true,
-        has: [
-          { type: "host", value: "superbridge.app" },
-          { type: "host", value: "app.superbridge.app" },
-        ],
-      })),
+      },
     ];
   },
 };
