@@ -240,5 +240,13 @@
     "topup": "{{to}}でガスをチャージする",
     "goBack": "戻る",
     "proceedAnyway": "とにかく進む"
+  },
+  "expensiveGasModal": {
+    "title": "ネットワーク手数料がトークンの価値を上回ります",
+    "notBestOption": "Superbridgeはこのブリッジ量に最適な選択肢ではないかもしれません。<0>これらの代替ブリッジ</0>をご検討ください。",
+    "bridgeAmount": "ブリッジ量",
+    "networkFees": "ネットワーク手数料",
+    "goBack": "戻る",
+    "proceedAnyway": "それでも続行"
   }
 }

@@ -16,6 +16,7 @@ import {
 } from "wagmi";
 
 import { useBridgeControllerTrack } from "@/codegen";
+import { isSuperbridge } from "@/config/superbridge";
 import { currencySymbolMap } from "@/constants/currency-symbol-map";
 import { useAllowance } from "@/hooks/use-allowance";
 import { useApprove } from "@/hooks/use-approve";
@@ -25,6 +26,7 @@ import { useBridge } from "@/hooks/use-bridge";
 import { useBridgeLimit } from "@/hooks/use-bridge-limit";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
 import { useDeployment } from "@/hooks/use-deployment";
+import { useFaultProofUpgradeTime } from "@/hooks/use-fault-proof-upgrade-time";
 import { useIsCustomToken } from "@/hooks/use-is-custom-token";
 import { useIsCustomTokenFromList } from "@/hooks/use-is-custom-token-from-list";
 import { useNativeToken } from "@/hooks/use-native-token";
@@ -43,27 +45,27 @@ import { buildPendingTx } from "@/utils/build-pending-tx";
 import { isEth, isNativeToken } from "@/utils/is-eth";
 import { isNativeUsdc } from "@/utils/is-usdc";
 
+import { SUPERCHAIN_MAINNETS } from "../pages/[[...index]]";
 import { FromTo } from "./FromTo";
 import { AddressModal } from "./address-modal";
-import { ConfirmationModal } from "./confirmation-modal";
-import { CctpBadge } from "./cttp-badge";
-import { DepositFees } from "./fees/deposit-fees";
-import { WithdrawFees } from "./fees/withdraw-fees";
-import { NftImage } from "./nft";
-import { NoGasModal } from "./alerts/no-gas-modal";
-import { TokenIcon } from "./token-icon";
-import { TokenModal } from "./tokens/Modal";
-import { CustomTokenImportModal } from "./tokens/custom-token-import-modal";
-import { Button } from "./ui/button";
-import { WithdrawSettingsModal } from "./withdraw-settings/modal";
 import {
   ExpensiveGasModal,
   useEstimateTotalFeesInFiat,
 } from "./alerts/expensive-gas-modal";
 import { FaultProofsModal } from "./alerts/fault-proofs-modal";
+import { NoGasModal } from "./alerts/no-gas-modal";
+import { ConfirmationModal } from "./confirmation-modal";
+import { CctpBadge } from "./cttp-badge";
 import { FaultProofInfoModal } from "./fault-proof-info-modal";
+import { DepositFees } from "./fees/deposit-fees";
+import { WithdrawFees } from "./fees/withdraw-fees";
+import { NftImage } from "./nft";
+import { TokenIcon } from "./token-icon";
+import { TokenModal } from "./tokens/Modal";
+import { CustomTokenImportModal } from "./tokens/custom-token-import-modal";
+import { Button } from "./ui/button";
+import { WithdrawSettingsModal } from "./withdraw-settings/modal";
 import { WithdrawalReadyToFinalizeModal } from "./withdrawal-ready-to-finalize-modal";
-import { useFaultProofUpgradeTime } from "@/hooks/use-fault-proof-upgrade-time";
 
 enum AlertModals {
   NoGas = "no-gas",
@@ -384,13 +386,14 @@ export const BridgeBody = () => {
       modals.push(AlertModals.NoGas);
     }
 
-    // if (
-    //   totalFeesInFiat &&
-    //   fiatValueBeingBridged &&
-    //   totalFeesInFiat > fiatValueBeingBridged
-    // ) {
-    //   modals.push(AlertModals.GasExpensive);
-    // }
+    if (
+      totalFeesInFiat &&
+      fiatValueBeingBridged &&
+      totalFeesInFiat > fiatValueBeingBridged &&
+      (isSuperbridge || SUPERCHAIN_MAINNETS.includes(deployment?.name ?? ""))
+    ) {
+      modals.push(AlertModals.GasExpensive);
+    }
 
     if (faultProofUpgradeTime && withdrawing) {
       modals.push(AlertModals.FaultProofs);

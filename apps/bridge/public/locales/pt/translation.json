@@ -240,5 +240,13 @@
     "topup": "Recarregar gás em {{to}}",
     "goBack": "Voltar",
     "proceedAnyway": "Prosseguir mesmo assim"
+  },
+  "expensiveGasModal": {
+    "title": "As taxas de rede serão superiores ao valor do token",
+    "notBestOption": "O Superbridge pode não ser a melhor opção para este montante. Por favor, considere <0>estas pontes alternativas</0>.",
+    "bridgeAmount": "Valor da ponte",
+    "networkFees": "Taxas de rede",
+    "goBack": "Voltar",
+    "proceedAnyway": "Prosseguir mesmo assim"
   }
 }

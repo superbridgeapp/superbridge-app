@@ -244,5 +244,14 @@
     "topup": "شحن الغاز على {{to}}",
     "goBack": "العودة",
     "proceedAnyway": "المضي قدمًا على أي حال"
+  },
+
+  "expensiveGasModal": {
+    "title": "رسوم الشبكة ستكون أعلى من قيمة الرمز",
+    "notBestOption": "قد لا يكون Superbridge هو الخيار الأفضل لهذه الكمية. يرجى النظر في <0>هذه الجسور البديلة</0>.",
+    "bridgeAmount": "كمية الجسر",
+    "networkFees": "رسوم الشبكة",
+    "goBack": "العودة",
+    "proceedAnyway": "تابع على أي حال"
   }
 }
