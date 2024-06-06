@@ -67,6 +67,11 @@ import { Button } from "./ui/button";
 import { WithdrawSettingsModal } from "./withdraw-settings/modal";
 import { WithdrawalReadyToFinalizeModal } from "./withdrawal-ready-to-finalize-modal";
 
+// If gas estimation is failing, likely because they don't
+// have enough ETH, we still want to provide a rough gas estimate.
+// Important we don't submit this though and use the actual estimatedGas
+const DEFAULT_GAS_ESTIMATION = BigInt(200_000);
+
 enum AlertModals {
   NoGas = "no-gas",
   GasExpensive = "gas-expensive",
@@ -199,13 +204,12 @@ export const BridgeBody = () => {
   const allowance = useAllowance(token, bridge.address);
 
   let networkFee: number | undefined;
-  if (feeData.data && bridge.gas) {
+  if (feeData.data) {
     const gwei =
       (feeData.data.gasPrice ?? feeData.data.maxFeePerGas ?? BigInt(0)) *
-      bridge.gas;
+      (bridge.gas ?? DEFAULT_GAS_ESTIMATION);
     networkFee = parseFloat(formatUnits(gwei, 18));
   }
-
   const approve = useApprove(
     token,
     bridge.address,
@@ -218,10 +222,16 @@ export const BridgeBody = () => {
   const receive = parseFloat(rawAmount) || 0;
 
   const hasInsufficientBalance = weiAmount > tokenBalance;
-  const hasInsufficientGas =
-    networkFee &&
-    BigInt(parseUnits(networkFee.toFixed(18), 18)) >
-      (fromEthBalance.data?.value ?? BigInt(0));
+  const hasInsufficientGas = (() => {
+    if (!networkFee) return false;
+
+    let availableGasBalance = fromEthBalance.data?.value ?? BigInt(0);
+    if (isEth(token)) {
+      availableGasBalance = availableGasBalance - weiAmount;
+    }
+
+    return availableGasBalance < BigInt(parseUnits(networkFee.toFixed(18), 18));
+  })();
 
   const totalFeesInFiat = useEstimateTotalFeesInFiat();
   const fiatValueBeingBridged = usdPrice ? receive * usdPrice : null;
@@ -519,7 +529,7 @@ export const BridgeBody = () => {
         open={withdrawSettingsDialog}
         setOpen={setWithdrawSettingsDialog}
         from={from}
-        gasEstimate={bridge.gas}
+        gasEstimate={bridge.gas ?? DEFAULT_GAS_ESTIMATION}
       />
       <CustomTokenImportModal />
       <AddressModal open={addressDialog} setOpen={setAddressDialog} />
@@ -741,11 +751,11 @@ export const BridgeBody = () => {
 
         {withdrawing ? (
           <WithdrawFees
-            gasEstimate={bridge.gas}
+            gasEstimate={bridge.gas ?? DEFAULT_GAS_ESTIMATION}
             openSettings={() => setWithdrawSettingsDialog(true)}
           />
         ) : (
-          <DepositFees gasEstimate={bridge.gas} />
+          <DepositFees gasEstimate={bridge.gas ?? DEFAULT_GAS_ESTIMATION} />
         )}
       </div>
 
