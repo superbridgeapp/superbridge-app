@@ -113,7 +113,7 @@ export function Footer() {
         ) : (
           <div className="bg-card h-10 pl-2.5 pr-3 gap-1 inline-flex items-center rounded-full transition-all border-black/[0.0125] dark:border-white/[0.0125]">
             <button
-              className={`text-xs font-medium  transition-all hover:scale-105 inline-flex`}
+              className={`text-xs   transition-all hover:scale-105 inline-flex`}
               onClick={() => setSettingsModal(true)}
             >
               <svg
@@ -158,14 +158,14 @@ export function Footer() {
                         <Link
                           href={(link as any).url}
                           target="_blank"
-                          className="font-medium text-sm w-full"
+                          className=" text-sm w-full"
                         >
                           {link.label}
                         </Link>
                       ) : (
                         <button
                           onClick={(link as any).onClick}
-                          className="font-medium text-sm w-full text-left"
+                          className=" text-sm w-full text-left"
                         >
                           {link.label}
                         </button>
@@ -181,20 +181,20 @@ export function Footer() {
                     <div className="bg-muted p-3 rounded-lg flex flex-col gap-3 mt-3">
                       <a
                         href="https://superbridge.app"
-                        className="font-medium text-xs tracking-tighter leading-none w-full flex gap-2 items-center"
+                        className=" text-xs  leading-none w-full flex gap-2 items-center"
                       >
                         <IconSB className="h-6 w-auto fill-foreground" />
                         <span>Powered by Superbridge</span>
                       </a>
                       <Link
                         href={`https://superbridge.app/support/${deployment.name}`}
-                        className="font-medium text-xs tracking-tighter leading-none w-full flex gap-2 items-center"
+                        className=" text-xs  leading-none w-full flex gap-2 items-center"
                       >
                         <IconArrowUpRight className="h-4 mx-1 w-auto fill-muted-foreground" />
                         <span>Support & FAQs</span>
                       </Link>
                       <button
-                        className="font-medium text-xs tracking-tighter leading-none w-full flex gap-2 items-center"
+                        className=" text-xs  leading-none w-full flex gap-2 items-center"
                         onClick={() => setLegalModal(true)}
                       >
                         <IconArrowUpRight className="h-4 mx-1 w-auto fill-muted-foreground" />
@@ -208,7 +208,7 @@ export function Footer() {
                   <div className="bg-muted p-3 rounded-lg flex flex-col gap-3 mt-3">
                     <a
                       href="https://superbridge.app"
-                      className="font-medium text-xs tracking-tighter leading-none w-full flex gap-2 items-center"
+                      className=" text-xs  leading-none w-full flex gap-2 items-center"
                     >
                       <IconSB className="h-6 w-auto fill-foreground" />
                       <span>Powered by Superbridge</span>

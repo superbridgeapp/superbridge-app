@@ -73,11 +73,11 @@ function LineItem({
     >
       <div className="flex gap-2 items-center">
         {icon}
-        <p className="text-xs font-medium">{text}</p>
+        <p className="text-sm">{text}</p>
       </div>
       {fee && (
         <div className="flex gap-2 items-center">
-          <p className="text-xs">{fee}</p>
+          <p className="text-sm">{fee}</p>
           <FeesIcon />
         </div>
       )}
@@ -687,7 +687,7 @@ export const ConfirmationModal = ({
       <DialogContent>
         <div className="flex flex-col p-6 pt-8">
           <div className="flex flex-col gap-1">
-            <h1 className="font-bold text-xl tracking-tight text-pretty leading-6 mr-6">
+            <h1 className="font-heading text-xl  text-pretty leading-6 mr-6">
               {title}
             </h1>
             <p className="text-xs md:text-sm text-pretty">
@@ -698,7 +698,7 @@ export const ConfirmationModal = ({
                     ? "https://docs.rollbridge.app/native-usdc"
                     : "https://docs.rollbridge.app/what-is-bridging"
                 }
-                className="underline font-medium"
+                className="underline "
                 target="_blank"
               >
                 {t("confirmationModal.learnMore")}
@@ -706,7 +706,7 @@ export const ConfirmationModal = ({
             </p>
           </div>
           <div className="justify-end flex items-center px-1 py-1">
-            <span className="text-muted-foreground font-medium text-[11px]">
+            <span className="text-muted-foreground  text-[11px]">
               {t("confirmationModal.approxFees")}
             </span>
           </div>
@@ -733,7 +733,7 @@ export const ConfirmationModal = ({
               />
               <label
                 htmlFor="timeframe"
-                className="text-[11px] text-muted-foreground tracking-tight"
+                className="text-[11px] text-muted-foreground "
               >
                 {checkbox1Text}
               </label>
@@ -746,7 +746,7 @@ export const ConfirmationModal = ({
               />
               <label
                 htmlFor="speed"
-                className="text-[11px] text-muted-foreground tracking-tight"
+                className="text-[11px] text-muted-foreground "
               >
                 {withdrawing
                   ? t("confirmationModal.checkbox2Withdrawal")
@@ -761,7 +761,7 @@ export const ConfirmationModal = ({
               />
               <label
                 htmlFor="fees"
-                className="text-[11px] text-muted-foreground tracking-tight"
+                className="text-[11px] text-muted-foreground "
               >
                 {t("confirmationModal.checkbox3")}
               </label>
@@ -833,7 +833,7 @@ export const ConfirmationModal = ({
 
             {isSuperbridge && (withdrawing || isNativeUsdc(stateToken)) && (
               <Link
-                className={`mt-2 leading-3 text-center text-xs font-medium tracking-tight cursor-pointer transition-all opacity-70 hover:opacity-100`}
+                className={`mt-2 leading-3 text-center text-xs   cursor-pointer transition-all opacity-70 hover:opacity-100`}
                 href="/alternative-bridges"
                 target="_blank"
               >

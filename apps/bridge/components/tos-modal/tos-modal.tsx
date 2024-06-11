@@ -67,19 +67,19 @@ export const TosModal = () => {
   const tab1 = (
     <div className="flex flex-col gap-6 p-6">
       <div className="flex flex-col gap-2">
-        <h1 className="font-bold text-3xl tracking-tighter text-center text-foreground">
+        <h1 className="font-heading text-3xl  text-center text-foreground">
           {t("tos.welcome", { name: metadata.title })}
         </h1>
 
         {!isSuperbridge && (
-          <p className="text-xs font-bold text-muted-foreground text-center">
+          <p className="text-xs font-heading text-muted-foreground text-center">
             {t("tos.poweredBy")}
           </p>
         )}
       </div>
       <div className="flex gap-3">
         <SparkleIcon />
-        <p className="text-sm font-medium">
+        <p className="text-sm ">
           <Trans
             i18nKey={isSuperbridge ? "tos.superbridge1" : "tos.dedicated1"}
             components={[<span key="name" className="underline" />]}
@@ -90,12 +90,12 @@ export const TosModal = () => {
 
       <div className="flex gap-3">
         <NoFundsIcon />
-        <p className="text-sm font-medium">{t("tos.superbridge2")}</p>
+        <p className="text-sm ">{t("tos.superbridge2")}</p>
       </div>
 
       <div className="flex gap-3">
         <QuestionMark />
-        <p className="text-sm font-medium">
+        <p className="text-sm ">
           <Trans
             i18nKey={"tos.superbridge3"}
             components={[
@@ -117,7 +117,7 @@ export const TosModal = () => {
 
       <div className="flex gap-3">
         <DocumentIcon />
-        <p className="text-sm font-medium">
+        <p className="text-sm ">
           <Trans
             i18nKey={"tos.superbridge4"}
             components={[
@@ -172,9 +172,9 @@ export const TosModal = () => {
         </div>
         <div
           ref={scrollRef}
-          className="max-h-[320px] prose prose-sm prose-headings:font-bold dark:prose-invert overflow-y-scroll p-6"
+          className="max-h-[320px] prose prose-sm prose-headings:font-heading dark:prose-invert overflow-y-scroll p-6"
         >
-          <h1 className="text-lg font-bold text-foreground">{title}</h1>
+          <h1 className="text-lg font-heading text-foreground">{title}</h1>
           <ReactMarkdown>{content}</ReactMarkdown>
         </div>
         <div className="border-t border-muted p-6 relative">

@@ -60,7 +60,7 @@ export const TokenLists = () => {
               </clipPath>
             </defs>
           </svg>
-          <h3 className="font-bold text-sm">{t("settings.tokenLists")}</h3>
+          <h3 className="font-heading text-sm">{t("settings.tokenLists")}</h3>
         </div>
 
         <svg
@@ -99,7 +99,7 @@ export const TokenLists = () => {
                 />
                 <label
                   htmlFor={tokenList.name}
-                  className="font-bold text-sm leading-4"
+                  className="font-heading text-sm leading-4"
                 >
                   {tokenList.name}
                 </label>
@@ -107,7 +107,7 @@ export const TokenLists = () => {
 
               <button
                 onClick={() => setShowCustomTokenListModal(tokenList)}
-                className={`text-xs font-medium hover:opacity-50 text-muted-foreground`}
+                className={`text-xs  hover:opacity-50 text-muted-foreground`}
               >
                 {t("manage")}
               </button>
@@ -116,7 +116,7 @@ export const TokenLists = () => {
 
           <button
             onClick={() => setShowCustomTokenListModal(true)}
-            className={`mt-2 mr-auto text-xs tracking-tight font-medium leading-3 rounded-full px-2 py-1 hover:scale-105 transition-all`}
+            className={`mt-2 mr-auto text-xs   leading-3 rounded-full px-2 py-1 hover:scale-105 transition-all`}
           >
             {t("customTokenLists.add")}
           </button>

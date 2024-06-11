@@ -39,14 +39,14 @@ export const WithdrawalsPaused = () => {
           </defs>
         </svg>
       </span>
-      <span className="font-medium text-xs">
+      <span className=" text-xs">
         Proving and finalizing {deployment?.l2.name} withdrawals is currently
         paused. <br />
         {links[deployment?.l2.id ?? 0] && (
           <Link
             href={links[deployment?.l2.id ?? 0] ?? ""}
             target="_blank"
-            className="font-medium text-muted-foreground cursor-pointer hover:underline"
+            className=" text-muted-foreground cursor-pointer hover:underline"
           >
             More info &amp; updates&hellip;
           </Link>

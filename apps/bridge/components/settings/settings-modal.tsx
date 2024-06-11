@@ -66,7 +66,7 @@ export const SettingsModal = ({ open, setOpen }: SettingsModalProps) => {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent>
         <div className="">
-          <h2 className="font-bold p-6 pb-0">{t("settings.settings")}</h2>
+          <h2 className="font-heading p-6 pb-0">{t("settings.settings")}</h2>
 
           <div className="px-6 py-8">
             <div className="border rounded-[16px] divide-y divide-border">
@@ -100,7 +100,7 @@ export const SettingsModal = ({ open, setOpen }: SettingsModalProps) => {
                       </clipPath>
                     </defs>
                   </svg>
-                  <h3 className="font-bold text-sm">
+                  <h3 className="font-heading text-sm">
                     {t("settings.currency")}
                   </h3>
                 </div>
@@ -146,7 +146,7 @@ export const SettingsModal = ({ open, setOpen }: SettingsModalProps) => {
                       </clipPath>
                     </defs>
                   </svg>
-                  <h3 className="font-bold text-sm">
+                  <h3 className="font-heading text-sm">
                     {t("settings.language")}
                   </h3>
                 </div>
@@ -215,7 +215,7 @@ export const SettingsModal = ({ open, setOpen }: SettingsModalProps) => {
                       </clipPath>
                     </defs>
                   </svg>
-                  <h3 className="font-bold text-sm">
+                  <h3 className="font-heading text-sm">
                     {t("settings.explorer")}
                   </h3>
                 </div>
@@ -272,7 +272,7 @@ export const SettingsModal = ({ open, setOpen }: SettingsModalProps) => {
                         </clipPath>
                       </defs>
                     </svg>
-                    <h3 className="font-bold text-sm">Enable Testnets</h3>
+                    <h3 className="font-heading text-sm">Enable Testnets</h3>
                   </div>
                   <Switch
                     checked={testnets}

@@ -102,10 +102,10 @@ export const NoGasModal = ({ onProceed, open, onCancel }: AlertProps) => {
             <div className="animate-bounce">
               <GasDrop />
             </div>
-            <h1 className="font-bold text-2xl tracking-tight text-pretty">
+            <h1 className="font-heading text-2xl  text-pretty">
               {t("noGasModal.youNeedGasOn", common)}
             </h1>
-            <p className="text-xs md:text-sm prose-sm font-bold text-muted-foreground text-pretty text-center">
+            <p className="text-xs md:text-sm prose-sm font-heading text-muted-foreground text-pretty text-center">
               {description}
             </p>
           </div>
@@ -114,7 +114,7 @@ export const NoGasModal = ({ onProceed, open, onCancel }: AlertProps) => {
             <a
               href={`https://superbridge.app/support/${deployment?.name}`}
               target="_blank"
-              className="text-xs text-center font-bold text-foreground hover:underline mb-2"
+              className="text-xs text-center font-heading text-foreground hover:underline mb-2"
             >
               {t("noGasModal.needHelp")}
             </a>
