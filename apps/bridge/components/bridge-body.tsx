@@ -243,7 +243,7 @@ export const BridgeBody = () => {
    */
   const hasInsufficientBaseNativeTokenBalance =
     !!requiredCustomGasTokenBalance &&
-    !!baseNativeTokenBalance.data &&
+    typeof baseNativeTokenBalance.data !== "undefined" &&
     requiredCustomGasTokenBalance > baseNativeTokenBalance.data;
 
   const isCustomToken = useIsCustomToken(stateToken);
