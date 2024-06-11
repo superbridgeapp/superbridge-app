@@ -276,17 +276,21 @@ export const FungibleTokenPicker = ({
   const { t } = useTranslation();
 
   const filteredTokens = tokens.data.filter(({ token }) => {
-    if (search)
-      return (
-        token[from?.id ?? 0]!.name.toLowerCase().includes(
-          search.toLowerCase()
-        ) ||
-        token[to?.id ?? 0]!.symbol.toLowerCase().includes(
-          search.toLowerCase()
-        ) ||
-        token[to?.id ?? 0]!.address.toLowerCase().includes(search.toLowerCase())
-      );
-    return true;
+    if (!search) {
+      return true;
+    }
+
+    const fromT = token[from?.id ?? 0];
+    const toT = token[to?.id ?? 0];
+
+    return (
+      fromT?.name.toLowerCase().includes(search.toLowerCase()) ||
+      fromT?.symbol.toLowerCase().includes(search.toLowerCase()) ||
+      fromT?.address.toLowerCase().includes(search.toLowerCase()) ||
+      toT?.name.toLowerCase().includes(search.toLowerCase()) ||
+      toT?.symbol.toLowerCase().includes(search.toLowerCase()) ||
+      toT?.address.toLowerCase().includes(search.toLowerCase())
+    );
   });
 
   const onClickToken = (t: MultiChainToken) => {
