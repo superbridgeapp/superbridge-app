@@ -20,7 +20,7 @@ import { useNativeToken } from "./use-native-token";
 
 export const useFees = (
   from: Chain | ChainDto | undefined,
-  gasEstimate: bigint | undefined
+  gasEstimate: bigint
 ) => {
   const deployment = useDeployment();
   const withdrawing = useConfigState.useWithdrawing();
@@ -38,7 +38,8 @@ export const useFees = (
   let networkFee = 0;
   if (feeData.data && gasEstimate) {
     const gwei =
-      (feeData.data.gasPrice ?? feeData.data.maxFeePerGas)! * gasEstimate;
+      (feeData.data.gasPrice ?? feeData.data.maxFeePerGas ?? BigInt(0)) *
+      gasEstimate;
     networkFee = parseFloat(formatUnits(gwei, 18));
   }
 

@@ -8,5 +8,5 @@ export interface SettingsModalProps {
 
   from: ChainDto | Chain | undefined;
 
-  gasEstimate: bigint | undefined;
+  gasEstimate: bigint;
 }

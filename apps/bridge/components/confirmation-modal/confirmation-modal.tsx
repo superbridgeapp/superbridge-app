@@ -108,6 +108,7 @@ export const ConfirmationModal = ({
   const account = useAccount();
   const withdrawing = useConfigState.useWithdrawing();
   const escapeHatch = useConfigState.useForceViaL1();
+  const { gas } = useBridge();
 
   const gasToken = useGasToken();
   const gasTokenAllowance = useAllowanceGasToken();
@@ -150,8 +151,8 @@ export const ConfirmationModal = ({
 
   const initiateCost =
     withdrawing && escapeHatch
-      ? { gasToken: toGas, gasLimit: BigInt(200_000) }
-      : { gasToken: fromGas, gasLimit: BigInt(200_000) };
+      ? { gasToken: toGas, gasLimit: gas ?? BigInt(200_000) }
+      : { gasToken: fromGas, gasLimit: gas ?? BigInt(200_000) };
   const proveCost = { gasToken: toGas, gasLimit: PROVE_GAS };
   const finalizeCost = {
     gasToken: toGas,
