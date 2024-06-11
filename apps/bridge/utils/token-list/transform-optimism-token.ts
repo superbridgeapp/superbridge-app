@@ -15,17 +15,21 @@ import {
 import { OptimismToken } from "@/types/token";
 import { SuperchainToken } from "@/types/token-lists";
 
-const IGNORED_BRIDGE_TOKENS = ["Synthetix", "Eco", "dForce USD"];
+const IGNORED_BRIDGE_TOKENS = ["Eco", "dForce USD"];
 
 export const transformIntoOptimismToken = (
   token: SuperchainToken
 ): OptimismToken | null => {
-  // we do our CCTP list
+  // we do our own CCTP list
   if (token.extensions.opTokenId.includes("USDC")) {
     return null;
   }
 
   if (IGNORED_BRIDGE_TOKENS.includes(token.name)) {
+    return null;
+  }
+
+  if (token.name.includes("Synthetix") && token.chainId === optimism.id) {
     return null;
   }
 
