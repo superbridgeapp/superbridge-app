@@ -50,13 +50,46 @@ const superbridgeTheme: Partial<ThemeDto> = {
 };
 
 function updateTheme(theme: ThemeDto) {
-  Object.entries(theme).forEach(([key, value]) => {
+  console.log(theme);
+  Object.entries(theme).forEach(async ([key, value]) => {
     if (!value) {
       return;
     }
 
-    const formattedKey = key.includes("dark") ? `--${key}` : `--${key}-light`;
-    document.documentElement.style.setProperty(formattedKey, value);
+    let formattedKey = key;
+    let formattedValue = value;
+    if (key.includes("font")) {
+      console.log("hier");
+      if (key === "fontHeading") {
+        formattedKey = "sb-heading";
+      } else if (key === "fontButton") {
+        formattedKey = "sb-button";
+      } else if (key === "fontBody") {
+        formattedKey = "sb-body";
+      }
+
+      const font = new FontFace(formattedKey, `url(${value})`);
+      await font.load();
+
+      document.fonts.add(font);
+      console.log("Loaded and added", formattedKey, `url(${value})`);
+
+      // await font
+      //   .load()
+      //   .then(function (loadedFont) {
+      //     document.body.style.fontFamily = `${key}, ${document.body.style.fontFamily}`;
+      //   })
+      //   .catch(function (error) {
+      //     // error occurred
+      //   });
+      // return;
+    }
+
+    if (!key.includes("dark")) {
+      formattedKey = `--${key}-light`;
+    }
+
+    document.documentElement.style.setProperty(formattedKey, formattedValue);
   });
 }
 

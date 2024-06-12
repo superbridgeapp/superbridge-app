@@ -106,55 +106,8 @@ html.dark {
   }
 }
 
-@font-face {
-  font-family: GT-Maru;
-  font-style: normal;
-  font-weight: 400;
-  src: url("https://superbridge-fonts.vercel.app/GT-Maru-Regular.woff2");
-}
-@font-face {
-  font-family: GT-Maru;
-  font-style: normal;
-  font-weight: 500;
-  src: url("https://superbridge-fonts.vercel.app/GT-Maru-Medium.woff2");
-}
-@font-face {
-  font-family: GT-Maru;
-  font-style: normal;
-  font-weight: 700;
-  src: url("https://superbridge-fonts.vercel.app/GT-Maru-Bold.woff2");
-}
-
-/* Replace with custom upload URL */
-
-@font-face {
-  font-family: sb-heading;
-  src: url("https://superbridge-fonts.vercel.app/GT-Maru-Bold.woff2");
-}
-@font-face {
-  font-family: sb-button;
-  src: url("https://superbridge-fonts.vercel.app/GT-Maru-Bold.woff2");
-}
-@font-face {
-  font-family: sb-body;
-  src: url("https://superbridge-fonts.vercel.app/GT-Maru-Medium.woff2");
-}
-
-/* Galxe gravity bridge fonts */
-/* @font-face {
-  font-family: sb-heading;
-  src: url("/font-test/Lader ExBold.woff2");
-}
-@font-face {
-  font-family: sb-button;
-  src: url("/font-test/Lader ExBold.woff2");
-}
-@font-face {
-  font-family: sb-body;
-  src: url("/font-test/Lader Regular.woff2");
-} */
-
 html {
-  font-family: sb-body, SFRounded, ui-rounded, "SF Pro Rounded", system-ui,
-    "Helvetica Neue", Arial, Helvetica, sans-serif;
+  font-family: sb-body;
+  /* , SFRounded, ui-rounded, "SF Pro Rounded", system-ui,
+    "Helvetica Neue", Arial, Helvetica, sans-serif; */
 }

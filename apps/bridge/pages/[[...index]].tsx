@@ -21,6 +21,7 @@ import { useDeployment } from "@/hooks/use-deployment";
 import { useDeployments } from "@/hooks/use-deployments";
 import { InjectedStoreProvider } from "@/state/injected";
 import { ThemeProvider } from "@/state/theme";
+import { createGlobalStyle } from "styled-components";
 
 export const SUPERCHAIN_MAINNETS = [
   "optimism",
@@ -157,6 +158,30 @@ export default function IndexRoot({
   } else if (isSuperbridge && found) {
     deployment = found;
   }
+
+  //   const GlobalStyle = createGlobalStyle`
+  // @font-face {
+  //   font-family: sb-heading;
+  //   src: url("${
+  //     deployment?.theme?.theme.fontHeading ??
+  //     "https://superbridge-fonts.vercel.app/GT-Maru-Bold.woff2"
+  //   }");
+  // }
+  // @font-face {
+  //   font-family: sb-button;
+  //   src: url("${
+  //     deployment?.theme?.theme.fontButton ??
+  //     "https://superbridge-fonts.vercel.app/GT-Maru-Bold.woff2"
+  //   }");
+  // }
+  // @font-face {
+  //   font-family: sb-body;
+  //   src: url("${
+  //     deployment?.theme?.theme.fontBody ??
+  //     "https://superbridge-fonts.vercel.app/GT-Maru-Bold.woff2"
+  //   }");
+  // }
+  //   `;
 
   return (
     <InjectedStoreProvider
