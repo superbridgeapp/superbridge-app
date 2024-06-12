@@ -432,7 +432,8 @@ export const BridgeBody = () => {
   const submitButton = match({
     disabled:
       (deployment?.name === "orb3-mainnet" && !withdrawing) ||
-      deployment?.name === "surprised-harlequin-bonobo-fvcy2k9oqh",
+      deployment?.name === "surprised-harlequin-bonobo-fvcy2k9oqh" ||
+      deployment?.name === "blast-5ee0196b32868448",
     withdrawing,
     isSubmitting: bridge.isLoading,
     account: account.address,
