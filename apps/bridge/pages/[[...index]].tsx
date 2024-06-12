@@ -21,7 +21,6 @@ import { useDeployment } from "@/hooks/use-deployment";
 import { useDeployments } from "@/hooks/use-deployments";
 import { InjectedStoreProvider } from "@/state/injected";
 import { ThemeProvider } from "@/state/theme";
-import { createGlobalStyle } from "styled-components";
 
 export const SUPERCHAIN_MAINNETS = [
   "optimism",
