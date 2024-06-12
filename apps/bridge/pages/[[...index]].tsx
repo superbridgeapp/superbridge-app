@@ -159,30 +159,6 @@ export default function IndexRoot({
     deployment = found;
   }
 
-  //   const GlobalStyle = createGlobalStyle`
-  // @font-face {
-  //   font-family: sb-heading;
-  //   src: url("${
-  //     deployment?.theme?.theme.fontHeading ??
-  //     "https://superbridge-fonts.vercel.app/GT-Maru-Bold.woff2"
-  //   }");
-  // }
-  // @font-face {
-  //   font-family: sb-button;
-  //   src: url("${
-  //     deployment?.theme?.theme.fontButton ??
-  //     "https://superbridge-fonts.vercel.app/GT-Maru-Bold.woff2"
-  //   }");
-  // }
-  // @font-face {
-  //   font-family: sb-body;
-  //   src: url("${
-  //     deployment?.theme?.theme.fontBody ??
-  //     "https://superbridge-fonts.vercel.app/GT-Maru-Bold.woff2"
-  //   }");
-  // }
-  //   `;
-
   return (
     <InjectedStoreProvider
       initialValues={{

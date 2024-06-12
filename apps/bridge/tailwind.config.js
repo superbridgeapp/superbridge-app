@@ -17,11 +17,11 @@ module.exports = {
       },
     },
     extend: {
-      // fontFamily: {
-      heading: ["sb-heading"],
-      button: ["sb-button"],
-      body: ["sb-body)"],
-      // },
+      fontFamily: {
+        heading: ["sb-heading"],
+        button: ["sb-button"],
+        body: ["sb-body)"],
+      },
       colors: {
         border: "var(--border)",
         input: "var(--input)",

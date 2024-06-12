@@ -49,47 +49,55 @@ const superbridgeTheme: Partial<ThemeDto> = {
   "ring-dark": "hsl(240 4.9% 83.9%)",
 };
 
+async function handleFonts(theme: ThemeDto) {
+  const heading = new FontFace(
+    "sb-heading",
+    `url(${
+      theme.fontHeading ||
+      "https://superbridge-fonts.vercel.app/GT-Maru-Bold.woff2"
+    })`
+  );
+  const body = new FontFace(
+    "sb-body",
+    `url(${
+      theme.fontBody ||
+      "https://superbridge-fonts.vercel.app/GT-Maru-Medium.woff2"
+    })`
+  );
+  const buttons = new FontFace(
+    "sb-button",
+    `url(${
+      theme.fontButton ||
+      "https://superbridge-fonts.vercel.app/GT-Maru-Bold.woff2"
+    })`
+  );
+  const all = [heading, body, buttons];
+  await Promise.all(
+    all.map(async (f) => {
+      if (document.fonts.has(f)) {
+        console.log("document already has", f.family);
+        return;
+      }
+      await f.load();
+      document.fonts.add(f);
+    })
+  );
+}
+
 function updateTheme(theme: ThemeDto) {
-  console.log(theme);
-  Object.entries(theme).forEach(async ([key, value]) => {
-    if (!value) {
+  handleFonts(theme);
+
+  Object.entries(theme).forEach(([key, value]) => {
+    if (!value || key.includes("font")) {
       return;
     }
 
     let formattedKey = key;
-    let formattedValue = value;
-    if (key.includes("font")) {
-      console.log("hier");
-      if (key === "fontHeading") {
-        formattedKey = "sb-heading";
-      } else if (key === "fontButton") {
-        formattedKey = "sb-button";
-      } else if (key === "fontBody") {
-        formattedKey = "sb-body";
-      }
-
-      const font = new FontFace(formattedKey, `url(${value})`);
-      await font.load();
-
-      document.fonts.add(font);
-      console.log("Loaded and added", formattedKey, `url(${value})`);
-
-      // await font
-      //   .load()
-      //   .then(function (loadedFont) {
-      //     document.body.style.fontFamily = `${key}, ${document.body.style.fontFamily}`;
-      //   })
-      //   .catch(function (error) {
-      //     // error occurred
-      //   });
-      // return;
-    }
-
     if (!key.includes("dark")) {
       formattedKey = `--${key}-light`;
     }
 
-    document.documentElement.style.setProperty(formattedKey, formattedValue);
+    document.documentElement.style.setProperty(formattedKey, value);
   });
 }
 

@@ -106,8 +106,20 @@ html.dark {
   }
 }
 
-html {
+@font-face {
+  font-family: sb-heading;
+  src: url("https://superbridge-fonts.vercel.app/GT-Maru-Bold.woff2");
+}
+@font-face {
+  font-family: sb-button;
+  src: url("https://superbridge-fonts.vercel.app/GT-Maru-Bold.woff2");
+}
+@font-face {
   font-family: sb-body;
-  /* , SFRounded, ui-rounded, "SF Pro Rounded", system-ui,
-    "Helvetica Neue", Arial, Helvetica, sans-serif; */
+  src: url("https://superbridge-fonts.vercel.app/GT-Maru-Medium.woff2");
+}
+
+html {
+  font-family: sb-body, SFRounded, ui-rounded, "SF Pro Rounded", system-ui,
+    "Helvetica Neue", Arial, Helvetica, sans-serif;
 }
