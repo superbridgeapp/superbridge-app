@@ -27,6 +27,7 @@ import { SettingsModal } from "./settings/settings-modal";
 import { TosModal } from "./tos-modal/tos-modal";
 import { LegalModal } from "./legal-modal";
 import { BlockProvingModal } from "./fault-proofs/block-proving-modal";
+import { TrialBanner } from "./trial-banner";
 
 export function Layout({ children }: { children: any }) {
   useInitialise();
@@ -48,6 +49,7 @@ export function Layout({ children }: { children: any }) {
 
   return (
     <div className="bg-background w-screen h-screen overflow-hidden z-40 relative transition-colors duration-1000  flex justify-center">
+      <TrialBanner />
       {isSuperbridge && (
         <motion.div
           animate={{ opacity: pathname === "/" ? 1 : 0 }}

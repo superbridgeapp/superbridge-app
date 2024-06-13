@@ -7,6 +7,7 @@
  */
 
 export * from './actionDto';
+export * from './activeDeploymentStatus';
 export * from './activityDto';
 export * from './activityDtoTransactionsItem';
 export * from './arbitrumConfigDto';
@@ -47,10 +48,12 @@ export * from './deploymentDtoArbitrumNativeToken';
 export * from './deploymentDtoConfig';
 export * from './deploymentDtoContractAddresses';
 export * from './deploymentDtoFamily';
+export * from './deploymentDtoStatus';
 export * from './deploymentDtoTheme';
 export * from './deploymentDtoTos';
 export * from './deploymentDtoType';
 export * from './deploymentFamily';
+export * from './deploymentStatus';
 export * from './deploymentThemeDto';
 export * from './deploymentType';
 export * from './deploymentsQueryDto';
@@ -84,3 +87,4 @@ export * from './tokenDepositDataDto';
 export * from './tokenDepositDto';
 export * from './transactionDto';
 export * from './transactionStatus';
+export * from './trialDeploymentStatus';
