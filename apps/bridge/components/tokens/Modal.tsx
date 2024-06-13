@@ -25,9 +25,9 @@ export const TokenModal = (props: {
         {deployment?.supportsNftBridging && (
           <div className="flex justify-between items-center px-4 pt-14 pb-0">
             {/* {nfts ? (
-              <h1 className="text-base font-bold">Select an NFT</h1>
+              <h1 className="text-base font-heading">Select an NFT</h1>
             ) : (
-              <h1 className="text-base font-bold">Select a token</h1>
+              <h1 className="text-base font-heading">Select a token</h1>
             )} */}
 
             <div className="flex items-center space-x-2 w-full">
@@ -42,7 +42,7 @@ export const TokenModal = (props: {
                   onClick={() => setNfts((n) => !n)}
                 >
                   <span
-                    className={`text-xs text-center font-medium inline-flex ${
+                    className={`text-xs text-center  inline-flex ${
                       !nfts ? "text-primary" : "bg-transparent"
                     }`}
                   >
@@ -57,7 +57,7 @@ export const TokenModal = (props: {
                   onClick={() => setNfts((n) => !n)}
                 >
                   <span
-                    className={`text-xs text-center font-medium inline-flex ${
+                    className={`text-xs text-center  inline-flex ${
                       nfts ? "text-primary" : "text-muted-foreground"
                     }`}
                   >
@@ -71,7 +71,9 @@ export const TokenModal = (props: {
 
         {!deployment?.supportsNftBridging && (
           <div className="flex justify-between items-center px-4 pt-8 pb-0">
-            <h1 className="text-base font-bold">{t("tokens.selectToken")}</h1>
+            <h1 className="text-base font-heading">
+              {t("tokens.selectToken")}
+            </h1>
           </div>
         )}
 

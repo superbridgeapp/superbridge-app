@@ -49,13 +49,54 @@ const superbridgeTheme: Partial<ThemeDto> = {
   "ring-dark": "hsl(240 4.9% 83.9%)",
 };
 
+async function handleFonts(theme: ThemeDto) {
+  const heading = new FontFace(
+    "sb-heading",
+    `url(${
+      theme.fontHeading ||
+      "https://superbridge-fonts.vercel.app/GT-Maru-Bold.woff2"
+    })`
+  );
+  const body = new FontFace(
+    "sb-body",
+    `url(${
+      theme.fontBody ||
+      "https://superbridge-fonts.vercel.app/GT-Maru-Medium.woff2"
+    })`
+  );
+  const buttons = new FontFace(
+    "sb-button",
+    `url(${
+      theme.fontButton ||
+      "https://superbridge-fonts.vercel.app/GT-Maru-Bold.woff2"
+    })`
+  );
+  const all = [heading, body, buttons];
+  await Promise.all(
+    all.map(async (f) => {
+      if (document.fonts.has(f)) {
+        console.log("document already has", f.family);
+        return;
+      }
+      await f.load();
+      document.fonts.add(f);
+    })
+  );
+}
+
 function updateTheme(theme: ThemeDto) {
+  handleFonts(theme);
+
   Object.entries(theme).forEach(([key, value]) => {
-    if (!value) {
+    if (!value || key.includes("font") || key.includes("image")) {
       return;
     }
 
-    const formattedKey = key.includes("dark") ? `--${key}` : `--${key}-light`;
+    let formattedKey = `--${key}`;
+    if (!key.includes("dark")) {
+      formattedKey = `${formattedKey}-light`;
+    }
+
     document.documentElement.style.setProperty(formattedKey, value);
   });
 }

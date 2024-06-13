@@ -15,7 +15,7 @@ export const FromTo = () => {
     <div
       className={`border box-border relative flex items-start justify-between box-border p-3 py-4  rounded-[16px] relative`}
     >
-      <div className="grow flex gap-2 items-start w-1/2 pr-3">
+      <div className="grow flex gap-2 items-start w-1/2 mr-5">
         <NetworkIcon
           chain={from}
           deployment={deployment}
@@ -25,16 +25,13 @@ export const FromTo = () => {
         />
         <div>
           <span
-            className={`text-muted-foreground text-xs font-medium leading-4 block `}
+            className={`text-muted-foreground text-xs leading-none block mt-0.5`}
           >
             {t("from")}
           </span>
-          <span
-            className={`text-sm md:text-sm font-medium leading-4 block tracking-tight`}
-            style={{ lineHeight: "1em" }}
-          >
+          <h3 className={`text-sm font-heading leading-4 block`}>
             {from?.name}
-          </span>
+          </h3>
         </div>
       </div>
 
@@ -48,19 +45,16 @@ export const FromTo = () => {
         <path d="M224.49 136.49l-72 72a12 12 0 01-17-17L187 140H40a12 12 0 010-24h147l-51.49-51.52a12 12 0 0117-17l72 72a12 12 0 01-.02 17.01z"></path>
       </svg>
 
-      <div className="grow flex gap-2 justify-end items-start w-1/2 pl-3">
+      <div className="grow flex gap-2 justify-end items-start w-1/2 ml-5">
         <div>
           <span
-            className={`text-muted-foreground text-xs text-right font-medium leading-4 block `}
+            className={`text-muted-foreground text-xs text-right leading-none block mt-0.5`}
           >
             {t("to")}
           </span>
-          <span
-            className={`text-sm md:text-sm font-medium text-right leading-4 block tracking-tight`}
-            style={{ lineHeight: "1.125em" }}
-          >
+          <h3 className={`text-sm font-heading text-right leading-4 block`}>
             {to?.name}
-          </span>
+          </h3>
         </div>
         <NetworkIcon
           chain={to}

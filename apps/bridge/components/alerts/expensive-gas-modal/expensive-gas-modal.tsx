@@ -120,10 +120,10 @@ export const ExpensiveGasModal = ({
             <div className="animate-bounce">
               <IconAlert />
             </div>
-            <h1 className="font-bold text-2xl tracking-tight text-pretty">
+            <h1 className="font-heading text-2xl  text-pretty">
               {t("expensiveGasModal.title")}
             </h1>
-            <p className="text-xs md:text-sm prose-sm font-medium text-muted-foreground text-pretty text-center tracking-tight">
+            <p className="text-xs md:text-sm prose-sm  text-muted-foreground text-pretty text-center ">
               <Trans
                 i18nKey={"expensiveGasModal.notBestOption"}
                 components={[
@@ -142,12 +142,12 @@ export const ExpensiveGasModal = ({
             <div className="flex items-center justify-between border-b px-3 py-2">
               <div className="flex items-center gap-2">
                 <TokenIcon token={token} className="h-6 w-6" />
-                <span className="font-bold text-sm tracking-tight">
+                <span className="font-heading text-sm ">
                   {t("expensiveGasModal.bridgeAmount")}
                 </span>
               </div>
               <div className="flex items-center">
-                <span className="font-medium text-sm tracking-tight text-muted-foreground">
+                <span className=" text-sm  text-muted-foreground">
                   {tokenFiatAmount}
                 </span>
               </div>
@@ -156,14 +156,12 @@ export const ExpensiveGasModal = ({
             <div className="flex items-center justify-between px-3 py-2">
               <div className="flex items-center gap-2">
                 <IconFees className="h-6 w-6" />
-                <span className="font-bold text-sm tracking-tight">
+                <span className="font-heading text-sm ">
                   {t("expensiveGasModal.networkFees")}
                 </span>
               </div>
               <div className="flex items-center">
-                <span className="font-medium text-sm tracking-tight text-red-500">
-                  {fees}
-                </span>
+                <span className=" text-sm  text-red-500">{fees}</span>
               </div>
             </div>
           </div>

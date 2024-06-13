@@ -1,5 +1,6 @@
 import { useTheme } from "next-themes";
 import { useContext } from "react";
+import { bsc, bscTestnet, holesky, mainnet, sepolia } from "viem/chains";
 
 import { isSuperbridge } from "@/config/superbridge";
 import { ThemeContext } from "@/state/theme";
@@ -8,9 +9,18 @@ import { useDeployments } from "./use-deployments";
 import { useDeployment } from "./use-deployment";
 
 export const defaultImages = {
-  nav: "/img/rollbridge-logo.svg",
-  navDark: "/img/rollbridge-logo-dark.svg",
+  nav: "https://raw.githubusercontent.com/superbridgeapp/assets/f173992662b83e832b24e385da017ffdbd0138b8/rollies/sb-rollies-stamp.svg",
+  navDark:
+    "https://raw.githubusercontent.com/superbridgeapp/assets/f173992662b83e832b24e385da017ffdbd0138b8/rollies/sb-rollies-stamp.svg",
 };
+
+const L1s: number[] = [
+  mainnet.id,
+  bsc.id,
+  sepolia.id,
+  bscTestnet.id,
+  holesky.id,
+];
 
 export const useNavIcon = () => {
   const { deployments } = useDeployments();
@@ -38,12 +48,13 @@ export const useNetworkIcon = (deploymentId?: string) => {
   const { deployments } = useDeployments();
   const theme = useContext(ThemeContext);
 
-  const defaultIcon = "/img/L2.svg";
+  const deployment = deployments.find((d) => d.id === deploymentId);
+  const defaultIcon = L1s.includes(deployment?.l1.id ?? 0)
+    ? "https://raw.githubusercontent.com/superbridgeapp/assets/main/rollies/L2.png"
+    : "https://raw.githubusercontent.com/superbridgeapp/assets/main/rollies/L3.png";
 
   return (
-    theme?.imageNetwork ??
-    deployments.find((d) => d.id === deploymentId)?.theme?.theme.imageNetwork ??
-    defaultIcon
+    theme?.imageNetwork ?? deployment?.theme?.theme.imageNetwork ?? defaultIcon
   );
 };
 

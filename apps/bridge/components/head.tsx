@@ -22,7 +22,7 @@ export function Head({ deployment }: { deployment: DeploymentDto | null }) {
 
   const defaultOg = isSuperbridge
     ? "https://superbridge.app/og/superbridge-og-image.png"
-    : "https://superbridge.app/og/rollbridge-og-image.png";
+    : "https://raw.githubusercontent.com/superbridgeapp/assets/main/rollies/og-rollies.png";
   const og = deployment?.theme?.theme.imageOg ?? defaultOg;
 
   const icon = isSuperbridge

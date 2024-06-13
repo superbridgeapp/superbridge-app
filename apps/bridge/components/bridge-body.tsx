@@ -104,16 +104,14 @@ const RecipientAddress = ({
         >
           <path d="M7 2.866c.193 0 .382.06.531.202l3.7 3.268c.179.16.341.372.341.664 0 .292-.159.501-.341.664l-3.7 3.268a.773.773 0 01-.531.202.806.806 0 01-.531-1.408l2.171-1.92H3.231a.806.806 0 01-.804-.803c0-.441.362-.803.804-.803h5.41L6.468 4.28A.806.806 0 017 2.872v-.006z"></path>
         </svg>
-        <span className={`text-xs font-medium`}>{t("toAddress")}</span>
+        <span className={`text-xs `}>{t("toAddress")}</span>
       </div>
 
       {!account.address ? (
-        <span className={"text-xs font-medium text-muted-foreground"}>…</span>
+        <span className={"text-xs  text-muted-foreground"}>…</span>
       ) : !recipientAddress ? (
         <div className="flex justify-center gap-1 pl-2 pr-1 py-1 rounded-full cursor-pointer hover:scale-105 transition-all bg-muted">
-          <span className="text-xs font-medium text-foreground">
-            Add address
-          </span>
+          <span className="text-xs  text-foreground">Add address</span>
           <Image
             alt="Address icon"
             src={"/img/address-add.svg"}
@@ -127,7 +125,7 @@ const RecipientAddress = ({
             `flex justify-center gap-1 pl-2 pr-1 py-1 rounded-full cursor-pointer hover:scale-105 transition-all bg-green-500/10`
           )}
         >
-          <span className={clsx(`text-xs font-medium `, "text-green-500")}>
+          <span className={clsx(`text-xs  `, "text-green-500")}>
             {recipientName
               ? recipientName
               : `${recipientAddress.slice(0, 4)}...${recipientAddress.slice(
@@ -344,7 +342,7 @@ export const BridgeBody = () => {
           left: t("receiveOnChain", { chain: to?.name }),
           component: (
             <div className="flex items-center gap-2">
-              <div className="text-xs font-medium">#{nft.tokenId}</div>
+              <div className="text-xs ">#{nft.tokenId}</div>
               <NftImage
                 nft={{
                   address: nft.localConfig.address,
@@ -523,7 +521,7 @@ export const BridgeBody = () => {
     }));
 
   return (
-    <div className="flex flex-col gap-3 md:gap-4 px-4 pb-4">
+    <div className="flex flex-col gap-3 px-4 pb-4">
       <TokenModal open={tokensDialog} setOpen={setTokensDialog} />
       <WithdrawSettingsModal
         open={withdrawSettingsDialog}
@@ -566,11 +564,11 @@ export const BridgeBody = () => {
         >
           <label
             htmlFor="amount"
-            className={`block text-xs font-medium leading-6 text-foreground`}
+            className={`block text-sm font-heading leading-6 text-foreground`}
           >
             {withdrawing ? t("withdraw") : t("deposit")}
           </label>
-          <div className="relative">
+          <div className="flex gap-1">
             <input
               value={rawAmount}
               onChange={(e) => {
@@ -587,21 +585,21 @@ export const BridgeBody = () => {
               pattern="^[0-9]*[.,]?[0-9]*$"
               name="amount"
               id="amount"
-              className={`block w-full shadow-none bg-transparent focus:outline-none font-medium text-2xl md:text-3xl sm:leading-6 placeholder:text-muted-foreground text-foreground`}
+              className={`block w-full shadow-none bg-transparent focus:outline-none  text-3xl md:text-4xl placeholder:text-muted-foreground text-foreground`}
               placeholder="0"
             />
 
             <button
               onClick={() => setTokensDialog(true)}
-              className={`absolute inset-y-0 right-0 flex gap-x-2 rounded-full pl-3 pr-3 items-center font-medium transition-all hover:scale-105 text-foreground bg-card`}
+              className={`flex shrink-0 relative gap-1 rounded-full pl-3 pr-3 items-center font-button transition-all hover:scale-105 text-foreground bg-card`}
             >
-              <TokenIcon token={token} className="h-[20px] w-[20px]" />
+              <TokenIcon token={token} className="h-[20px] w-[20px] shrink-0" />
               {token?.symbol}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width={14}
                 height={14}
-                className={`w-3.5 h-3.5 fill-foreground `}
+                className={`w-3.5 h-3.5 fill-foreground shrink-0 `}
                 viewBox="0 0 16 16"
               >
                 <path d="M13.53 6.031l-5 5a.75.75 0 01-1.062 0l-5-5A.751.751 0 113.531 4.97L8 9.439l4.47-4.47a.751.751 0 011.062 1.062h-.001z"></path>
@@ -643,13 +641,13 @@ export const BridgeBody = () => {
           <div className="pt-1 flex items-center justify-between">
             <div>
               {usdPrice && (
-                <span className="text-muted-foreground text-xs font-medium">
+                <span className="text-muted-foreground text-xs ">
                   ${(receive * usdPrice).toLocaleString("en")}
                 </span>
               )}
             </div>
             <div className="flex items-center gap-1">
-              <span className={`text-muted-foreground text-xs font-medium`}>
+              <span className={`text-muted-foreground text-xs `}>
                 {t("availableBalance", {
                   amount: parseFloat(
                     formatUnits(tokenBalance, token?.decimals ?? 18)
@@ -670,7 +668,7 @@ export const BridgeBody = () => {
           >
             <label
               htmlFor="amount"
-              className={`block text-xs font-medium leading-6 text-foreground`}
+              className={`block text-xs  leading-6 text-foreground`}
             >
               {withdrawing ? t("withdraw") : t("deposit")}
             </label>
@@ -688,7 +686,7 @@ export const BridgeBody = () => {
                   </div>
                 </div>
                 <div
-                  className={`flex h-8 w-8 justify-center rounded-full p-2 items-center font-medium transition-all group-hover:scale-105 text-foreground bg-card`}
+                  className={`flex h-8 w-8 justify-center rounded-full p-2 items-center  transition-all group-hover:scale-105 text-foreground bg-card`}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -723,9 +721,7 @@ export const BridgeBody = () => {
                 width={16}
                 className="w-4 h-4"
               />
-              <span className={`text-foreground text-xs font-medium`}>
-                {left}
-              </span>
+              <span className={`text-foreground text-xs `}>{left}</span>
             </div>
 
             {component ? (
@@ -734,14 +730,12 @@ export const BridgeBody = () => {
               <div className="flex items-center">
                 {middle && (
                   <span
-                    className={`text-muted-foreground ml-auto text-xs font-medium mr-2`}
+                    className={`text-muted-foreground ml-auto text-xs  mr-2`}
                   >
                     {middle}
                   </span>
                 )}
-                <span
-                  className={`text-xs font-medium text-foreground text-right`}
-                >
+                <span className={`text-xs  text-foreground text-right`}>
                   {right}
                 </span>
               </div>

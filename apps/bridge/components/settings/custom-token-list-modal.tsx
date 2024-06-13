@@ -95,30 +95,30 @@ export const CustomTokenListModal = () => {
     <Dialog open={!!tokenListOrOpen} onOpenChange={setOpen}>
       <DialogContent>
         <div className="p-6 pb-0">
-          <h2 className="font-bold">{"Custom token list"}</h2>
+          <h2 className="font-heading">{"Custom token list"}</h2>
         </div>
         <div className="p-6 pb-0 flex flex-col gap-4">
           <div>
-            <label htmlFor="tokenListName" className="font-bold text-sm">
+            <label htmlFor="tokenListName" className="font-heading text-sm">
               {t("customTokenLists.name")}
             </label>
             <Input
               id="tokenListName"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              // className="bg-muted block w-full rounded-lg border-0 py-3 px-4 pr-10 text-sm font-medium outline-none focus:ring-2 ring-inset ring-zinc-900/5 dark:ring-zinc-50/5 placeholder:text-muted-foreground sm:leading-6"
+              // className="bg-muted block w-full rounded-lg border-0 py-3 px-4 pr-10 text-sm  outline-none focus:ring-2 ring-inset ring-zinc-900/5 dark:ring-zinc-50/5 placeholder:text-muted-foreground sm:leading-6"
               placeholder={t("customTokenLists.namePlaceholder")}
             />
           </div>
           <div>
-            <label htmlFor="tokenListURL" className="font-bold text-sm">
+            <label htmlFor="tokenListURL" className="font-heading text-sm">
               {t("customTokenLists.url")}
             </label>
             <Input
               id="tokenListURL"
               value={url}
               onChange={(e) => setUrl(e.target.value)}
-              // className="bg-muted block w-full rounded-lg border-0 py-3 px-4 pr-10 text-sm font-medium outline-none focus:ring-2 ring-inset ring-zinc-900/5 dark:ring-zinc-50/5 placeholder:text-muted-foreground sm:leading-6"
+              // className="bg-muted block w-full rounded-lg border-0 py-3 px-4 pr-10 text-sm  outline-none focus:ring-2 ring-inset ring-zinc-900/5 dark:ring-zinc-50/5 placeholder:text-muted-foreground sm:leading-6"
               placeholder={t("customTokenLists.urlPlaceholder")}
             />
             {debouncedUrl && tokensImported.isError && (
@@ -144,7 +144,7 @@ export const CustomTokenListModal = () => {
             />
             <label
               htmlFor="tokenListAgree"
-              className="text-[11px] text-muted-foreground tracking-tight"
+              className="text-[11px] text-muted-foreground "
             >
               {t("customTokenLists.disclaimer", { app: metadata.title })}{" "}
               <a

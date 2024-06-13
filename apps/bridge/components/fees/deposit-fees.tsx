@@ -22,19 +22,17 @@ export const DepositFees = ({ gasEstimate }: { gasEstimate: bigint }) => {
             height={16}
             width={16}
           />
-          <span className={`text-xs font-medium`}>{t("fees.fees")}</span>
+          <span className={`text-xs `}>{t("fees.fees")}</span>
         </div>
 
         <div className="flex items-center gap-2">
-          <span className={`text-xs font-medium text-foreground`}>
+          <span className={`text-xs  text-foreground`}>
             {fee.usd?.formatted && (
-              <span
-                className={`text-muted-foreground ml-auto text-xs font-medium mr-2`}
-              >
+              <span className={`text-muted-foreground ml-auto text-xs  mr-2`}>
                 {fee.usd?.formatted}
               </span>
             )}
-            <span className={`text-xs font-medium text-foreground`}>
+            <span className={`text-xs  text-foreground`}>
               {fee.token?.formatted}
             </span>
           </span>

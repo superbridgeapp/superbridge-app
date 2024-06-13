@@ -38,7 +38,7 @@ export const OpenActivity = ({}) => {
           className="flex items-center justify-between pl-6 pr-4 py-4 md:py-6 border-b cursor-pointer z-10"
           onClick={() => setDisplayTransactions(!open)}
         >
-          <h2 className="font-bold text-sm md:text-base">
+          <h2 className="font-heading text-sm md:text-base">
             {t("activity.activity")}
           </h2>
           <div className="flex gap-2 items-center">
@@ -47,7 +47,7 @@ export const OpenActivity = ({}) => {
                 inProgressCount <= 0 ? "hidden" : "visible"
               }`}
             >
-              <span className="text-xs font-medium text-foreground">
+              <span className="text-xs  text-foreground">
                 {inProgressCount}
               </span>
             </div>
@@ -78,7 +78,7 @@ export const OpenActivity = ({}) => {
         })
           .with({ account: { address: undefined } }, () => (
             <div className="flex grow justify-center items-center h-full">
-              <span className="text-muted-foreground text-xs font-bold">
+              <span className="text-muted-foreground text-xs font-heading">
                 {t("activity.connectWallet")}
               </span>
             </div>
@@ -90,14 +90,14 @@ export const OpenActivity = ({}) => {
           ))
           .with({ isError: true }, () => (
             <div className="flex grow justify-center h-full px-8 py-8 text-center">
-              <span className="text-muted-foreground text-xs font-bold">
+              <span className="text-muted-foreground text-xs font-heading">
                 {t("activity.error")}
               </span>
             </div>
           ))
           .with({ statusCheck: true }, () => (
             <div className="flex grow justify-center h-full px-8 py-8 text-center">
-              <span className="text-zinc-400 text-xs font-bold">
+              <span className="text-zinc-400 text-xs font-heading">
                 {t("activity.error")}
               </span>
             </div>
@@ -111,7 +111,7 @@ export const OpenActivity = ({}) => {
               ) {
                 return (
                   <div className="flex grow justify-center items-center h-full">
-                    <span className="text-muted-foreground text-xs font-bold">
+                    <span className="text-muted-foreground text-xs font-heading">
                       {t("activity.noTransactions")}
                     </span>
                   </div>

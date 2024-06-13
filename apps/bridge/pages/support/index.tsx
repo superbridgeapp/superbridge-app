@@ -25,9 +25,7 @@ export default function Support({
         <main>
           <section className="max-w-3xl mx-auto p-8">
             <header className="py-16">
-              <h1 className="font-bold text-6xl tracking-tighter">
-                FAQs &amp; Support
-              </h1>
+              <h1 className="font-heading text-6xl ">FAQs &amp; Support</h1>
             </header>
             <div className="rounded-xl bg-card">
               <ul className="divide-y">
@@ -45,7 +43,7 @@ export default function Support({
                           alt={d.l2.name}
                           className="w-10 h-10 rounded-full"
                         />
-                        <h3 className="font-bold text-xl">{d.l2.name}</h3>
+                        <h3 className="font-heading text-xl">{d.l2.name}</h3>
                       </Link>
                     </li>
                   );

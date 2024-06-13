@@ -39,11 +39,11 @@ const FaultProofAlert = ({ deployment }: { deployment: DeploymentDto }) => {
           The {deployment?.l2.name} Fault Proof upgrade has been targeted for
           June. What does that mean for you?
         </p>
-        <h3 className="text-foreground font-bold">
+        <h3 className="text-foreground font-heading">
           I want to make a withdrawal
         </h3>
         <p>You should wait until the upgrade is complete.</p>
-        <h3 className="text-foreground font-bold">
+        <h3 className="text-foreground font-heading">
           Why should I wait until the upgrade is complete?
         </h3>
         <p>
@@ -51,14 +51,14 @@ const FaultProofAlert = ({ deployment }: { deployment: DeploymentDto }) => {
           operations. Any proves done now would need to be resubmitted after the
           upgrade.
         </p>
-        <h3 className="text-foreground font-bold">
+        <h3 className="text-foreground font-heading">
           I have a withdrawal in progress
         </h3>
         <p>
           If you can finalize your withdrawal before the upgrade is complete we
           highly recommend you do that.
         </p>
-        <h3 className="text-foreground font-bold">
+        <h3 className="text-foreground font-heading">
           What if I don't finalize withdrawals in progress?
         </h3>
         <p>
@@ -69,7 +69,7 @@ const FaultProofAlert = ({ deployment }: { deployment: DeploymentDto }) => {
           <a
             href={optimismFaultProofsUpgrade}
             target="_blank"
-            className="underline text-foreground font-bold"
+            className="underline text-foreground font-heading"
           >
             For more info please visit optimism.io
           </a>
@@ -151,7 +151,7 @@ export default function Support({
             Bridge contracts. The Native Bridges are a set of smart contracts
             owned and operated by the {rollupChain} team.
           </p>
-          <p className="font-bold">
+          <p className="font-heading">
             Here’s some of the benefits of using the Native Bridge via
             Superbridge:
           </p>
@@ -288,13 +288,13 @@ export default function Support({
                 alt={rollupChain}
                 className="w-24 h-24 rounded-full"
               />
-              <h1 className="font-bold text-6xl tracking-tighter text-center">
+              <h1 className="font-heading text-6xl  text-center">
                 {rollupChain}
                 <br />
                 FAQs &amp; Support
               </h1>
               <Link
-                className="rounded-full shadow-sm bg-white dark:bg-zinc-800 text-sm font-medium tracking-tighter py-2 px-4 hover:scale-105 transition-transform cursor-pointer grow-0 flex items-center leading-4"
+                className="rounded-full shadow-sm bg-white dark:bg-zinc-800 text-sm   py-2 px-4 hover:scale-105 transition-transform cursor-pointer grow-0 flex items-center leading-4"
                 href="/support"
               >
                 <svg
@@ -345,7 +345,7 @@ export default function Support({
                       operates, users are required to wait when moving assets
                       out of {`${rollupChain} into ${settlementChain}`}. This
                       period of time is called the{" "}
-                      <span className="font-bold">Challenge Period</span> and
+                      <span className="font-heading">Challenge Period</span> and
                       serves to help secure the assets stored on {rollupChain}.
                       You can find more information about the Challenge Period{" "}
                       <a href="https://docs.rollbridge.app/withdrawals">here</a>
@@ -381,7 +381,9 @@ export default function Support({
                       which is why multiple transactions and wait periods are
                       required.
                     </p>
-                    <h4 className="font-bold">Required steps to withdraw:</h4>
+                    <h4 className="font-heading">
+                      Required steps to withdraw:
+                    </h4>
                     <ol>
                       <li>Initiate the withdrawal on {rollupChain}.</li>
 
