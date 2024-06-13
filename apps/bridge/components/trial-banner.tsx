@@ -1,8 +1,7 @@
-import { formatDistance } from "date-fns";
+import { differenceInDays } from "date-fns";
 
 import {
   ActiveDeploymentStatus,
-  DeploymentDto,
   DeploymentStatus,
   TrialDeploymentStatus,
 } from "@/codegen/model";
@@ -31,14 +30,20 @@ export const useTrialEndsTime = () => {
 };
 
 export const TrialBanner = () => {
-  const deployment = useDeployment();
   const trialEndsTime = useTrialEndsTime();
 
   if (!trialEndsTime) {
     return null;
   }
 
+  const days = Math.max(differenceInDays(Date.now(), trialEndsTime), 0);
   return (
-    <div>Free trial ends in {formatDistance(Date.now(), trialEndsTime)}</div>
+    <div>
+      <div>
+        This is a free trial bridge made with{" "}
+        <a href="https://superbridge.app/rollies">SUPERBRIDGE ROLLIES</a>
+      </div>
+      <div>{days} DAYS LEFT</div>
+    </div>
   );
 };
