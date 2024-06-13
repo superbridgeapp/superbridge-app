@@ -1,28 +1,26 @@
 import {
+  ActiveDeploymentStatus,
   ArbitrumDepositEthDto,
   ArbitrumDepositRetryableDto,
   ArbitrumForcedWithdrawalDto,
   ArbitrumTransactionType,
   ArbitrumWithdrawalDto,
-  BridgeNftDto,
   BridgeWithdrawalDto,
   CctpBridgeDto,
   CctpTransactionType,
+  DeploymentStatus,
   ForcedWithdrawalDto,
   OptimismTransactionType,
   PortalDepositDto,
+  TrialDeploymentStatus,
 } from "@/codegen/model";
-import {
-  ArbitrumToken,
-  MultiChainToken,
-  OptimismToken,
-  Token,
-} from "@/types/token";
+import { ArbitrumToken, OptimismToken, Token } from "@/types/token";
 import {
   AbritrumTransaction,
   OptimismTransaction,
   Transaction,
 } from "@/types/transaction";
+
 import { isEth } from "./is-eth";
 
 export const isArbitrumTx = (tx: Transaction): tx is AbritrumTransaction => {
@@ -114,4 +112,16 @@ export const isOptimismToken = (t: Token): t is OptimismToken => {
 
 export const isArbitrumToken = (t: Token): t is ArbitrumToken => {
   return isEth(t) || !!(t as ArbitrumToken).arbitrumBridgeInfo;
+};
+
+export const isActive = (
+  s: TrialDeploymentStatus | ActiveDeploymentStatus
+): s is ActiveDeploymentStatus => {
+  return s.status === DeploymentStatus.active;
+};
+
+export const isTrial = (
+  s: TrialDeploymentStatus | ActiveDeploymentStatus
+): s is TrialDeploymentStatus => {
+  return s.status === DeploymentStatus.trial;
 };

@@ -27,7 +27,7 @@ import { SettingsModal } from "./settings/settings-modal";
 import { TosModal } from "./tos-modal/tos-modal";
 import { LegalModal } from "./legal-modal";
 import { BlockProvingModal } from "./fault-proofs/block-proving-modal";
-import { TrialBanner } from "./trial-banner";
+import { TrialBanner } from "./trials/trial-banner";
 
 export function Layout({ children }: { children: any }) {
   useInitialise();
