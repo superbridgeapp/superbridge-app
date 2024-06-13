@@ -88,13 +88,13 @@ function updateTheme(theme: ThemeDto) {
   handleFonts(theme);
 
   Object.entries(theme).forEach(([key, value]) => {
-    if (!value || key.includes("font")) {
+    if (!value || key.includes("font") || key.includes("image")) {
       return;
     }
 
-    let formattedKey = key;
+    let formattedKey = `--${key}`;
     if (!key.includes("dark")) {
-      formattedKey = `--${key}-light`;
+      formattedKey = `${formattedKey}-light`;
     }
 
     document.documentElement.style.setProperty(formattedKey, value);
