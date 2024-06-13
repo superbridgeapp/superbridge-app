@@ -28,6 +28,7 @@ import {
 } from "@/constants/links";
 import { useFaultProofUpgradeTime } from "@/hooks/use-fault-proof-upgrade-time";
 import { getFinalizationPeriod } from "@/hooks/use-finalization-period";
+import { isArbitrum } from "@/utils/is-mainnet";
 
 const FaultProofAlert = ({ deployment }: { deployment: DeploymentDto }) => {
   return (
@@ -98,6 +99,11 @@ export default function Support({
     cctpDomains.find((x) => x.chainId === deployment.l1.id) &&
     cctpDomains.find((x) => x.chainId === deployment.l2.id)
   );
+
+  const arbitrumNativeGasToken =
+    isArbitrum(deployment) && !!deployment.arbitrumNativeToken
+      ? deployment.arbitrumNativeToken.symbol
+      : null;
 
   const whatIsTheNativeBridge = {
     title: `What is the ${rollupChain} native bridge`,
@@ -436,33 +442,67 @@ export default function Support({
                 </AccordionItem>
               )}
 
-              <AccordionItem value="item-9">
-                <AccordionTrigger>
-                  What are some alternatives to Superbridge?
-                </AccordionTrigger>
-                <AccordionContent>
-                  <div className="prose dark:prose-invert">
-                    <p>
-                      When you’re in a hurry or only withdrawing small amounts,
-                      it might make sense to use other bridges... So we put
-                      together a handy list of alternative{" "}
-                      <Link href="/alternative-bridges">
-                        third party bridges
-                      </Link>
-                      .
-                    </p>
-                    <p>
-                      They provide faster bridging services (but often charge a
-                      small extra fee). They also usually support multiple
-                      networks.
-                    </p>
-                    <p>
-                      Please note that their token selection may be more
-                      limited.
-                    </p>
-                  </div>
-                </AccordionContent>
-              </AccordionItem>
+              {arbitrumNativeGasToken && (
+                <AccordionItem value="item-8">
+                  <AccordionTrigger>
+                    Why do I need {arbitrumNativeGasToken} to bridge to{" "}
+                    {deployment.l2.name}?
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <div className="prose dark:prose-invert">
+                      <p>
+                        When bridging from {deployment.l1.name} to{" "}
+                        {deployment.l2.name}, there's actually two transactions
+                        happening. The initiating one on {deployment.l1.name},
+                        and an automated system transaction on{" "}
+                        {deployment.l2.name} that distributes funds to the
+                        intended recipient.
+                      </p>
+                      <p>
+                        Rollups built with Arbitrum Nitro require the cost for
+                        this second system transaction to be paid when
+                        submitting the first. And because the gas token used on{" "}
+                        {deployment.l2.name} is {arbitrumNativeGasToken}, the
+                        initiating deposit transaction requires some{" "}
+                        {arbitrumNativeGasToken} as well.
+                      </p>
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+              )}
+
+              {[...SUPERCHAIN_MAINNETS, ...SUPERCHAIN_TESTNETS].includes(
+                deployment.name
+              ) && (
+                <AccordionItem value="item-9">
+                  <AccordionTrigger>
+                    What are some alternatives to Superbridge?
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <div className="prose dark:prose-invert">
+                      <p>
+                        When you’re in a hurry or only withdrawing small
+                        amounts, it might make sense to use other bridges... So
+                        we put together a handy list of alternative{" "}
+                        <Link href="/alternative-bridges">
+                          third party bridges
+                        </Link>
+                        .
+                      </p>
+                      <p>
+                        They provide faster bridging services (but often charge
+                        a small extra fee). They also usually support multiple
+                        networks.
+                      </p>
+                      <p>
+                        Please note that their token selection may be more
+                        limited.
+                      </p>
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+              )}
+
               <AccordionItem value="item-10">
                 <AccordionTrigger>Have more questions?</AccordionTrigger>
                 <AccordionContent>
