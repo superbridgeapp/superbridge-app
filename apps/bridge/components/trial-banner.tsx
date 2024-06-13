@@ -23,13 +23,11 @@ const isTrial = (
 export const useTrialEndsTime = () => {
   const deployment = useDeployment();
 
-  // if (!deployment || !isTrial(deployment.status)) {
-  //   return null;
-  // }
+  if (!deployment || !isTrial(deployment.status)) {
+    return null;
+  }
 
-  return Date.now() + 1000 * 60 * 60 * 24 * 7;
-
-  // return new Date(deployment.status.endDate).getTime();
+  return new Date(deployment.status.endDate).getTime();
 };
 
 export const TrialBanner = () => {
