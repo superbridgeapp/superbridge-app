@@ -18,6 +18,7 @@ import {
 import { useBridgeControllerTrack } from "@/codegen";
 import { isSuperbridge } from "@/config/superbridge";
 import { currencySymbolMap } from "@/constants/currency-symbol-map";
+import { SUPERCHAIN_MAINNETS } from "@/constants/superbridge";
 import { useAllowance } from "@/hooks/use-allowance";
 import { useApprove } from "@/hooks/use-approve";
 import { useTokenBalance } from "@/hooks/use-balances";
@@ -45,7 +46,6 @@ import { buildPendingTx } from "@/utils/build-pending-tx";
 import { isEth, isNativeToken } from "@/utils/is-eth";
 import { isNativeUsdc } from "@/utils/is-usdc";
 
-import { SUPERCHAIN_MAINNETS } from "../pages/[[...index]]";
 import { FromTo } from "./FromTo";
 import { AddressModal } from "./address-modal";
 import {

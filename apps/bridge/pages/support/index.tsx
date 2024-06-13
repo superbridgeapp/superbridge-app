@@ -6,8 +6,11 @@ import { Head } from "@/components/head";
 import PageFooter from "@/components/page-footer";
 import PageNav from "@/components/page-nav";
 import { isSuperbridge } from "@/config/superbridge";
+import {
+  SUPERCHAIN_MAINNETS,
+  SUPERCHAIN_TESTNETS,
+} from "@/constants/superbridge";
 
-import { SUPERCHAIN_MAINNETS, SUPERCHAIN_TESTNETS } from "../[[...index]]";
 import { getServerSideProps as getServerSidePropsFromDomain } from "../client-terms";
 
 export default function Support({

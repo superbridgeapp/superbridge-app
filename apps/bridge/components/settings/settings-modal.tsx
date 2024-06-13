@@ -13,14 +13,14 @@ import {
 } from "@/components/ui/select";
 import { isSuperbridge } from "@/config/superbridge";
 import { flagSymbolMap } from "@/constants/currency-symbol-map";
+import {
+  SUPERCHAIN_MAINNETS,
+  SUPERCHAIN_TESTNETS,
+} from "@/constants/superbridge";
 import { useNavigate } from "@/hooks/use-navigate";
 import { useInjectedStore } from "@/state/injected";
 import { useSettingsState } from "@/state/settings";
 
-import {
-  SUPERCHAIN_MAINNETS,
-  SUPERCHAIN_TESTNETS,
-} from "../../pages/[[...index]]";
 import { Dialog, DialogContent } from "../ui/dialog";
 import { Switch } from "../ui/switch";
 import { TokenLists } from "./token-lists";

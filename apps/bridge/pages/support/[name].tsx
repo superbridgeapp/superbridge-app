@@ -26,6 +26,10 @@ import {
   optimismFaultProofs,
   optimismFaultProofsUpgrade,
 } from "@/constants/links";
+import {
+  SUPERCHAIN_MAINNETS,
+  SUPERCHAIN_TESTNETS,
+} from "@/constants/superbridge";
 import { useFaultProofUpgradeTime } from "@/hooks/use-fault-proof-upgrade-time";
 import { getFinalizationPeriod } from "@/hooks/use-finalization-period";
 import { isArbitrum } from "@/utils/is-mainnet";
