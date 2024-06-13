@@ -47,7 +47,7 @@ const Profile = ({
         data.avatar && "pr-1"
       )}
     >
-      <div className="text-xs font-bold">
+      <div className="text-xs">
         {showName
           ? data.name
           : data.address.slice(0, 5) +
@@ -141,7 +141,7 @@ export const AddressModal = ({
         <DialogContent>
           <div>
             <div className="flex items-center justify-between pl-6 pr-4 py-4 md:py-6 border-b z-10">
-              <h2 className="font-bold">
+              <h2 className="font-heading">
                 {withdrawing
                   ? t("recipient.withdrawDestination")
                   : t("recipient.depositDestination")}
@@ -152,7 +152,7 @@ export const AddressModal = ({
               <div className="flex flex-col gap-6">
                 <div className="flex flex-col gap-1">
                   <div className="flex items-center justify-between">
-                    <h3 className="font-bold text-sm mb-2">To address</h3>
+                    <h3 className="font-heading text-sm mb-2">To address</h3>
                     <Profile
                       data={profile.data ?? null}
                       showName={!debouncedInput.endsWith(".eth")}
@@ -177,21 +177,21 @@ export const AddressModal = ({
                     })
                       .with({ isLoading: true }, () => (
                         <div className="inline-flex gap-1 px-2 py-1 rounded-full bg-zinc-100 dark:bg-zinc-900">
-                          <span className="text-xs font-medium text-muted-foreground">
+                          <span className="text-xs leading-none text-muted-foreground">
                             Checking address…
                           </span>
                         </div>
                       ))
                       .with({ debouncedInput: "" }, () => null)
                       .with({ isValidProfile: false }, () => (
-                        <div className="inline-flex gap-1 pr-2 pl-1 py-1 rounded-full bg-red-100 dark:bg-red-950">
+                        <div className="inline-flex gap-1 pr-2 pl-1 py-1 rounded-full bg-red-500/10">
                           <Image
                             alt="Address icon"
                             src={"/img/address-error.svg"}
                             height={14}
                             width={14}
                           />
-                          <span className="text-xs font-medium text-red-500">
+                          <span className="text-xs leading-none text-red-500">
                             {t("recipient.invalidAddress")}
                           </span>
                         </div>
@@ -204,14 +204,14 @@ export const AddressModal = ({
                           !!x.account &&
                           isAddressEqual(x.account, x.profile.address),
                         (x) => (
-                          <div className="inline-flex gap-1 pr-2 pl-1 py-1 rounded-full bg-green-100 dark:bg-green-950">
+                          <div className="inline-flex gap-1 pr-2 pl-1 py-1 rounded-full bg-green-500/10">
                             <Image
                               alt="Address icon"
                               src={"/img/address-ok.svg"}
                               height={14}
                               width={14}
                             />
-                            <span className="text-xs font-medium text-green-500">
+                            <span className="text-xs leading-none text-green-500">
                               {t("recipient.yourChainAddress", {
                                 chain: toChain?.name,
                               })}
@@ -272,7 +272,7 @@ export const AddressModal = ({
                                   height={14}
                                   width={14}
                                 />
-                                <span className="text-xs font-medium text-green-500">
+                                <span className="text-xs leading-none text-green-500">
                                   {t("recipient.usedBefore")}
                                 </span>
                               </div>
@@ -288,7 +288,7 @@ export const AddressModal = ({
                                   height={14}
                                   width={14}
                                 />
-                                <span className="text-xs font-medium text-green-500">
+                                <span className="text-xs leading-none text-green-500">
                                   {t("recipient.usedBeforeMultiple", { count })}
                                 </span>
                               </div>
@@ -303,7 +303,7 @@ export const AddressModal = ({
                                 height={14}
                                 width={14}
                               />
-                              <span className="text-xs font-medium text-orange-500">
+                              <span className="text-xs leading-none text-orange-500">
                                 {t("recipient.newAddress")}
                               </span>
                             </div>

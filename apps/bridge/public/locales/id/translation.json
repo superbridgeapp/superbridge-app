@@ -240,5 +240,13 @@
     "topup": "Isi ulang gas di {{to}}",
     "goBack": "Kembali",
     "proceedAnyway": "Lanjutkan saja"
+  },
+  "expensiveGasModal": {
+    "title": "Biaya jaringan akan lebih tinggi dari nilai token",
+    "notBestOption": "Superbridge mungkin bukan pilihan terbaik untuk jumlah ini. Silakan pertimbangkan <0>jembatan alternatif ini</0>.",
+    "bridgeAmount": "Jumlah transfer",
+    "networkFees": "Biaya jaringan",
+    "goBack": "Kembali",
+    "proceedAnyway": "Lanjutkan saja"
   }
 }

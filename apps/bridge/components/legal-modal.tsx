@@ -32,9 +32,7 @@ export const LegalModal = () => {
       <DialogContent>
         <div className="flex flex-col gap-6 p-6 pt-8">
           <div className="flex flex-col gap-2">
-            <h1 className="font-bold text-2xl tracking-tight">
-              {t("legal.title")}
-            </h1>
+            <h1 className="font-heading text-2xl ">{t("legal.title")}</h1>
           </div>
           <div className="flex flex-col gap-2">
             {deployment?.tos?.customTermsOfService && (
@@ -43,7 +41,7 @@ export const LegalModal = () => {
                   href={"/client-terms"}
                   target="_blank"
                   prefetch={false}
-                  className="flex justify-between p-4 rounded-lg bg-muted font-bold text-sm hover:scale-105 transition-all"
+                  className="flex justify-between p-4 rounded-lg bg-muted font-heading text-sm hover:scale-105 transition-all"
                 >
                   {t("legal.dedicatedTerms", { name: deployment.displayName })}
                   <ArrowIcon />
@@ -57,7 +55,7 @@ export const LegalModal = () => {
                   href={"/client-privacy"}
                   target="_blank"
                   prefetch={false}
-                  className="flex justify-between p-4 rounded-lg bg-muted font-bold text-sm hover:scale-105 transition-all"
+                  className="flex justify-between p-4 rounded-lg bg-muted font-heading text-sm hover:scale-105 transition-all"
                 >
                   {t("legal.dedicatedPrivacy", {
                     name: deployment.displayName,
@@ -71,7 +69,7 @@ export const LegalModal = () => {
               <a
                 href="https://superbridge.app/terms"
                 target="_blank"
-                className="flex justify-between p-4 rounded-lg bg-muted font-bold text-sm hover:scale-105 transition-all"
+                className="flex justify-between p-4 rounded-lg bg-muted font-heading text-sm hover:scale-105 transition-all"
               >
                 {t("legal.superbridgeTerms")}
                 <ArrowIcon />
@@ -81,7 +79,7 @@ export const LegalModal = () => {
               <a
                 href="https://superbridge.app/privacy"
                 target="_blank"
-                className="flex justify-between p-4 rounded-lg bg-muted font-bold text-sm hover:scale-105 transition-all"
+                className="flex justify-between p-4 rounded-lg bg-muted font-heading text-sm hover:scale-105 transition-all"
               >
                 {t("legal.superbridgePrivacy")}
                 <ArrowIcon />

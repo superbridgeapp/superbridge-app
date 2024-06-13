@@ -240,5 +240,13 @@
     "topup": "Doładuj gaz na {{to}}",
     "goBack": "Powrót",
     "proceedAnyway": "Kontynuuj mimo to"
+  },
+  "expensiveGasModal": {
+    "title": "Opłaty sieciowe będą wyższe niż wartość tokena",
+    "notBestOption": "Superbridge może nie być najlepszą opcją dla tej kwoty. Proszę rozważyć <0>te alternatywne mosty</0>.",
+    "bridgeAmount": "Kwota mostu",
+    "networkFees": "Opłaty sieciowe",
+    "goBack": "Wróć",
+    "proceedAnyway": "Kontynuuj mimo to"
   }
 }

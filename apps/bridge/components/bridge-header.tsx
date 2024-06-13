@@ -36,7 +36,7 @@ export const BridgeHeader = () => {
                   onClick={toggleWithdrawing}
                 >
                   <span
-                    className={`text-xs font-medium leading-3 -translate-y-px inline-flex ${
+                    className={`text-xs font-button leading-3 -translate-y-px inline-flex ${
                       !withdrawing
                         ? "text-primary-foreground"
                         : "text-muted-foreground"
@@ -53,7 +53,7 @@ export const BridgeHeader = () => {
                   onClick={toggleWithdrawing}
                 >
                   <span
-                    className={`text-xs font-medium leading-3 -translate-y-px inline-flex  ${
+                    className={`text-xs font-button  leading-3 -translate-y-px inline-flex  ${
                       withdrawing
                         ? "text-primary-foreground"
                         : "text-muted-foreground"
@@ -96,7 +96,7 @@ export const BridgeHeader = () => {
                   }}
                 >
                   <span
-                    className={`text-xs font-medium leading-3 -translate-y-px inline-flex  ${
+                    className={`text-xs font-button leading-3 -translate-y-px inline-flex  ${
                       !withdrawing && !fast
                         ? "text-primary-foreground"
                         : "text-muted-foreground"
@@ -116,7 +116,7 @@ export const BridgeHeader = () => {
                   }}
                 >
                   <span
-                    className={`text-xs font-medium leading-3 -translate-y-px inline-flex  ${
+                    className={`text-xs font-button leading-3 -translate-y-px inline-flex  ${
                       withdrawing && !fast
                         ? "text-primary-foreground"
                         : "text-muted-foreground"

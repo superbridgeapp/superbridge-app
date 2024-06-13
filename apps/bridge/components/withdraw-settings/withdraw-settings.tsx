@@ -25,7 +25,7 @@ export const WithdrawSettings = () => {
 
   return (
     <div>
-      <h2 className="font-bold pb-4 border-b p-6">
+      <h2 className="font-heading pb-4 border-b p-6">
         {t("settings.withdrawalSettings")}
       </h2>
 
@@ -40,7 +40,7 @@ export const WithdrawSettings = () => {
               className="mr-2"
             />
             <div>
-              <h3 className="font-bold">Escape hatch</h3>
+              <h3 className="font-heading">Escape hatch</h3>
               <p className="text-muted-foreground text-xs">
                 {t("settings.escapeHatchDescription", { base: to?.name })}
               </p>
@@ -68,7 +68,7 @@ export const WithdrawSettings = () => {
                 className="mr-2"
               />
               <div>
-                <h3 className="font-bold">Easy mode</h3>
+                <h3 className="font-heading">Easy mode</h3>
                 <p className="text-muted-foreground text-xs">
                   {t("settings.easyModeDescription")}
                 </p>
@@ -83,25 +83,25 @@ export const WithdrawSettings = () => {
         </div>
 
         <div className="space-y-2">
-          <h2 className="font-bold">{t("settings.feeBreakdown")}</h2>
+          <h2 className="font-heading">{t("settings.feeBreakdown")}</h2>
           <div className="border  rounded-lg divide-y divide-zinc-100 dark:divide-zinc-800">
             {fees.map((fee) => (
               <div
                 key={fee.name}
                 className="flex items-center justify-between  px-4 py-2"
               >
-                <span className={`text-muted-foreground text-xs font-medium`}>
+                <span className={`text-muted-foreground text-xs `}>
                   {fee.name}
                 </span>
 
                 {fee.usd && (
                   <span
-                    className={`text-muted-foreground ml-auto text-xs font-medium mr-2`}
+                    className={`text-muted-foreground ml-auto text-xs  mr-2`}
                   >
                     {fee.usd.formatted}
                   </span>
                 )}
-                <span className={`text-xs font-medium`}>
+                <span className={`text-xs `}>
                   {fee.token ? fee.token.formatted : "-"}
                 </span>
               </div>

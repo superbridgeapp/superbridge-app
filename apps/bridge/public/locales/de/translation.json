@@ -244,5 +244,14 @@
     "topup": "Gas auf {{to}} aufladen",
     "goBack": "Zurück",
     "proceedAnyway": "Trotzdem fortfahren"
+  },
+
+  "expensiveGasModal": {
+    "title": "Netzwerkgebühren werden höher als der Token-Wert sein",
+    "notBestOption": "Superbridge ist möglicherweise nicht die beste Option für diesen Übertragungsbetrag. Bitte betrachten Sie <0>diese alternativen Übertragungen</0>.",
+    "bridgeAmount": "Übertragungsbetrag",
+    "networkFees": "Netzwerkgebühren",
+    "goBack": "Zurück",
+    "proceedAnyway": "Trotzdem fortfahren"
   }
 }

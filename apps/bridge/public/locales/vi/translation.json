@@ -240,5 +240,13 @@
     "topup": "Nạp gas trên {{to}}",
     "goBack": "Quay lại",
     "proceedAnyway": "Tiếp tục dù sao"
+  },
+  "expensiveGasModal": {
+    "title": "Phí mạng sẽ cao hơn giá trị token",
+    "notBestOption": "Superbridge có thể không phải là lựa chọn tốt nhất cho số tiền này. Vui lòng xem xét <0>những cầu nối thay thế này</0>.",
+    "bridgeAmount": "Số tiền chuyển",
+    "networkFees": "Phí mạng",
+    "goBack": "Quay lại",
+    "proceedAnyway": "Tiếp tục dù sao"
   }
 }

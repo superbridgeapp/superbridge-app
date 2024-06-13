@@ -53,7 +53,7 @@ export const NonFungibleTokenPicker = ({
           spellCheck="false"
           name="token"
           id="token"
-          // className="bg-muted block w-full rounded-lg border-0 py-3 px-4 pr-10 text-sm font-medium  outline-0 ring-0 placeholder:text-muted-foreground sm:leading-6"
+          // className="bg-muted block w-full rounded-lg border-0 py-3 px-4 pr-10 text-sm   outline-0 ring-0 placeholder:text-muted-foreground sm:leading-6"
           placeholder="Search"
         />
       </div>
@@ -65,22 +65,22 @@ export const NonFungibleTokenPicker = ({
           account: account.address,
         })
           .with({ account: undefined }, () => (
-            <div className="p-4 text-center font-bold text-sm">
+            <div className="p-4 text-center font-heading text-sm">
               {t("noAccountConnected")}
             </div>
           ))
           .with({ isLoading: true }, () => (
-            <div className="p-4 text-center font-bold text-sm">
+            <div className="p-4 text-center font-heading text-sm">
               {t("loading")}
             </div>
           ))
           .with({ filteredTokens: undefined }, () => (
-            <div className="p-4 text-center font-bold text-sm">
+            <div className="p-4 text-center font-heading text-sm">
               {t("tokens.noneFound")}
             </div>
           ))
           .with({ filteredTokens: [] }, () => (
-            <div className="p-4 text-center font-bold text-sm">
+            <div className="p-4 text-center font-heading text-sm">
               {t("tokens.noneFound")}
             </div>
           ))

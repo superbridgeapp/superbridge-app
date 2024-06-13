@@ -7,7 +7,7 @@ import {
   bridgeControllerGetCctpDomains,
   bridgeControllerGetDeployments,
 } from "@/codegen/index";
-import { DeploymentFamily } from "@/codegen/model";
+import { DeploymentDto, DeploymentFamily } from "@/codegen/model";
 import { Head } from "@/components/head";
 import { IconAlert } from "@/components/icons";
 import PageFooter from "@/components/page-footer";
@@ -26,12 +26,15 @@ import {
   optimismFaultProofs,
   optimismFaultProofsUpgrade,
 } from "@/constants/links";
+import {
+  SUPERCHAIN_MAINNETS,
+  SUPERCHAIN_TESTNETS,
+} from "@/constants/superbridge";
 import { useFaultProofUpgradeTime } from "@/hooks/use-fault-proof-upgrade-time";
 import { getFinalizationPeriod } from "@/hooks/use-finalization-period";
-import { useDeployment } from "@/hooks/use-deployment";
+import { isArbitrum } from "@/utils/is-mainnet";
 
-const FaultProofAlert = () => {
-  const deployment = useDeployment();
+const FaultProofAlert = ({ deployment }: { deployment: DeploymentDto }) => {
   return (
     <Alert size={"lg"}>
       <IconAlert className="w-6 h-6" />
@@ -41,26 +44,26 @@ const FaultProofAlert = () => {
           The {deployment?.l2.name} Fault Proof upgrade has been targeted for
           June. What does that mean for you?
         </p>
-        <h3 className="text-foreground font-bold">
+        <h3 className="text-foreground font-heading">
           I want to make a withdrawal
         </h3>
         <p>You should wait until the upgrade is complete.</p>
-        <h3 className="text-foreground font-bold">
+        <h3 className="text-foreground font-heading">
           Why should I wait until the upgrade is complete?
         </h3>
         <p>
-          The upgrade will essentally wipe the status of existing prove
+          The upgrade will essentially wipe the status of existing prove
           operations. Any proves done now would need to be resubmitted after the
           upgrade.
         </p>
-        <h3 className="text-foreground font-bold">
+        <h3 className="text-foreground font-heading">
           I have a withdrawal in progress
         </h3>
         <p>
           If you can finalize your withdrawal before the upgrade is complete we
           highly recommend you do that.
         </p>
-        <h3 className="text-foreground font-bold">
+        <h3 className="text-foreground font-heading">
           What if I don't finalize withdrawals in progress?
         </h3>
         <p>
@@ -71,7 +74,7 @@ const FaultProofAlert = () => {
           <a
             href={optimismFaultProofsUpgrade}
             target="_blank"
-            className="underline text-foreground font-bold"
+            className="underline text-foreground font-heading"
           >
             For more info please visit optimism.io
           </a>
@@ -100,6 +103,11 @@ export default function Support({
     cctpDomains.find((x) => x.chainId === deployment.l1.id) &&
     cctpDomains.find((x) => x.chainId === deployment.l2.id)
   );
+
+  const arbitrumNativeGasToken =
+    isArbitrum(deployment) && !!deployment.arbitrumNativeToken
+      ? deployment.arbitrumNativeToken.symbol
+      : null;
 
   const whatIsTheNativeBridge = {
     title: `What is the ${rollupChain} native bridge`,
@@ -153,7 +161,7 @@ export default function Support({
             Bridge contracts. The Native Bridges are a set of smart contracts
             owned and operated by the {rollupChain} team.
           </p>
-          <p className="font-bold">
+          <p className="font-heading">
             Here’s some of the benefits of using the Native Bridge via
             Superbridge:
           </p>
@@ -290,13 +298,13 @@ export default function Support({
                 alt={rollupChain}
                 className="w-24 h-24 rounded-full"
               />
-              <h1 className="font-bold text-6xl tracking-tighter text-center">
+              <h1 className="font-heading text-6xl  text-center">
                 {rollupChain}
                 <br />
                 FAQs &amp; Support
               </h1>
               <Link
-                className="rounded-full shadow-sm bg-white dark:bg-zinc-800 text-sm font-medium tracking-tighter py-2 px-4 hover:scale-105 transition-transform cursor-pointer grow-0 flex items-center leading-4"
+                className="rounded-full shadow-sm bg-white dark:bg-zinc-800 text-sm   py-2 px-4 hover:scale-105 transition-transform cursor-pointer grow-0 flex items-center leading-4"
                 href="/support"
               >
                 <svg
@@ -312,7 +320,9 @@ export default function Support({
                 <span>All chains</span>
               </Link>
 
-              {faultProofUpgradeTime && <FaultProofAlert />}
+              {faultProofUpgradeTime && (
+                <FaultProofAlert deployment={deployment} />
+              )}
             </header>
 
             <Accordion type="single" collapsible className="w-full">
@@ -345,7 +355,7 @@ export default function Support({
                       operates, users are required to wait when moving assets
                       out of {`${rollupChain} into ${settlementChain}`}. This
                       period of time is called the{" "}
-                      <span className="font-bold">Challenge Period</span> and
+                      <span className="font-heading">Challenge Period</span> and
                       serves to help secure the assets stored on {rollupChain}.
                       You can find more information about the Challenge Period{" "}
                       <a href="https://docs.rollbridge.app/withdrawals">here</a>
@@ -381,7 +391,9 @@ export default function Support({
                       which is why multiple transactions and wait periods are
                       required.
                     </p>
-                    <h4 className="font-bold">Required steps to withdraw:</h4>
+                    <h4 className="font-heading">
+                      Required steps to withdraw:
+                    </h4>
                     <ol>
                       <li>Initiate the withdrawal on {rollupChain}.</li>
 
@@ -434,33 +446,67 @@ export default function Support({
                 </AccordionItem>
               )}
 
-              <AccordionItem value="item-9">
-                <AccordionTrigger>
-                  What are some alternatives to Superbridge?
-                </AccordionTrigger>
-                <AccordionContent>
-                  <div className="prose dark:prose-invert">
-                    <p>
-                      When you’re in a hurry or only withdrawing small amounts,
-                      it might make sense to use other bridges... So we put
-                      together a handy list of alternative{" "}
-                      <Link href="/alternative-bridges">
-                        third party bridges
-                      </Link>
-                      .
-                    </p>
-                    <p>
-                      They provide faster bridging services (but often charge a
-                      small extra fee). They also usually support multiple
-                      networks.
-                    </p>
-                    <p>
-                      Please note that their token selection may be more
-                      limited.
-                    </p>
-                  </div>
-                </AccordionContent>
-              </AccordionItem>
+              {arbitrumNativeGasToken && (
+                <AccordionItem value="item-8">
+                  <AccordionTrigger>
+                    Why do I need {arbitrumNativeGasToken} to bridge to{" "}
+                    {deployment.l2.name}?
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <div className="prose dark:prose-invert">
+                      <p>
+                        When bridging from {deployment.l1.name} to{" "}
+                        {deployment.l2.name}, there's actually two transactions
+                        happening. The initiating one on {deployment.l1.name},
+                        and an automated system transaction on{" "}
+                        {deployment.l2.name} that distributes funds to the
+                        intended recipient.
+                      </p>
+                      <p>
+                        Rollups built with Arbitrum Nitro require the cost for
+                        this second system transaction to be paid when
+                        submitting the first. And because the gas token used on{" "}
+                        {deployment.l2.name} is {arbitrumNativeGasToken}, the
+                        initiating deposit transaction requires some{" "}
+                        {arbitrumNativeGasToken} as well.
+                      </p>
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+              )}
+
+              {[...SUPERCHAIN_MAINNETS, ...SUPERCHAIN_TESTNETS].includes(
+                deployment.name
+              ) && (
+                <AccordionItem value="item-9">
+                  <AccordionTrigger>
+                    What are some alternatives to Superbridge?
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <div className="prose dark:prose-invert">
+                      <p>
+                        When you’re in a hurry or only withdrawing small
+                        amounts, it might make sense to use other bridges... So
+                        we put together a handy list of alternative{" "}
+                        <Link href="/alternative-bridges">
+                          third party bridges
+                        </Link>
+                        .
+                      </p>
+                      <p>
+                        They provide faster bridging services (but often charge
+                        a small extra fee). They also usually support multiple
+                        networks.
+                      </p>
+                      <p>
+                        Please note that their token selection may be more
+                        limited.
+                      </p>
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+              )}
+
               <AccordionItem value="item-10">
                 <AccordionTrigger>Have more questions?</AccordionTrigger>
                 <AccordionContent>

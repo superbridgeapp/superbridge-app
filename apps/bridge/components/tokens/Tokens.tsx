@@ -52,18 +52,18 @@ const TokenComponent = ({
         <TokenIcon token={token[from?.id ?? 0] ?? null} className="h-8 w-8" />
         <div className="flex flex-col">
           <div className="flex items-center gap-1">
-            <span className="text-sm font-bold">
+            <span className="text-sm font-heading">
               {token[from?.id ?? 0]?.name}
             </span>
             {isNativeUsdc(token) && !fast && <CctpBadge />}
           </div>
-          <span className="text-xs font-medium text-muted-foreground">
+          <span className="text-xs  text-muted-foreground">
             {token[from?.id ?? 0]?.symbol}
           </span>
         </div>
       </div>
       <div className="ml-auto flex flex-col text-right gap-1">
-        <span className="text-sm font-medium text-muted-foreground">
+        <span className="text-sm  text-muted-foreground">
           {parseFloat(
             formatUnits(balance, token[from?.id ?? 0]?.decimals ?? 18)
           ).toLocaleString("en", { maximumFractionDigits: 4 })}
@@ -98,7 +98,7 @@ const TokenComponent = ({
                 </clipPath>
               </defs>
             </svg>
-            <span className="text-[10px] tracking-tight font-bold leading-4 text-orange-500 whitespace-nowrap">
+            <span className="text-[10px]  font-heading leading-4 text-orange-500 whitespace-nowrap">
               {isCustomToken
                 ? t("tokens.customImport")
                 : t("tokens.customImportFromList", {
@@ -126,6 +126,7 @@ const TokenImport = ({ address }: { address: Address }) => {
     name,
     symbol,
     decimals,
+    isL1Token,
 
     isLoading,
     isError,
@@ -146,7 +147,7 @@ const TokenImport = ({ address }: { address: Address }) => {
 
   if (isLoading) {
     return (
-      <div className="pt-8 pb-12 text-center font-bold text-sm">
+      <div className="pt-8 pb-12 text-center font-heading text-sm">
         <span>Loading...</span>
       </div>
     );
@@ -154,15 +155,38 @@ const TokenImport = ({ address }: { address: Address }) => {
 
   if (isError) {
     return (
-      <div className="pt-8 pb-12 text-center font-bold text-sm">
+      <div className="pt-8 pb-12 text-center font-heading text-sm">
         <span>Error...</span>
       </div>
     );
   }
 
   if (!isValidToken) {
+    if (isL1Token) {
+      return (
+        <div className="py-8 px-4 text-center font-heading text-xs space-y-2">
+          <div>
+            This looks like a token on {deployment?.l1.name}. You need to enter
+            the contract address for a token on {deployment?.l2.name}.
+          </div>
+
+          <div>
+            See our{" "}
+            <a
+              target="_blank"
+              href="https://docs.superbridge.app/custom-tokens"
+              className="underline"
+            >
+              documentation
+            </a>{" "}
+            for more info on bridging unsupported tokens.
+          </div>
+        </div>
+      );
+    }
+
     return (
-      <div className="pt-8 pb-12 text-center font-bold text-sm">
+      <div className="pt-8 pb-12 text-center font-heading text-sm">
         <span>Invalid token</span>
       </div>
     );
@@ -172,21 +196,19 @@ const TokenImport = ({ address }: { address: Address }) => {
     <div className="flex justify-between hover:bg-black/[0.025] hover:dark:bg-white/[0.05] transition p-4 rounded-sm">
       <div className="flex items-center space-x-4">
         <div className="rounded-full bg-zinc-100 dark:bg-zinc-800 h-8 w-8 flex items-center justify-center">
-          <span className="text-[10px] tracking-tight font-bold text-muted-foreground leading-4 mt-0.5">
+          <span className="text-[10px]  font-heading text-muted-foreground leading-4 mt-0.5">
             {symbol?.substring(0, 3)}
           </span>
         </div>
         <div className="flex flex-col">
           <div className="flex items-center gap-1">
-            <span className="text-sm font-bold">{name}</span>
+            <span className="text-sm font-heading">{name}</span>
           </div>
-          <span className="text-xs font-medium text-muted-foreground">
-            {symbol}
-          </span>
+          <span className="text-xs  text-muted-foreground">{symbol}</span>
         </div>
       </div>
       <div className="ml-auto flex flex-col text-right gap-1">
-        <span className="text-sm font-medium text-muted-foreground">
+        <span className="text-sm  text-muted-foreground">
           {parseFloat(
             formatUnits(BigInt(balance ?? "0"), decimals ?? 0)
           ).toLocaleString("en", {
@@ -223,7 +245,7 @@ const TokenImport = ({ address }: { address: Address }) => {
                 </clipPath>
               </defs>
             </svg>
-            <span className="text-[10px] tracking-tight font-bold leading-4 text-orange-500 ">
+            <span className="text-[10px]  font-heading leading-4 text-orange-500 ">
               {t("tokens.notBridgeable")}
             </span>
           </div>
@@ -262,17 +284,21 @@ export const FungibleTokenPicker = ({
       );
     }
 
-    if (search)
-      return (
-        token[from?.id ?? 0]?.name
-          .toLowerCase()
-          .includes(search.toLowerCase()) ||
-        token[to?.id ?? 0]?.symbol
-          .toLowerCase()
-          .includes(search.toLowerCase()) ||
-        token[to?.id ?? 0]?.address.toLowerCase().includes(search.toLowerCase())
-      );
-    return true;
+    if (!search) {
+      return true;
+    }
+
+    const fromT = token[from?.id ?? 0];
+    const toT = token[to?.id ?? 0];
+
+    return (
+      fromT?.name.toLowerCase().includes(search.toLowerCase()) ||
+      fromT?.symbol.toLowerCase().includes(search.toLowerCase()) ||
+      fromT?.address.toLowerCase().includes(search.toLowerCase()) ||
+      toT?.name.toLowerCase().includes(search.toLowerCase()) ||
+      toT?.symbol.toLowerCase().includes(search.toLowerCase()) ||
+      toT?.address.toLowerCase().includes(search.toLowerCase())
+    );
   });
 
   const onClickToken = (t: MultiChainToken) => {
@@ -293,7 +319,6 @@ export const FungibleTokenPicker = ({
             spellCheck="false"
             name="token"
             id="token"
-            // className="bg-muted block w-full rounded-lg border-0 py-3 px-4 pr-10 text-sm font-medium  outline-none focus:ring-2 ring-inset ring-zinc-900/5 dark:ring-zinc-50/5 placeholder:text-muted-foreground sm:leading-6"
             placeholder="Search"
           />
         )}
@@ -328,7 +353,7 @@ export const FungibleTokenPicker = ({
                     onClick={() => onClickToken(token)}
                   >
                     <TokenIcon token={fromToken} className="h-5 w-5" />
-                    <span className="text-sm font-medium inline-flex">
+                    <span className="text-sm inline-flex">
                       {fromToken.symbol}
                     </span>
                   </div>
@@ -348,7 +373,7 @@ export const FungibleTokenPicker = ({
             () => <TokenImport address={search as Address} />
           )
           .with({ filteredTokens: P.when((x) => x.length === 0) }, () => (
-            <div className="pt-8 pb-12 text-center font-bold text-sm">
+            <div className="pt-8 pb-12 text-center font-heading text-sm">
               <span>{t("tokens.noneFound")}</span>
             </div>
           ))

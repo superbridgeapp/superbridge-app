@@ -22,10 +22,10 @@ export const FaultProofsModal = ({ onProceed, open, onCancel }: AlertProps) => {
             <div className="animate-bounce mx-auto">
               <IconAlert className="w-16 h-16" />
             </div>
-            <h1 className="font-bold text-xl tracking-tighter text-left">
+            <h1 className="font-heading text-xl  text-left">
               {deployment?.l2.name} Fault Proof upgrade
             </h1>
-            <div className="text-xs text-left md:text-sm prose-sm tracking-tight leading-relaxed font-medium text-muted-foreground text-pretty">
+            <div className="text-xs text-left md:text-sm prose-sm  leading-relaxed  text-muted-foreground text-pretty">
               <p>
                 The {deployment?.l2.name} Fault Proof upgrade has been targeted
                 for June.
@@ -98,7 +98,7 @@ export const FaultProofsModal = ({ onProceed, open, onCancel }: AlertProps) => {
 
             {isSuperbridge && (
               <Link
-                className={`mt-2 leading-3 text-center text-xs font-medium tracking-tight cursor-pointer transition-all opacity-70 hover:opacity-100`}
+                className={`mt-2 leading-3 text-center text-xs   cursor-pointer transition-all opacity-70 hover:opacity-100`}
                 href="/alternative-bridges"
                 target="_blank"
               >

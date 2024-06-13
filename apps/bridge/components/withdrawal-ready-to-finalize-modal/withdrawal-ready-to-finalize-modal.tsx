@@ -20,11 +20,11 @@ export const WithdrawalReadyToFinalizeModal = () => {
             <div className="animate-bounce mx-auto">
               <IconAlert className="w-16 h-16" />
             </div>
-            <h1 className="font-bold text-xl tracking-tighter text-left">
+            <h1 className="font-heading text-xl  text-left">
               Finalize your withdrawals before {deployment?.l2.name} Fault Proof
               upgrade
             </h1>
-            <div className="text-xs text-left md:text-sm prose-sm tracking-tight leading-relaxed font-medium text-muted-foreground text-pretty">
+            <div className="text-xs text-left md:text-sm prose-sm  leading-relaxed  text-muted-foreground text-pretty">
               <p>
                 The {deployment?.l2.name} Fault Proof upgrade has been targeted
                 for June 10.

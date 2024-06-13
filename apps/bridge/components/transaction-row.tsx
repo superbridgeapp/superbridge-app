@@ -135,12 +135,7 @@ const MintCctp: FC<{
   const { t } = useTranslation();
 
   return (
-    <Button
-      className="rounded-full"
-      onClick={mint.write}
-      size={"sm"}
-      disabled={mint.loading}
-    >
+    <Button onClick={mint.write} size={"sm"} disabled={mint.loading}>
       {t("buttons.mint")}
     </Button>
   );
@@ -234,7 +229,7 @@ const TransactionProgressRow = ({
               ></path>
             </svg>
           )}
-          <span className="text-xs font-medium">{item.label}</span>
+          <span className="text-xs ">{item.label}</span>
           {item.link && (
             // arrow
             <svg
@@ -256,7 +251,7 @@ const TransactionProgressRow = ({
       </Wrapper>
 
       {item.time && (
-        <div className="bg-muted rounded-full font-medium text-sm py-1 px-2 space-x-1 flex items-center whitespace-nowrap">
+        <div className="bg-muted rounded-full  text-sm py-1 px-2 space-x-1 flex items-center whitespace-nowrap">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             data-name="Layer 2"
@@ -273,7 +268,7 @@ const TransactionProgressRow = ({
             </g>
           </svg>
 
-          <div className="text-xs font-medium">{item.time}</div>
+          <div className="text-xs ">{item.time}</div>
         </div>
       )}
       {item.buttonComponent === ButtonComponent.Prove &&
@@ -564,13 +559,13 @@ export const TransactionRow = ({ tx }: { tx: Transaction }) => {
         )}
       </div>
 
-      <div className="w-full font-medium">
+      <div className="w-full ">
         <div
           className="flex flex-col gap-1 cursor-pointer"
           onClick={() => setExpanded((e) => !e)}
         >
-          <div className="flex justify-between font-medium text-sm">
-            <span>{config.title}</span>
+          <div className="flex justify-between text-sm">
+            <h3 className="font-heading">{config.title}</h3>
             <div className="flex items-center gap-2">
               {tx.type === "cctp-bridge" && <CctpBadge />}
 
@@ -595,16 +590,16 @@ export const TransactionRow = ({ tx }: { tx: Transaction }) => {
                   width={12}
                 />
               )}
-              <span className="text-xs font-medium">{from.name}</span>
+              <span className="text-xs">{from.name}</span>
             </div>
-            <div className="mx-2">
+            <div className="mx-1">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
                 height="16"
                 viewBox="0 0 16 16"
                 fill="none"
-                className="fill-muted-foreground w-3 h-3"
+                className="fill-muted-foreground w-2.5 h-auto"
               >
                 <path d="M16 7.99276C16 8.49014 15.7134 8.76539 15.4174 8.97304L8.57699 13.7972C8.37966 13.9276 8.14946 14 7.93804 14C7.25682 14 6.8011 13.4302 6.8011 12.8314C6.8011 12.4644 6.97023 12.1022 7.2991 11.8656L11.1234 9.16137H1.13694C0.498 9.16137 0 8.63501 0 7.99276C0 7.3505 0.498 6.82414 1.13694 6.82414H11.1234L7.2991 4.13441C6.97023 3.90262 6.8011 3.53561 6.8011 3.16861C6.8011 2.54085 7.3132 2 7.93804 2C8.14946 2 8.37966 2.05795 8.57699 2.20282L15.4174 6.99799C15.7322 7.21529 16 7.58229 16 7.99276Z" />
               </svg>{" "}
@@ -627,7 +622,7 @@ export const TransactionRow = ({ tx }: { tx: Transaction }) => {
                   width={12}
                 />
               )}
-              <span className="text-xs font-medium">{to.name}</span>
+              <span className="text-xs">{to.name}</span>
             </div>
             <button className="ml-auto">
               <svg

@@ -6,7 +6,7 @@ const Terms = () => {
     <div className="w-screen h-screen overflow-y-auto">
       <PageNav />
       <div className="bg-background w-full">
-        <div className="max-w-2xl mx-auto py-40 px-8 prose-sm dark:prose-invert prose-headings:font-bold">
+        <div className="max-w-2xl mx-auto py-40 px-8 prose-sm dark:prose-invert prose-headings:font-heading">
           <h1>TERMS AND CONDITIONS</h1>
           <p>
             Welcome to Superbridge, a website-hosted user interface (the

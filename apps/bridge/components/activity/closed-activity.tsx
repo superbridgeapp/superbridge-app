@@ -99,7 +99,7 @@ export const ClosedActivity = () => {
             {hasPendingAction ? (
               <motion.h2
                 key="titleActionNeeded"
-                className="font-bold text-sm md:text-base whitespace-nowrap"
+                className="font-heading text-sm md:text-base whitespace-nowrap"
                 animate={{ opacity: 1 }}
                 initial={{ opacity: 0 }}
                 exit={{ opacity: 0 }}
@@ -110,7 +110,7 @@ export const ClosedActivity = () => {
             ) : (
               <motion.h2
                 key="titleActivity"
-                className="font-bold text-sm md:text-base"
+                className="font-heading text-sm md:text-base"
                 animate={{ opacity: 1 }}
                 initial={{ opacity: 0 }}
                 exit={{ opacity: 0 }}
@@ -135,7 +135,7 @@ export const ClosedActivity = () => {
                   className={`flex items-center gap-1 justify-center px-2 py-1 text-center rounded-full bg-primary 
             `}
                 >
-                  <span className="text-primary-foreground text-xs font-medium">
+                  <span className="text-primary-foreground text-xs ">
                     {inProgressCount}
                   </span>
                   <Lottie
