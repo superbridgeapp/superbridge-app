@@ -41,11 +41,11 @@ export const TokenInput = () => {
     >
       <label
         htmlFor="amount"
-        className={`block text-xs font-medium leading-6 text-foreground`}
+        className={`block text-sm font-heading leading-6 text-foreground`}
       >
         {fast ? "Fast bridge" : withdrawing ? t("withdraw") : t("deposit")}
       </label>
-      <div className="relative">
+      <div className="flex gap-1">
         <input
           value={rawAmount}
           onChange={(e) => {
@@ -62,21 +62,21 @@ export const TokenInput = () => {
           pattern="^[0-9]*[.,]?[0-9]*$"
           name="amount"
           id="amount"
-          className={`block w-full shadow-none bg-transparent focus:outline-none font-medium text-2xl md:text-3xl sm:leading-6 placeholder:text-muted-foreground text-foreground`}
+          className={`block w-full shadow-none bg-transparent focus:outline-none text-3xl md:text-4xl sm:leading-6 placeholder:text-muted-foreground text-foreground`}
           placeholder="0"
         />
 
         <button
           onClick={() => setTokensModal(true)}
-          className={`absolute inset-y-0 right-0 flex gap-x-2 rounded-full pl-3 pr-3 items-center font-medium transition-all hover:scale-105 text-foreground bg-card`}
+          className={`flex shrink-0 relative gap-1 rounded-full pl-3 pr-3 items-center font-button transition-all hover:scale-105 text-foreground bg-card`}
         >
-          <TokenIcon token={token} className="h-[20px] w-[20px]" />
+          <TokenIcon token={token} className="h-[20px] w-[20px] shrink-0" />
           {token?.symbol}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width={14}
             height={14}
-            className={`w-3.5 h-3.5 fill-foreground`}
+            className={`w-3.5 h-3.5 fill-foreground shrink-0`}
             viewBox="0 0 16 16"
           >
             <path d="M13.53 6.031l-5 5a.75.75 0 01-1.062 0l-5-5A.751.751 0 113.531 4.97L8 9.439l4.47-4.47a.751.751 0 011.062 1.062h-.001z"></path>
@@ -118,13 +118,13 @@ export const TokenInput = () => {
       <div className="pt-1 flex items-center justify-between">
         <div>
           {usdPrice && (
-            <span className="text-muted-foreground text-xs font-medium">
+            <span className="text-muted-foreground text-xs">
               ${(receive * usdPrice).toLocaleString("en")}
             </span>
           )}
         </div>
         <div className="flex items-center gap-1">
-          <span className={`text-muted-foreground text-xs font-medium`}>
+          <span className={`text-muted-foreground text-xs`}>
             {t("availableBalance", {
               amount: parseFloat(
                 formatUnits(tokenBalance, token?.decimals ?? 18)
