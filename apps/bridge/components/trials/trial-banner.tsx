@@ -1,6 +1,7 @@
 import { differenceInDays } from "date-fns";
 
 import { useTrialEndsTime } from "@/hooks/trials/use-trial-ends-time";
+import { useIsTrial } from "@/hooks/trials/use-is-trial";
 
 const MarqueeContent = () => {
   const trialEndsTime = useTrialEndsTime();
@@ -77,6 +78,12 @@ const MarqueeB = () => (
   </div>
 );
 export const TrialBanner = () => {
+  const isTrial = useIsTrial();
+
+  if (!isTrial) {
+    return null;
+  }
+
   return (
     <div className="fixed top-0 left-0 w-screen h-10 bg-[#A882FD] text-white z-40">
       <div className="relative flex gap-3 overflow-x-hidden">
