@@ -10,7 +10,7 @@ const MarqueeContent = () => {
     return null;
   }
 
-  const days = Math.max(differenceInDays(Date.now(), trialEndsTime), 0);
+  const days = Math.max(differenceInDays(trialEndsTime, Date.now()), 0);
   return (
     <div className="flex gap-3 items-center text-xs tracking-widest whitespace-nowrap py-3">
       <span>

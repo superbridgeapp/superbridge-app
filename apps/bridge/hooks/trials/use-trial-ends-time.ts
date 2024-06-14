@@ -1,3 +1,4 @@
+import { isSuperbridge } from "@/config/superbridge";
 import { isTrial } from "@/utils/guards";
 
 import { useDeployment } from "../use-deployment";
@@ -5,7 +6,7 @@ import { useDeployment } from "../use-deployment";
 export const useTrialEndsTime = () => {
   const deployment = useDeployment();
 
-  if (!deployment || !isTrial(deployment.status)) {
+  if (isSuperbridge || !deployment || !isTrial(deployment.status)) {
     return null;
   }
 
