@@ -1,14 +1,15 @@
-import { isSuperbridge } from "@/config/superbridge";
-import { isTrial } from "@/utils/guards";
+// import { isSuperbridge } from "@/config/superbridge";
+// import { isTrial } from "@/utils/guards";
 
-import { useDeployment } from "../use-deployment";
+// import { useDeployment } from "../use-deployment";
 
 export const useTrialExpired = () => {
-  const deployment = useDeployment();
+  return false;
+  // const deployment = useDeployment();
 
-  if (isSuperbridge || !deployment || !isTrial(deployment.status)) {
-    return false;
-  }
+  // if (isSuperbridge || !deployment || !isTrial(deployment.status)) {
+  //   return false;
+  // }
 
-  return new Date(deployment.status.endDate).getTime() < Date.now();
+  // return new Date(deployment.status.endDate).getTime() < Date.now();
 };
