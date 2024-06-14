@@ -398,7 +398,8 @@ export const BridgeBody = () => {
       totalFeesInFiat &&
       fiatValueBeingBridged &&
       totalFeesInFiat > fiatValueBeingBridged &&
-      (isSuperbridge || SUPERCHAIN_MAINNETS.includes(deployment?.name ?? ""))
+      isSuperbridge &&
+      SUPERCHAIN_MAINNETS.includes(deployment?.name ?? "")
     ) {
       modals.push(AlertModals.GasExpensive);
     }
