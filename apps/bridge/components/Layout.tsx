@@ -80,7 +80,8 @@ export function Layout({ children }: { children: any }) {
       <CustomTokenListModal />
       <BlockProvingModal />
 
-      <nav className="flex flex-row justify-between items-center p-3 md:p-6 fixed top-0 left-0 w-screen z-10">
+      {/* TODO: if trial add top-10 to nav */}
+      <nav className="flex flex-row justify-between items-center p-3 md:p-6 fixed top-0 left-0 w-screen z-10 top-10">
         <div onClick={() => navigate("/")} className="cursor-pointer">
           {deployments.deployments.length === 1 ? (
             <img
