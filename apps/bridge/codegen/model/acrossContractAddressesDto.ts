@@ -6,9 +6,6 @@
  * OpenAPI spec version: 1.0
  */
 
-export interface DisputeGameDto {
-  address: string;
-  index: number;
-  resolvedAt: number;
-  status: number;
+export interface AcrossContractAddressesDto {
+  spokePool: string;
 }
