@@ -14,13 +14,14 @@ import { isSuperbridge } from "@/config/superbridge";
 import { currencySymbolMap } from "@/constants/currency-symbol-map";
 import { SUPERCHAIN_MAINNETS } from "@/constants/superbridge";
 import { useAcrossPaused } from "@/hooks/across/use-across-paused";
+import { useBridgeMax } from "@/hooks/limits/use-bridge-max";
+import { useBridgeMin } from "@/hooks/limits/use-bridge-min";
 import { useAcrossDomains } from "@/hooks/use-across-domains";
 import { useAllowance } from "@/hooks/use-allowance";
 import { useApprove } from "@/hooks/use-approve";
 import { useTokenBalance } from "@/hooks/use-balances";
 import { useBaseNativeTokenBalance } from "@/hooks/use-base-native-token-balance";
 import { useBridge } from "@/hooks/use-bridge";
-import { useBridgeLimit } from "@/hooks/use-bridge-limit";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
 import { useDeployment } from "@/hooks/use-deployment";
 import { useFaultProofUpgradeTime } from "@/hooks/use-fault-proof-upgrade-time";
@@ -170,7 +171,8 @@ export const BridgeBody = () => {
     usePendingTransactions.useUpdateTransactionByHash();
   const nativeToken = useNativeToken();
   const statusCheck = useStatusCheck();
-  const bridgeLimit = useBridgeLimit();
+  const bridgeMax = useBridgeMax();
+  const bridgeMin = useBridgeMin();
   const track = useBridgeControllerTrack();
   const faultProofUpgradeTime = useFaultProofUpgradeTime(deployment);
   const acrossPaused = useAcrossPaused();
@@ -283,7 +285,9 @@ export const BridgeBody = () => {
           amount: weiAmount.toString(),
           deploymentId: deployment!.id,
           transactionHash: hash,
-          action: withdrawing
+          action: fast
+            ? "across"
+            : withdrawing
             ? forceViaL1
               ? "force-withdraw"
               : "withdraw"
@@ -300,7 +304,9 @@ export const BridgeBody = () => {
         nft,
         withdrawing,
         hash,
-        forceViaL1
+        forceViaL1,
+        fast,
+        { from: from!, to: to! }
       );
       if (pending) addPendingTransaction(pending);
 
@@ -451,8 +457,8 @@ export const BridgeBody = () => {
     nft,
     recipient,
     weiAmount,
-    limitExceeded:
-      typeof bridgeLimit !== "undefined" && weiAmount > bridgeLimit,
+    bridgeMax,
+    bridgeMin,
   })
     .with({ fast: true, acrossPaused: true }, () => ({
       onSubmit: () => {},
@@ -489,25 +495,40 @@ export const BridgeBody = () => {
       buttonText: t("insufficientFunds"),
       disabled: true,
     }))
-    .with({ limitExceeded: true }, () => ({
-      onSubmit: () => {},
-      buttonText: (() => {
-        const token = stateToken?.[from?.id ?? 0];
-        if (!token || !bridgeLimit) {
-          return t("bridgeLimitFallback");
-        }
-
-        const formatted = formatUnits(bridgeLimit, token.decimals);
-        return t("bridgeLimit", {
-          amount: parseInt(formatted).toLocaleString("en", {
-            notation: "compact",
-            compactDisplay: "short",
-          }),
-          symbol: token.symbol,
-        });
-      })(),
-      disabled: true,
-    }))
+    .when(
+      ({ bridgeMax, weiAmount }) => bridgeMax !== null && weiAmount > bridgeMax,
+      ({ bridgeMax }) => ({
+        onSubmit: () => {},
+        buttonText: (() => {
+          const formatted = formatUnits(bridgeMax!, token?.decimals ?? 18);
+          return t("bridgeLimit", {
+            amount: parseInt(formatted).toLocaleString("en", {
+              notation: "compact",
+              compactDisplay: "short",
+            }),
+            symbol: token?.symbol,
+          });
+        })(),
+        disabled: true,
+      })
+    )
+    .when(
+      ({ bridgeMin, weiAmount }) => bridgeMin !== null && weiAmount < bridgeMin,
+      ({}) => ({
+        onSubmit: () => {},
+        buttonText: (() => {
+          const formatted = formatUnits(bridgeMin!, token!.decimals);
+          return t("bridgeMin", {
+            amount: parseInt(formatted).toLocaleString("en", {
+              notation: "compact",
+              compactDisplay: "short",
+            }),
+            symbol: token?.symbol,
+          });
+        })(),
+        disabled: true,
+      })
+    )
     .with({ hasInsufficientGas: true }, (d) => ({
       onSubmit: handleSubmitClick,
       buttonText: t("insufficientGas", {

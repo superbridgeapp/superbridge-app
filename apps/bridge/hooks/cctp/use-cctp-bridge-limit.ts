@@ -5,13 +5,14 @@ import { TokenMinterAbi } from "@/abis/cctp/TokenMinter";
 import { useConfigState } from "@/state/config";
 import { isNativeUsdc } from "@/utils/is-usdc";
 
-import { useCctpDomains } from "./use-cctp-domains";
-import { useFromChain } from "./use-chain";
+import { useCctpDomains } from "../use-cctp-domains";
+import { useFromChain } from "../use-chain";
 
-export const useBridgeLimit = () => {
+export const useCctpBridgeLimit = () => {
   const domains = useCctpDomains();
 
   const stateToken = useConfigState.useToken();
+  const fast = useConfigState.useFast();
   const from = useFromChain();
 
   const fromDomain = domains.find((x) => x.chainId === from?.id);
@@ -22,7 +23,7 @@ export const useBridgeLimit = () => {
     args: [stateToken?.[from?.id ?? 0]?.address as Address],
     address: fromDomain?.contractAddresses.minter as Address,
     query: {
-      enabled: isNativeUsdc(stateToken),
+      enabled: isNativeUsdc(stateToken) && !fast,
     },
     chainId: from?.id,
   });

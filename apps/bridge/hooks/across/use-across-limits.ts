@@ -10,18 +10,18 @@ interface AcrossLimitsResult {
    * Note: USDC has 6 decimals, so this value would be the
    *  number of USDC multiplied by 1e6. For WETH, that would be 1e18.
    */
-  minDeposit: 7799819;
+  minDeposit: number;
   /**
    * The maximum deposit size in the tokens' units.
    * Note: The formatting of this number is the same as minDeposit.
    */
-  maxDeposit: 22287428516241;
+  maxDeposit: number;
   /**
    * The max deposit size that can be relayed "instantly" on the destination
    * chain. Instantly means that there is relayer capital readily available
    * and that a relayer is expected to relay within seconds to 5 minutes of the deposit.
    */
-  maxDepositInstant: 201958902363;
+  maxDepositInstant: number;
   /**
    * The max deposit size that can be relayed with a "short delay" on the destination
    * chain. This means that there is relayer capital available on mainnet and that
@@ -32,14 +32,14 @@ interface AcrossLimitsResult {
    * Note: if the transfer size is greater than this, the estimate should be between 2-4
    * hours for a slow relay to be processed from the mainnet pool.
    */
-  maxDepositShortDelay: 2045367713809;
+  maxDepositShortDelay: number;
   /**
    * The recommended deposit size that can be relayed "instantly" on the destination chain.
    * Instantly means that there is relayer capital readily available and that a relayer is
    * expected to relay within seconds to 5 minutes of the deposit. Value is in the smallest
    * unit of the respective token.
    */
-  recommendedDepositInstant: 2045367713809;
+  recommendedDepositInstant: number;
 }
 
 /**
@@ -81,7 +81,6 @@ export const useAcrossLimits = () => {
 
       if (response.status !== 200) {
         const err = await response.text();
-        console.log("invalid", err, response.status);
         throw new Error(err);
       }
 

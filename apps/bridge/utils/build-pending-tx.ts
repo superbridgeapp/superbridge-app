@@ -1,4 +1,4 @@
-import { Address, Hex } from "viem";
+import { Address, Chain, Hex } from "viem";
 
 import {
   ArbitrumDepositRetryableDto,
@@ -6,6 +6,7 @@ import {
   BridgeNftDto,
   BridgeWithdrawalDto,
   CctpBridgeDto,
+  ChainDto,
   DeploymentDto,
   ForcedWithdrawalDto,
   NftDepositDto,
@@ -15,8 +16,9 @@ import { MessageStatus } from "@/constants";
 import { ArbitrumMessageStatus } from "@/constants/arbitrum-message-status";
 import { isCctpBridgeOperation } from "@/hooks/use-transaction-args/cctp-args/common";
 import { MultiChainToken } from "@/types/token";
-import { isEth } from "@/utils/is-eth";
+import { isEth, isNativeToken } from "@/utils/is-eth";
 import { isArbitrum, isOptimism } from "@/utils/is-mainnet";
+import { AcrossBridgeDto } from "@/types/across";
 
 export const buildPendingTx = (
   deployment: DeploymentDto,
@@ -27,7 +29,9 @@ export const buildPendingTx = (
   nft: BridgeNftDto | null,
   withdrawing: boolean,
   hash: Hex,
-  force: boolean
+  force: boolean,
+  fast: boolean,
+  { from, to }: { from: ChainDto; to: ChainDto }
 ) => {
   if (nft) {
     const metadata: NftDepositDto = {
@@ -78,6 +82,35 @@ export const buildPendingTx = (
   }
 
   if (token) {
+    if (fast) {
+      const b: AcrossBridgeDto = {
+        id: Math.random().toString(),
+        // @ts-expect-error
+        deposit: {
+          transactionHash: hash,
+        },
+        fromChainId: from.id,
+        toChainId: to.id,
+        createdAt: new Date().toString(),
+        updatedAt: new Date().toString(),
+        metadata: {
+          type: "eth-deposit",
+          from: account,
+          to: recipient,
+          data: {
+            isEth: isNativeToken(token),
+            inputAmount: weiAmount.toString(),
+            outputAmount: weiAmount.toString(),
+            inputTokenAddress: token[from.id ?? 0]?.toString() ?? "",
+            outputTokenAddress: token[from.id ?? 0]?.toString() ?? "",
+          },
+        },
+        type: "across-bridge",
+        fill: undefined,
+      };
+      return b;
+    }
+
     if (isCctpBridgeOperation(token)) {
       const from = withdrawing ? deployment.l2 : deployment.l1;
       const b: CctpBridgeDto = {
