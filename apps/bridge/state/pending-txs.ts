@@ -3,6 +3,7 @@ import { create } from "zustand";
 
 import { Transaction } from "@/types/transaction";
 import {
+  isAcrossBridge,
   isArbitrumForcedWithdrawal,
   isDeposit,
   isOptimismForcedWithdrawal,
@@ -92,6 +93,15 @@ const pendingTransactionsState = create<PendingTransactionsState>()(
                   ...tx.deposit.deposit,
                   transactionHash: newHash,
                 },
+              },
+            };
+          }
+          if (isAcrossBridge(tx) && tx.deposit.transactionHash === oldHash) {
+            return {
+              ...tx,
+              deposit: {
+                ...tx.deposit,
+                transactionHash: newHash,
               },
             };
           }

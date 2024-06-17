@@ -7,7 +7,7 @@ import { useDeployment } from "./use-deployment";
 import { Period, useTotalBridgeTime } from "./use-finalization-period";
 import { useWeiAmount } from "./use-wei-amount";
 
-const useFastTransferPeriod = (): Period => {
+export const useFastTransferPeriod = (): Period => {
   const weiAmount = useWeiAmount();
   const limits = useAcrossLimits();
 

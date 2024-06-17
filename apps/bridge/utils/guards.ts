@@ -1,5 +1,4 @@
 import {
-  AcrossBridgeDto,
   AcrossTransactionType,
   ActiveDeploymentStatus,
   ArbitrumDepositEthDto,
@@ -16,6 +15,7 @@ import {
   PortalDepositDto,
   TrialDeploymentStatus,
 } from "@/codegen/model";
+import { AcrossBridgeDto } from "@/types/across";
 import { ArbitrumToken, OptimismToken, Token } from "@/types/token";
 import {
   AbritrumTransaction,
