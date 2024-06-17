@@ -420,6 +420,20 @@ function getDepositAmount(tx: Transaction, token: Token | null | undefined) {
     }`;
   }
 
+  if (tx.type === "across-bridge") {
+    if (tx.metadata.data.isEth) {
+      return `${formatEther(BigInt(tx.metadata.data.inputAmount))} ETH`;
+    }
+
+    const float = parseFloat(
+      formatUnits(BigInt(tx.metadata.data.inputAmount), token?.decimals ?? 18)
+    );
+    const formatted = float.toLocaleString("en", {
+      maximumFractionDigits: float > 1 ? 4 : 8,
+    });
+    return `${formatted} ${token?.symbol}`;
+  }
+
   const metadata =
     isForcedWithdrawal(tx) && tx.withdrawal
       ? tx.withdrawal.metadata
@@ -536,7 +550,8 @@ export const TransactionRow = ({ tx }: { tx: Transaction }) => {
             </defs>
           </svg>
         ) : isAcrossBridge(tx) ? (
-          <div>Across bridge icon</div>
+          // Across bridge icon
+          <div></div>
         ) : (
           // forced withdrawal
           <svg
@@ -575,12 +590,14 @@ export const TransactionRow = ({ tx }: { tx: Transaction }) => {
           <div className="flex items-center text-sm text-muted-foreground">
             <div className="flex items-center">
               {tx.type === "across-bridge" ? (
-                <FastNetworkIcon
-                  chain={from}
-                  className="h-4 w-4 mr-1"
-                  height={12}
-                  width={12}
-                />
+                <>
+                  <FastNetworkIcon
+                    chain={from}
+                    className="h-4 w-4 mr-1"
+                    height={12}
+                    width={12}
+                  />
+                </>
               ) : (
                 <NetworkIcon
                   chain={from}

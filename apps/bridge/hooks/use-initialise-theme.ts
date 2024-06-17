@@ -75,7 +75,6 @@ async function handleFonts(theme: ThemeDto) {
   await Promise.all(
     all.map(async (f) => {
       if (document.fonts.has(f)) {
-        console.log("document already has", f.family);
         return;
       }
       await f.load();

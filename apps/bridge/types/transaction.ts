@@ -1,5 +1,4 @@
 import {
-  AcrossBridgeDto,
   ArbitrumDepositEthDto,
   ArbitrumDepositRetryableDto,
   ArbitrumForcedWithdrawalDto,
@@ -9,6 +8,7 @@ import {
   ForcedWithdrawalDto,
   PortalDepositDto,
 } from "@/codegen/model";
+import { AcrossBridgeDto } from "./across";
 
 export type AbritrumTransaction =
   | ArbitrumDepositEthDto

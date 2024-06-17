@@ -1,7 +1,9 @@
+import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { useAccount } from "wagmi";
 
-import { useBridgeControllerGetActivity } from "@/codegen";
+import { bridgeControllerGetActivityV2 } from "@/codegen";
+import { isSuperbridge } from "@/config/superbridge";
 import { usePendingTransactions } from "@/state/pending-txs";
 import {
   isForcedWithdrawal,
@@ -21,18 +23,25 @@ export const useTransactions = () => {
   const removeProving = usePendingTransactions.useRemoveProving();
   const removePending = usePendingTransactions.useRemoveTransactionByHash();
 
-  const response = useBridgeControllerGetActivity(
-    account.address ?? "",
-    {
-      deploymentIds: deployments.map((d) => d.id),
+  const response = useQuery({
+    queryKey: [
+      "activity",
+      account.address as string,
+      ...deployments.map((d) => d.id),
+    ],
+    queryFn: () => {
+      if (!account.address) {
+        return [];
+      }
+      return bridgeControllerGetActivityV2({
+        address: account.address,
+        includeAcross: isSuperbridge,
+        deploymentIds: deployments.map((d) => d.id),
+      });
     },
-    {
-      query: {
-        enabled: !!account.address && deployments.length > 0,
-        refetchInterval: 10_000,
-      },
-    }
-  );
+    enabled: !!account.address && deployments.length > 0,
+    refetchInterval: 10_000,
+  });
 
   useEffect(() => {
     response.data?.data.transactions.forEach((tx) => {

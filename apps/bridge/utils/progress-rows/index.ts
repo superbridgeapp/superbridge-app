@@ -186,7 +186,7 @@ const useAcrossProps =
   () =>
   (b: AcrossBridgeDto): TransactionRowProps => {
     return {
-      title: "Bridge",
+      title: "Across Bridge",
       icon: b.fill?.timestamp
         ? "withdraw-complete.png"
         : "withdraw-progress.png",

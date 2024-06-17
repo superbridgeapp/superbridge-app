@@ -6,9 +6,8 @@
  * OpenAPI spec version: 1.0
  */
 
-export interface BridgeNftChainConfigDto {
+export interface GetActivityDto {
   address: string;
-  bridgeAddress: string;
-  chainId: string;
-  isNative: boolean;
+  deploymentIds: string[];
+  includeAcross: boolean;
 }
