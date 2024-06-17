@@ -91,14 +91,14 @@ export const OpenActivity = ({}) => {
           .with({ isError: true }, () => (
             <div className="flex grow justify-center h-full px-8 py-8 text-center">
               <span className="text-muted-foreground text-xs font-heading">
-                {t("activity.error")}
+                {t("activity.error")}…
               </span>
             </div>
           ))
           .with({ statusCheck: true }, () => (
             <div className="flex grow justify-center h-full px-8 py-8 text-center">
               <span className="text-zinc-400 text-xs font-heading">
-                {t("activity.error")}
+                {t("activity.error")}.
               </span>
             </div>
           ))

@@ -8,6 +8,7 @@ import { ClosedActivity } from "@/components/activity/closed-activity";
 import { OpenActivity } from "@/components/activity/open-activity";
 import { Footer } from "@/components/footer";
 import { isSuperbridge } from "@/config/superbridge";
+import { useIsTrial } from "@/hooks/trials/use-is-trial";
 import { useDeployments } from "@/hooks/use-deployments";
 import { useInitialise } from "@/hooks/use-initialise";
 import { useNavigate } from "@/hooks/use-navigate";
@@ -22,11 +23,12 @@ import {
 } from "@/hooks/use-theme";
 import { useConfigState } from "@/state/config";
 
+import { BlockProvingModal } from "./fault-proofs/block-proving-modal";
+import { LegalModal } from "./legal-modal";
 import { CustomTokenListModal } from "./settings/custom-token-list-modal";
 import { SettingsModal } from "./settings/settings-modal";
 import { TosModal } from "./tos-modal/tos-modal";
-import { LegalModal } from "./legal-modal";
-import { BlockProvingModal } from "./fault-proofs/block-proving-modal";
+import { TrialBanner } from "./trials/trial-banner";
 
 export function Layout({ children }: { children: any }) {
   useInitialise();
@@ -46,8 +48,11 @@ export function Layout({ children }: { children: any }) {
   const backgroundImageRepeat = useBackgroundImageRepeat();
   const backgroundImageOpacity = useBackgroundImageOpacity();
 
+  const isTrial = useIsTrial();
+
   return (
     <div className="bg-background w-screen h-screen overflow-hidden z-40 relative transition-colors duration-1000  flex justify-center">
+      <TrialBanner />
       {isSuperbridge && (
         <motion.div
           animate={{ opacity: pathname === "/" ? 1 : 0 }}
@@ -78,7 +83,12 @@ export function Layout({ children }: { children: any }) {
       <CustomTokenListModal />
       <BlockProvingModal />
 
-      <nav className="flex flex-row justify-between items-center p-3 md:p-6 fixed top-0 left-0 w-screen z-10">
+      <nav
+        className={clsx(
+          "flex flex-row justify-between items-center p-3 md:p-6 fixed top-0 left-0 w-screen z-10",
+          isTrial && "top-10"
+        )}
+      >
         <div onClick={() => navigate("/")} className="cursor-pointer">
           {deployments.deployments.length === 1 ? (
             <img

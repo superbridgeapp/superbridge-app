@@ -5,6 +5,7 @@ import Lottie from "react-lottie-player";
 import { useHasPendingAction } from "@/hooks/use-has-pending-action";
 import { useConfigState } from "@/state/config";
 import { useInProgressTxCount } from "@/hooks/use-in-progress-tx-count";
+import { useTrialExpired } from "@/hooks/trials/use-trial-expired";
 
 import inProgressDark from "../../animation/loading-dark.json";
 import inProgress from "../../animation/loading.json";
@@ -28,6 +29,11 @@ export const ClosedActivity = () => {
   const { t } = useTranslation();
   const hasPendingAction = useHasPendingAction();
   const inProgressCount = useInProgressTxCount();
+  const trialExpired = useTrialExpired();
+
+  if (trialExpired) {
+    return null;
+  }
 
   return (
     <div className="h-16 fixed bottom-0 w-[50%] z-[55] flex justify-center items-center">
