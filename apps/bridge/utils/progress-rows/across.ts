@@ -1,60 +1,78 @@
 import { useTranslation } from "react-i18next";
 
 import { useAcrossDomains } from "@/hooks/use-across-domains";
-import { useFinalizationPeriod } from "@/hooks/use-finalization-period";
 import { usePeriodText } from "@/hooks/use-period-text";
+import { useFastTransferPeriod } from "@/hooks/use-transfer-time";
 import { AcrossBridgeDto } from "@/types/across";
 
 import { transactionLink } from "../transaction-link";
 import { ExpandedItem, ProgressRowStatus } from "./common";
+import { getRemainingTimePeriod } from "./get-remaining-period";
 
 export const useAcrossProgressRows = () => {
   const { t } = useTranslation();
   const transformPeriodText = usePeriodText();
-  const finalizationPeriod = useFinalizationPeriod();
+  const transferPeriod = useFastTransferPeriod();
 
   const acrossDomains = useAcrossDomains();
   return (tx: AcrossBridgeDto): ExpandedItem[] => {
-    // const bridgeTime = getFinalizationPeriod(tx.deployment, true);
-
     const fromDomain = acrossDomains.find((x) => x.chain.id === tx.fromChainId);
     const toDomain = acrossDomains.find((x) => x.chain.id === tx.toChainId);
 
     const l2ConfirmationText = (() => {
-      return "l2ConfirmationText";
-      // if (!bridgeTime || tx.relay) return "";
-      // if (!tx.bridge.blockNumber) {
-      //   return transformPeriodText("transferTime", {}, bridgeTime);
-      // }
+      if (tx.fill) return "";
+      if (!tx.deposit.timestamp) {
+        return transformPeriodText("transferTime", {}, transferPeriod);
+      }
 
-      // const remainingTimePeriod = getRemainingTimePeriod(
-      //   tx.bridge.timestamp,
-      //   bridgeTime
-      // );
-      // if (!remainingTimePeriod) return "";
-      // return transformPeriodText("activity.remaining", {}, remainingTimePeriod);
+      const remainingTimePeriod = getRemainingTimePeriod(
+        tx.deposit.timestamp,
+        transferPeriod
+      );
+
+      if (!remainingTimePeriod) return "";
+      return transformPeriodText("activity.remaining", {}, remainingTimePeriod);
     })();
+
+    // assume immediate confirmation for rollups
+    const initiate =
+      tx.deposit.timestamp || tx.fromChainId !== 1
+        ? {
+            label: t("activity.bridged"),
+            status: ProgressRowStatus.Done,
+            link: transactionLink(
+              tx.deposit.transactionHash,
+              fromDomain?.chain
+            ),
+          }
+        : {
+            label: t("activity.bridging"),
+            status: ProgressRowStatus.InProgress,
+            link: transactionLink(
+              tx.deposit.transactionHash,
+              fromDomain?.chain
+            ),
+          };
+
     return [
-      {
-        label: tx.deposit.timestamp
-          ? t("activity.bridged")
-          : t("activity.bridging"),
-        status: tx.deposit.timestamp
-          ? ProgressRowStatus.Done
-          : ProgressRowStatus.InProgress,
-        link: transactionLink(tx.deposit.transactionHash, fromDomain?.chain),
-      },
+      initiate,
       tx.fill
         ? {
             label: "Filled",
             status: ProgressRowStatus.Done,
             link: transactionLink(tx.fill.transactionHash, toDomain?.chain),
           }
-        : {
+        : // assume immediate confirmation for rollups
+        tx.deposit.timestamp || tx.fromChainId
+        ? {
             label: "Waiting",
             status: ProgressRowStatus.InProgress,
-            // link: undefined,
-            // text: "Not long to go",
+            time: l2ConfirmationText,
+          }
+        : {
+            label: "Fill",
+            status: ProgressRowStatus.NotDone,
+            time: l2ConfirmationText,
           },
     ];
   };
