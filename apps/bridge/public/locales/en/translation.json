@@ -6,6 +6,7 @@
   "withdraw": "Withdraw",
   "withdrawNft": "Withdraw {{tokenId}}",
   "withdrawing": "Withdrawing",
+  "bridge": "Bridge",
   "approving": "Approving",
   "connectWallet": "Connect wallet",
   "switchToApprove": "Switch to approve",

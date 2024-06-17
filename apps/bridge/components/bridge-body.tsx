@@ -502,9 +502,8 @@ export const BridgeBody = () => {
         buttonText: (() => {
           const formatted = formatUnits(bridgeMax!, token?.decimals ?? 18);
           return t("bridgeLimit", {
-            amount: parseInt(formatted).toLocaleString("en", {
-              notation: "compact",
-              compactDisplay: "short",
+            amount: parseFloat(formatted).toLocaleString("en", {
+              maximumFractionDigits: 4,
             }),
             symbol: token?.symbol,
           });
@@ -519,9 +518,8 @@ export const BridgeBody = () => {
         buttonText: (() => {
           const formatted = formatUnits(bridgeMin!, token!.decimals);
           return t("bridgeMin", {
-            amount: parseInt(formatted).toLocaleString("en", {
-              notation: "compact",
-              compactDisplay: "short",
+            amount: parseFloat(formatted).toLocaleString("en", {
+              maximumSignificantDigits: 4,
             }),
             symbol: token?.symbol,
           });
@@ -556,6 +554,8 @@ export const BridgeBody = () => {
         ? d.withdrawing
           ? t("withdrawNft", { tokenId: `#${d.nft.tokenId}` })
           : t("depositNft", { tokenId: `#${d.nft.tokenId}` })
+        : d.fast
+        ? t("bridge")
         : d.withdrawing
         ? t("withdraw")
         : t("deposit"),

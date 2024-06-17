@@ -134,7 +134,7 @@ export const TokenInput = () => {
               symbol: token?.symbol,
             })}
           </span>
-          {isNativeUsdc(stateToken) && <CctpBadge />}
+          {isNativeUsdc(stateToken) && !fast && <CctpBadge />}
         </div>
       </div>
     </div>
