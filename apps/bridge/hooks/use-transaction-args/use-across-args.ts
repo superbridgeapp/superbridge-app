@@ -22,7 +22,7 @@ export const useAcrossArgs = () => {
 
   const acrossDomains = useAcrossDomains();
 
-  const pool = acrossDomains.find((x) => x.chain?.id === from?.id);
+  const pool = acrossDomains.find((x) => x.chain.id === from?.id);
 
   const localToken = stateToken?.[from?.id ?? 0];
   const remoteToken = stateToken?.[to?.id ?? 0];
@@ -52,9 +52,11 @@ export const useAcrossArgs = () => {
   }
 
   return {
-    approvalAddress: isNativeToken(stateToken) ? undefined : pool.spokePool,
+    approvalAddress: isNativeToken(stateToken)
+      ? undefined
+      : pool.contractAddresses.spokePool,
     tx: {
-      to: pool.spokePool as Address,
+      to: pool.contractAddresses.spokePool as Address,
       data: encodeFunctionData({
         abi: SpokePoolAbi,
         functionName: "depositV3",

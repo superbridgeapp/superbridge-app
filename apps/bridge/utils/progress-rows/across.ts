@@ -1,9 +1,9 @@
 import { useTranslation } from "react-i18next";
 
-import { AcrossBridgeDto } from "@/codegen/model";
+import { useAcrossDomains } from "@/hooks/use-across-domains";
 import { useFinalizationPeriod } from "@/hooks/use-finalization-period";
 import { usePeriodText } from "@/hooks/use-period-text";
-import { useAcrossDomains } from "@/hooks/use-across-domains";
+import { AcrossBridgeDto } from "@/types/across";
 
 import { transactionLink } from "../transaction-link";
 import { ExpandedItem, ProgressRowStatus } from "./common";

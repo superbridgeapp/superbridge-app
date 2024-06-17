@@ -20,13 +20,13 @@ export const useAcrossPaused = () => {
       {
         abi: SpokePoolAbi,
         functionName: "pausedDeposits",
-        address: fromDomain?.spokePool as Address,
+        address: fromDomain?.contractAddresses.spokePool as Address,
         chainId: from?.id,
       },
       {
         abi: SpokePoolAbi,
         functionName: "pauseFills",
-        address: toDomain?.spokePool as Address,
+        address: toDomain?.contractAddresses.spokePool as Address,
         chainId: to?.id,
       },
     ],

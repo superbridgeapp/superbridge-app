@@ -1,15 +1,7 @@
-import { Chain } from "viem";
-
 import {
-  AcrossBridgeDto as CodegenAcrossBridgeDto,
   AcrossBridgeMetadataDto,
-  ChainDto,
+  AcrossBridgeDto as CodegenAcrossBridgeDto,
 } from "@/codegen/model";
-
-export interface AcrossDomain {
-  chain: Chain | ChainDto;
-  spokePool: string;
-}
 
 export interface AcrossBridgeDto extends CodegenAcrossBridgeDto {
   type: "across-bridge";

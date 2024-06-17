@@ -5,6 +5,7 @@ import { useAccount } from "wagmi";
 import { bridgeControllerGetActivityV2 } from "@/codegen";
 import { isSuperbridge } from "@/config/superbridge";
 import { usePendingTransactions } from "@/state/pending-txs";
+import { Transaction } from "@/types/transaction";
 import {
   isForcedWithdrawal,
   isOptimismForcedWithdrawal,
@@ -24,10 +25,11 @@ export const useTransactions = () => {
   const removePending = usePendingTransactions.useRemoveTransactionByHash();
 
   const response = useQuery({
+    // @ts-expect-error
     queryKey: [
       "activity",
       account.address as string,
-      ...deployments.map((d) => d.id),
+      deployments.map((x) => x.id),
     ],
     queryFn: () => {
       if (!account.address) {
@@ -44,7 +46,12 @@ export const useTransactions = () => {
   });
 
   useEffect(() => {
-    response.data?.data.transactions.forEach((tx) => {
+    if (!response.data?.data) {
+      return;
+    }
+
+    const txs = response.data.data.transactions as Transaction[];
+    txs.forEach((tx) => {
       const hash = getInitiatingHash(tx);
       if (hash) removePending(hash);
 

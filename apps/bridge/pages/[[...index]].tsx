@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import { base, mainnet, optimism } from "viem/chains";
 
 import {
+  bridgeControllerGetAcrossDomains,
   bridgeControllerGetCctpDomains,
   bridgeControllerGetDeployments,
   bridgeControllerGetDeploymentsByDomain,
@@ -59,36 +60,13 @@ export const getServerSideProps = async ({
         names,
       }),
       bridgeControllerGetCctpDomains(),
-      [
-        {
-          chain: mainnet,
-          spokePool: "0x5c7BCd6E7De5423a257D81B442095A1a6ced35C5",
-        },
-        {
-          chain: optimism,
-          spokePool: "0x6f26Bf09B1C792e3228e5467807a900A503c0281",
-        },
-        {
-          chain: base,
-          spokePool: "0x09aea4b2242abC8bb4BB78D537A67a245A7bEC64",
-        },
-      ].map((x) => {
-        // @ts-expect-error
-        x.chain.custom = null;
-        // @ts-expect-error
-        x.chain.formatters = null;
-        // @ts-expect-error
-        x.chain.fees = null;
-        // @ts-expect-error
-        x.chain.serializers = null;
-        return x;
-      }),
+      bridgeControllerGetAcrossDomains(),
     ]);
 
     return {
       props: {
         deployments: data,
-        acrossDomains,
+        acrossDomains: acrossDomains.data,
         cctpDomains: cctpDomains.data,
       },
     };
