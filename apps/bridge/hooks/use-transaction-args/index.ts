@@ -19,7 +19,7 @@ export const useTransactionArgs = () => {
   const deployment = useDeployment();
   const deposit = useDepositArgs();
   const withdraw = useWithdrawArgs();
-  // const cctp = useCctpArgs();
+  const cctp = useCctpArgs();
   const across = useAcrossArgs();
 
   if (!stateToken || !wei) {
@@ -30,10 +30,10 @@ export const useTransactionArgs = () => {
     return across;
   }
 
-  // if (isCctpBridgeOperation(stateToken)) {
-  //   if (forceViaL1) return forceWithdrawalArgs(cctp, deployment);
-  //   return cctp;
-  // }
+  if (isCctpBridgeOperation(stateToken)) {
+    if (forceViaL1) return forceWithdrawalArgs(cctp, deployment);
+    return cctp;
+  }
 
   if (withdrawing) {
     if (forceViaL1) return forceWithdrawalArgs(withdraw, deployment);
