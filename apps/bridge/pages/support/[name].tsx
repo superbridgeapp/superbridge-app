@@ -12,6 +12,7 @@ import { Head } from "@/components/head";
 import { IconAlert } from "@/components/icons";
 import PageFooter from "@/components/page-footer";
 import PageNav from "@/components/page-nav";
+import { SupportStatusWidgetWrapper } from "@/components/status";
 import { SupportModal } from "@/components/support-modal";
 import {
   Accordion,
@@ -319,6 +320,8 @@ export default function Support({
                 </svg>
                 <span>All chains</span>
               </Link>
+
+              <SupportStatusWidgetWrapper deployment={deployment} />
 
               {faultProofUpgradeTime && (
                 <FaultProofAlert deployment={deployment} />

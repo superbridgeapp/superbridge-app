@@ -1,10 +1,9 @@
+import { DeploymentDto } from "@/codegen/model";
 import { isSuperbridge } from "@/config/superbridge";
 
 import { useDeployment } from "./use-deployment";
 
-export const useMetadata = () => {
-  const deployment = useDeployment();
-
+export const getMetadata = (deployment: DeploymentDto | null) => {
   if (isSuperbridge) {
     return {
       title: "Superbridge",
@@ -16,4 +15,9 @@ export const useMetadata = () => {
     title: `${deployment?.l2.name} Bridge`,
     description: `Bridge ${deployment?.l2.nativeCurrency.symbol} and ERC20 tokens into and out of ${deployment?.l2.name}`,
   };
+};
+
+export const useMetadata = () => {
+  const deployment = useDeployment();
+  return getMetadata(deployment);
 };
