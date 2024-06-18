@@ -13,6 +13,8 @@ export const SUPERCHAIN_MAINNETS = [
   "cyber-mainnet",
   "redstone-mainnet",
   "mint-mainnet-0",
+  "kroma",
+  "xterio-chain-eth",
 ];
 
 export const SUPERCHAIN_TESTNETS = [
