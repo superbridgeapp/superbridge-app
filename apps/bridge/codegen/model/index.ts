@@ -6,6 +6,12 @@
  * OpenAPI spec version: 1.0
  */
 
+export * from './acrossBridgeDto';
+export * from './acrossBridgeMetadataDataDto';
+export * from './acrossBridgeMetadataDto';
+export * from './acrossContractAddressesDto';
+export * from './acrossDomainDto';
+export * from './acrossTransactionType';
 export * from './actionDto';
 export * from './activeDeploymentStatus';
 export * from './activityDto';
@@ -42,6 +48,7 @@ export * from './chainNativeCurrencyDto';
 export * from './chainRpcUrlsDto';
 export * from './conduitDeploymentConfigDto';
 export * from './confirmationDto';
+export * from './confirmationDtoV2';
 export * from './createConduitDeploymentDto';
 export * from './deploymentDto';
 export * from './deploymentDtoArbitrumNativeToken';
@@ -65,12 +72,14 @@ export * from './fetchedMultichainTokenDto';
 export * from './fetchedTokenDto';
 export * from './fiatPricesDto';
 export * from './forcedWithdrawalDto';
+export * from './getActivityDto';
 export * from './idDto';
 export * from './l2ArbitrumContractAddressesDto';
 export * from './l2OptimismContractAddressesDto';
 export * from './linkDto';
 export * from './nftDepositDataDto';
 export * from './nftDepositDto';
+export * from './numberDto';
 export * from './optimismConfigDto';
 export * from './optimismContractAddressesDto';
 export * from './optimismTransactionType';

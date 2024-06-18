@@ -8,15 +8,11 @@
 import type { L2OptimismContractAddressesDto } from './l2OptimismContractAddressesDto';
 
 export interface OptimismContractAddressesDto {
-  addressManager: string;
-  bondManager: string;
-  canonicalTransactionChain: string;
   disputeGameFactory?: string;
   l1CrossDomainMessenger: string;
   l1StandardBridge: string;
   l2: L2OptimismContractAddressesDto;
-  l2OutputOracle: string;
+  l2OutputOracle?: string;
   optimismPortal: string;
-  stateCommitmentChain: string;
   systemConfig?: string;
 }
