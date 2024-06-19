@@ -659,6 +659,18 @@ const cyberTheme: Theme = {
   },
 };
 
+const xterioTheme: Theme = {
+  ...defaultTheme,
+  iconSrc: "/img/xterio-chain-eth/icon.svg",
+  card: {
+    className: "bg-black",
+    overlay: {
+      image: "/img/xterio-chain-eth/bg-card.png",
+      className: "bg-cover bg-center opacity-100",
+    },
+  },
+};
+
 export const themes: { [name: string]: Theme | undefined } = {
   ["base"]: baseTheme,
   ["base-sepolia"]: baseTheme,
@@ -713,6 +725,7 @@ export const themes: { [name: string]: Theme | undefined } = {
   ["sepolia-superseed-826s35710w"]: superseedTheme,
   ["cyber-mainnet"]: cyberTheme,
   ["cyber-testnet"]: cyberTheme,
+  ["xterio-chain-eth"]: xterioTheme,
 };
 
 export const deploymentTheme = (
