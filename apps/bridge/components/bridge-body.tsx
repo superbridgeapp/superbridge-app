@@ -337,6 +337,7 @@ export const BridgeBody = () => {
                 maximumFractionDigits: 4,
               })} ${stateToken?.[to?.id ?? 0]?.symbol}`
             : "",
+          infoModal: ModalNames.FeeBreakdown,
         }
       : null,
     stateToken
