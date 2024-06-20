@@ -32,30 +32,30 @@ export function Head({ deployment }: { deployment: DeploymentDto | null }) {
   const fonts = `
 @font-face {
   font-family: sb-heading;
-  src: url("${
+  src: url(${
     isSuperbridge
       ? "https://superbridge-fonts.vercel.app/GT-Maru-Bold.woff2"
       : deployment?.theme?.theme.fontBody ??
         "https://superbridge-fonts.vercel.app/GT-Maru-Bold.woff2"
-  }");
+  });
 }
 @font-face {
   font-family: sb-button;
-  src: url("${
+  src: url(${
     isSuperbridge
       ? "https://superbridge-fonts.vercel.app/GT-Maru-Bold.woff2"
       : deployment?.theme?.theme.fontBody ??
         "https://superbridge-fonts.vercel.app/GT-Maru-Bold.woff2"
-  }");
+  });
 }
 @font-face {
   font-family: sb-body;
-  src: url("${
+  src: url(${
     isSuperbridge
       ? "https://superbridge-fonts.vercel.app/GT-Maru-Medium.woff2"
       : deployment?.theme?.theme.fontBody ??
         "https://superbridge-fonts.vercel.app/GT-Maru-Medium.woff2"
-  }");
+  });
 }`;
 
   return (
