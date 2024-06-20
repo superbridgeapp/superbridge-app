@@ -40,8 +40,8 @@ export function Head({ deployment }: { deployment: DeploymentDto | null }) {
   }");
 }
 @font-face {
-font-family: sb-button;
-src: url("${
+  font-family: sb-button;
+  src: url("${
     isSuperbridge
       ? "https://superbridge-fonts.vercel.app/GT-Maru-Bold.woff2"
       : deployment?.theme?.theme.fontBody ??
@@ -49,8 +49,8 @@ src: url("${
   }");
 }
 @font-face {
-font-family: sb-body;
-src: url("${
+  font-family: sb-body;
+  src: url("${
     isSuperbridge
       ? "https://superbridge-fonts.vercel.app/GT-Maru-Medium.woff2"
       : deployment?.theme?.theme.fontBody ??
