@@ -147,7 +147,7 @@ export const ExpensiveGasModal = ({
                 </span>
               </div>
               <div className="flex items-center">
-                <span className=" text-sm  text-muted-foreground">
+                <span className="text-sm text-muted-foreground">
                   {tokenFiatAmount}
                 </span>
               </div>

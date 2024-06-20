@@ -6,6 +6,7 @@ import { BridgeNftDto, DeploymentDto } from "@/codegen/model";
 import { MultiChainToken } from "@/types/token";
 
 import { CustomTokenList } from "./settings";
+import { ModalNames } from "@/constants/modals";
 
 interface ConfigState {
   withdrawing: boolean;
@@ -80,9 +81,13 @@ interface ConfigState {
 
   blockProvingModal: DeploymentDto | null;
   setBlockProvingModal: (blockProvingModal: DeploymentDto | null) => void;
+
+  modals: { [x in ModalNames]: boolean };
+  addModal: (x: ModalNames) => void;
+  removeModal: (x: ModalNames) => void;
 }
 
-const ConfigState = create<ConfigState>()((set) => ({
+const ConfigState = create<ConfigState>()((set, get) => ({
   withdrawing: false,
   toggleWithdrawing: () =>
     set((s) => ({ withdrawing: !s.withdrawing, fast: false })),
@@ -162,6 +167,25 @@ const ConfigState = create<ConfigState>()((set) => ({
 
   blockProvingModal: null,
   setBlockProvingModal: (blockProvingModal) => set({ blockProvingModal }),
+
+  modals: Object.keys(ModalNames).reduce(
+    (accum, name) => ({ ...accum, [name]: false }),
+    {} as Record<ModalNames, boolean>
+  ),
+  addModal: (name) =>
+    set({
+      modals: {
+        ...get().modals,
+        [name]: true,
+      },
+    }),
+  removeModal: (name) =>
+    set({
+      modals: {
+        ...get().modals,
+        [name]: false,
+      },
+    }),
 }));
 
 export const useConfigState = createSelectorHooks(ConfigState);

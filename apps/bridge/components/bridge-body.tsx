@@ -64,6 +64,8 @@ import { CustomTokenImportModal } from "./tokens/custom-token-import-modal";
 import { Button } from "./ui/button";
 import { WithdrawSettingsModal } from "./withdraw-settings/modal";
 import { WithdrawalReadyToFinalizeModal } from "./withdrawal-ready-to-finalize-modal";
+import { ModalNames } from "@/constants/modals";
+import { Modals } from "./modals";
 
 enum AlertModals {
   NoGas = "no-gas",
@@ -166,6 +168,7 @@ export const BridgeBody = () => {
   const recipient = useConfigState.useRecipientAddress();
   const setToken = useConfigState.useSetToken();
   const currency = useSettingsState.useCurrency();
+  const openModal = useConfigState.useAddModal();
   const addPendingTransaction = usePendingTransactions.useAddTransaction();
   const updatePendingTransactionHash =
     usePendingTransactions.useUpdateTransactionByHash();
@@ -376,6 +379,7 @@ export const BridgeBody = () => {
       icon: "/img/transfer-time.svg",
       left: t("transferTime"),
       right: transferTime,
+      infoModal: fast ? ModalNames.TransferTime : undefined,
     },
   ].filter(isPresent);
 
@@ -579,6 +583,7 @@ export const BridgeBody = () => {
       />
       <FaultProofInfoModal />
       <WithdrawalReadyToFinalizeModal />
+      <Modals />
 
       {/* alerts */}
       <NoGasModal
@@ -648,40 +653,48 @@ export const BridgeBody = () => {
         className={`border border-border rounded-2xl divide-y divide-border pt-1`}
       >
         <RecipientAddress openAddressDialog={() => setAddressDialog(true)} />
-        {lineItems.map(({ left, middle, right, icon, component }) => (
-          <div
-            key={left}
-            className="flex items-center justify-between px-3 py-2 md:py-3"
-          >
-            <div className="flex justify-center gap-2">
-              <Image
-                alt={icon}
-                src={icon}
-                height={16}
-                width={16}
-                className="w-4 h-4"
-              />
-              <span className={`text-foreground text-xs `}>{left}</span>
-            </div>
-
-            {component ? (
-              component
-            ) : (
-              <div className="flex items-center">
-                {middle && (
-                  <span
-                    className={`text-muted-foreground ml-auto text-xs  mr-2`}
-                  >
-                    {middle}
-                  </span>
-                )}
-                <span className={`text-xs  text-foreground text-right`}>
-                  {right}
-                </span>
+        {lineItems.map(
+          ({ left, middle, right, icon, component, infoModal }) => (
+            <div
+              key={left}
+              className={clsx(
+                "flex items-center justify-between px-3 py-2 md:py-3",
+                !!infoModal && "cursor-pointer"
+              )}
+              onClick={infoModal ? () => openModal(infoModal) : undefined}
+            >
+              <div className="flex justify-center gap-2">
+                <Image
+                  alt={icon}
+                  src={icon}
+                  height={16}
+                  width={16}
+                  className="w-4 h-4"
+                />
+                <span className={`text-foreground text-xs `}>{left}</span>
               </div>
-            )}
-          </div>
-        ))}
+
+              {component ? (
+                component
+              ) : (
+                <div className="flex items-center">
+                  {middle && (
+                    <span
+                      className={`text-muted-foreground ml-auto text-xs  mr-2`}
+                    >
+                      {middle}
+                    </span>
+                  )}
+                  <span className={`text-xs text-foreground text-right`}>
+                    {right}
+                  </span>
+
+                  {infoModal && <button className="ml-2">?</button>}
+                </div>
+              )}
+            </div>
+          )
+        )}
 
         {fast || !withdrawing ? (
           <NetworkFees />

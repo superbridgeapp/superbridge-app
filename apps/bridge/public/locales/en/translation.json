@@ -42,6 +42,7 @@
   "to": "To",
   "manage": "Manage",
   "support": "Support",
+  "ok": "Ok",
 
   "settings": {
     "settings": "Settings",
@@ -258,5 +259,11 @@
     "networkFees": "Network fees",
     "goBack": "Go back",
     "proceedAnyway": "Proceed anyway"
+  },
+
+  "across": {
+    "transferTimeTitle": "Superfast transfer time",
+    "transferTimeDescription": "Depending on the size of the bridge, Superfast transfer times can vary. Times are estimates only.",
+    "timeTo": "Time to {{to}}"
   }
 }
