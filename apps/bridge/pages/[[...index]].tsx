@@ -28,6 +28,7 @@ import { useDeployment } from "@/hooks/use-deployment";
 import { useDeployments } from "@/hooks/use-deployments";
 import { InjectedStoreProvider } from "@/state/injected";
 import { ThemeProvider } from "@/state/theme";
+import { useConfigState } from "@/state/config";
 
 export const getServerSideProps = async ({
   req,
@@ -175,10 +176,16 @@ function Index() {
   const deployment = useDeployment();
   const { deployments } = useDeployments();
 
+  const fast = useConfigState.useFast();
+
   return (
     <PageTransition key={"index"}>
       <AnimatePresence mode="sync">
-        {deployment ? (
+        {fast ? (
+          <PageTransition key={"fast-bridge"}>
+            <Bridge key={"fast-bridge"} />
+          </PageTransition>
+        ) : deployment ? (
           <PageTransition key={"bridge"}>
             <Bridge key={"bridge"} />
           </PageTransition>

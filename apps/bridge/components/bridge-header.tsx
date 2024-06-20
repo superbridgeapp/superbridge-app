@@ -12,7 +12,6 @@ import { Checkbox } from "./ui/checkbox";
 export const BridgeHeader = () => {
   const withdrawing = useConfigState.useWithdrawing();
   const fast = useConfigState.useFast();
-  const setFast = useConfigState.useSetFast();
   const deployment = useDeployment();
   const toggleWithdrawing = useToggleWithdrawing();
   const setWithdrawing = useConfigState.useSetWithdrawing();
@@ -22,7 +21,11 @@ export const BridgeHeader = () => {
   return (
     <>
       <div className="flex items-center justify-between px-4 md:px-6 pt-3 md:pt-6 pb-2 md:pb-4">
-        {deployments.length === 1 ? (
+        {fast ? (
+          <>
+            <div className="flex items-center space-x-2 w-full">Fast</div>
+          </>
+        ) : deployments.length === 1 ? (
           <>
             <div className="flex items-center space-x-2 w-full">
               <div
@@ -126,14 +129,6 @@ export const BridgeHeader = () => {
                   </span>
                 </div>
               </div>
-            </div>
-
-            <div>
-              <div className="text-xs">Fast Mode</div>
-              <Checkbox
-                checked={fast}
-                onCheckedChange={(e) => setFast(e as boolean)}
-              />
             </div>
           </>
         )}
