@@ -7,8 +7,6 @@ import { useDeployments } from "@/hooks/use-deployments";
 import { useToggleWithdrawing } from "@/hooks/use-toggle-withdrawing";
 import { useConfigState } from "@/state/config";
 
-import { Checkbox } from "./ui/checkbox";
-
 export const BridgeHeader = () => {
   const withdrawing = useConfigState.useWithdrawing();
   const fast = useConfigState.useFast();

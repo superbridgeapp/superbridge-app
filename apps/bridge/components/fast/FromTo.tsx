@@ -2,51 +2,31 @@ import { useAcrossDomains } from "@/hooks/use-across-domains";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
 import { useFastState } from "@/state/fast";
 
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
 import { FastNetworkIcon } from "./network-icon";
+import { useConfigState } from "@/state/config";
 
 export const FastFromTo = () => {
   const from = useFromChain();
   const to = useToChain();
-  const domains = useAcrossDomains();
   const setFromChainId = useFastState.useSetFromChainId();
   const setToChainId = useFastState.useSetToChainId();
+  const setNetworkSelectorModal = useConfigState.useSetNetworkSelectorModal();
 
   return (
     <div
       className={`border box-border relative flex items-start justify-between box-border p-3 py-4  rounded-[16px] relative`}
     >
-      <div className="grow flex gap-2 items-start w-1/2 pr-3">
+      <div
+        className="grow flex gap-2 items-start w-1/2 pr-3"
+        onClick={() => setNetworkSelectorModal("from")}
+      >
         <FastNetworkIcon
           chain={from}
           width={32}
           height={32}
           className="pointer-events-none"
         />
-
-        <DropdownMenu>
-          <DropdownMenuTrigger>{from?.name}</DropdownMenuTrigger>
-          <DropdownMenuContent>
-            {domains.map((d) => (
-              <DropdownMenuItem
-                key={`fast-${d.chain.name}`}
-                onClick={() => {
-                  setFromChainId(d.chain.id);
-                  if (d.chain.id === to?.id) {
-                    setToChainId(from!.id);
-                  }
-                }}
-              >
-                {d.chain?.name}
-              </DropdownMenuItem>
-            ))}
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <span>{from?.name}</span>
       </div>
 
       <button
@@ -67,25 +47,11 @@ export const FastFromTo = () => {
         </svg>
       </button>
 
-      <div className="grow flex gap-2 items-start justify-end w-1/2 pr-3">
-        <DropdownMenu>
-          <DropdownMenuTrigger>{to?.name}</DropdownMenuTrigger>
-          <DropdownMenuContent>
-            {domains.map((d) => (
-              <DropdownMenuItem
-                key={`fast-${d.chain.name}`}
-                onClick={() => {
-                  setToChainId(d.chain.id);
-                  if (d.chain.id === from?.id) {
-                    setFromChainId(to!.id);
-                  }
-                }}
-              >
-                {d.chain?.name}
-              </DropdownMenuItem>
-            ))}
-          </DropdownMenuContent>
-        </DropdownMenu>
+      <div
+        className="grow flex gap-2 items-start justify-end w-1/2 pr-3"
+        onClick={() => setNetworkSelectorModal("to")}
+      >
+        <span>{to?.name}</span>
 
         <FastNetworkIcon
           chain={to}

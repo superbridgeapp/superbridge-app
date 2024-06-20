@@ -12,6 +12,7 @@ import { useAccount, useBalance, useConfig, useWalletClient } from "wagmi";
 import { useBridgeControllerTrack } from "@/codegen";
 import { isSuperbridge } from "@/config/superbridge";
 import { currencySymbolMap } from "@/constants/currency-symbol-map";
+import { ModalNames } from "@/constants/modals";
 import { SUPERCHAIN_MAINNETS } from "@/constants/superbridge";
 import { useAcrossPaused } from "@/hooks/across/use-across-paused";
 import { useBridgeMax } from "@/hooks/limits/use-bridge-max";
@@ -57,6 +58,7 @@ import { FastFromTo } from "./fast/FromTo";
 import { FaultProofInfoModal } from "./fault-proof-info-modal";
 import { NetworkFees } from "./fees/network-fees";
 import { WithdrawFees } from "./fees/withdraw-fees";
+import { Modals } from "./modals";
 import { NftImage } from "./nft";
 import { TokenInput } from "./token-input";
 import { TokenModal } from "./tokens/Modal";
@@ -64,8 +66,6 @@ import { CustomTokenImportModal } from "./tokens/custom-token-import-modal";
 import { Button } from "./ui/button";
 import { WithdrawSettingsModal } from "./withdraw-settings/modal";
 import { WithdrawalReadyToFinalizeModal } from "./withdrawal-ready-to-finalize-modal";
-import { ModalNames } from "@/constants/modals";
-import { Modals } from "./modals";
 
 enum AlertModals {
   NoGas = "no-gas",

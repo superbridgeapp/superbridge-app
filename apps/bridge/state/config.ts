@@ -85,6 +85,9 @@ interface ConfigState {
   modals: { [x in ModalNames]: boolean };
   addModal: (x: ModalNames) => void;
   removeModal: (x: ModalNames) => void;
+
+  networkSelectorModal: "from" | "to" | null;
+  setNetworkSelectorModal: (x: "from" | "to" | null) => void;
 }
 
 const ConfigState = create<ConfigState>()((set, get) => ({
@@ -160,6 +163,10 @@ const ConfigState = create<ConfigState>()((set, get) => ({
 
   faultProofInfoModal: false,
   setFaultProofInfoModal: (faultProofInfoModal) => set({ faultProofInfoModal }),
+
+  networkSelectorModal: null,
+  setNetworkSelectorModal: (networkSelectorModal) =>
+    set({ networkSelectorModal }),
 
   hasWithdrawalReadyToFinalizeModal: false,
   setHasWithdrawalReadyToFinalizeModal: (hasWithdrawalReadyToFinalizeModal) =>
