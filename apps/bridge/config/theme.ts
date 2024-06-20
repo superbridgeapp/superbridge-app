@@ -726,6 +726,7 @@ export const themes: { [name: string]: Theme | undefined } = {
   ["cyber-mainnet"]: cyberTheme,
   ["cyber-testnet"]: cyberTheme,
   ["xterio-chain-eth"]: xterioTheme,
+  ["xterio-eth-testnet"]: xterioTheme,
 };
 
 export const deploymentTheme = (
