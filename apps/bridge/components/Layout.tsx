@@ -183,7 +183,7 @@ export function Layout({ children }: { children: any }) {
           </motion.button>
 
           <motion.button
-            onClick={() => setFast(true)}
+            onClick={() => navigate("fast")}
             whileHover={{ scale: 1.05 }}
             animate={{ y: 0, x: "20%" }}
             initial={{ y: -60, x: "20%" }}

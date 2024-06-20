@@ -43,7 +43,7 @@ export const TokenInput = () => {
         htmlFor="amount"
         className={`block text-sm font-heading leading-6 text-foreground`}
       >
-        {fast ? "Fast bridge" : withdrawing ? t("withdraw") : t("deposit")}
+        {fast ? "" : withdrawing ? t("withdraw") : t("deposit")}
       </label>
       <div className="flex gap-1">
         <input
