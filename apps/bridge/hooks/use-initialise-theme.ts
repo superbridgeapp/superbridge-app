@@ -49,7 +49,7 @@ const superbridgeTheme: Partial<ThemeDto> = {
   "ring-dark": "hsl(240 4.9% 83.9%)",
 };
 
-async function handleFonts(theme: ThemeDto) {
+async function refreshFonts(theme: ThemeDto) {
   const heading = new FontFace(
     "sb-heading",
     `url(${
@@ -71,22 +71,17 @@ async function handleFonts(theme: ThemeDto) {
       "https://superbridge-fonts.vercel.app/GT-Maru-Bold.woff2"
     })`
   );
-  const all = [heading, body, buttons];
-  await Promise.all(
-    all.map(async (f) => {
-      if (document.fonts.has(f)) {
-        console.log("document already has", f.family);
-        return;
-      }
-      await f.load();
-      document.fonts.add(f);
-    })
+
+  const fonts = await Promise.all(
+    [heading, body, buttons].map((f) => f.load())
   );
+  document.fonts.clear();
+  fonts.map((f) => {
+    document.fonts.add(f);
+  });
 }
 
 function updateTheme(theme: ThemeDto) {
-  handleFonts(theme);
-
   Object.entries(theme).forEach(([key, value]) => {
     if (!value || key.includes("font") || key.includes("image")) {
       return;
@@ -126,6 +121,7 @@ export const useInitialiseTheme = () => {
       if (e.data.theme) {
         updateTheme(e.data.theme as ThemeDto);
         setThemeValues(e.data.theme);
+        refreshFonts(e.data.theme as ThemeDto);
       }
     };
     window.addEventListener("message", listener);
