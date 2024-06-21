@@ -9,6 +9,7 @@ import { Address, isAddress, isAddressEqual } from "viem";
 import { useAccount } from "wagmi";
 
 import { Input } from "@/components/ui/input";
+import { ModalNames } from "@/constants/modal-names";
 import { useToChain } from "@/hooks/use-chain";
 import { useIsContractAccount } from "@/hooks/use-is-contract-account";
 import { useTransactions } from "@/hooks/use-transactions";
@@ -16,8 +17,8 @@ import { resolveAddress, resolveName } from "@/services/ens";
 import { useConfigState } from "@/state/config";
 import { isDeposit, isWithdrawal } from "@/utils/guards";
 
-import { Button } from "./ui/button";
-import { Dialog, DialogContent } from "./ui/dialog";
+import { Button } from "../ui/button";
+import { Dialog, DialogContent } from "../ui/dialog";
 
 interface ProfileProps {
   name: string | null;
@@ -61,13 +62,7 @@ const Profile = ({
   );
 };
 
-export const AddressModal = ({
-  open,
-  setOpen,
-}: {
-  open: boolean;
-  setOpen: (b: boolean) => void;
-}) => {
+export const RecipientAddressModal = () => {
   const withdrawing = useConfigState.useWithdrawing();
   const toChain = useToChain();
   const recipientName = useConfigState.useRecipientName();
@@ -85,6 +80,8 @@ export const AddressModal = ({
 
   const setRecipientName = useConfigState.useSetRecipientName();
   const setRecipientAddress = useConfigState.useSetRecipientAddress();
+  const modals = useConfigState.useModals();
+  const removeModal = useConfigState.useRemoveModal();
   const transactions = useTransactions();
   const { t } = useTranslation();
 
@@ -132,12 +129,15 @@ export const AddressModal = ({
     setRecipientName(profile.data.name || "");
     setRecipientAddress(profile.data.address);
 
-    setOpen(false);
+    removeModal(ModalNames.RecipientAddress);
   };
 
   return (
     <>
-      <Dialog open={open} onOpenChange={setOpen}>
+      <Dialog
+        open={modals.RecipientAddress}
+        onOpenChange={() => removeModal(ModalNames.RecipientAddress)}
+      >
         <DialogContent>
           <div>
             <div className="flex items-center justify-between pl-6 pr-4 py-4 md:py-6 border-b z-10">

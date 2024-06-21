@@ -1,6 +1,6 @@
 import { Trans, useTranslation } from "react-i18next";
 
-import { ModalNames } from "@/constants/modals";
+import { ModalNames } from "@/constants/modal-names";
 import { useToChain } from "@/hooks/use-chain";
 import { useSelectedToken } from "@/hooks/use-selected-token";
 import { useConfigState } from "@/state/config";

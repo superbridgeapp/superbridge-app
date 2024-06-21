@@ -1,5 +1,3 @@
-import { useTranslation } from "react-i18next";
-
 import { AcrossDomainDto } from "@/codegen/model";
 import { useAcrossDomains } from "@/hooks/use-across-domains";
 import { useFromChain, useToChain } from "@/hooks/use-chain";

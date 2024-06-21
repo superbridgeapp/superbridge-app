@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 
-import { ModalNames } from "@/constants/modals";
+import { ModalNames } from "@/constants/modal-names";
 import { useToChain } from "@/hooks/use-chain";
 import { useFiatAmount } from "@/hooks/use-fiat-amount";
 import { useSelectedToken } from "@/hooks/use-selected-token";

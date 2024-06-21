@@ -3,10 +3,10 @@ import { Address } from "viem";
 import { create } from "zustand";
 
 import { BridgeNftDto, DeploymentDto } from "@/codegen/model";
+import { ModalNames } from "@/constants/modal-names";
 import { MultiChainToken } from "@/types/token";
 
 import { CustomTokenList } from "./settings";
-import { ModalNames } from "@/constants/modals";
 
 interface ConfigState {
   withdrawing: boolean;
