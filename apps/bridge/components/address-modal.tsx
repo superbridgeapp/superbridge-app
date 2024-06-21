@@ -224,6 +224,10 @@ export const AddressModal = ({
                         ({ transactions, profile }) => {
                           const count = transactions.transactions.reduce(
                             (accum, tx) => {
+                              if (tx.type === "across-bridge") {
+                                return accum;
+                              }
+
                               // todo: make this work with ENS
                               if (
                                 isDeposit(tx) &&

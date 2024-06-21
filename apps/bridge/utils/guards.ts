@@ -1,4 +1,6 @@
 import {
+  AcrossBridgeDto,
+  AcrossTransactionType,
   ActiveDeploymentStatus,
   ArbitrumDepositEthDto,
   ArbitrumDepositRetryableDto,

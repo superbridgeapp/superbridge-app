@@ -30,6 +30,9 @@ export const useHasWithdrawalReadyToFinalize = () => {
   }
 
   return !!transactions.find((x) => {
+    if (x.type === "across-bridge") {
+      return false;
+    }
     if (isOptimismWithdrawal(x)) {
       const rows = withdrawalProgressRows(x, deployment);
       return !!rows[rows.length - 1].buttonComponent;

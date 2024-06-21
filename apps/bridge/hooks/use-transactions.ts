@@ -36,6 +36,9 @@ export const useTransactions = () => {
 
   useEffect(() => {
     response.data?.data.transactions.forEach((tx) => {
+      if (tx.type === "across-bridge") {
+        return;
+      }
       const hash = getInitiatingHash(tx);
       if (hash) removePending(hash);
 

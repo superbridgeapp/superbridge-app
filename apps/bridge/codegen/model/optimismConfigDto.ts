@@ -8,6 +8,7 @@
 
 export interface OptimismConfigDto {
   blockTimeSeconds: number;
+  dataAvailabilityChallengePeriodSeconds?: number;
   disputeGameFinalityDelaySeconds?: number;
   finalizationPeriodSeconds: number;
   submissionIntervalSeconds: number;
