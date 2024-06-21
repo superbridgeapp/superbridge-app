@@ -52,13 +52,10 @@ export const AmountReceivedLineItem = () => {
               : ""}
           </span>
           <span className={`text-xs text-foreground text-right`}>
-            {receive
-              ? `$
-            {receive.toLocaleString("en", {
+            {receive?.toLocaleString("en", {
               maximumFractionDigits: 4,
-            })}{" "}
-            ${stateToken?.[to?.id ?? 0]?.symbol}`
-              : ""}
+            })}
+            {stateToken?.[to?.id ?? 0]?.symbol}
           </span>
         </>
       )}
