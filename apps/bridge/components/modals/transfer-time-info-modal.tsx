@@ -9,6 +9,7 @@ import { useConfigState } from "@/state/config";
 import { TokenIcon } from "../token-icon";
 import { Button } from "../ui/button";
 import { Dialog, DialogContent } from "../ui/dialog";
+import { IconFees } from "../icons";
 
 export const TransferTimeInfoModal = () => {
   const { t } = useTranslation();
@@ -50,17 +51,20 @@ export const TransferTimeInfoModal = () => {
                     {fiatAmount}
                   </span>
                 )}
-                <span className="text-sm text-foreground">{rawAmount}</span>
+                <span className="text-sm text-foreground">
+                  {rawAmount} {token?.symbol}
+                </span>
               </div>
             </div>
 
             <div className="flex items-center justify-between px-3 py-2">
               <div className="flex items-center gap-2">
-                {/* <IconFees className="h-6 w-6" /> */}
+                <IconFees className="h-6 w-6" />
                 <span className="font-heading text-sm ">
                   {t("across.timeTo", { to: to?.name })}
                 </span>
               </div>
+              <span>15 secs - 3 mins</span>
             </div>
           </div>
 
