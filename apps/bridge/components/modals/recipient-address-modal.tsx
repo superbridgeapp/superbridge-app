@@ -69,18 +69,18 @@ export const RecipientAddressModal = () => {
   const recipientAddress = useConfigState.useRecipientAddress();
   const isContractAccount = useIsContractAccount();
   const account = useAccount();
+  const modals = useConfigState.useModals();
 
   const [input, setInput] = useState("");
 
   useEffect(() => {
     setInput(recipientName || recipientAddress || "");
-  }, [recipientName, recipientAddress, open]);
+  }, [recipientName, recipientAddress, modals.RecipientAddress]);
 
   const [debouncedInput] = useDebounce(input, 750);
 
   const setRecipientName = useConfigState.useSetRecipientName();
   const setRecipientAddress = useConfigState.useSetRecipientAddress();
-  const modals = useConfigState.useModals();
   const removeModal = useConfigState.useRemoveModal();
   const transactions = useTransactions();
   const { t } = useTranslation();

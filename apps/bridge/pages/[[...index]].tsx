@@ -157,7 +157,7 @@ export default function IndexRoot({
         withdrawing: router.query.direction === "withdraw",
         testnets: testnets ?? false,
         acrossDomains: acrossDomains ?? [],
-        cctpDomains,
+        cctpDomains: cctpDomains ?? [],
       }}
     >
       <ThemeProvider>
