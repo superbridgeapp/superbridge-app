@@ -20,6 +20,7 @@ export const useInitialise = () => {
   const deployment = useDeployment();
   const setEasyMode = useConfigState.useSetEasyMode();
   const setForceViaL1 = useConfigState.useSetForceViaL1();
+  const setFast = useConfigState.useSetFast();
   const setWithdrawing = useConfigState.useSetWithdrawing();
   const clearPendingTransactionsStorage = usePendingTransactions.useLogout();
 
@@ -37,6 +38,12 @@ export const useInitialise = () => {
     const direction = router.query.direction as string | undefined;
     if (direction === "withdraw") {
       setWithdrawing(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (router.asPath === "/fast") {
+      setFast(true);
     }
   }, []);
 

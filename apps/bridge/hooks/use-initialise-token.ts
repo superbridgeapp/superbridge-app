@@ -4,13 +4,12 @@ import { isAddress, isAddressEqual } from "viem";
 
 import { configurations } from "@/config/contract-addresses";
 import { useConfigState } from "@/state/config";
+import { useFastState } from "@/state/fast";
 import { isNativeToken } from "@/utils/is-eth";
 
 import { useGasToken } from "./use-approve-gas-token";
 import { useDeployment } from "./use-deployment";
-import { useActiveTokens, useAllTokens } from "./use-tokens";
-import { useFromTo } from "./use-from-to";
-import { useFastState } from "@/state/fast";
+import { useAllTokens } from "./use-tokens";
 
 /**
  * We want to find the token the user has specified and set some state accordingly,

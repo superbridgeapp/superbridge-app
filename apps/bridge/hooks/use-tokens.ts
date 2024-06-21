@@ -25,6 +25,7 @@ import { isBridgedUsdc, isNativeUsdc } from "@/utils/is-usdc";
 import { DeploymentFamily } from "@/codegen/model";
 import { useDeployment } from "./use-deployment";
 import { useDeployments } from "./use-deployments";
+import { useFastState } from "@/state/fast";
 
 function useDeploymentTokens(): MultiChainToken[] {
   const { deployments } = useDeployments();
@@ -203,7 +204,10 @@ export function useAllTokens() {
 
 export function useActiveTokens() {
   const deployment = useDeployment();
+  const fast = useConfigState.useFast();
   const withdrawing = useConfigState.useWithdrawing();
+  const fastFromChainId = useFastState.useFromChainId();
+  const fastToChainId = useFastState.useToChainId();
   const tokens = useAllTokens();
 
   const hasNativeUsdc = useMemo(
@@ -218,10 +222,20 @@ export function useActiveTokens() {
   );
 
   const active = useMemo(() => {
-    if (!deployment) {
+    if (!deployment && !fast) {
       return [];
     }
+
     return tokens.filter((t) => {
+      if (fast) {
+        const from = t[fastFromChainId];
+        const to = t[fastToChainId];
+        if (!from || !to) return false;
+        return ["USDC", "ETH"].includes(from.symbol);
+      }
+
+      if (!deployment) return false;
+
       const l1 = t[deployment.l1.id];
       const l2 = t[deployment.l2.id];
 
@@ -255,7 +269,7 @@ export function useActiveTokens() {
 
       return false;
     });
-  }, [deployment, tokens, hasNativeUsdc]);
+  }, [deployment, tokens, hasNativeUsdc, fast, fastFromChainId, fastToChainId]);
 
   return active;
 }

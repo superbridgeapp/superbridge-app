@@ -21,7 +21,7 @@ export const useNavigate = () => {
     }
 
     if (to === "fast") {
-      router.push("/", undefined, { shallow: true });
+      router.push("/fast", undefined, { shallow: true });
       setDeployment(null);
       setFast(true);
     } else if (to === "/") {

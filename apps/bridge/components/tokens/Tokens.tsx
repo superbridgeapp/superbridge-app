@@ -277,13 +277,6 @@ export const FungibleTokenPicker = ({
   const { t } = useTranslation();
 
   const filteredTokens = tokens.data.filter(({ token }) => {
-    if (fast) {
-      return (
-        token[from?.id ?? 0]?.symbol === "USDC" ||
-        token[from?.id ?? 0]?.symbol === "ETH"
-      );
-    }
-
     if (!search) {
       return true;
     }
