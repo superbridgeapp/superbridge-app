@@ -85,6 +85,7 @@ module.exports = {
         "accordion-up": "accordion-up 0.2s ease-out",
         marquee: "marquee 72s linear infinite",
         marquee2: "marquee2 72s linear infinite",
+        "spin-slow": "spin 8s linear infinite",
       },
     },
   },
