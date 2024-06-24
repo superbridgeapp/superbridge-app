@@ -381,12 +381,16 @@ function useToken(tx: Transaction, tokens: MultiChainToken[]) {
     })
     .with({ type: "across-bridge" }, (m) => {
       const dto = m as AcrossBridgeMetadataDto;
-      const tokenAddress = dto.data.inputTokenAddress;
+
+      if (dto.data.isEth) {
+        return getNativeToken(tokens, from.id);
+      }
+
       return getToken(
         tokens,
         {
           chainId: from.id,
-          tokenAddress,
+          tokenAddress: dto.data.inputTokenAddress,
         },
         to.id
       );
@@ -551,7 +555,7 @@ export const TransactionRow = ({ tx }: { tx: Transaction }) => {
           </svg>
         ) : isAcrossBridge(tx) ? (
           // Across bridge icon
-          <div></div>
+          <div>Across icon?</div>
         ) : (
           // forced withdrawal
           <svg
