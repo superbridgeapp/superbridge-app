@@ -27,7 +27,8 @@ export const useAcrossParams = () => {
     !outputToken ||
     !recipient ||
     !originChainId ||
-    !destinationChainId
+    !destinationChainId ||
+    !amount
   ) {
     return null;
   }

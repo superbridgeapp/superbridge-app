@@ -1,10 +1,9 @@
-import { useAcrossDomains } from "@/hooks/use-across-domains";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
 import { useFastState } from "@/state/fast";
 
-import { FastNetworkIcon } from "./network-icon";
 import { useConfigState } from "@/state/config";
 import { useTranslation } from "react-i18next";
+import { FastNetworkIcon } from "./network-icon";
 
 export const FastFromTo = () => {
   const from = useFromChain();
@@ -13,6 +12,7 @@ export const FastFromTo = () => {
   const setToChainId = useFastState.useSetToChainId();
   const setNetworkSelectorModal = useConfigState.useSetNetworkSelectorModal();
   const { t } = useTranslation();
+
   return (
     <div
       className={`relative flex items-start justify-between gap-1 select-none`}

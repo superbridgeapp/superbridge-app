@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useTranslation } from "react-i18next";
 
 import { currencySymbolMap } from "@/constants/currency-symbol-map";
+import { useAcrossFee } from "@/hooks/across/use-across-fee";
 import { useToChain } from "@/hooks/use-chain";
 import { useTokenPrice } from "@/hooks/use-prices";
 import { useReceiveAmount } from "@/hooks/use-receive-amount";
@@ -21,10 +22,11 @@ export const AmountReceivedLineItem = () => {
   const currency = useSettingsState.useCurrency();
 
   const usdPrice = useTokenPrice(stateToken);
-
   const receive = useReceiveAmount();
+  const acrossFee = useAcrossFee();
 
-  const fiatValueBeingBridged = usdPrice && receive ? receive * usdPrice : null;
+  const fiatValueBeingBridged =
+    usdPrice && receive.data ? receive.data * usdPrice : null;
 
   return (
     <div
@@ -45,16 +47,29 @@ export const AmountReceivedLineItem = () => {
 
       {stateToken && (
         <>
-          <span className={`text-muted-foreground ml-auto text-xs  mr-2`}>
-            {fiatValueBeingBridged
-              ? `${
-                  currencySymbolMap[currency]
-                }${fiatValueBeingBridged.toLocaleString("en")}`
-              : ""}
-          </span>
-          <span className={`text-xs text-foreground text-right`}>
-            {formatDecimals(receive)} {stateToken?.[to?.id ?? 0]?.symbol}
-          </span>
+          {acrossFee.isFetching ? (
+            <span className="text-sm">Loading</span>
+          ) : (
+            <>
+              <span className={`text-muted-foreground ml-auto text-xs  mr-2`}>
+                {fiatValueBeingBridged
+                  ? `${
+                      currencySymbolMap[currency]
+                    }${fiatValueBeingBridged.toLocaleString("en")}`
+                  : ""}
+              </span>
+              <span className={`text-xs text-foreground text-right`}>
+                {receive.data ? (
+                  <>
+                    {formatDecimals(receive.data)}{" "}
+                    {stateToken?.[to?.id ?? 0]?.symbol}
+                  </>
+                ) : (
+                  "…"
+                )}
+              </span>
+            </>
+          )}
         </>
       )}
 

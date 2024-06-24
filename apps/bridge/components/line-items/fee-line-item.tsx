@@ -5,9 +5,9 @@ import { currencySymbolMap } from "@/constants/currency-symbol-map";
 import { ModalNames } from "@/constants/modal-names";
 import { useToChain } from "@/hooks/use-chain";
 import { useTokenPrice } from "@/hooks/use-prices";
-import { useAcrossFee } from "@/hooks/use-receive-amount";
 import { useConfigState } from "@/state/config";
 import { useSettingsState } from "@/state/settings";
+import { useAcrossFee } from "@/hooks/across/use-across-fee";
 
 export const FeeLineItem = () => {
   const to = useToChain();
@@ -18,7 +18,7 @@ export const FeeLineItem = () => {
 
   const usdPrice = useTokenPrice(stateToken);
 
-  const fastFee = useAcrossFee();
+  const acrossFee = useAcrossFee();
 
   return (
     <div
@@ -39,20 +39,26 @@ export const FeeLineItem = () => {
       </div>
 
       <div className="flex items-center">
-        <span className={`text-muted-foreground ml-auto text-xs  mr-2`}>
-          {fastFee && usdPrice
-            ? `${currencySymbolMap[currency]}${(
-                fastFee * usdPrice
-              ).toLocaleString("en")}`
-            : undefined}
-        </span>
-        <span className={`text-xs text-foreground text-right`}>
-          {fastFee
-            ? `${fastFee.toLocaleString("en", {
-                maximumFractionDigits: 4,
-              })} ${stateToken?.[to?.id ?? 0]?.symbol}`
-            : ""}
-        </span>
+        {acrossFee.isFetching ? (
+          <span className="text-sm">Loading</span>
+        ) : (
+          <>
+            <span className={`text-muted-foreground ml-auto text-xs  mr-2`}>
+              {acrossFee.data && usdPrice
+                ? `${currencySymbolMap[currency]}${(
+                    acrossFee.data * usdPrice
+                  ).toLocaleString("en")}`
+                : undefined}
+            </span>
+            <span className={`text-xs text-foreground text-right`}>
+              {acrossFee.data
+                ? `${acrossFee.data.toLocaleString("en", {
+                    maximumFractionDigits: 4,
+                  })} ${stateToken?.[to?.id ?? 0]?.symbol}`
+                : "…"}
+            </span>
+          </>
+        )}
 
         <button className="ml-2 transition-all hover:scale-105">
           <svg

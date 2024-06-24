@@ -81,6 +81,7 @@ export const useAcrossQuote = () => {
   const params = useAcrossParams();
 
   const paramsString = params ? new URLSearchParams(params).toString() : "";
+
   return useQuery({
     queryKey: ["across quote", paramsString],
     queryFn: async () => {
@@ -90,6 +91,7 @@ export const useAcrossQuote = () => {
       if (response.status !== 200) {
         throw new Error(await response.text());
       }
+      await new Promise((resolve) => setTimeout(resolve, 100));
       return (await response.json()) as AcrossQuoteResult;
     },
     enabled: fast && !!paramsString,

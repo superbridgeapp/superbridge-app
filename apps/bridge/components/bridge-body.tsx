@@ -2,20 +2,17 @@ import { useConnectModal } from "@rainbow-me/rainbowkit";
 import { waitForTransactionReceipt } from "@wagmi/core";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { isPresent } from "ts-is-present";
 import { match } from "ts-pattern";
 import { formatUnits, parseUnits } from "viem";
 import { useAccount, useBalance, useConfig, useWalletClient } from "wagmi";
 
 import { useBridgeControllerTrack } from "@/codegen";
 import { isSuperbridge } from "@/config/superbridge";
-import { currencySymbolMap } from "@/constants/currency-symbol-map";
-import { ModalNames } from "@/constants/modal-names";
 import { SUPERCHAIN_MAINNETS } from "@/constants/superbridge";
+import { useAcrossDomains } from "@/hooks/across/use-across-domains";
 import { useAcrossPaused } from "@/hooks/across/use-across-paused";
 import { useBridgeMax } from "@/hooks/limits/use-bridge-max";
 import { useBridgeMin } from "@/hooks/limits/use-bridge-min";
-import { useAcrossDomains } from "@/hooks/use-across-domains";
 import { useAllowance } from "@/hooks/use-allowance";
 import { useApprove } from "@/hooks/use-approve";
 import { useTokenBalance } from "@/hooks/use-balances";
@@ -27,7 +24,7 @@ import { useFaultProofUpgradeTime } from "@/hooks/use-fault-proof-upgrade-time";
 import { useNativeToken } from "@/hooks/use-native-token";
 import { useNetworkFee } from "@/hooks/use-network-fee";
 import { useTokenPrice } from "@/hooks/use-prices";
-import { useAcrossFee, useReceiveAmount } from "@/hooks/use-receive-amount";
+import { useReceiveAmount } from "@/hooks/use-receive-amount";
 import { useRequiredCustomGasTokenBalance } from "@/hooks/use-required-custom-gas-token-balance";
 import { useSelectedToken } from "@/hooks/use-selected-token";
 import { useStatusCheck } from "@/hooks/use-status-check";
@@ -135,7 +132,6 @@ export const BridgeBody = () => {
   );
   const usdPrice = useTokenPrice(stateToken);
 
-  const fastFee = useAcrossFee();
   const receive = useReceiveAmount();
 
   const hasInsufficientBalance = weiAmount > tokenBalance;
@@ -151,7 +147,8 @@ export const BridgeBody = () => {
   })();
 
   const totalFeesInFiat = useEstimateTotalFeesInFiat();
-  const fiatValueBeingBridged = usdPrice && receive ? receive * usdPrice : null;
+  const fiatValueBeingBridged =
+    usdPrice && receive.data ? receive.data * usdPrice : null;
 
   const requiredCustomGasTokenBalance = useRequiredCustomGasTokenBalance();
   /**
@@ -246,69 +243,6 @@ export const BridgeBody = () => {
       console.log(e);
     }
   };
-
-  const lineItems = [
-    fast
-      ? {
-          icon: "/img/icon-superfast.svg",
-          left: "Superfast fee",
-          middle:
-            fastFee && usdPrice
-              ? `${currencySymbolMap[currency]}${(
-                  fastFee * usdPrice
-                ).toLocaleString("en")}`
-              : undefined,
-          right: fastFee
-            ? `${fastFee.toLocaleString("en", {
-                maximumFractionDigits: 4,
-              })} ${stateToken?.[to?.id ?? 0]?.symbol}`
-            : "",
-          infoModal: ModalNames.FeeBreakdown,
-        }
-      : null,
-    stateToken
-      ? {
-          icon: "/img/receive.svg",
-          left: t("receiveOnChain", { chain: to?.name }),
-          middle: fiatValueBeingBridged
-            ? `${
-                currencySymbolMap[currency]
-              }${fiatValueBeingBridged.toLocaleString("en")}`
-            : undefined,
-          right: receive
-            ? `${receive.toLocaleString("en", {
-                maximumFractionDigits: 4,
-              })} ${stateToken?.[to?.id ?? 0]?.symbol}`
-            : "",
-        }
-      : nft
-      ? {
-          icon: "/img/receive.svg",
-          left: t("receiveOnChain", { chain: to?.name }),
-          component: (
-            <div className="flex items-center gap-2">
-              <div className="text-xs ">#{nft.tokenId}</div>
-              <NftImage
-                nft={{
-                  address: nft.localConfig.address,
-                  chainId: nft.localConfig.chainId,
-                  tokenId: nft.tokenId,
-                  image: nft.image,
-                  tokenUri: nft.tokenUri,
-                }}
-                className="h-6 w-6 rounded-sm"
-              />
-            </div>
-          ),
-        }
-      : null,
-    {
-      icon: "/img/transfer-time.svg",
-      left: t("transferTime"),
-      right: transferTime,
-      infoModal: fast ? ModalNames.TransferTime : undefined,
-    },
-  ].filter(isPresent);
 
   const initiateBridge = async () => {
     await onWrite();

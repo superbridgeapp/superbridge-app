@@ -6,7 +6,6 @@ import { useSelectedToken } from "@/hooks/use-selected-token";
 import { useConfigState } from "@/state/config";
 import { currencySymbolMap } from "@/constants/currency-symbol-map";
 import { useTokenPrice } from "@/hooks/use-prices";
-import { useAcrossFee } from "@/hooks/use-receive-amount";
 import { useSettingsState } from "@/state/settings";
 
 import { TokenIcon } from "../token-icon";
@@ -14,6 +13,7 @@ import { Button } from "../ui/button";
 import { Dialog, DialogContent } from "../ui/dialog";
 
 import { IconSuperFast } from "../icons";
+import { useAcrossFee } from "@/hooks/across/use-across-fee";
 
 export const FeeBreakdownModal = () => {
   const { t } = useTranslation();
@@ -31,13 +31,13 @@ export const FeeBreakdownModal = () => {
   const onClose = () => removeModal(ModalNames.FeeBreakdown);
 
   const fiatFee =
-    acrossFee && usdPrice
-      ? `${currencySymbolMap[currency]}${(acrossFee * usdPrice).toLocaleString(
-          "en"
-        )}`
+    acrossFee.data && usdPrice
+      ? `${currencySymbolMap[currency]}${(
+          acrossFee.data * usdPrice
+        ).toLocaleString("en")}`
       : undefined;
-  const tokenFee = acrossFee
-    ? `${acrossFee.toLocaleString("en", {
+  const tokenFee = acrossFee.data
+    ? `${acrossFee.data.toLocaleString("en", {
         maximumFractionDigits: 4,
       })} ${stateToken?.[to?.id ?? 0]?.symbol}`
     : "";

@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 
-import { useAcrossDomains } from "@/hooks/use-across-domains";
+import { useAcrossDomains } from "@/hooks/across/use-across-domains";
 import { usePeriodText } from "@/hooks/use-period-text";
 import { useFastTransferPeriod } from "@/hooks/use-transfer-time";
 import { AcrossBridgeDto } from "@/types/across";

@@ -12,17 +12,18 @@ export const useFastTransferPeriod = (): Period => {
   const limits = useAcrossLimits();
 
   if (!limits.data) {
-    return null;
+    return { period: "mins", value: 1.5 };
   }
+
   if (weiAmount < BigInt(limits.data.maxDepositInstant)) {
-    return { period: "mins", value: 3 };
+    return { period: "mins", value: 1.5 };
   }
 
   if (weiAmount < BigInt(limits.data.maxDepositShortDelay)) {
-    return { period: "mins", value: 10 };
+    return { period: "mins", value: 15 };
   }
 
-  return { period: "hours", value: 3 };
+  return { period: "mins", value: 90 };
 };
 
 export const useTransferTime = () => {
@@ -34,16 +35,16 @@ export const useTransferTime = () => {
 
   const time = fast ? fastTransferPeriod : transferPeriod;
 
+  if (!time) {
+    return "";
+  }
+
   if (time?.period === "mins") {
     return t("transferTimeMinutes", { count: time.value });
   }
 
   if (time?.period === "hours") {
     return t("transferTimeHours", { count: time.value });
-  }
-
-  if (!time) {
-    return "";
   }
 
   return t("transferTimeDays", { count: time?.value });

@@ -4,12 +4,13 @@ import { ModalNames } from "@/constants/modal-names";
 import { useToChain } from "@/hooks/use-chain";
 import { useFiatAmount } from "@/hooks/use-fiat-amount";
 import { useSelectedToken } from "@/hooks/use-selected-token";
+import { useTransferTime } from "@/hooks/use-transfer-time";
 import { useConfigState } from "@/state/config";
 
+import { IconTime } from "../icons";
 import { TokenIcon } from "../token-icon";
 import { Button } from "../ui/button";
 import { Dialog, DialogContent } from "../ui/dialog";
-import { IconTime } from "../icons";
 
 export const TransferTimeInfoModal = () => {
   const { t } = useTranslation();
@@ -20,6 +21,8 @@ export const TransferTimeInfoModal = () => {
   const removeModal = useConfigState.useRemoveModal();
 
   const onClose = () => removeModal(ModalNames.TransferTime);
+
+  const transferTime = useTransferTime();
 
   const { fiatAmount, rawAmount } = useFiatAmount();
 
@@ -66,7 +69,7 @@ export const TransferTimeInfoModal = () => {
                   {t("across.timeTo", { to: to?.name })}
                 </span>
               </div>
-              <span className="text-xs">15 secs - 3 mins</span>
+              <span className="text-xs">15 secs - {transferTime.slice(1)}</span>
             </div>
           </div>
 

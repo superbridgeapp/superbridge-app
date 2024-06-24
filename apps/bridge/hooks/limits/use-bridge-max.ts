@@ -8,7 +8,7 @@ export const useBridgeMax = () => {
   const stateToken = useConfigState.useToken();
 
   const cctpMax = useCctpBridgeLimit();
-  const acrossLimit = useAcrossLimits().data?.maxDepositShortDelay;
+  const acrossLimit = useAcrossLimits().data?.maxDepositInstant;
 
   if (fast) {
     if (acrossLimit) {

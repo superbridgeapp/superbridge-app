@@ -1,5 +1,5 @@
 import { AcrossDomainDto } from "@/codegen/model";
-import { useAcrossDomains } from "@/hooks/use-across-domains";
+import { useAcrossDomains } from "@/hooks/across/use-across-domains";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
 import { useConfigState } from "@/state/config";
 import { useFastState } from "@/state/fast";
