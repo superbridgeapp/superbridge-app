@@ -6,8 +6,8 @@ const Geo = () => {
     <div className="w-screen h-screen flex flex-col">
       <PageNav />
 
-      <div className="flex flex-col gap-4 justify-center items-center w-full h-full">
-        <div className="animate-bounce">
+      <div className="flex flex-col gap-4 justify-center items-center w-full h-full p-8">
+        <div className="animate-wiggle-waggle">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="231"
