@@ -301,8 +301,8 @@ export const FungibleTokenPicker = ({
 
   return (
     <>
-      <div className="flex flex-col gap-2 p-4 border-b ">
-        {!fast && (
+      {!fast && (
+        <div className="flex flex-col gap-2 p-4 border-b ">
           <Input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
@@ -314,47 +314,47 @@ export const FungibleTokenPicker = ({
             id="token"
             placeholder="Search"
           />
-        )}
+        </div>
+      )}
 
-        {/* highlighted tokens */}
-        {!fast && (
-          <div className="flex flex-wrap items-center gap-1">
-            {[
-              "ETH",
-              "USDC",
-              "DAI",
-              "USDT",
-              // "rETH",
-              "BITCOIN", // HarryPotterObamaSonicInu
-              "WBTC",
-              "wstETH",
-            ]
-              .filter(Boolean)
-              .map((symbol) => {
-                const token = tokens.data.find(
-                  (t) => t.token[deployment?.l2.id ?? 0]?.symbol === symbol
-                )?.token;
-                const fromToken = token?.[from?.id ?? 0];
-                if (!token || !fromToken) {
-                  return null;
-                }
+      {/* highlighted tokens */}
+      {!fast && (
+        <div className="flex flex-wrap items-center gap-1">
+          {[
+            "ETH",
+            "USDC",
+            "DAI",
+            "USDT",
+            // "rETH",
+            "BITCOIN", // HarryPotterObamaSonicInu
+            "WBTC",
+            "wstETH",
+          ]
+            .filter(Boolean)
+            .map((symbol) => {
+              const token = tokens.data.find(
+                (t) => t.token[deployment?.l2.id ?? 0]?.symbol === symbol
+              )?.token;
+              const fromToken = token?.[from?.id ?? 0];
+              if (!token || !fromToken) {
+                return null;
+              }
 
-                return (
-                  <div
-                    key={fromToken.address}
-                    className="border rounded-full flex items-center space-x-1 px-2 pr-3 py-1  cursor-pointer hover:bg-muted transition"
-                    onClick={() => onClickToken(token)}
-                  >
-                    <TokenIcon token={fromToken} className="h-5 w-5" />
-                    <span className="text-sm inline-flex">
-                      {fromToken.symbol}
-                    </span>
-                  </div>
-                );
-              })}
-          </div>
-        )}
-      </div>
+              return (
+                <div
+                  key={fromToken.address}
+                  className="border rounded-full flex items-center space-x-1 px-2 pr-3 py-1  cursor-pointer hover:bg-muted transition"
+                  onClick={() => onClickToken(token)}
+                >
+                  <TokenIcon token={fromToken} className="h-5 w-5" />
+                  <span className="text-sm inline-flex">
+                    {fromToken.symbol}
+                  </span>
+                </div>
+              );
+            })}
+        </div>
+      )}
 
       <div className="overflow-y-scroll flex flex-col basis-full">
         {match({ filteredTokens, searchIsToken: isAddress(search) })
