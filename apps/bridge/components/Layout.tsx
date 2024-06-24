@@ -57,7 +57,9 @@ export function Layout({ children }: { children: any }) {
       <TrialBanner />
       {isSuperbridge && (
         <motion.div
-          animate={{ opacity: pathname === "/" ? 1 : 0 }}
+          animate={{
+            opacity: pathname === "/" || pathname === "/fast" ? 1 : 0,
+          }}
           initial={{ opacity: 0 }}
           className="bg-gradient-to-t from-violet-500 to-violet-500/0 dark:from-violet-500/0 dark:to-violet-500/50 inset-0 z-0 fixed mix-blend-plus-lighter"
         />
