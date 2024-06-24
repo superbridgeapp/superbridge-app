@@ -83,7 +83,7 @@ export const useAcrossQuote = () => {
   const paramsString = params ? new URLSearchParams(params).toString() : "";
 
   return useQuery({
-    queryKey: ["across quote", paramsString],
+    queryKey: ["use-across-quote", paramsString],
     queryFn: async () => {
       const response = await fetch(
         `https://app.across.to/api/suggested-fees?${paramsString}`

@@ -1,3 +1,5 @@
+import { useMemo } from "react";
+
 import { useConfigState } from "@/state/config";
 
 import { useFromChain, useToChain } from "../use-chain";
@@ -22,23 +24,31 @@ export const useAcrossParams = () => {
   const originChainId = from?.id.toString();
   const destinationChainId = to?.id.toPrecision();
 
-  if (
-    !inputToken ||
-    !outputToken ||
-    !recipient ||
-    !originChainId ||
-    !destinationChainId ||
-    !amount
-  ) {
-    return null;
-  }
+  return useMemo(() => {
+    if (
+      !inputToken ||
+      !outputToken ||
+      !recipient ||
+      !originChainId ||
+      !destinationChainId
+    ) {
+      return null;
+    }
 
-  return {
+    return {
+      inputToken,
+      outputToken,
+      originChainId,
+      destinationChainId,
+      recipient,
+      amount: amount.toString(),
+    };
+  }, [
     inputToken,
     outputToken,
+    recipient,
     originChainId,
     destinationChainId,
-    recipient,
-    amount: amount.toString(),
-  };
+    amount,
+  ]);
 };
