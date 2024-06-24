@@ -8,6 +8,7 @@ import { useTokenPrice } from "@/hooks/use-prices";
 import { useReceiveAmount } from "@/hooks/use-receive-amount";
 import { useConfigState } from "@/state/config";
 import { useSettingsState } from "@/state/settings";
+import { formatDecimals } from "@/utils/format-decimals";
 
 import { NftImage } from "../nft";
 
@@ -52,10 +53,7 @@ export const AmountReceivedLineItem = () => {
               : ""}
           </span>
           <span className={`text-xs text-foreground text-right`}>
-            {receive?.toLocaleString("en", {
-              maximumFractionDigits: 4,
-            })}
-            {stateToken?.[to?.id ?? 0]?.symbol}
+            {formatDecimals(receive)} {stateToken?.[to?.id ?? 0]?.symbol}
           </span>
         </>
       )}
