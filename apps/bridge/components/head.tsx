@@ -3,7 +3,7 @@ import NextHead from "next/head";
 import { DeploymentDto } from "@/codegen/model";
 import { isSuperbridge } from "@/config/superbridge";
 
-function useMetadata(deployment: DeploymentDto | null) {
+function useMetadata(deployment: DeploymentDto | null | undefined) {
   if (isSuperbridge) {
     return {
       title: `Superbridge`,
@@ -17,7 +17,7 @@ function useMetadata(deployment: DeploymentDto | null) {
   };
 }
 
-export function Head({ deployment }: { deployment: DeploymentDto | null }) {
+export function Head({ deployment }: { deployment?: DeploymentDto | null }) {
   const metadata = useMetadata(deployment);
 
   const defaultOg = isSuperbridge
