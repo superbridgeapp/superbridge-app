@@ -5,7 +5,7 @@ import { useConfigState } from "@/state/config";
 import { useFastState } from "@/state/fast";
 
 import { NetworkIcon } from "../network-icon";
-import { Dialog, DialogContent } from "../ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
 
 export const NetworkSelectorModal = () => {
   const to = useToChain();
@@ -43,11 +43,24 @@ export const NetworkSelectorModal = () => {
       onOpenChange={() => setNetworkSelectorModal(null)}
     >
       <DialogContent>
-        <div className="flex flex-col gap-8 p-6">
+        <DialogHeader>
+          <DialogTitle>Choose network</DialogTitle>
+        </DialogHeader>
+        <div className="flex flex-col">
           {acrossDomains.map((domain) => (
-            <div onClick={() => onSelect(domain)}>
-              <NetworkIcon chain={domain.chain} deployment={null} />
-              <span>{domain.chain.name}</span>
+            <div
+              onClick={() => onSelect(domain)}
+              className="flex items-center gap-2 px-6 py-4 bg-transparent transition-all hover:bg-muted cursor-pointer"
+            >
+              <NetworkIcon
+                chain={domain.chain}
+                deployment={null}
+                width={32}
+                height={32}
+              />
+              <span className="text-base leading-none">
+                {domain.chain.name}
+              </span>
             </div>
           ))}
         </div>

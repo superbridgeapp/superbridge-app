@@ -18,7 +18,7 @@ import { useConfigState } from "@/state/config";
 import { isDeposit, isWithdrawal } from "@/utils/guards";
 
 import { Button } from "../ui/button";
-import { Dialog, DialogContent } from "../ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
 
 interface ProfileProps {
   name: string | null;
@@ -139,185 +139,183 @@ export const RecipientAddressModal = () => {
         onOpenChange={() => removeModal(ModalNames.RecipientAddress)}
       >
         <DialogContent>
-          <div>
-            <div className="flex items-center justify-between pl-6 pr-4 py-4 md:py-6 border-b z-10">
-              <h2 className="font-heading">
-                {withdrawing
-                  ? t("recipient.withdrawDestination")
-                  : t("recipient.depositDestination")}
-              </h2>
-            </div>
+          <DialogHeader>
+            <DialogTitle>
+              {withdrawing
+                ? t("recipient.withdrawDestination")
+                : t("recipient.depositDestination")}
+            </DialogTitle>
+          </DialogHeader>
 
-            <div className="space-y-4 p-6">
-              <div className="flex flex-col gap-6">
-                <div className="flex flex-col gap-1">
-                  <div className="flex items-center justify-between">
-                    <h3 className="font-heading text-sm mb-2">To address</h3>
-                    <Profile
-                      data={profile.data ?? null}
-                      showName={!debouncedInput.endsWith(".eth")}
-                    />
-                  </div>
-                  <Input
-                    value={input}
-                    onChange={(e) => setInput(e.target.value)}
+          <div className="space-y-4 p-6">
+            <div className="flex flex-col gap-6">
+              <div className="flex flex-col gap-1">
+                <div className="flex items-center justify-between">
+                  <h3 className="font-heading text-sm mb-2">To address</h3>
+                  <Profile
+                    data={profile.data ?? null}
+                    showName={!debouncedInput.endsWith(".eth")}
                   />
-                  <div className="mt-2">
-                    {match({
-                      transactions,
-                      debouncedInput,
-                      profile: profile.data,
-                      isLoading:
-                        profile.isLoading && profile.fetchStatus !== "idle",
-                      isValidProfile:
-                        !!profile.data?.address &&
-                        isAddress(profile.data.address),
-                      isContractAccount: isContractAccount.data,
-                      account: account.address,
-                    })
-                      .with({ isLoading: true }, () => (
-                        <div className="inline-flex gap-1 px-2 py-1 rounded-full bg-zinc-100 dark:bg-zinc-900">
-                          <span className="text-xs leading-none text-muted-foreground">
-                            Checking address…
-                          </span>
-                        </div>
-                      ))
-                      .with({ debouncedInput: "" }, () => null)
-                      .with({ isValidProfile: false }, () => (
-                        <div className="inline-flex gap-1 pr-2 pl-1 py-1 rounded-full bg-red-500/10">
+                </div>
+                <Input
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                />
+                <div className="mt-2">
+                  {match({
+                    transactions,
+                    debouncedInput,
+                    profile: profile.data,
+                    isLoading:
+                      profile.isLoading && profile.fetchStatus !== "idle",
+                    isValidProfile:
+                      !!profile.data?.address &&
+                      isAddress(profile.data.address),
+                    isContractAccount: isContractAccount.data,
+                    account: account.address,
+                  })
+                    .with({ isLoading: true }, () => (
+                      <div className="inline-flex gap-1 px-2 py-1 rounded-full bg-zinc-100 dark:bg-zinc-900">
+                        <span className="text-xs leading-none text-muted-foreground">
+                          Checking address…
+                        </span>
+                      </div>
+                    ))
+                    .with({ debouncedInput: "" }, () => null)
+                    .with({ isValidProfile: false }, () => (
+                      <div className="inline-flex gap-1 pr-2 pl-1 py-1 rounded-full bg-red-500/10">
+                        <Image
+                          alt="Address icon"
+                          src={"/img/address-error.svg"}
+                          height={14}
+                          width={14}
+                        />
+                        <span className="text-xs leading-none text-red-500">
+                          {t("recipient.invalidAddress")}
+                        </span>
+                      </div>
+                    ))
+                    .with({ transactions: { isLoading: true } }, () => null)
+                    .when(
+                      (x) =>
+                        x.isContractAccount === false &&
+                        !!x.profile?.address &&
+                        !!x.account &&
+                        isAddressEqual(x.account, x.profile.address),
+                      (x) => (
+                        <div className="inline-flex gap-1 pr-2 pl-1 py-1 rounded-full bg-green-500/10">
                           <Image
                             alt="Address icon"
-                            src={"/img/address-error.svg"}
+                            src={"/img/address-ok.svg"}
                             height={14}
                             width={14}
                           />
-                          <span className="text-xs leading-none text-red-500">
-                            {t("recipient.invalidAddress")}
+                          <span className="text-xs leading-none text-green-500">
+                            {t("recipient.yourChainAddress", {
+                              chain: toChain?.name,
+                            })}
                           </span>
                         </div>
-                      ))
-                      .with({ transactions: { isLoading: true } }, () => null)
-                      .when(
-                        (x) =>
-                          x.isContractAccount === false &&
-                          !!x.profile?.address &&
-                          !!x.account &&
-                          isAddressEqual(x.account, x.profile.address),
-                        (x) => (
-                          <div className="inline-flex gap-1 pr-2 pl-1 py-1 rounded-full bg-green-500/10">
-                            <Image
-                              alt="Address icon"
-                              src={"/img/address-ok.svg"}
-                              height={14}
-                              width={14}
-                            />
-                            <span className="text-xs leading-none text-green-500">
-                              {t("recipient.yourChainAddress", {
-                                chain: toChain?.name,
-                              })}
-                            </span>
-                          </div>
-                        )
                       )
-                      .with(
-                        { transactions: { isLoading: false, isError: false } },
-                        ({ transactions, profile }) => {
-                          const count = transactions.transactions.reduce(
-                            (accum, tx) => {
-                              // todo: make this work with ENS
-                              if (
-                                isDeposit(tx) &&
-                                !!profile?.address &&
+                    )
+                    .with(
+                      { transactions: { isLoading: false, isError: false } },
+                      ({ transactions, profile }) => {
+                        const count = transactions.transactions.reduce(
+                          (accum, tx) => {
+                            // todo: make this work with ENS
+                            if (
+                              isDeposit(tx) &&
+                              !!profile?.address &&
+                              isAddressEqual(
+                                tx.metadata.to as Address,
+                                profile.address as Address
+                              )
+                            ) {
+                              return isAddressEqual(
+                                tx.metadata.to as Address,
+                                profile.address as Address
+                              ) ||
                                 isAddressEqual(
-                                  tx.metadata.to as Address,
+                                  tx.metadata.from as Address,
                                   profile.address as Address
                                 )
-                              ) {
-                                return isAddressEqual(
-                                  tx.metadata.to as Address,
+                                ? accum + 1
+                                : accum;
+                            }
+
+                            if (isWithdrawal(tx) && !!profile?.address) {
+                              return isAddressEqual(
+                                tx.metadata.to as Address,
+                                profile.address as Address
+                              ) ||
+                                isAddressEqual(
+                                  tx.metadata.from as Address,
                                   profile.address as Address
-                                ) ||
-                                  isAddressEqual(
-                                    tx.metadata.from as Address,
-                                    profile.address as Address
-                                  )
-                                  ? accum + 1
-                                  : accum;
-                              }
+                                )
+                                ? accum + 1
+                                : accum;
+                            }
 
-                              if (isWithdrawal(tx) && !!profile?.address) {
-                                return isAddressEqual(
-                                  tx.metadata.to as Address,
-                                  profile.address as Address
-                                ) ||
-                                  isAddressEqual(
-                                    tx.metadata.from as Address,
-                                    profile.address as Address
-                                  )
-                                  ? accum + 1
-                                  : accum;
-                              }
+                            return accum;
+                          },
+                          0
+                        );
 
-                              return accum;
-                            },
-                            0
-                          );
-
-                          if (count === 1) {
-                            return (
-                              <div className="inline-flex gap-1 pr-2 pl-1 py-1 rounded-full bg-green-100 dark:bg-green-950">
-                                <Image
-                                  alt="Address icon"
-                                  src={"/img/address-ok.svg"}
-                                  height={14}
-                                  width={14}
-                                />
-                                <span className="text-xs leading-none text-green-500">
-                                  {t("recipient.usedBefore")}
-                                </span>
-                              </div>
-                            );
-                          }
-
-                          if (count > 1) {
-                            return (
-                              <div className="inline-flex gap-1 pr-2 pl-1 py-1 rounded-full bg-green-100 dark:bg-green-950">
-                                <Image
-                                  alt="Address icon"
-                                  src={"/img/address-ok.svg"}
-                                  height={14}
-                                  width={14}
-                                />
-                                <span className="text-xs leading-none text-green-500">
-                                  {t("recipient.usedBeforeMultiple", { count })}
-                                </span>
-                              </div>
-                            );
-                          }
-
+                        if (count === 1) {
                           return (
-                            <div className="inline-flex gap-1 pr-2 pl-1 py-1 rounded-full bg-orange-100 dark:bg-orange-950">
+                            <div className="inline-flex gap-1 pr-2 pl-1 py-1 rounded-full bg-green-100 dark:bg-green-950">
                               <Image
                                 alt="Address icon"
-                                src={"/img/address-alert.svg"}
+                                src={"/img/address-ok.svg"}
                                 height={14}
                                 width={14}
                               />
-                              <span className="text-xs leading-none text-orange-500">
-                                {t("recipient.newAddress")}
+                              <span className="text-xs leading-none text-green-500">
+                                {t("recipient.usedBefore")}
                               </span>
                             </div>
                           );
                         }
-                      )
-                      .otherwise(() => null)}
-                  </div>
-                </div>
 
-                <Button disabled={profile.isLoading} onClick={onSave}>
-                  {t("save")}
-                </Button>
+                        if (count > 1) {
+                          return (
+                            <div className="inline-flex gap-1 pr-2 pl-1 py-1 rounded-full bg-green-100 dark:bg-green-950">
+                              <Image
+                                alt="Address icon"
+                                src={"/img/address-ok.svg"}
+                                height={14}
+                                width={14}
+                              />
+                              <span className="text-xs leading-none text-green-500">
+                                {t("recipient.usedBeforeMultiple", { count })}
+                              </span>
+                            </div>
+                          );
+                        }
+
+                        return (
+                          <div className="inline-flex gap-1 pr-2 pl-1 py-1 rounded-full bg-orange-100 dark:bg-orange-950">
+                            <Image
+                              alt="Address icon"
+                              src={"/img/address-alert.svg"}
+                              height={14}
+                              width={14}
+                            />
+                            <span className="text-xs leading-none text-orange-500">
+                              {t("recipient.newAddress")}
+                            </span>
+                          </div>
+                        );
+                      }
+                    )
+                    .otherwise(() => null)}
+                </div>
               </div>
+
+              <Button disabled={profile.isLoading} onClick={onSave}>
+                {t("save")}
+              </Button>
             </div>
           </div>
         </DialogContent>

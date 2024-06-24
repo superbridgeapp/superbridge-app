@@ -18,7 +18,7 @@ export const FastFromTo = () => {
       className={`relative flex items-start justify-between gap-1 select-none`}
     >
       <div
-        className="flex gap-2 w-full items-start justify-start bg-muted px-3.5 pt-3 pb-2.5 rounded-lg transition-all hover:scale-105 origin-right cursor-pointer"
+        className="flex gap-2 w-full items-start justify-start bg-muted px-3.5 pt-3 pb-2.5 rounded-lg transition-all hover:scale-[1.02] origin-right cursor-pointer"
         onClick={() => setNetworkSelectorModal("from")}
       >
         <FastNetworkIcon
@@ -43,7 +43,7 @@ export const FastFromTo = () => {
           setToChainId(from.id);
           setFromChainId(to.id);
         }}
-        className="backdrop-blur-xl bg-card rounded-lg p-0.5 absolute left-[50%] top-1/2 -translate-x-[50%] -translate-y-2/4 z-10 transition-all hover:scale-105"
+        className="backdrop-blur-3xl bg-card rounded-lg p-0.5 absolute left-[50%] top-1/2 -translate-x-[50%] -translate-y-2/4 z-10 transition-all hover:scale-105"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -57,14 +57,14 @@ export const FastFromTo = () => {
       </button>
 
       <div
-        className="flex gap-2 w-full items-start justify-end bg-muted px-3.5 pt-3 pb-2.5 rounded-lg transition-all origin-left hover:scale-105 cursor-pointer"
+        className="flex gap-2 w-full items-start justify-end bg-muted px-3.5 pt-3 pb-2.5 rounded-lg transition-all origin-left hover:scale-[1.02] cursor-pointer"
         onClick={() => setNetworkSelectorModal("to")}
       >
         <div className="text-right">
           <span
             className={`text-muted-foreground text-xs leading-none block mt-0.5`}
           >
-            {t("from")}
+            {t("to")}
           </span>
           <span>{to?.name}</span>
         </div>
