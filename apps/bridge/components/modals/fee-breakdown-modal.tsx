@@ -13,6 +13,8 @@ import { TokenIcon } from "../token-icon";
 import { Button } from "../ui/button";
 import { Dialog, DialogContent } from "../ui/dialog";
 
+import { IconSuperFast } from "../icons";
+
 export const FeeBreakdownModal = () => {
   const { t } = useTranslation();
   const token = useSelectedToken();
@@ -45,7 +47,9 @@ export const FeeBreakdownModal = () => {
       <DialogContent>
         <div className="flex flex-col gap-8 p-6">
           <div className="flex flex-col gap-2 items-center text-center pt-10">
-            <div className="animate-bounce">Image</div>
+            <div className="animate-wiggle-waggle">
+              <IconSuperFast className="w-20 h-auto" />
+            </div>
             <h1 className="font-heading text-2xl  text-pretty">
               {t("across.feeBreakdownTitle")}
             </h1>
@@ -64,11 +68,11 @@ export const FeeBreakdownModal = () => {
             </p>
           </div>
 
-          <div className="flex flex-col rounded-lg border">
+          <div className="flex flex-col rounded-lg border py-1">
             <div className="flex items-center justify-between px-3 py-2">
               <div className="flex items-center gap-2">
                 <TokenIcon token={token} className="h-6 w-6" />
-                <span className="font-heading text-sm ">
+                <span className="font-heading text-xs ">
                   {t("across.acrossFee")}
                 </span>
               </div>
@@ -78,7 +82,9 @@ export const FeeBreakdownModal = () => {
                     {fiatFee}
                   </span>
                 )}
-                <span className="text-sm text-foreground">{tokenFee}</span>
+                <span className="text-xs text-foreground">
+                  {tokenFee ? tokenFee : "..."}
+                </span>
               </div>
             </div>
           </div>
