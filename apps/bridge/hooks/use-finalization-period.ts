@@ -77,6 +77,10 @@ export const getProvePeriod = (deployment: DeploymentDto | null): Period => {
     return null;
   }
 
+  if (deployment.config.dataAvailabilityChallengePeriodSeconds) {
+    return getPeriod(deployment.config.dataAvailabilityChallengePeriodSeconds);
+  }
+
   return getPeriod(
     deployment.config.blockTimeSeconds *
       // todo: this is not SubmissionIntervalSeconds but actually SubmissionIntervalBlocks

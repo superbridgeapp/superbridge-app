@@ -120,9 +120,9 @@ export const OpenActivity = ({}) => {
 
               return (
                 <div className="overflow-y-auto overflow-x-hidden">
-                  {[...pendingTransactions, ...transactions].map((t) => (
-                    <TransactionRow key={t.id} tx={t} />
-                  ))}
+                  {[...pendingTransactions, ...transactions].map((t) => {
+                    return <TransactionRow key={t.id} tx={t} />;
+                  })}
                 </div>
               );
             }

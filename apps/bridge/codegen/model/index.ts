@@ -79,6 +79,7 @@ export * from './l2OptimismContractAddressesDto';
 export * from './linkDto';
 export * from './nftDepositDataDto';
 export * from './nftDepositDto';
+export * from './numberDto';
 export * from './optimismConfigDto';
 export * from './optimismContractAddressesDto';
 export * from './optimismTransactionType';
