@@ -1,11 +1,11 @@
 import { InferGetServerSidePropsType } from "next";
 import ReactMarkdown from "react-markdown";
 
+import { Head } from "@/components/head";
 import PageFooter from "@/components/page-footer";
 import PageNav from "@/components/page-nav";
 
 import { getServerSideProps } from "./client-terms";
-import { Head } from "@/components/head";
 
 export default function ClientPrivacy({
   deployment,
