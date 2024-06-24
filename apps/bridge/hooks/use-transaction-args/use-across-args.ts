@@ -6,8 +6,8 @@ import { useConfigState } from "@/state/config";
 import { isNativeToken } from "@/utils/is-eth";
 
 import { useAcrossTokenAddress } from "../across/use-across-clean-address";
-import { useAcrossQuote } from "../across/use-across-quote";
 import { useAcrossDomains } from "../across/use-across-domains";
+import { useAcrossQuote } from "../across/use-across-quote";
 import { useFromChain, useToChain } from "../use-chain";
 import { useWeiAmount } from "../use-wei-amount";
 

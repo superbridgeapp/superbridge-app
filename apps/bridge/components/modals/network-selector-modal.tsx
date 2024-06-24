@@ -49,6 +49,7 @@ export const NetworkSelectorModal = () => {
         <div className="flex flex-col">
           {acrossDomains.map((domain) => (
             <div
+              key={domain.id}
               onClick={() => onSelect(domain)}
               className="flex items-center gap-2 px-6 py-4 bg-transparent transition-all hover:bg-muted cursor-pointer"
             >

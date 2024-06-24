@@ -40,7 +40,7 @@ export const FeeLineItem = () => {
 
       <div className="flex items-center">
         {acrossFee.isFetching ? (
-          <span className="text-sm">Loading</span>
+          <span className="text-xs">Loading</span>
         ) : (
           <>
             <span className={`text-muted-foreground ml-auto text-xs  mr-2`}>
