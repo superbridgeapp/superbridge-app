@@ -7,6 +7,7 @@ import { formatUnits, parseUnits } from "viem";
 import { useAccount, useBalance, useConfig, useWalletClient } from "wagmi";
 
 import { useBridgeControllerTrack } from "@/codegen";
+import { ChainDto } from "@/codegen/model";
 import { isSuperbridge } from "@/config/superbridge";
 import { SUPERCHAIN_MAINNETS } from "@/constants/superbridge";
 import { useAcrossDomains } from "@/hooks/across/use-across-domains";
@@ -167,19 +168,25 @@ export const BridgeBody = () => {
       !bridge.valid ||
       !bridge.args ||
       !recipient ||
-      !deployment ||
       statusCheck
     ) {
       return;
     }
 
-    const initiatingChain = fast
-      ? acrossDomains.find((x) => x.chain?.id === bridge.args?.tx.chainId)
-          ?.chain
-      : bridge.args.tx.chainId === deployment.l1.id
-      ? deployment.l1
-      : deployment.l2;
+    let initiatingChain: ChainDto | undefined;
+
+    if (fast) {
+      initiatingChain = acrossDomains.find(
+        (x) => x.chain?.id === bridge.args?.tx.chainId
+      )?.chain;
+    } else if (bridge.args.tx.chainId === deployment?.l1.id) {
+      initiatingChain = deployment.l1;
+    } else {
+      initiatingChain = deployment?.l2;
+    }
+
     if (!initiatingChain) {
+      console.warn("unable to infer initiating chain");
       return;
     }
 
@@ -206,10 +213,11 @@ export const BridgeBody = () => {
           );
         },
       });
+
       track.mutate({
         data: {
           amount: weiAmount.toString(),
-          deploymentId: deployment!.id,
+          deploymentId: deployment?.id ?? "",
           transactionHash: hash,
           action: fast
             ? "across"
