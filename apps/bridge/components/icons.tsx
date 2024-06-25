@@ -167,3 +167,29 @@ export const IconArrowUpRight = ({ className }: any) => (
     <path d="M2.41386 1.95235C2.62779 1.71538 2.90434 1.55354 3.22785 1.54198L10.9712 1.00444C11.3521 0.981319 11.7643 1.03912 12.0878 1.40326C12.4113 1.76739 12.4687 2.21823 12.4479 2.64017L11.9678 11.2119C11.9574 11.5702 11.8113 11.8823 11.5973 12.1135C11.1069 12.6569 10.3033 12.6569 9.80761 12.1135C9.55193 11.8303 9.41627 11.4604 9.43714 11.0385L9.71891 6.00411L3.7079 12.6626C3.21741 13.2059 2.41386 13.2059 1.91816 12.6626C1.42246 12.1193 1.42768 11.2292 1.91816 10.6801L7.92917 4.02736L3.38439 4.33948C3.00348 4.3626 2.66954 4.2181 2.41386 3.9291C1.92338 3.38579 1.92338 2.49567 2.41386 1.94657V1.95235Z" />
   </svg>
 );
+
+export const IconSpinner = ({ className }: any) => (
+  <svg fill="none" viewBox="0 0 66 66" className={className}>
+    <circle
+      cx="33"
+      cy="33"
+      fill="none"
+      r="28"
+      stroke={"currentColor"}
+      opacity={0.2}
+      strokeWidth={12}
+    />
+    <circle
+      cx="33"
+      cy="33"
+      fill="none"
+      r="28"
+      stroke="currentColor"
+      strokeDasharray="1, 174"
+      strokeDashoffset="306"
+      strokeLinecap="round"
+      strokeWidth={12}
+      className="animate-spinner"
+    />
+  </svg>
+);

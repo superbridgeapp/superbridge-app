@@ -88,6 +88,14 @@ module.exports = {
           "20%,40%": { transform: "rotate(2deg)" },
           "0%, 50%,100%": { transform: "rotate(0deg)" },
         },
+        spinner: {
+          "0%": { strokeDashoffset: "306" },
+          "50%": { strokeDasharray: "40, 134" },
+          "100%": {
+            strokeDasharray: "1, 174",
+            strokeDashoffset: "132",
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -97,6 +105,7 @@ module.exports = {
         "spin-slow": "spin 8s linear infinite",
         wiggle: "wiggle 1s ease-in-out infinite",
         "wiggle-waggle": "wiggle-waggle 2s ease-in-out infinite",
+        spinner: "spinner 2s linear infinite",
       },
     },
   },
