@@ -11,6 +11,8 @@ import { useAcrossDomains } from "../across/use-across-domains";
 import { useAcrossQuote } from "../across/use-across-quote";
 import { useFromChain, useToChain } from "../use-chain";
 import { useWeiAmount } from "../use-wei-amount";
+import { useTokenBalance } from "../use-balances";
+import { useSelectedToken } from "../use-selected-token";
 
 export const useAcrossArgs = () => {
   const account = useAccount();
@@ -20,6 +22,7 @@ export const useAcrossArgs = () => {
 
   const recipient = useConfigState.useRecipientAddress();
   const stateToken = useConfigState.useToken();
+  const tokenBalance = useTokenBalance(useSelectedToken());
 
   const acrossDomains = useAcrossDomains();
 
@@ -49,7 +52,8 @@ export const useAcrossArgs = () => {
       !parsedRemoteAddress ||
       !to ||
       !from ||
-      !quote.data
+      !quote.data ||
+      weiAmount > tokenBalance
     ) {
       return;
     }
