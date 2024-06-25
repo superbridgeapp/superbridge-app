@@ -230,7 +230,7 @@ export const BridgeBody = () => {
       });
 
       const pending = buildPendingTx(
-        deployment!,
+        deployment,
         account.address,
         recipient,
         weiAmount,

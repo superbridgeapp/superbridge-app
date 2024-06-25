@@ -353,7 +353,11 @@ export const ConfirmationModal = ({
   })
     .with({ bridge: { isLoading: true } }, (d) => ({
       onSubmit: () => {},
-      buttonText: d.withdrawing ? t("withdrawing") : t("depositing"),
+      buttonText: d.fast
+        ? t("bridging")
+        : d.withdrawing
+        ? t("withdrawing")
+        : t("depositing"),
       disabled: true,
     }))
     .with({ needsApprove: true }, (d) => ({
