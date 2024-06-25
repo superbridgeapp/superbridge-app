@@ -30,7 +30,6 @@ export const useInitialiseToken = () => {
   const setEasyMode = useConfigState.useSetEasyMode();
   const toggleWithdrawing = useConfigState.useToggleWithdrawing();
   const fast = useConfigState.useFast();
-  const fastFromChainId = useFastState.useFromChainId();
   const deployment = useDeployment();
   const tokens = useAllTokens();
   const arbitrumGasToken = useGasToken();
@@ -41,7 +40,7 @@ export const useInitialiseToken = () => {
     }
 
     if (fast) {
-      setToken(tokens.find((x) => isNativeToken(x) && !!x[fastFromChainId])!);
+      setToken(tokens.find((x) => isNativeToken(x))!);
       return;
     }
 
@@ -107,12 +106,5 @@ export const useInitialiseToken = () => {
         }
       }
     }
-  }, [
-    router.asPath,
-    deployment,
-    tokens,
-    arbitrumGasToken,
-    fast,
-    fastFromChainId,
-  ]);
+  }, [router.asPath, deployment, tokens, arbitrumGasToken, fast]);
 };
