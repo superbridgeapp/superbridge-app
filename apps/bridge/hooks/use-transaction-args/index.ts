@@ -1,6 +1,8 @@
 import { useConfigState } from "@/state/config";
 
+import { useTokenBalance } from "../use-balances";
 import { useDeployment } from "../use-deployment";
+import { useSelectedToken } from "../use-selected-token";
 import { useWeiAmount } from "../use-wei-amount";
 import { isCctpBridgeOperation } from "./cctp-args/common";
 import { useCctpArgs } from "./cctp-args/use-cctp-bridge-args";
@@ -14,6 +16,7 @@ export const useTransactionArgs = () => {
   const forceViaL1 = useConfigState.useForceViaL1();
   const withdrawing = useConfigState.useWithdrawing();
   const fast = useConfigState.useFast();
+  const tokenBalance = useTokenBalance(useSelectedToken());
 
   const wei = useWeiAmount();
   const deployment = useDeployment();
@@ -22,7 +25,7 @@ export const useTransactionArgs = () => {
   const cctp = useCctpArgs();
   const across = useAcrossArgs();
 
-  if (!stateToken || !wei) {
+  if (!stateToken || !wei || wei > tokenBalance) {
     return;
   }
 
