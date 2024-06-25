@@ -36,26 +36,28 @@ export const FastFromTo = () => {
           <span>{from?.name}</span>
         </div>
       </div>
-
       <button
         onClick={() => {
           if (!from || !to) return;
           setToChainId(from.id);
           setFromChainId(to.id);
         }}
-        className="backdrop-blur-3xl bg-card rounded-lg p-0.5 absolute left-[50%] top-1/2 -translate-x-[50%] -translate-y-2/4 z-10 transition-all hover:scale-105"
+        className="rounded-md bg-card border-2 bg-clip-border border-card absolute left-[50%] top-1/2 -translate-x-[50%] -translate-y-2/4 z-10 transition-all hover:scale-105 overflow-hidden"
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 256 256"
-          className={`fill-muted-foreground w-6 h-6 p-1 bg-muted rounded-md`}
-        >
-          <path d="M224.49 136.49l-72 72a12 12 0 01-17-17L187 140H40a12 12 0 010-24h147l-51.49-51.52a12 12 0 0117-17l72 72a12 12 0 01-.02 17.01z"></path>
-        </svg>
+        <div className="before:backdrop-blur-sm before:absolute before:inset-0 before:-z-10">
+          <div className="p-1 bg-muted backdrop-blur-sm">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 256 256"
+              className={`w-4 h-4 fill-muted-foreground`}
+            >
+              <path d="M224.49 136.49l-72 72a12 12 0 01-17-17L187 140H40a12 12 0 010-24h147l-51.49-51.52a12 12 0 0117-17l72 72a12 12 0 01-.02 17.01z"></path>
+            </svg>
+          </div>
+        </div>
       </button>
-
       <div
         className="flex gap-2 w-full items-start justify-end bg-muted px-3.5 pt-3 pb-2.5 rounded-lg transition-all origin-left hover:scale-[1.02] cursor-pointer"
         onClick={() => setNetworkSelectorModal("to")}
