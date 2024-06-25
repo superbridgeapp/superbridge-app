@@ -24,6 +24,7 @@ import { useFinaliseOptimism } from "@/hooks/optimism/use-optimism-finalise";
 import { useProveOptimism } from "@/hooks/optimism/use-optimism-prove";
 import { useGasTokenForDeployment } from "@/hooks/use-approve-gas-token";
 import { useMintCctp } from "@/hooks/use-cctp-mint";
+import { useFromTo } from "@/hooks/use-from-to";
 import { useSwitchChain } from "@/hooks/use-switch-chain";
 import { useAllTokens } from "@/hooks/use-tokens";
 import { MultiChainToken, Token } from "@/types/token";
@@ -41,7 +42,7 @@ import {
   isWithdrawal,
 } from "@/utils/guards";
 import { isNativeToken } from "@/utils/is-eth";
-import { useProgressRows, useTxActivityProps } from "@/utils/progress-rows";
+import { useProgressRows, useTxTitle } from "@/utils/progress-rows";
 import {
   ButtonComponent,
   ExpandedItem,
@@ -49,15 +50,13 @@ import {
 } from "@/utils/progress-rows/common";
 
 import inProgress from "../animation/loading.json";
-
+import { AcrossBadge } from "./across-badge";
 import { CctpBadge } from "./cttp-badge";
+import { FastNetworkIcon } from "./fast/network-icon";
 import { NetworkIcon } from "./network-icon";
 import { NftImage } from "./nft";
 import { TokenIcon } from "./token-icon";
 import { Button } from "./ui/button";
-import { useFromTo } from "@/hooks/use-from-to";
-import { FastNetworkIcon } from "./fast/network-icon";
-import { AcrossBadge } from "./across-badge";
 
 const Prove = ({ tx }: { tx: BridgeWithdrawalDto | ForcedWithdrawalDto }) => {
   const prove = useProveOptimism(isWithdrawal(tx) ? tx : tx.withdrawal!);
@@ -475,7 +474,7 @@ export const TransactionRow = ({ tx }: { tx: Transaction }) => {
 
   const [expanded, setExpanded] = useState(false);
 
-  const config = useTxActivityProps()(tx);
+  const title = useTxTitle(tx);
   const progressRows = useProgressRows()(tx);
 
   const inProgressItem = progressRows.find(
@@ -637,7 +636,7 @@ export const TransactionRow = ({ tx }: { tx: Transaction }) => {
           onClick={() => setExpanded((e) => !e)}
         >
           <div className="flex justify-between text-sm">
-            <h3 className="font-heading">{config.title}</h3>
+            <h3 className="font-heading">{title}</h3>
             <div className="flex items-center gap-1">
               {tx.type === "cctp-bridge" && <CctpBadge />}
               {tx.type === "across-bridge" && <AcrossBadge />}

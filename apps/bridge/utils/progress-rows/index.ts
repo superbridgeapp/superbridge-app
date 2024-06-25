@@ -1,17 +1,12 @@
-import { P, match } from "ts-pattern";
-
 import {
   AcrossBridgeDto,
-  AcrossTransactionType,
   ArbitrumDepositEthDto,
   ArbitrumDepositRetryableDto,
   ArbitrumForcedWithdrawalDto,
-  ArbitrumTransactionType,
   ArbitrumWithdrawalDto,
   BridgeWithdrawalDto,
   CctpBridgeDto,
   ForcedWithdrawalDto,
-  OptimismTransactionType,
   PortalDepositDto,
 } from "@/codegen/model";
 import i18n from "@/services/i18n";
@@ -26,135 +21,37 @@ import {
 } from "@/utils/progress-rows/forced-withdrawal";
 import { useOptimismWithdrawalProgressRows } from "@/utils/progress-rows/withdrawal";
 
+import {
+  isAcrossBridge,
+  isDeposit,
+  isForcedWithdrawal,
+  isWithdrawal,
+} from "../guards";
 import { OptimismDeploymentDto } from "../is-mainnet";
 import { useAcrossProgressRows } from "./across";
+import { useTranslation } from "react-i18next";
 
-interface TransactionRowProps {
-  title: string;
-}
+export const useTxTitle = (tx: Transaction) => {
+  const { t } = useTranslation();
 
-const useDepositProps = (
-  tx: PortalDepositDto | ArbitrumDepositRetryableDto | ArbitrumDepositEthDto
-): TransactionRowProps => {
-  return match(tx)
-    .with(
-      {
-        deposit: P.not(undefined),
-        relay: P.not(undefined),
-      },
-      () => ({
-        title: i18n.t("deposit"),
-      })
-    )
-    .with({ deposit: P.not(undefined) }, () => ({
-      title: i18n.t("deposit"),
-    }))
-    .exhaustive();
-};
+  if (isDeposit(tx)) {
+    return t("deposit");
+  }
 
-const useWithdrawalProps =
-  () =>
-  (w: BridgeWithdrawalDto): TransactionRowProps => {
-    return {
-      title: i18n.t("withdraw"),
-    };
-  };
+  if (isWithdrawal(tx)) {
+    return t("deposit");
+  }
 
-const useArbitrumWithdrawalProps =
-  () =>
-  (w: ArbitrumWithdrawalDto): TransactionRowProps => {
-    return {
-      title: i18n.t("withdraw"),
-    };
-  };
+  if (isForcedWithdrawal(tx)) {
+    return `Forced exit`;
+  }
 
-const useOptimismForcedWithdrawalProps =
-  () =>
-  (w: ForcedWithdrawalDto): TransactionRowProps => {
-    return {
-      title: `Forced exit`,
-    };
-  };
+  if (isAcrossBridge(tx)) {
+    return "Superfast bridge";
+  }
 
-const useArbitrumForcedWithdrawalProps =
-  () =>
-  (w: ArbitrumForcedWithdrawalDto): TransactionRowProps => {
-    return {
-      title: `Forced exit`,
-    };
-  };
-
-const useCctpProps =
-  () =>
-  (b: CctpBridgeDto): TransactionRowProps => {
-    return {
-      title: "Bridge",
-    };
-  };
-
-const useAcrossProps =
-  () =>
-  (b: AcrossBridgeDto): TransactionRowProps => {
-    return {
-      title: "Superfast bridge",
-    };
-  };
-
-export const useTxActivityProps = () => (tx: Transaction) => {
-  return (
-    match(tx)
-      .with(
-        {
-          type: OptimismTransactionType.deposit,
-        },
-        (d) => useDepositProps(d as PortalDepositDto)
-      )
-      .with(
-        {
-          type: OptimismTransactionType.withdrawal,
-        },
-        (d) => useWithdrawalProps()(d as BridgeWithdrawalDto)
-      )
-      .with(
-        {
-          type: OptimismTransactionType["forced-withdrawal"],
-        },
-        (fw) => useOptimismForcedWithdrawalProps()(fw as ForcedWithdrawalDto)
-      )
-      .with(
-        {
-          type: ArbitrumTransactionType["arbitrum-deposit-eth"],
-        },
-        (d) => useDepositProps(d as ArbitrumDepositEthDto)
-      )
-      .with(
-        {
-          type: ArbitrumTransactionType["arbitrum-deposit-retryable"],
-        },
-        (d) => useDepositProps(d as ArbitrumDepositRetryableDto)
-      )
-      .with(
-        {
-          type: ArbitrumTransactionType["arbitrum-withdrawal"],
-        },
-        (w) => useArbitrumWithdrawalProps()(w as ArbitrumWithdrawalDto)
-      )
-      .with(
-        {
-          type: ArbitrumTransactionType["arbitrum-forced-withdrawal"],
-        },
-        (w) =>
-          useArbitrumForcedWithdrawalProps()(w as ArbitrumForcedWithdrawalDto)
-      )
-      .with(
-        {
-          type: AcrossTransactionType["across-bridge"],
-        },
-        (w) => useAcrossProps()(w as AcrossBridgeDto)
-      )
-      // cctp
-      .otherwise((w) => useCctpProps()(w as CctpBridgeDto))
-  );
+  // CCTP
+  return "Bridge";
 };
 
 export const useProgressRows = () => {
