@@ -29,6 +29,7 @@ import { CustomTokenListModal } from "./settings/custom-token-list-modal";
 import { SettingsModal } from "./settings/settings-modal";
 import { TosModal } from "./tos-modal/tos-modal";
 import { TrialBanner } from "./trials/trial-banner";
+import { IconSuperFastSimple } from "./icons";
 
 export function Layout({ children }: { children: any }) {
   useInitialise();
@@ -179,20 +180,14 @@ export function Layout({ children }: { children: any }) {
                 onClick={() => navigate("fast")}
                 className={`relative flex items-center justify-center h-10 w-14 bg-card rounded-full shadow-sm transition-all hover:scale-105`}
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="14"
-                  height="16"
-                  viewBox="0 0 14 16"
-                  fill="none"
+                <IconSuperFastSimple
                   className={
                     fast && !displayTransactions
                       ? "fill-foreground transition-all"
                       : "fill-muted-foreground transition-all"
                   }
-                >
-                  <path d="M4.2596 16C3.99642 16 3.79021 15.7857 3.79021 15.5225C3.79021 15.4411 3.81463 15.357 3.85533 15.2837L7.22247 9.50992H1.05798C0.794791 9.50992 0.580444 9.29557 0.580444 9.03239C0.580444 8.90215 0.637422 8.77734 0.737812 8.67967L9.81361 0.113956C9.90315 0.0325589 10.0198 0 10.1419 0C10.4377 0 10.6194 0.206207 10.6194 0.485671C10.6194 0.575208 10.6032 0.675598 10.5462 0.756995L6.47904 6.49008H12.9338C13.197 6.49008 13.4195 6.68815 13.4195 6.96761C13.4195 7.08971 13.3707 7.22266 13.273 7.31219L4.61504 15.8698C4.5255 15.9593 4.39255 16 4.26232 16H4.2596Z" />
-                </svg>
+                />
+                {/* NEW BADGE */}
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="176"
@@ -218,6 +213,7 @@ export function Layout({ children }: { children: any }) {
                   <path d="M66.6115 104.316C63.2844 103.424 61.9866 100.598 63.3237 97.3001L74.7164 69.1052C76.0535 65.8068 79.1261 64.152 82.4814 65.0511L102.641 70.4529C105.63 71.2538 107.069 73.6642 106.314 76.4837C105.354 80.0646 101.894 82.0386 98.3415 81.0866L83.7079 77.1656L82.1049 81.118L95.6952 84.7595C98.4584 85.4999 99.8358 87.803 99.1332 90.4252C98.2644 93.6678 94.9904 95.5103 91.7197 94.6339L78.1293 90.9924L76.4377 95.1628L91.1277 99.099C94.1164 99.8998 95.584 102.318 94.8284 105.137C93.8765 108.69 90.4087 110.692 86.8278 109.733L66.6115 104.316Z" />
                   <path d="M30.8238 96.3042C27.5249 95.4203 26.2553 92.602 27.5924 89.3037L39.3397 60.2367C40.8465 56.5305 43.8007 54.7534 47.2688 55.6827C49.4963 56.2795 50.7942 57.413 51.5169 61.5957L54.8767 80.7489L61.0172 65.5012C62.3543 62.2029 65.4269 60.5481 68.7258 61.432C71.9965 62.3084 73.2943 65.1342 71.9572 68.4326L60.2174 97.4714C58.7106 101.178 55.7206 102.975 52.4781 102.106C49.9123 101.419 48.9986 99.7538 48.3705 96.6844L44.4936 77.5437L38.5323 92.235C37.1952 95.5334 34.1227 97.1882 30.8238 96.3042Z" />
                 </svg>
+                {/* END NEW BADGE */}
               </button>
             </div>
           )}
