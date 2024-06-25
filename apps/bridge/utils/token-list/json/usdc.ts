@@ -3,6 +3,7 @@ import {
   base,
   baseSepolia,
   mainnet,
+  mode,
   optimism,
   optimismSepolia,
   sepolia,
@@ -11,7 +12,6 @@ import {
 
 import { OptimismToken } from "@/types/token";
 
-import * as lumio from "./lumio";
 import * as metal from "./metal";
 
 const BRIDGED_USDC = "bridged-usdc";
@@ -71,18 +71,18 @@ export const bridged: OptimismToken[] = [
     },
     opTokenId: BRIDGED_USDC,
   },
-  // {
-  //   chainId: lumio.chainId,
-  //   address: "0x385f8eBA03863bF7637893c272225A159D5cF85e",
-  //   name: "USD Coin",
-  //   symbol: "USDC",
-  //   decimals: 6,
-  //   logoURI: "https://ethereum-optimism.github.io/data/BridgedUSDC/logo.png",
-  //   standardBridgeAddresses: {
-  //     [1]: "0x4200000000000000000000000000000000000010",
-  //   },
-  //   opTokenId: BRIDGED_USDC,
-  // },
+  {
+    chainId: mode.id,
+    address: "0xd988097fb8612cc24eeC14542bC03424c656005f",
+    name: "USD Coin (Bridged from Ethereum)",
+    symbol: "USDC",
+    decimals: 6,
+    logoURI: "https://ethereum-optimism.github.io/data/BridgedUSDC/logo.png",
+    standardBridgeAddresses: {
+      [1]: "0x4200000000000000000000000000000000000010",
+    },
+    opTokenId: BRIDGED_USDC,
+  },
   {
     chainId: metal.chainId,
     address: "0xb91CFCcA485C6E40E3bC622f9BFA02a8ACdEeBab",
@@ -109,7 +109,6 @@ export const bridged: OptimismToken[] = [
     },
     opTokenId: BRIDGED_USDC,
   },
-  //  no Optimism Sepolia bridged USDC
 ];
 
 export const native: OptimismToken[] = [

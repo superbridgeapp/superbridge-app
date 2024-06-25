@@ -38,6 +38,7 @@ import { useConfigState } from "@/state/config";
 import { usePendingTransactions } from "@/state/pending-txs";
 import { useSettingsState } from "@/state/settings";
 import { buildPendingTx } from "@/utils/build-pending-tx";
+import { formatDecimals } from "@/utils/format-decimals";
 import { isEth, isNativeToken } from "@/utils/is-eth";
 import { isNativeUsdc } from "@/utils/is-usdc";
 
@@ -375,9 +376,7 @@ export const BridgeBody = () => {
         buttonText: (() => {
           const formatted = formatUnits(bridgeMax!, token?.decimals ?? 18);
           return t("bridgeLimit", {
-            amount: parseFloat(formatted).toLocaleString("en", {
-              maximumFractionDigits: 4,
-            }),
+            amount: formatDecimals(parseFloat(formatted)),
             symbol: token?.symbol,
           });
         })(),
@@ -391,9 +390,7 @@ export const BridgeBody = () => {
         buttonText: (() => {
           const formatted = formatUnits(bridgeMin!, token!.decimals);
           return t("bridgeMin", {
-            amount: parseFloat(formatted).toLocaleString("en", {
-              maximumSignificantDigits: 4,
-            }),
+            amount: formatDecimals(parseFloat(formatted)),
             symbol: token?.symbol,
           });
         })(),

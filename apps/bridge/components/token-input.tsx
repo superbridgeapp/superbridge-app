@@ -7,6 +7,7 @@ import { useIsCustomTokenFromList } from "@/hooks/use-is-custom-token-from-list"
 import { useTokenPrice } from "@/hooks/use-prices";
 import { useSelectedToken } from "@/hooks/use-selected-token";
 import { useConfigState } from "@/state/config";
+import { formatDecimals } from "@/utils/format-decimals";
 import { isNativeUsdc } from "@/utils/is-usdc";
 
 import { CctpBadge } from "./cttp-badge";
@@ -126,11 +127,9 @@ export const TokenInput = () => {
         <div className="flex items-center gap-1">
           <span className={`text-muted-foreground text-xs`}>
             {t("availableBalance", {
-              amount: parseFloat(
-                formatUnits(tokenBalance, token?.decimals ?? 18)
-              ).toLocaleString("en", {
-                maximumFractionDigits: 4,
-              }),
+              amount: formatDecimals(
+                parseFloat(formatUnits(tokenBalance, token?.decimals ?? 18))
+              ),
               symbol: token?.symbol,
             })}
           </span>

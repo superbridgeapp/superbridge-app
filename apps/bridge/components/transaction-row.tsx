@@ -29,6 +29,7 @@ import { useSwitchChain } from "@/hooks/use-switch-chain";
 import { useAllTokens } from "@/hooks/use-tokens";
 import { MultiChainToken, Token } from "@/types/token";
 import { Transaction } from "@/types/transaction";
+import { formatDecimals } from "@/utils/format-decimals";
 import {
   isAcrossBridge,
   isArbitrumDeposit,
@@ -432,9 +433,7 @@ function getDepositAmount(tx: Transaction, token: Token | null | undefined) {
     const float = parseFloat(
       formatUnits(BigInt(tx.metadata.data.inputAmount), token?.decimals ?? 18)
     );
-    const formatted = float.toLocaleString("en", {
-      maximumFractionDigits: float > 1 ? 4 : 8,
-    });
+    const formatted = formatDecimals(float);
     return `${formatted} ${token?.symbol}`;
   }
 

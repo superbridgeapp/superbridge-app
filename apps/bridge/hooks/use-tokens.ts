@@ -1,14 +1,7 @@
 import { useMemo } from "react";
 import { isPresent } from "ts-is-present";
 import { Address } from "viem";
-import {
-  bsc,
-  bscGreenfield,
-  bscTestnet,
-  rollux,
-  syscoin,
-  syscoinTestnet,
-} from "viem/chains";
+import { bsc, bscTestnet, syscoin, syscoinTestnet } from "viem/chains";
 
 import { useConfigState } from "@/state/config";
 import { useSettingsState } from "@/state/settings";
@@ -23,9 +16,9 @@ import { isNativeToken } from "@/utils/is-eth";
 import { isBridgedUsdc, isNativeUsdc } from "@/utils/is-usdc";
 
 import { DeploymentFamily } from "@/codegen/model";
+import { useFastState } from "@/state/fast";
 import { useDeployment } from "./use-deployment";
 import { useDeployments } from "./use-deployments";
-import { useFastState } from "@/state/fast";
 
 function useDeploymentTokens(): MultiChainToken[] {
   const { deployments } = useDeployments();
@@ -231,7 +224,7 @@ export function useActiveTokens() {
         const from = t[fastFromChainId];
         const to = t[fastToChainId];
         if (!from || !to) return false;
-        return ["USDC", "ETH"].includes(from.symbol);
+        return ["USDC", "USDC.e", "ETH"].includes(from.symbol);
       }
 
       if (!deployment) return false;

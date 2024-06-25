@@ -14,6 +14,7 @@ import { useIsCustomTokenFromList } from "@/hooks/use-is-custom-token-from-list"
 import { useSelectedToken } from "@/hooks/use-selected-token";
 import { useConfigState } from "@/state/config";
 import { MultiChainToken } from "@/types/token";
+import { formatDecimals } from "@/utils/format-decimals";
 import { isNativeUsdc } from "@/utils/is-usdc";
 
 import { CctpBadge } from "../cttp-badge";
@@ -209,11 +210,9 @@ const TokenImport = ({ address }: { address: Address }) => {
       </div>
       <div className="ml-auto flex flex-col text-right gap-1">
         <span className="text-sm  text-muted-foreground">
-          {parseFloat(
-            formatUnits(BigInt(balance ?? "0"), decimals ?? 0)
-          ).toLocaleString("en", {
-            maximumFractionDigits: 3,
-          })}
+          {formatDecimals(
+            parseFloat(formatUnits(BigInt(balance ?? "0"), decimals ?? 0))
+          )}
         </span>
         {!isOptimismToken && !isArbitrumToken && (
           <div className="flex gap-1 bg-orange-50 dark:bg-orange-900 items-center px-2 py-1 rounded-full">
@@ -314,45 +313,43 @@ export const FungibleTokenPicker = ({
             id="token"
             placeholder="Search"
           />
-        </div>
-      )}
 
-      {/* highlighted tokens */}
-      {!fast && (
-        <div className="flex flex-wrap items-center gap-1">
-          {[
-            "ETH",
-            "USDC",
-            "DAI",
-            "USDT",
-            // "rETH",
-            "BITCOIN", // HarryPotterObamaSonicInu
-            "WBTC",
-            "wstETH",
-          ]
-            .filter(Boolean)
-            .map((symbol) => {
-              const token = tokens.data.find(
-                (t) => t.token[deployment?.l2.id ?? 0]?.symbol === symbol
-              )?.token;
-              const fromToken = token?.[from?.id ?? 0];
-              if (!token || !fromToken) {
-                return null;
-              }
+          {/* highlighted tokens */}
+          <div className="flex flex-wrap items-center gap-1">
+            {[
+              "ETH",
+              "USDC",
+              "DAI",
+              "USDT",
+              // "rETH",
+              "BITCOIN", // HarryPotterObamaSonicInu
+              "WBTC",
+              "wstETH",
+            ]
+              .filter(Boolean)
+              .map((symbol) => {
+                const token = tokens.data.find(
+                  (t) => t.token[deployment?.l2.id ?? 0]?.symbol === symbol
+                )?.token;
+                const fromToken = token?.[from?.id ?? 0];
+                if (!token || !fromToken) {
+                  return null;
+                }
 
-              return (
-                <div
-                  key={fromToken.address}
-                  className="border rounded-full flex items-center space-x-1 px-2 pr-3 py-1  cursor-pointer hover:bg-muted transition"
-                  onClick={() => onClickToken(token)}
-                >
-                  <TokenIcon token={fromToken} className="h-5 w-5" />
-                  <span className="text-sm inline-flex">
-                    {fromToken.symbol}
-                  </span>
-                </div>
-              );
-            })}
+                return (
+                  <div
+                    key={fromToken.address}
+                    className="border rounded-full flex items-center space-x-1 px-2 pr-3 py-1  cursor-pointer hover:bg-muted transition"
+                    onClick={() => onClickToken(token)}
+                  >
+                    <TokenIcon token={fromToken} className="h-5 w-5" />
+                    <span className="text-sm inline-flex">
+                      {fromToken.symbol}
+                    </span>
+                  </div>
+                );
+              })}
+          </div>
         </div>
       )}
 
