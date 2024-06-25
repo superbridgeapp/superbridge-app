@@ -349,6 +349,7 @@ export const ConfirmationModal = ({
     bridge,
     withdrawing,
     isNativeToken: isNativeToken(stateToken),
+    fast,
   })
     .with({ bridge: { isLoading: true } }, (d) => ({
       onSubmit: () => {},
@@ -371,7 +372,9 @@ export const ConfirmationModal = ({
     }))
     .otherwise((d) => ({
       onSubmit: onConfirm,
-      buttonText: d.withdrawing
+      buttonText: d.fast
+        ? t("confirmationModal.initiateBridge")
+        : d.withdrawing
         ? t("confirmationModal.initiateWithdrawal")
         : t("confirmationModal.initiateDeposit"),
       disabled: false,

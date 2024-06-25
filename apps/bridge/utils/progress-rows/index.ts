@@ -15,9 +15,7 @@ import {
   PortalDepositDto,
 } from "@/codegen/model";
 import i18n from "@/services/i18n";
-import { usePendingTransactions } from "@/state/pending-txs";
 import { Transaction } from "@/types/transaction";
-import { isArbitrumDeposit, isForcedWithdrawal } from "@/utils/guards";
 import { useArbitrumDepositProgressRows } from "@/utils/progress-rows/arbitrum-deposit";
 import { useArbitrumWithdrawalProgressRows } from "@/utils/progress-rows/arbitrum-withdrawal";
 import { useCctpProgressRows } from "@/utils/progress-rows/cctp";
@@ -28,19 +26,11 @@ import {
 } from "@/utils/progress-rows/forced-withdrawal";
 import { useOptimismWithdrawalProgressRows } from "@/utils/progress-rows/withdrawal";
 
-import AnimDepositProgress from "../../animation/deposit-progress.json";
-import AnimDepositSuccess from "../../animation/deposit-success.json";
-import AnimWithdrawProgress from "../../animation/withdraw-progress.json";
-import AnimWithdrawSuccess from "../../animation/withdraw-success.json";
 import { OptimismDeploymentDto } from "../is-mainnet";
 import { useAcrossProgressRows } from "./across";
 
 interface TransactionRowProps {
   title: string;
-  icon: string;
-  anim: any;
-  segments: number[][];
-  loop: boolean;
 }
 
 const useDepositProps = (
@@ -54,27 +44,10 @@ const useDepositProps = (
       },
       () => ({
         title: i18n.t("deposit"),
-        icon: "deposit-complete.png",
-        anim: AnimDepositSuccess,
-        segments: [[0, 20]],
-        loop: false,
-        items: isArbitrumDeposit(tx)
-          ? useArbitrumDepositProgressRows()(tx)
-          : useOptimismDepositProgressRows()(tx),
       })
     )
     .with({ deposit: P.not(undefined) }, () => ({
       title: i18n.t("deposit"),
-      icon: "deposit-inprogress.png",
-      anim: AnimDepositProgress,
-      segments: [
-        [0, 15],
-        [15, 48],
-      ],
-      loop: true,
-      items: isArbitrumDeposit(tx)
-        ? useArbitrumDepositProgressRows()(tx)
-        : useOptimismDepositProgressRows()(tx),
     }))
     .exhaustive();
 };
@@ -84,19 +57,6 @@ const useWithdrawalProps =
   (w: BridgeWithdrawalDto): TransactionRowProps => {
     return {
       title: i18n.t("withdraw"),
-      icon: w.finalise?.transactionHash
-        ? "withdraw-complete.png"
-        : "withdraw-progress.png",
-      anim: w.finalise?.transactionHash
-        ? AnimWithdrawSuccess
-        : AnimWithdrawProgress,
-      segments: w.finalise?.transactionHash
-        ? [[0, 20]]
-        : [
-            [0, 15],
-            [15, 48],
-          ],
-      loop: w.finalise?.transactionHash ? false : true,
     };
   };
 
@@ -105,19 +65,6 @@ const useArbitrumWithdrawalProps =
   (w: ArbitrumWithdrawalDto): TransactionRowProps => {
     return {
       title: i18n.t("withdraw"),
-      icon: w.finalise?.transactionHash
-        ? "withdraw-complete.png"
-        : "withdraw-progress.png",
-      anim: w.finalise?.transactionHash
-        ? AnimWithdrawSuccess
-        : AnimWithdrawProgress,
-      segments: w.finalise?.transactionHash
-        ? [[0, 20]]
-        : [
-            [0, 15],
-            [15, 48],
-          ],
-      loop: w.finalise?.transactionHash ? false : true,
     };
   };
 
@@ -126,19 +73,6 @@ const useOptimismForcedWithdrawalProps =
   (w: ForcedWithdrawalDto): TransactionRowProps => {
     return {
       title: `Forced exit`,
-      icon: w.withdrawal?.finalise?.transactionHash
-        ? "withdraw-complete.png"
-        : "withdraw-progress.png",
-      anim: w.withdrawal?.finalise?.transactionHash
-        ? AnimWithdrawSuccess
-        : AnimWithdrawProgress,
-      segments: w.withdrawal?.finalise?.transactionHash
-        ? [[0, 20]]
-        : [
-            [0, 15],
-            [15, 48],
-          ],
-      loop: w.withdrawal?.finalise?.transactionHash ? false : true,
     };
   };
 
@@ -147,19 +81,6 @@ const useArbitrumForcedWithdrawalProps =
   (w: ArbitrumForcedWithdrawalDto): TransactionRowProps => {
     return {
       title: `Forced exit`,
-      icon: w.withdrawal?.finalise?.transactionHash
-        ? "withdraw-complete.png"
-        : "withdraw-progress.png",
-      anim: w.withdrawal?.finalise?.transactionHash
-        ? AnimWithdrawSuccess
-        : AnimWithdrawProgress,
-      segments: w.withdrawal?.finalise?.transactionHash
-        ? [[0, 20]]
-        : [
-            [0, 15],
-            [15, 48],
-          ],
-      loop: w.withdrawal?.finalise?.transactionHash ? false : true,
     };
   };
 
@@ -168,17 +89,6 @@ const useCctpProps =
   (b: CctpBridgeDto): TransactionRowProps => {
     return {
       title: "Bridge",
-      icon: b.relay?.blockNumber
-        ? "withdraw-complete.png"
-        : "withdraw-progress.png",
-      anim: b.relay?.blockNumber ? AnimWithdrawSuccess : AnimWithdrawProgress,
-      segments: b.relay?.blockNumber
-        ? [[0, 20]]
-        : [
-            [0, 15],
-            [15, 48],
-          ],
-      loop: b.relay?.blockNumber ? false : true,
     };
   };
 
@@ -187,17 +97,6 @@ const useAcrossProps =
   (b: AcrossBridgeDto): TransactionRowProps => {
     return {
       title: "Superfast bridge",
-      icon: b.fill?.timestamp
-        ? "withdraw-complete.png"
-        : "withdraw-progress.png",
-      anim: b.fill?.timestamp ? AnimWithdrawSuccess : AnimWithdrawProgress,
-      segments: b.fill?.timestamp
-        ? [[0, 20]]
-        : [
-            [0, 15],
-            [15, 48],
-          ],
-      loop: b.fill?.timestamp ? false : true,
     };
   };
 
