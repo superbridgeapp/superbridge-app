@@ -391,6 +391,7 @@ export const ConfirmationModal = ({
     rollup: deployment?.l2.name,
     symbol: token?.symbol,
     receiveAmount: formatDecimals(receive.data),
+    receiveSymbol: stateToken?.[to?.id ?? 0]?.symbol,
   };
 
   const title = match({

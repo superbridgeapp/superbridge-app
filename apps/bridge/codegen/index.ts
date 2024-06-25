@@ -25,6 +25,7 @@ import type {
   AxiosResponse
 } from 'axios'
 import type {
+  AcrossAvailableRouteDto,
   AcrossDomainDto,
   ActionDto,
   ActivityDto,
@@ -925,6 +926,59 @@ export const useBridgeControllerGetAcrossDomains = <TData = Awaited<ReturnType<t
   ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
 
   const queryOptions = getBridgeControllerGetAcrossDomainsQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+export const bridgeControllerGetAcrossAvailableRoutes = (
+     options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<AcrossAvailableRouteDto[]>> => {
+    
+    return axios.get(
+      `/api/bridge/across_available_routes`,options
+    );
+  }
+
+
+export const getBridgeControllerGetAcrossAvailableRoutesQueryKey = () => {
+    return [`/api/bridge/across_available_routes`] as const;
+    }
+
+    
+export const getBridgeControllerGetAcrossAvailableRoutesQueryOptions = <TData = Awaited<ReturnType<typeof bridgeControllerGetAcrossAvailableRoutes>>, TError = AxiosError<unknown>>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetAcrossAvailableRoutes>>, TError, TData>, axios?: AxiosRequestConfig}
+) => {
+
+const {query: queryOptions, axios: axiosOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getBridgeControllerGetAcrossAvailableRoutesQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof bridgeControllerGetAcrossAvailableRoutes>>> = ({ signal }) => bridgeControllerGetAcrossAvailableRoutes({ signal, ...axiosOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetAcrossAvailableRoutes>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type BridgeControllerGetAcrossAvailableRoutesQueryResult = NonNullable<Awaited<ReturnType<typeof bridgeControllerGetAcrossAvailableRoutes>>>
+export type BridgeControllerGetAcrossAvailableRoutesQueryError = AxiosError<unknown>
+
+export const useBridgeControllerGetAcrossAvailableRoutes = <TData = Awaited<ReturnType<typeof bridgeControllerGetAcrossAvailableRoutes>>, TError = AxiosError<unknown>>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetAcrossAvailableRoutes>>, TError, TData>, axios?: AxiosRequestConfig}
+
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+
+  const queryOptions = getBridgeControllerGetAcrossAvailableRoutesQueryOptions(options)
 
   const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
