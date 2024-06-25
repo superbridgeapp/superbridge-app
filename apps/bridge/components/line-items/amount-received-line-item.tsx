@@ -10,7 +10,7 @@ import { useReceiveAmount } from "@/hooks/use-receive-amount";
 import { useConfigState } from "@/state/config";
 import { useSettingsState } from "@/state/settings";
 import { formatDecimals } from "@/utils/format-decimals";
-
+import { Skeleton } from "@/components/ui/skeleton";
 import { NftImage } from "../nft";
 
 export const AmountReceivedLineItem = () => {
@@ -48,7 +48,7 @@ export const AmountReceivedLineItem = () => {
       {stateToken && (
         <>
           {acrossFee.isFetching ? (
-            <span className="text-xs">Loading</span>
+            <Skeleton className="h-4 w-[88px]" />
           ) : (
             <>
               <span className={`text-muted-foreground ml-auto text-xs  mr-2`}>
@@ -65,7 +65,7 @@ export const AmountReceivedLineItem = () => {
                     {stateToken?.[to?.id ?? 0]?.symbol}
                   </>
                 ) : (
-                  "…"
+                  <Skeleton className="h-4 w-[88px] animate-none" />
                 )}
               </span>
             </>

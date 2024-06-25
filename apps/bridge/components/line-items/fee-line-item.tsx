@@ -8,6 +8,7 @@ import { useTokenPrice } from "@/hooks/use-prices";
 import { useConfigState } from "@/state/config";
 import { useSettingsState } from "@/state/settings";
 import { useAcrossFee } from "@/hooks/across/use-across-fee";
+import { Skeleton } from "../ui/skeleton";
 
 export const FeeLineItem = () => {
   const to = useToChain();
@@ -40,7 +41,7 @@ export const FeeLineItem = () => {
 
       <div className="flex items-center">
         {acrossFee.isFetching ? (
-          <span className="text-xs">Loading</span>
+          <Skeleton className="h-4 w-[88px]" />
         ) : (
           <>
             <span className={`text-muted-foreground ml-auto text-xs  mr-2`}>
@@ -51,11 +52,13 @@ export const FeeLineItem = () => {
                 : undefined}
             </span>
             <span className={`text-xs text-foreground text-right`}>
-              {acrossFee.data
-                ? `${acrossFee.data.toLocaleString("en", {
-                    maximumFractionDigits: 4,
-                  })} ${stateToken?.[to?.id ?? 0]?.symbol}`
-                : "…"}
+              {acrossFee.data ? (
+                `${acrossFee.data.toLocaleString("en", {
+                  maximumFractionDigits: 4,
+                })} ${stateToken?.[to?.id ?? 0]?.symbol}`
+              ) : (
+                <Skeleton className="h-4 w-[88px] animate-none" />
+              )}
             </span>
           </>
         )}
