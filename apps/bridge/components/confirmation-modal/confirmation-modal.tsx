@@ -37,6 +37,7 @@ import { useWeiAmount } from "@/hooks/use-wei-amount";
 import { useConfigState } from "@/state/config";
 import { useSettingsState } from "@/state/settings";
 import { Token } from "@/types/token";
+import { formatDecimals } from "@/utils/format-decimals";
 import { isNativeToken } from "@/utils/is-eth";
 import { isArbitrum } from "@/utils/is-mainnet";
 import { isNativeUsdc } from "@/utils/is-usdc";
@@ -382,7 +383,7 @@ export const ConfirmationModal = ({
     base: deployment?.l1.name,
     rollup: deployment?.l2.name,
     symbol: token?.symbol,
-    receiveAmount: receive.data,
+    receiveAmount: formatDecimals(receive.data),
   };
 
   const title = match({
