@@ -51,7 +51,7 @@ export const RecipientAddressLineItem = () => {
       ) : (
         <div
           className={clsx(
-            `flex justify-center gap-1 pl-2 pr-1 py-1 rounded-full cursor-pointer hover:scale-105 transition-all bg-green-500/10`
+            `flex justify-center gap-1 pl-2 pr-1 py-1 -mr-0.5 rounded-full cursor-pointer hover:scale-105 transition-all bg-green-500/10`
           )}
         >
           <span className={clsx(`text-xs  `, "text-green-500")}>

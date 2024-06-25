@@ -32,7 +32,7 @@ export const TransferTimeInfoModal = () => {
         <div className="flex flex-col gap-8 p-6">
           <div className="flex flex-col gap-2 items-center text-center pt-8">
             <div className="animate-wiggle-waggle">
-              <IconTime className="w-20 h-auto" />
+              <IconTime className="w-16 h-auto mb-4" />
             </div>
             <h1 className="font-heading text-2xl text-pretty">
               {t("across.transferTimeTitle")}
@@ -46,17 +46,17 @@ export const TransferTimeInfoModal = () => {
             <div className="flex items-center justify-between border-b px-3 py-2">
               <div className="flex items-center gap-2">
                 <TokenIcon token={token} className="h-6 w-6" />
-                <span className="font-heading text-xs ">
+                <span className="font-heading text-xs md:text-sm ">
                   {t("expensiveGasModal.bridgeAmount")}
                 </span>
               </div>
               <div className="flex items-center gap-2">
                 {fiatAmount && (
-                  <span className="text-xs text-muted-foreground">
+                  <span className="text-xs md:text-sm text-muted-foreground">
                     {fiatAmount}
                   </span>
                 )}
-                <span className="text-xs text-foreground">
+                <span className="text-xs md:text-sm text-foreground">
                   {rawAmount} {token?.symbol}
                 </span>
               </div>
@@ -65,11 +65,13 @@ export const TransferTimeInfoModal = () => {
             <div className="flex items-center justify-between px-3 py-2">
               <div className="flex items-center gap-2">
                 <IconTime className="h-6 w-6" />
-                <span className="font-heading text-xs">
+                <span className="font-heading text-xs md:text-sm">
                   {t("across.timeTo", { to: to?.name })}
                 </span>
               </div>
-              <span className="text-xs">15 secs - {transferTime.slice(1)}</span>
+              <span className="text-xs md:text-sm">
+                15 secs - {transferTime.slice(1)}
+              </span>
             </div>
           </div>
 

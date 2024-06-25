@@ -48,12 +48,12 @@ export const FeeBreakdownModal = () => {
         <div className="flex flex-col gap-8 p-6">
           <div className="flex flex-col gap-2 items-center text-center pt-10">
             <div className="animate-wiggle-waggle">
-              <IconSuperFast className="w-20 h-auto" />
+              <IconSuperFast className="w-16 h-auto mb-4" />
             </div>
-            <h1 className="font-heading text-2xl  text-pretty">
+            <h1 className="font-heading text-2xl text-pretty">
               {t("across.feeBreakdownTitle")}
             </h1>
-            <p className="text-xs md:text-sm prose-sm font-heading text-muted-foreground text-pretty text-center">
+            <p className="text-xs md:text-sm prose-sm text-muted-foreground text-pretty text-center">
               <Trans
                 i18nKey={"across.feeBreakdownDescription"}
                 components={[
@@ -72,17 +72,17 @@ export const FeeBreakdownModal = () => {
             <div className="flex items-center justify-between px-3 py-2">
               <div className="flex items-center gap-2">
                 <TokenIcon token={token} className="h-6 w-6" />
-                <span className="font-heading text-xs ">
+                <span className="font-heading text-xs md:text-sm ">
                   {t("across.acrossFee")}
                 </span>
               </div>
               <div className="flex items-center gap-2">
                 {fiatFee && (
-                  <span className="text-sm text-muted-foreground">
+                  <span className="text-xs md:text-sm text-muted-foreground">
                     {fiatFee}
                   </span>
                 )}
-                <span className="text-xs text-foreground">
+                <span className="text-xs md:text-sm text-foreground">
                   {tokenFee ? tokenFee : "..."}
                 </span>
               </div>
