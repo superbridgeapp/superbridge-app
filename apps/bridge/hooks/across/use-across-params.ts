@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import { zeroAddress } from "viem";
 
 import { useConfigState } from "@/state/config";
 
@@ -25,13 +26,7 @@ export const useAcrossParams = () => {
   const destinationChainId = to?.id.toPrecision();
 
   return useMemo(() => {
-    if (
-      !inputToken ||
-      !outputToken ||
-      !recipient ||
-      !originChainId ||
-      !destinationChainId
-    ) {
+    if (!inputToken || !outputToken || !originChainId || !destinationChainId) {
       return null;
     }
 
@@ -40,7 +35,12 @@ export const useAcrossParams = () => {
       outputToken,
       originChainId,
       destinationChainId,
-      recipient,
+      /**
+       * So we can load quotes without a connected wallet. Safe
+       * because we never use the recipient from the output
+       * quote data
+       */
+      recipient: recipient || zeroAddress,
       amount: amount.toString(),
     };
   }, [
