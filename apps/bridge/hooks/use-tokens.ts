@@ -224,7 +224,7 @@ export function useActiveTokens() {
         const from = t[fastFromChainId];
         const to = t[fastToChainId];
         if (!from || !to) return false;
-        return ["USDC", "USDC.e", "ETH"].includes(from.symbol);
+        return ["USDC", "ETH"].includes(from.symbol);
       }
 
       if (!deployment) return false;
