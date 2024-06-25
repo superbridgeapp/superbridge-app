@@ -52,6 +52,8 @@ import {
   ReceiveIcon,
   WaitIcon,
 } from "./icons";
+import { IconSuperFast } from "../icons";
+import { PoweredByAcross } from "../powered-by-across";
 
 function LineItem({
   text,
@@ -73,11 +75,11 @@ function LineItem({
     >
       <div className="flex gap-2 items-center">
         {icon}
-        <p className="text-sm">{text}</p>
+        <p className="text-xs ">{text}</p>
       </div>
       {fee && (
         <div className="flex gap-2 items-center">
-          <p className="text-sm">{fee}</p>
+          <p className="text-xs ">{fee}</p>
           <FeesIcon />
         </div>
       )}
@@ -388,7 +390,7 @@ export const ConfirmationModal = ({
     family: deployment?.family,
   })
     .with({ fast: true }, () => {
-      return "Fast bridging via Across";
+      return "Superfast bridge";
     })
     .with({ isUsdc: true, withdrawing: true, escapeHatch: true }, () =>
       t("confirmationModal.cctpWithdrawalTitleEscapeHatch", {
@@ -441,7 +443,7 @@ export const ConfirmationModal = ({
     .with(
       { fast: true },
       () =>
-        "Bridge times via Across change with the amount you want to bridge. Try a smaller value for a faster bridge time."
+        "Bridge times vary with the amount you want to bridge. Try a smaller value for a faster bridge."
     )
     .with({ isUsdc: true, withdrawing: true, escapeHatch: true }, () =>
       t("confirmationModal.cctpDescriptionEscapeHatch", common)
@@ -731,25 +733,41 @@ export const ConfirmationModal = ({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent>
         <div className="flex flex-col p-6 pt-8">
-          <div className="flex flex-col gap-1">
-            <h1 className="font-heading text-xl  text-pretty leading-6 mr-6">
-              {title}
-            </h1>
-            <p className="text-xs md:text-sm text-pretty">
-              {description}{" "}
-              <Link
-                href={
-                  isNativeUsdc(stateToken)
-                    ? "https://docs.rollbridge.app/native-usdc"
-                    : "https://docs.rollbridge.app/what-is-bridging"
-                }
-                className="underline "
-                target="_blank"
-              >
-                {t("confirmationModal.learnMore")}
-              </Link>
-            </p>
-          </div>
+          {fast && (
+            <div className="flex flex-col items-center gap-2 text-center mb-3">
+              <div className="animate-wiggle-waggle">
+                <IconSuperFast className="w-10 h-auto" />
+              </div>
+              <h1 className="font-heading tracking-tight text-2xl text-pretty leading-6">
+                {title}
+              </h1>
+              <PoweredByAcross />
+              <p className="text-xs md:text-sm text-pretty text-muted-foreground tracking-tight">
+                {description}
+              </p>
+            </div>
+          )}
+          {!fast && (
+            <div className="flex flex-col gap-1">
+              <h1 className="font-heading text-xl  text-pretty leading-6 mr-6">
+                {title}
+              </h1>
+              <p className="text-xs md:text-sm text-pretty text-muted-foreground">
+                {description}{" "}
+                <Link
+                  href={
+                    isNativeUsdc(stateToken)
+                      ? "https://docs.rollbridge.app/native-usdc"
+                      : "https://docs.rollbridge.app/what-is-bridging"
+                  }
+                  className="underline "
+                  target="_blank"
+                >
+                  {t("confirmationModal.learnMore")}
+                </Link>
+              </p>
+            </div>
+          )}
           <div className="justify-end flex items-center px-1 py-1">
             <span className="text-muted-foreground  text-[11px]">
               {t("confirmationModal.approxFees")}
