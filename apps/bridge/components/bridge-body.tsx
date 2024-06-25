@@ -428,7 +428,7 @@ export const BridgeBody = () => {
           ? t("withdrawNft", { tokenId: `#${d.nft.tokenId}` })
           : t("depositNft", { tokenId: `#${d.nft.tokenId}` })
         : d.fast
-        ? t("bridge")
+        ? t("reviewBridge")
         : d.withdrawing
         ? t("withdraw")
         : t("deposit"),

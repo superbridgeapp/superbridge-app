@@ -29,6 +29,7 @@ import {
 } from "@/hooks/use-finalization-period";
 import { useNativeToken, useToNativeToken } from "@/hooks/use-native-token";
 import { useTokenPrice } from "@/hooks/use-prices";
+import { useReceiveAmount } from "@/hooks/use-receive-amount";
 import { useRequiredCustomGasTokenBalance } from "@/hooks/use-required-custom-gas-token-balance";
 import { useSelectedToken } from "@/hooks/use-selected-token";
 import { useSwitchChain } from "@/hooks/use-switch-chain";
@@ -37,9 +38,11 @@ import { useConfigState } from "@/state/config";
 import { useSettingsState } from "@/state/settings";
 import { Token } from "@/types/token";
 import { isNativeToken } from "@/utils/is-eth";
-import { isNativeUsdc } from "@/utils/is-usdc";
 import { isArbitrum } from "@/utils/is-mainnet";
+import { isNativeUsdc } from "@/utils/is-usdc";
 
+import { IconSuperFast } from "../icons";
+import { PoweredByAcross } from "../powered-by-across";
 import { Button } from "../ui/button";
 import { Dialog, DialogContent } from "../ui/dialog";
 import {
@@ -52,8 +55,6 @@ import {
   ReceiveIcon,
   WaitIcon,
 } from "./icons";
-import { IconSuperFast } from "../icons";
-import { PoweredByAcross } from "../powered-by-across";
 
 function LineItem({
   text,
@@ -112,6 +113,7 @@ export const ConfirmationModal = ({
   const escapeHatch = useConfigState.useForceViaL1();
   const fast = useConfigState.useFast();
   const { gas } = useBridge();
+  const receive = useReceiveAmount();
 
   const gasToken = useGasToken();
   const gasTokenAllowance = useAllowanceGasToken();
@@ -380,6 +382,7 @@ export const ConfirmationModal = ({
     base: deployment?.l1.name,
     rollup: deployment?.l2.name,
     symbol: token?.symbol,
+    receiveAmount: receive.data,
   };
 
   const title = match({
@@ -547,7 +550,7 @@ export const ConfirmationModal = ({
           icon: WaitIcon,
         },
         {
-          text: t("confirmationModal.receiveDeposit", common),
+          text: t("confirmationModal.receiveAmountOnChain", common),
           icon: ReceiveIcon,
         },
       ].filter(isPresent)

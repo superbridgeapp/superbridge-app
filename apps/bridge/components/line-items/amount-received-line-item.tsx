@@ -10,8 +10,9 @@ import { useReceiveAmount } from "@/hooks/use-receive-amount";
 import { useConfigState } from "@/state/config";
 import { useSettingsState } from "@/state/settings";
 import { formatDecimals } from "@/utils/format-decimals";
-import { Skeleton } from "@/components/ui/skeleton";
+
 import { NftImage } from "../nft";
+import { Skeleton } from "../ui/skeleton";
 
 export const AmountReceivedLineItem = () => {
   const to = useToChain();
@@ -58,16 +59,17 @@ export const AmountReceivedLineItem = () => {
                     }${fiatValueBeingBridged.toLocaleString("en")}`
                   : ""}
               </span>
-              <span className={`text-xs text-foreground text-right`}>
-                {receive.data ? (
-                  <>
-                    {formatDecimals(receive.data)}{" "}
-                    {stateToken?.[to?.id ?? 0]?.symbol}
-                  </>
-                ) : (
-                  <Skeleton className="h-4 w-[88px] animate-none" />
-                )}
-              </span>
+
+              {receive.data ? (
+                <span className={`text-xs text-foreground text-right`}>
+                  {formatDecimals(receive.data)}{" "}
+                  {stateToken?.[to?.id ?? 0]?.symbol}
+                </span>
+              ) : (
+                <span className={`text-xs text-muted-foreground text-right`}>
+                  …
+                </span>
+              )}
             </>
           )}
         </>
