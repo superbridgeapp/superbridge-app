@@ -4,6 +4,7 @@ import { useAccount } from "wagmi";
 
 import { bridgeControllerGetActivityV2 } from "@/codegen";
 import { isSuperbridge } from "@/config/superbridge";
+import { useInjectedStore } from "@/state/injected";
 import { usePendingTransactions } from "@/state/pending-txs";
 import { Transaction } from "@/types/transaction";
 import {
@@ -20,6 +21,7 @@ export const useTransactions = () => {
   const account = useAccount();
   const { deployments } = useDeployments();
 
+  const superbridgeTestnetsEnabled = useInjectedStore((s) => s.testnets);
   const removeFinalising = usePendingTransactions.useRemoveFinalising();
   const removeProving = usePendingTransactions.useRemoveProving();
   const removePending = usePendingTransactions.useRemoveTransactionByHash();
@@ -30,6 +32,7 @@ export const useTransactions = () => {
       "activity",
       account.address as string,
       deployments.map((x) => x.id),
+      superbridgeTestnetsEnabled,
     ],
     queryFn: () => {
       if (!account.address) {
@@ -39,6 +42,7 @@ export const useTransactions = () => {
         address: account.address,
         includeAcross:
           isSuperbridge &&
+          !superbridgeTestnetsEnabled &&
           typeof window !== "undefined" &&
           (window.location.host === "localhost:3004" ||
             window.location.host === "staging.superbridge.app"),

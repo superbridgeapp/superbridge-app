@@ -7,10 +7,8 @@ import {
 } from "@/utils/guards";
 
 import { useAcrossDomains } from "./across/use-across-domains";
-import { useCctpDomains } from "./use-cctp-domains";
 
 export const useFromTo = (tx: Transaction) => {
-  const cctpDomains = useCctpDomains();
   const acrossDomains = useAcrossDomains();
 
   if (isForcedWithdrawal(tx)) {
