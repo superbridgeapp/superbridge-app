@@ -1,8 +1,11 @@
+import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { useAccount } from "wagmi";
 
-import { useBridgeControllerGetActivity } from "@/codegen";
+import { bridgeControllerGetActivityV2 } from "@/codegen";
+import { isSuperbridge } from "@/config/superbridge";
 import { usePendingTransactions } from "@/state/pending-txs";
+import { Transaction } from "@/types/transaction";
 import {
   isForcedWithdrawal,
   isOptimismForcedWithdrawal,
@@ -21,24 +24,38 @@ export const useTransactions = () => {
   const removeProving = usePendingTransactions.useRemoveProving();
   const removePending = usePendingTransactions.useRemoveTransactionByHash();
 
-  const response = useBridgeControllerGetActivity(
-    account.address ?? "",
-    {
-      deploymentIds: deployments.map((d) => d.id),
+  const response = useQuery({
+    // @ts-expect-error
+    queryKey: [
+      "activity",
+      account.address as string,
+      deployments.map((x) => x.id),
+    ],
+    queryFn: () => {
+      if (!account.address) {
+        return [];
+      }
+      return bridgeControllerGetActivityV2({
+        address: account.address,
+        includeAcross:
+          isSuperbridge &&
+          typeof window !== "undefined" &&
+          (window.location.host === "localhost:3004" ||
+            window.location.host === "staging.superbridge.app"),
+        deploymentIds: deployments.map((d) => d.id),
+      });
     },
-    {
-      query: {
-        enabled: !!account.address && deployments.length > 0,
-        refetchInterval: 10_000,
-      },
-    }
-  );
+    enabled: !!account.address && deployments.length > 0,
+    refetchInterval: 10_000,
+  });
 
   useEffect(() => {
-    response.data?.data.transactions.forEach((tx) => {
-      if (tx.type === "across-bridge") {
-        return;
-      }
+    if (!response.data?.data) {
+      return;
+    }
+
+    const txs = response.data.data.transactions as Transaction[];
+    txs.forEach((tx) => {
       const hash = getInitiatingHash(tx);
       if (hash) removePending(hash);
 

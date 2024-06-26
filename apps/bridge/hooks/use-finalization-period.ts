@@ -4,6 +4,7 @@ import { isArbitrum, isMainnet, isOptimism } from "@/utils/is-mainnet";
 import { isNativeUsdc } from "@/utils/is-usdc";
 
 import { useDeployment } from "./use-deployment";
+import { useFastTransferPeriod } from "./use-transfer-time";
 
 const ONE_MINUTE = 60;
 const ONE_HOUR = 60 * 60;
@@ -132,10 +133,16 @@ export const useTotalBridgeTime = (
   const withdrawing = useConfigState.useWithdrawing();
   const escapeHatch = useConfigState.useForceViaL1();
   const stateToken = useConfigState.useToken();
+  const fast = useConfigState.useFast();
 
   const prove = useProvePeriod(deployment);
   const finalize = getFinalizationPeriod(deployment, isNativeUsdc(stateToken));
   const deposit = useDepositTime(deployment);
+  const fastBridgePeriod = useFastTransferPeriod();
+
+  if (fast) {
+    return fastBridgePeriod;
+  }
 
   if (isNativeUsdc(stateToken)) {
     if (escapeHatch) {

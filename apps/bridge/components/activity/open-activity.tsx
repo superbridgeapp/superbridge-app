@@ -121,9 +121,6 @@ export const OpenActivity = ({}) => {
               return (
                 <div className="overflow-y-auto overflow-x-hidden">
                   {[...pendingTransactions, ...transactions].map((t) => {
-                    if (t.type === "across-bridge") {
-                      return null;
-                    }
                     return <TransactionRow key={t.id} tx={t} />;
                   })}
                 </div>

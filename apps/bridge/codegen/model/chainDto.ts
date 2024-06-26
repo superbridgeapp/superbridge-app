@@ -14,7 +14,6 @@ export interface ChainDto {
   id: number;
   name: string;
   nativeCurrency: ChainNativeCurrencyDto;
-  network: string;
   rpcUrls: RpcUrlsDto;
   testnet?: boolean;
 }

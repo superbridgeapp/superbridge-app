@@ -2,19 +2,20 @@ import { Address } from "viem";
 import { useReadContract } from "wagmi";
 
 import { TokenMinterAbi } from "@/abis/cctp/TokenMinter";
-import { useBridgeControllerGetCctpDomains } from "@/codegen";
 import { useConfigState } from "@/state/config";
 import { isNativeUsdc } from "@/utils/is-usdc";
 
-import { useFromChain } from "./use-chain";
+import { useCctpDomains } from "../use-cctp-domains";
+import { useFromChain } from "../use-chain";
 
-export const useBridgeLimit = () => {
-  const domains = useBridgeControllerGetCctpDomains();
+export const useCctpBridgeLimit = () => {
+  const domains = useCctpDomains();
 
   const stateToken = useConfigState.useToken();
+  const fast = useConfigState.useFast();
   const from = useFromChain();
 
-  const fromDomain = domains.data?.data.find((x) => x.chainId === from?.id);
+  const fromDomain = domains.find((x) => x.chainId === from?.id);
 
   const burnLimitsPerMessage = useReadContract({
     abi: TokenMinterAbi,
@@ -22,7 +23,7 @@ export const useBridgeLimit = () => {
     args: [stateToken?.[from?.id ?? 0]?.address as Address],
     address: fromDomain?.contractAddresses.minter as Address,
     query: {
-      enabled: isNativeUsdc(stateToken),
+      enabled: isNativeUsdc(stateToken) && !fast,
     },
     chainId: from?.id,
   });

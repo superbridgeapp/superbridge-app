@@ -70,10 +70,8 @@ export const TokenModal = (props: {
         )}
 
         {!deployment?.supportsNftBridging && (
-          <div className="flex justify-between items-center px-4 pt-8 pb-0">
-            <h1 className="text-base font-heading">
-              {t("tokens.selectToken")}
-            </h1>
+          <div className="flex flex-col space-y-1.5 text-left px-6 py-6">
+            <h1 className="text-lg font-heading">{t("tokens.selectToken")}</h1>
           </div>
         )}
 

@@ -6,6 +6,8 @@
   "withdraw": "Para Çekme",
   "withdrawNft": "{{tokenId}} dışarıya aktarma",
   "withdrawing": "Dışarıya aktarılıyor",
+  "reviewBridge": "Köprüyü İncele",
+  "bridging": "Köprüleme",
   "approving": "Onaylanıyor",
   "connectWallet": "Cüzdan Bağla",
   "switchToApprove": "Onaylamak için değiştir",
@@ -14,8 +16,8 @@
   "approveNft": "{{tokenId}} onayla",
   "insufficientFunds": "Yetersiz varlık",
   "insufficientGas": "Gas için {{symbol}} yetersiz miktarda",
-  "bridgeLimitFallback": "Limit aşıldı",
   "bridgeLimit": "{{amount}} {{symbol}} limit",
+  "bridgeMin": "Min. miktar {{amount}} {{symbol}}",
   "enterAnAmount": "Bir miktar girin",
   "loading": "Yükleniyor",
   "error": "Hata",
@@ -41,6 +43,7 @@
   "to": "Alıcı",
   "manage": "Yönet",
   "support": "Destek",
+  "ok": "Tamam",
 
   "settings": {
     "settings": "Ayarlar",
@@ -168,6 +171,7 @@
     "opDescriptionTokenEscapeHatch": "Çekimi zorlamak için Kaçış Kapağı kullanma, 1 {{rollup}} işlemi ve 3 {{base}} işlemi gerektiren 4 adımlı bir işlemdir.",
     "arbDescription": "Çekim, 1 {{rollup}} işlemi ve 1 {{base}} işlemi gerektiren 2 adımlı bir işlemdir.",
     "arbDescriptionToken": "Çekim, 2 {{rollup}} işlemi ve 1 {{base}} işlemi gerektiren 3 adımlı bir işlemdir.",
+    "acrossDescription": "Köprü süreleri, köprülemek istediğiniz miktara göre değişir. Daha hızlı köprü için daha küçük bir değer deneyin.",
     "learnMore": "Daha fazla bilgi edin",
     "approxFees": "Yaklaşık ücretler",
     "initiateDeposit": "Yatırım başlat",
@@ -183,6 +187,7 @@
     "prove": "{{base}} üzerinde kanıtla",
     "finalize": "{{to}} üzerinde talep et",
     "receiveDeposit": "{{rollup}} üzerinde al",
+    "receiveAmountOnChain": "{{to}} üzerinde {{receiveAmount}} {{receiveSymbol}} alın",
     "approve": "{{symbol}} onayla",
     "approved": "Onaylandı",
     "approveGasToken": "Gaz jetonunu onayla",
@@ -250,5 +255,13 @@
     "networkFees": "Ağ ücretleri",
     "goBack": "Geri dön",
     "proceedAnyway": "Yine de devam et"
+  },
+  "across": {
+    "transferTimeTitle": "Süper hızlı transfer süresi",
+    "transferTimeDescription": "Köprünün boyutuna bağlı olarak, süper hızlı transfer süreleri değişebilir. Zamanlar yalnızca tahminidir.",
+    "timeTo": "{{to}} süresi",
+    "feeBreakdownTitle": "Süper hızlı ücretler",
+    "feeBreakdownDescription": "Ücretler <0>Across</0> ve likidite sağlayıcıları ve relayerlarına ödenir",
+    "acrossFee": "Across ücreti"
   }
 }

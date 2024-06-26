@@ -1,29 +1,24 @@
 import clsx from "clsx";
 import Image from "next/image";
 import { useTranslation } from "react-i18next";
-import { Chain } from "viem";
 
 import { configurations } from "@/config/contract-addresses";
 import { currencySymbolMap } from "@/constants/currency-symbol-map";
 import { useDeployment } from "@/hooks/use-deployment";
-import { useFees } from "@/hooks/use-fees";
+import { useFees } from "@/hooks/use-fee-line-items";
 import { useConfigState } from "@/state/config";
 import { useSettingsState } from "@/state/settings";
 import { isOptimism } from "@/utils/is-mainnet";
+import { ModalNames } from "@/constants/modal-names";
 
-export const WithdrawFees = ({
-  gasEstimate,
-  openSettings,
-}: {
-  gasEstimate: bigint;
-  openSettings: () => void;
-}) => {
+export const WithdrawFees = () => {
   const deployment = useDeployment();
   const forceViaL1 = useConfigState.useForceViaL1();
   const easyMode = useConfigState.useEasyMode();
-  const fees = useFees(deployment?.l2 as unknown as Chain, gasEstimate);
+  const fees = useFees(deployment?.l2);
   const { t } = useTranslation();
   const currency = useSettingsState.useCurrency();
+  const openModal = useConfigState.useAddModal();
 
   const forceIsEnabled = !!deployment && isOptimism(deployment);
   const easyModeEnabled = !!configurations[deployment?.name ?? ""];
@@ -32,7 +27,9 @@ export const WithdrawFees = ({
   return (
     <div
       className={hasSettings ? "cursor-pointer" : ""}
-      onClick={hasSettings ? () => openSettings() : undefined}
+      onClick={
+        hasSettings ? () => openModal(ModalNames.WithdrawSettings) : undefined
+      }
     >
       <div className="flex justify-between items-center px-3 py-2 md:py-3">
         <div className="flex items-center gap-2">

@@ -11,9 +11,6 @@ export const useHasPendingAction = () => {
   return statusCheck
     ? 0
     : !!transactions.find((x) => {
-        if (x.type === "across-bridge") {
-          return false;
-        }
         const rows = progressRows(x);
         return !!rows.find((x) => x.buttonComponent);
       });

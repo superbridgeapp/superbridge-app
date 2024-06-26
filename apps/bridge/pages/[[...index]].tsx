@@ -6,6 +6,8 @@ import type {
 import { useRouter } from "next/router";
 
 import {
+  bridgeControllerGetAcrossDomains,
+  bridgeControllerGetCctpDomains,
   bridgeControllerGetDeployments,
   bridgeControllerGetDeploymentsByDomain,
 } from "@/codegen";
@@ -23,6 +25,7 @@ import {
 } from "@/constants/superbridge";
 import { useDeployment } from "@/hooks/use-deployment";
 import { useDeployments } from "@/hooks/use-deployments";
+import { useConfigState } from "@/state/config";
 import { InjectedStoreProvider } from "@/state/injected";
 import { ThemeProvider } from "@/state/theme";
 
@@ -46,14 +49,27 @@ export const getServerSideProps = async ({
       });
       return { props: { deployments: data, testnets: true } };
     }
+
     const names =
       req.headers.host === "testnets.superbridge.app"
         ? SUPERCHAIN_TESTNETS
         : SUPERCHAIN_MAINNETS;
-    const { data } = await bridgeControllerGetDeployments({
-      names,
-    });
-    return { props: { deployments: data } };
+
+    const [{ data }, cctpDomains, acrossDomains] = await Promise.all([
+      bridgeControllerGetDeployments({
+        names,
+      }),
+      bridgeControllerGetCctpDomains(),
+      bridgeControllerGetAcrossDomains(),
+    ]);
+
+    return {
+      props: {
+        deployments: data,
+        acrossDomains: acrossDomains.data,
+        cctpDomains: cctpDomains.data,
+      },
+    };
   }
 
   if (
@@ -115,6 +131,8 @@ export const getServerSideProps = async ({
 export default function IndexRoot({
   deployments,
   testnets,
+  acrossDomains,
+  cctpDomains,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const router = useRouter();
 
@@ -137,6 +155,8 @@ export default function IndexRoot({
         deployment,
         withdrawing: router.query.direction === "withdraw",
         testnets: testnets ?? false,
+        acrossDomains: acrossDomains ?? [],
+        cctpDomains: cctpDomains ?? [],
       }}
     >
       <ThemeProvider>
@@ -155,10 +175,16 @@ function Index() {
   const deployment = useDeployment();
   const { deployments } = useDeployments();
 
+  const fast = useConfigState.useFast();
+
   return (
     <PageTransition key={"index"}>
       <AnimatePresence mode="sync">
-        {deployment ? (
+        {fast ? (
+          <PageTransition key={"fast-bridge"}>
+            <Bridge key={"fast-bridge"} />
+          </PageTransition>
+        ) : deployment ? (
           <PageTransition key={"bridge"}>
             <Bridge key={"bridge"} />
           </PageTransition>

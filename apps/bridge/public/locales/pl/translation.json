@@ -6,6 +6,8 @@
   "withdraw": "Wypłata",
   "withdrawNft": "Wypłata {{tokenId}}",
   "withdrawing": "Dokonywanie wypłaty",
+  "reviewBridge": "Przegląd mostu",
+  "bridging": "Mostkowanie",
   "approving": "Zatwierdzanie",
   "connectWallet": "Połącz portfel",
   "switchToApprove": "Przełącz na zatwierdzenie",
@@ -14,8 +16,8 @@
   "approveNft": "Zatwierdź {{tokenId}}",
   "insufficientFunds": "Niewystarczające środki",
   "insufficientGas": "Niewystarczające {{symbol}} na opłatę za gaz",
-  "bridgeLimitFallback": "Przekroczono limit",
   "bridgeLimit": "{{amount}} {{symbol}} limit",
+  "bridgeMin": "Min. kwota {{amount}} {{symbol}}",
   "enterAnAmount": "Wprowadź kwotę",
   "loading": "Ładowanie",
   "error": "Błąd",
@@ -40,6 +42,7 @@
   "from": "Od",
   "to": "Do",
   "support": "Wsparcie",
+  "ok": "Ok",
 
   "settings": {
     "settings": "Ustawienia",
@@ -166,6 +169,7 @@
     "opDescriptionTokenEscapeHatch": "Użycie Hatch Escape do wymuszenia wypłat to proces składający się z 4 kroków, wymagający 1 transakcji {{rollup}} i 3 transakcji {{base}}.",
     "arbDescription": "Wypłata to proces składający się z 2 kroków, wymagający 1 transakcji {{rollup}} i 1 transakcji {{base}}.",
     "arbDescriptionToken": "Wypłata to proces składający się z 3 kroków, wymagający 2 transakcji na {{rollup}} i 1 na {{base}}.",
+    "acrossDescription": "Czas mostu zależy od kwoty, którą chcesz mostkować. Spróbuj mniejszej wartości dla szybszego mostu.",
     "learnMore": "Dowiedz się więcej",
     "approxFees": "Przybliżone opłaty",
     "initiateDeposit": "Zainicjuj depozyt",
@@ -181,6 +185,7 @@
     "prove": "Udowodnij na {{base}}",
     "finalize": "Zatwierdź na {{to}}",
     "receiveDeposit": "Odbierz na {{rollup}}",
+    "receiveAmountOnChain": "Otrzymaj {{receiveAmount}} {{receiveSymbol}} na {{to}}",
     "approve": "Zatwierdź {{symbol}}",
     "approved": "Zatwierdzono",
     "approveGasToken": "Zatwierdź token gazu",
@@ -248,5 +253,13 @@
     "networkFees": "Opłaty sieciowe",
     "goBack": "Wróć",
     "proceedAnyway": "Kontynuuj mimo to"
+  },
+  "across": {
+    "transferTimeTitle": "Super szybki czas transferu",
+    "transferTimeDescription": "W zależności od wielkości mostu, super szybki czas transferu może się różnić. Czas jest tylko szacunkowy.",
+    "timeTo": "Czas do {{to}}",
+    "feeBreakdownTitle": "Super szybkie opłaty",
+    "feeBreakdownDescription": "Opłaty płacone <0>Across</0> i ich dostawcom płynności oraz przekaźnikom",
+    "acrossFee": "Opłata Across"
   }
 }

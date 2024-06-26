@@ -6,6 +6,8 @@
   "withdraw": "سحب",
   "withdrawNft": "سحب {{tokenId}}",
   "withdrawing": "جارٍ السحب",
+  "reviewBridge": "مراجعة الجسر",
+  "bridging": "الجسر",
   "approving": "جارٍ الموافقة",
   "connectWallet": "اتصال بالمحفظة",
   "switchToApprove": "التبديل للموافقة",
@@ -14,8 +16,8 @@
   "approveNft": "الموافقة على {{tokenId}}",
   "insufficientFunds": "أموال غير كافية",
   "insufficientGas": "كمية {{symbol}} غير كافية للغاز",
-  "bridgeLimitFallback": "تم تجاوز الحد",
   "bridgeLimit": "{{amount}} {{symbol}} الحد",
+  "bridgeMin": "الحد الأدنى للمبلغ {{amount}} {{symbol}}",
   "enterAnAmount": "أدخل مبلغًا",
   "loading": "جارٍ التحميل",
   "error": "خطأ",
@@ -40,6 +42,7 @@
   "from": "من",
   "to": "إلى",
   "support": "الدعم",
+  "ok": "حسنًا",
 
   "settings": {
     "settings": "الإعدادات",
@@ -166,6 +169,7 @@
     "opDescriptionTokenEscapeHatch": "استخدام مقبض الهروب لإجبار السحوبات هو عملية مكونة من 4 خطوات ، تتطلب معاملة {{rollup}} و 3 معاملات {{base}}.",
     "arbDescription": "السحب هو عملية مكونة من 2 خطوات ، تتطلب معاملة {{rollup}} ومعاملة {{base}} واحدة.",
     "arbDescriptionToken": "السحب هو عملية مكونة من 3 خطوات ، تتطلب 2 معاملات على {{rollup}} وواحدة على {{base}}.",
+    "acrossDescription": "تختلف أوقات الجسر حسب المبلغ الذي تريد جسره. حاول استخدام قيمة أصغر لجسر أسرع.",
     "learnMore": "تعرف على المزيد",
     "approxFees": "الرسوم التقريبية",
     "initiateDeposit": "بدء الإيداع",
@@ -181,6 +185,7 @@
     "prove": "أثبت على {{base}}",
     "finalize": "ادع على {{to}}",
     "receiveDeposit": "استلام على {{rollup}}",
+    "receiveAmountOnChain": "استلام {{receiveAmount}} {{receiveSymbol}} على {{to}}",
     "approve": "الموافقة على {{symbol}}",
     "approved": "تمت الموافقة",
     "approveGasToken": "الموافقة على رمز الغاز",
@@ -253,5 +258,14 @@
     "networkFees": "رسوم الشبكة",
     "goBack": "العودة",
     "proceedAnyway": "تابع على أي حال"
+  },
+
+  "across": {
+    "transferTimeTitle": "وقت التحويل السريع",
+    "transferTimeDescription": "اعتمادًا على حجم الجسر، يمكن أن يختلف وقت التحويل السريع. الأوقات هي تقديرات فقط.",
+    "timeTo": "الوقت إلى {{to}}",
+    "feeBreakdownTitle": "رسوم التحويل السريع",
+    "feeBreakdownDescription": "الرسوم المدفوعة إلى <0>Across</0> ومقدمي السيولة والموجهين",
+    "acrossFee": "رسوم Across"
   }
 }

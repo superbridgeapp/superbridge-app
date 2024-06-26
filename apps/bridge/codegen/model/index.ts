@@ -6,6 +6,7 @@
  * OpenAPI spec version: 1.0
  */
 
+export * from './acrossAvailableRouteDto';
 export * from './acrossBridgeDto';
 export * from './acrossBridgeMetadataDataDto';
 export * from './acrossBridgeMetadataDto';

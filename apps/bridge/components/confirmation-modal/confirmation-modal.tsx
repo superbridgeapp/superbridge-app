@@ -29,6 +29,7 @@ import {
 } from "@/hooks/use-finalization-period";
 import { useNativeToken, useToNativeToken } from "@/hooks/use-native-token";
 import { useTokenPrice } from "@/hooks/use-prices";
+import { useReceiveAmount } from "@/hooks/use-receive-amount";
 import { useRequiredCustomGasTokenBalance } from "@/hooks/use-required-custom-gas-token-balance";
 import { useSelectedToken } from "@/hooks/use-selected-token";
 import { useSwitchChain } from "@/hooks/use-switch-chain";
@@ -36,10 +37,13 @@ import { useWeiAmount } from "@/hooks/use-wei-amount";
 import { useConfigState } from "@/state/config";
 import { useSettingsState } from "@/state/settings";
 import { Token } from "@/types/token";
+import { formatDecimals } from "@/utils/format-decimals";
 import { isNativeToken } from "@/utils/is-eth";
-import { isNativeUsdc } from "@/utils/is-usdc";
 import { isArbitrum } from "@/utils/is-mainnet";
+import { isNativeUsdc } from "@/utils/is-usdc";
 
+import { IconSuperFast } from "../icons";
+import { PoweredByAcross } from "../powered-by-across";
 import { Button } from "../ui/button";
 import { Dialog, DialogContent } from "../ui/dialog";
 import {
@@ -73,11 +77,11 @@ function LineItem({
     >
       <div className="flex gap-2 items-center">
         {icon}
-        <p className="text-sm">{text}</p>
+        <p className="text-xs ">{text}</p>
       </div>
       {fee && (
         <div className="flex gap-2 items-center">
-          <p className="text-sm">{fee}</p>
+          <p className="text-xs ">{fee}</p>
           <FeesIcon />
         </div>
       )}
@@ -108,7 +112,9 @@ export const ConfirmationModal = ({
   const account = useAccount();
   const withdrawing = useConfigState.useWithdrawing();
   const escapeHatch = useConfigState.useForceViaL1();
+  const fast = useConfigState.useFast();
   const { gas } = useBridge();
+  const receive = useReceiveAmount();
 
   const gasToken = useGasToken();
   const gasTokenAllowance = useAllowanceGasToken();
@@ -343,10 +349,15 @@ export const ConfirmationModal = ({
     bridge,
     withdrawing,
     isNativeToken: isNativeToken(stateToken),
+    fast,
   })
     .with({ bridge: { isLoading: true } }, (d) => ({
       onSubmit: () => {},
-      buttonText: d.withdrawing ? t("withdrawing") : t("depositing"),
+      buttonText: d.fast
+        ? t("bridging")
+        : d.withdrawing
+        ? t("withdrawing")
+        : t("depositing"),
       disabled: true,
     }))
     .with({ needsApprove: true }, (d) => ({
@@ -365,7 +376,9 @@ export const ConfirmationModal = ({
     }))
     .otherwise((d) => ({
       onSubmit: onConfirm,
-      buttonText: d.withdrawing
+      buttonText: d.fast
+        ? t("confirmationModal.initiateBridge")
+        : d.withdrawing
         ? t("confirmationModal.initiateWithdrawal")
         : t("confirmationModal.initiateDeposit"),
       disabled: false,
@@ -377,14 +390,20 @@ export const ConfirmationModal = ({
     base: deployment?.l1.name,
     rollup: deployment?.l2.name,
     symbol: token?.symbol,
+    receiveAmount: formatDecimals(receive.data),
+    receiveSymbol: stateToken?.[to?.id ?? 0]?.symbol,
   };
 
   const title = match({
+    fast,
     isUsdc: isNativeUsdc(stateToken),
     withdrawing,
     escapeHatch,
     family: deployment?.family,
   })
+    .with({ fast: true }, () => {
+      return "Superfast bridge";
+    })
     .with({ isUsdc: true, withdrawing: true, escapeHatch: true }, () =>
       t("confirmationModal.cctpWithdrawalTitleEscapeHatch", {
         mins: totalBridgeTime?.value,
@@ -426,12 +445,16 @@ export const ConfirmationModal = ({
     .otherwise(() => "");
 
   const description = match({
+    fast,
     isUsdc: isNativeUsdc(stateToken),
     withdrawing,
     escapeHatch,
     family: deployment?.family,
     isEth: isNativeToken(stateToken),
   })
+    .with({ fast: true }, () =>
+      t("confirmationModal.acrossDescription", common)
+    )
     .with({ isUsdc: true, withdrawing: true, escapeHatch: true }, () =>
       t("confirmationModal.cctpDescriptionEscapeHatch", common)
     )
@@ -467,10 +490,17 @@ export const ConfirmationModal = ({
     .otherwise(() => null);
 
   const checkbox1Text = match({
+    fast,
     isUsdc: isNativeUsdc(stateToken),
     withdrawing,
     family: deployment?.family,
   })
+    .with({ fast: true }, () =>
+      t("confirmationModal.checkbox1Deposit", {
+        mins: totalBridgeTime?.value,
+        rollup: to?.name,
+      })
+    )
     .with({ isUsdc: true }, () =>
       t("confirmationModal.checkbox1Cctp", {
         mins: totalBridgeTime?.value,
@@ -500,12 +530,39 @@ export const ConfirmationModal = ({
     .otherwise(() => null);
 
   const lineItems = match({
+    fast,
     isUsdc: isNativeUsdc(stateToken),
     withdrawing,
     family: deployment?.family,
     escapeHatch,
     gasToken,
   })
+    .with({ fast: true }, (c) =>
+      [
+        c.gasToken
+          ? {
+              text: t("confirmationModal.approveGasToken"),
+              icon: ApproveIcon,
+              fee: fee(approveGasTokenCost, 4),
+            }
+          : null,
+        {
+          text: t("confirmationModal.initiateDeposit"),
+          icon: InitiateIcon,
+          fee: fee(initiateCost, 4),
+        },
+        {
+          text: t("confirmationModal.waitMinutes", {
+            count: totalBridgeTime?.value,
+          }),
+          icon: WaitIcon,
+        },
+        {
+          text: t("confirmationModal.receiveAmountOnChain", common),
+          icon: ReceiveIcon,
+        },
+      ].filter(isPresent)
+    )
     .with({ isUsdc: true, escapeHatch: true }, () => [
       {
         text: t("confirmationModal.initiateBridgeEscapeHatch", common),
@@ -687,25 +744,41 @@ export const ConfirmationModal = ({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent>
         <div className="flex flex-col p-6 pt-8">
-          <div className="flex flex-col gap-1">
-            <h1 className="font-heading text-xl  text-pretty leading-6 mr-6">
-              {title}
-            </h1>
-            <p className="text-xs md:text-sm text-pretty">
-              {description}{" "}
-              <Link
-                href={
-                  isNativeUsdc(stateToken)
-                    ? "https://docs.rollbridge.app/native-usdc"
-                    : "https://docs.rollbridge.app/what-is-bridging"
-                }
-                className="underline "
-                target="_blank"
-              >
-                {t("confirmationModal.learnMore")}
-              </Link>
-            </p>
-          </div>
+          {fast && (
+            <div className="flex flex-col items-center gap-2 text-center mb-3">
+              <div className="animate-wiggle-waggle">
+                <IconSuperFast className="w-10 h-auto" />
+              </div>
+              <h1 className="font-heading tracking-tight text-2xl text-pretty leading-6">
+                {title}
+              </h1>
+              <PoweredByAcross />
+              <p className="text-xs md:text-sm text-pretty text-muted-foreground tracking-tight">
+                {description}
+              </p>
+            </div>
+          )}
+          {!fast && (
+            <div className="flex flex-col gap-1">
+              <h1 className="font-heading text-xl  text-pretty leading-6 mr-6">
+                {title}
+              </h1>
+              <p className="text-xs md:text-sm text-pretty text-muted-foreground">
+                {description}{" "}
+                <Link
+                  href={
+                    isNativeUsdc(stateToken)
+                      ? "https://docs.rollbridge.app/native-usdc"
+                      : "https://docs.rollbridge.app/what-is-bridging"
+                  }
+                  className="underline "
+                  target="_blank"
+                >
+                  {t("confirmationModal.learnMore")}
+                </Link>
+              </p>
+            </div>
+          )}
           <div className="justify-end flex items-center px-1 py-1">
             <span className="text-muted-foreground  text-[11px]">
               {t("confirmationModal.approxFees")}
@@ -832,15 +905,17 @@ export const ConfirmationModal = ({
               {initiateButton.buttonText}
             </Button>
 
-            {isSuperbridge && (withdrawing || isNativeUsdc(stateToken)) && (
-              <Link
-                className={`mt-2 leading-3 text-center text-xs   cursor-pointer transition-all opacity-70 hover:opacity-100`}
-                href="/alternative-bridges"
-                target="_blank"
-              >
-                {t("confirmationModal.viewAlternateBridges")}
-              </Link>
-            )}
+            {isSuperbridge &&
+              !fast &&
+              (withdrawing || isNativeUsdc(stateToken)) && (
+                <Link
+                  className={`mt-2 leading-3 text-center text-xs   cursor-pointer transition-all opacity-70 hover:opacity-100`}
+                  href="/alternative-bridges"
+                  target="_blank"
+                >
+                  {t("confirmationModal.viewAlternateBridges")}
+                </Link>
+              )}
           </div>
         </div>
       </DialogContent>

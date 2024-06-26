@@ -2,6 +2,7 @@ import { useTranslation } from "react-i18next";
 
 import { DeploymentType } from "@/codegen/model";
 import { isSuperbridge } from "@/config/superbridge";
+import { useTrialExpired } from "@/hooks/trials/use-trial-expired";
 import { useDeployment } from "@/hooks/use-deployment";
 import { useFaultProofUpgradeTime } from "@/hooks/use-fault-proof-upgrade-time";
 import { useHasWithdrawalReadyToFinalize } from "@/hooks/use-has-withdrawal-ready-to-finalize";
@@ -12,7 +13,6 @@ import { HasWithdrawalReadyToFinalizeBanner } from "./banners/has-withdrawal-rea
 import { WithdrawalsPaused } from "./banners/withdrawals-paused";
 import { BridgeBody } from "./bridge-body";
 import { BridgeHeader } from "./bridge-header";
-import { useTrialExpired } from "@/hooks/trials/use-trial-expired";
 import { TrialExpiredOverlay } from "./trials/trial-expired-overlay";
 
 export const Bridge = () => {

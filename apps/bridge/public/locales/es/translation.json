@@ -6,6 +6,8 @@
   "withdraw": "Retirar",
   "withdrawNft": "Retirar {{tokenId}}",
   "withdrawing": "Retirando",
+  "reviewBridge": "Revisar puente",
+  "bridging": "Puentear",
   "approving": "Aprobando",
   "connectWallet": "Conectar billetera",
   "switchToApprove": "Cambiar a aprobar",
@@ -14,8 +16,8 @@
   "approveNft": "Aprobar {{tokenId}}",
   "insufficientFunds": "Fondos insuficientes",
   "insufficientGas": "Gas insuficiente {{symbol}}",
-  "bridgeLimitFallback": "Límite excedido",
   "bridgeLimit": "{{amount}} {{symbol}} límite",
+  "bridgeMin": "Monto mínimo {{amount}} {{symbol}}",
   "enterAnAmount": "Introduce una cantidad",
   "loading": "Cargando",
   "error": "Error",
@@ -40,6 +42,7 @@
   "from": "De",
   "to": "A",
   "support": "Soporte",
+  "ok": "Ok",
 
   "settings": {
     "settings": "Configuración",
@@ -166,6 +169,7 @@
     "opDescriptionTokenEscapeHatch": "El uso del Escape Hatch para forzar retiradas es un proceso de 4 pasos, que requiere 1 transacción {{rollup}} y 3 transacciones {{base}}.",
     "arbDescription": "Las retiradas son un proceso de 2 pasos, que requiere 1 transacción {{rollup}} y 1 transacción {{base}}.",
     "arbDescriptionToken": "Las retiradas son un proceso de 3 pasos, que requiere 2 transacciones en {{rollup}} y 1 en {{base}}.",
+    "acrossDescription": "Los tiempos de puente varían según la cantidad que desees puentear. Prueba con un valor menor para un puente más rápido.",
     "learnMore": "Más información",
     "approxFees": "Tarifas aproximadas",
     "initiateDeposit": "Iniciar depósito",
@@ -181,6 +185,7 @@
     "prove": "Demostrar en {{base}}",
     "finalize": "Reclamar en {{to}}",
     "receiveDeposit": "Recibir en {{rollup}}",
+    "receiveAmountOnChain": "Recibir {{receiveAmount}} {{receiveSymbol}} en {{to}}",
     "approve": "Aprobar {{symbol}}",
     "approved": "Aprobado",
     "approveGasToken": "Aprobar token de gas",
@@ -248,5 +253,13 @@
     "networkFees": "Tarifas de red",
     "goBack": "Volver",
     "proceedAnyway": "Proceder de todos modos"
+  },
+  "across": {
+    "transferTimeTitle": "Tiempo de transferencia superrápido",
+    "transferTimeDescription": "Dependiendo del tamaño del puente, los tiempos de transferencia superrápidos pueden variar. Los tiempos son solo estimaciones.",
+    "timeTo": "Tiempo a {{to}}",
+    "feeBreakdownTitle": "Tarifas superrápidas",
+    "feeBreakdownDescription": "Tarifas pagadas a <0>Across</0> y sus proveedores de liquidez y retransmisores",
+    "acrossFee": "Tarifa de Across"
   }
 }

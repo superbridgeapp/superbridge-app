@@ -1,14 +1,7 @@
 import { useMemo } from "react";
 import { isPresent } from "ts-is-present";
 import { Address } from "viem";
-import {
-  bsc,
-  bscGreenfield,
-  bscTestnet,
-  rollux,
-  syscoin,
-  syscoinTestnet,
-} from "viem/chains";
+import { bsc, bscTestnet, syscoin, syscoinTestnet } from "viem/chains";
 
 import { useConfigState } from "@/state/config";
 import { useSettingsState } from "@/state/settings";
@@ -23,6 +16,7 @@ import { isNativeToken } from "@/utils/is-eth";
 import { isBridgedUsdc, isNativeUsdc } from "@/utils/is-usdc";
 
 import { DeploymentFamily } from "@/codegen/model";
+import { useAcrossTokens } from "./across/use-across-tokens";
 import { useDeployment } from "./use-deployment";
 import { useDeployments } from "./use-deployments";
 
@@ -203,8 +197,10 @@ export function useAllTokens() {
 
 export function useActiveTokens() {
   const deployment = useDeployment();
+  const fast = useConfigState.useFast();
   const withdrawing = useConfigState.useWithdrawing();
   const tokens = useAllTokens();
+  const acrossTokens = useAcrossTokens();
 
   const hasNativeUsdc = useMemo(
     () =>
@@ -217,11 +213,14 @@ export function useActiveTokens() {
     [tokens, deployment]
   );
 
-  const active = useMemo(() => {
-    if (!deployment) {
-      return [];
+  return useMemo(() => {
+    if (fast) {
+      return acrossTokens;
     }
+
     return tokens.filter((t) => {
+      if (!deployment) return false;
+
       const l1 = t[deployment.l1.id];
       const l2 = t[deployment.l2.id];
 
@@ -255,7 +254,5 @@ export function useActiveTokens() {
 
       return false;
     });
-  }, [deployment, tokens, hasNativeUsdc]);
-
-  return active;
+  }, [deployment, tokens, hasNativeUsdc, fast]);
 }

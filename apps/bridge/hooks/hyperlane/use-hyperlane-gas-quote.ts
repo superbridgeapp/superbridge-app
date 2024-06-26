@@ -8,20 +8,8 @@ import {
 } from "@/constants/hyperlane";
 import { useConfigState } from "@/state/config";
 
-import { useDeployment } from "../use-deployment";
+import { useToChain } from "../use-chain";
 import { isCctpBridgeOperation } from "../use-transaction-args/cctp-args/common";
-
-export const useFromChain = () => {
-  const deployment = useDeployment();
-  const withdrawing = useConfigState.useWithdrawing();
-  return withdrawing ? deployment?.l2 : deployment?.l1;
-};
-
-export const useToChain = () => {
-  const deployment = useDeployment();
-  const withdrawing = useConfigState.useWithdrawing();
-  return withdrawing ? deployment?.l1 : deployment?.l2;
-};
 
 export const useHyperlaneGasQuote = () => {
   const token = useConfigState.useToken();

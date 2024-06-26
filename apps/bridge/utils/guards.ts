@@ -1,5 +1,4 @@
 import {
-  AcrossBridgeDto,
   AcrossTransactionType,
   ActiveDeploymentStatus,
   ArbitrumDepositEthDto,
@@ -16,6 +15,7 @@ import {
   PortalDepositDto,
   TrialDeploymentStatus,
 } from "@/codegen/model";
+import { AcrossBridgeDto } from "@/types/across";
 import { ArbitrumToken, OptimismToken, Token } from "@/types/token";
 import {
   AbritrumTransaction,
@@ -106,6 +106,10 @@ export const isOptimismForcedWithdrawal = (
 
 export const isCctpBridge = (tx: Transaction): tx is CctpBridgeDto => {
   return tx.type === CctpTransactionType["cctp-bridge"];
+};
+
+export const isAcrossBridge = (tx: Transaction): tx is AcrossBridgeDto => {
+  return tx.type === AcrossTransactionType["across-bridge"];
 };
 
 export const isOptimismToken = (t: Token): t is OptimismToken => {

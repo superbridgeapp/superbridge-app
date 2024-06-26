@@ -16,7 +16,6 @@ export const useInProgressTxCount = () => {
   return statusCheck
     ? 0
     : transactions.filter((x) => {
-        if (x.type === "across-bridge") return false;
         if (isDeposit(x)) return !x.relay;
         if (isWithdrawal(x)) return !x.finalise;
         if (isForcedWithdrawal(x)) return !x.withdrawal?.finalise;

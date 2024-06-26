@@ -7,6 +7,7 @@ import { Address, formatEther, formatUnits, isAddressEqual } from "viem";
 import { useChainId } from "wagmi";
 
 import {
+  AcrossBridgeMetadataDto,
   ArbitrumDepositRetryableDto,
   ArbitrumForcedWithdrawalDto,
   ArbitrumWithdrawalDto,
@@ -23,11 +24,14 @@ import { useFinaliseOptimism } from "@/hooks/optimism/use-optimism-finalise";
 import { useProveOptimism } from "@/hooks/optimism/use-optimism-prove";
 import { useGasTokenForDeployment } from "@/hooks/use-approve-gas-token";
 import { useMintCctp } from "@/hooks/use-cctp-mint";
+import { useFromTo } from "@/hooks/use-from-to";
 import { useSwitchChain } from "@/hooks/use-switch-chain";
 import { useAllTokens } from "@/hooks/use-tokens";
 import { MultiChainToken, Token } from "@/types/token";
 import { Transaction } from "@/types/transaction";
+import { formatDecimals } from "@/utils/format-decimals";
 import {
+  isAcrossBridge,
   isArbitrumDeposit,
   isArbitrumForcedWithdrawal,
   isArbitrumWithdrawal,
@@ -39,7 +43,7 @@ import {
   isWithdrawal,
 } from "@/utils/guards";
 import { isNativeToken } from "@/utils/is-eth";
-import { useProgressRows, useTxActivityProps } from "@/utils/progress-rows";
+import { useProgressRows, useTxTitle } from "@/utils/progress-rows";
 import {
   ButtonComponent,
   ExpandedItem,
@@ -47,8 +51,9 @@ import {
 } from "@/utils/progress-rows/common";
 
 import inProgress from "../animation/loading.json";
-
+import { AcrossBadge } from "./across-badge";
 import { CctpBadge } from "./cttp-badge";
+import { FastNetworkIcon } from "./fast/network-icon";
 import { NetworkIcon } from "./network-icon";
 import { NftImage } from "./nft";
 import { TokenIcon } from "./token-icon";
@@ -329,10 +334,14 @@ const getNativeToken = (tokens: MultiChainToken[], chainId: number) => {
   })?.[chainId];
 };
 function useToken(tx: Transaction, tokens: MultiChainToken[]) {
-  const deployment = isForcedWithdrawal(tx)
+  const deployment = isAcrossBridge(tx)
+    ? null
+    : isForcedWithdrawal(tx)
     ? tx.deposit.deployment
     : tx.deployment;
-  const gasToken = useGasTokenForDeployment(deployment.id);
+  const gasToken = useGasTokenForDeployment(deployment?.id);
+
+  const [from, to] = useFromTo(tx);
 
   if (isCctpBridge(tx)) {
     return getToken(tokens, {
@@ -348,17 +357,14 @@ function useToken(tx: Transaction, tokens: MultiChainToken[]) {
       ? tx.deposit.metadata
       : tx.metadata;
 
-  const chainId = isDeposit(tx) ? deployment.l1.id : deployment.l2.id;
-  const destChainId = isDeposit(tx) ? deployment.l2.id : deployment.l1.id;
-
   return match(metadata)
     .with({ type: "eth-deposit" }, () => {
       if (gasToken) {
         return isDeposit(tx)
-          ? gasToken[deployment.l1.id]
-          : gasToken[deployment.l2.id];
+          ? gasToken[deployment?.l1.id ?? 0]
+          : gasToken[deployment?.l2.id ?? 0];
       }
-      return getNativeToken(tokens, chainId);
+      return getNativeToken(tokens, from.id);
     })
     .with({ type: "token-deposit" }, (m) => {
       const dto = m as TokenDepositDto;
@@ -368,10 +374,26 @@ function useToken(tx: Transaction, tokens: MultiChainToken[]) {
       return getToken(
         tokens,
         {
-          chainId,
+          chainId: from.id,
           tokenAddress,
         },
-        destChainId
+        to.id
+      );
+    })
+    .with({ type: "across-bridge" }, (m) => {
+      const dto = m as AcrossBridgeMetadataDto;
+
+      if (dto.data.isEth) {
+        return getNativeToken(tokens, from.id);
+      }
+
+      return getToken(
+        tokens,
+        {
+          chainId: from.id,
+          tokenAddress: dto.data.inputTokenAddress,
+        },
+        to.id
       );
     })
     .otherwise(() => null);
@@ -389,10 +411,6 @@ function useNft(tx: Transaction) {
       ? tx.deposit.metadata
       : tx.metadata;
 
-  const deployment = isForcedWithdrawal(tx)
-    ? tx.deposit.deployment
-    : tx.deployment;
-
   if (metadata.type === "nft-deposit") {
     return metadata as NftDepositDto;
   }
@@ -405,6 +423,18 @@ function getDepositAmount(tx: Transaction, token: Token | null | undefined) {
     return `${formatUnits(BigInt(tx.amount), token?.decimals ?? 6)} ${
       token?.symbol
     }`;
+  }
+
+  if (tx.type === "across-bridge") {
+    if (tx.metadata.data.isEth) {
+      return `${formatEther(BigInt(tx.metadata.data.inputAmount))} ETH`;
+    }
+
+    const float = parseFloat(
+      formatUnits(BigInt(tx.metadata.data.inputAmount), token?.decimals ?? 18)
+    );
+    const formatted = formatDecimals(float);
+    return `${formatted} ${token?.symbol}`;
   }
 
   const metadata =
@@ -443,11 +473,7 @@ export const TransactionRow = ({ tx }: { tx: Transaction }) => {
 
   const [expanded, setExpanded] = useState(false);
 
-  const deployment = isForcedWithdrawal(tx)
-    ? tx.deposit.deployment
-    : tx.deployment;
-
-  const config = useTxActivityProps()(tx);
+  const title = useTxTitle(tx);
   const progressRows = useProgressRows()(tx);
 
   const inProgressItem = progressRows.find(
@@ -457,13 +483,12 @@ export const TransactionRow = ({ tx }: { tx: Transaction }) => {
     (x) => x.status === ProgressRowStatus.Reverted
   );
 
-  const [from, to] = isForcedWithdrawal(tx)
-    ? [tx.deposit.deployment.l2, tx.deposit.deployment.l1]
-    : isCctpBridge(tx)
-    ? [tx.from, tx.to]
-    : isDeposit(tx)
-    ? [tx.deployment.l1, tx.deployment.l2]
-    : [tx.deployment.l2, tx.deployment.l1];
+  const [from, to] = useFromTo(tx);
+  const deployment = isAcrossBridge(tx)
+    ? null
+    : isForcedWithdrawal(tx)
+    ? tx.deposit.deployment
+    : tx.deployment;
 
   const indicatorStyles = clsx(
     `w-4 h-4 outline outline-2 outline-zinc-50 dark:outline-zinc-900 absolute -right-1 bottom-0 rounded-full bg-card fill-green-400`,
@@ -492,7 +517,7 @@ export const TransactionRow = ({ tx }: { tx: Transaction }) => {
           />
         )}
         {isDeposit(tx) ||
-        (isCctpBridge(tx) && tx.from.id === deployment.l1.id) ? (
+        (isCctpBridge(tx) && tx.from.id === tx.deployment.l1.id) ? (
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"
@@ -510,7 +535,7 @@ export const TransactionRow = ({ tx }: { tx: Transaction }) => {
             </defs>
           </svg>
         ) : isWithdrawal(tx) ||
-          (isCctpBridge(tx) && tx.from.id === deployment.l2.id) ? (
+          (isCctpBridge(tx) && tx.from.id === tx.deployment.l2.id) ? (
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"
@@ -527,22 +552,77 @@ export const TransactionRow = ({ tx }: { tx: Transaction }) => {
               </clipPath>
             </defs>
           </svg>
+        ) : isAcrossBridge(tx) ? (
+          // Superfast Aross bridge icon
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            className={indicatorStyles}
+          >
+            <g clip-path="url(#clip0_83_174)">
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M8 16C12.4183 16 16 12.4183 16 8C16 3.58172 12.4183 0 8 0C3.58172 0 0 3.58172 0 8C0 12.4183 3.58172 16 8 16ZM6 13.6419C6 13.8392 6.12849 14 6.29248 14H6.29417C6.37532 14 6.45816 13.9695 6.51395 13.9023L11.9087 7.48414C11.9696 7.41699 12 7.31728 12 7.22571C12 7.01611 11.8614 6.86756 11.6974 6.86756H7.6754L10.2096 2.56775C10.2451 2.5067 10.2553 2.43141 10.2553 2.36425C10.2553 2.15465 10.142 2 9.95774 2C9.88166 2 9.80896 2.02442 9.75317 2.08547L4.09806 8.50975C4.0355 8.58301 4 8.67662 4 8.77429C4 8.97168 4.13356 9.13244 4.29755 9.13244H8.13863L6.04057 13.4628C6.01522 13.5177 6 13.5808 6 13.6419Z"
+              />
+            </g>
+            <defs>
+              <clipPath id="clip0_83_174">
+                <rect width="16" height="16" fill="white" />
+              </clipPath>
+            </defs>
+          </svg>
         ) : (
           // forced withdrawal
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"
             height="16"
-            fill="none"
             viewBox="0 0 16 16"
+            fill="none"
             className={indicatorStyles}
           >
-            <g clipPath="url(#clip0_470_1604)">
-              <path d="M8 0C3.58 0 0 3.58 0 8s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8zm3.975 7.565l-5.485 5.42a.322.322 0 01-.225.085.297.297 0 01-.295-.3.32.32 0 01.04-.15l2.135-3.66h-3.91a.3.3 0 01-.3-.3c0-.085.035-.16.1-.225l5.75-5.425a.309.309 0 01.21-.075c.185 0 .3.13.3.305a.3.3 0 01-.045.17L7.675 7.04h4.09c.165 0 .305.125.305.3 0 .08-.03.16-.095.22v.005z"></path>
+            <g clip-path="url(#clip0_83_182)">
+              <circle cx="8" cy="8" r="8" />
+              <path
+                d="M7.9966 10.5C10.712 10.5 14 9.81282 14 8.5C14 7.18718 10.7256 6.5 7.9966 6.5C5.54418 6.5 2 7.10086 2 8.5C2 9.81282 5.27442 10.5 7.9966 10.5Z"
+                fill="black"
+                stroke="black"
+                stroke-width="0.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M10.2252 9.763C11.5405 9.763 12.6067 8.69675 12.6067 7.3815C12.6067 6.06625 11.5405 5 10.2252 5C8.90995 5 7.84375 6.06625 7.84375 7.3815C7.84375 8.69675 8.90995 9.763 10.2252 9.763Z"
+                fill="white"
+                stroke="black"
+                stroke-width="0.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M10.3374 7.52321C10.6553 7.52321 10.913 7.26546 10.913 6.94756C10.913 6.62961 10.6553 6.37186 10.3374 6.37186C10.0194 6.37186 9.76172 6.62961 9.76172 6.94756C9.76172 7.26546 10.0194 7.52321 10.3374 7.52321Z"
+                fill="black"
+              />
+              <path
+                d="M5.4264 9.763C6.7417 9.763 7.8079 8.69675 7.8079 7.3815C7.8079 6.06625 6.7417 5 5.4264 5C4.11115 5 3.04492 6.06625 3.04492 7.3815C3.04492 8.69675 4.11115 9.763 5.4264 9.763Z"
+                fill="white"
+                stroke="black"
+                stroke-width="0.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M5.54491 7.69121C5.86286 7.69121 6.12056 7.43346 6.12056 7.11551C6.12056 6.79761 5.86286 6.53986 5.54491 6.53986C5.22696 6.53986 4.96924 6.79761 4.96924 7.11551C4.96924 7.43346 5.22696 7.69121 5.54491 7.69121Z"
+                fill="black"
+              />
             </g>
             <defs>
-              <clipPath id="clip0_470_1604">
-                <path fill="#fff" d="M0 0H16V16H0z"></path>
+              <clipPath id="clip0_83_182">
+                <rect width="16" height="16" fill="white" />
               </clipPath>
             </defs>
           </svg>
@@ -555,23 +635,34 @@ export const TransactionRow = ({ tx }: { tx: Transaction }) => {
           onClick={() => setExpanded((e) => !e)}
         >
           <div className="flex justify-between text-sm">
-            <h3 className="font-heading">{config.title}</h3>
-            <div className="flex items-center gap-2">
+            <h3 className="font-heading">{title}</h3>
+            <div className="flex items-center gap-1">
               {tx.type === "cctp-bridge" && <CctpBadge />}
-
+              {tx.type === "across-bridge" && <AcrossBadge />}
               <span className="text-right">{getDepositAmount(tx, token)}</span>
             </div>
           </div>
           <div className="flex items-center text-sm text-muted-foreground">
             <div className="flex items-center">
-              <NetworkIcon
-                chain={from}
-                deployment={deployment}
-                className="h-4 w-4 mr-1"
-                height={12}
-                width={12}
-              />
-              <span className="text-xs ">{from.name}</span>
+              {tx.type === "across-bridge" ? (
+                <>
+                  <FastNetworkIcon
+                    chain={from}
+                    className="h-4 w-4 mr-1"
+                    height={12}
+                    width={12}
+                  />
+                </>
+              ) : (
+                <NetworkIcon
+                  chain={from}
+                  deployment={deployment}
+                  className="h-4 w-4 mr-1"
+                  height={12}
+                  width={12}
+                />
+              )}
+              <span className="text-xs">{from.name}</span>
             </div>
             <div className="mx-1">
               <svg
@@ -587,14 +678,23 @@ export const TransactionRow = ({ tx }: { tx: Transaction }) => {
             </div>
 
             <div className="flex items-center">
-              <NetworkIcon
-                chain={to}
-                deployment={deployment}
-                className="h-4 w-4 mr-1"
-                height={12}
-                width={12}
-              />
-              <span className="text-xs ">{to.name}</span>
+              {tx.type === "across-bridge" ? (
+                <FastNetworkIcon
+                  chain={to}
+                  className="h-4 w-4 mr-1"
+                  height={12}
+                  width={12}
+                />
+              ) : (
+                <NetworkIcon
+                  chain={to}
+                  deployment={deployment}
+                  className="h-4 w-4 mr-1"
+                  height={12}
+                  width={12}
+                />
+              )}
+              <span className="text-xs">{to.name}</span>
             </div>
             <button className="ml-auto">
               <svg

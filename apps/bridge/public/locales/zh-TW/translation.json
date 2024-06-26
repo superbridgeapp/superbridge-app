@@ -6,6 +6,8 @@
   "withdraw": "提款",
   "withdrawNft": "提款 {{tokenId}}",
   "withdrawing": "提款中",
+  "reviewBridge": "查看橋接",
+  "bridging": "橋接中",
   "approving": "批准中",
   "connectWallet": "連接錢包",
   "switchToApprove": "切換以批准",
@@ -14,8 +16,8 @@
   "approveNft": "批准 {{tokenId}}",
   "insufficientFunds": "資金不足",
   "insufficientGas": "燃料 {{symbol}} 不足",
-  "bridgeLimitFallback": "超出限額",
   "bridgeLimit": "{{amount}} {{symbol}} 限額",
+  "bridgeMin": "最低金額 {{amount}} {{symbol}}",
   "enterAnAmount": "輸入金額",
   "loading": "加載中",
   "error": "錯誤",
@@ -41,6 +43,8 @@
   "to": "到",
   "manage": "管理",
   "support": "支持",
+  "ok": "好",
+
   "settings": {
     "settings": "設置",
     "withdrawalSettings": "提款設置",
@@ -160,6 +164,7 @@
     "opDescriptionTokenEscapeHatch": "使用緊急取款強制提取是一個四步驟過程，需在 {{rollup}} 進行一筆交易，在 {{base}} 進行三筆交易。",
     "arbDescription": "提款是一個兩步驟過程，需要進行一筆 {{rollup}} 交易和一筆 {{base}} 交易。",
     "arbDescriptionToken": "提款是一個三步驟過程，需在 {{rollup}} 進行兩筆交易，在 {{base}} 進行一筆交易。",
+    "acrossDescription": "橋接時間會根據您要橋接的金額而有所不同。嘗試較小的金額以加快橋接速度。",
     "learnMore": "了解更多",
     "approxFees": "大約費用",
     "initiateDeposit": "發起存款",
@@ -175,6 +180,7 @@
     "prove": "在 {{base}} 上證明",
     "finalize": "在 {{to}} 上領取",
     "receiveDeposit": "在 {{rollup}} 上接收",
+    "receiveAmountOnChain": "在 {{to}} 上接收 {{receiveAmount}} {{receiveSymbol}}",
     "approve": "批准 {{symbol}}",
     "approved": "已批准",
     "approveGasToken": "批准燃料代幣",
@@ -239,5 +245,13 @@
     "networkFees": "網絡費用",
     "goBack": "返回",
     "proceedAnyway": "仍然繼續"
+  },
+  "across": {
+    "transferTimeTitle": "超快轉移時間",
+    "transferTimeDescription": "根據橋的大小，超快轉移時間可能會有所不同。時間僅為估計值。",
+    "timeTo": "到 {{to}} 的時間",
+    "feeBreakdownTitle": "超快費用",
+    "feeBreakdownDescription": "支付給 <0>Across</0> 及其流動性提供者和中繼者的費用",
+    "acrossFee": "Across費用"
   }
 }

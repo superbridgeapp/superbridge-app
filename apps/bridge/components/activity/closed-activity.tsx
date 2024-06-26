@@ -1,6 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
-import Lottie from "react-lottie-player";
 
 import { useHasPendingAction } from "@/hooks/use-has-pending-action";
 import { useConfigState } from "@/state/config";
@@ -9,6 +8,7 @@ import { useTrialExpired } from "@/hooks/trials/use-trial-expired";
 
 import inProgressDark from "../../animation/loading-dark.json";
 import inProgress from "../../animation/loading.json";
+import { IconSpinner } from "../icons";
 
 const activityAnimations = {
   hidden: { y: 80 },
@@ -138,24 +138,13 @@ export const ClosedActivity = () => {
                 key={"currentItemsCounter"}
               >
                 <div
-                  className={`flex items-center gap-1 justify-center px-2 py-1 text-center rounded-full bg-primary 
+                  className={`flex items-center gap-1.5 justify-center px-2 py-1 text-center rounded-full bg-primary 
             `}
                 >
                   <span className="text-primary-foreground text-xs ">
                     {inProgressCount}
                   </span>
-                  <Lottie
-                    animationData={inProgress}
-                    loop={true}
-                    className="w-3.5 h-3.5 scale-150 block dark:hidden"
-                    play
-                  />
-                  <Lottie
-                    animationData={inProgressDark}
-                    loop={true}
-                    className="w-3.5 h-3.5 scale-150 hidden dark:block"
-                    play
-                  />
+                  <IconSpinner className="w-3.5 h-3.5 block text-primary-foreground" />
                 </div>
               </motion.div>
             ) : (
