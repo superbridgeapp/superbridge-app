@@ -40,12 +40,6 @@ export const TokenInput = () => {
     <div
       className={`relative rounded-[16px] px-4 py-3 border-2 border-transparent focus-within:border-border transition-colors bg-muted `}
     >
-      <label
-        htmlFor="amount"
-        className={`block text-sm font-heading leading-6 text-foreground`}
-      >
-        {fast ? "" : withdrawing ? t("withdraw") : t("deposit")}
-      </label>
       <div className="flex gap-1">
         <input
           value={rawAmount}
