@@ -6,7 +6,7 @@ import { Token } from "@/types/token";
 
 // Trying to approve USDT with the vanilla Wagmi ERC20 ABI
 // causes problems because it doesn't return anything
-const APPROVE_ABI_WITHOUT_RETURN = [
+export const APPROVE_ABI_WITHOUT_RETURN = [
   {
     type: "function",
     name: "approve",
