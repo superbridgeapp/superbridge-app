@@ -318,7 +318,6 @@ export const BridgeBody = () => {
   };
 
   const submitButton = match({
-    disabled: deployment?.name === "surprised-harlequin-bonobo-fvcy2k9oqh",
     withdrawing,
     fast,
     acrossPaused,
@@ -344,11 +343,20 @@ export const BridgeBody = () => {
       buttonText: "Withdrawals paused",
       disabled: true,
     }))
-    .with({ disabled: true }, ({ withdrawing }) => ({
-      onSubmit: () => {},
-      buttonText: withdrawing ? "Withdrawals disabled" : t("depositDisabled"),
-      disabled: true,
-    }))
+    .when(
+      ({ bridgeMax, weiAmount }) => bridgeMax !== null && weiAmount > bridgeMax,
+      ({ bridgeMax }) => ({
+        onSubmit: () => {},
+        buttonText: (() => {
+          const formatted = formatUnits(bridgeMax!, token?.decimals ?? 18);
+          return t("bridgeLimit", {
+            amount: formatDecimals(parseFloat(formatted)),
+            symbol: token?.symbol,
+          });
+        })(),
+        disabled: true,
+      })
+    )
     .with({ account: undefined }, () => ({
       onSubmit: () => openConnectModal?.(),
       buttonText: t("connectWallet"),
@@ -369,20 +377,6 @@ export const BridgeBody = () => {
       buttonText: t("insufficientFunds"),
       disabled: true,
     }))
-    .when(
-      ({ bridgeMax, weiAmount }) => bridgeMax !== null && weiAmount > bridgeMax,
-      ({ bridgeMax }) => ({
-        onSubmit: () => {},
-        buttonText: (() => {
-          const formatted = formatUnits(bridgeMax!, token?.decimals ?? 18);
-          return t("bridgeLimit", {
-            amount: formatDecimals(parseFloat(formatted)),
-            symbol: token?.symbol,
-          });
-        })(),
-        disabled: true,
-      })
-    )
     .when(
       ({ bridgeMin, weiAmount }) => bridgeMin !== null && weiAmount < bridgeMin,
       ({}) => ({
