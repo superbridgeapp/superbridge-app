@@ -53,8 +53,8 @@
     "ts-pattern": "^5.2.0",
     "use-debounce": "^10.0.1",
     "viem": "^2.16.2",
-    "wagmi": "^2.10.5",
-    "zustand": "^4.5.2"
+    "wagmi": "^2.10.7",
+    "zustand": "^4.5.4"
   },
   "devDependencies": {
     "@next/bundle-analyzer": "^14.2.4",
@@ -65,7 +65,7 @@
     "critters": "^0.0.20",
     "cross-fetch": "^4.0.0",
     "eslint-config-custom": "workspace:*",
-    "orval": "^6.30.2",
+    "orval": "^6.31.0",
     "postcss": "^8.4.38",
     "postcss-import": "^15.1.0",
     "tailwind": "^4.0.0",
