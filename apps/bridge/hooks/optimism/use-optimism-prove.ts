@@ -1,19 +1,18 @@
 import { useState } from "react";
-import { Address, Chain, Hex } from "viem";
-import { useAccount, usePublicClient, useWalletClient } from "wagmi";
+import { Address, Chain } from "viem";
+import { useAccount, useWalletClient } from "wagmi";
 
 import { useBridgeControllerGetProveTransaction } from "@/codegen";
 import { BridgeWithdrawalDto } from "@/codegen/model";
-import { useConfigState } from "@/state/config";
 import { usePendingTransactions } from "@/state/pending-txs";
+import { useConfigState } from "@/state/config";
 
-import { useFaultProofUpgradeTime } from "../use-fault-proof-upgrade-time";
 import { useSwitchChain } from "../use-switch-chain";
+import { useFaultProofUpgradeTime } from "../use-fault-proof-upgrade-time";
 
 export function useProveOptimism({ id, deployment }: BridgeWithdrawalDto) {
   const account = useAccount();
-  const wallet = useWalletClient({ chainId: deployment.l1.id });
-  const client = usePublicClient({ chainId: deployment.l1.id });
+  const wallet = useWalletClient();
   const setProving = usePendingTransactions.useSetProving();
   const removeProving = usePendingTransactions.useRemoveProving();
   const setBlockProvingModal = useConfigState.useSetBlockProvingModal();
@@ -29,34 +28,21 @@ export function useProveOptimism({ id, deployment }: BridgeWithdrawalDto) {
       return;
     }
 
-    if (!account.address || !wallet.data || !client) {
+    if (!account.address || !wallet.data) {
       return;
     }
 
-    if (
-      account.chainId !== deployment.l1.id ||
-      wallet.data.chain.id !== deployment.l1.id
-    ) {
+    if (account.chainId !== deployment.l1.id) {
       await switchChain(deployment.l1);
     }
 
     try {
       setLoading(true);
-      const { data: result } = await getProveTransaction.mutateAsync({
-        data: { id },
-      });
-
-      const to = result.to as Address;
-      const data = result.data as Hex;
-      const gas = await client.estimateGas({
-        to,
-        data,
-      });
+      const { data } = await getProveTransaction.mutateAsync({ data: { id } });
       const hash = await wallet.data.sendTransaction({
-        to,
-        data,
+        to: data.to as Address,
+        data: data.data as Address,
         chain: deployment.l1 as unknown as Chain,
-        gas: gas + gas / BigInt("10"),
       });
       if (hash) {
         // rainbow just returns null if cancelled
