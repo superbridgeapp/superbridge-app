@@ -1,7 +1,8 @@
 import { useConfigState } from "@/state/config";
+import { isNativeUsdc } from "@/utils/is-usdc";
+
 import { useAcrossLimits } from "../across/use-across-limits";
 import { useCctpBridgeLimit } from "../cctp/use-cctp-bridge-limit";
-import { isNativeUsdc } from "@/utils/is-usdc";
 
 export const useBridgeMax = () => {
   const fast = useConfigState.useFast();
