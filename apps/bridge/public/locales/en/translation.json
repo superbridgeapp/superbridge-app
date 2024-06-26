@@ -173,6 +173,7 @@
     "opDescriptionTokenEscapeHatch": "Using Escape Hatch to force withdrawals is 4 step process, requiring 1 {{rollup}} transaction and 3 {{base}} transactions.",
     "arbDescription": "Withdrawing is a 2 step process, requiring 1 {{rollup}} transaction and 1 {{base}} transaction.",
     "arbDescriptionToken": "Withdrawing is a 3 step process, requiring 2 transactions on {{rollup}} and 1 on {{base}}.",
+    "acrossDescription": "Bridge times vary with the amount you want to bridge. Try a smaller value for a faster bridge.",
     "learnMore": "Learn more",
     "approxFees": "Approx. fees",
     "initiateDeposit": "Initiate deposit",

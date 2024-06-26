@@ -452,10 +452,8 @@ export const ConfirmationModal = ({
     family: deployment?.family,
     isEth: isNativeToken(stateToken),
   })
-    .with(
-      { fast: true },
-      () =>
-        "Bridge times vary with the amount you want to bridge. Try a smaller value for a faster bridge."
+    .with({ fast: true }, () =>
+      t("confirmationModal.acrossDescription", common)
     )
     .with({ isUsdc: true, withdrawing: true, escapeHatch: true }, () =>
       t("confirmationModal.cctpDescriptionEscapeHatch", common)
@@ -497,10 +495,11 @@ export const ConfirmationModal = ({
     withdrawing,
     family: deployment?.family,
   })
-    .with(
-      { fast: true },
-      () =>
-        `I understand it will take ~${totalBridgeTime?.value} mins until my funds are on ${to?.name}`
+    .with({ fast: true }, () =>
+      t("confirmationModal.checkbox1Deposit", {
+        mins: totalBridgeTime?.value,
+        rollup: to?.name,
+      })
     )
     .with({ isUsdc: true }, () =>
       t("confirmationModal.checkbox1Cctp", {

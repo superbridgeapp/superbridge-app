@@ -169,6 +169,7 @@
     "opDescriptionTokenEscapeHatch": "Użycie Hatch Escape do wymuszenia wypłat to proces składający się z 4 kroków, wymagający 1 transakcji {{rollup}} i 3 transakcji {{base}}.",
     "arbDescription": "Wypłata to proces składający się z 2 kroków, wymagający 1 transakcji {{rollup}} i 1 transakcji {{base}}.",
     "arbDescriptionToken": "Wypłata to proces składający się z 3 kroków, wymagający 2 transakcji na {{rollup}} i 1 na {{base}}.",
+    "acrossDescription": "Czas mostu zależy od kwoty, którą chcesz mostkować. Spróbuj mniejszej wartości dla szybszego mostu.",
     "learnMore": "Dowiedz się więcej",
     "approxFees": "Przybliżone opłaty",
     "initiateDeposit": "Zainicjuj depozyt",

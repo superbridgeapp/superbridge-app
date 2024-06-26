@@ -164,6 +164,7 @@
     "opDescriptionTokenEscapeHatch": "使用緊急取款強制提取是一個四步驟過程，需在 {{rollup}} 進行一筆交易，在 {{base}} 進行三筆交易。",
     "arbDescription": "提款是一個兩步驟過程，需要進行一筆 {{rollup}} 交易和一筆 {{base}} 交易。",
     "arbDescriptionToken": "提款是一個三步驟過程，需在 {{rollup}} 進行兩筆交易，在 {{base}} 進行一筆交易。",
+    "acrossDescription": "橋接時間會根據您要橋接的金額而有所不同。嘗試較小的金額以加快橋接速度。",
     "learnMore": "了解更多",
     "approxFees": "大約費用",
     "initiateDeposit": "發起存款",

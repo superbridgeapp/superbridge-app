@@ -169,6 +169,7 @@
     "opDescriptionTokenEscapeHatch": "Die Verwendung des Notausgangs zur Erzwingung von Auszahlungen ist ein vierstufiger Prozess, der 1 Transaktion auf {{rollup}} und 3 Transaktionen auf {{base}} erfordert.",
     "arbDescription": "Das Abheben ist ein zweistufiger Prozess, der 1 Transaktion auf {{rollup}} und 1 Transaktion auf {{base}} erfordert.",
     "arbDescriptionToken": "Das Abheben ist ein dreistufiger Prozess, der 2 Transaktionen auf {{rollup}} und 1 Transaktion auf {{base}} erfordert.",
+    "acrossDescription": "Die Überbrückungszeit variiert je nach Betrag, den Sie überbrücken möchten. Versuchen Sie einen kleineren Wert für eine schnellere Überbrückung.",
     "learnMore": "Weitere Informationen",
     "approxFees": "Ungefähre Gebühren",
     "initiateDeposit": "Einzahlung initiieren",

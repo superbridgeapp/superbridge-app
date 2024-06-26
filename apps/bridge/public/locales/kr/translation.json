@@ -169,6 +169,7 @@
     "opDescriptionTokenEscapeHatch": "인출을 강제하는 데 사용되는 탈출용 철회는 1 {{rollup}} 거래 및 3 {{base}} 거래를 필요로 하는 4 단계 프로세스입니다.",
     "arbDescription": "인출은 1 {{rollup}} 거래 및 1 {{base}} 거래를 필요로 하는 2 단계 프로세스입니다.",
     "arbDescriptionToken": "인출은 2 {{rollup}} 거래와 1 {{base}} 거래를 필요로 하는 3 단계 프로세스입니다.",
+    "acrossDescription": "브릿지 시간은 브릿지하려는 금액에 따라 다릅니다. 더 빠른 브릿지를 위해 더 작은 값을 시도하십시오.",
     "learnMore": "더 알아보기",
     "approxFees": "대략적인 수수료",
     "initiateDeposit": "예금 시작",

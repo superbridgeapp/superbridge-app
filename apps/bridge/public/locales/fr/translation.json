@@ -169,6 +169,7 @@
     "opDescriptionTokenEscapeHatch": "L'utilisation de l'échappatoire pour forcer les retraits est un processus en 4 étapes, nécessitant 1 transaction {{rollup}} et 3 transactions {{base}}.",
     "arbDescription": "Le retrait est un processus en 2 étapes, nécessitant 1 transaction {{rollup}} et 1 transaction {{base}}.",
     "arbDescriptionToken": "Le retrait est un processus en 3 étapes, nécessitant 2 transactions sur {{rollup}} et 1 sur {{base}}.",
+    "acrossDescription": "Les temps de pont varient en fonction du montant que vous souhaitez transférer. Essayez une valeur plus petite pour un transfert plus rapide.",
     "learnMore": "En savoir plus",
     "approxFees": "Frais approximatifs",
     "initiateDeposit": "Initier le dépôt",

@@ -169,6 +169,7 @@
     "opDescriptionTokenEscapeHatch": "El uso del Escape Hatch para forzar retiradas es un proceso de 4 pasos, que requiere 1 transacción {{rollup}} y 3 transacciones {{base}}.",
     "arbDescription": "Las retiradas son un proceso de 2 pasos, que requiere 1 transacción {{rollup}} y 1 transacción {{base}}.",
     "arbDescriptionToken": "Las retiradas son un proceso de 3 pasos, que requiere 2 transacciones en {{rollup}} y 1 en {{base}}.",
+    "acrossDescription": "Los tiempos de puente varían según la cantidad que desees puentear. Prueba con un valor menor para un puente más rápido.",
     "learnMore": "Más información",
     "approxFees": "Tarifas aproximadas",
     "initiateDeposit": "Iniciar depósito",

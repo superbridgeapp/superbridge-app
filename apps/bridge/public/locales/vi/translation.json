@@ -169,6 +169,7 @@
     "opDescriptionTokenEscapeHatch": "Sử dụng cửa thoát hiểm để ép rút tiền là quy trình 4 bước, yêu cầu 1 giao dịch {{rollup}} và 3 giao dịch {{base}}.",
     "arbDescription": "Rút tiền là quy trình 2 bước, yêu cầu 1 giao dịch {{rollup}} và 1 giao dịch {{base}}.",
     "arbDescriptionToken": "Rút tiền là quy trình 3 bước, yêu cầu 2 giao dịch trên {{rollup}} và 1 giao dịch trên {{base}}.",
+    "acrossDescription": "Thời gian cầu nối thay đổi tùy theo số tiền bạn muốn chuyển. Thử giá trị nhỏ hơn để cầu nối nhanh hơn.",
     "learnMore": "Tìm hiểu thêm",
     "approxFees": "Phí xấp xỉ",
     "initiateDeposit": "Bắt đầu gửi tiền",

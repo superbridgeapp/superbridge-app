@@ -164,6 +164,7 @@
     "opDescriptionTokenEscapeHatch": "使用紧急取款来强制取款是一个四步过程，需要在 {{rollup}} 上进行一笔交易，在 {{base}} 上进行三笔交易。",
     "arbDescription": "取款是一个两步过程，需要一笔 {{rollup}} 交易和一笔 {{base}} 交易。",
     "arbDescriptionToken": "取款是一个三步过程，需要在 {{rollup}} 上进行两笔交易，在 {{base}} 上进行一笔交易。",
+    "acrossDescription": "桥接时间因您要桥接的金额而异。尝试较小的金额以加快桥接速度。",
     "learnMore": "了解更多",
     "approxFees": "大约费用",
     "initiateDeposit": "发起存款",

@@ -169,6 +169,7 @@
     "opDescriptionTokenEscapeHatch": "Menggunakan Hatch Darurat untuk memaksa penarikan adalah proses 4 langkah, memerlukan 1 transaksi {{rollup}} dan 3 transaksi {{base}}.",
     "arbDescription": "Penarikan adalah proses 2 langkah, memerlukan 1 transaksi {{rollup}} dan 1 transaksi {{base}}.",
     "arbDescriptionToken": "Penarikan adalah proses 3 langkah, memerlukan 2 transaksi di {{rollup}} dan 1 transaksi di {{base}}.",
+    "acrossDescription": "Waktu jembatan bervariasi sesuai dengan jumlah yang ingin Anda jembatani. Coba nilai yang lebih kecil untuk jembatan yang lebih cepat.",
     "learnMore": "Pelajari lebih lanjut",
     "approxFees": "Biaya perkiraan",
     "initiateDeposit": "Mulai Deposit",

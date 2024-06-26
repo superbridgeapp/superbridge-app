@@ -171,6 +171,7 @@
     "opDescriptionTokenEscapeHatch": "Çekimi zorlamak için Kaçış Kapağı kullanma, 1 {{rollup}} işlemi ve 3 {{base}} işlemi gerektiren 4 adımlı bir işlemdir.",
     "arbDescription": "Çekim, 1 {{rollup}} işlemi ve 1 {{base}} işlemi gerektiren 2 adımlı bir işlemdir.",
     "arbDescriptionToken": "Çekim, 2 {{rollup}} işlemi ve 1 {{base}} işlemi gerektiren 3 adımlı bir işlemdir.",
+    "acrossDescription": "Köprü süreleri, köprülemek istediğiniz miktara göre değişir. Daha hızlı köprü için daha küçük bir değer deneyin.",
     "learnMore": "Daha fazla bilgi edin",
     "approxFees": "Yaklaşık ücretler",
     "initiateDeposit": "Yatırım başlat",

@@ -169,6 +169,7 @@
     "opDescriptionTokenEscapeHatch": "出金を強制するには、{{rollup}} のトランザクション 1 つと {{base}} のトランザクション 3 つを必要とする 4 ステップのプロセスです。",
     "arbDescription": "出金は {{rollup}} のトランザクション 1 つと {{base}} のトランザクション 1 つを必要とする 2 ステップのプロセスです。",
     "arbDescriptionToken": "出金は {{rollup}} のトランザクション 2 つと {{base}} のトランザクション 1 つを必要とする 3 ステップのプロセスです。",
+    "acrossDescription": "ブリッジ時間はブリッジしたい金額によって異なります。より速いブリッジのために小さい値を試してください。",
     "learnMore": "詳細を見る",
     "approxFees": "おおよその手数料",
     "initiateDeposit": "入金を開始",

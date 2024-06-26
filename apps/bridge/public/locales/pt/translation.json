@@ -169,6 +169,7 @@
     "opDescriptionTokenEscapeHatch": "Usar a porta de escape para forçar retiradas é um processo de 4 etapas, exigindo 1 transação {{rollup}} e 3 transações {{base}}.",
     "arbDescription": "A retirada é um processo de 2 etapas, exigindo 1 transação {{rollup}} e 1 transação {{base}}.",
     "arbDescriptionToken": "A retirada é um processo de 3 etapas, exigindo 2 transações em {{rollup}} e 1 em {{base}}.",
+    "acrossDescription": "Os tempos de ponte variam com o valor que você deseja transferir. Tente um valor menor para uma ponte mais rápida.",
     "learnMore": "Saiba mais",
     "approxFees": "Taxas aproximadas",
     "initiateDeposit": "Iniciar depósito",
