@@ -1,7 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { isPresent } from "ts-is-present";
 import { Chain, formatUnits, parseUnits } from "viem";
-import { useFeeData } from "wagmi";
 
 import { ChainDto } from "@/codegen/model";
 import { configurations } from "@/config/contract-addresses";
@@ -44,12 +43,10 @@ export const useFees = (from: Chain | ChainDto | undefined) => {
         chain: forceViaL1 && withdrawing ? deployment?.l1.name : from?.name,
       }),
       usd: {
-        raw: nativeTokenUsdPrice
-          ? networkFee! * nativeTokenUsdPrice
-          : undefined,
+        raw: nativeTokenUsdPrice ? networkFee * nativeTokenUsdPrice : undefined,
         formatted: nativeTokenUsdPrice
           ? `${currencySymbolMap[currency]}${(
-              networkFee! * nativeTokenUsdPrice
+              networkFee * nativeTokenUsdPrice
             ).toLocaleString("en", {
               maximumFractionDigits: 4,
             })}`

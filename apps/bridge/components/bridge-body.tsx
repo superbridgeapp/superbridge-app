@@ -31,12 +31,10 @@ import { useSelectedToken } from "@/hooks/use-selected-token";
 import { useStatusCheck } from "@/hooks/use-status-check";
 import { useSwitchChain } from "@/hooks/use-switch-chain";
 import { useActiveTokens } from "@/hooks/use-tokens";
-import { useTransferTime } from "@/hooks/use-transfer-time";
 import { useWeiAmount } from "@/hooks/use-wei-amount";
 import { useWithdrawalsPaused } from "@/hooks/use-withdrawals-paused";
 import { useConfigState } from "@/state/config";
 import { usePendingTransactions } from "@/state/pending-txs";
-import { useSettingsState } from "@/state/settings";
 import { buildPendingTx } from "@/utils/build-pending-tx";
 import { formatDecimals } from "@/utils/format-decimals";
 import { isEth, isNativeToken } from "@/utils/is-eth";
@@ -78,7 +76,6 @@ export const BridgeBody = () => {
   const tokens = useActiveTokens();
   const weiAmount = useWeiAmount();
   const token = useSelectedToken();
-  const transferTime = useTransferTime();
   const { t } = useTranslation();
 
   const deployment = useDeployment();
@@ -92,8 +89,6 @@ export const BridgeBody = () => {
   const nft = useConfigState.useNft();
   const recipient = useConfigState.useRecipientAddress();
   const setToken = useConfigState.useSetToken();
-  const currency = useSettingsState.useCurrency();
-  const openModal = useConfigState.useAddModal();
   const addPendingTransaction = usePendingTransactions.useAddTransaction();
   const updatePendingTransactionHash =
     usePendingTransactions.useUpdateTransactionByHash();

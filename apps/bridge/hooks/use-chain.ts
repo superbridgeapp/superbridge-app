@@ -1,42 +1,34 @@
-import { DeploymentDto } from "@/codegen/model";
 import { useConfigState } from "@/state/config";
 import { useFastState } from "@/state/fast";
 
+import { useAcrossDomains } from "./across/use-across-domains";
 import { useDeployment } from "./use-deployment";
-import { useDeployments } from "./use-deployments";
-
-export const getChain = (id: number, deployments: DeploymentDto[]) => {
-  const d = deployments.find((x) => x.l1.id === id || x.l2.id === id);
-  return id === d?.l1.id ? d.l1 : d?.l2;
-};
-
-const useChain = (id: number) => {
-  const { deployments } = useDeployments();
-  return getChain(id, deployments);
-};
 
 export const useFromChain = () => {
-  const fast = useConfigState.useFast();
-  const fastFromChainId = useFastState.useFromChainId();
   const deployment = useDeployment();
+  const acrossDomains = useAcrossDomains();
+
+  const fast = useConfigState.useFast();
   const withdrawing = useConfigState.useWithdrawing();
-  const fastFromChain = useChain(fastFromChainId);
+  const fastFromChainId = useFastState.useFromChainId();
 
   if (fast) {
-    return fastFromChain;
+    return acrossDomains.find((x) => x.chain.id === fastFromChainId)?.chain;
   }
+
   return withdrawing ? deployment?.l2 : deployment?.l1;
 };
 
 export const useToChain = () => {
-  const fast = useConfigState.useFast();
-  const fastToChainId = useFastState.useToChainId();
   const deployment = useDeployment();
+  const acrossDomains = useAcrossDomains();
+
+  const fast = useConfigState.useFast();
   const withdrawing = useConfigState.useWithdrawing();
-  const fastToChain = useChain(fastToChainId);
+  const fastToChainId = useFastState.useToChainId();
 
   if (fast) {
-    return fastToChain;
+    return acrossDomains.find((x) => x.chain.id === fastToChainId)?.chain;
   }
 
   return withdrawing ? deployment?.l1 : deployment?.l2;
