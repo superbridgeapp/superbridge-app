@@ -215,20 +215,20 @@ export const BridgeBody = () => {
         },
       });
 
-      track.mutate({
-        data: {
-          amount: weiAmount.toString(),
-          deploymentId: deployment?.id ?? "",
-          transactionHash: hash,
-          action: fast
-            ? "across"
-            : withdrawing
-            ? forceViaL1
-              ? "force-withdraw"
-              : "withdraw"
-            : "deposit",
-        },
-      });
+      if (!fast && deployment) {
+        track.mutate({
+          data: {
+            amount: weiAmount.toString(),
+            deploymentId: deployment.id,
+            transactionHash: hash,
+            action: withdrawing
+              ? forceViaL1
+                ? "force-withdraw"
+                : "withdraw"
+              : "deposit",
+          },
+        });
+      }
 
       const pending = buildPendingTx(
         deployment,
