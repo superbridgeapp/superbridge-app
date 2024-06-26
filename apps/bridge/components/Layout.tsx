@@ -22,14 +22,15 @@ import {
   useNavIcon,
 } from "@/hooks/use-theme";
 import { useConfigState } from "@/state/config";
+import { useInjectedStore } from "@/state/injected";
 
 import { BlockProvingModal } from "./fault-proofs/block-proving-modal";
+import { IconSuperFastSimple } from "./icons";
 import { LegalModal } from "./legal-modal";
 import { CustomTokenListModal } from "./settings/custom-token-list-modal";
 import { SettingsModal } from "./settings/settings-modal";
 import { TosModal } from "./tos-modal/tos-modal";
 import { TrialBanner } from "./trials/trial-banner";
-import { IconSuperFastSimple } from "./icons";
 
 export function Layout({ children }: { children: any }) {
   useInitialise();
@@ -40,6 +41,7 @@ export function Layout({ children }: { children: any }) {
   const setSettingsModal = useConfigState.useSetSettingsModal();
   const settingsModal = useConfigState.useSettingsModal();
   const fast = useConfigState.useFast();
+  const superbridgeTestnetsEnabled = useInjectedStore((s) => s.testnets);
   const pathname = usePathname();
 
   const navIcon = useNavIcon();
@@ -177,7 +179,8 @@ export function Layout({ children }: { children: any }) {
 
               {typeof window !== "undefined" &&
                 (window.location.host === "localhost:3004" ||
-                  window.location.host === "staging.superbridge.app") && (
+                  window.location.host === "staging.superbridge.app") &&
+                !superbridgeTestnetsEnabled && (
                   <button
                     onClick={() => navigate("fast")}
                     className={`relative flex items-center justify-center h-10 w-14 bg-card rounded-full shadow-sm transition-all hover:scale-105`}

@@ -4,7 +4,6 @@ import { isAddress, isAddressEqual } from "viem";
 
 import { configurations } from "@/config/contract-addresses";
 import { useConfigState } from "@/state/config";
-import { useFastState } from "@/state/fast";
 import { isNativeToken } from "@/utils/is-eth";
 
 import { useGasToken } from "./use-approve-gas-token";
