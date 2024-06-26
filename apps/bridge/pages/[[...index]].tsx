@@ -4,7 +4,6 @@ import type {
   InferGetServerSidePropsType,
 } from "next";
 import { useRouter } from "next/router";
-import { base, mainnet, optimism } from "viem/chains";
 
 import {
   bridgeControllerGetAcrossDomains,
@@ -26,9 +25,9 @@ import {
 } from "@/constants/superbridge";
 import { useDeployment } from "@/hooks/use-deployment";
 import { useDeployments } from "@/hooks/use-deployments";
+import { useConfigState } from "@/state/config";
 import { InjectedStoreProvider } from "@/state/injected";
 import { ThemeProvider } from "@/state/theme";
-import { useConfigState } from "@/state/config";
 
 export const getServerSideProps = async ({
   req,
