@@ -17,7 +17,6 @@ export const TokenInput = () => {
   const token = useSelectedToken();
   const { t } = useTranslation();
 
-  const withdrawing = useConfigState.useWithdrawing();
   const rawAmount = useConfigState.useRawAmount();
   const stateToken = useConfigState.useToken();
   const setRawAmount = useConfigState.useSetRawAmount();
