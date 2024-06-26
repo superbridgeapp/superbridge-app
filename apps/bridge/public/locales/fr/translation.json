@@ -6,6 +6,8 @@
   "withdraw": "Retirer",
   "withdrawNft": "Retirer {{tokenId}}",
   "withdrawing": "En cours de retrait",
+  "reviewBridge": "Revoir le pont",
+  "bridging": "Pontage",
   "approving": "Approbation en cours",
   "connectWallet": "Connecter le portefeuille",
   "switchToApprove": "Basculer vers l'approbation",
@@ -14,8 +16,8 @@
   "approveNft": "Approuver {{tokenId}}",
   "insufficientFunds": "Fonds insuffisants",
   "insufficientGas": "Insuffisant en {{symbol}} pour le gaz",
-  "bridgeLimitFallback": "Limite dépassée",
   "bridgeLimit": "{{amount}} {{symbol}} limite",
+  "bridgeMin": "Montant min. {{amount}} {{symbol}}",
   "enterAnAmount": "Entrez un montant",
   "loading": "Chargement",
   "error": "Erreur",
@@ -40,6 +42,7 @@
   "from": "De",
   "to": "À",
   "support": "Soutien",
+  "ok": "D'accord",
 
   "settings": {
     "settings": "Paramètres",
@@ -181,6 +184,7 @@
     "prove": "Prouver sur {{base}}",
     "finalize": "Réclamer sur {{to}}",
     "receiveDeposit": "Recevoir sur {{rollup}}",
+    "receiveAmountOnChain": "Recevoir {{receiveAmount}} {{receiveSymbol}} sur {{to}}",
     "approve": "Approuver {{symbol}}",
     "approved": "Approuvé",
     "approveGasToken": "Approuver le jeton de gaz",
@@ -248,5 +252,13 @@
     "networkFees": "Frais de réseau",
     "goBack": "Retourner",
     "proceedAnyway": "Procéder quand même"
+  },
+  "across": {
+    "transferTimeTitle": "Temps de transfert ultra-rapide",
+    "transferTimeDescription": "En fonction de la taille du pont, les temps de transfert ultra-rapides peuvent varier. Les temps sont des estimations seulement.",
+    "timeTo": "Temps vers {{to}}",
+    "feeBreakdownTitle": "Frais ultra-rapides",
+    "feeBreakdownDescription": "Frais payés à <0>Across</0> et à leurs fournisseurs de liquidité et relais",
+    "acrossFee": "Frais Across"
   }
 }

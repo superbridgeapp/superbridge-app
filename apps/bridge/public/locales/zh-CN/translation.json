@@ -6,6 +6,8 @@
   "withdraw": "取款",
   "withdrawNft": "取款 {{tokenId}}",
   "withdrawing": "取款中",
+  "reviewBridge": "查看桥接",
+  "bridging": "桥接中",
   "approving": "审批中",
   "connectWallet": "连接钱包",
   "switchToApprove": "切换以批准",
@@ -14,8 +16,8 @@
   "approveNft": "批准 {{tokenId}}",
   "insufficientFunds": "资金不足",
   "insufficientGas": "燃料 {{symbol}} 不足",
-  "bridgeLimitFallback": "超出限额",
   "bridgeLimit": "{{amount}} {{symbol}} 限额",
+  "bridgeMin": "最低金额 {{amount}} {{symbol}}",
   "enterAnAmount": "输入金额",
   "loading": "加载中",
   "error": "错误",
@@ -41,6 +43,8 @@
   "to": "到",
   "manage": "管理",
   "support": "支持",
+  "ok": "好",
+
   "settings": {
     "settings": "设置",
     "withdrawalSettings": "取款设置",
@@ -175,6 +179,7 @@
     "prove": "在 {{base}} 上证明",
     "finalize": "在 {{to}} 上领取",
     "receiveDeposit": "在 {{rollup}} 上接收",
+    "receiveAmountOnChain": "在 {{to}} 上接收 {{receiveAmount}} {{receiveSymbol}}",
     "approve": "批准 {{symbol}}",
     "approved": "已批准",
     "approveGasToken": "批准燃料代币",
@@ -239,5 +244,13 @@
     "networkFees": "网络费用",
     "goBack": "返回",
     "proceedAnyway": "仍然继续"
+  },
+  "across": {
+    "transferTimeTitle": "超快转移时间",
+    "transferTimeDescription": "根据桥的大小，超快转移时间可能会有所不同。时间仅为估计值。",
+    "timeTo": "到 {{to}} 的时间",
+    "feeBreakdownTitle": "超快费用",
+    "feeBreakdownDescription": "支付给 <0>Across</0> 及其流动性提供者和中继者的费用",
+    "acrossFee": "Across费用"
   }
 }

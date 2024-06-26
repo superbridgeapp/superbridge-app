@@ -6,6 +6,8 @@
   "withdraw": "Rút",
   "withdrawNft": "Rút {{tokenId}}",
   "withdrawing": "Đang rút",
+  "reviewBridge": "Xem lại cầu nối",
+  "bridging": "Kết nối",
   "approving": "Đang phê duyệt",
   "connectWallet": "Kết nối ví",
   "switchToApprove": "Chuyển sang phê duyệt",
@@ -14,8 +16,8 @@
   "approveNft": "Phê duyệt {{tokenId}}",
   "insufficientFunds": "Không đủ tiền",
   "insufficientGas": "Không đủ {{symbol}} để thanh toán gas",
-  "bridgeLimitFallback": "Vượt quá giới hạn",
   "bridgeLimit": "{{amount}} {{symbol}} giới hạn",
+  "bridgeMin": "Số tiền tối thiểu {{amount}} {{symbol}}",
   "enterAnAmount": "Nhập một số tiền",
   "loading": "Đang tải",
   "error": "Lỗi",
@@ -40,6 +42,7 @@
   "from": "Từ",
   "to": "Đến",
   "support": "Hỗ trợ",
+  "ok": "Ok",
 
   "settings": {
     "settings": "Cài đặt",
@@ -181,6 +184,7 @@
     "prove": "Chứng minh trên {{base}}",
     "finalize": "Yêu cầu trên {{to}}",
     "receiveDeposit": "Nhận trên {{rollup}}",
+    "receiveAmountOnChain": "Nhận {{receiveAmount}} {{receiveSymbol}} trên {{to}}",
     "approve": "Phê duyệt {{symbol}}",
     "approved": "Đã phê duyệt",
     "approveGasToken": "Phê duyệt mã token gas",
@@ -248,5 +252,13 @@
     "networkFees": "Phí mạng",
     "goBack": "Quay lại",
     "proceedAnyway": "Tiếp tục dù sao"
+  },
+  "across": {
+    "transferTimeTitle": "Thời gian chuyển siêu tốc",
+    "transferTimeDescription": "Tùy thuộc vào kích thước của cầu nối, thời gian chuyển siêu tốc có thể thay đổi. Thời gian chỉ là ước tính.",
+    "timeTo": "Thời gian đến {{to}}",
+    "feeBreakdownTitle": "Phí siêu tốc",
+    "feeBreakdownDescription": "Phí trả cho <0>Across</0> và các nhà cung cấp thanh khoản và relay của họ",
+    "acrossFee": "Phí Across"
   }
 }

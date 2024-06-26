@@ -6,6 +6,8 @@
   "withdraw": "Abheben",
   "withdrawNft": "{{tokenId}} abheben",
   "withdrawing": "Wird abgehoben",
+  "reviewBridge": "Brücke überprüfen",
+  "bridging": "Bridging",
   "approving": "Wird genehmigt",
   "connectWallet": "Wallet verbinden",
   "switchToApprove": "Zu Genehmigung wechseln",
@@ -14,8 +16,8 @@
   "approveNft": "{{tokenId}} genehmigen",
   "insufficientFunds": "Unzureichende Mittel",
   "insufficientGas": "Unzureichendes {{symbol}} für Gas",
-  "bridgeLimitFallback": "Limit überschritten",
   "bridgeLimit": "{{amount}} {{symbol}} Limit",
+  "bridgeMin": "Mindestbetrag {{amount}} {{symbol}}",
   "enterAnAmount": "Betrag eingeben",
   "loading": "Laden",
   "error": "Fehler",
@@ -40,6 +42,7 @@
   "from": "Von",
   "to": "An",
   "support": "Unterstützung",
+  "ok": "Ok",
 
   "settings": {
     "settings": "Einstellungen",
@@ -181,6 +184,7 @@
     "prove": "Nachweisen auf {{base}}",
     "finalize": "Behaupten auf {{to}}",
     "receiveDeposit": "Empfangen auf {{rollup}}",
+    "receiveAmountOnChain": "{{receiveAmount}} {{receiveSymbol}} auf {{to}} erhalten",
     "approve": "Genehmigen von {{symbol}}",
     "approved": "Genehmigt",
     "approveGasToken": "Gas-Token genehmigen",
@@ -253,5 +257,14 @@
     "networkFees": "Netzwerkgebühren",
     "goBack": "Zurück",
     "proceedAnyway": "Trotzdem fortfahren"
+  },
+
+  "across": {
+    "transferTimeTitle": "Super schnelle Übertragungszeit",
+    "transferTimeDescription": "Je nach Größe der Brücke können sich super schnelle Übertragungszeiten unterscheiden. Zeiten sind nur Schätzungen.",
+    "timeTo": "Zeit zu {{to}}",
+    "feeBreakdownTitle": "Super schnelle Gebühren",
+    "feeBreakdownDescription": "Gebühren, die an <0>Across</0> und ihre Liquiditätsanbieter und Relais bezahlt werden",
+    "acrossFee": "Across-Gebühr"
   }
 }

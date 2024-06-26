@@ -6,6 +6,8 @@
   "withdraw": "ถอน",
   "withdrawNft": "ถอน {{tokenId}}",
   "withdrawing": "กำลังถอน",
+  "reviewBridge": "ทบทวนสะพาน",
+  "bridging": "กำลังเชื่อมต่อ",
   "approving": "อนุมัติ",
   "connectWallet": "เชื่อมต่อกระเป๋าเงิน",
   "switchToApprove": "สลับไปยังการอนุมัติ",
@@ -14,8 +16,8 @@
   "approveNft": "อนุมัติ {{tokenId}}",
   "insufficientFunds": "เงินไม่เพียงพอ",
   "insufficientGas": "ไม่เพียงพอ {{symbol}} สำหรับค่าแก๊ส",
-  "bridgeLimitFallback": "เกินขีดจำกัด",
   "bridgeLimit": "{{amount}} {{symbol}} ขีดจำกัด",
+  "bridgeMin": "จำนวนขั้นต่ำ {{amount}} {{symbol}}",
   "enterAnAmount": "ใส่จำนวน",
   "loading": "กำลังโหลด",
   "error": "ข้อผิดพลาด",
@@ -40,6 +42,7 @@
   "from": "จาก",
   "to": "ถึง",
   "support": "สนับสนุน",
+  "ok": "ตกลง",
 
   "settings": {
     "settings": "การตั้งค่า",
@@ -181,6 +184,7 @@
     "prove": "พิสูจน์บน {{base}}",
     "finalize": "เรียกร้องบน {{to}}",
     "receiveDeposit": "รับบน {{rollup}}",
+    "receiveAmountOnChain": "รับ {{receiveAmount}} {{receiveSymbol}} บน {{to}}",
     "approve": "อนุมัติ {{symbol}}",
     "approved": "อนุมัติแล้ว",
     "approveGasToken": "อนุมัติโทเค็นแก๊ส",
@@ -248,5 +252,13 @@
     "networkFees": "ค่าธรรมเนียมเครือข่าย",
     "goBack": "กลับไป",
     "proceedAnyway": "ดำเนินการต่อ"
+  },
+  "across": {
+    "transferTimeTitle": "เวลาโอนที่รวดเร็วมาก",
+    "transferTimeDescription": "ขึ้นอยู่กับขนาดของสะพาน เวลาโอนที่รวดเร็วมากอาจแตกต่างกัน เวลาเป็นเพียงการประมาณการเท่านั้น",
+    "timeTo": "เวลาถึง {{to}}",
+    "feeBreakdownTitle": "ค่าธรรมเนียมที่รวดเร็วมาก",
+    "feeBreakdownDescription": "ค่าธรรมเนียมที่จ่ายให้ <0>Across</0> และผู้ให้บริการสภาพคล่องและผู้ให้บริการส่งต่อ",
+    "acrossFee": "ค่าธรรมเนียม Across"
   }
 }

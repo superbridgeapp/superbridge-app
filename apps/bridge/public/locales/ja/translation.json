@@ -6,6 +6,8 @@
   "withdraw": "引き出し",
   "withdrawNft": "{{tokenId}} を引き出し",
   "withdrawing": "引き出し中",
+  "reviewBridge": "ブリッジを確認する",
+  "bridging": "ブリッジング",
   "approving": "承認中",
   "connectWallet": "ウォレットに接続",
   "switchToApprove": "承認に切り替え",
@@ -14,8 +16,8 @@
   "approveNft": "{{tokenId}} を承認",
   "insufficientFunds": "資金不足",
   "insufficientGas": "ガスが不足しています {{symbol}}",
-  "bridgeLimitFallback": "制限を超えました",
   "bridgeLimit": "{{amount}} {{symbol}} 制限",
+  "bridgeMin": "最小金額 {{amount}} {{symbol}}",
   "enterAnAmount": "金額を入力してください",
   "loading": "読み込み中",
   "error": "エラー",
@@ -40,6 +42,7 @@
   "from": "送信元",
   "to": "送信先",
   "support": "サポート",
+  "ok": "OK",
 
   "settings": {
     "settings": "設定",
@@ -181,6 +184,7 @@
     "prove": "{{base}} で証明",
     "finalize": "{{to}} で請求",
     "receiveDeposit": "{{rollup}} で受け取る",
+    "receiveAmountOnChain": "{{to}} で {{receiveAmount}} {{receiveSymbol}} を受け取る",
     "approve": "{{symbol}} を承認",
     "approved": "承認済み",
     "approveGasToken": "ガストークンを承認",
@@ -248,5 +252,13 @@
     "networkFees": "ネットワーク手数料",
     "goBack": "戻る",
     "proceedAnyway": "それでも続行"
+  },
+  "across": {
+    "transferTimeTitle": "超高速転送時間",
+    "transferTimeDescription": "ブリッジのサイズによって、超高速転送時間は異なる場合があります。時間はあくまで推定です。",
+    "timeTo": "{{to}} までの時間",
+    "feeBreakdownTitle": "超高速料金",
+    "feeBreakdownDescription": "料金は <0>Across</0> とその流動性プロバイダーおよびリレーに支払われます",
+    "acrossFee": "Across料金"
   }
 }

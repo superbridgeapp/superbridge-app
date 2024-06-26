@@ -6,6 +6,8 @@
   "withdraw": "Tarik",
   "withdrawNft": "Tarik {{tokenId}}",
   "withdrawing": "Sedang melakukan penarikan",
+  "reviewBridge": "Tinjau jembatan",
+  "bridging": "Menjembatani",
   "approving": "Menyetujui",
   "connectWallet": "Hubungkan dompet",
   "switchToApprove": "Beralih ke persetujuan",
@@ -14,8 +16,8 @@
   "approveNft": "Setujui {{tokenId}}",
   "insufficientFunds": "Dana tidak mencukupi",
   "insufficientGas": "Gas tidak mencukupi untuk {{symbol}}",
-  "bridgeLimitFallback": "Batas terlampaui",
   "bridgeLimit": "{{amount}} {{symbol}} batas",
+  "bridgeMin": "Jumlah min. {{amount}} {{symbol}}",
   "enterAnAmount": "Masukkan jumlah",
   "loading": "Sedang memuat",
   "error": "Error",
@@ -40,6 +42,7 @@
   "from": "Dari",
   "to": "Ke",
   "support": "Dukungan",
+  "ok": "Ok",
 
   "settings": {
     "settings": "Pengaturan",
@@ -181,6 +184,7 @@
     "prove": "Buktikan di {{base}}",
     "finalize": "Klaim di {{to}}",
     "receiveDeposit": "Terima di {{rollup}}",
+    "receiveAmountOnChain": "Terima {{receiveAmount}} {{receiveSymbol}} di {{to}}",
     "approve": "Setujui {{symbol}}",
     "approved": "Disetujui",
     "approveGasToken": "Menyetujui token gas",
@@ -248,5 +252,13 @@
     "networkFees": "Biaya jaringan",
     "goBack": "Kembali",
     "proceedAnyway": "Lanjutkan saja"
+  },
+  "across": {
+    "transferTimeTitle": "Waktu transfer super cepat",
+    "transferTimeDescription": "Bergantung pada ukuran jembatan, waktu transfer super cepat bisa bervariasi. Waktu hanya perkiraan.",
+    "timeTo": "Waktu ke {{to}}",
+    "feeBreakdownTitle": "Biaya super cepat",
+    "feeBreakdownDescription": "Biaya dibayarkan kepada <0>Across</0> dan penyedia likuiditas dan relayer mereka",
+    "acrossFee": "Biaya Across"
   }
 }
