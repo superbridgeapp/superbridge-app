@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useAccountEffect } from "wagmi";
 
+import { isSuperbridge } from "@/config/superbridge";
 import { useConfigState } from "@/state/config";
 import { usePendingTransactions } from "@/state/pending-txs";
 import { isMainnet, isOptimism } from "@/utils/is-mainnet";
@@ -42,7 +43,7 @@ export const useInitialise = () => {
   }, []);
 
   useEffect(() => {
-    if (router.asPath === "/fast") {
+    if (isSuperbridge && router.asPath === "/fast") {
       setFast(true);
     }
   }, []);
