@@ -8,9 +8,7 @@ interface FastState {
   setToChainId: (id: number) => void;
 }
 
-const FastState = create<FastState>()((set, get) => ({
-  // todo: inject available domains so we can
-  // switch between when you click the same
+const FastState = create<FastState>()((set) => ({
   fromChainId: 10,
   toChainId: 8453,
 
