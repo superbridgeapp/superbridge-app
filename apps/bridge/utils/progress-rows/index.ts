@@ -39,7 +39,7 @@ export const useTxTitle = (tx: Transaction) => {
   }
 
   if (isWithdrawal(tx)) {
-    return t("deposit");
+    return t("withdraw");
   }
 
   if (isForcedWithdrawal(tx)) {
