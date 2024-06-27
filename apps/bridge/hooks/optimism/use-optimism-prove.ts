@@ -42,21 +42,36 @@ export function useProveOptimism({ id, deployment }: BridgeWithdrawalDto) {
 
     try {
       setLoading(true);
+
       const { data: result } = await getProveTransaction.mutateAsync({
         data: { id },
       });
 
       const to = result.to as Address;
       const data = result.data as Hex;
-      const gas = await client.estimateGas({
-        to,
-        data,
-      });
+
+      const chain = deployment.l1 as unknown as Chain;
+      const [gas, fees] = await Promise.all([
+        client.estimateGas({
+          to,
+          data,
+        }),
+        client.estimateFeesPerGas({
+          chain,
+        }),
+      ]);
+
       const hash = await wallet.data.sendTransaction({
         to,
         data,
-        chain: deployment.l1 as unknown as Chain,
+        chain,
         gas: gas + gas / BigInt("10"),
+        ...(fees.gasPrice
+          ? { gasPrice: fees.gasPrice }
+          : {
+              maxFeePerGas: fees.maxFeePerGas,
+              maxPriorityFeePerGas: fees.maxPriorityFeePerGas,
+            }),
       });
       if (hash) {
         // rainbow just returns null if cancelled
