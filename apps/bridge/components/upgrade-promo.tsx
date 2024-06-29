@@ -1,6 +1,14 @@
+import { useIsTrial } from "@/hooks/trials/use-is-trial";
+
 import { Button } from "./ui/button";
 
 export const UpgradePromo = () => {
+  const isTrial = useIsTrial();
+
+  if (!isTrial) {
+    return null;
+  }
+
   return (
     <div className="w-full flex items-center justify-between px-5 py-4 bg-[#A882FD] bg-[url('/img/upgrade-grid.svg')] bg-repeat rounded-[18px] shadow-sm">
       <div className="flex flex-col gap-1.5">
@@ -87,7 +95,7 @@ export const UpgradePromo = () => {
         </div>
       </div>
       <Button size={"xs"} className="bg-black text-white" asChild>
-        <a href="https://about.superbridge.app/rollies" target="_blank">
+        <a href="https://superbridge.app/rollies" target="_blank">
           Learn more
         </a>
       </Button>

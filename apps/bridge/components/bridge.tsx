@@ -2,7 +2,6 @@ import { useTranslation } from "react-i18next";
 
 import { DeploymentType } from "@/codegen/model";
 import { isSuperbridge } from "@/config/superbridge";
-import { useTrialExpired } from "@/hooks/trials/use-trial-expired";
 import { useDeployment } from "@/hooks/use-deployment";
 import { useFaultProofUpgradeTime } from "@/hooks/use-fault-proof-upgrade-time";
 import { useHasWithdrawalReadyToFinalize } from "@/hooks/use-has-withdrawal-ready-to-finalize";
@@ -13,7 +12,6 @@ import { HasWithdrawalReadyToFinalizeBanner } from "./banners/has-withdrawal-rea
 import { WithdrawalsPaused } from "./banners/withdrawals-paused";
 import { BridgeBody } from "./bridge-body";
 import { BridgeHeader } from "./bridge-header";
-import { TrialExpiredOverlay } from "./trials/trial-expired-overlay";
 import { UpgradePromo } from "./upgrade-promo";
 
 export const Bridge = () => {
@@ -22,11 +20,6 @@ export const Bridge = () => {
   const withdrawalsPaused = useWithdrawalsPaused();
   const faultProofUpgradeTime = useFaultProofUpgradeTime(deployment);
   const hasWithdrawalReadyToFinalize = useHasWithdrawalReadyToFinalize();
-
-  const trialExpired = useTrialExpired();
-  if (trialExpired) {
-    return <TrialExpiredOverlay />;
-  }
 
   return (
     <main
