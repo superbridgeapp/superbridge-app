@@ -1,15 +1,15 @@
 import { Address, encodeFunctionData } from "viem";
 
 import { TokenMessengerAbi } from "@/abis/cctp/TokenMessenger";
-import { useBridgeControllerGetCctpDomains } from "@/codegen/index";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
 import { useWeiAmount } from "@/hooks/use-wei-amount";
 import { useConfigState } from "@/state/config";
+import { useCctpDomains } from "@/hooks/use-cctp-domains";
 
 import { addressToBytes32, isCctpBridgeOperation } from "./common";
 
 export const useCctpArgs = () => {
-  const cctpDomains = useBridgeControllerGetCctpDomains();
+  const cctpDomains = useCctpDomains();
 
   const stateToken = useConfigState.useToken();
   const recipientAddress = useConfigState.useRecipientAddress();
@@ -18,8 +18,8 @@ export const useCctpArgs = () => {
   const from = useFromChain();
   const to = useToChain();
 
-  const fromCctp = cctpDomains.data?.data.find((x) => x.chainId === from?.id);
-  const toCctp = cctpDomains.data?.data.find((x) => x.chainId === to?.id);
+  const fromCctp = cctpDomains.find((x) => x.chainId === from?.id);
+  const toCctp = cctpDomains.find((x) => x.chainId === to?.id);
   const fromToken = stateToken?.[from?.id ?? 0];
   const toToken = stateToken?.[to?.id ?? 0];
 

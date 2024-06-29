@@ -6,6 +6,8 @@
   "withdraw": "निकालें",
   "withdrawNft": "{{tokenId}} निकालें",
   "withdrawing": "निकाल रहा है",
+  "reviewBridge": "ब्रिज की समीक्षा करें",
+  "bridging": "ब्रिजिंग",
   "approving": "मंजूरी दे रहा है",
   "connectWallet": "वॉलेट कनेक्ट करें",
   "switchToApprove": "मंजूरी पर स्विच करें",
@@ -14,8 +16,8 @@
   "approveNft": "{{tokenId}} को मंजूर करें",
   "insufficientFunds": "अपर्याप्त धन",
   "insufficientGas": "गैस के लिए {{symbol}} अपर्याप्त",
-  "bridgeLimitFallback": "सीमा पार हो गई",
   "bridgeLimit": "{{amount}} {{symbol}} सीमा",
+  "bridgeMin": "न्यूनतम राशि {{amount}} {{symbol}}",
   "enterAnAmount": "राशि दर्ज करें",
   "loading": "लोड हो रहा है",
   "error": "त्रुटि",
@@ -40,6 +42,7 @@
   "from": "से",
   "to": "को",
   "support": "समर्थन",
+  "ok": "ठीक है",
 
   "settings": {
     "settings": "सेटिंग्स",
@@ -166,6 +169,7 @@
     "opDescriptionTokenEscapeHatch": "निकासी को फोर्स करने के लिए एस्केप हैच का उपयोग करना एक 4 कदमी प्रक्रिया है, जिसमें 1 {{rollup}} लेनदेन और 3 {{base}} लेनदेन की आवश्यकता होती हैं।",
     "arbDescription": "निकासी एक 2 कदमी प्रक्रिया है, जिसमें 1 {{rollup}} लेनदेन और 1 {{base}} लेनदेन की आवश्यकता होती है।",
     "arbDescriptionToken": "निकासी एक 3 कदमी प्रक्रिया है, जिसमें {{rollup}} पर 2 और {{base}} पर 1 लेनदेन की आवश्यकता होती हैं।",
+    "acrossDescription": "ब्रिज का समय आपके द्वारा ब्रिज करने वाली राशि पर निर्भर करता है। तेज़ ब्रिज के लिए छोटी राशि आज़माएं।",
     "learnMore": "और अधिक जानें",
     "approxFees": "प्रायः शुल्क",
     "initiateDeposit": "जमा प्रारंभ करें",
@@ -181,6 +185,7 @@
     "prove": "{{base}} पर साबित करें",
     "finalize": "{{to}} पर दावा करें",
     "receiveDeposit": "{{rollup}} पर प्राप्त करें",
+    "receiveAmountOnChain": "{{to}} पर {{receiveAmount}} {{receiveSymbol}} प्राप्त करें",
     "approve": "{{symbol}} को मंजूरी दें",
     "approved": "मंजूर किया गया",
     "approveGasToken": "गैस टोकन को मंजूरी दें",
@@ -253,5 +258,14 @@
     "networkFees": "नेटवर्क शुल्क",
     "goBack": "वापस जाएं",
     "proceedAnyway": "फिर भी आगे बढ़ें"
+  },
+
+  "across": {
+    "transferTimeTitle": "अति तेज़ स्थानांतरण समय",
+    "transferTimeDescription": "ब्रिज के आकार के अनुसार, अति तेज़ स्थानांतरण समय भिन्न हो सकता है। समय केवल अनुमान है।",
+    "timeTo": "{{to}} तक का समय",
+    "feeBreakdownTitle": "अति तेज़ शुल्क",
+    "feeBreakdownDescription": "शुल्क <0>Across</0> और उनके तरलता प्रदाताओं और रिलेयर को भुगतान किए जाते हैं",
+    "acrossFee": "Across शुल्क"
   }
 }

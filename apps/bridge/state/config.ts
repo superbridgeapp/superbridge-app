@@ -3,6 +3,7 @@ import { Address } from "viem";
 import { create } from "zustand";
 
 import { BridgeNftDto, DeploymentDto } from "@/codegen/model";
+import { ModalNames } from "@/constants/modal-names";
 import { MultiChainToken } from "@/types/token";
 
 import { CustomTokenList } from "./settings";
@@ -18,8 +19,14 @@ interface ConfigState {
   settingsModal: boolean;
   setSettingsModal: (x: boolean) => void;
 
+  tokensModal: boolean;
+  setTokensModal: (x: boolean) => void;
+
   legalModal: boolean;
   setLegalModal: (x: boolean) => void;
+
+  fast: boolean;
+  setFast: (x: boolean) => void;
 
   forceViaL1: boolean;
   toggleForceViaL1: () => void;
@@ -74,12 +81,23 @@ interface ConfigState {
 
   blockProvingModal: DeploymentDto | null;
   setBlockProvingModal: (blockProvingModal: DeploymentDto | null) => void;
+
+  modals: { [x in ModalNames]: boolean };
+  addModal: (x: ModalNames) => void;
+  removeModal: (x: ModalNames) => void;
+
+  networkSelectorModal: "from" | "to" | null;
+  setNetworkSelectorModal: (x: "from" | "to" | null) => void;
 }
 
-const ConfigState = create<ConfigState>()((set) => ({
+const ConfigState = create<ConfigState>()((set, get) => ({
   withdrawing: false,
-  toggleWithdrawing: () => set((s) => ({ withdrawing: !s.withdrawing })),
-  setWithdrawing: (withdrawing) => set({ withdrawing }),
+  toggleWithdrawing: () =>
+    set((s) => ({ withdrawing: !s.withdrawing, fast: false })),
+  setWithdrawing: (withdrawing) => set({ withdrawing, fast: false }),
+
+  fast: false,
+  setFast: (fast: boolean) => set({ fast }),
 
   forceViaL1: false,
   toggleForceViaL1: () => set((s) => ({ forceViaL1: !s.forceViaL1 })),
@@ -121,6 +139,9 @@ const ConfigState = create<ConfigState>()((set) => ({
   settingsModal: false,
   setSettingsModal: (settingsModal) => set({ settingsModal }),
 
+  tokensModal: false,
+  setTokensModal: (tokensModal) => set({ tokensModal }),
+
   legalModal: false,
   setLegalModal: (legalModal) => set({ legalModal }),
 
@@ -143,12 +164,35 @@ const ConfigState = create<ConfigState>()((set) => ({
   faultProofInfoModal: false,
   setFaultProofInfoModal: (faultProofInfoModal) => set({ faultProofInfoModal }),
 
+  networkSelectorModal: null,
+  setNetworkSelectorModal: (networkSelectorModal) =>
+    set({ networkSelectorModal }),
+
   hasWithdrawalReadyToFinalizeModal: false,
   setHasWithdrawalReadyToFinalizeModal: (hasWithdrawalReadyToFinalizeModal) =>
     set({ hasWithdrawalReadyToFinalizeModal }),
 
   blockProvingModal: null,
   setBlockProvingModal: (blockProvingModal) => set({ blockProvingModal }),
+
+  modals: Object.keys(ModalNames).reduce(
+    (accum, name) => ({ ...accum, [name]: false }),
+    {} as Record<ModalNames, boolean>
+  ),
+  addModal: (name) =>
+    set({
+      modals: {
+        ...get().modals,
+        [name]: true,
+      },
+    }),
+  removeModal: (name) =>
+    set({
+      modals: {
+        ...get().modals,
+        [name]: false,
+      },
+    }),
 }));
 
 export const useConfigState = createSelectorHooks(ConfigState);

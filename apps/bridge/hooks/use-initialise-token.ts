@@ -8,7 +8,7 @@ import { isNativeToken } from "@/utils/is-eth";
 
 import { useGasToken } from "./use-approve-gas-token";
 import { useDeployment } from "./use-deployment";
-import { useActiveTokens } from "./use-tokens";
+import { useAllTokens } from "./use-tokens";
 
 /**
  * We want to find the token the user has specified and set some state accordingly,
@@ -28,15 +28,24 @@ export const useInitialiseToken = () => {
   const setToken = useConfigState.useSetToken();
   const setEasyMode = useConfigState.useSetEasyMode();
   const toggleWithdrawing = useConfigState.useToggleWithdrawing();
+  const fast = useConfigState.useFast();
   const deployment = useDeployment();
-  const tokens = useActiveTokens();
+  const tokens = useAllTokens();
   const arbitrumGasToken = useGasToken();
 
   useEffect(() => {
-    if (!tokens.length || !deployment) {
+    if (!tokens.length) {
       return;
     }
 
+    if (fast) {
+      setToken(tokens.find((x) => isNativeToken(x))!);
+      return;
+    }
+
+    if (!deployment) {
+      return;
+    }
     const [nameOrToken, nameOrTokenOrUndefined]: (string | undefined)[] =
       router.asPath.split(/[?\/]/).filter(Boolean);
 
@@ -96,5 +105,5 @@ export const useInitialiseToken = () => {
         }
       }
     }
-  }, [router.asPath, deployment, tokens, arbitrumGasToken]);
+  }, [router.asPath, deployment, tokens, arbitrumGasToken, fast]);
 };

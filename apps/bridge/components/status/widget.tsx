@@ -249,7 +249,7 @@ const IndexingStatus = ({ deployment }: { deployment: DeploymentDto }) => {
 
           console.log(title, description);
           return (
-            <div>
+            <div key={title}>
               <div>{title}</div>
               <div>
                 {description}{" "}

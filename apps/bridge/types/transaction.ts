@@ -8,6 +8,7 @@ import {
   ForcedWithdrawalDto,
   PortalDepositDto,
 } from "@/codegen/model";
+import { AcrossBridgeDto } from "./across";
 
 export type AbritrumTransaction =
   | ArbitrumDepositEthDto
@@ -22,4 +23,5 @@ export type OptimismTransaction =
 export type Transaction =
   | AbritrumTransaction
   | OptimismTransaction
-  | CctpBridgeDto;
+  | CctpBridgeDto
+  | AcrossBridgeDto;

@@ -1,5 +1,6 @@
 import { Transaction } from "@/types/transaction";
 import {
+  isAcrossBridge,
   isCctpBridge,
   isDeposit,
   isForcedWithdrawal,
@@ -11,4 +12,5 @@ export function getInitiatingHash(tx: Transaction) {
   if (isWithdrawal(tx)) return tx.withdrawal.transactionHash;
   if (isForcedWithdrawal(tx)) return tx.deposit.deposit.transactionHash;
   if (isCctpBridge(tx)) return tx.bridge.transactionHash;
+  if (isAcrossBridge(tx)) return tx.deposit.transactionHash;
 }

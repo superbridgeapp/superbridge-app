@@ -3,7 +3,7 @@ import NextHead from "next/head";
 import { DeploymentDto } from "@/codegen/model";
 import { isSuperbridge } from "@/config/superbridge";
 
-function useMetadata(deployment: DeploymentDto | null) {
+function useMetadata(deployment: DeploymentDto | null | undefined) {
   if (isSuperbridge) {
     return {
       title: `Superbridge`,
@@ -17,7 +17,7 @@ function useMetadata(deployment: DeploymentDto | null) {
   };
 }
 
-export function Head({ deployment }: { deployment: DeploymentDto | null }) {
+export function Head({ deployment }: { deployment?: DeploymentDto | null }) {
   const metadata = useMetadata(deployment);
 
   const defaultOg = isSuperbridge
@@ -28,6 +28,35 @@ export function Head({ deployment }: { deployment: DeploymentDto | null }) {
   const icon = isSuperbridge
     ? "/img/superbridge/favicon-32x32.png"
     : deployment?.theme?.theme.imageNetwork;
+
+  const fonts = `
+@font-face {
+  font-family: sb-heading;
+  src: url(${
+    isSuperbridge
+      ? "https://superbridge-fonts.vercel.app/GT-Maru-Bold.woff2"
+      : deployment?.theme?.theme.fontBody ||
+        "https://superbridge-fonts.vercel.app/GT-Maru-Bold.woff2"
+  });
+}
+@font-face {
+  font-family: sb-button;
+  src: url(${
+    isSuperbridge
+      ? "https://superbridge-fonts.vercel.app/GT-Maru-Bold.woff2"
+      : deployment?.theme?.theme.fontBody ||
+        "https://superbridge-fonts.vercel.app/GT-Maru-Bold.woff2"
+  });
+}
+@font-face {
+  font-family: sb-body;
+  src: url(${
+    isSuperbridge
+      ? "https://superbridge-fonts.vercel.app/GT-Maru-Medium.woff2"
+      : deployment?.theme?.theme.fontBody ||
+        "https://superbridge-fonts.vercel.app/GT-Maru-Medium.woff2"
+  });
+}`;
 
   return (
     <NextHead>
@@ -52,6 +81,8 @@ export function Head({ deployment }: { deployment: DeploymentDto | null }) {
       <link rel="icon" href={icon} />
       <link rel="apple-touch-icon" href={icon} />
       <link rel="apple-touch-icon-precomposed" href={icon} />
+
+      <style>{fonts}</style>
     </NextHead>
   );
 }

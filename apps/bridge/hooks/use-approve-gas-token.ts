@@ -1,11 +1,12 @@
 import { waitForTransactionReceipt } from "@wagmi/core";
 import { useState } from "react";
-import { erc20Abi, maxUint256 } from "viem";
+import { maxUint256 } from "viem";
 import { useConfig, useWriteContract } from "wagmi";
 
 import { getNativeTokenForDeployment } from "@/utils/get-native-token";
 
 import { useApprovalAddressGasToken } from "./use-approval-address-gas-token";
+import { APPROVE_ABI_WITHOUT_RETURN } from "./use-approve";
 import { useFromChain } from "./use-chain";
 import { useDeployment } from "./use-deployment";
 import { useDeployments } from "./use-deployments";
@@ -44,7 +45,7 @@ export function useApproveGasToken(
       setIsLoading(true);
       try {
         const hash = await writeContractAsync({
-          abi: erc20Abi,
+          abi: APPROVE_ABI_WITHOUT_RETURN,
           address: baseGasToken.address,
           args: [approvalAddress, maxUint256],
           functionName: "approve",

@@ -6,6 +6,8 @@
   "withdraw": "Withdraw",
   "withdrawNft": "Withdraw {{tokenId}}",
   "withdrawing": "Withdrawing",
+  "reviewBridge": "Review bridge",
+  "bridging": "Bridging",
   "approving": "Approving",
   "connectWallet": "Connect wallet",
   "switchToApprove": "Switch to approve",
@@ -14,8 +16,8 @@
   "approveNft": "Approve {{tokenId}}",
   "insufficientFunds": "Insufficient funds",
   "insufficientGas": "Insufficient {{symbol}} for gas",
-  "bridgeLimitFallback": "Limit exceeded",
   "bridgeLimit": "{{amount}} {{symbol}} limit",
+  "bridgeMin": "Min. amount {{amount}} {{symbol}}",
   "enterAnAmount": "Enter an amount",
   "loading": "Loading",
   "error": "Error",
@@ -41,6 +43,7 @@
   "to": "To",
   "manage": "Manage",
   "support": "Support",
+  "ok": "Ok",
 
   "settings": {
     "settings": "Settings",
@@ -170,6 +173,7 @@
     "opDescriptionTokenEscapeHatch": "Using Escape Hatch to force withdrawals is 4 step process, requiring 1 {{rollup}} transaction and 3 {{base}} transactions.",
     "arbDescription": "Withdrawing is a 2 step process, requiring 1 {{rollup}} transaction and 1 {{base}} transaction.",
     "arbDescriptionToken": "Withdrawing is a 3 step process, requiring 2 transactions on {{rollup}} and 1 on {{base}}.",
+    "acrossDescription": "Bridge times vary with the amount you want to bridge. Try a smaller value for a faster bridge.",
     "learnMore": "Learn more",
     "approxFees": "Approx. fees",
     "initiateDeposit": "Initiate deposit",
@@ -185,6 +189,7 @@
     "prove": "Prove on {{base}}",
     "finalize": "Claim on {{to}}",
     "receiveDeposit": "Receive on {{rollup}}",
+    "receiveAmountOnChain": "Receive {{receiveAmount}} {{receiveSymbol}} on {{to}}",
     "approve": "Approve {{symbol}}",
     "approved": "Approved",
     "approveGasToken": "Approve gas token",
@@ -257,5 +262,14 @@
     "networkFees": "Network fees",
     "goBack": "Go back",
     "proceedAnyway": "Proceed anyway"
+  },
+
+  "across": {
+    "transferTimeTitle": "Superfast transfer time",
+    "transferTimeDescription": "Depending on the size of the bridge, Superfast transfer times can vary. Times are estimates only.",
+    "timeTo": "Time to {{to}}",
+    "feeBreakdownTitle": "Superfast fees",
+    "feeBreakdownDescription": "Fees paid to <0>Across</0> and their liquidity providers and relayers",
+    "acrossFee": "Across fee"
   }
 }

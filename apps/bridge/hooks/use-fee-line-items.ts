@@ -1,7 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { isPresent } from "ts-is-present";
 import { Chain, formatUnits, parseUnits } from "viem";
-import { useFeeData } from "wagmi";
 
 import { ChainDto } from "@/codegen/model";
 import { configurations } from "@/config/contract-addresses";
@@ -17,32 +16,17 @@ import { useSettingsState } from "@/state/settings";
 
 import { useDeployment } from "./use-deployment";
 import { useNativeToken } from "./use-native-token";
+import { useNetworkFee } from "./use-network-fee";
 
-export const useFees = (
-  from: Chain | ChainDto | undefined,
-  gasEstimate: bigint
-) => {
+export const useFees = (from: Chain | ChainDto | undefined) => {
   const deployment = useDeployment();
   const withdrawing = useConfigState.useWithdrawing();
   const forceViaL1 = useConfigState.useForceViaL1();
   const easyMode = useConfigState.useEasyMode();
   const currency = useSettingsState.useCurrency();
   const { t } = useTranslation();
-
   const nativeToken = useNativeToken();
-
-  const feeData = useFeeData({
-    chainId: forceViaL1 && withdrawing ? deployment?.l1.id : from?.id,
-  });
-
-  let networkFee = 0;
-  if (feeData.data && gasEstimate) {
-    const gwei =
-      (feeData.data.gasPrice ?? feeData.data.maxFeePerGas ?? BigInt(0)) *
-      gasEstimate;
-    networkFee = parseFloat(formatUnits(gwei, 18));
-  }
-
+  const networkFee = useNetworkFee();
   const nativeTokenUsdPrice = useTokenPrice(nativeToken ?? null);
 
   const EASY_MODE_GWEI_THRESHOLD =
@@ -59,12 +43,10 @@ export const useFees = (
         chain: forceViaL1 && withdrawing ? deployment?.l1.name : from?.name,
       }),
       usd: {
-        raw: nativeTokenUsdPrice
-          ? networkFee! * nativeTokenUsdPrice
-          : undefined,
+        raw: nativeTokenUsdPrice ? networkFee * nativeTokenUsdPrice : undefined,
         formatted: nativeTokenUsdPrice
           ? `${currencySymbolMap[currency]}${(
-              networkFee! * nativeTokenUsdPrice
+              networkFee * nativeTokenUsdPrice
             ).toLocaleString("en", {
               maximumFractionDigits: 4,
             })}`

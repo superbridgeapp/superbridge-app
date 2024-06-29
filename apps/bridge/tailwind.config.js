@@ -79,12 +79,33 @@ module.exports = {
           "0%": { transform: "translateX(100%)" },
           "100%": { transform: "translateX(0%)" },
         },
+        wiggle: {
+          "0%, 100%": { transform: "rotate(-2deg)" },
+          "50%": { transform: "rotate(2deg)" },
+        },
+        "wiggle-waggle": {
+          "10%, 30%": { transform: "rotate(-2deg)" },
+          "20%,40%": { transform: "rotate(2deg)" },
+          "0%, 50%,100%": { transform: "rotate(0deg)" },
+        },
+        spinner: {
+          "0%": { strokeDashoffset: "306" },
+          "50%": { strokeDasharray: "40, 134" },
+          "100%": {
+            strokeDasharray: "1, 174",
+            strokeDashoffset: "132",
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         marquee: "marquee 72s linear infinite",
         marquee2: "marquee2 72s linear infinite",
+        "spin-slow": "spin 8s linear infinite",
+        wiggle: "wiggle 1s ease-in-out infinite",
+        "wiggle-waggle": "wiggle-waggle 2s ease-in-out infinite",
+        spinner: "spinner 2s linear infinite",
       },
     },
   },

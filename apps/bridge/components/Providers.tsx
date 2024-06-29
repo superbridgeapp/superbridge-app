@@ -80,7 +80,7 @@ function Web3Provider({ children }: { children: React.ReactNode }) {
         }
         appInfo={{
           appName: metadata.title,
-          learnMoreUrl: "https://docs.rollbridge.app",
+          learnMoreUrl: "https://docs.superbridge.app",
         }}
       >
         {children}
