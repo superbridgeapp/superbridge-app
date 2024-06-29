@@ -13,7 +13,7 @@ import {
   useBridgeControllerGetLatestStateRoot,
 } from "@/codegen/index";
 import { ChainDto, DeploymentDto } from "@/codegen/model";
-import { isOptimism } from "@/utils/is-mainnet";
+import { OptimismDeploymentDto, isOptimism } from "@/utils/is-mainnet";
 
 const LastObservedBlock = ({ chain }: { chain: ChainDto }) => {
   const latestBlock = useBlock({
@@ -58,27 +58,28 @@ const LastObservedBlock = ({ chain }: { chain: ChainDto }) => {
   );
 };
 
-const LatestStateRoot = ({ deployment }: { deployment: DeploymentDto }) => {
+const LatestStateRoot = ({
+  deployment,
+}: {
+  deployment: OptimismDeploymentDto;
+}) => {
   const latestDisputeGame = useBridgeControllerGetLatestDisputeGame(
     deployment.id,
     {
       query: {
-        enabled:
-          isOptimism(deployment) &&
-          !deployment.contractAddresses.disputeGameFactory,
+        enabled: !deployment.contractAddresses.disputeGameFactory,
       },
     }
   );
   const latestStateRoot = useBridgeControllerGetLatestStateRoot(deployment.id, {
     query: {
-      enabled:
-        isOptimism(deployment) &&
-        !deployment.contractAddresses.disputeGameFactory,
+      enabled: !deployment.contractAddresses.disputeGameFactory,
     },
   });
 
-  const l2BlockNumber =
-    latestDisputeGame.data?.data.value || latestStateRoot.data?.data.value;
+  const l2BlockNumber = deployment.contractAddresses.disputeGameFactory
+    ? latestDisputeGame.data?.data.value
+    : latestStateRoot.data?.data.value;
   const block = useBlock({
     blockNumber: BigInt(l2BlockNumber || "0"),
     chainId: deployment.l2.id,
@@ -86,10 +87,6 @@ const LatestStateRoot = ({ deployment }: { deployment: DeploymentDto }) => {
       enabled: !!l2BlockNumber,
     },
   });
-
-  if (!isOptimism(deployment)) {
-    return null;
-  }
 
   const name = deployment.contractAddresses.disputeGameFactory
     ? "fault dispute game"
@@ -158,22 +155,13 @@ const LatestStateRoot = ({ deployment }: { deployment: DeploymentDto }) => {
   );
 };
 
-const Paused = ({ deployment }: { deployment: DeploymentDto }) => {
+const Paused = ({ deployment }: { deployment: OptimismDeploymentDto }) => {
   const paused = useReadContract({
     chainId: deployment.l1.id,
     functionName: "paused",
     abi: OptimismPortalAbi,
-    query: {
-      enabled: isOptimism(deployment),
-    },
-    address: isOptimism(deployment)
-      ? (deployment.contractAddresses.optimismPortal as Address)
-      : "0x",
+    address: deployment.contractAddresses.optimismPortal as Address,
   });
-
-  if (!isOptimism(deployment)) {
-    return null;
-  }
 
   if (paused.isFetching) {
     return (
@@ -247,7 +235,6 @@ const IndexingStatus = ({ deployment }: { deployment: DeploymentDto }) => {
             description = "Prove & finalize operations";
           }
 
-          console.log(title, description);
           return (
             <div key={title}>
               <div>{title}</div>
@@ -273,9 +260,13 @@ export const SupportStatusWidget = ({
     <div className="flex flex-col gap-4">
       <LastObservedBlock chain={deployment.l1} />
       <LastObservedBlock chain={deployment.l2} />
-      <Paused deployment={deployment} />
-      <IndexingStatus deployment={deployment} />
-      <LatestStateRoot deployment={deployment} />
+      {isOptimism(deployment) && (
+        <>
+          <Paused deployment={deployment} />
+          <IndexingStatus deployment={deployment} />
+          <LatestStateRoot deployment={deployment} />
+        </>
+      )}
     </div>
   );
 };
