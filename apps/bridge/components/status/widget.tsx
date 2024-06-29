@@ -15,46 +15,63 @@ import {
 import { ChainDto, DeploymentDto } from "@/codegen/model";
 import { OptimismDeploymentDto, isOptimism } from "@/utils/is-mainnet";
 
+const StatusLineItem = ({
+  title,
+  description,
+  isLoading,
+}: {
+  title: string;
+  description: string;
+  isLoading: boolean;
+}) => {
+  if (isLoading) {
+    return (
+      <div>
+        <div>{title}</div>
+        <div>Loading</div>
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <div>{title}</div>
+      <div>{description}</div>
+    </div>
+  );
+};
+
 const LastObservedBlock = ({ chain }: { chain: ChainDto }) => {
   const latestBlock = useBlock({
     blockTag: "latest",
     chainId: chain.id,
   });
 
-  const timestamp = latestBlock.data?.timestamp;
-  if (!timestamp) {
-    return (
-      <div>
-        <div>Last observed {chain.name} block</div>
-        <div>Loading</div>
-      </div>
-    );
-  }
+  const title = `${chain.name} block production`;
+  const isLoading = latestBlock.isLoading;
 
   const now = Date.now();
-  const lastBlockTimestamp = parseInt(timestamp.toString()) * 1000;
+  const description = (() => {
+    if (latestBlock.data?.timestamp) {
+      const lastBlockTimestamp =
+        parseInt(latestBlock.data.timestamp.toString()) * 1000;
+      const distance = formatDistance(now, lastBlockTimestamp);
+      const stale = differenceInSeconds(now, lastBlockTimestamp) > 30;
 
-  const distance = formatDistance(now, lastBlockTimestamp);
-  const stale = differenceInSeconds(now, lastBlockTimestamp) > 30;
+      return stale
+        ? `❌ Last observed ${chain.name} block was more than ${distance} ago. This could affect bridging operations to and from ${chain.name}`
+        : `✅ Last observed ${chain.name} block was ${distance} ago`;
+    }
 
-  if (stale) {
-    return (
-      <div>
-        <div>
-          Last observed {chain.name} block was more than {distance} ago
-        </div>
-        <div>
-          This could affect bridging operations to and from {chain.name}
-        </div>
-      </div>
-    );
-  }
+    return "❌ Unable to query blockchain";
+  })();
+
   return (
-    <div>
-      <div>
-        Last observed {chain.name} block was {distance} ago
-      </div>
-    </div>
+    <StatusLineItem
+      title={title}
+      description={description}
+      isLoading={isLoading}
+    />
   );
 };
 
@@ -141,7 +158,7 @@ const LatestStateRoot = ({
           Last observed {name} was more than {distance} ago
         </div>
         <div>
-          This could affect proving operations from {deployment.l2.name}
+          This could affect proving withdrawals from {deployment.l2.name}
         </div>
       </div>
     );
@@ -149,7 +166,7 @@ const LatestStateRoot = ({
   return (
     <div>
       <div>
-        Last observed {name} block was {distance} ago
+        ✅ Last observed {name} block was {distance} ago
       </div>
     </div>
   );
