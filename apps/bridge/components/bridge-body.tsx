@@ -58,6 +58,7 @@ import { TokenModal } from "./tokens/Modal";
 import { CustomTokenImportModal } from "./tokens/custom-token-import-modal";
 import { Button } from "./ui/button";
 import { WithdrawalReadyToFinalizeModal } from "./withdrawal-ready-to-finalize-modal";
+import { ConfirmationModalV2 } from "./confirmation-modal-v2";
 
 enum AlertModals {
   NoGas = "no-gas",
@@ -426,6 +427,12 @@ export const BridgeBody = () => {
       <TokenModal open={tokensModal} setOpen={setTokensModal} />
       <CustomTokenImportModal />
       <ConfirmationModal
+        onConfirm={onSubmit}
+        approve={approve}
+        allowance={allowance}
+        bridge={bridge}
+      />
+      <ConfirmationModalV2
         onConfirm={onSubmit}
         approve={approve}
         allowance={allowance}

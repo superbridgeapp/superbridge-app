@@ -55,6 +55,7 @@ import {
 import { ConfirmationModalStartTab } from "./start-tab";
 import { ConfirmationModalTermsTab } from "./terms-tab";
 import { ConfirmationModalReviewTab } from "./review-tab";
+import { usetTransformPeriodText } from "@/hooks/use-transform-period-text";
 
 function LineItem({
   text,
@@ -133,6 +134,8 @@ export const ConfirmationModalV2 = ({
   const fromNativeToken = useNativeToken();
   const toNativeToken = useToNativeToken();
   const switchChain = useSwitchChain();
+
+  const transformPeriodText = usetTransformPeriodText();
 
   const fromNativeTokenPrice = useTokenPrice(fromNativeToken ?? null);
   const toNativeTokenPrice = useTokenPrice(toNativeToken ?? null);
