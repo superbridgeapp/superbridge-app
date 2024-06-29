@@ -14,6 +14,7 @@ import { WithdrawalsPaused } from "./banners/withdrawals-paused";
 import { BridgeBody } from "./bridge-body";
 import { BridgeHeader } from "./bridge-header";
 import { TrialExpiredOverlay } from "./trials/trial-expired-overlay";
+import { UpgradePromo } from "./upgrade-promo";
 
 export const Bridge = () => {
   const deployment = useDeployment();
@@ -46,6 +47,8 @@ export const Bridge = () => {
             <BridgeHeader />
             <BridgeBody />
           </div>
+
+          <UpgradePromo />
 
           <div className="flex gap-1">
             {deployment?.type === DeploymentType.testnet && (
