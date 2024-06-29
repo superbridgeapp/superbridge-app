@@ -4,7 +4,11 @@ import { useTransferTime } from "@/hooks/use-transfer-time";
 import { NetworkIcon } from "../network-icon";
 import { Button } from "../ui/button";
 
-export const ConfirmationModalReviewTab = () => {
+export const ConfirmationModalReviewTab = ({
+  onNext,
+}: {
+  onNext: () => void;
+}) => {
   const deployment = useDeployment();
   const from = useFromChain();
   const to = useToChain();
@@ -41,7 +45,7 @@ export const ConfirmationModalReviewTab = () => {
         <div>$10</div>
       </div>
 
-      <Button>Continue</Button>
+      <Button onClick={onNext}>Continue</Button>
     </div>
   );
 };
