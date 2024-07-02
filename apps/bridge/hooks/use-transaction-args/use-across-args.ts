@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { Address, encodeFunctionData, zeroAddress } from "viem";
+import { Address, Hex, encodeFunctionData, zeroAddress } from "viem";
 import { useAccount } from "wagmi";
 
 import { SpokePoolAbi } from "@/abis/across/SpokePool";
@@ -54,9 +54,7 @@ export const useAcrossArgs = () => {
       return;
     }
 
-    const delimiter = "1dc0de";
-    const id = "0001";
-    const data = encodeFunctionData({
+    const input = encodeFunctionData({
       abi: SpokePoolAbi,
       functionName: "depositV3",
       args: [
@@ -74,12 +72,15 @@ export const useAcrossArgs = () => {
         "0x", //  message
       ],
     });
+    const delimiter = "1dc0de";
+    const id = "0001";
+    const data: Hex = `${input}${delimiter}${id}`;
 
     return {
       approvalAddress: isNativeToken(stateToken) ? undefined : spokePool,
       tx: {
         to: spokePool as Address,
-        data: `${data}${delimiter}${id}`,
+        data,
         chainId: from.id,
         value: isNativeToken(stateToken) ? weiAmount : BigInt(0),
       },
