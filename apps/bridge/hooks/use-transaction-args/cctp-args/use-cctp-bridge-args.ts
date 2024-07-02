@@ -1,19 +1,20 @@
-import { Address, encodeFunctionData } from "viem";
+import { Address, Hex, encodeFunctionData } from "viem";
 
 import { TokenMessengerAbi } from "@/abis/cctp/TokenMessenger";
 import { useCctpDomains } from "@/hooks/use-cctp-domains";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
+import { useGraffiti } from "@/hooks/use-graffiti";
 import { useWeiAmount } from "@/hooks/use-wei-amount";
 import { useConfigState } from "@/state/config";
 
 import { addressToBytes32, isCctpBridgeOperation } from "./common";
 
 export const useCctpArgs = () => {
-  const cctpDomains = useCctpDomains();
-
   const stateToken = useConfigState.useToken();
   const recipientAddress = useConfigState.useRecipientAddress();
 
+  const graffiti = useGraffiti();
+  const cctpDomains = useCctpDomains();
   const weiAmount = useWeiAmount();
   const from = useFromChain();
   const to = useToChain();
@@ -34,20 +35,23 @@ export const useCctpArgs = () => {
     return;
   }
 
+  const input = encodeFunctionData({
+    abi: TokenMessengerAbi,
+    functionName: "depositForBurn",
+    args: [
+      weiAmount,
+      toCctp.domain,
+      addressToBytes32(recipientAddress),
+      fromToken.address,
+    ],
+  });
+  const data: Hex = `${input}${graffiti.slice(2)}`;
+
   return {
     approvalAddress: fromCctp.contractAddresses.tokenMessenger as Address,
     tx: {
       to: fromCctp.contractAddresses.tokenMessenger as Address,
-      data: encodeFunctionData({
-        abi: TokenMessengerAbi,
-        functionName: "depositForBurn",
-        args: [
-          weiAmount,
-          toCctp.domain,
-          addressToBytes32(recipientAddress),
-          fromToken.address,
-        ],
-      }),
+      data,
       value: BigInt("0"),
       chainId: fromCctp.chainId,
     },
