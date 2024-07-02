@@ -57,8 +57,8 @@ export const ConfirmationModalReviewTab = ({
           {fast
             ? "Across"
             : !!stateToken && isCctpBridgeOperation(stateToken)
-            ? "CCTP"
-            : "Native Bridge"}
+              ? "CCTP"
+              : "Native Bridge"}
         </div>
       </div>
 

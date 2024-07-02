@@ -196,14 +196,14 @@ export const ConfirmationModalStartTab = ({
             count: period.value,
           }).toString()
         : period?.period === "hours"
-        ? t(`${str}Hours`, {
-            ...args,
-            count: period.value,
-          }).toString()
-        : t(`${str}Days`, {
-            ...args,
-            count: period?.value,
-          }).toString();
+          ? t(`${str}Hours`, {
+              ...args,
+              count: period.value,
+            }).toString()
+          : t(`${str}Days`, {
+              ...args,
+              count: period?.value,
+            }).toString();
     return value ?? "";
   };
 
@@ -361,8 +361,8 @@ export const ConfirmationModalStartTab = ({
       buttonText: d.fast
         ? t("bridging")
         : d.withdrawing
-        ? t("withdrawing")
-        : t("depositing"),
+          ? t("withdrawing")
+          : t("depositing"),
       disabled: true,
     }))
     .with({ needsApprove: true }, (d) => ({
@@ -384,8 +384,8 @@ export const ConfirmationModalStartTab = ({
       buttonText: d.fast
         ? t("confirmationModal.initiateBridge")
         : d.withdrawing
-        ? t("confirmationModal.initiateWithdrawal")
-        : t("confirmationModal.initiateDeposit"),
+          ? t("confirmationModal.initiateWithdrawal")
+          : t("confirmationModal.initiateDeposit"),
       disabled: false,
     }));
 

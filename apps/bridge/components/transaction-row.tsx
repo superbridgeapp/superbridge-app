@@ -337,8 +337,8 @@ function useToken(tx: Transaction, tokens: MultiChainToken[]) {
   const deployment = isAcrossBridge(tx)
     ? null
     : isForcedWithdrawal(tx)
-    ? tx.deposit.deployment
-    : tx.deployment;
+      ? tx.deposit.deployment
+      : tx.deployment;
   const gasToken = useGasTokenForDeployment(deployment?.id);
 
   const [from, to] = useFromTo(tx);
@@ -354,8 +354,8 @@ function useToken(tx: Transaction, tokens: MultiChainToken[]) {
     isForcedWithdrawal(tx) && tx.withdrawal
       ? tx.withdrawal.metadata
       : isForcedWithdrawal(tx)
-      ? tx.deposit.metadata
-      : tx.metadata;
+        ? tx.deposit.metadata
+        : tx.metadata;
 
   return match(metadata)
     .with({ type: "eth-deposit" }, () => {
@@ -408,8 +408,8 @@ function useNft(tx: Transaction) {
     isForcedWithdrawal(tx) && tx.withdrawal
       ? tx.withdrawal.metadata
       : isForcedWithdrawal(tx)
-      ? tx.deposit.metadata
-      : tx.metadata;
+        ? tx.deposit.metadata
+        : tx.metadata;
 
   if (metadata.type === "nft-deposit") {
     return metadata as NftDepositDto;
@@ -441,8 +441,8 @@ function getDepositAmount(tx: Transaction, token: Token | null | undefined) {
     isForcedWithdrawal(tx) && tx.withdrawal
       ? tx.withdrawal.metadata
       : isForcedWithdrawal(tx)
-      ? tx.deposit.metadata
-      : tx.metadata;
+        ? tx.deposit.metadata
+        : tx.metadata;
 
   if (metadata.type === "eth-deposit") {
     return `${formatEther(BigInt((metadata as EthDepositDto).data.amount))} ${
@@ -487,8 +487,8 @@ export const TransactionRow = ({ tx }: { tx: Transaction }) => {
   const deployment = isAcrossBridge(tx)
     ? null
     : isForcedWithdrawal(tx)
-    ? tx.deposit.deployment
-    : tx.deployment;
+      ? tx.deposit.deployment
+      : tx.deployment;
 
   const indicatorStyles = clsx(
     `w-4 h-4 outline outline-2 outline-zinc-50 dark:outline-zinc-900 absolute -right-1 bottom-0 rounded-full bg-card fill-green-400`,

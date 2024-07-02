@@ -203,8 +203,8 @@ export const useOptimismWithdrawalProgressRows = () => {
           !w?.status || w.status < MessageStatus.IN_CHALLENGE_PERIOD
             ? ProgressRowStatus.NotDone
             : w.status === MessageStatus.IN_CHALLENGE_PERIOD
-            ? ProgressRowStatus.InProgress
-            : ProgressRowStatus.Done,
+              ? ProgressRowStatus.InProgress
+              : ProgressRowStatus.Done,
         time: challengePeriodText,
       },
       finalise,

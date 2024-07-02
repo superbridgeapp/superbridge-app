@@ -65,7 +65,7 @@ export const useTokenLists = () => {
     ]: [
       SuperchainTokenList | null,
       SuperbridgeTokenList | null,
-      ...({ tokenList: CustomTokenList; result: SuperchainTokenList } | null)[]
+      ...({ tokenList: CustomTokenList; result: SuperchainTokenList } | null)[],
     ] = await Promise.all([
       superchainTokenListResponse?.json().catch(() => null),
       superbridgeTokenListResponse?.json().catch(() => null),

@@ -90,14 +90,14 @@ export function NftImage({
         tokenId: injectedNft.data.tokenId,
       }
     : isBridgeNftDto(injectedNft)
-    ? {
-        address: injectedNft.localConfig.address,
-        chainId: injectedNft.localConfig.chainId,
-        tokenId: injectedNft.tokenId,
-        tokenUri: injectedNft.tokenUri,
-        image: injectedNft.image,
-      }
-    : injectedNft;
+      ? {
+          address: injectedNft.localConfig.address,
+          chainId: injectedNft.localConfig.chainId,
+          tokenId: injectedNft.tokenId,
+          tokenUri: injectedNft.tokenUri,
+          image: injectedNft.image,
+        }
+      : injectedNft;
 
   const localTokenUriRead = useReadContract({
     abi: erc721Abi,

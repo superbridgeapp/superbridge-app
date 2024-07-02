@@ -9,8 +9,8 @@ export const getRemainingTimeMs = (initiatedTime: number, duration: Period) => {
     duration?.period === "days"
       ? initiatedTime + duration.value * ONE_DAY
       : duration?.period === "hours"
-      ? initiatedTime + duration.value * ONE_HOUR
-      : initiatedTime + (duration?.value ?? 1) * ONE_MINUTE;
+        ? initiatedTime + duration.value * ONE_HOUR
+        : initiatedTime + (duration?.value ?? 1) * ONE_MINUTE;
 
   const currentTime = Math.floor(new Date().getTime());
   return endTime - currentTime;

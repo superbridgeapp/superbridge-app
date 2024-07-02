@@ -42,8 +42,8 @@ export function Footer() {
     isSuperbridge
       ? defaultLinks
       : deployment?.theme?.links.length
-      ? deployment.theme.links
-      : defaultLinks;
+        ? deployment.theme.links
+        : defaultLinks;
 
   return (
     <footer className="flex flex-row justify-between px-1.5 md:px-6 py-3 md:py-4 fixed bottom-0 left-0 w-screen z-50 bg-gradient-to-t from-zinc-950/40 md:from-transparent">

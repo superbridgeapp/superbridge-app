@@ -36,8 +36,8 @@ export function useTokenBalances(chainId: number | undefined) {
         chainId && token[chainId] && isEth(token[chainId])
           ? ethBalance.data?.value ?? BigInt(0)
           : reads.data?.[index].error
-          ? BigInt(0)
-          : (reads.data?.[index].result as bigint) ?? BigInt(0);
+            ? BigInt(0)
+            : (reads.data?.[index].result as bigint) ?? BigInt(0);
 
       const id = token[chainId ?? 0]?.coinGeckoId
         ? `coingecko:${token[chainId ?? 0]?.coinGeckoId}`
