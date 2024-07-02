@@ -5,7 +5,7 @@ import { useConfigState } from "@/state/config";
 
 import { useFromChain, useToChain } from "../use-chain";
 import { useWeiAmount } from "../use-wei-amount";
-import { useAcrossTokenAddress } from "./use-across-clean-address";
+import { useAcrossTokenAddress } from "./use-across-token-address";
 
 export const useAcrossParams = () => {
   const stateToken = useConfigState.useToken();
