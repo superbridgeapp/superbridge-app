@@ -12,11 +12,11 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { isSuperbridge } from "@/config/superbridge";
 import { currencySymbolMap } from "@/constants/currency-symbol-map";
 import { FINALIZE_GAS, PROVE_GAS } from "@/constants/gas-limits";
+import { useBridge } from "@/hooks/bridge/use-bridge";
 import { useAllowance } from "@/hooks/use-allowance";
 import { useAllowanceGasToken } from "@/hooks/use-allowance-gas-token";
 import { useApprove } from "@/hooks/use-approve";
 import { useApproveGasToken, useGasToken } from "@/hooks/use-approve-gas-token";
-import { useBridge } from "@/hooks/bridge/use-bridge";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
 import { useDeployment } from "@/hooks/use-deployment";
 import {
@@ -185,14 +185,14 @@ export const ConfirmationModal = ({
             count: period.value,
           }).toString()
         : period?.period === "hours"
-          ? t(`${str}Hours`, {
-              ...args,
-              count: period.value,
-            }).toString()
-          : t(`${str}Days`, {
-              ...args,
-              count: period?.value,
-            }).toString();
+        ? t(`${str}Hours`, {
+            ...args,
+            count: period.value,
+          }).toString()
+        : t(`${str}Days`, {
+            ...args,
+            count: period?.value,
+          }).toString();
     return value ?? "";
   };
 
@@ -356,8 +356,8 @@ export const ConfirmationModal = ({
       buttonText: d.fast
         ? t("bridging")
         : d.withdrawing
-          ? t("withdrawing")
-          : t("depositing"),
+        ? t("withdrawing")
+        : t("depositing"),
       disabled: true,
     }))
     .with({ needsApprove: true }, (d) => ({
@@ -379,8 +379,8 @@ export const ConfirmationModal = ({
       buttonText: d.fast
         ? t("confirmationModal.initiateBridge")
         : d.withdrawing
-          ? t("confirmationModal.initiateWithdrawal")
-          : t("confirmationModal.initiateDeposit"),
+        ? t("confirmationModal.initiateWithdrawal")
+        : t("confirmationModal.initiateDeposit"),
       disabled: false,
     }));
 

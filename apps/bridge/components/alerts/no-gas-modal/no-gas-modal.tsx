@@ -12,11 +12,11 @@ import { useSelectedToken } from "@/hooks/use-selected-token";
 import { useConfigState } from "@/state/config";
 import { isNativeToken } from "@/utils/is-eth";
 import { isNativeUsdc } from "@/utils/is-usdc";
-import { GasDrop } from "./icons";
 
 import { Button } from "../../ui/button";
 import { Dialog, DialogContent } from "../../ui/dialog";
 import { AlertProps } from "../types";
+import { GasDrop } from "./icons";
 
 const ACROSS_NETWORKS: number[] = [
   mainnet.id,

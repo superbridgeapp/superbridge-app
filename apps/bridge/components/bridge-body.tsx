@@ -1,24 +1,23 @@
 import { useConnectModal } from "@rainbow-me/rainbowkit";
-import { waitForTransactionReceipt } from "@wagmi/core";
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { match } from "ts-pattern";
 import { formatUnits, parseUnits } from "viem";
 import { useAccount, useBalance, useConfig, useWalletClient } from "wagmi";
 
 import { useBridgeControllerTrack } from "@/codegen";
-import { ChainDto } from "@/codegen/model";
-import { isSuperbridge } from "@/config/superbridge";
-import { SUPERCHAIN_MAINNETS } from "@/constants/superbridge";
+import { AlertModals } from "@/constants/modal-names";
 import { useAcrossDomains } from "@/hooks/across/use-across-domains";
 import { useAcrossPaused } from "@/hooks/across/use-across-paused";
+import { useBridge } from "@/hooks/bridge/use-bridge";
+import { useCancelBridge } from "@/hooks/bridge/use-cancel-bridge";
+import { useDismissAlert } from "@/hooks/bridge/use-dismiss-alert";
+import { useInitiateBridge } from "@/hooks/bridge/use-initiate-bridge";
 import { useBridgeMax } from "@/hooks/limits/use-bridge-max";
 import { useBridgeMin } from "@/hooks/limits/use-bridge-min";
 import { useAllowance } from "@/hooks/use-allowance";
 import { useApprove } from "@/hooks/use-approve";
 import { useTokenBalance } from "@/hooks/use-balances";
 import { useBaseNativeTokenBalance } from "@/hooks/use-base-native-token-balance";
-import { useBridge } from "@/hooks/bridge/use-bridge";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
 import { useDeployment } from "@/hooks/use-deployment";
 import { useFaultProofUpgradeTime } from "@/hooks/use-fault-proof-upgrade-time";
@@ -34,11 +33,10 @@ import { useActiveTokens } from "@/hooks/use-tokens";
 import { useWeiAmount } from "@/hooks/use-wei-amount";
 import { useWithdrawalsPaused } from "@/hooks/use-withdrawals-paused";
 import { useConfigState } from "@/state/config";
+import { useModalsState } from "@/state/modals";
 import { usePendingTransactions } from "@/state/pending-txs";
-import { buildPendingTx } from "@/utils/build-pending-tx";
 import { formatDecimals } from "@/utils/format-decimals";
-import { isEth, isNativeToken } from "@/utils/is-eth";
-import { isNativeUsdc } from "@/utils/is-usdc";
+import { isEth } from "@/utils/is-eth";
 
 import { FromTo } from "./FromTo";
 import {
@@ -47,7 +45,7 @@ import {
 } from "./alerts/expensive-gas-modal";
 import { FaultProofsModal } from "./alerts/fault-proofs-modal";
 import { NoGasModal } from "./alerts/no-gas-modal";
-import { ConfirmationModal } from "./confirmation-modal";
+import { ConfirmationModalV2 } from "./confirmation-modal-v2";
 import { FastFromTo } from "./fast/FromTo";
 import { FaultProofInfoModal } from "./fault-proof-info-modal";
 import { LineItems } from "./line-items";
@@ -58,12 +56,6 @@ import { TokenModal } from "./tokens/Modal";
 import { CustomTokenImportModal } from "./tokens/custom-token-import-modal";
 import { Button } from "./ui/button";
 import { WithdrawalReadyToFinalizeModal } from "./withdrawal-ready-to-finalize-modal";
-import { ConfirmationModalV2 } from "./confirmation-modal-v2";
-import { AlertModals } from "@/constants/modal-names";
-import { useModalsState } from "@/state/modals";
-import { useInitiateBridge } from "@/hooks/bridge/use-initiate-bridge";
-import { useCancelBridge } from "@/hooks/bridge/use-cancel-bridge";
-import { useDismissAlert } from "@/hooks/bridge/use-dismiss-alert";
 
 export const BridgeBody = () => {
   const { openConnectModal } = useConnectModal();
@@ -274,10 +266,10 @@ export const BridgeBody = () => {
           ? t("withdrawNft", { tokenId: `#${d.nft.tokenId}` })
           : t("depositNft", { tokenId: `#${d.nft.tokenId}` })
         : d.fast
-          ? t("reviewBridge")
-          : d.withdrawing
-            ? t("withdraw")
-            : t("deposit"),
+        ? t("reviewBridge")
+        : d.withdrawing
+        ? t("withdraw")
+        : t("deposit"),
       disabled: false,
     }));
 

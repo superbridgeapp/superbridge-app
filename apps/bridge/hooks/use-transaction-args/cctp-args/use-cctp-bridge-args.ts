@@ -1,10 +1,10 @@
 import { Address, encodeFunctionData } from "viem";
 
 import { TokenMessengerAbi } from "@/abis/cctp/TokenMessenger";
+import { useCctpDomains } from "@/hooks/use-cctp-domains";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
 import { useWeiAmount } from "@/hooks/use-wei-amount";
 import { useConfigState } from "@/state/config";
-import { useCctpDomains } from "@/hooks/use-cctp-domains";
 
 import { addressToBytes32, isCctpBridgeOperation } from "./common";
 

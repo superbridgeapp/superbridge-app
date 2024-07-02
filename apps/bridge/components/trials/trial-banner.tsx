@@ -1,7 +1,7 @@
 import { differenceInDays } from "date-fns";
 
-import { useTrialEndsTime } from "@/hooks/trials/use-trial-ends-time";
 import { useIsTrial } from "@/hooks/trials/use-is-trial";
+import { useTrialEndsTime } from "@/hooks/trials/use-trial-ends-time";
 
 const MarqueeContent = () => {
   const trialEndsTime = useTrialEndsTime();

@@ -1,5 +1,3 @@
-import "@rainbow-me/rainbowkit/styles.css";
-
 import {
   Locale,
   RainbowKitProvider,
@@ -8,6 +6,7 @@ import {
   getDefaultWallets,
   lightTheme,
 } from "@rainbow-me/rainbowkit";
+import "@rainbow-me/rainbowkit/styles.css";
 import { okxWallet, safeWallet } from "@rainbow-me/rainbowkit/wallets";
 import { QueryClientProvider } from "@tanstack/react-query";
 import clsx from "clsx";

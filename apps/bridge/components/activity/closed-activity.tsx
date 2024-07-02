@@ -1,10 +1,10 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 
-import { useHasPendingAction } from "@/hooks/use-has-pending-action";
-import { useConfigState } from "@/state/config";
-import { useInProgressTxCount } from "@/hooks/use-in-progress-tx-count";
 import { useTrialExpired } from "@/hooks/trials/use-trial-expired";
+import { useHasPendingAction } from "@/hooks/use-has-pending-action";
+import { useInProgressTxCount } from "@/hooks/use-in-progress-tx-count";
+import { useConfigState } from "@/state/config";
 
 import inProgressDark from "../../animation/loading-dark.json";
 import inProgress from "../../animation/loading.json";

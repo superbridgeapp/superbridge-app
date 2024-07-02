@@ -3,13 +3,14 @@ import Image from "next/image";
 
 import { currencySymbolMap } from "@/constants/currency-symbol-map";
 import { ModalNames } from "@/constants/modal-names";
+import { useAcrossFee } from "@/hooks/across/use-across-fee";
 import { useToChain } from "@/hooks/use-chain";
 import { useTokenPrice } from "@/hooks/use-prices";
 import { useConfigState } from "@/state/config";
 import { useSettingsState } from "@/state/settings";
-import { useAcrossFee } from "@/hooks/across/use-across-fee";
-import { Skeleton } from "../ui/skeleton";
+
 import { IconHelp } from "../icons";
+import { Skeleton } from "../ui/skeleton";
 
 export const FeeLineItem = () => {
   const to = useToChain();

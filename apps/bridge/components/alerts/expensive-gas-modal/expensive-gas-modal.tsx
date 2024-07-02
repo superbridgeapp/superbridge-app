@@ -14,10 +14,10 @@ import { useConfigState } from "@/state/config";
 import { useSettingsState } from "@/state/settings";
 import { isOptimism } from "@/utils/is-mainnet";
 
+import { IconAlert, IconFees } from "../../icons";
 import { TokenIcon } from "../../token-icon";
 import { Button } from "../../ui/button";
 import { Dialog, DialogContent } from "../../ui/dialog";
-import { IconAlert, IconFees } from "../../icons";
 import { AlertProps } from "../types";
 
 export const useEstimateTotalFeesInFiat = () => {

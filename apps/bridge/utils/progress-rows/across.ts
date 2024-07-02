@@ -63,17 +63,17 @@ export const useAcrossProgressRows = () => {
             link: transactionLink(tx.fill.transactionHash, toDomain?.chain),
           }
         : // assume immediate confirmation for rollups
-          tx.deposit.timestamp || tx.fromChainId
-          ? {
-              label: "Waiting",
-              status: ProgressRowStatus.InProgress,
-              time: l2ConfirmationText,
-            }
-          : {
-              label: "Fill",
-              status: ProgressRowStatus.NotDone,
-              time: l2ConfirmationText,
-            },
+        tx.deposit.timestamp || tx.fromChainId
+        ? {
+            label: "Waiting",
+            status: ProgressRowStatus.InProgress,
+            time: l2ConfirmationText,
+          }
+        : {
+            label: "Fill",
+            status: ProgressRowStatus.NotDone,
+            time: l2ConfirmationText,
+          },
     ];
   };
 };

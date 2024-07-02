@@ -3,7 +3,7 @@ import clsx from "clsx";
 import { useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import { isAddressEqual, Address, erc721Abi } from "viem";
+import { Address, erc721Abi, isAddressEqual } from "viem";
 import { useReadContract } from "wagmi";
 
 import { BridgeNftDto, NftDepositDto } from "@/codegen/model";
@@ -90,14 +90,14 @@ export function NftImage({
         tokenId: injectedNft.data.tokenId,
       }
     : isBridgeNftDto(injectedNft)
-      ? {
-          address: injectedNft.localConfig.address,
-          chainId: injectedNft.localConfig.chainId,
-          tokenId: injectedNft.tokenId,
-          tokenUri: injectedNft.tokenUri,
-          image: injectedNft.image,
-        }
-      : injectedNft;
+    ? {
+        address: injectedNft.localConfig.address,
+        chainId: injectedNft.localConfig.chainId,
+        tokenId: injectedNft.tokenId,
+        tokenUri: injectedNft.tokenUri,
+        image: injectedNft.image,
+      }
+    : injectedNft;
 
   const localTokenUriRead = useReadContract({
     abi: erc721Abi,

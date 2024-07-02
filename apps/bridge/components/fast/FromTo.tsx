@@ -1,8 +1,9 @@
+import { useTranslation } from "react-i18next";
+
 import { useFromChain, useToChain } from "@/hooks/use-chain";
+import { useConfigState } from "@/state/config";
 import { useFastState } from "@/state/fast";
 
-import { useConfigState } from "@/state/config";
-import { useTranslation } from "react-i18next";
 import { FastNetworkIcon } from "./network-icon";
 
 export const FastFromTo = () => {

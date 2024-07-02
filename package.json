@@ -1,5 +1,5 @@
 {
-  "name": "Superbridge",
+  "name": "superbridge",
   "private": true,
   "scripts": {
     "build": "turbo run build",
@@ -15,8 +15,8 @@
     "@turbo/gen": "^1.10.16",
     "eslint": "^7.32.0",
     "eslint-config-custom": "workspace:*",
-    "prettier": "^3.3.2",
-    "prettier-plugin-sort-imports": "^1.8.5"
+    "prettier": "^3",
+    "@trivago/prettier-plugin-sort-imports": "^4.1.1"
   },
   "packageManager": "pnpm@8.6.6",
   "engines": {

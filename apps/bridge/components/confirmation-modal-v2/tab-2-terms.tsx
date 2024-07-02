@@ -1,3 +1,7 @@
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { match } from "ts-pattern";
+
 import { useToChain } from "@/hooks/use-chain";
 import { useDeployment } from "@/hooks/use-deployment";
 import {
@@ -7,11 +11,9 @@ import {
 import { usetTransformPeriodText } from "@/hooks/use-transform-period-text";
 import { useConfigState } from "@/state/config";
 import { isNativeUsdc } from "@/utils/is-usdc";
-import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { match } from "ts-pattern";
-import { Checkbox } from "../ui/checkbox";
+
 import { Button } from "../ui/button";
+import { Checkbox } from "../ui/checkbox";
 
 export const ConfirmationModalTermsTab = ({
   onNext,

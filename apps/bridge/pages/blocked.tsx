@@ -1,6 +1,6 @@
-import PageNav from "@/components/page-nav";
-import PageFooter from "@/components/page-footer";
 import { Head } from "@/components/head";
+import PageFooter from "@/components/page-footer";
+import PageNav from "@/components/page-nav";
 
 export default function Blocked() {
   return (

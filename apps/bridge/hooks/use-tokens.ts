@@ -3,6 +3,7 @@ import { isPresent } from "ts-is-present";
 import { Address } from "viem";
 import { bsc, bscTestnet, syscoin, syscoinTestnet } from "viem/chains";
 
+import { DeploymentFamily } from "@/codegen/model";
 import { useConfigState } from "@/state/config";
 import { useSettingsState } from "@/state/settings";
 import {
@@ -15,7 +16,6 @@ import { isArbitrumToken, isOptimismToken } from "@/utils/guards";
 import { isNativeToken } from "@/utils/is-eth";
 import { isBridgedUsdc, isNativeUsdc } from "@/utils/is-usdc";
 
-import { DeploymentFamily } from "@/codegen/model";
 import { useAcrossTokens } from "./across/use-across-tokens";
 import { useDeployment } from "./use-deployment";
 import { useDeployments } from "./use-deployments";

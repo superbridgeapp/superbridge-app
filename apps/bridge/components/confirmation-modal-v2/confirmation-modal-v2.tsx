@@ -2,6 +2,7 @@ import clsx from "clsx";
 import { useEffect, useState } from "react";
 
 import { useBridge } from "@/hooks/bridge/use-bridge";
+import { useCancelBridge } from "@/hooks/bridge/use-cancel-bridge";
 import { useAllowance } from "@/hooks/use-allowance";
 import { useApprove } from "@/hooks/use-approve";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
@@ -15,7 +16,6 @@ import { ConfirmationModalReviewTab } from "./tab-1-review";
 import { ConfirmationModalTermsTab } from "./tab-2-terms";
 import { ConfirmationModalStartTab } from "./tab-3-start";
 import { TrackBridgeProgress } from "./track-progress";
-import { useCancelBridge } from "@/hooks/bridge/use-cancel-bridge";
 
 export const ConfirmationModalV2 = ({
   approve,

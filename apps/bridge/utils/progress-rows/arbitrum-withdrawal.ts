@@ -3,9 +3,9 @@ import { P, match } from "ts-pattern";
 
 import { ArbitrumWithdrawalDto } from "@/codegen/model";
 import { ArbitrumMessageStatus } from "@/constants/arbitrum-message-status";
+import { getFinalizationPeriod } from "@/hooks/use-finalization-period";
 import { usePeriodText } from "@/hooks/use-period-text";
 import { usePendingTransactions } from "@/state/pending-txs";
-import { getFinalizationPeriod } from "@/hooks/use-finalization-period";
 
 import { transactionLink } from "../transaction-link";
 import { ButtonComponent, ExpandedItem, ProgressRowStatus } from "./common";
@@ -97,15 +97,15 @@ export const useArbitrumWithdrawalProgressRows = () => {
         label: !w
           ? t("activity.challengePeriod")
           : w.status === ArbitrumMessageStatus.UNCONFIRMED
-            ? `${t("activity.challengePeriod")}…`
-            : t("activity.challengePeriod"),
+          ? `${t("activity.challengePeriod")}…`
+          : t("activity.challengePeriod"),
         status: !w
           ? ProgressRowStatus.NotDone
           : w.status === ArbitrumMessageStatus.UNCONFIRMED
-            ? ProgressRowStatus.InProgress
-            : w.status === ArbitrumMessageStatus.CONFIRMED
-              ? ProgressRowStatus.Done
-              : ProgressRowStatus.Done,
+          ? ProgressRowStatus.InProgress
+          : w.status === ArbitrumMessageStatus.CONFIRMED
+          ? ProgressRowStatus.Done
+          : ProgressRowStatus.Done,
         time: challengePeriodText,
       },
       finalise,

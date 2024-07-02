@@ -77,7 +77,7 @@ export function useProveOptimism({ id, deployment }: BridgeWithdrawalDto) {
         // rainbow just returns null if cancelled
         setProving(id, hash);
       }
-    } catch (e: any) {
+    } catch (e) {
       if (
         e.message.includes("rejected the request") ||
         e.message.includes("denied transaction signature")

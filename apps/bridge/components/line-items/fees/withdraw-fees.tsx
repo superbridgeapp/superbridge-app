@@ -4,12 +4,12 @@ import { useTranslation } from "react-i18next";
 
 import { configurations } from "@/config/contract-addresses";
 import { currencySymbolMap } from "@/constants/currency-symbol-map";
+import { ModalNames } from "@/constants/modal-names";
 import { useDeployment } from "@/hooks/use-deployment";
 import { useFees } from "@/hooks/use-fee-line-items";
 import { useConfigState } from "@/state/config";
 import { useSettingsState } from "@/state/settings";
 import { isOptimism } from "@/utils/is-mainnet";
-import { ModalNames } from "@/constants/modal-names";
 
 export const WithdrawFees = () => {
   const deployment = useDeployment();
