@@ -6,7 +6,7 @@ import { match } from "ts-pattern";
 import { formatUnits } from "viem";
 import { useAccount, useEstimateFeesPerGas } from "wagmi";
 
-import { DeploymentFamily } from "@/codegen/model";
+import { ChainDto, DeploymentFamily } from "@/codegen/model";
 import { isSuperbridge } from "@/config/superbridge";
 import { currencySymbolMap } from "@/constants/currency-symbol-map";
 import { FINALIZE_GAS, PROVE_GAS } from "@/constants/gas-limits";
@@ -40,13 +40,13 @@ import { isNativeToken } from "@/utils/is-eth";
 import { isArbitrum } from "@/utils/is-mainnet";
 import { isNativeUsdc } from "@/utils/is-usdc";
 
+import { FastNetworkIcon } from "../fast/network-icon";
 import { IconSuperFast } from "../icons";
+import { NetworkIcon } from "../network-icon";
 import { PoweredByAcross } from "../powered-by-across";
 import { Button } from "../ui/button";
 import {
-  ApproveIcon,
   EscapeHatchIcon,
-  FeesIcon,
   FinalizeIcon,
   InitiateIcon,
   ProveIcon,
@@ -56,32 +56,46 @@ import {
 
 function LineItem({
   text,
-  icon,
   fee,
   className,
+  button,
+  chain,
 }: {
   text: string;
-  icon: any;
   fee?: string | null;
   className?: string;
+  button?: any;
+  chain?: ChainDto | undefined;
 }) {
+  const deployment = useDeployment();
+  const fast = useConfigState.useFast();
+
+  if (!chain) {
+    return (
+      <div className="flex items-center gap-2">
+        {WaitIcon}
+        <span>{text}</span>
+      </div>
+    );
+  }
+
   return (
     <div
-      className={clsx(
-        "py-2 px-3  justify-between flex items-center",
-        className
-      )}
+      className={clsx("flex items-center justify-between py-2 px-3", className)}
     >
-      <div className="flex gap-2 items-center">
-        {icon}
-        <p className="text-xs ">{text}</p>
-      </div>
-      {fee && (
-        <div className="flex gap-2 items-center">
-          <p className="text-xs ">{fee}</p>
-          <FeesIcon />
+      <div className="flex items-center gap-2">
+        {fast ? (
+          <FastNetworkIcon chain={chain} />
+        ) : (
+          <NetworkIcon deployment={deployment} chain={chain} />
+        )}
+        <div className="flex flex-col gap-1">
+          <p className="text-xs">{text}</p>
+          {fee && <p className="text-xs">{fee}</p>}
         </div>
-      )}
+      </div>
+
+      {button}
     </div>
   );
 }
@@ -98,8 +112,6 @@ export const ConfirmationModalStartTab = ({
   bridge: ReturnType<typeof useBridge>;
 }) => {
   const { t } = useTranslation();
-  const open = useConfigState.useDisplayConfirmationModal();
-  const setOpen = useConfigState.useSetDisplayConfirmationModal();
   const stateToken = useConfigState.useToken();
   const currency = useSettingsState.useCurrency();
   const from = useFromChain();
@@ -112,6 +124,7 @@ export const ConfirmationModalStartTab = ({
   const fast = useConfigState.useFast();
   const { gas } = useBridge();
   const receive = useReceiveAmount();
+  const rawAmount = useConfigState.useRawAmount();
 
   const gasToken = useGasToken();
   const gasTokenAllowance = useAllowanceGasToken();
@@ -486,17 +499,12 @@ export const ConfirmationModalStartTab = ({
   })
     .with({ fast: true }, (c) =>
       [
-        c.gasToken
-          ? {
-              text: t("confirmationModal.approveGasToken"),
-              icon: ApproveIcon,
-              fee: fee(approveGasTokenCost, 4),
-            }
-          : null,
         {
           text: t("confirmationModal.initiateDeposit"),
           icon: InitiateIcon,
           fee: fee(initiateCost, 4),
+          initiate: true,
+          chain: from,
         },
         {
           text: t("confirmationModal.waitMinutes", {
@@ -507,6 +515,7 @@ export const ConfirmationModalStartTab = ({
         {
           text: t("confirmationModal.receiveAmountOnChain", common),
           icon: ReceiveIcon,
+          chain: to,
         },
       ].filter(isPresent)
     )
@@ -515,6 +524,8 @@ export const ConfirmationModalStartTab = ({
         text: t("confirmationModal.initiateBridgeEscapeHatch", common),
         icon: InitiateIcon,
         fee: fee(initiateCost, 4),
+        initiate: true,
+        chain: deployment?.l1,
       },
       {
         text: transformPeriodText(
@@ -528,6 +539,7 @@ export const ConfirmationModalStartTab = ({
         text: t("confirmationModal.finalize", common),
         icon: FinalizeIcon,
         fee: fee(finalizeCost, 4),
+        chain: to,
       },
     ])
     .with({ isUsdc: true }, () => [
@@ -535,6 +547,8 @@ export const ConfirmationModalStartTab = ({
         text: t("confirmationModal.initiateBridge"),
         icon: InitiateIcon,
         fee: fee(initiateCost, 4),
+        chain: from,
+        initiate: true,
       },
       {
         text: transformPeriodText(
@@ -548,6 +562,7 @@ export const ConfirmationModalStartTab = ({
         text: t("confirmationModal.finalize", common),
         icon: FinalizeIcon,
         fee: fee(finalizeCost, 4),
+        chain: to,
       },
     ])
     .with({ withdrawing: true, family: "optimism", escapeHatch: true }, () => [
@@ -555,6 +570,8 @@ export const ConfirmationModalStartTab = ({
         text: t("confirmationModal.initiateBridgeEscapeHatch", common),
         icon: EscapeHatchIcon,
         fee: fee(initiateCost, 4),
+        chain: deployment?.l1,
+        initiate: true,
       },
       {
         text: transformPeriodText(
@@ -568,6 +585,7 @@ export const ConfirmationModalStartTab = ({
         text: t("confirmationModal.prove", common),
         icon: ProveIcon,
         fee: fee(proveCost, 4),
+        chain: deployment?.l1,
       },
       {
         text: transformPeriodText(
@@ -581,6 +599,7 @@ export const ConfirmationModalStartTab = ({
         text: t("confirmationModal.finalize", common),
         icon: FinalizeIcon,
         fee: fee(finalizeCost, 2),
+        chain: deployment?.l1,
       },
     ])
     .with({ withdrawing: true, family: "optimism" }, () => [
@@ -588,6 +607,8 @@ export const ConfirmationModalStartTab = ({
         text: t("confirmationModal.initiateWithdrawal"),
         icon: InitiateIcon,
         fee: fee(initiateCost, 4),
+        chain: deployment?.l2,
+        initiate: true,
       },
       {
         text: transformPeriodText("confirmationModal.wait", {}, proveTime),
@@ -597,6 +618,7 @@ export const ConfirmationModalStartTab = ({
         text: t("confirmationModal.prove", common),
         icon: ProveIcon,
         fee: fee(proveCost, 4),
+        chain: deployment?.l1,
       },
       {
         text: transformPeriodText(
@@ -610,6 +632,7 @@ export const ConfirmationModalStartTab = ({
         text: t("confirmationModal.finalize", common),
         icon: FinalizeIcon,
         fee: fee(finalizeCost, 2),
+        chain: deployment?.l1,
       },
     ])
 
@@ -618,6 +641,8 @@ export const ConfirmationModalStartTab = ({
         text: t("confirmationModal.initiateWithdrawal"),
         icon: InitiateIcon,
         fee: fee(initiateCost, 4),
+        chain: deployment?.l2,
+        initiate: true,
       },
       {
         text: transformPeriodText(
@@ -631,21 +656,17 @@ export const ConfirmationModalStartTab = ({
         text: t("confirmationModal.finalize", common),
         icon: FinalizeIcon,
         fee: fee(finalizeCost, 2),
+        chain: deployment?.l1,
       },
     ])
     .with({ withdrawing: false, family: "optimism" }, (c) =>
       [
-        c.gasToken && isNativeToken(stateToken)
-          ? {
-              text: t("confirmationModal.approveGasToken"),
-              icon: ApproveIcon,
-              fee: fee(approveGasTokenCost, 4),
-            }
-          : null,
         {
           text: t("confirmationModal.initiateDeposit"),
           icon: InitiateIcon,
           fee: fee(initiateCost, 4),
+          chain: deployment?.l1,
+          initiate: true,
         },
         {
           text: t("confirmationModal.waitMinutes", {
@@ -656,22 +677,18 @@ export const ConfirmationModalStartTab = ({
         {
           text: t("confirmationModal.receiveDeposit", common),
           icon: ReceiveIcon,
+          chain: deployment?.l2,
         },
       ].filter(isPresent)
     )
     .with({ withdrawing: false, family: "arbitrum" }, (c) =>
       [
-        c.gasToken
-          ? {
-              text: t("confirmationModal.approveGasToken"),
-              icon: ApproveIcon,
-              fee: fee(approveGasTokenCost, 4),
-            }
-          : null,
         {
           text: t("confirmationModal.initiateDeposit"),
           icon: InitiateIcon,
           fee: fee(initiateCost, 4),
+          initiate: true,
+          chain: deployment?.l1,
         },
         {
           text: t("confirmationModal.waitMinutes", {
@@ -682,6 +699,7 @@ export const ConfirmationModalStartTab = ({
         {
           text: t("confirmationModal.receiveDeposit", common),
           icon: ReceiveIcon,
+          chain: deployment?.l2,
         },
       ].filter(isPresent)
     )
@@ -689,6 +707,11 @@ export const ConfirmationModalStartTab = ({
 
   return (
     <div className="flex flex-col p-6 pt-8">
+      <h1>Start your bridge</h1>
+      <p>
+        Bridging {rawAmount} {token?.symbol} from {from?.name} to {to?.name}
+      </p>
+
       {fast && (
         <div className="flex flex-col items-center gap-2 text-center mb-3">
           <div className="animate-wiggle-waggle">
@@ -703,94 +726,89 @@ export const ConfirmationModalStartTab = ({
           </p>
         </div>
       )}
-      {!fast && (
-        <div className="flex flex-col gap-1">
-          <h1 className="font-heading text-xl  text-pretty leading-6 mr-6">
-            {title}
-          </h1>
-          <p className="text-xs md:text-sm text-pretty text-muted-foreground">
-            {description}{" "}
-            <Link
-              href={
-                isNativeUsdc(stateToken)
-                  ? "https://docs.rollbridge.app/native-usdc"
-                  : "https://docs.rollbridge.app/what-is-bridging"
-              }
-              className="underline "
-              target="_blank"
-            >
-              {t("confirmationModal.learnMore")}
-            </Link>
-          </p>
-        </div>
-      )}
-      <div className="justify-end flex items-center px-1 py-1">
-        <span className="text-muted-foreground  text-[11px]">
-          {t("confirmationModal.approxFees")}
-        </span>
-      </div>
+
       <div className="py-1 flex flex-col border divide-y divide-border rounded-[16px]">
-        {approveButton && (
-          <LineItem
-            text={t("confirmationModal.approve", { symbol: token?.symbol })}
-            icon={ApproveIcon}
-            fee={fee(approveCost, 4)}
-          />
+        {approveGasTokenButton && (
+          <>
+            <LineItem
+              text={t("confirmationModal.approveGasToken", {
+                symbol: token?.symbol,
+              })}
+              chain={from}
+              fee={fee(approveCost, 4)}
+              button={
+                <Button
+                  onClick={approveGasTokenButton.onSubmit}
+                  disabled={approveGasTokenButton.disabled}
+                >
+                  {approveGasTokenButton.buttonText}
+                  {approvedGasToken && (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="15"
+                      height="12"
+                      viewBox="0 0 15 12"
+                      className="fill-white dark:fill-zinc-950 ml-2 h-2.5 w-auto"
+                    >
+                      <path d="M6.80216 12C6.32268 12 5.94594 11.8716 5.67623 11.559L0.63306 6.02355C0.384755 5.7624 0.269165 5.41563 0.269165 5.07742C0.269165 4.31109 0.915614 3.67749 1.66909 3.67749C2.04583 3.67749 2.42257 3.83161 2.69228 4.13129L6.57955 8.38245L12.1921 0.56939C12.4661 0.192651 12.8899 0 13.3309 0C14.0715 0 14.7308 0.56939 14.7308 1.38709C14.7308 1.67392 14.6538 1.96932 14.4697 2.21762L7.84676 11.4306C7.61558 11.7688 7.21315 12 6.79788 12H6.80216Z" />
+                    </svg>
+                  )}
+                </Button>
+              }
+            />
+          </>
         )}
 
-        {lineItems?.map(({ text, icon, fee }) => (
-          <LineItem key={text} text={text} icon={icon} fee={fee} />
+        {approveButton && (
+          <>
+            <LineItem
+              text={t("confirmationModal.approve", { symbol: token?.symbol })}
+              chain={from}
+              fee={fee(approveCost, 4)}
+              button={
+                <Button
+                  onClick={approveButton.onSubmit}
+                  disabled={approveButton.disabled}
+                >
+                  {approveButton.buttonText}
+                  {approved && (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="15"
+                      height="12"
+                      viewBox="0 0 15 12"
+                      className="fill-white dark:fill-zinc-950 ml-2 h-2.5 w-auto"
+                    >
+                      <path d="M6.80216 12C6.32268 12 5.94594 11.8716 5.67623 11.559L0.63306 6.02355C0.384755 5.7624 0.269165 5.41563 0.269165 5.07742C0.269165 4.31109 0.915614 3.67749 1.66909 3.67749C2.04583 3.67749 2.42257 3.83161 2.69228 4.13129L6.57955 8.38245L12.1921 0.56939C12.4661 0.192651 12.8899 0 13.3309 0C14.0715 0 14.7308 0.56939 14.7308 1.38709C14.7308 1.67392 14.6538 1.96932 14.4697 2.21762L7.84676 11.4306C7.61558 11.7688 7.21315 12 6.79788 12H6.80216Z" />
+                    </svg>
+                  )}
+                </Button>
+              }
+            />
+          </>
+        )}
+
+        {lineItems?.map(({ text, fee, chain, initiate }) => (
+          <LineItem
+            key={text}
+            text={text}
+            fee={fee}
+            chain={chain}
+            button={
+              initiate ? (
+                <Button
+                  onClick={initiateButton.onSubmit}
+                  disabled={initiateButton.disabled}
+                >
+                  {initiateButton.buttonText}
+                </Button>
+              ) : undefined
+            }
+          />
         ))}
       </div>
 
       <div className="flex flex-col gap-2">
-        {approveGasTokenButton && (
-          <Button
-            onClick={approveGasTokenButton.onSubmit}
-            disabled={approveGasTokenButton.disabled}
-          >
-            {approveGasTokenButton.buttonText}
-            {approvedGasToken && (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="15"
-                height="12"
-                viewBox="0 0 15 12"
-                className="fill-white dark:fill-zinc-950 ml-2 h-2.5 w-auto"
-              >
-                <path d="M6.80216 12C6.32268 12 5.94594 11.8716 5.67623 11.559L0.63306 6.02355C0.384755 5.7624 0.269165 5.41563 0.269165 5.07742C0.269165 4.31109 0.915614 3.67749 1.66909 3.67749C2.04583 3.67749 2.42257 3.83161 2.69228 4.13129L6.57955 8.38245L12.1921 0.56939C12.4661 0.192651 12.8899 0 13.3309 0C14.0715 0 14.7308 0.56939 14.7308 1.38709C14.7308 1.67392 14.6538 1.96932 14.4697 2.21762L7.84676 11.4306C7.61558 11.7688 7.21315 12 6.79788 12H6.80216Z" />
-              </svg>
-            )}
-          </Button>
-        )}
-
-        {approveButton && (
-          <Button
-            onClick={approveButton.onSubmit}
-            disabled={approveButton.disabled}
-          >
-            {approveButton.buttonText}
-            {approved && (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="15"
-                height="12"
-                viewBox="0 0 15 12"
-                className="fill-white dark:fill-zinc-950 ml-2 h-2.5 w-auto"
-              >
-                <path d="M6.80216 12C6.32268 12 5.94594 11.8716 5.67623 11.559L0.63306 6.02355C0.384755 5.7624 0.269165 5.41563 0.269165 5.07742C0.269165 4.31109 0.915614 3.67749 1.66909 3.67749C2.04583 3.67749 2.42257 3.83161 2.69228 4.13129L6.57955 8.38245L12.1921 0.56939C12.4661 0.192651 12.8899 0 13.3309 0C14.0715 0 14.7308 0.56939 14.7308 1.38709C14.7308 1.67392 14.6538 1.96932 14.4697 2.21762L7.84676 11.4306C7.61558 11.7688 7.21315 12 6.79788 12H6.80216Z" />
-              </svg>
-            )}
-          </Button>
-        )}
-
-        <Button
-          onClick={initiateButton.onSubmit}
-          disabled={initiateButton.disabled}
-        >
-          {initiateButton.buttonText}
-        </Button>
-
         {isSuperbridge &&
           !fast &&
           (withdrawing || isNativeUsdc(stateToken)) && (
