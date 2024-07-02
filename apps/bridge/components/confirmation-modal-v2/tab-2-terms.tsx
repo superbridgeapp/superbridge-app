@@ -83,7 +83,10 @@ export const ConfirmationModalTermsTab = ({
 
   return (
     <div>
-      <div>Terms</div>
+      <div>
+        <h1>Accept terms</h1>
+        <p>Please read and agree to the following terms before you continue</p>
+      </div>
 
       <div className="flex flex-col gap-2 py-4">
         <div className="pl-4 flex gap-2">
