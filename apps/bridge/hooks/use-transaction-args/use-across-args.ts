@@ -54,28 +54,32 @@ export const useAcrossArgs = () => {
       return;
     }
 
+    const delimiter = "1dc0de";
+    const id = "0001";
+    const data = encodeFunctionData({
+      abi: SpokePoolAbi,
+      functionName: "depositV3",
+      args: [
+        account.address, // depositor
+        recipient, // recipient,
+        parsedLocalAddress, // inputToken
+        parsedRemoteAddress, // outputToken
+        weiAmount, // inputAmount
+        weiAmount - BigInt(quote.data.totalRelayFee.total), // outputAmount: this is the amount - relay fees. totalRelayFee.total is the value returned by the suggested-fees API.
+        BigInt(to.id), // uint256 destinationChainId
+        zeroAddress, // exclusiveRelayer 0x0 for typical integrations
+        parseInt(quote.data.timestamp), // quoteTimestamp
+        Math.round(Date.now() / 1000) + 21600, // fillDeadline: We reccomend a fill deadline of 6 hours out. The contract will reject this if it is beyond 8 hours from now.
+        0, // exclusivityDeadline
+        "0x", //  message
+      ],
+    });
+
     return {
       approvalAddress: isNativeToken(stateToken) ? undefined : spokePool,
       tx: {
         to: spokePool as Address,
-        data: encodeFunctionData({
-          abi: SpokePoolAbi,
-          functionName: "depositV3",
-          args: [
-            account.address, // depositor
-            recipient, // recipient,
-            parsedLocalAddress, // inputToken
-            parsedRemoteAddress, // outputToken
-            weiAmount, // inputAmount
-            weiAmount - BigInt(quote.data.totalRelayFee.total), // outputAmount: this is the amount - relay fees. totalRelayFee.total is the value returned by the suggested-fees API.
-            BigInt(to.id), // uint256 destinationChainId
-            zeroAddress, // exclusiveRelayer 0x0 for typical integrations
-            parseInt(quote.data.timestamp), // quoteTimestamp
-            Math.round(Date.now() / 1000) + 21600, // fillDeadline: We reccomend a fill deadline of 6 hours out. The contract will reject this if it is beyond 8 hours from now.
-            0, // exclusivityDeadline
-            "0x", //  message
-          ],
-        }),
+        data: `${data}${delimiter}${id}`,
         chainId: from.id,
         value: isNativeToken(stateToken) ? weiAmount : BigInt(0),
       },
