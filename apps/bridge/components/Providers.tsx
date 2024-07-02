@@ -90,7 +90,7 @@ function Web3Provider({ children }: { children: React.ReactNode }) {
       ssr: true,
       wallets: [...wallets, { groupName: "More", wallets: [safeWallet] }],
     });
-  }, [deployments]);
+  }, [deployments, metadata.title]);
 
   // this is a temp Rainbowkit 2 workaround. Because `config` changes whenever deployments
   // change, users are disconnected when navigating to the app

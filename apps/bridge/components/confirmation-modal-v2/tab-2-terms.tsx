@@ -26,6 +26,7 @@ export const ConfirmationModalTermsTab = ({
   const stateToken = useConfigState.useToken();
   const fast = useConfigState.useFast();
   const withdrawing = useConfigState.useWithdrawing();
+  const open = useConfigState.useDisplayConfirmationModal();
 
   const [checkbox1, setCheckbox1] = useState(false);
   const [checkbox2, setCheckbox2] = useState(false);
@@ -39,9 +40,11 @@ export const ConfirmationModalTermsTab = ({
   const { t } = useTranslation();
 
   useEffect(() => {
-    setCheckbox1(false);
-    setCheckbox2(false);
-    setCheckbox3(false);
+    if (open) {
+      setCheckbox1(false);
+      setCheckbox2(false);
+      setCheckbox3(false);
+    }
   }, [open]);
 
   const checkbox1Text = match({

@@ -33,6 +33,7 @@ export const TokenIcon = ({
       src={token?.logoURI}
       className={clsx(className, "rounded-full bg-zinc-50 overflow-hidden")}
       onError={() => setError(true)}
+      alt={`${token?.symbol} icon`}
     />
   );
 };
