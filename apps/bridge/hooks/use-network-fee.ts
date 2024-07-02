@@ -5,7 +5,7 @@ import { useConfigState } from "@/state/config";
 
 import { useFromChain } from "./use-chain";
 import { useDeployment } from "./use-deployment";
-import { useBridge } from "./use-bridge";
+import { useBridge } from "./bridge/use-bridge";
 
 // If gas estimation is failing, likely because they don't
 // have enough ETH, we still want to provide a rough gas estimate.

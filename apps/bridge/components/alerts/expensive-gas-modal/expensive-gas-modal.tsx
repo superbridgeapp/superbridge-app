@@ -4,7 +4,7 @@ import { useEstimateFeesPerGas } from "wagmi";
 
 import { currencySymbolMap } from "@/constants/currency-symbol-map";
 import { FINALIZE_GAS, PROVE_GAS } from "@/constants/gas-limits";
-import { useBridge } from "@/hooks/use-bridge";
+import { useBridge } from "@/hooks/bridge/use-bridge";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
 import { useDeployment } from "@/hooks/use-deployment";
 import { useNativeToken, useToNativeToken } from "@/hooks/use-native-token";

@@ -10,11 +10,12 @@ import { ChainDto, DeploymentFamily } from "@/codegen/model";
 import { isSuperbridge } from "@/config/superbridge";
 import { currencySymbolMap } from "@/constants/currency-symbol-map";
 import { FINALIZE_GAS, PROVE_GAS } from "@/constants/gas-limits";
+import { useBridge } from "@/hooks/bridge/use-bridge";
+import { useSubmitBridge } from "@/hooks/bridge/use-submit-bridge";
 import { useAllowance } from "@/hooks/use-allowance";
 import { useAllowanceGasToken } from "@/hooks/use-allowance-gas-token";
 import { useApprove } from "@/hooks/use-approve";
 import { useApproveGasToken, useGasToken } from "@/hooks/use-approve-gas-token";
-import { useBridge } from "@/hooks/use-bridge";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
 import { useDeployment } from "@/hooks/use-deployment";
 import {
@@ -101,32 +102,36 @@ function LineItem({
 }
 
 export const ConfirmationModalStartTab = ({
-  onConfirm,
   approve,
   allowance,
   bridge,
+  initiateBridge,
 }: {
-  onConfirm: () => void;
   approve: ReturnType<typeof useApprove>;
   allowance: ReturnType<typeof useAllowance>;
   bridge: ReturnType<typeof useBridge>;
+  initiateBridge: () => void;
 }) => {
   const { t } = useTranslation();
-  const stateToken = useConfigState.useToken();
+
   const currency = useSettingsState.useCurrency();
-  const from = useFromChain();
-  const to = useToChain();
-  const token = useSelectedToken();
-  const weiAmount = useWeiAmount();
-  const account = useAccount();
+  const stateToken = useConfigState.useToken();
   const withdrawing = useConfigState.useWithdrawing();
   const escapeHatch = useConfigState.useForceViaL1();
   const fast = useConfigState.useFast();
-  const { gas } = useBridge();
-  const receive = useReceiveAmount();
   const rawAmount = useConfigState.useRawAmount();
 
+  const from = useFromChain();
+  const to = useToChain();
+  const weiAmount = useWeiAmount();
+  const account = useAccount();
+  const { gas } = useBridge();
+  const receive = useReceiveAmount();
+  const token = useSelectedToken();
   const gasToken = useGasToken();
+
+  const onSubmitBridge = useSubmitBridge(initiateBridge);
+
   const gasTokenAllowance = useAllowanceGasToken();
   const deployment = useDeployment();
   const approveGasToken = useApproveGasToken(
@@ -375,7 +380,7 @@ export const ConfirmationModalStartTab = ({
       disabled: true,
     }))
     .otherwise((d) => ({
-      onSubmit: onConfirm,
+      onSubmit: onSubmitBridge,
       buttonText: d.fast
         ? t("confirmationModal.initiateBridge")
         : d.withdrawing

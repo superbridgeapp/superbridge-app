@@ -6,9 +6,9 @@ import {
 
 import { useConfigState } from "@/state/config";
 
-import { useFromChain } from "./use-chain";
-import { useDeployment } from "./use-deployment";
-import { useTransactionArgs } from "./use-transaction-args";
+import { useFromChain } from "../use-chain";
+import { useDeployment } from "../use-deployment";
+import { useTransactionArgs } from "../use-transaction-args";
 
 export const useBridge = () => {
   const withdrawing = useConfigState.useWithdrawing();

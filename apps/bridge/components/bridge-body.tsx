@@ -18,7 +18,7 @@ import { useAllowance } from "@/hooks/use-allowance";
 import { useApprove } from "@/hooks/use-approve";
 import { useTokenBalance } from "@/hooks/use-balances";
 import { useBaseNativeTokenBalance } from "@/hooks/use-base-native-token-balance";
-import { useBridge } from "@/hooks/use-bridge";
+import { useBridge } from "@/hooks/bridge/use-bridge";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
 import { useDeployment } from "@/hooks/use-deployment";
 import { useFaultProofUpgradeTime } from "@/hooks/use-fault-proof-upgrade-time";
@@ -59,12 +59,11 @@ import { CustomTokenImportModal } from "./tokens/custom-token-import-modal";
 import { Button } from "./ui/button";
 import { WithdrawalReadyToFinalizeModal } from "./withdrawal-ready-to-finalize-modal";
 import { ConfirmationModalV2 } from "./confirmation-modal-v2";
-
-enum AlertModals {
-  NoGas = "no-gas",
-  GasExpensive = "gas-expensive",
-  FaultProofs = "fault-proofs",
-}
+import { AlertModals } from "@/constants/modal-names";
+import { useModalsState } from "@/state/modals";
+import { useInitiateBridge } from "@/hooks/bridge/use-initiate-bridge";
+import { useCancelBridge } from "@/hooks/bridge/use-cancel-bridge";
+import { useDismissAlert } from "@/hooks/bridge/use-dismiss-alert";
 
 export const BridgeBody = () => {
   const { openConnectModal } = useConnectModal();
@@ -101,6 +100,10 @@ export const BridgeBody = () => {
   const faultProofUpgradeTime = useFaultProofUpgradeTime(deployment);
   const acrossPaused = useAcrossPaused();
   const withdrawalsPaused = useWithdrawalsPaused();
+  const alerts = useModalsState.useAlerts();
+  const setAlerts = useModalsState.useSetAlerts();
+
+  const initiateBridge = useInitiateBridge(bridge);
 
   const initiatingChainId =
     forceViaL1 && withdrawing ? deployment?.l1.id : from?.id;
@@ -158,152 +161,8 @@ export const BridgeBody = () => {
     typeof baseNativeTokenBalance.data !== "undefined" &&
     requiredCustomGasTokenBalance > baseNativeTokenBalance.data;
 
-  const onWrite = async () => {
-    if (
-      !account.address ||
-      !wallet.data ||
-      !bridge.valid ||
-      !bridge.args ||
-      !recipient ||
-      statusCheck
-    ) {
-      return;
-    }
-
-    let initiatingChain: ChainDto | undefined;
-
-    if (fast) {
-      initiatingChain = acrossDomains.find(
-        (x) => x.chain?.id === bridge.args?.tx.chainId
-      )?.chain;
-    } else if (bridge.args.tx.chainId === deployment?.l1.id) {
-      initiatingChain = deployment.l1;
-    } else {
-      initiatingChain = deployment?.l2;
-    }
-
-    if (!initiatingChain) {
-      console.warn("unable to infer initiating chain");
-      return;
-    }
-
-    if (
-      initiatingChain.id !== account.chainId ||
-      initiatingChain.id !== wallet.data.chain.id
-    ) {
-      await switchChain(initiatingChain);
-    }
-
-    try {
-      const hash = await bridge.write!();
-      waitForTransactionReceipt(wagmiConfig, {
-        hash,
-        chainId: withdrawing
-          ? forceViaL1
-            ? deployment!.l1.id
-            : deployment?.l2.id
-          : deployment?.l1.id,
-        onReplaced: ({ replacedTransaction, transaction }) => {
-          updatePendingTransactionHash(
-            replacedTransaction.hash,
-            transaction.hash
-          );
-        },
-      });
-
-      if (!fast && deployment) {
-        track.mutate({
-          data: {
-            amount: weiAmount.toString(),
-            deploymentId: deployment.id,
-            transactionHash: hash,
-            action: withdrawing
-              ? forceViaL1
-                ? "force-withdraw"
-                : "withdraw"
-              : "deposit",
-          },
-        });
-      }
-
-      const pending = buildPendingTx(
-        deployment,
-        account.address,
-        recipient,
-        weiAmount,
-        stateToken,
-        nft,
-        withdrawing,
-        hash,
-        forceViaL1,
-        fast,
-        { from: from!, to: to! }
-      );
-      if (pending) addPendingTransaction(pending);
-
-      if (nft) {
-        setToken(tokens.find((x) => isNativeToken(x))!);
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  const initiateBridge = async () => {
-    await onWrite();
-    allowance.refetch();
-    setConfirmationModal(false);
-  };
-
-  const [alerts, setAlerts] = useState<AlertModals[]>([]);
-
-  const onDismissAlert = (id: AlertModals) => () => {
-    setAlerts(alerts.filter((a) => a !== id));
-    if (alerts.length === 1) {
-      initiateBridge();
-    }
-  };
-
-  const onSubmit = () => {
-    const modals: AlertModals[] = [];
-
-    const needDestinationGasConditions = [
-      withdrawing, // need to prove/finalize
-      isNativeUsdc(stateToken), // need to mint
-      !withdrawing && !isEth(stateToken?.[to?.id ?? 0]), // depositing an ERC20 with no gas on the destination (won't be able to do anything with it)
-    ];
-    if (
-      needDestinationGasConditions.some((x) => x) &&
-      toEthBalance.data?.value === BigInt(0)
-    ) {
-      modals.push(AlertModals.NoGas);
-    }
-
-    if (
-      totalFeesInFiat &&
-      fiatValueBeingBridged &&
-      totalFeesInFiat > fiatValueBeingBridged &&
-      isSuperbridge &&
-      SUPERCHAIN_MAINNETS.includes(deployment?.name ?? "")
-    ) {
-      modals.push(AlertModals.GasExpensive);
-    }
-
-    if (faultProofUpgradeTime && withdrawing) {
-      modals.push(AlertModals.FaultProofs);
-    }
-
-    if (modals.length === 0) {
-      initiateBridge();
-    } else {
-      setAlerts(modals);
-    }
-  };
-
-  const onCancel = () => {
-    setAlerts([]);
-    setConfirmationModal(false);
-  };
+  const onDismissAlert = useDismissAlert(initiateBridge);
+  const onCancel = useCancelBridge();
 
   const handleSubmitClick = () => {
     if (!nft && weiAmount === BigInt(0)) {
@@ -426,17 +285,11 @@ export const BridgeBody = () => {
     <div className="flex flex-col gap-4 px-4 pb-4">
       <TokenModal open={tokensModal} setOpen={setTokensModal} />
       <CustomTokenImportModal />
-      <ConfirmationModal
-        onConfirm={onSubmit}
-        approve={approve}
-        allowance={allowance}
-        bridge={bridge}
-      />
       <ConfirmationModalV2
-        onConfirm={onSubmit}
         approve={approve}
         allowance={allowance}
         bridge={bridge}
+        initiateBridge={initiateBridge}
       />
       <FaultProofInfoModal />
       <WithdrawalReadyToFinalizeModal />
@@ -446,17 +299,17 @@ export const BridgeBody = () => {
       <NoGasModal
         open={alerts.includes(AlertModals.NoGas)}
         onCancel={onCancel}
-        onProceed={onDismissAlert(AlertModals.NoGas)}
+        onProceed={() => onDismissAlert(AlertModals.NoGas)}
       />
       <ExpensiveGasModal
         open={alerts.includes(AlertModals.GasExpensive)}
         onCancel={onCancel}
-        onProceed={onDismissAlert(AlertModals.GasExpensive)}
+        onProceed={() => onDismissAlert(AlertModals.GasExpensive)}
       />
       <FaultProofsModal
         open={alerts.includes(AlertModals.FaultProofs)}
         onCancel={onCancel}
-        onProceed={onDismissAlert(AlertModals.FaultProofs)}
+        onProceed={() => onDismissAlert(AlertModals.FaultProofs)}
       />
 
       <div className="flex flex-col gap-1">

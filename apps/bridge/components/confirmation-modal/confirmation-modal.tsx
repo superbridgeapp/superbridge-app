@@ -16,7 +16,7 @@ import { useAllowance } from "@/hooks/use-allowance";
 import { useAllowanceGasToken } from "@/hooks/use-allowance-gas-token";
 import { useApprove } from "@/hooks/use-approve";
 import { useApproveGasToken, useGasToken } from "@/hooks/use-approve-gas-token";
-import { useBridge } from "@/hooks/use-bridge";
+import { useBridge } from "@/hooks/bridge/use-bridge";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
 import { useDeployment } from "@/hooks/use-deployment";
 import {
