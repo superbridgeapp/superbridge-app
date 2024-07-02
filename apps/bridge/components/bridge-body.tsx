@@ -2,11 +2,9 @@ import { useConnectModal } from "@rainbow-me/rainbowkit";
 import { useTranslation } from "react-i18next";
 import { match } from "ts-pattern";
 import { formatUnits, parseUnits } from "viem";
-import { useAccount, useBalance, useConfig, useWalletClient } from "wagmi";
+import { useAccount, useBalance } from "wagmi";
 
-import { useBridgeControllerTrack } from "@/codegen";
 import { AlertModals } from "@/constants/modal-names";
-import { useAcrossDomains } from "@/hooks/across/use-across-domains";
 import { useAcrossPaused } from "@/hooks/across/use-across-paused";
 import { useBridge } from "@/hooks/bridge/use-bridge";
 import { useCancelBridge } from "@/hooks/bridge/use-cancel-bridge";
@@ -20,29 +18,21 @@ import { useTokenBalance } from "@/hooks/use-balances";
 import { useBaseNativeTokenBalance } from "@/hooks/use-base-native-token-balance";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
 import { useDeployment } from "@/hooks/use-deployment";
-import { useFaultProofUpgradeTime } from "@/hooks/use-fault-proof-upgrade-time";
 import { useNativeToken } from "@/hooks/use-native-token";
 import { useNetworkFee } from "@/hooks/use-network-fee";
 import { useTokenPrice } from "@/hooks/use-prices";
 import { useReceiveAmount } from "@/hooks/use-receive-amount";
 import { useRequiredCustomGasTokenBalance } from "@/hooks/use-required-custom-gas-token-balance";
 import { useSelectedToken } from "@/hooks/use-selected-token";
-import { useStatusCheck } from "@/hooks/use-status-check";
-import { useSwitchChain } from "@/hooks/use-switch-chain";
-import { useActiveTokens } from "@/hooks/use-tokens";
 import { useWeiAmount } from "@/hooks/use-wei-amount";
 import { useWithdrawalsPaused } from "@/hooks/use-withdrawals-paused";
 import { useConfigState } from "@/state/config";
 import { useModalsState } from "@/state/modals";
-import { usePendingTransactions } from "@/state/pending-txs";
 import { formatDecimals } from "@/utils/format-decimals";
 import { isEth } from "@/utils/is-eth";
 
 import { FromTo } from "./FromTo";
-import {
-  ExpensiveGasModal,
-  useEstimateTotalFeesInFiat,
-} from "./alerts/expensive-gas-modal";
+import { ExpensiveGasModal } from "./alerts/expensive-gas-modal";
 import { FaultProofsModal } from "./alerts/fault-proofs-modal";
 import { NoGasModal } from "./alerts/no-gas-modal";
 import { ConfirmationModalV2 } from "./confirmation-modal-v2";
@@ -59,13 +49,10 @@ import { WithdrawalReadyToFinalizeModal } from "./withdrawal-ready-to-finalize-m
 
 export const BridgeBody = () => {
   const { openConnectModal } = useConnectModal();
-  const wallet = useWalletClient();
   const account = useAccount();
   const from = useFromChain();
   const to = useToChain();
   const bridge = useBridge();
-  const switchChain = useSwitchChain();
-  const tokens = useActiveTokens();
   const weiAmount = useWeiAmount();
   const token = useSelectedToken();
   const { t } = useTranslation();
@@ -80,20 +67,12 @@ export const BridgeBody = () => {
   const fast = useConfigState.useFast();
   const nft = useConfigState.useNft();
   const recipient = useConfigState.useRecipientAddress();
-  const setToken = useConfigState.useSetToken();
-  const addPendingTransaction = usePendingTransactions.useAddTransaction();
-  const updatePendingTransactionHash =
-    usePendingTransactions.useUpdateTransactionByHash();
   const nativeToken = useNativeToken();
-  const statusCheck = useStatusCheck();
   const bridgeMax = useBridgeMax();
   const bridgeMin = useBridgeMin();
-  const track = useBridgeControllerTrack();
-  const faultProofUpgradeTime = useFaultProofUpgradeTime(deployment);
   const acrossPaused = useAcrossPaused();
   const withdrawalsPaused = useWithdrawalsPaused();
   const alerts = useModalsState.useAlerts();
-  const setAlerts = useModalsState.useSetAlerts();
 
   const initiateBridge = useInitiateBridge(bridge);
 
@@ -103,15 +82,9 @@ export const BridgeBody = () => {
     address: account.address,
     chainId: initiatingChainId,
   });
-  const toEthBalance = useBalance({
-    address: account.address,
-    chainId: to?.id,
-  });
   const baseNativeTokenBalance = useBaseNativeTokenBalance();
   const tokenBalance = useTokenBalance(token);
-  const wagmiConfig = useConfig();
 
-  const acrossDomains = useAcrossDomains();
   const allowance = useAllowance(token, bridge.address);
 
   const networkFee = useNetworkFee();
@@ -138,10 +111,6 @@ export const BridgeBody = () => {
 
     return availableGasBalance < BigInt(parseUnits(networkFee.toFixed(18), 18));
   })();
-
-  const totalFeesInFiat = useEstimateTotalFeesInFiat();
-  const fiatValueBeingBridged =
-    usdPrice && receive.data ? receive.data * usdPrice : null;
 
   const requiredCustomGasTokenBalance = useRequiredCustomGasTokenBalance();
   /**
