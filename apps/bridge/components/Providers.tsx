@@ -83,8 +83,10 @@ function Web3Provider({ children }: { children: React.ReactNode }) {
     }
 
     return getDefaultConfig({
-      appName: metadata.title,
       projectId: "50c3481ab766b0e9c611c9356a42987b",
+      appName: metadata.title,
+      appDescription: metadata.description,
+      appIcon: metadata.icon,
       // @ts-expect-error
       chains,
       transports,
