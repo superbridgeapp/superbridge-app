@@ -318,16 +318,7 @@ export const FungibleTokenPicker = ({
 
           {/* highlighted tokens */}
           <div className="flex flex-wrap items-center gap-1">
-            {[
-              "ETH",
-              "USDC",
-              "DAI",
-              "USDT",
-              // "rETH",
-              "BITCOIN", // HarryPotterObamaSonicInu
-              "WBTC",
-              "wstETH",
-            ]
+            {["ETH", "USDC", "DAI", "USDT", "WBTC"]
               .filter(Boolean)
               .map((symbol) => {
                 const token = tokens.data.find(
