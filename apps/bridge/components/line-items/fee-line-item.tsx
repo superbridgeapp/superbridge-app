@@ -3,13 +3,15 @@ import Image from "next/image";
 
 import { currencySymbolMap } from "@/constants/currency-symbol-map";
 import { ModalNames } from "@/constants/modal-names";
+import { useAcrossFee } from "@/hooks/across/use-across-fee";
 import { useToChain } from "@/hooks/use-chain";
 import { useTokenPrice } from "@/hooks/use-prices";
 import { useConfigState } from "@/state/config";
 import { useSettingsState } from "@/state/settings";
-import { useAcrossFee } from "@/hooks/across/use-across-fee";
-import { Skeleton } from "../ui/skeleton";
+import { formatDecimals } from "@/utils/format-decimals";
+
 import { IconHelp } from "../icons";
+import { Skeleton } from "../ui/skeleton";
 
 export const FeeLineItem = () => {
   const to = useToChain();
@@ -57,9 +59,7 @@ export const FeeLineItem = () => {
             </span>
             {acrossFee.data ? (
               <span className={`text-xs text-foreground text-right`}>
-                {acrossFee.data.toLocaleString("en", {
-                  maximumFractionDigits: 4,
-                })}{" "}
+                {formatDecimals(acrossFee.data)}{" "}
                 {stateToken?.[to?.id ?? 0]?.symbol}
               </span>
             ) : (
