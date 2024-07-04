@@ -65,9 +65,11 @@ const TokenComponent = ({
       </div>
       <div className="ml-auto flex flex-col text-right gap-1">
         <span className="text-sm  text-muted-foreground">
-          {parseFloat(
-            formatUnits(balance, token[from?.id ?? 0]?.decimals ?? 18)
-          ).toLocaleString("en", { maximumFractionDigits: 4 })}
+          {formatDecimals(
+            parseFloat(
+              formatUnits(balance, token[from?.id ?? 0]?.decimals ?? 18)
+            )
+          )}
         </span>
         {(isCustomToken || isCustomTokenFromList) && (
           <div className="flex gap-1 bg-orange-50 dark:bg-orange-900 items-center px-2 py-1 rounded-full">
