@@ -33,6 +33,7 @@ import { useSwitchChain } from "@/hooks/use-switch-chain";
 import { useActiveTokens } from "@/hooks/use-tokens";
 import { useWeiAmount } from "@/hooks/use-wei-amount";
 import { useWithdrawalsPaused } from "@/hooks/use-withdrawals-paused";
+import { trackEvent } from "@/services/ga";
 import { useConfigState } from "@/state/config";
 import { usePendingTransactions } from "@/state/pending-txs";
 import { buildPendingTx } from "@/utils/build-pending-tx";
@@ -84,6 +85,7 @@ export const BridgeBody = () => {
   const stateToken = useConfigState.useToken();
   const forceViaL1 = useConfigState.useForceViaL1();
   const tokensModal = useConfigState.useTokensModal();
+  const rawAmount = useConfigState.useRawAmount();
   const setTokensModal = useConfigState.useSetTokensModal();
   const fast = useConfigState.useFast();
   const nft = useConfigState.useNft();
@@ -208,6 +210,21 @@ export const BridgeBody = () => {
             transaction.hash
           );
         },
+      });
+
+      trackEvent({
+        event: "bridge",
+        from: from?.name ?? "",
+        to: to?.name ?? "",
+        amount: parseFloat(rawAmount),
+        token: token?.symbol ?? "",
+        type: fast
+          ? "across"
+          : !!stateToken && isNativeUsdc(stateToken)
+          ? "cctp"
+          : withdrawing
+          ? "withdraw"
+          : "deposit",
       });
 
       if (!fast && deployment) {
