@@ -57,6 +57,8 @@ export function getWagmiConfig(deployments: DeploymentDto[]) {
 
   return getDefaultConfig({
     appName: metadata.title,
+    appDescription: metadata.description,
+    appIcon: metadata.icon,
     projectId: "50c3481ab766b0e9c611c9356a42987b",
     // @ts-expect-error
     chains,

@@ -4,11 +4,12 @@ import { useAccount, useWalletClient } from "wagmi";
 
 import { useBridgeControllerGetCctpMintTransactionV2 } from "@/codegen";
 import { CctpBridgeDto } from "@/codegen/model";
+import { trackEvent } from "@/services/ga";
 import { usePendingTransactions } from "@/state/pending-txs";
 
 import { useSwitchChain } from "./use-switch-chain";
 
-export function useMintCctp({ id, to }: CctpBridgeDto) {
+export function useMintCctp({ id, to, bridge }: CctpBridgeDto) {
   const account = useAccount();
   const wallet = useWalletClient();
   const setFinalising = usePendingTransactions.useSetFinalising();
@@ -37,6 +38,11 @@ export function useMintCctp({ id, to }: CctpBridgeDto) {
         chain: to as unknown as Chain,
       });
       if (hash) {
+        trackEvent({
+          event: "cctp-mint",
+          network: to.name,
+          burnTransactionHash: bridge.transactionHash,
+        });
         // rainbow just returns null if cancelled
         setFinalising(id, hash);
       }

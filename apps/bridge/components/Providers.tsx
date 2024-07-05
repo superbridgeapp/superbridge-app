@@ -34,11 +34,7 @@ function Web3Provider({ children }: { children: React.ReactNode }) {
     setMounted(true);
   }, []);
 
-  const config = useMemo(
-    () => getWagmiConfig(deployments),
-
-    [deployments]
-  );
+  const config = useMemo(() => getWagmiConfig(deployments), [deployments]);
 
   // this is a temp Rainbowkit 2 workaround. Because `config` changes whenever deployments
   // change, users are disconnected when navigating to the app

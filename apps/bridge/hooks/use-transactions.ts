@@ -40,12 +40,7 @@ export const useTransactions = () => {
       }
       return bridgeControllerGetActivityV2({
         address: account.address,
-        includeAcross:
-          isSuperbridge &&
-          !superbridgeTestnetsEnabled &&
-          typeof window !== "undefined" &&
-          (window.location.host === "localhost:3004" ||
-            window.location.host === "staging.superbridge.app"),
+        includeAcross: isSuperbridge && !superbridgeTestnetsEnabled,
         deploymentIds: deployments.map((d) => d.id),
       });
     },

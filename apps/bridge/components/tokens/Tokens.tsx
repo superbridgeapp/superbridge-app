@@ -12,6 +12,7 @@ import { useDeployment } from "@/hooks/use-deployment";
 import { useIsCustomToken } from "@/hooks/use-is-custom-token";
 import { useIsCustomTokenFromList } from "@/hooks/use-is-custom-token-from-list";
 import { useSelectedToken } from "@/hooks/use-selected-token";
+import { trackEvent } from "@/services/ga";
 import { useConfigState } from "@/state/config";
 import { MultiChainToken } from "@/types/token";
 import { formatDecimals } from "@/utils/format-decimals";
@@ -65,9 +66,11 @@ const TokenComponent = ({
       </div>
       <div className="ml-auto flex flex-col text-right gap-1">
         <span className="text-sm  text-muted-foreground">
-          {parseFloat(
-            formatUnits(balance, token[from?.id ?? 0]?.decimals ?? 18)
-          ).toLocaleString("en", { maximumFractionDigits: 4 })}
+          {formatDecimals(
+            parseFloat(
+              formatUnits(balance, token[from?.id ?? 0]?.decimals ?? 18)
+            )
+          )}
         </span>
         {(isCustomToken || isCustomTokenFromList) && (
           <div className="flex gap-1 bg-orange-50 dark:bg-orange-900 items-center px-2 py-1 rounded-full">
@@ -296,6 +299,11 @@ export const FungibleTokenPicker = ({
   const onClickToken = (t: MultiChainToken) => {
     setToken(t);
     setOpen(false);
+    trackEvent({
+      event: "token-select",
+      symbol: t[from?.id ?? 0]?.symbol ?? "",
+      network: from?.name ?? "",
+    });
   };
 
   return (
@@ -316,16 +324,7 @@ export const FungibleTokenPicker = ({
 
           {/* highlighted tokens */}
           <div className="flex flex-wrap items-center gap-1">
-            {[
-              "ETH",
-              "USDC",
-              "DAI",
-              "USDT",
-              // "rETH",
-              "BITCOIN", // HarryPotterObamaSonicInu
-              "WBTC",
-              "wstETH",
-            ]
+            {["ETH", "USDC", "DAI", "USDT", "WBTC"]
               .filter(Boolean)
               .map((symbol) => {
                 const token = tokens.data.find(

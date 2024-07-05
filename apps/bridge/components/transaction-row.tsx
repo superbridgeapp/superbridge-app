@@ -419,50 +419,44 @@ function useNft(tx: Transaction) {
 }
 
 function getDepositAmount(tx: Transaction, token: Token | null | undefined) {
+  let amount: string;
+  let decimals: number;
+  let symbol: string | undefined;
+
   if (isCctpBridge(tx)) {
-    return `${formatUnits(BigInt(tx.amount), token?.decimals ?? 6)} ${
-      token?.symbol
-    }`;
-  }
+    amount = tx.amount;
+    decimals = 6;
+    symbol = token?.symbol ?? "USDC";
+  } else if (tx.type === "across-bridge") {
+    amount = tx.metadata.data.inputAmount;
+    decimals = token?.decimals ?? 18;
+    symbol = token?.symbol ?? "ETH";
+  } else {
+    const metadata =
+      isForcedWithdrawal(tx) && tx.withdrawal
+        ? tx.withdrawal.metadata
+        : isForcedWithdrawal(tx)
+        ? tx.deposit.metadata
+        : tx.metadata;
 
-  if (tx.type === "across-bridge") {
-    if (tx.metadata.data.isEth) {
-      return `${formatEther(BigInt(tx.metadata.data.inputAmount))} ETH`;
+    if (metadata.type === "eth-deposit") {
+      amount = (metadata as EthDepositDto).data.amount;
+      decimals = 18;
+      symbol = token?.symbol ?? "ETH";
+    } else if (metadata.type === "nft-deposit") {
+      return `#${(metadata as NftDepositDto).data.tokenId}`;
+    } else {
+      const dto = metadata as TokenDepositDto;
+      amount = dto.data.amount;
+      decimals = token?.decimals ?? 18;
+      symbol = token?.symbol;
     }
-
-    const float = parseFloat(
-      formatUnits(BigInt(tx.metadata.data.inputAmount), token?.decimals ?? 18)
-    );
-    const formatted = formatDecimals(float);
-    return `${formatted} ${token?.symbol}`;
   }
 
-  const metadata =
-    isForcedWithdrawal(tx) && tx.withdrawal
-      ? tx.withdrawal.metadata
-      : isForcedWithdrawal(tx)
-      ? tx.deposit.metadata
-      : tx.metadata;
-
-  if (metadata.type === "eth-deposit") {
-    return `${formatEther(BigInt((metadata as EthDepositDto).data.amount))} ${
-      token?.symbol
-    }`;
-  }
-
-  if (metadata.type === "nft-deposit") {
-    return `#${(metadata as NftDepositDto).data.tokenId}`;
-  }
-
-  const dto = metadata as TokenDepositDto;
-
-  const float = parseFloat(
-    formatUnits(BigInt(dto.data.amount), token?.decimals ?? 18)
+  const formatted = formatDecimals(
+    parseFloat(formatUnits(BigInt(amount), decimals))
   );
-  const formatted = float.toLocaleString("en", {
-    maximumFractionDigits: float > 1 ? 4 : 8,
-  });
-  return `${formatted} ${token?.symbol}`;
+  return `${formatted} ${symbol}`;
 }
 
 export const TransactionRow = ({ tx }: { tx: Transaction }) => {
