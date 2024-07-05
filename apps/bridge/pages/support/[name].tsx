@@ -13,6 +13,7 @@ import { IconAlert } from "@/components/icons";
 import PageFooter from "@/components/page-footer";
 import PageNav from "@/components/page-nav";
 import { SupportStatusWidgetWrapper } from "@/components/status";
+import { SupportCheckStatus } from "@/components/status/types";
 import { SupportModal } from "@/components/support-modal";
 import {
   Accordion,
@@ -22,6 +23,13 @@ import {
 } from "@/components/ui/accordion";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { isSuperbridge } from "@/config/superbridge";
 import {
   optimismFaultProofs,
@@ -34,16 +42,6 @@ import {
 import { useFaultProofUpgradeTime } from "@/hooks/use-fault-proof-upgrade-time";
 import { getFinalizationPeriod } from "@/hooks/use-finalization-period";
 import { isArbitrum } from "@/utils/is-mainnet";
-
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 
 const FaultProofAlert = ({ deployment }: { deployment: DeploymentDto }) => {
   return (
@@ -99,7 +97,11 @@ export default function Support({
   deployment,
   cctpDomains,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const [open, setOpen] = useState(false);
+  const [supportModal, setSupportModal] = useState(false);
+  const [statusModal, setStatusModal] = useState(false);
+  const [supportChecks, setSupportChecks] = useState<{
+    [name: string]: SupportCheckStatus;
+  }>({});
 
   const faultProofUpgradeTime = useFaultProofUpgradeTime(deployment);
 
@@ -295,6 +297,12 @@ export default function Support({
 
   const finalizationPeriod = getFinalizationPeriod(deployment, false);
 
+  const checks = Object.values(supportChecks);
+  const statusLoading =
+    checks.length === 0 || checks.find((x) => x === SupportCheckStatus.Loading);
+  const statusWarning = checks.find((x) => x === SupportCheckStatus.Warning);
+  const statusError = checks.find((x) => x === SupportCheckStatus.Error);
+
   return (
     <>
       <Head deployment={deployment} />
@@ -338,33 +346,30 @@ export default function Support({
                   </Link>
                 </Button>
 
-                <Dialog>
-                  <DialogTrigger asChild>
-                    <Button className="gap-2 bg-card" variant={"secondary"}>
-                      Status{" "}
-                      {/* todo: if theres a warning or error at all, change the badge here to one of the commented out ones undernaeth */}
-                      <span className="flex items-center justify-center px-2 py-1 font-heading rounded-lg text-white bg-green-400">
-                        OK
-                      </span>
-                      {/* <span className="flex items-center justify-center px-2 py-1 font-heading rounded-lg text-white bg-orange-400">
-                    Warning
-                  </span>
-                  <span className="flex items-center justify-center px-2 py-1 font-heading rounded-lg text-white bg-red-400">
-                    Error
-                  </span> */}
-                    </Button>
-                  </DialogTrigger>
-                  <DialogContent className="sm:max-w-[425px]">
-                    <DialogHeader>
-                      <DialogTitle className="text-2xl tracking-tight">
-                        {rollupChain} status
-                      </DialogTitle>
-                    </DialogHeader>
-                    <div>
-                      <SupportStatusWidgetWrapper deployment={deployment} />
-                    </div>
-                  </DialogContent>
-                </Dialog>
+                <Button
+                  className="gap-2 bg-card"
+                  variant={"secondary"}
+                  onClick={() => setStatusModal(true)}
+                >
+                  Status{" "}
+                  {statusLoading ? (
+                    <span className="flex items-center justify-center px-2 py-1 font-heading rounded-lg text-white bg-gray-400">
+                      Loading
+                    </span>
+                  ) : statusWarning ? (
+                    <span className="flex items-center justify-center px-2 py-1 font-heading rounded-lg text-white bg-orange-400">
+                      Warning
+                    </span>
+                  ) : statusError ? (
+                    <span className="flex items-center justify-center px-2 py-1 font-heading rounded-lg text-white bg-red-400">
+                      Error
+                    </span>
+                  ) : (
+                    <span className="flex items-center justify-center px-2 py-1 font-heading rounded-lg text-white bg-green-400">
+                      OK
+                    </span>
+                  )}
+                </Button>
               </div>
 
               {faultProofUpgradeTime && (
@@ -562,17 +567,25 @@ export default function Support({
                       If you have additional questions, feel free to reach out.
                     </p>
                   </div>
-                  <Button onClick={() => setOpen(true)}>Contact us</Button>
+                  <Button onClick={() => setSupportModal(true)}>
+                    Contact us
+                  </Button>
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
 
             <SupportModal
-              open={open}
-              setOpen={setOpen}
+              open={supportModal}
+              setOpen={setSupportModal}
               finalizationPeriod={finalizationPeriod}
               settlementChain={settlementChain}
               rollupChain={rollupChain}
+            />
+            <SupportStatusWidgetWrapper
+              deployment={deployment}
+              open={statusModal}
+              setOpen={setStatusModal}
+              setSupportChecks={setSupportChecks}
             />
           </section>
         </main>

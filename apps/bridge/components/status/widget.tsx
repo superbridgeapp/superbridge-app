@@ -3,6 +3,7 @@ import {
   differenceInSeconds,
   formatDistance,
 } from "date-fns";
+import { Dispatch, SetStateAction, useEffect, useMemo } from "react";
 import { Address } from "viem";
 import { useBlock, useReadContract } from "wagmi";
 
@@ -14,24 +15,26 @@ import {
 } from "@/codegen/index";
 import { ChainDto, DeploymentDto } from "@/codegen/model";
 import { OptimismDeploymentDto, isOptimism } from "@/utils/is-mainnet";
-import { t } from "i18next";
+
+import { StatusCheckProps, SupportCheckStatus } from "./types";
 
 const StatusLineItem = ({
+  id,
   title,
   description,
-  isLoading,
-  isOk = false,
-  isWarning = false,
-  isError = false,
+  status,
+  setSupportChecks,
 }: {
+  id: string;
   title: string;
   description: string;
-  isLoading: boolean;
-  isOk?: boolean;
-  isWarning?: boolean;
-  isError?: boolean;
-}) => {
-  if (isLoading) {
+  status: SupportCheckStatus;
+} & StatusCheckProps) => {
+  useEffect(() => {
+    setSupportChecks((c) => ({ ...c, [id]: status }));
+  }, [status, id]);
+
+  if (status === SupportCheckStatus.Loading) {
     return (
       <div className="bg-muted rounded-lg p-4 flex justify-between">
         <div>
@@ -81,18 +84,17 @@ const StatusLineItem = ({
           {description}
         </p>
       </div>
-      {/* todo: make this work */}
-      {/* {isOk ?? ( */}
-      <span className="flex items-center justify-center px-2 py-1 font-heading text-sm rounded-md text-white bg-green-400">
-        OK
-      </span>
-      {/* )} */}
-      {isWarning ?? (
+      {status === SupportCheckStatus.Ok && (
+        <span className="flex items-center justify-center px-2 py-1 font-heading text-sm rounded-md text-white bg-green-400">
+          OK
+        </span>
+      )}
+      {status === SupportCheckStatus.Warning && (
         <span className="flex items-center justify-center px-2 py-1 font-heading text-sm rounded-md text-white bg-amber-400">
           Warning
         </span>
       )}
-      {isError ?? (
+      {status === SupportCheckStatus.Error && (
         <span className="flex items-center justify-center px-2 py-1 font-heading text-sm rounded-md text-white bg-red-400">
           Error
         </span>
@@ -101,47 +103,62 @@ const StatusLineItem = ({
   );
 };
 
-const LastObservedBlock = ({ chain }: { chain: ChainDto }) => {
+const LastObservedBlock = ({
+  chain,
+  ...props
+}: { chain: ChainDto } & StatusCheckProps) => {
   const latestBlock = useBlock({
     blockTag: "latest",
     chainId: chain.id,
   });
 
   const title = `${chain.name} block production`;
-  const isLoading = latestBlock.isLoading;
 
   const now = Date.now();
-  const description = (() => {
+  const { description, status } = useMemo(() => {
+    if (latestBlock.isLoading) {
+      return {
+        description: "",
+        status: SupportCheckStatus.Loading,
+      };
+    }
     if (latestBlock.data?.timestamp) {
       const lastBlockTimestamp =
         parseInt(latestBlock.data.timestamp.toString()) * 1000;
       const distance = formatDistance(now, lastBlockTimestamp);
       const stale = differenceInSeconds(now, lastBlockTimestamp) > 30;
 
-      return stale
-        ? `Last observed ${chain.name} block was more than ${distance} ago. This could affect bridging operations to and from ${chain.name}`
-        : `Last observed ${chain.name} block was ${distance} ago`;
+      return {
+        description: stale
+          ? `Last observed ${chain.name} block was more than ${distance} ago. This could affect bridging operations to and from ${chain.name}`
+          : `Last observed ${chain.name} block was ${distance} ago`,
+        status: stale ? SupportCheckStatus.Warning : SupportCheckStatus.Ok,
+      };
     }
 
-    return "Unable to query blockchain";
-  })();
+    return {
+      description: "Unable to query blockchain",
+      status: SupportCheckStatus.Error,
+    };
+  }, [latestBlock.data, latestBlock.isLoading]);
 
   return (
     <StatusLineItem
+      id="lastObservedBlock"
       title={title}
       description={description}
-      isLoading={isLoading}
-      // todo: can we pass proper status here
-      isOk={true}
+      status={status}
+      {...props}
     />
   );
 };
 
 const LatestStateRoot = ({
   deployment,
+  ...props
 }: {
   deployment: OptimismDeploymentDto;
-}) => {
+} & StatusCheckProps) => {
   const latestDisputeGame = useBridgeControllerGetLatestDisputeGame(
     deployment.id,
     {
@@ -171,75 +188,98 @@ const LatestStateRoot = ({
     ? "fault dispute game"
     : "state root output";
 
-  if (latestDisputeGame.isLoading || latestStateRoot.isLoading) {
-    return (
-      <StatusLineItem
-        title={`Last observed ${name}`}
-        description={"Loading..."}
-        isLoading={true}
-      />
-    );
-  }
+  const { status, title, description } = useMemo(() => {
+    let blockNumber;
 
-  if (!l2BlockNumber) {
-    return (
-      <StatusLineItem
-        title={`Last observed ${name}`}
-        description={`None submitted just yet, withdrawal proving is delayed`}
-        isLoading={false}
-        isWarning={true}
-      />
-    );
-  }
+    if (block.isLoading) {
+      return {
+        title: `Last observed ${name}`,
+        description: "Loading...",
+        status: SupportCheckStatus.Loading,
+      };
+    }
 
-  if (block.isLoading) {
-    return (
-      <StatusLineItem
-        title={`Last observed $name}`}
-        description={"Loading..."}
-        isLoading={true}
-      />
-    );
-  }
+    if (deployment.contractAddresses.disputeGameFactory) {
+      if (latestDisputeGame.isLoading || block.isLoading) {
+        return {
+          title: `Last observed ${name}`,
+          description: "Loading...",
+          status: SupportCheckStatus.Loading,
+        };
+      }
 
-  if (!block.data) {
-    return (
-      <StatusLineItem
-        title={`Last observed ${name}`}
-        description={`Something went wrong...`}
-        isLoading={false}
-        isError={true}
-      />
-    );
-  }
+      blockNumber = latestDisputeGame.data?.data.value;
+    } else {
+      if (latestStateRoot.isLoading || block.isLoading) {
+        return {
+          title: `Last observed ${name}`,
+          description: "Loading...",
+          status: SupportCheckStatus.Loading,
+        };
+      }
 
-  const now = Date.now();
-  const lastBlockTimestamp = parseInt(block.data.timestamp.toString()) * 1000;
+      blockNumber = latestStateRoot.data?.data.value;
+    }
 
-  const distance = formatDistance(now, lastBlockTimestamp);
-  const stale = differenceInHours(now, lastBlockTimestamp) > 2;
+    if (!blockNumber) {
+      return {
+        title: `Last observed ${name}`,
+        description: `None submitted just yet, withdrawal proving is delayed`,
+        status: SupportCheckStatus.Warning,
+      };
+    }
 
-  if (stale) {
-    return (
-      <StatusLineItem
-        title={`Block production`}
-        description={`Last observed ${name} was more than ${distance} ago. This could affect proving withdrawals from ${deployment.l2.name}`}
-        isLoading={false}
-        isWarning={true}
-      />
-    );
-  }
+    if (!block.data) {
+      return {
+        title: `Last observed ${name}`,
+        description: `Something went wrong...`,
+        status: SupportCheckStatus.Error,
+      };
+    }
+
+    const now = Date.now();
+    const lastBlockTimestamp = parseInt(block.data.timestamp.toString()) * 1000;
+
+    const distance = formatDistance(now, lastBlockTimestamp);
+    const stale = differenceInHours(now, lastBlockTimestamp) > 2;
+
+    if (stale) {
+      return {
+        status: SupportCheckStatus.Warning,
+        title: `Block production`,
+        description: `Last observed ${name} was more than ${distance} ago. This could affect proving withdrawals from ${deployment.l2.name}`,
+      };
+    }
+
+    return {
+      status: SupportCheckStatus.Ok,
+      title: `Block production`,
+      description: `Last observed ${name} block was ${distance} ago`,
+    };
+  }, [
+    latestDisputeGame.data,
+    latestDisputeGame.isLoading,
+    latestStateRoot.data,
+    latestStateRoot.isLoading,
+    block.data,
+    block.isLoading,
+  ]);
+
   return (
     <StatusLineItem
-      title={`Block production`}
-      description={`Last observed ${name} block was ${distance} ago`}
-      isLoading={false}
-      isOk={true}
+      id="stateRoot"
+      title={title}
+      description={description}
+      status={status}
+      {...props}
     />
   );
 };
 
-const Paused = ({ deployment }: { deployment: OptimismDeploymentDto }) => {
+const Paused = ({
+  deployment,
+  ...props
+}: { deployment: OptimismDeploymentDto } & StatusCheckProps) => {
   const paused = useReadContract({
     chainId: deployment.l1.id,
     functionName: "paused",
@@ -247,118 +287,124 @@ const Paused = ({ deployment }: { deployment: OptimismDeploymentDto }) => {
     address: deployment.contractAddresses.optimismPortal as Address,
   });
 
-  if (paused.isFetching) {
-    return (
-      <StatusLineItem
-        title={`${deployment.l2.name} withdrawals status`}
-        description={`Loading...`}
-        isLoading={true}
-      />
-    );
-  }
+  const { status, title, description } = useMemo(() => {
+    if (paused.isFetching) {
+      return {
+        status: SupportCheckStatus.Loading,
+        title: `${deployment.l2.name} withdrawals status`,
+        description: "Loading",
+      };
+    }
 
-  if (paused.data) {
-    return (
-      <StatusLineItem
-        title={`${deployment.l2.name} withdrawals paused`}
-        description={`Withdrawals are unable to be processed in this moment`}
-        isLoading={false}
-        isWarning={true}
-      />
-    );
-  }
+    if (paused.data) {
+      return {
+        title: `${deployment.l2.name} withdrawals paused`,
+        description: `Withdrawals are unable to be processed in this moment`,
+        status: SupportCheckStatus.Warning,
+      };
+    }
+
+    return {
+      title: `${deployment.l2.name} withdrawals enabled`,
+      description: `Withdrawals are enabled and processing as normal`,
+      status: SupportCheckStatus.Ok,
+    };
+  }, [paused.isFetching, paused.data]);
+
   return (
     <StatusLineItem
-      title={`${deployment.l2.name} withdrawals enabled`}
-      description={`Withdrawals are enabled and processing as normal`}
-      isLoading={false}
-      isOk={true}
+      id="paused"
+      status={status}
+      title={title}
+      description={description}
+      {...props}
     />
   );
 };
 
-const IndexingStatus = ({ deployment }: { deployment: DeploymentDto }) => {
-  const status = useBridgeControllerGetDeploymentSyncStatus(deployment.id);
+// const IndexingStatus = ({
+//   deployment,
+// }: { deployment: DeploymentDto } & StatusCheckProps) => {
+//   const status = useBridgeControllerGetDeploymentSyncStatus(deployment.id);
 
-  if (status.isLoading) {
-    return (
-      <StatusLineItem
-        title={`${deployment.l2.name} indexing status`}
-        description={`Loading...`}
-        isLoading={true}
-      />
-    );
-  }
+//   if (status.isLoading) {
+//     return (
+//       <StatusLineItem
+//         title={`${deployment.l2.name} indexing status`}
+//         description={`Loading...`}
+//         status={SupportCheckStatus.Loading}
+//       />
+//     );
+//   }
 
-  if (!status.data?.data) {
-    return (
-      <StatusLineItem
-        title={`${deployment.l2.name} indexing status`}
-        description={`Unable to load...`}
-        isLoading={false}
-        isError={true}
-      />
-    );
-  }
+//   if (!status.data?.data) {
+//     return (
+//       <StatusLineItem
+//         title={`${deployment.l2.name} indexing status`}
+//         description={`Unable to load...`}
+//         status={SupportCheckStatus.Error}
+//       />
+//     );
+//   }
 
-  return (
-    <>
-      {status.data?.data
-        .filter((d) => d.type === "tip")
-        .map((d) => {
-          let title;
-          let description;
+//   return (
+//     <>
+//       {status.data?.data
+//         .filter((d) => d.type === "tip")
+//         .map((d) => {
+//           let title;
+//           let description;
 
-          const error = d.diff > 100;
+//           const error = d.diff > 100;
 
-          if (d.name.includes("deposit")) {
-            title = "Deposit indexing";
-            description = "Deposit operations";
-          }
+//           if (d.name.includes("deposit")) {
+//             title = "Deposit indexing";
+//             description = "Deposit operations";
+//           }
 
-          if (d.name.includes("withdrawals")) {
-            title = "Withdrawal indexing";
-            description = "Withdrawal operations";
-          }
+//           if (d.name.includes("withdrawals")) {
+//             title = "Withdrawal indexing";
+//             description = "Withdrawal operations";
+//           }
 
-          if (d.name.includes("proveFinalize")) {
-            title = "Prove & finalize indexing";
-            description = "Prove & finalize operations";
-          }
+//           if (d.name.includes("proveFinalize")) {
+//             title = "Prove & finalize indexing";
+//             description = "Prove & finalize operations";
+//           }
 
-          return (
-            <StatusLineItem
-              title={`${title}`}
-              description={`${description} 
-                ${
-                  error
-                    ? "may be delayed as our indexing pipeline catches up"
-                    : "operating normally"
-                }`}
-              isLoading={false}
-              isError={error}
-              isOk={!error}
-            />
-          );
-        })}
-    </>
-  );
-};
+//           return (
+//             <StatusLineItem
+//               title={`${title}`}
+//               description={`${description}
+//                 ${
+//                   error
+//                     ? "may be delayed as our indexing pipeline catches up"
+//                     : "operating normally"
+//                 }`}
+//               status={error ? SupportCheckStatus.Error : SupportCheckStatus.Ok}
+//             />
+//           );
+//         })}
+//     </>
+//   );
+// };
 
 export const SupportStatusWidget = ({
   deployment,
+  ...props
 }: {
   deployment: DeploymentDto;
-}) => {
+} & StatusCheckProps) => {
+  console.log("here I am");
   return (
     <div className="p-6 pt-0 grid gap-2">
-      <LastObservedBlock chain={deployment.l1} />
-      <LastObservedBlock chain={deployment.l2} />
+      <LastObservedBlock chain={deployment.l1} {...props} />
+      <LastObservedBlock chain={deployment.l2} {...props} />
       {isOptimism(deployment) && (
         <>
-          <Paused deployment={deployment} />
-          <IndexingStatus deployment={deployment} />
-          <LatestStateRoot deployment={deployment} />
+          <Paused deployment={deployment} {...props} />
+          {/* <IndexingStatus deployment={deployment} {...props} /> */}
+          <LatestStateRoot deployment={deployment} {...props} />
         </>
       )}
     </div>
