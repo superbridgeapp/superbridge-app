@@ -12,6 +12,7 @@ import { useDeployment } from "@/hooks/use-deployment";
 import { useIsCustomToken } from "@/hooks/use-is-custom-token";
 import { useIsCustomTokenFromList } from "@/hooks/use-is-custom-token-from-list";
 import { useSelectedToken } from "@/hooks/use-selected-token";
+import { trackEvent } from "@/services/ga";
 import { useConfigState } from "@/state/config";
 import { MultiChainToken } from "@/types/token";
 import { formatDecimals } from "@/utils/format-decimals";
@@ -298,6 +299,11 @@ export const FungibleTokenPicker = ({
   const onClickToken = (t: MultiChainToken) => {
     setToken(t);
     setOpen(false);
+    trackEvent({
+      event: "token-select",
+      symbol: t[from?.id ?? 0]?.symbol ?? "",
+      network: from?.name ?? "",
+    });
   };
 
   return (

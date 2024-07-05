@@ -18,6 +18,7 @@ import {
   SUPERCHAIN_TESTNETS,
 } from "@/constants/superbridge";
 import { useNavigate } from "@/hooks/use-navigate";
+import { trackEvent } from "@/services/ga";
 import { useInjectedStore } from "@/state/injected";
 import { useSettingsState } from "@/state/settings";
 
@@ -105,7 +106,13 @@ export const SettingsModal = ({ open, setOpen }: SettingsModalProps) => {
                   </h3>
                 </div>
 
-                <Select onValueChange={setCurrency} value={currency}>
+                <Select
+                  onValueChange={(c) => {
+                    setCurrency(c);
+                    trackEvent({ event: "select-currency", name: c });
+                  }}
+                  value={currency}
+                >
                   <SelectTrigger className="max-w-[166px]">
                     <SelectValue placeholder={currency} />
                   </SelectTrigger>
@@ -152,7 +159,10 @@ export const SettingsModal = ({ open, setOpen }: SettingsModalProps) => {
                 </div>
 
                 <Select
-                  onValueChange={i18n.changeLanguage}
+                  onValueChange={(l) => {
+                    i18n.changeLanguage(l);
+                    trackEvent({ event: "select-language", name: l });
+                  }}
                   value={i18n.resolvedLanguage}
                 >
                   <SelectTrigger className="max-w-[166px]">
@@ -221,7 +231,10 @@ export const SettingsModal = ({ open, setOpen }: SettingsModalProps) => {
                 </div>
 
                 <Select
-                  onValueChange={setPreferredExplorer}
+                  onValueChange={(e) => {
+                    setPreferredExplorer(e);
+                    trackEvent({ event: "select-explorer", name: e });
+                  }}
                   value={preferredExplorer}
                 >
                   <SelectTrigger className="max-w-[166px] capitalize">

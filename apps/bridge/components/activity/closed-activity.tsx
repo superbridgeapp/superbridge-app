@@ -1,13 +1,12 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 
-import { useHasPendingAction } from "@/hooks/use-has-pending-action";
-import { useConfigState } from "@/state/config";
-import { useInProgressTxCount } from "@/hooks/use-in-progress-tx-count";
 import { useTrialExpired } from "@/hooks/trials/use-trial-expired";
+import { useHasPendingAction } from "@/hooks/use-has-pending-action";
+import { useInProgressTxCount } from "@/hooks/use-in-progress-tx-count";
+import { trackEvent } from "@/services/ga";
+import { useConfigState } from "@/state/config";
 
-import inProgressDark from "../../animation/loading-dark.json";
-import inProgress from "../../animation/loading.json";
 import { IconSpinner } from "../icons";
 
 const activityAnimations = {
@@ -48,7 +47,10 @@ export const ClosedActivity = () => {
       >
         <motion.div
           className="flex items-center justify-between gap-3 pl-5 pr-2 h-10 cursor-pointer z-10"
-          onClick={() => setDisplayTransactions(!open)}
+          onClick={() => {
+            setDisplayTransactions(!open);
+            trackEvent({ event: "open-activity" });
+          }}
           animate={{ width: "auto" }}
         >
           <AnimatePresence mode="sync">

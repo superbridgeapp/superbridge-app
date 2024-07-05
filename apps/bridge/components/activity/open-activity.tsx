@@ -6,6 +6,7 @@ import { useAccount } from "wagmi";
 import { useInProgressTxCount } from "@/hooks/use-in-progress-tx-count";
 import { useStatusCheck } from "@/hooks/use-status-check";
 import { useTransactions } from "@/hooks/use-transactions";
+import { trackEvent } from "@/services/ga";
 import { useConfigState } from "@/state/config";
 import { usePendingTransactions } from "@/state/pending-txs";
 
@@ -36,7 +37,10 @@ export const OpenActivity = ({}) => {
       >
         <div
           className="flex items-center justify-between pl-6 pr-4 py-4 md:py-6 border-b cursor-pointer z-10"
-          onClick={() => setDisplayTransactions(!open)}
+          onClick={() => {
+            setDisplayTransactions(!open);
+            trackEvent({ event: "close-activity" });
+          }}
         >
           <h2 className="font-heading text-sm md:text-base">
             {t("activity.activity")}

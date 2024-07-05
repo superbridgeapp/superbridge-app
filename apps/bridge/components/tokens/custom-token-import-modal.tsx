@@ -4,6 +4,7 @@ import { Address } from "viem";
 
 import { useDeployment } from "@/hooks/use-deployment";
 import { useMetadata } from "@/hooks/use-metadata";
+import { trackEvent } from "@/services/ga";
 import { useConfigState } from "@/state/config";
 import { useSettingsState } from "@/state/settings";
 import {
@@ -111,6 +112,15 @@ export const CustomTokenImportModal = () => {
       [deployment!.l1.id]: l1Token,
       [deployment!.l2.id]: l2Token,
     };
+
+    trackEvent({
+      event: "import-custom-token",
+      l1: deployment!.l1.name,
+      l2: deployment!.l2.name,
+      l1Address: l1Token.address,
+      l2Address: l2Token.address,
+      name: l1Token.name,
+    });
 
     setCustomTokens([...customTokens, token]);
     setOpen(false);
