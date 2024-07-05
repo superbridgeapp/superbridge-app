@@ -17,7 +17,7 @@ type TokenSelect = {
 };
 type TokenBannerClick = {
   event: "token-banner-click";
-  name: string;
+  symbol: string;
 };
 type Bridge = {
   event: "bridge";

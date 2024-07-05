@@ -7,6 +7,7 @@ import { useDeployments } from "@/hooks/use-deployments";
 import { useNavigate } from "@/hooks/use-navigate";
 import { useConfigState } from "@/state/config";
 import { useInjectedStore } from "@/state/injected";
+import { trackEvent } from "@/services/ga";
 
 export function TokenBanner() {
   const setToken = useConfigState.useSetToken();
@@ -16,6 +17,8 @@ export function TokenBanner() {
   const setDeployments = useInjectedStore((store) => store.setDeployments);
 
   const onClick = async () => {
+    trackEvent({ event: "token-banner-click", symbol: "wstETH" });
+
     if (deployment?.name === "optimism" || deployment?.name === "base") {
       const token = useConfigState
         .getState()
