@@ -14,29 +14,89 @@ import {
 } from "@/codegen/index";
 import { ChainDto, DeploymentDto } from "@/codegen/model";
 import { OptimismDeploymentDto, isOptimism } from "@/utils/is-mainnet";
+import { t } from "i18next";
 
 const StatusLineItem = ({
   title,
   description,
   isLoading,
+  isOk = false,
+  isWarning = false,
+  isError = false,
 }: {
   title: string;
   description: string;
   isLoading: boolean;
+  isOk?: boolean;
+  isWarning?: boolean;
+  isError?: boolean;
 }) => {
   if (isLoading) {
     return (
-      <div>
-        <div>{title}</div>
-        <div>Loading</div>
+      <div className="bg-muted rounded-lg p-4 flex justify-between">
+        <div>
+          <h3 className="text-sm font-heading tracking-tight">{title}</h3>
+          <p className="font-body text-xs text-muted-foreground tracking-tight">
+            Loading...
+          </p>
+        </div>
+        <div>
+          <svg
+            fill="none"
+            viewBox="0 0 66 66"
+            className="w-3.5 h-3.5 block text-primary-foreground"
+          >
+            <circle
+              cx="33"
+              cy="33"
+              fill="none"
+              r="28"
+              stroke="currentColor"
+              opacity="0.2"
+              stroke-width="12"
+            ></circle>
+            <circle
+              cx="33"
+              cy="33"
+              fill="none"
+              r="28"
+              stroke="currentColor"
+              stroke-dasharray="1, 174"
+              stroke-dashoffset="306"
+              stroke-linecap="round"
+              stroke-width="12"
+              className="animate-spinner"
+            ></circle>
+          </svg>
+        </div>
       </div>
     );
   }
 
   return (
-    <div>
-      <div>{title}</div>
-      <div>{description}</div>
+    <div className="bg-muted rounded-lg p-4 flex gap-8 justify-between items-start">
+      <div>
+        <h3 className="text-sm font-heading tracking-tight">{title}</h3>
+        <p className="font-body text-xs text-muted-foreground tracking-tight">
+          {description}
+        </p>
+      </div>
+      {/* todo: make this work */}
+      {/* {isOk ?? ( */}
+      <span className="flex items-center justify-center px-2 py-1 font-heading text-sm rounded-md text-white bg-green-400">
+        OK
+      </span>
+      {/* )} */}
+      {isWarning ?? (
+        <span className="flex items-center justify-center px-2 py-1 font-heading text-sm rounded-md text-white bg-amber-400">
+          Warning
+        </span>
+      )}
+      {isError ?? (
+        <span className="flex items-center justify-center px-2 py-1 font-heading text-sm rounded-md text-white bg-red-400">
+          Error
+        </span>
+      )}
     </div>
   );
 };
@@ -59,11 +119,11 @@ const LastObservedBlock = ({ chain }: { chain: ChainDto }) => {
       const stale = differenceInSeconds(now, lastBlockTimestamp) > 30;
 
       return stale
-        ? `❌ Last observed ${chain.name} block was more than ${distance} ago. This could affect bridging operations to and from ${chain.name}`
-        : `✅ Last observed ${chain.name} block was ${distance} ago`;
+        ? `Last observed ${chain.name} block was more than ${distance} ago. This could affect bridging operations to and from ${chain.name}`
+        : `Last observed ${chain.name} block was ${distance} ago`;
     }
 
-    return "❌ Unable to query blockchain";
+    return "Unable to query blockchain";
   })();
 
   return (
@@ -71,6 +131,8 @@ const LastObservedBlock = ({ chain }: { chain: ChainDto }) => {
       title={title}
       description={description}
       isLoading={isLoading}
+      // todo: can we pass proper status here
+      isOk={true}
     />
   );
 };
@@ -111,37 +173,43 @@ const LatestStateRoot = ({
 
   if (latestDisputeGame.isLoading || latestStateRoot.isLoading) {
     return (
-      <div>
-        <div>Last observed {name}</div>
-        <div>Loading...</div>
-      </div>
+      <StatusLineItem
+        title={`Last observed ${name}`}
+        description={"Loading..."}
+        isLoading={true}
+      />
     );
   }
 
   if (!l2BlockNumber) {
     return (
-      <div>
-        <div>Last observed {name}</div>
-        <div>None submitted just yet, withdrawal proving is delayed</div>
-      </div>
+      <StatusLineItem
+        title={`Last observed ${name}`}
+        description={`None submitted just yet, withdrawal proving is delayed`}
+        isLoading={false}
+        isWarning={true}
+      />
     );
   }
 
   if (block.isLoading) {
     return (
-      <div>
-        <div>Last observed {name}</div>
-        <div>Loading...</div>
-      </div>
+      <StatusLineItem
+        title={`Last observed $name}`}
+        description={"Loading..."}
+        isLoading={true}
+      />
     );
   }
 
   if (!block.data) {
     return (
-      <div>
-        <div>Last observed {name}</div>
-        <div>Something went wrong...</div>
-      </div>
+      <StatusLineItem
+        title={`Last observed ${name}`}
+        description={`Something went wrong...`}
+        isLoading={false}
+        isError={true}
+      />
     );
   }
 
@@ -153,22 +221,21 @@ const LatestStateRoot = ({
 
   if (stale) {
     return (
-      <div>
-        <div>
-          Last observed {name} was more than {distance} ago
-        </div>
-        <div>
-          This could affect proving withdrawals from {deployment.l2.name}
-        </div>
-      </div>
+      <StatusLineItem
+        title={`Block production`}
+        description={`Last observed ${name} was more than ${distance} ago. This could affect proving withdrawals from ${deployment.l2.name}`}
+        isLoading={false}
+        isWarning={true}
+      />
     );
   }
   return (
-    <div>
-      <div>
-        ✅ Last observed {name} block was {distance} ago
-      </div>
-    </div>
+    <StatusLineItem
+      title={`Block production`}
+      description={`Last observed ${name} block was ${distance} ago`}
+      isLoading={false}
+      isOk={true}
+    />
   );
 };
 
@@ -182,27 +249,31 @@ const Paused = ({ deployment }: { deployment: OptimismDeploymentDto }) => {
 
   if (paused.isFetching) {
     return (
-      <div>
-        <div>{deployment.l2.name} withdrawals status</div>
-        <div>Loading...</div>
-      </div>
+      <StatusLineItem
+        title={`${deployment.l2.name} withdrawals status`}
+        description={`Loading...`}
+        isLoading={true}
+      />
     );
   }
 
   if (paused.data) {
     return (
-      <div>
-        <div>{deployment.l2.name} withdrawals are paused</div>
-        <div>Withdrawals are unable to be processed in this moment</div>
-      </div>
+      <StatusLineItem
+        title={`${deployment.l2.name} withdrawals paused`}
+        description={`Withdrawals are unable to be processed in this moment`}
+        isLoading={false}
+        isWarning={true}
+      />
     );
   }
   return (
-    <div>
-      <div>
-        <div>{deployment.l2.name} withdrawals are not paused </div>
-      </div>
-    </div>
+    <StatusLineItem
+      title={`${deployment.l2.name} withdrawals enabled`}
+      description={`Withdrawals are enabled and processing as normal`}
+      isLoading={false}
+      isOk={true}
+    />
   );
 };
 
@@ -211,24 +282,27 @@ const IndexingStatus = ({ deployment }: { deployment: DeploymentDto }) => {
 
   if (status.isLoading) {
     return (
-      <div>
-        <div>{deployment.l2.name} indexing status</div>
-        <div>Loading...</div>
-      </div>
+      <StatusLineItem
+        title={`${deployment.l2.name} indexing status`}
+        description={`Loading...`}
+        isLoading={true}
+      />
     );
   }
 
   if (!status.data?.data) {
     return (
-      <div>
-        <div>{deployment.l2.name} indexing status</div>
-        <div>Unable to load</div>
-      </div>
+      <StatusLineItem
+        title={`${deployment.l2.name} indexing status`}
+        description={`Unable to load...`}
+        isLoading={false}
+        isError={true}
+      />
     );
   }
 
   return (
-    <div>
+    <>
       {status.data?.data
         .filter((d) => d.type === "tip")
         .map((d) => {
@@ -253,18 +327,21 @@ const IndexingStatus = ({ deployment }: { deployment: DeploymentDto }) => {
           }
 
           return (
-            <div key={title}>
-              <div>{title}</div>
-              <div>
-                {description}{" "}
-                {error
-                  ? "may be delayed as our indexing pipeline catches up"
-                  : "operating normally"}
-              </div>
-            </div>
+            <StatusLineItem
+              title={`${title}`}
+              description={`${description} 
+                ${
+                  error
+                    ? "may be delayed as our indexing pipeline catches up"
+                    : "operating normally"
+                }`}
+              isLoading={false}
+              isError={error}
+              isOk={!error}
+            />
           );
         })}
-    </div>
+    </>
   );
 };
 
@@ -274,7 +351,7 @@ export const SupportStatusWidget = ({
   deployment: DeploymentDto;
 }) => {
   return (
-    <div className="flex flex-col gap-4">
+    <div className="p-6 pt-0 grid gap-2">
       <LastObservedBlock chain={deployment.l1} />
       <LastObservedBlock chain={deployment.l2} />
       {isOptimism(deployment) && (
