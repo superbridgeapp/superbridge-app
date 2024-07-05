@@ -9,6 +9,7 @@ export interface Theme {
       className?: string;
       image?: string;
     };
+    title?: string;
   };
   bgMuted: string;
   screenBg: string;

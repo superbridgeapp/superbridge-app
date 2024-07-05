@@ -676,6 +676,7 @@ const celoTheme: Theme = {
   iconSrc: "/img/celo/icon.svg",
   card: {
     className: "bg-[#FFFF52]",
+    title: "text-black",
   },
 };
 export const themes: { [name: string]: Theme | undefined } = {
