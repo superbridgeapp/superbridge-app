@@ -5,7 +5,7 @@ import { TokenMinterAbi } from "@/abis/cctp/TokenMinter";
 import { useConfigState } from "@/state/config";
 import { isNativeUsdc } from "@/utils/is-usdc";
 
-import { useCctpDomains } from "../use-cctp-domains";
+import { useCctpDomains } from "./use-cctp-domains";
 import { useFromChain } from "../use-chain";
 
 export const useCctpBridgeLimit = () => {
