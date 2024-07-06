@@ -50,14 +50,29 @@ export function TokenBanner() {
   };
 
   return (
-    <button className="flex items-center" onClick={onClick}>
-      <Image
-        height={24}
-        width={24}
-        src={"https://ethereum-optimism.github.io/data/wstETH/logo.svg"}
-        alt="bridge-wsteth"
-      />
-      <span>Bridge wstETH</span>
-    </button>
+    <div className="absolute left-1/2 top-20 md:top-7 -translate-x-1/2 -translate-y-1.5 md:translate-y-0.5">
+      <button
+        className="relative overflow-hidden backdrop-blur-xs flex items-center gap-1 rounded-full p-1 pr-3 shadow-xs transition-all hover:scale-105"
+        onClick={onClick}
+      >
+        <div className="bg-card opacity-40 dark:opacity-70 absolute inset-0 -z-10" />
+        <Image
+          height={0}
+          width={0}
+          sizes="100vw"
+          src={"https://ethereum-optimism.github.io/data/wstETH/logo.svg"}
+          alt="Bridge wstETH"
+          className="rounded-full w-5 h-5 md:w-6 md:h-6"
+        />
+        <div className="flex gap-1.5 items-baseline">
+          <span className="text-xs font-heading tracking-tight">
+            Bridge wstETH
+          </span>
+          <span className="text-[8px] font-heading tracking-tight opacity-40">
+            Ad
+          </span>
+        </div>
+      </button>
+    </div>
   );
 }

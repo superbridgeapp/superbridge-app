@@ -154,10 +154,10 @@ export function Header() {
         <ConnectButton
           chainStatus="icon"
           label="Connect"
-          showBalance={{ smallScreen: false, largeScreen: true }}
+          showBalance={{ smallScreen: false, largeScreen: false }}
           accountStatus={{
             smallScreen: "avatar",
-            largeScreen: "full",
+            largeScreen: "avatar",
           }}
         />
       </div>
