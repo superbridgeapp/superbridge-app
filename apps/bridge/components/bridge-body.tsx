@@ -225,6 +225,7 @@ export const BridgeBody = () => {
           : withdrawing
           ? "withdraw"
           : "deposit",
+        transactionHash: hash,
       });
 
       if (!fast && deployment) {
