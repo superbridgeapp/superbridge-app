@@ -50,12 +50,12 @@ export function TokenBanner() {
   };
 
   return (
-    <div className="absolute left-1/2 top-20 md:top-7 -translate-x-1/2 -translate-y-1.5 md:translate-y-0.5">
+    <div className="absolute left-1/2 top-[72px] md:top-7 -translate-x-1/2 -translate-y-1.5 md:translate-y-0.5">
       <button
-        className="relative overflow-hidden backdrop-blur-xs flex items-center gap-1 rounded-full p-1 pr-3 shadow-xs transition-all hover:scale-105"
+        className="relative overflow-hidden backdrop-blur-sm flex items-center gap-1 rounded-full p-1 pr-3 drop-shadow transition-all hover:scale-105"
         onClick={onClick}
       >
-        <div className="bg-card opacity-40 dark:opacity-70 absolute inset-0 -z-10" />
+        <div className="bg-card opacity-50 dark:opacity-70 absolute inset-0 -z-10" />
         <Image
           height={0}
           width={0}
