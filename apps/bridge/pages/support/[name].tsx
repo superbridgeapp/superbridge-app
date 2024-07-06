@@ -12,7 +12,8 @@ import { Head } from "@/components/head";
 import { IconAlert } from "@/components/icons";
 import PageFooter from "@/components/page-footer";
 import PageNav from "@/components/page-nav";
-import { SupportStatusWidgetWrapper } from "@/components/status";
+import { SupportStatusModal } from "@/components/status/modal";
+import { SupportProviders } from "@/components/status/providers";
 import { SupportCheckStatus } from "@/components/status/types";
 import { SupportModal } from "@/components/support-modal";
 import {
@@ -23,13 +24,6 @@ import {
 } from "@/components/ui/accordion";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import { isSuperbridge } from "@/config/superbridge";
 import {
   optimismFaultProofs,
@@ -39,6 +33,7 @@ import {
   SUPERCHAIN_MAINNETS,
   SUPERCHAIN_TESTNETS,
 } from "@/constants/superbridge";
+import { useSupportStatusChecks } from "@/hooks/support/use-support-status-checks";
 import { useFaultProofUpgradeTime } from "@/hooks/use-fault-proof-upgrade-time";
 import { getFinalizationPeriod } from "@/hooks/use-finalization-period";
 import { isArbitrum } from "@/utils/is-mainnet";
@@ -93,15 +88,13 @@ const FaultProofAlert = ({ deployment }: { deployment: DeploymentDto }) => {
   );
 };
 
-export default function Support({
+function Support({
   deployment,
   cctpDomains,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const [supportModal, setSupportModal] = useState(false);
   const [statusModal, setStatusModal] = useState(false);
-  const [supportChecks, setSupportChecks] = useState<{
-    [name: string]: SupportCheckStatus;
-  }>({});
+  const statusChecks = useSupportStatusChecks(deployment!);
 
   const faultProofUpgradeTime = useFaultProofUpgradeTime(deployment);
 
@@ -297,11 +290,15 @@ export default function Support({
 
   const finalizationPeriod = getFinalizationPeriod(deployment, false);
 
-  const checks = Object.values(supportChecks);
-  const statusLoading =
-    checks.length === 0 || checks.find((x) => x === SupportCheckStatus.Loading);
-  const statusWarning = checks.find((x) => x === SupportCheckStatus.Warning);
-  const statusError = checks.find((x) => x === SupportCheckStatus.Error);
+  const statusLoading = statusChecks.find(
+    (x) => x.status === SupportCheckStatus.Loading
+  );
+  const statusWarning = statusChecks.find(
+    (x) => x.status === SupportCheckStatus.Warning
+  );
+  const statusError = statusChecks.find(
+    (x) => x.status === SupportCheckStatus.Error
+  );
 
   return (
     <>
@@ -581,11 +578,10 @@ export default function Support({
               settlementChain={settlementChain}
               rollupChain={rollupChain}
             />
-            <SupportStatusWidgetWrapper
+            <SupportStatusModal
               deployment={deployment}
               open={statusModal}
               setOpen={setStatusModal}
-              setSupportChecks={setSupportChecks}
             />
           </section>
         </main>
@@ -595,12 +591,23 @@ export default function Support({
   );
 }
 
+export default function SupportWithProviders({
+  deployment,
+  cctpDomains,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  return (
+    <SupportProviders deployment={deployment}>
+      <Support deployment={deployment} cctpDomains={cctpDomains} />
+    </SupportProviders>
+  );
+}
+
 export const getServerSideProps = async ({
   req,
   params,
 }: GetServerSidePropsContext) => {
   if (!req.url || !params?.name || !isSuperbridge) {
-    return { props: { deployment: null } };
+    throw new Error("Invalid");
   }
 
   const [{ data: deployments }, { data: cctpDomains }] = await Promise.all([
