@@ -178,6 +178,7 @@ const lyraTheme: Theme = {
   ...defaultTheme,
   card: {
     className: "bg-[#26FAB0]",
+    title: "text-black",
   },
   iconSrc: "/img/lyra/icon.svg",
   screenBg: "bg-[#26FAB0] dark:bg-[#0B1820]",
