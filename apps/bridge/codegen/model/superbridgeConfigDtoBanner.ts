@@ -5,9 +5,9 @@
  * API docs
  * OpenAPI spec version: 1.0
  */
-import type { DeploymentThemeDto } from './deploymentThemeDto';
+import type { TokenBannerDto } from './tokenBannerDto';
 
 /**
  * @nullable
  */
-export type DeploymentDtoTheme = DeploymentThemeDto | null;
+export type SuperbridgeConfigDtoBanner = TokenBannerDto | null;

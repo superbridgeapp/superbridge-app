@@ -48,9 +48,11 @@ export const BridgePlaceholder = ({
           }`}
         />
         <h2
-          className={`text-sm text-center font-heading text-zinc-50 ${
-            comingSoon ? "opacity-50" : "opacity-100"
-          }`}
+          className={clsx(
+            "text-sm text-center font-heading",
+            comingSoon ? "opacity-50" : "opacity-100",
+            theme.card.title ?? "text-zinc-50"
+          )}
         >
           {deployment.displayName}
         </h2>

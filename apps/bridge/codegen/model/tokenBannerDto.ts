@@ -6,9 +6,8 @@
  * OpenAPI spec version: 1.0
  */
 
-export interface DisputeGameDto {
-  address: string;
-  index: number;
-  resolvedAt: number;
-  status: number;
+export interface TokenBannerDto {
+  deploymentName: string;
+  image: string;
+  symbol: string;
 }

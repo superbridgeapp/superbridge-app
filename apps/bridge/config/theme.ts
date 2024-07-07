@@ -178,6 +178,7 @@ const lyraTheme: Theme = {
   ...defaultTheme,
   card: {
     className: "bg-[#26FAB0]",
+    title: "text-black",
   },
   iconSrc: "/img/lyra/icon.svg",
   screenBg: "bg-[#26FAB0] dark:bg-[#0B1820]",
@@ -671,6 +672,14 @@ const xterioTheme: Theme = {
   },
 };
 
+const celoTheme: Theme = {
+  ...defaultTheme,
+  iconSrc: "/img/celo/icon.svg",
+  card: {
+    className: "bg-[#FFFF52]",
+    title: "text-black",
+  },
+};
 export const themes: { [name: string]: Theme | undefined } = {
   ["base"]: baseTheme,
   ["base-sepolia"]: baseTheme,
@@ -727,6 +736,7 @@ export const themes: { [name: string]: Theme | undefined } = {
   ["cyber-testnet"]: cyberTheme,
   ["xterio-chain-eth"]: xterioTheme,
   ["xterio-eth-testnet"]: xterioTheme,
+  ["celo-testnet"]: celoTheme,
 };
 
 export const deploymentTheme = (
