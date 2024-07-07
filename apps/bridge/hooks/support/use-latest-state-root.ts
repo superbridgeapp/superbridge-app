@@ -47,7 +47,7 @@ export const useLatestStateRoot = (
   return useMemo(() => {
     let blockNumber;
 
-    if (block.isLoading) {
+    if (!deployment || block.isLoading) {
       return {
         title: `Last observed ${name}`,
         description: "Loading…",
@@ -93,11 +93,15 @@ export const useLatestStateRoot = (
       };
     }
 
+    const submissionInterval =
+      deployment.config.submissionIntervalSeconds / 60 / 60;
+
     const now = Date.now();
     const lastBlockTimestamp = parseInt(block.data.timestamp.toString()) * 1000;
 
     const distance = formatDistance(now, lastBlockTimestamp);
-    const stale = differenceInHours(now, lastBlockTimestamp) > 2;
+    const stale =
+      differenceInHours(now, lastBlockTimestamp) > submissionInterval;
 
     if (stale) {
       return {
