@@ -6,8 +6,8 @@
  * OpenAPI spec version: 1.0
  */
 
-export interface GetActivityDto {
-  address: string;
-  deploymentIds: string[];
-  includeAcross: boolean;
+export interface TokenBannerDto {
+  symbol: string;
+  image: string;
+  deploymentName: string;
 }

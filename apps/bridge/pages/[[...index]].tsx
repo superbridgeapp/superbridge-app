@@ -10,6 +10,7 @@ import {
   bridgeControllerGetCctpDomains,
   bridgeControllerGetDeployments,
   bridgeControllerGetDeploymentsByDomain,
+  bridgeControllerGetSuperbridgeConfig,
 } from "@/codegen";
 import { DeploymentsGrid } from "@/components/Deployments";
 import { ErrorComponent } from "@/components/Error";
@@ -56,13 +57,15 @@ export const getServerSideProps = async ({
       names = SUPERCHAIN_MAINNETS;
     }
 
-    const [{ data }, cctpDomains, acrossDomains] = await Promise.all([
-      bridgeControllerGetDeployments({
-        names,
-      }),
-      bridgeControllerGetCctpDomains(),
-      bridgeControllerGetAcrossDomains(),
-    ]);
+    const [{ data }, cctpDomains, acrossDomains, superbridgeConfig] =
+      await Promise.all([
+        bridgeControllerGetDeployments({
+          names,
+        }),
+        bridgeControllerGetCctpDomains(),
+        bridgeControllerGetAcrossDomains(),
+        bridgeControllerGetSuperbridgeConfig(),
+      ]);
 
     return {
       props: {
@@ -70,6 +73,7 @@ export const getServerSideProps = async ({
         acrossDomains: acrossDomains.data,
         cctpDomains: cctpDomains.data,
         testnets,
+        superbridgeConfig: superbridgeConfig.data,
       },
     };
   }
@@ -135,6 +139,7 @@ export default function IndexRoot({
   testnets,
   acrossDomains,
   cctpDomains,
+  superbridgeConfig,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const router = useRouter();
 
@@ -159,6 +164,7 @@ export default function IndexRoot({
         testnets: testnets ?? false,
         acrossDomains: acrossDomains ?? [],
         cctpDomains: cctpDomains ?? [],
+        superbridgeConfig: superbridgeConfig ?? null,
       }}
     >
       <ThemeProvider>
