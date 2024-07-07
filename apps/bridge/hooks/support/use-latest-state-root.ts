@@ -11,7 +11,7 @@ import { OptimismDeploymentDto } from "@/utils/is-mainnet";
 
 export const useLatestStateRoot = (
   deployment: OptimismDeploymentDto | undefined
-) => {
+): { title: string; description: string; status: SupportCheckStatus } => {
   const latestDisputeGame = useBridgeControllerGetLatestDisputeGame(
     deployment?.id ?? "",
     {

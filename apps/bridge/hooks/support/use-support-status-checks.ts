@@ -1,3 +1,5 @@
+import { isPresent } from "ts-is-present";
+
 import { DeploymentDto } from "@/codegen/model";
 import { isOptimism } from "@/utils/is-mainnet";
 
@@ -19,7 +21,8 @@ export const useSupportStatusChecks = (deployment: DeploymentDto) => {
   return [
     l1LastObservedBlock,
     l2LastObservedBlock,
-    paused,
+    isOptimism(deployment) ? paused : null,
+    isOptimism(deployment) ? lastObservedStateRoot : null,
     ...indexingStatuses,
-  ];
+  ].filter(isPresent);
 };

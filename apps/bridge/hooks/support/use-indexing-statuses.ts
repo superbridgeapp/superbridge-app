@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import { isPresent } from "ts-is-present";
 
 import { useBridgeControllerGetDeploymentSyncStatus } from "@/codegen/index";
 import { DeploymentDto } from "@/codegen/model";
@@ -51,6 +52,10 @@ export const useIndexingStatuses = (deployment: DeploymentDto) => {
           description = "Prove & finalize operations";
         }
 
+        if (!title) {
+          return null;
+        }
+
         return {
           title,
           description: `${description}
@@ -61,6 +66,7 @@ export const useIndexingStatuses = (deployment: DeploymentDto) => {
               }`,
           status: error ? SupportCheckStatus.Error : SupportCheckStatus.Ok,
         };
-      });
+      })
+      .filter(isPresent);
   }, [status.data?.data, status.isLoading]);
 };

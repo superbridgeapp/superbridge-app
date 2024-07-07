@@ -103,7 +103,7 @@ export const SupportStatusModal = ({
         </DialogHeader>
         <div className="p-6 pt-0 grid gap-2">
           {statusChecks.map((check) => (
-            <StatusLineItem {...check} />
+            <StatusLineItem key={check.title} {...check} />
           ))}
         </div>
       </DialogContent>
