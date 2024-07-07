@@ -42,7 +42,6 @@ export function useTokenBalances(chainId: number | undefined) {
       const id = token[chainId ?? 0]?.coinGeckoId
         ? `coingecko:${token[chainId ?? 0]?.coinGeckoId}`
         : `ethereum:${token[1]?.address}`;
-      // @ts-expect-error swagger stuff
       const price: number = prices.data?.data?.[id]?.price ?? 0;
       const usdValue =
         parseFloat(

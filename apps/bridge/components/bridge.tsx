@@ -47,9 +47,7 @@ export const Bridge = () => {
               )}
               {deployment?.conduitId && isSuperbridge && (
                 <a
-                  href={`https://conduit.xyz/?utm_source=${
-                    isSuperbridge ? "superbridge" : "rollbridge"
-                  }&utm_medium=affiliate&utm_campaign=poweredby`}
+                  href={`https://conduit.xyz/?utm_source=superbridge&utm_medium=affiliate&utm_campaign=poweredby`}
                   target="_blank"
                   className="text-[9px] tracking-tighter flex gap-1 items-center leading-none text-muted-foreground"
                 >
