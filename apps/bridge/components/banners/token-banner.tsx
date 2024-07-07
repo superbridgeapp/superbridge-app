@@ -15,39 +15,49 @@ export function TokenBanner() {
   const deployments = useDeployments();
   const navigate = useNavigate();
   const setDeployments = useInjectedStore((store) => store.setDeployments);
+  const superbridgeConfig = useInjectedStore(
+    (store) => store.superbridgeConfig
+  );
 
   const onClick = async () => {
-    trackEvent({ event: "token-banner-click", symbol: "wstETH" });
+    const { deploymentName, symbol } = superbridgeConfig!.banner!;
 
-    if (deployment?.name === "optimism" || deployment?.name === "base") {
+    trackEvent({ event: "token-banner-click", symbol });
+
+    if (deployment?.name !== deploymentName) {
+      let exists = deployments.deployments.find(
+        (x) => x.name === deploymentName
+      );
+      if (!exists) {
+        const mainnets = await bridgeControllerGetDeployments({
+          names: SUPERCHAIN_MAINNETS,
+        });
+        setDeployments(mainnets.data);
+        exists = mainnets.data.find((x) => x.name === deploymentName)!;
+      }
+      navigate(exists);
+
+      setTimeout(() => {
+        const token = useConfigState
+          .getState()
+          .tokens.find((x) => x[1]?.symbol === symbol);
+        if (token) {
+          setToken(token);
+        }
+      }, 500);
+    } else {
       const token = useConfigState
         .getState()
-        .tokens.find((x) => x[1]?.symbol === "wstETH");
+        .tokens.find((x) => x[1]?.symbol === symbol);
       if (token) {
         setToken(token);
       }
-      return;
     }
-
-    let base = deployments.deployments.find((x) => x.name === "base");
-    if (!base) {
-      const mainnets = await bridgeControllerGetDeployments({
-        names: SUPERCHAIN_MAINNETS,
-      });
-      setDeployments(mainnets.data);
-      base = mainnets.data.find((x) => x.name === "base")!;
-    }
-
-    navigate(base);
-    setTimeout(() => {
-      const token = useConfigState
-        .getState()
-        .tokens.find((x) => x[1]?.symbol === "wstETH");
-      if (token) {
-        setToken(token);
-      }
-    }, 500);
   };
+
+  if (!superbridgeConfig?.banner) {
+    return null;
+  }
 
   return (
     <div className="absolute left-1/2 top-[72px] md:top-7 -translate-x-1/2 -translate-y-1.5 md:translate-y-0.5">
@@ -60,13 +70,13 @@ export function TokenBanner() {
           height={0}
           width={0}
           sizes="100vw"
-          src={"https://ethereum-optimism.github.io/data/wstETH/logo.svg"}
+          src={superbridgeConfig.banner.image}
           alt="Bridge wstETH"
           className="rounded-full w-5 h-5 md:w-6 md:h-6"
         />
         <div className="flex gap-1.5 items-baseline">
           <span className="text-xs font-heading tracking-tight">
-            Bridge wstETH
+            Bridge {superbridgeConfig.banner.symbol}
           </span>
           <span className="text-[8px] font-heading tracking-tight opacity-40">
             Ad
