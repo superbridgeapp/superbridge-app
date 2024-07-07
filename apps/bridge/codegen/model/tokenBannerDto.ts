@@ -6,8 +6,8 @@
  * OpenAPI spec version: 1.0
  */
 
-export interface TokenDepositDataDto {
-  amount: string;
-  l1TokenAddress: string;
-  l2TokenAddress: string;
+export interface TokenBannerDto {
+  deploymentName: string;
+  image: string;
+  symbol: string;
 }
