@@ -98,7 +98,7 @@ export const SupportStatusModal = ({
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle className="text-2xl tracking-tight">
-            {deployment.l2.name} status
+            {deployment.l2.name} bridge status
           </DialogTitle>
         </DialogHeader>
         <div className="p-6 pt-0 grid gap-2">

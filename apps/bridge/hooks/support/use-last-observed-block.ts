@@ -1,4 +1,4 @@
-import { differenceInSeconds, formatDistance } from "date-fns";
+import { differenceInSeconds, formatDistanceStrict } from "date-fns";
 import { useMemo } from "react";
 import { useBlock } from "wagmi";
 
@@ -10,7 +10,7 @@ export const useLastObservedBlock = (chain: ChainDto) => {
     blockTag: "latest",
     chainId: chain.id,
     query: {
-      refetchInterval: 60_000,
+      refetchInterval: 30_000,
     },
   });
 
@@ -27,8 +27,9 @@ export const useLastObservedBlock = (chain: ChainDto) => {
     if (latestBlock.data?.timestamp) {
       const lastBlockTimestamp =
         parseInt(latestBlock.data.timestamp.toString()) * 1000;
-      const distance = formatDistance(now, lastBlockTimestamp);
-      const stale = differenceInSeconds(now, lastBlockTimestamp) > 30;
+
+      const distance = formatDistanceStrict(now, lastBlockTimestamp);
+      const stale = differenceInSeconds(now, lastBlockTimestamp) > 60;
 
       return {
         description: stale

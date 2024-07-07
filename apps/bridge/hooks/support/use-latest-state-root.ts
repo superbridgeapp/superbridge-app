@@ -1,4 +1,4 @@
-import { differenceInHours, formatDistance } from "date-fns";
+import { differenceInHours, formatDistanceStrict } from "date-fns";
 import { useMemo } from "react";
 import { useBlock } from "wagmi";
 
@@ -99,7 +99,7 @@ export const useLatestStateRoot = (
     const now = Date.now();
     const lastBlockTimestamp = parseInt(block.data.timestamp.toString()) * 1000;
 
-    const distance = formatDistance(now, lastBlockTimestamp);
+    const distance = formatDistanceStrict(now, lastBlockTimestamp, {});
     const stale =
       differenceInHours(now, lastBlockTimestamp) > submissionInterval;
 
