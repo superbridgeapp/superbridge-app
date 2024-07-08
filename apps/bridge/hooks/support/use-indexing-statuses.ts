@@ -35,21 +35,21 @@ export const useIndexingStatuses = (deployment: DeploymentDto) => {
         let title;
         let description;
 
-        const error = d.diff > 100;
+        const error = d.diff > 200;
 
         if (d.name.includes("deposit")) {
           title = "Deposit indexing";
-          description = "Deposit operations";
+          description = "Deposit";
         }
 
         if (d.name.includes("withdrawals")) {
           title = "Withdrawal indexing";
-          description = "Withdrawal operations";
+          description = "Withdrawal";
         }
 
         if (d.name.includes("proveFinalize")) {
           title = "Prove & finalize indexing";
-          description = "Prove & finalize operations";
+          description = "Prove & finalize";
         }
 
         if (!title) {
@@ -62,7 +62,7 @@ export const useIndexingStatuses = (deployment: DeploymentDto) => {
               ${
                 error
                   ? "may be delayed as our indexing pipeline catches up"
-                  : "operating normally"
+                  : "indexing pipeline operating normally"
               }`,
           status: error ? SupportCheckStatus.Error : SupportCheckStatus.Ok,
         };

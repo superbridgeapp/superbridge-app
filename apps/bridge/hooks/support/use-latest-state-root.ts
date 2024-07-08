@@ -42,14 +42,15 @@ export const useLatestStateRoot = (
 
   const name = deployment?.contractAddresses.disputeGameFactory
     ? "fault dispute game"
-    : "state root output";
+    : "state root";
+  const title = `Last observed ${name}`;
 
   return useMemo(() => {
     let blockNumber;
 
     if (!deployment || block.isLoading) {
       return {
-        title: `Last observed ${name}`,
+        title,
         description: "Loading…",
         status: SupportCheckStatus.Loading,
       };
@@ -58,7 +59,7 @@ export const useLatestStateRoot = (
     if (deployment?.contractAddresses.disputeGameFactory) {
       if (latestDisputeGame.isLoading || block.isLoading) {
         return {
-          title: `Last observed ${name}`,
+          title,
           description: "Loading…",
           status: SupportCheckStatus.Loading,
         };
@@ -68,7 +69,7 @@ export const useLatestStateRoot = (
     } else {
       if (latestStateRoot.isLoading || block.isLoading) {
         return {
-          title: `Last observed ${name}`,
+          title,
           description: "Loading…",
           status: SupportCheckStatus.Loading,
         };
@@ -79,7 +80,7 @@ export const useLatestStateRoot = (
 
     if (!blockNumber) {
       return {
-        title: `Last observed ${name}`,
+        title,
         description: `None submitted just yet, withdrawal proving is delayed`,
         status: SupportCheckStatus.Warning,
       };
@@ -87,13 +88,13 @@ export const useLatestStateRoot = (
 
     if (!block.data) {
       return {
-        title: `Last observed ${name}`,
+        title,
         description: `Something went wrong…`,
         status: SupportCheckStatus.Error,
       };
     }
 
-    const submissionInterval =
+    const submissionIntervalHours =
       deployment.config.submissionIntervalSeconds / 60 / 60;
 
     const now = Date.now();
@@ -101,19 +102,19 @@ export const useLatestStateRoot = (
 
     const distance = formatDistanceStrict(now, lastBlockTimestamp, {});
     const stale =
-      differenceInHours(now, lastBlockTimestamp) > submissionInterval;
+      differenceInHours(now, lastBlockTimestamp) > submissionIntervalHours * 2;
 
     if (stale) {
       return {
         status: SupportCheckStatus.Warning,
-        title: `Block production`,
+        title,
         description: `Last observed ${name} was more than ${distance} ago. This could affect proving withdrawals from ${deployment?.l2.name}`,
       };
     }
 
     return {
       status: SupportCheckStatus.Ok,
-      title: `Block production`,
+      title,
       description: `Last observed ${name} block was ${distance} ago`,
     };
   }, [
