@@ -20,8 +20,6 @@ import { useFromChain, useToChain } from "@/hooks/use-chain";
 import { useDeployment } from "@/hooks/use-deployment";
 import { useNativeToken } from "@/hooks/use-native-token";
 import { useNetworkFee } from "@/hooks/use-network-fee";
-import { useTokenPrice } from "@/hooks/use-prices";
-import { useReceiveAmount } from "@/hooks/use-receive-amount";
 import { useRequiredCustomGasTokenBalance } from "@/hooks/use-required-custom-gas-token-balance";
 import { useSelectedToken } from "@/hooks/use-selected-token";
 import { useWeiAmount } from "@/hooks/use-wei-amount";
@@ -97,9 +95,6 @@ export const BridgeBody = () => {
     bridge.refetch,
     weiAmount
   );
-  const usdPrice = useTokenPrice(stateToken);
-
-  const receive = useReceiveAmount();
 
   const hasInsufficientBalance = weiAmount > tokenBalance;
   const hasInsufficientGas = (() => {
@@ -125,63 +120,6 @@ export const BridgeBody = () => {
 
   const onDismissAlert = useDismissAlert(initiateBridge);
   const onCancel = useCancelBridge();
-  
-
-  const initiateBridge = async () => {
-    await onWrite();
-    allowance.refetch();
-    setConfirmationModal(false);
-  };
-
-  const [alerts, setAlerts] = useState<AlertModals[]>([]);
-
-  const onDismissAlert = (id: AlertModals) => () => {
-    setAlerts(alerts.filter((a) => a !== id));
-    if (alerts.length === 1) {
-      initiateBridge();
-    }
-  };
-
-  const onSubmit = () => {
-    const modals: AlertModals[] = [];
-
-    const needDestinationGasConditions = [
-      withdrawing, // need to prove/finalize
-      isNativeUsdc(stateToken), // need to mint
-      !withdrawing && !isEth(stateToken?.[to?.id ?? 0]), // depositing an ERC20 with no gas on the destination (won't be able to do anything with it)
-    ];
-    if (
-      needDestinationGasConditions.some((x) => x) &&
-      toEthBalance.data?.value === BigInt(0)
-    ) {
-      modals.push(AlertModals.NoGas);
-    }
-
-    if (
-      totalFeesInFiat &&
-      fiatValueBeingBridged &&
-      totalFeesInFiat > fiatValueBeingBridged &&
-      isSuperbridge &&
-      SUPERCHAIN_MAINNETS.includes(deployment?.name ?? "")
-    ) {
-      modals.push(AlertModals.GasExpensive);
-    }
-
-    if (faultProofUpgradeTime && withdrawing) {
-      modals.push(AlertModals.FaultProofs);
-    }
-
-    if (modals.length === 0) {
-      initiateBridge();
-    } else {
-      setAlerts(modals);
-    }
-  };
-
-  const onCancel = () => {
-    setAlerts([]);
-    setConfirmationModal(false);
-  };
 
   const handleSubmitClick = () => {
     if (!nft && weiAmount === BigInt(0)) {

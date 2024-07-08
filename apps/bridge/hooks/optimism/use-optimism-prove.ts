@@ -87,7 +87,7 @@ export function useProveOptimism({
         // rainbow just returns null if cancelled
         setProving(id, hash);
       }
-    } catch (e) {
+    } catch (e: any) {
       if (
         e.message.includes("rejected the request") ||
         e.message.includes("denied transaction signature")

@@ -9,7 +9,7 @@ export const useSwitchChain = () => {
   return async (chain: Chain | ChainDto) => {
     try {
       await wallet.data?.switchChain(chain);
-    } catch (e) {
+    } catch (e: any) {
       if (e.message.includes("Unrecognized chain ID")) {
         // MetaMask doesn't like native currency symbols of length 1
         if (chain.nativeCurrency.symbol.length === 1) {
