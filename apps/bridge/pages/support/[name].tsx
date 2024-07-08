@@ -36,7 +36,7 @@ import {
 import { useSupportStatusChecks } from "@/hooks/support/use-support-status-checks";
 import { useFaultProofUpgradeTime } from "@/hooks/use-fault-proof-upgrade-time";
 import { getFinalizationPeriod } from "@/hooks/use-finalization-period";
-import { isArbitrum } from "@/utils/is-mainnet";
+import { isArbitrum, isOptimism } from "@/utils/is-mainnet";
 
 const FaultProofAlert = ({ deployment }: { deployment: DeploymentDto }) => {
   return (
@@ -320,53 +320,59 @@ function Support({
                 FAQs &amp; Support
               </h1>
               <div className="flex gap-2">
-                <Button
-                  className="gap-2 bg-card tracking-tight"
-                  variant={"secondary"}
-                  asChild
-                >
-                  <Link
+                {[...SUPERCHAIN_MAINNETS, ...SUPERCHAIN_TESTNETS].includes(
+                  deployment.name
+                ) && (
+                  <Button
                     className="gap-2 bg-card tracking-tight"
-                    href="/support"
+                    variant={"secondary"}
+                    asChild
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="14"
-                      height="14"
-                      viewBox="0 0 14 14"
-                      fill="none"
-                      className="fill-foreground"
+                    <Link
+                      className="gap-2 bg-card tracking-tight"
+                      href="/support"
                     >
-                      <path d="M7 0.677246C6.70724 0.677246 6.41553 0.769919 6.1849 0.984753L0.523395 5.9849C0.246428 6.23133 0 6.55463 0 7.0001C0 7.44556 0.246428 7.76887 0.523395 8.01529L6.1849 13.0154C6.41553 13.2313 6.70829 13.323 7 13.323C7.67715 13.323 8.23108 12.769 8.23108 12.0919C8.23108 11.738 8.09312 11.4147 7.81616 11.1693L4.49361 8.23118H12.7689C13.4461 8.23118 14 7.67725 14 7.0001C14 6.32295 13.4461 5.76902 12.7689 5.76902H4.49255L7.8151 2.83085C8.09207 2.58442 8.23003 2.26217 8.23003 1.90833C8.23003 1.23118 7.67609 0.677246 6.99895 0.677246L7 0.677246Z" />
-                    </svg>
-                    <span>All chains</span>
-                  </Link>
-                </Button>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="14"
+                        height="14"
+                        viewBox="0 0 14 14"
+                        fill="none"
+                        className="fill-foreground"
+                      >
+                        <path d="M7 0.677246C6.70724 0.677246 6.41553 0.769919 6.1849 0.984753L0.523395 5.9849C0.246428 6.23133 0 6.55463 0 7.0001C0 7.44556 0.246428 7.76887 0.523395 8.01529L6.1849 13.0154C6.41553 13.2313 6.70829 13.323 7 13.323C7.67715 13.323 8.23108 12.769 8.23108 12.0919C8.23108 11.738 8.09312 11.4147 7.81616 11.1693L4.49361 8.23118H12.7689C13.4461 8.23118 14 7.67725 14 7.0001C14 6.32295 13.4461 5.76902 12.7689 5.76902H4.49255L7.8151 2.83085C8.09207 2.58442 8.23003 2.26217 8.23003 1.90833C8.23003 1.23118 7.67609 0.677246 6.99895 0.677246L7 0.677246Z" />
+                      </svg>
+                      <span>All chains</span>
+                    </Link>
+                  </Button>
+                )}
 
-                <Button
-                  className="gap-2 bg-card"
-                  variant={"secondary"}
-                  onClick={() => setStatusModal(true)}
-                >
-                  Status{" "}
-                  {statusLoading ? (
-                    <span className="flex items-center justify-center px-2 py-1 font-heading rounded-lg text-white bg-gray-400">
-                      Loading
-                    </span>
-                  ) : statusWarning ? (
-                    <span className="flex items-center justify-center px-2 py-1 font-heading rounded-lg text-white bg-orange-400">
-                      Warning
-                    </span>
-                  ) : statusError ? (
-                    <span className="flex items-center justify-center px-2 py-1 font-heading rounded-lg text-white bg-red-400">
-                      Error
-                    </span>
-                  ) : (
-                    <span className="flex items-center justify-center px-2 py-1 font-heading rounded-lg text-white bg-green-400">
-                      OK
-                    </span>
-                  )}
-                </Button>
+                {isOptimism(deployment) && (
+                  <Button
+                    className="gap-2 bg-card"
+                    variant={"secondary"}
+                    onClick={() => setStatusModal(true)}
+                  >
+                    Status{" "}
+                    {statusLoading ? (
+                      <span className="flex items-center justify-center px-2 py-1 font-heading rounded-lg text-white bg-gray-400">
+                        Loading
+                      </span>
+                    ) : statusWarning ? (
+                      <span className="flex items-center justify-center px-2 py-1 font-heading rounded-lg text-white bg-orange-400">
+                        Warning
+                      </span>
+                    ) : statusError ? (
+                      <span className="flex items-center justify-center px-2 py-1 font-heading rounded-lg text-white bg-red-400">
+                        Error
+                      </span>
+                    ) : (
+                      <span className="flex items-center justify-center px-2 py-1 font-heading rounded-lg text-white bg-green-400">
+                        OK
+                      </span>
+                    )}
+                  </Button>
+                )}
               </div>
 
               {faultProofUpgradeTime && (
