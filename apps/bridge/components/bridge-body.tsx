@@ -63,6 +63,7 @@ export const BridgeBody = () => {
   const stateToken = useConfigState.useToken();
   const forceViaL1 = useConfigState.useForceViaL1();
   const tokensModal = useConfigState.useTokensModal();
+  const rawAmount = useConfigState.useRawAmount();
   const setTokensModal = useConfigState.useSetTokensModal();
   const fast = useConfigState.useFast();
   const nft = useConfigState.useNft();
@@ -124,6 +125,63 @@ export const BridgeBody = () => {
 
   const onDismissAlert = useDismissAlert(initiateBridge);
   const onCancel = useCancelBridge();
+  
+
+  const initiateBridge = async () => {
+    await onWrite();
+    allowance.refetch();
+    setConfirmationModal(false);
+  };
+
+  const [alerts, setAlerts] = useState<AlertModals[]>([]);
+
+  const onDismissAlert = (id: AlertModals) => () => {
+    setAlerts(alerts.filter((a) => a !== id));
+    if (alerts.length === 1) {
+      initiateBridge();
+    }
+  };
+
+  const onSubmit = () => {
+    const modals: AlertModals[] = [];
+
+    const needDestinationGasConditions = [
+      withdrawing, // need to prove/finalize
+      isNativeUsdc(stateToken), // need to mint
+      !withdrawing && !isEth(stateToken?.[to?.id ?? 0]), // depositing an ERC20 with no gas on the destination (won't be able to do anything with it)
+    ];
+    if (
+      needDestinationGasConditions.some((x) => x) &&
+      toEthBalance.data?.value === BigInt(0)
+    ) {
+      modals.push(AlertModals.NoGas);
+    }
+
+    if (
+      totalFeesInFiat &&
+      fiatValueBeingBridged &&
+      totalFeesInFiat > fiatValueBeingBridged &&
+      isSuperbridge &&
+      SUPERCHAIN_MAINNETS.includes(deployment?.name ?? "")
+    ) {
+      modals.push(AlertModals.GasExpensive);
+    }
+
+    if (faultProofUpgradeTime && withdrawing) {
+      modals.push(AlertModals.FaultProofs);
+    }
+
+    if (modals.length === 0) {
+      initiateBridge();
+    } else {
+      setAlerts(modals);
+    }
+  };
+
+  const onCancel = () => {
+    setAlerts([]);
+    setConfirmationModal(false);
+  };
 
   const handleSubmitClick = () => {
     if (!nft && weiAmount === BigInt(0)) {

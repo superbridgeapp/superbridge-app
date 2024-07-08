@@ -19,6 +19,8 @@ import { buildPendingTx } from "@/utils/build-pending-tx";
 import { isNativeToken } from "@/utils/is-eth";
 
 import { useBridge } from "./use-bridge";
+import { trackEvent } from "@/services/ga";
+import { isNativeUsdc } from "@/utils/is-usdc";
 
 export const useInitiateBridge = (bridge: ReturnType<typeof useBridge>) => {
   const wallet = useWalletClient();
@@ -34,6 +36,7 @@ export const useInitiateBridge = (bridge: ReturnType<typeof useBridge>) => {
   const withdrawing = useConfigState.useWithdrawing();
   const stateToken = useConfigState.useToken();
   const forceViaL1 = useConfigState.useForceViaL1();
+  const rawAmount = useConfigState.useRawAmount();
   const fast = useConfigState.useFast();
   const nft = useConfigState.useNft();
   const recipient = useConfigState.useRecipientAddress();
@@ -91,6 +94,22 @@ export const useInitiateBridge = (bridge: ReturnType<typeof useBridge>) => {
       const hash = await bridge.write!();
 
       setPendingBridgeTransactionHash(hash);
+
+       trackEvent({
+        event: "bridge",
+        from: from?.name ?? "",
+        to: to?.name ?? "",
+        amount: parseFloat(rawAmount),
+        token: token?.symbol ?? "",
+        type: fast
+          ? "across"
+          : !!stateToken && isNativeUsdc(stateToken)
+          ? "cctp"
+          : withdrawing
+          ? "withdraw"
+          : "deposit",
+        transactionHash: hash,
+      });
 
       if (!fast && deployment) {
         track.mutate({

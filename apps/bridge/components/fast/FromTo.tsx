@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 
 import { useFromChain, useToChain } from "@/hooks/use-chain";
+import { trackEvent } from "@/services/ga";
 import { useConfigState } from "@/state/config";
 import { useFastState } from "@/state/fast";
 
@@ -42,6 +43,9 @@ export const FastFromTo = () => {
           if (!from || !to) return;
           setToChainId(from.id);
           setFromChainId(to.id);
+
+          trackEvent({ event: "from-chain-select", name: to.name });
+          trackEvent({ event: "to-chain-select", name: from.name });
         }}
         className="rounded-md bg-card border-2 bg-clip-border border-card absolute left-[50%] top-1/2 -translate-x-[50%] -translate-y-2/4 z-10 transition-all hover:scale-105 overflow-hidden"
       >

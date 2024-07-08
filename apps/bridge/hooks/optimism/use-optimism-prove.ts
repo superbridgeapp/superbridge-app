@@ -4,13 +4,18 @@ import { useAccount, usePublicClient, useWalletClient } from "wagmi";
 
 import { useBridgeControllerGetProveTransaction } from "@/codegen";
 import { BridgeWithdrawalDto } from "@/codegen/model";
+import { trackEvent } from "@/services/ga";
 import { useConfigState } from "@/state/config";
 import { usePendingTransactions } from "@/state/pending-txs";
 
 import { useFaultProofUpgradeTime } from "../use-fault-proof-upgrade-time";
 import { useSwitchChain } from "../use-switch-chain";
 
-export function useProveOptimism({ id, deployment }: BridgeWithdrawalDto) {
+export function useProveOptimism({
+  id,
+  deployment,
+  withdrawal,
+}: BridgeWithdrawalDto) {
   const account = useAccount();
   const wallet = useWalletClient({ chainId: deployment.l1.id });
   const client = usePublicClient({ chainId: deployment.l1.id });
@@ -74,6 +79,11 @@ export function useProveOptimism({ id, deployment }: BridgeWithdrawalDto) {
             }),
       });
       if (hash) {
+        trackEvent({
+          event: "prove-withdrawal",
+          network: chain.name,
+          withdrawalTransactionHash: withdrawal.transactionHash,
+        });
         // rainbow just returns null if cancelled
         setProving(id, hash);
       }

@@ -4,11 +4,16 @@ import { useAccount, usePublicClient, useWalletClient } from "wagmi";
 
 import { useBridgeControllerGetFinaliseTransaction } from "@/codegen";
 import { BridgeWithdrawalDto } from "@/codegen/model";
+import { trackEvent } from "@/services/ga";
 import { usePendingTransactions } from "@/state/pending-txs";
 
 import { useSwitchChain } from "../use-switch-chain";
 
-export function useFinaliseOptimism({ id, deployment }: BridgeWithdrawalDto) {
+export function useFinaliseOptimism({
+  id,
+  deployment,
+  withdrawal,
+}: BridgeWithdrawalDto) {
   const account = useAccount();
   const wallet = useWalletClient({ chainId: deployment.l1.id });
   const client = usePublicClient({ chainId: deployment.l1.id });
@@ -65,6 +70,11 @@ export function useFinaliseOptimism({ id, deployment }: BridgeWithdrawalDto) {
             }),
       });
       if (hash) {
+        trackEvent({
+          event: "finalize-withdrawal",
+          network: chain.name,
+          withdrawalTransactionHash: withdrawal.transactionHash,
+        });
         // rainbow just returns null if cancelled
         setFinalising(id, hash);
       }

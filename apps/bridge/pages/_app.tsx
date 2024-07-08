@@ -1,6 +1,6 @@
-import { Analytics } from "@vercel/analytics/react";
 import { AppProps } from "next/app";
 
+import { Analytics } from "@/components/analytics";
 import "@/services/i18n";
 import "@/services/sentry";
 
