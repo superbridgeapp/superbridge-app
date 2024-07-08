@@ -25,7 +25,7 @@ export const OpenActivity = ({}) => {
 
   return (
     <main
-      className="flex items-start justify-center w-screen h-screen fixed inset-0 px-2 md:px-0 py-16 md:py-24 xl:py-32"
+      className="flex items-start justify-center w-screen h-screen fixed inset-0 px-2 md:px-0 py-16 pt-[108px] md:py-24"
       key="bridgeMain"
     >
       <motion.div
