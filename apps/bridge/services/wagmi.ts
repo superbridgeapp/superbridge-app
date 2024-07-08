@@ -5,10 +5,9 @@ import { okxWallet, safeWallet } from "@rainbow-me/rainbowkit/wallets";
 import { fallback, http } from "wagmi";
 import { Chain, mainnet, optimism } from "wagmi/chains";
 
+import { DeploymentDto } from "@/codegen/model";
 import { chainIcons } from "@/config/theme";
 import { getMetadata } from "@/hooks/use-metadata";
-
-import { DeploymentDto } from "@/codegen/model";
 
 export function getWagmiConfig(deployments: DeploymentDto[]) {
   const metadata = getMetadata(deployments[0]);
