@@ -94,12 +94,11 @@ function useDeploymentTokens(): MultiChainToken[] {
   );
 }
 
-function useNativeTokens(): MultiChainToken[] {
+function useNativeTokens(): (MultiChainToken | null)[] {
   const { deployments } = useDeployments();
 
   return useMemo(
-    () =>
-      deployments.map((d) => getNativeTokenForDeployment(d)).filter(isPresent),
+    () => deployments.map((d) => getNativeTokenForDeployment(d)),
     [deployments]
   );
 }
@@ -168,9 +167,8 @@ export function useAllTokens() {
                 };
               }
 
-              const nativeToken = nativeTokens[deploymentIndex];
-              if (nativeToken) {
-                return copy;
+              if (nativeTokens[deploymentIndex]) {
+                return;
               }
 
               if (!copy[d.l2.id]) {
