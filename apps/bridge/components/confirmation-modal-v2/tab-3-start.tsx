@@ -86,9 +86,13 @@ function LineItem({
     >
       <div className="flex items-center gap-2">
         {fast ? (
-          <FastNetworkIcon chain={chain} />
+          <FastNetworkIcon chain={chain} className="w-4 h-4" />
         ) : (
-          <NetworkIcon deployment={deployment} chain={chain} />
+          <NetworkIcon
+            deployment={deployment}
+            chain={chain}
+            className="w-4 h-4"
+          />
         )}
         <div className="flex flex-col gap-1">
           <p className="text-xs">{text}</p>

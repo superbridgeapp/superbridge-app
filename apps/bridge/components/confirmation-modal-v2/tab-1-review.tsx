@@ -32,8 +32,8 @@ export const ConfirmationModalReviewTab = ({
         <p>Please check these details carefully</p>
       </div>
 
-      <div>
-        <NetworkIcon chain={from} deployment={deployment} />
+      <div className="flex">
+        <NetworkIcon chain={from} deployment={deployment} className="h-4 w-4" />
         From {from?.name}
       </div>
 
@@ -41,8 +41,8 @@ export const ConfirmationModalReviewTab = ({
         Send {rawAmount} {stateToken?.[from?.id ?? 0]?.symbol}
       </div>
 
-      <div>
-        <NetworkIcon chain={to} deployment={deployment} />
+      <div className="flex">
+        <NetworkIcon chain={to} deployment={deployment} className="h-4 w-4" />
         To {to?.name}
       </div>
 
