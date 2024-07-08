@@ -4,23 +4,20 @@ import {
   Locale,
   RainbowKitProvider,
   darkTheme,
-  getDefaultConfig,
-  getDefaultWallets,
   lightTheme,
 } from "@rainbow-me/rainbowkit";
-import { okxWallet, safeWallet } from "@rainbow-me/rainbowkit/wallets";
 import { QueryClientProvider } from "@tanstack/react-query";
 import clsx from "clsx";
 import { useTheme } from "next-themes";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { WagmiProvider, fallback, http } from "wagmi";
-import { Chain, mainnet, optimism } from "wagmi/chains";
+import { WagmiProvider } from "wagmi";
+import { Chain } from "wagmi/chains";
 
-import { chainIcons } from "@/config/theme";
 import { useDeployment } from "@/hooks/use-deployment";
 import { useDeployments } from "@/hooks/use-deployments";
 import { useMetadata } from "@/hooks/use-metadata";
+import { getWagmiConfig } from "@/services/wagmi";
 import { queryClient } from "@/utils/query-client";
 
 import { Loading } from "./Loading";
@@ -37,63 +34,7 @@ function Web3Provider({ children }: { children: React.ReactNode }) {
     setMounted(true);
   }, []);
 
-  const config = useMemo(() => {
-    const chains: Chain[] =
-      deployments.length === 0
-        ? [mainnet, optimism]
-        : Object.values(
-            deployments.reduce((accum, d) => {
-              if (chainIcons[d.l1.id]) {
-                // @ts-expect-error
-                d.l1.iconUrl = chainIcons[d.l1.id];
-              }
-
-              if (d.theme?.theme.imageNetwork) {
-                // @ts-expect-error
-                d.l2.iconUrl = d.theme?.theme.imageNetwork;
-              } else if (chainIcons[d.l2.id]) {
-                // @ts-expect-error
-                d.l2.iconUrl = chainIcons[d.l2.id];
-              }
-
-              return {
-                ...accum,
-                [d.l1.id]: d.l1,
-                [d.l2.id]: d.l2,
-              };
-            }, {})
-          );
-    const transports = chains.reduce(
-      (accum, chain) => ({
-        ...accum,
-        [chain.id]: fallback(
-          chain.rpcUrls.default.http.map((url) => http(url))
-        ),
-      }),
-      {}
-    );
-
-    const { wallets } = getDefaultWallets();
-
-    if (
-      deployments.length === 1 &&
-      deployments[0].name === "camp-network-4xje7wy105"
-    ) {
-      wallets[0].wallets.push(okxWallet);
-    }
-
-    return getDefaultConfig({
-      projectId: "50c3481ab766b0e9c611c9356a42987b",
-      appName: metadata.title,
-      appDescription: metadata.description,
-      appIcon: metadata.icon,
-      // @ts-expect-error
-      chains,
-      transports,
-      ssr: true,
-      wallets: [...wallets, { groupName: "More", wallets: [safeWallet] }],
-    });
-  }, [deployments]);
+  const config = useMemo(() => getWagmiConfig(deployments), [deployments]);
 
   // this is a temp Rainbowkit 2 workaround. Because `config` changes whenever deployments
   // change, users are disconnected when navigating to the app
