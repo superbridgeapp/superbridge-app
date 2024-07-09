@@ -23,6 +23,7 @@ export const useInitialise = () => {
   const setForceViaL1 = useConfigState.useSetForceViaL1();
   const setFast = useConfigState.useSetFast();
   const setWithdrawing = useConfigState.useSetWithdrawing();
+  const setRawAmount = useConfigState.useSetRawAmount();
   const clearPendingTransactionsStorage = usePendingTransactions.useLogout();
 
   useInitialiseRecipient();
@@ -39,6 +40,11 @@ export const useInitialise = () => {
     const direction = router.query.direction as string | undefined;
     if (direction === "withdraw") {
       setWithdrawing(true);
+    }
+
+    const amount = router.query.amount as string | undefined;
+    if (amount && parseFloat(amount)) {
+      setRawAmount(amount);
     }
   }, []);
 

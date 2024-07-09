@@ -1,7 +1,9 @@
+import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { isAddress } from "viem";
 import { useAccount } from "wagmi";
 
-import { resolveAddress } from "@/services/ens";
+import { resolveAddress, resolveName } from "@/services/ens";
 import { useConfigState } from "@/state/config";
 
 import { useIsContractAccount } from "./use-is-contract-account";
@@ -18,6 +20,7 @@ import { useIsContractAccount } from "./use-is-contract-account";
  * Everything else handled in the address modal
  */
 export const useInitialiseRecipient = () => {
+  const router = useRouter();
   const account = useAccount();
   const isContractAccount = useIsContractAccount();
 
@@ -25,6 +28,24 @@ export const useInitialiseRecipient = () => {
   const setRecipientAddress = useConfigState.useSetRecipientAddress();
 
   useEffect(() => {
+    const recipient = router.query.recipient as string | undefined;
+    if (recipient) {
+      if (isAddress(recipient)) {
+        setRecipientAddress(recipient);
+        resolveAddress(recipient).then((profile) => {
+          if (profile?.name) setRecipientName(profile.name);
+          else setRecipientName("");
+        });
+      } else if (recipient.endsWith(".eth")) {
+        setRecipientName(recipient);
+        resolveName(recipient).then((profile) => {
+          if (profile?.address) setRecipientAddress(profile?.address);
+          else setRecipientAddress("");
+        });
+      }
+      return;
+    }
+
     if (!account.address) {
       setRecipientName("");
       setRecipientAddress("");
