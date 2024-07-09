@@ -345,7 +345,13 @@ export const BridgeBody = () => {
     weiAmount,
     bridgeMax,
     bridgeMin,
+    depositsDisabled: deployment?.name === "parallel" && !withdrawing,
   })
+    .with({ depositsDisabled: true }, () => ({
+      onSubmit: () => {},
+      buttonText: "Deposits disabled",
+      disabled: true,
+    }))
     .with({ fast: true, acrossPaused: true }, () => ({
       onSubmit: () => {},
       buttonText: "Bridging paused",
