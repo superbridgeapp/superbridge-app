@@ -37,9 +37,9 @@ export const ConfirmationModalReviewTab = ({
 
   return (
     <div>
-      <DialogHeader className="items-center space-y-0">
+      <DialogHeader className="items-center">
         <DialogTitle className="text-3xl">Review</DialogTitle>
-        <DialogDescription>
+        <DialogDescription className="text-center">
           Please check these details carefully
         </DialogDescription>
       </DialogHeader>

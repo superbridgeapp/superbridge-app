@@ -46,6 +46,7 @@ import { IconSuperFast } from "../icons";
 import { NetworkIcon } from "../network-icon";
 import { PoweredByAcross } from "../powered-by-across";
 import { Button } from "../ui/button";
+import { DialogDescription, DialogHeader, DialogTitle } from "../ui/dialog";
 import {
   EscapeHatchIcon,
   FinalizeIcon,
@@ -715,120 +716,125 @@ export const ConfirmationModalStartTab = ({
     .otherwise(() => null);
 
   return (
-    <div className="flex flex-col p-6 pt-8">
-      <h1>Start your bridge</h1>
-      <p>
-        Bridging {rawAmount} {token?.symbol} from {from?.name} to {to?.name}
-      </p>
+    <div>
+      <DialogHeader className="items-center">
+        <DialogTitle className="text-3xl">Start your bridge</DialogTitle>
+        <DialogDescription>
+          Bridging {rawAmount} {token?.symbol} from {from?.name} to {to?.name}
+        </DialogDescription>
+      </DialogHeader>
 
-      {fast && (
-        <div className="flex flex-col items-center gap-2 text-center mb-3">
-          <div className="animate-wiggle-waggle">
-            <IconSuperFast className="w-10 h-auto" />
+      <div className="flex flex-col p-6 pt-0">
+        {fast && (
+          <div className="flex flex-col items-center gap-2 text-center mb-3">
+            <div className="animate-wiggle-waggle">
+              <IconSuperFast className="w-10 h-auto" />
+            </div>
+            <h1 className="font-heading tracking-tight text-2xl text-pretty leading-6">
+              {title}
+            </h1>
+            <PoweredByAcross />
+            <p className="text-xs md:text-sm text-pretty text-muted-foreground tracking-tight">
+              {description}
+            </p>
           </div>
-          <h1 className="font-heading tracking-tight text-2xl text-pretty leading-6">
-            {title}
-          </h1>
-          <PoweredByAcross />
-          <p className="text-xs md:text-sm text-pretty text-muted-foreground tracking-tight">
-            {description}
-          </p>
-        </div>
-      )}
-
-      <div className="py-1 flex flex-col border divide-y divide-border rounded-[16px]">
-        {approveGasTokenButton && (
-          <>
-            <LineItem
-              text={t("confirmationModal.approveGasToken", {
-                symbol: token?.symbol,
-              })}
-              chain={from}
-              fee={fee(approveCost, 4)}
-              button={
-                <Button
-                  onClick={approveGasTokenButton.onSubmit}
-                  disabled={approveGasTokenButton.disabled}
-                >
-                  {approveGasTokenButton.buttonText}
-                  {approvedGasToken && (
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="15"
-                      height="12"
-                      viewBox="0 0 15 12"
-                      className="fill-white dark:fill-zinc-950 ml-2 h-2.5 w-auto"
-                    >
-                      <path d="M6.80216 12C6.32268 12 5.94594 11.8716 5.67623 11.559L0.63306 6.02355C0.384755 5.7624 0.269165 5.41563 0.269165 5.07742C0.269165 4.31109 0.915614 3.67749 1.66909 3.67749C2.04583 3.67749 2.42257 3.83161 2.69228 4.13129L6.57955 8.38245L12.1921 0.56939C12.4661 0.192651 12.8899 0 13.3309 0C14.0715 0 14.7308 0.56939 14.7308 1.38709C14.7308 1.67392 14.6538 1.96932 14.4697 2.21762L7.84676 11.4306C7.61558 11.7688 7.21315 12 6.79788 12H6.80216Z" />
-                    </svg>
-                  )}
-                </Button>
-              }
-            />
-          </>
         )}
 
-        {approveButton && (
-          <>
-            <LineItem
-              text={t("confirmationModal.approve", { symbol: token?.symbol })}
-              chain={from}
-              fee={fee(approveCost, 4)}
-              button={
-                <Button
-                  onClick={approveButton.onSubmit}
-                  disabled={approveButton.disabled}
-                >
-                  {approveButton.buttonText}
-                  {approved && (
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="15"
-                      height="12"
-                      viewBox="0 0 15 12"
-                      className="fill-white dark:fill-zinc-950 ml-2 h-2.5 w-auto"
-                    >
-                      <path d="M6.80216 12C6.32268 12 5.94594 11.8716 5.67623 11.559L0.63306 6.02355C0.384755 5.7624 0.269165 5.41563 0.269165 5.07742C0.269165 4.31109 0.915614 3.67749 1.66909 3.67749C2.04583 3.67749 2.42257 3.83161 2.69228 4.13129L6.57955 8.38245L12.1921 0.56939C12.4661 0.192651 12.8899 0 13.3309 0C14.0715 0 14.7308 0.56939 14.7308 1.38709C14.7308 1.67392 14.6538 1.96932 14.4697 2.21762L7.84676 11.4306C7.61558 11.7688 7.21315 12 6.79788 12H6.80216Z" />
-                    </svg>
-                  )}
-                </Button>
-              }
-            />
-          </>
-        )}
-
-        {lineItems?.map(({ text, fee, chain, initiate }) => (
-          <LineItem
-            key={text}
-            text={text}
-            fee={fee}
-            chain={chain}
-            button={
-              initiate ? (
-                <Button
-                  onClick={initiateButton.onSubmit}
-                  disabled={initiateButton.disabled}
-                >
-                  {initiateButton.buttonText}
-                </Button>
-              ) : undefined
-            }
-          />
-        ))}
-      </div>
-
-      <div className="flex flex-col gap-2">
-        {isSuperbridge &&
-          !fast &&
-          (withdrawing || isNativeUsdc(stateToken)) && (
-            <Link
-              className={`mt-2 leading-3 text-center text-xs   cursor-pointer transition-all opacity-70 hover:opacity-100`}
-              href="/alternative-bridges"
-              target="_blank"
-            >
-              {t("confirmationModal.viewAlternateBridges")}
-            </Link>
+        <div className="py-1 flex flex-col border divide-y divide-border rounded-[16px]">
+          {approveGasTokenButton && (
+            <>
+              <LineItem
+                text={t("confirmationModal.approveGasToken", {
+                  symbol: token?.symbol,
+                })}
+                chain={from}
+                fee={fee(approveCost, 4)}
+                button={
+                  <Button
+                    onClick={approveGasTokenButton.onSubmit}
+                    disabled={approveGasTokenButton.disabled}
+                  >
+                    {approveGasTokenButton.buttonText}
+                    {approvedGasToken && (
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="15"
+                        height="12"
+                        viewBox="0 0 15 12"
+                        className="fill-white dark:fill-zinc-950 ml-2 h-2.5 w-auto"
+                      >
+                        <path d="M6.80216 12C6.32268 12 5.94594 11.8716 5.67623 11.559L0.63306 6.02355C0.384755 5.7624 0.269165 5.41563 0.269165 5.07742C0.269165 4.31109 0.915614 3.67749 1.66909 3.67749C2.04583 3.67749 2.42257 3.83161 2.69228 4.13129L6.57955 8.38245L12.1921 0.56939C12.4661 0.192651 12.8899 0 13.3309 0C14.0715 0 14.7308 0.56939 14.7308 1.38709C14.7308 1.67392 14.6538 1.96932 14.4697 2.21762L7.84676 11.4306C7.61558 11.7688 7.21315 12 6.79788 12H6.80216Z" />
+                      </svg>
+                    )}
+                  </Button>
+                }
+              />
+            </>
           )}
+
+          {approveButton && (
+            <>
+              <LineItem
+                text={t("confirmationModal.approve", { symbol: token?.symbol })}
+                chain={from}
+                fee={fee(approveCost, 4)}
+                button={
+                  <Button
+                    onClick={approveButton.onSubmit}
+                    disabled={approveButton.disabled}
+                  >
+                    {approveButton.buttonText}
+                    {approved && (
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="15"
+                        height="12"
+                        viewBox="0 0 15 12"
+                        className="fill-white dark:fill-zinc-950 ml-2 h-2.5 w-auto"
+                      >
+                        <path d="M6.80216 12C6.32268 12 5.94594 11.8716 5.67623 11.559L0.63306 6.02355C0.384755 5.7624 0.269165 5.41563 0.269165 5.07742C0.269165 4.31109 0.915614 3.67749 1.66909 3.67749C2.04583 3.67749 2.42257 3.83161 2.69228 4.13129L6.57955 8.38245L12.1921 0.56939C12.4661 0.192651 12.8899 0 13.3309 0C14.0715 0 14.7308 0.56939 14.7308 1.38709C14.7308 1.67392 14.6538 1.96932 14.4697 2.21762L7.84676 11.4306C7.61558 11.7688 7.21315 12 6.79788 12H6.80216Z" />
+                      </svg>
+                    )}
+                  </Button>
+                }
+              />
+            </>
+          )}
+
+          {lineItems?.map(({ text, fee, chain, initiate }) => (
+            <LineItem
+              key={text}
+              text={text}
+              fee={fee}
+              chain={chain}
+              button={
+                initiate ? (
+                  <Button
+                    onClick={initiateButton.onSubmit}
+                    disabled={initiateButton.disabled}
+                    size={"xs"}
+                  >
+                    {initiateButton.buttonText}
+                  </Button>
+                ) : undefined
+              }
+            />
+          ))}
+        </div>
+
+        <div className="flex flex-col gap-2">
+          {isSuperbridge &&
+            !fast &&
+            (withdrawing || isNativeUsdc(stateToken)) && (
+              <Link
+                className={`mt-2 leading-3 text-center text-xs   cursor-pointer transition-all opacity-70 hover:opacity-100`}
+                href="/alternative-bridges"
+                target="_blank"
+              >
+                {t("confirmationModal.viewAlternateBridges")}
+              </Link>
+            )}
+        </div>
       </div>
     </div>
   );

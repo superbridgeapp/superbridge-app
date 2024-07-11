@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { match } from "ts-pattern";
@@ -14,6 +15,12 @@ import { isNativeUsdc } from "@/utils/is-usdc";
 
 import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
+import {
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "../ui/dialog";
 
 export const ConfirmationModalTermsTab = ({
   onNext,
@@ -88,55 +95,67 @@ export const ConfirmationModalTermsTab = ({
 
   return (
     <div>
-      <div>
-        <h1>Accept terms</h1>
-        <p>Please read and agree to the following terms before you continue</p>
-      </div>
+      <DialogHeader className="items-center">
+        <DialogTitle className="text-3xl">Accept terms</DialogTitle>
+        <DialogDescription className="text-center">
+          Please read and agree to the following terms before you continue
+        </DialogDescription>
+      </DialogHeader>
 
-      <div className="flex flex-col gap-2 py-4">
-        <div className="pl-4 flex gap-2">
+      <div className="flex flex-col gap-4 px-6">
+        <div className="flex gap-3">
           <Checkbox
             id="timeframe"
             checked={checkbox1}
             onCheckedChange={(c) => setCheckbox1(c as boolean)}
+            className="mt-0.5"
           />
-          <label
-            htmlFor="timeframe"
-            className="text-[11px] text-muted-foreground "
-          >
+          <label htmlFor="timeframe" className="text-xs text-muted-foreground ">
             {checkbox1Text}
           </label>
         </div>
-        <div className="pl-4 flex gap-2">
+        <div className="flex gap-3">
           <Checkbox
             id="speed"
             checked={checkbox2}
             onCheckedChange={(c) => setCheckbox2(c as boolean)}
+            className="mt-0.5"
           />
-          <label htmlFor="speed" className="text-[11px] text-muted-foreground ">
+          <label htmlFor="speed" className="text-xs text-muted-foreground ">
             {withdrawing
               ? t("confirmationModal.checkbox2Withdrawal")
               : t("confirmationModal.checkbox2Deposit")}
           </label>
         </div>
-        <div className="pl-4 flex gap-2">
+        <div className="flex gap-3">
           <Checkbox
             id="fees"
             checked={checkbox3}
             onCheckedChange={(c) => setCheckbox3(c as boolean)}
+            className="mt-0.5"
           />
-          <label htmlFor="fees" className="text-[11px] text-muted-foreground ">
+          <label htmlFor="fees" className="text-xs text-muted-foreground ">
             {t("confirmationModal.checkbox3")}
           </label>
         </div>
       </div>
 
-      <Button
-        onClick={onNext}
-        disabled={!checkbox1 || !checkbox2 || !checkbox3}
-      >
-        Continue
-      </Button>
+      <DialogFooter>
+        <Link
+          href="/support"
+          className="text-xs font-heading text-center hover:underline"
+        >
+          Need help? View the FAQs
+        </Link>
+
+        <Button
+          onClick={onNext}
+          className="w-full"
+          disabled={!checkbox1 || !checkbox2 || !checkbox3}
+        >
+          Continue
+        </Button>
+      </DialogFooter>
     </div>
   );
 };
