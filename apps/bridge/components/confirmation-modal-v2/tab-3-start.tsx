@@ -42,7 +42,7 @@ import { isArbitrum } from "@/utils/is-mainnet";
 import { isNativeUsdc } from "@/utils/is-usdc";
 
 import { FastNetworkIcon } from "../fast/network-icon";
-import { IconSuperFast, IconTime } from "../icons";
+import { IconGas, IconSimpleGas, IconSuperFast, IconTime } from "../icons";
 import { NetworkIcon } from "../network-icon";
 import { PoweredByAcross } from "../powered-by-across";
 import { Button } from "../ui/button";
@@ -81,7 +81,7 @@ function LineItem({
     return (
       <div className="flex gap-4 px-3 py-2 rounded-lg justify-start items-center">
         <div className="flex items-center gap-2">
-          <IconTime className="w-7 h-7" />
+          <IconTime className="w-8 h-8" />
           <span className="text-xs font-heading leading-none text-muted-foreground">
             {text}
           </span>
@@ -97,21 +97,24 @@ function LineItem({
         className
       )}
     >
-      <div className="flex items-center gap-2">
+      <div className="flex items-start gap-2">
         {fast ? (
-          <FastNetworkIcon chain={chain} className="w-7 h-7" />
+          <FastNetworkIcon chain={chain} className="w-8 h-8" />
         ) : (
           <NetworkIcon
             deployment={deployment}
             chain={chain}
-            className="w-7 h-7"
+            className="w-8 h-8"
           />
         )}
-        <div className="flex flex-col gap-0.5">
+        <div className="flex flex-col gap-1">
           <span className="text-sm font-heading leading-none">{text}</span>
-          <span className="text-xs text-muted-foreground leading-none">
-            {fee && <p className="text-xs">{fee}</p>}
-          </span>
+          <div className="flex gap-1">
+            <IconSimpleGas className="w-3.5 h-auto fill-muted-foreground opacity-80" />
+            <span className="text-xs text-muted-foreground leading-none">
+              {fee && <p className="text-xs">{fee}</p>}
+            </span>
+          </div>
         </div>
       </div>
 
