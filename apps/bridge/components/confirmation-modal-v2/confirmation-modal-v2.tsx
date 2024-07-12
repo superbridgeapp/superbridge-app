@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
 import { useBridge } from "@/hooks/bridge/use-bridge";
@@ -132,7 +133,32 @@ export const ConfirmationModalV2 = ({
           <div className="w-10 h-10 shrink-0" />
         </div>
 
-        <div>{tabs[activeIndex].component}</div>
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={tabs[activeIndex].name}
+            animate="enter"
+            exit="exit"
+            transition={{
+              duration: 0.3,
+            }}
+            variants={{
+              initial: {
+                y: 10,
+                opacity: 0,
+              },
+              enter: {
+                y: 0,
+                opacity: 1,
+              },
+              exit: {
+                y: -10,
+                opacity: 0,
+              },
+            }}
+          >
+            <div>{tabs[activeIndex].component}</div>
+          </motion.div>
+        </AnimatePresence>
       </DialogContent>
     </Dialog>
   );
