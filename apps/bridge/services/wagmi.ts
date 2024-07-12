@@ -6,6 +6,7 @@ import { fallback, http } from "wagmi";
 import { Chain, mainnet, optimism } from "wagmi/chains";
 
 import { DeploymentDto } from "@/codegen/model";
+import { isSuperbridge } from "@/config/superbridge";
 import { chainIcons } from "@/config/theme";
 import { getMetadata } from "@/hooks/use-metadata";
 
@@ -48,8 +49,9 @@ export function getWagmiConfig(deployments: DeploymentDto[]) {
   const { wallets } = getDefaultWallets();
 
   if (
-    deployments.length === 1 &&
-    deployments[0].name === "camp-network-4xje7wy105"
+    isSuperbridge ||
+    (deployments.length === 1 &&
+      deployments[0].name === "camp-network-4xje7wy105")
   ) {
     wallets[0].wallets.push(okxWallet);
   }
