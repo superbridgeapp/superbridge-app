@@ -3,6 +3,7 @@ import { match } from "ts-pattern";
 import { arbitrum, base, mainnet, mode, optimism } from "viem/chains";
 
 import { DeploymentDto, DeploymentFamily } from "@/codegen/model";
+import { IconGas } from "@/components/icons";
 import { isSuperbridge } from "@/config/superbridge";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
 import { useDeployment } from "@/hooks/use-deployment";
@@ -96,7 +97,8 @@ export const NoGasModal = ({ onProceed, open, onCancel }: AlertProps) => {
         <div className="flex flex-col gap-8 p-6">
           <div className="flex flex-col gap-2 items-center text-center pt-10">
             <div className="animate-bounce">
-              <GasDrop />
+              {/* <GasDrop /> */}
+              <IconGas className="w-16 h-auto" />
             </div>
             <h1 className="font-heading text-2xl  text-pretty">
               {t("noGasModal.youNeedGasOn", common)}

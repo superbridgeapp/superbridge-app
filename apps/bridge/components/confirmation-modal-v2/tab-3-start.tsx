@@ -839,19 +839,17 @@ export const ConfirmationModalStartTab = ({
           />
         ))}
       </div>
-      <DialogFooter>
-        {isSuperbridge &&
-          !fast &&
-          (withdrawing || isNativeUsdc(stateToken)) && (
-            <Link
-              className={`mt-2 leading-3 text-center text-xs   cursor-pointer transition-all opacity-70 hover:opacity-100`}
-              href="/alternative-bridges"
-              target="_blank"
-            >
-              {t("confirmationModal.viewAlternateBridges")}
-            </Link>
-          )}
-      </DialogFooter>
+      {isSuperbridge && !fast && (withdrawing || isNativeUsdc(stateToken)) && (
+        <DialogFooter>
+          <Link
+            className={`mt-2 leading-3 text-center text-xs   cursor-pointer transition-all opacity-70 hover:opacity-100`}
+            href="/alternative-bridges"
+            target="_blank"
+          >
+            {t("confirmationModal.viewAlternateBridges")}
+          </Link>
+        </DialogFooter>
+      )}
     </div>
   );
 };

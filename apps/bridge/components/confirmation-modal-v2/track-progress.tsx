@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { useCancelBridge } from "@/hooks/bridge/use-cancel-bridge";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
 import { useSelectedToken } from "@/hooks/use-selected-token";
@@ -6,6 +8,12 @@ import { useModalsState } from "@/state/modals";
 import { useExplorerLink } from "@/utils/transaction-link";
 
 import { Button } from "../ui/button";
+import {
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "../ui/dialog";
 
 export const TrackBridgeProgress = () => {
   const rawAmount = useConfigState.useRawAmount();
@@ -19,32 +27,42 @@ export const TrackBridgeProgress = () => {
   const cancel = useCancelBridge();
 
   return (
-    <div>
-      <div>
-        <h1>Bridging</h1>
-        <p>
+    <>
+      <DialogHeader className="items-center">
+        <DialogTitle className="text-3xl">Bridging</DialogTitle>
+        <DialogDescription>
           Bridging {rawAmount} {token?.symbol} from {from?.name} to {to?.name}
-        </p>
+        </DialogDescription>
+      </DialogHeader>
+      <div className="flex flex-col gap-2 px-6">
+        <p>Next steps</p>
       </div>
 
-      <h2>Next steps</h2>
-
-      <div className="flex items-center">
-        <Button asChild variant={"secondary"}>
-          <a href={explorerLink.link} target="_blank">
-            {explorerLink.name}
-          </a>
-        </Button>
-
-        <Button
-          onClick={() => {
-            cancel();
-            setDisplayTransactions(true);
-          }}
+      <DialogFooter>
+        <Link
+          href="/support"
+          className="text-xs font-heading text-center hover:underline"
         >
-          Track activity
-        </Button>
-      </div>
-    </div>
+          Need help? View the FAQs
+        </Link>
+        <div className="flex flex-row gap-2 w-full">
+          <Button asChild variant={"secondary"} className="w-full">
+            <a href={explorerLink.link} target="_blank">
+              {explorerLink.name}
+            </a>
+          </Button>
+
+          <Button
+            className="w-full"
+            onClick={() => {
+              cancel();
+              setDisplayTransactions(true);
+            }}
+          >
+            Track activity
+          </Button>
+        </div>
+      </DialogFooter>
+    </>
   );
 };
