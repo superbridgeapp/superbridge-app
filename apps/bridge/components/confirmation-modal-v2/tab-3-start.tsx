@@ -769,6 +769,7 @@ export const ConfirmationModalStartTab = ({
                 <Button
                   onClick={approveGasTokenButton.onSubmit}
                   disabled={approveGasTokenButton.disabled}
+                  size="xs"
                 >
                   {approveGasTokenButton.buttonText}
                   {approvedGasToken && (
@@ -798,6 +799,7 @@ export const ConfirmationModalStartTab = ({
                 <Button
                   onClick={approveButton.onSubmit}
                   disabled={approveButton.disabled}
+                  size="xs"
                 >
                   {approveButton.buttonText}
                   {approved && (

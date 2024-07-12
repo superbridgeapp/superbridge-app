@@ -6,6 +6,16 @@ const config = {
     config.resolve.fallback = { fs: false, net: false, tls: false };
     return config;
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "ethereum-optimism.github.io",
+        port: "",
+        pathname: "/data/**",
+      },
+    ],
+  },
   optimizeFonts: false,
   experimental: {
     optimizeCss: true,

@@ -10,7 +10,13 @@ import { useConfigState } from "@/state/config";
 import { formatDecimals } from "@/utils/format-decimals";
 
 import { CctpBadge } from "../cttp-badge";
-import { IconAcrossRound, IconGas, IconSB, IconTime } from "../icons";
+import {
+  IconAcrossRound,
+  IconCCTPRound,
+  IconGas,
+  IconSB,
+  IconTime,
+} from "../icons";
 import { NetworkIcon } from "../network-icon";
 import { Button } from "../ui/button";
 import {
@@ -112,7 +118,7 @@ export const ConfirmationModalReviewTab = ({
             </div>
           </div>
         </div>
-        {/* Todo: Maybe i should componentise the info lists / tables */}
+        {/* Todo: Maybe should componentise the info lists / tables */}
         <div className="flex flex-col divide-y divide-border rounded-lg border py-0.5 text-xs">
           {/* Row 1 */}
           <div className="flex items-start gap-4 p-2 justify-between">
@@ -127,22 +133,18 @@ export const ConfirmationModalReviewTab = ({
                 {fast
                   ? "Across"
                   : !!stateToken && isCctpBridgeOperation(stateToken)
-                  ? "CCTP"
+                  ? "Circle (CCTP)"
                   : `${to?.name} Native Bridge`}
               </span>
               {fast ? (
-                <IconAcrossRound />
+                <IconAcrossRound className="h-4 w-4" />
               ) : !!stateToken && isCctpBridgeOperation(stateToken) ? (
-                <CctpBadge />
+                <IconCCTPRound className="h-4 w-4" />
               ) : (
-                // TODO: Can we make this the network icon beloning to the rollup brige?
-                <Image
-                  src={stateToken?.[to?.id ?? 0]?.logoURI}
-                  width={0}
-                  height={0}
-                  sizes="100vw"
+                <NetworkIcon
+                  chain={to}
+                  deployment={deployment}
                   className="h-4 w-4"
-                  alt={stateToken?.[to?.id ?? 0]?.name}
                 />
               )}
             </div>
