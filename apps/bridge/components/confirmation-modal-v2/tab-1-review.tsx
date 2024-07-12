@@ -9,7 +9,8 @@ import { useTransferTime } from "@/hooks/use-transfer-time";
 import { useConfigState } from "@/state/config";
 import { formatDecimals } from "@/utils/format-decimals";
 
-import { IconGas, IconSB, IconTime } from "../icons";
+import { CctpBadge } from "../cttp-badge";
+import { IconAcrossRound, IconGas, IconSB, IconTime } from "../icons";
 import { NetworkIcon } from "../network-icon";
 import { Button } from "../ui/button";
 import {
@@ -121,14 +122,29 @@ export const ConfirmationModalReviewTab = ({
                 <span>Bridge via</span>
               </div>
             </div>
-            <div className="flex items-center justify-between">
+            <div className="flex gap-1.5 items-center justify-between ">
               <span>
                 {fast
                   ? "Across"
                   : !!stateToken && isCctpBridgeOperation(stateToken)
                   ? "CCTP"
-                  : "Native Bridge"}
+                  : `${to?.name} Native Bridge`}
               </span>
+              {fast ? (
+                <IconAcrossRound />
+              ) : !!stateToken && isCctpBridgeOperation(stateToken) ? (
+                <CctpBadge />
+              ) : (
+                // TODO: Can we make this the network icon beloning to the rollup brige?
+                <Image
+                  src={stateToken?.[to?.id ?? 0]?.logoURI}
+                  width={0}
+                  height={0}
+                  sizes="100vw"
+                  className="h-4 w-4"
+                  alt={stateToken?.[to?.id ?? 0]?.name}
+                />
+              )}
             </div>
           </div>
 
