@@ -9,9 +9,9 @@ import { useNavIcon } from "@/hooks/use-theme";
 import { useConfigState } from "@/state/config";
 import { useInjectedStore } from "@/state/injected";
 
-import { IconSuperFastSimple } from "./icons";
+import { BadgeNew } from "./badges/new-badge";
 import { TokenBanner } from "./banners/token-banner";
-import { BadgeNew } from "./badges";
+import { IconSuperFastSimple } from "./icons";
 
 export function Header() {
   const deployments = useDeployments();

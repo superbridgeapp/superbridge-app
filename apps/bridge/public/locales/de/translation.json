@@ -142,7 +142,7 @@
     "easyModeFee": "Einfacher Modus Gas"
   },
 
-  "poweredByConduit": "Betrieben von Conduit",
+  "poweredBy": "Bereitgestellt von {{name}}",
 
   "confirmationModal": {
     "cctpDepositTitle": "Einlagen von {{symbol}} dauern ~{{mins}} Minuten",

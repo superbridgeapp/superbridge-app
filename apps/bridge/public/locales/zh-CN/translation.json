@@ -138,7 +138,8 @@
     "networkGas": "{{chain}} 燃料",
     "easyModeFee": "简易模式燃料"
   },
-  "poweredByConduit": "由 Conduit 提供技术支持",
+  "poweredBy": "由 {{name}} 提供支持",
+
   "confirmationModal": {
     "cctpDepositTitle": "{{symbol}} 存款需要约 {{mins}} 分钟",
     "cctpWithdrawalTitle": "{{symbol}} 取款需要约 {{mins}} 分钟",

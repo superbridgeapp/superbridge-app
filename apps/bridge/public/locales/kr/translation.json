@@ -142,8 +142,7 @@
     "easyModeFee": "쉬운 모드 가스"
   },
 
-  "poweredByConduit": "Conduit에서 제공",
-
+  "poweredBy": "{{name}} 제공",
   "confirmationModal": {
     "cctpDepositTitle": "{{symbol}} 예금은 약 {{mins}} 분이 소요됩니다",
     "cctpWithdrawalTitle": "{{symbol}} 인출은 약 {{mins}} 분이 소요됩니다",

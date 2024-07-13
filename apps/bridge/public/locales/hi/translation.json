@@ -142,7 +142,7 @@
     "easyModeFee": "आसान मोड गैस"
   },
 
-  "poweredByConduit": "कन्ड्यूट द्वारा संचालित",
+  "poweredBy": "{{name}} द्वारा संचालित",
 
   "confirmationModal": {
     "cctpDepositTitle": "{{symbol}} जमा लेने में लगभग {{mins}} मिनट लगते हैं",

@@ -52,7 +52,7 @@ import {
 
 import inProgress from "../animation/loading.json";
 import { AcrossBadge } from "./across-badge";
-import { CctpBadge } from "./cttp-badge";
+import { CctpBadge } from "./badges/cttp-badge";
 import { FastNetworkIcon } from "./fast/network-icon";
 import { NetworkIcon } from "./network-icon";
 import { NftImage } from "./nft";

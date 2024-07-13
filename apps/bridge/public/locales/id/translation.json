@@ -142,7 +142,7 @@
     "easyModeFee": "Biaya mode mudah"
   },
 
-  "poweredByConduit": "Ditenagai oleh Conduit",
+  "poweredBy": "Didukung oleh {{name}}",
 
   "confirmationModal": {
     "cctpDepositTitle": "Deposit {{symbol}} memakan waktu ~{{mins}} menit",
