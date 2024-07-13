@@ -142,7 +142,7 @@
     "easyModeFee": "Phí gas chế độ dễ dàng"
   },
 
-  "poweredByConduit": "Được hỗ trợ bởi Conduit",
+  "poweredBy": "Được cung cấp bởi {{name}}",
 
   "confirmationModal": {
     "cctpDepositTitle": "Tiền gửi {{symbol}} mất khoảng {{mins}} phút",

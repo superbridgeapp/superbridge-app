@@ -142,7 +142,7 @@
     "easyModeFee": "Gas de modo fácil"
   },
 
-  "poweredByConduit": "Impulsado por Conduit",
+  "poweredBy": "Impulsado por {{name}}",
 
   "confirmationModal": {
     "cctpDepositTitle": "Los depósitos de {{symbol}} tardan ~{{mins}} minutos",

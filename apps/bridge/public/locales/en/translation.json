@@ -146,7 +146,7 @@
     "easyModeFee": "Easy mode gas"
   },
 
-  "poweredByConduit": "Powered by Conduit",
+  "poweredBy": "Powered by {{name}}",
 
   "confirmationModal": {
     "cctpDepositTitle": "{{symbol}} deposits take ~{{mins}} mins",

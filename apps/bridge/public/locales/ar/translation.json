@@ -142,7 +142,7 @@
     "easyModeFee": "غاز الوضع السهل"
   },
 
-  "poweredByConduit": "مدعوم بواسطة كوندويت",
+  "poweredBy": "مدعوم من {{name}}",
 
   "confirmationModal": {
     "cctpDepositTitle": "تأخذ الإيداعات {{symbol}} حوالي {{mins}} دقيقة",

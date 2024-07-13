@@ -142,8 +142,7 @@
     "easyModeFee": "Taxa de modo fácil"
   },
 
-  "poweredByConduit": "Desenvolvido por Conduit",
-
+  "poweredBy": "Impulsionado por {{name}}",
   "confirmationModal": {
     "cctpDepositTitle": "Depósitos de {{symbol}} levam cerca de {{mins}} minutos",
     "cctpWithdrawalTitle": "Retiradas de {{symbol}} levam cerca de {{mins}} minutos",

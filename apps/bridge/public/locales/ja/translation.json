@@ -142,7 +142,7 @@
     "easyModeFee": "簡易モードガス"
   },
 
-  "poweredByConduit": "Conduit によって提供されています",
+  "poweredBy": "{{name}} によって提供されます",
 
   "confirmationModal": {
     "cctpDepositTitle": "{{symbol}} の入金は約{{mins}}分かかります",

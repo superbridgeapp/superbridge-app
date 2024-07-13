@@ -142,7 +142,7 @@
     "easyModeFee": "ค่าก๊าซโหมดง่าย"
   },
 
-  "poweredByConduit": "ขับเคลื่อนโดย Conduit",
+  "poweredBy": "ขับเคลื่อนโดย {{name}}",
 
   "confirmationModal": {
     "cctpDepositTitle": "ฝาก {{symbol}} ใช้เวลาประมาณ {{mins}} นาที",
