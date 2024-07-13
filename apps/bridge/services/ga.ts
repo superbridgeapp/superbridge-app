@@ -15,6 +15,11 @@ type TokenSelect = {
   symbol: string;
   network: string;
 };
+type HighlightedTokenSelect = {
+  event: "highlighted-token-select";
+  symbol: string;
+  network: string;
+};
 type TokenBannerClick = {
   event: "token-banner-click";
   symbol: string;
@@ -83,6 +88,7 @@ export const trackEvent = (
     | FromChainSelect
     | ToChainSelect
     | TokenSelect
+    | HighlightedTokenSelect
     | TokenBannerClick
     | Bridge
     | OpenActivity
