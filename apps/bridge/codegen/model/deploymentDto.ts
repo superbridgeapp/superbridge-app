@@ -30,6 +30,8 @@ export interface DeploymentDto {
   l1: ChainDto;
   l2: ChainDto;
   name: string;
+  /** @nullable */
+  provider: string | null;
   status: DeploymentDtoStatus;
   supportsNftBridging: boolean;
   /** @nullable */

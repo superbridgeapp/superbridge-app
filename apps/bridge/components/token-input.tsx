@@ -10,7 +10,7 @@ import { useConfigState } from "@/state/config";
 import { formatDecimals } from "@/utils/format-decimals";
 import { isNativeUsdc } from "@/utils/is-usdc";
 
-import { CctpBadge } from "./cttp-badge";
+import { CctpBadge } from "./badges/cttp-badge";
 import { TokenIcon } from "./token-icon";
 
 export const TokenInput = () => {

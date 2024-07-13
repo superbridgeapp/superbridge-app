@@ -1,6 +1,6 @@
-export const BadgeNew = ({ className }: any) => {
+export const BadgeNew = (props: { className: string }) => {
   return (
-    <div className={className}>
+    <div {...props}>
       <div className="relative">
         <svg
           xmlns="http://www.w3.org/2000/svg"
