@@ -264,7 +264,8 @@ const TokenImport = ({ address }: { address: Address }) => {
 };
 
 const highlightedTokenStyles: { [symbol: string]: string | undefined } = {
-  wstETH: "bg-green-500",
+  wstETH:
+    "bg-gradient-to-r from-sky-400/20 to-indigo-400/20 border-indigo-400/40",
 };
 
 export const FungibleTokenPicker = ({
@@ -380,19 +381,22 @@ export const FungibleTokenPicker = ({
                   <div
                     key={fromToken.address}
                     className={clsx(
-                      "border rounded-full flex items-center space-x-1 px-2 pr-3 py-1  cursor-pointer hover:bg-muted transition",
+                      "border rounded-full flex items-center gap-1 pl-1.5 pr-3 py-1 cursor-pointer hover:bg-muted transition",
                       highlightedTokenStyles[fromToken.symbol]
                     )}
                     onClick={() => onClickToken(token)}
                   >
                     <TokenIcon token={fromToken} className="h-5 w-5" />
-                    <span className="text-sm inline-flex">
-                      {fromToken.symbol}
-                    </span>
-
-                    {highlightedTokenStyles[fromToken.symbol] && (
-                      <div className="border border-red-100">Hello</div>
-                    )}
+                    <div className="flex items-baseline gap-1">
+                      <span className="text-sm inline-flex">
+                        {fromToken.symbol}
+                      </span>
+                      {highlightedTokenStyles[fromToken.symbol] && (
+                        <span className="text-[9px] font-heading tracking-tighter text-black/30 dark:text-white/40">
+                          Ad
+                        </span>
+                      )}
+                    </div>
                   </div>
                 );
               })}
