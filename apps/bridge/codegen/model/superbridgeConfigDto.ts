@@ -6,8 +6,10 @@
  * OpenAPI spec version: 1.0
  */
 import type { SuperbridgeConfigDtoBanner } from './superbridgeConfigDtoBanner';
+import type { HighlightedTokens } from './highlightedTokens';
 
 export interface SuperbridgeConfigDto {
   /** @nullable */
   banner: SuperbridgeConfigDtoBanner;
+  highlightedTokens: HighlightedTokens[];
 }
