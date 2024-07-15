@@ -41,6 +41,7 @@ import { formatDecimals } from "@/utils/format-decimals";
 import { isNativeToken } from "@/utils/is-eth";
 import { isArbitrum } from "@/utils/is-mainnet";
 import { isNativeUsdc } from "@/utils/is-usdc";
+import { scaleToNativeTokenDecimals } from "@/utils/native-token-scaling";
 
 import { IconSuperFast } from "../icons";
 import { PoweredByAcross } from "../powered-by-across";
@@ -56,7 +57,6 @@ import {
   ReceiveIcon,
   WaitIcon,
 } from "./icons";
-import { scaleToNativeTokenDecimals } from "@/utils/native-token-scaling";
 
 function LineItem({
   text,
