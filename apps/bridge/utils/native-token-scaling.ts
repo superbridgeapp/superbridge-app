@@ -7,7 +7,7 @@ export function scaleToNativeTokenDecimals({
 }) {
   // do nothing for 18 decimals
   if (decimals === 18) {
-    return BigInt(amount.toString());
+    return amount;
   }
 
   if (decimals < 18) {
