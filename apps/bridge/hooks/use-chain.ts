@@ -33,3 +33,23 @@ export const useToChain = () => {
 
   return withdrawing ? deployment?.l1 : deployment?.l2;
 };
+
+export const useChain = (chainId: number | undefined) => {
+  const deployment = useDeployment();
+  const acrossDomains = useAcrossDomains();
+
+  const fast = useConfigState.useFast();
+
+  if (!chainId) {
+    return null;
+  }
+
+  if (fast) {
+    return acrossDomains.find((x) => x.chain.id === chainId)?.chain;
+  }
+
+  if (deployment?.l1.id === chainId) return deployment.l1;
+  if (deployment?.l2.id === chainId) return deployment.l2;
+
+  return null;
+};

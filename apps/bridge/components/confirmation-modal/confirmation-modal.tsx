@@ -56,6 +56,7 @@ import {
   ReceiveIcon,
   WaitIcon,
 } from "./icons";
+import { scaleToNativeTokenDecimals } from "@/utils/native-token-scaling";
 
 function LineItem({
   text,
@@ -213,7 +214,13 @@ export const ConfirmationModal = ({
     const nativeTokenAmount = gasLimit * gasToken.gasPrice;
 
     const formattedAmount = parseFloat(
-      formatUnits(nativeTokenAmount, gasToken.token?.decimals ?? 18)
+      formatUnits(
+        scaleToNativeTokenDecimals({
+          amount: nativeTokenAmount,
+          decimals: gasToken.token?.decimals ?? 18,
+        }),
+        gasToken.token?.decimals ?? 18
+      )
     );
 
     if (!gasToken.price) {

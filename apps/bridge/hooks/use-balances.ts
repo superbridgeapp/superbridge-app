@@ -4,11 +4,14 @@ import { useAccount, useBalance, useReadContracts } from "wagmi";
 import { useBridgeControllerGetTokenPrices } from "@/codegen";
 import { Token } from "@/types/token";
 import { isEth } from "@/utils/is-eth";
+import { scaleToNativeTokenDecimals } from "@/utils/native-token-scaling";
 
+import { useChain } from "./use-chain";
 import { useActiveTokens } from "./use-tokens";
 
 export function useTokenBalances(chainId: number | undefined) {
   const account = useAccount();
+  const chain = useChain(chainId);
   const ethBalance = useBalance({
     chainId: chainId,
     address: account.address,
@@ -32,12 +35,17 @@ export function useTokenBalances(chainId: number | undefined) {
 
   const data = tokens
     .map((token, index) => {
-      const balance =
-        chainId && token[chainId] && isEth(token[chainId])
-          ? ethBalance.data?.value ?? BigInt(0)
-          : reads.data?.[index].error
-          ? BigInt(0)
-          : (reads.data?.[index].result as bigint) ?? BigInt(0);
+      let balance = BigInt(0);
+      if (chainId && token[chainId] && isEth(token[chainId])) {
+        balance = scaleToNativeTokenDecimals({
+          amount: ethBalance.data?.value ?? BigInt(0),
+          decimals: chain?.nativeCurrency.decimals ?? 18,
+        });
+      } else if (reads.data?.[index].error) {
+        balance = BigInt(0);
+      } else {
+        balance = (reads.data?.[index].result as bigint) ?? BigInt(0);
+      }
 
       const id = token[chainId ?? 0]?.coinGeckoId
         ? `coingecko:${token[chainId ?? 0]?.coinGeckoId}`
