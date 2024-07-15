@@ -8,6 +8,7 @@ import { useConfigState } from "@/state/config";
 import { isArbitrumToken } from "@/utils/guards";
 import { isEth } from "@/utils/is-eth";
 import { isArbitrum } from "@/utils/is-mainnet";
+import { nativeTokenDecimalsTo18Decimals } from "@/utils/native-token-scaling";
 import { withdrawValue } from "@/utils/withdraw-value";
 
 import { isCctpBridgeOperation } from "../cctp-args/common";
@@ -52,7 +53,10 @@ export const useArbitrumWithdrawArgs = () => {
             recipientAddress, // _to
           ],
         }),
-        value,
+        value: nativeTokenDecimalsTo18Decimals({
+          amount: value,
+          decimals: deployment.arbitrumNativeToken?.decimals ?? 18,
+        }),
         chainId: deployment.l2.id,
       },
     };

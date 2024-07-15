@@ -41,6 +41,7 @@ import { formatDecimals } from "@/utils/format-decimals";
 import { isNativeToken } from "@/utils/is-eth";
 import { isArbitrum } from "@/utils/is-mainnet";
 import { isNativeUsdc } from "@/utils/is-usdc";
+import { scaleToNativeTokenDecimals } from "@/utils/native-token-scaling";
 
 import { IconSuperFast } from "../icons";
 import { PoweredByAcross } from "../powered-by-across";
@@ -196,34 +197,34 @@ export const ConfirmationModal = ({
     return value ?? "";
   };
 
-  const fee = (
-    {
-      gasLimit,
-      gasToken,
-    }: {
-      gasToken: {
-        token: Token | undefined;
-        price: number | null;
-        gasPrice: bigint;
-      };
-      gasLimit: bigint;
-    },
-    maximumFractionDigits: number
-  ) => {
+  const fee = ({
+    gasLimit,
+    gasToken,
+  }: {
+    gasToken: {
+      token: Token | undefined;
+      price: number | null;
+      gasPrice: bigint;
+    };
+    gasLimit: bigint;
+  }) => {
     const nativeTokenAmount = gasLimit * gasToken.gasPrice;
 
     const formattedAmount = parseFloat(
-      formatUnits(nativeTokenAmount, gasToken.token?.decimals ?? 18)
+      formatUnits(
+        scaleToNativeTokenDecimals({
+          amount: nativeTokenAmount,
+          decimals: gasToken.token?.decimals ?? 18,
+        }),
+        gasToken.token?.decimals ?? 18
+      )
     );
 
     if (!gasToken.price) {
       return `${formattedAmount} ${gasToken.token?.symbol}`;
     }
 
-    const amount = (gasToken.price * formattedAmount).toLocaleString("en", {
-      maximumFractionDigits,
-    });
-
+    const amount = formatDecimals(gasToken.price * formattedAmount);
     return `${currencySymbolMap[currency]}${amount}`;
   };
 
@@ -543,13 +544,13 @@ export const ConfirmationModal = ({
           ? {
               text: t("confirmationModal.approveGasToken"),
               icon: ApproveIcon,
-              fee: fee(approveGasTokenCost, 4),
+              fee: fee(approveGasTokenCost),
             }
           : null,
         {
           text: t("confirmationModal.initiateDeposit"),
           icon: InitiateIcon,
-          fee: fee(initiateCost, 4),
+          fee: fee(initiateCost),
         },
         {
           text: t("confirmationModal.waitMinutes", {
@@ -567,7 +568,7 @@ export const ConfirmationModal = ({
       {
         text: t("confirmationModal.initiateBridgeEscapeHatch", common),
         icon: InitiateIcon,
-        fee: fee(initiateCost, 4),
+        fee: fee(initiateCost),
       },
       {
         text: transformPeriodText(
@@ -580,14 +581,14 @@ export const ConfirmationModal = ({
       {
         text: t("confirmationModal.finalize", common),
         icon: FinalizeIcon,
-        fee: fee(finalizeCost, 4),
+        fee: fee(finalizeCost),
       },
     ])
     .with({ isUsdc: true }, () => [
       {
         text: t("confirmationModal.initiateBridge"),
         icon: InitiateIcon,
-        fee: fee(initiateCost, 4),
+        fee: fee(initiateCost),
       },
       {
         text: transformPeriodText(
@@ -600,14 +601,14 @@ export const ConfirmationModal = ({
       {
         text: t("confirmationModal.finalize", common),
         icon: FinalizeIcon,
-        fee: fee(finalizeCost, 4),
+        fee: fee(finalizeCost),
       },
     ])
     .with({ withdrawing: true, family: "optimism", escapeHatch: true }, () => [
       {
         text: t("confirmationModal.initiateBridgeEscapeHatch", common),
         icon: EscapeHatchIcon,
-        fee: fee(initiateCost, 4),
+        fee: fee(initiateCost),
       },
       {
         text: transformPeriodText(
@@ -620,7 +621,7 @@ export const ConfirmationModal = ({
       {
         text: t("confirmationModal.prove", common),
         icon: ProveIcon,
-        fee: fee(proveCost, 4),
+        fee: fee(proveCost),
       },
       {
         text: transformPeriodText(
@@ -633,14 +634,14 @@ export const ConfirmationModal = ({
       {
         text: t("confirmationModal.finalize", common),
         icon: FinalizeIcon,
-        fee: fee(finalizeCost, 2),
+        fee: fee(finalizeCost),
       },
     ])
     .with({ withdrawing: true, family: "optimism" }, () => [
       {
         text: t("confirmationModal.initiateWithdrawal"),
         icon: InitiateIcon,
-        fee: fee(initiateCost, 4),
+        fee: fee(initiateCost),
       },
       {
         text: transformPeriodText("confirmationModal.wait", {}, proveTime),
@@ -649,7 +650,7 @@ export const ConfirmationModal = ({
       {
         text: t("confirmationModal.prove", common),
         icon: ProveIcon,
-        fee: fee(proveCost, 4),
+        fee: fee(proveCost),
       },
       {
         text: transformPeriodText(
@@ -662,7 +663,7 @@ export const ConfirmationModal = ({
       {
         text: t("confirmationModal.finalize", common),
         icon: FinalizeIcon,
-        fee: fee(finalizeCost, 2),
+        fee: fee(finalizeCost),
       },
     ])
 
@@ -670,7 +671,7 @@ export const ConfirmationModal = ({
       {
         text: t("confirmationModal.initiateWithdrawal"),
         icon: InitiateIcon,
-        fee: fee(initiateCost, 4),
+        fee: fee(initiateCost),
       },
       {
         text: transformPeriodText(
@@ -683,7 +684,7 @@ export const ConfirmationModal = ({
       {
         text: t("confirmationModal.finalize", common),
         icon: FinalizeIcon,
-        fee: fee(finalizeCost, 2),
+        fee: fee(finalizeCost),
       },
     ])
     .with({ withdrawing: false, family: "optimism" }, (c) =>
@@ -692,13 +693,13 @@ export const ConfirmationModal = ({
           ? {
               text: t("confirmationModal.approveGasToken"),
               icon: ApproveIcon,
-              fee: fee(approveGasTokenCost, 4),
+              fee: fee(approveGasTokenCost),
             }
           : null,
         {
           text: t("confirmationModal.initiateDeposit"),
           icon: InitiateIcon,
-          fee: fee(initiateCost, 4),
+          fee: fee(initiateCost),
         },
         {
           text: t("confirmationModal.waitMinutes", {
@@ -718,13 +719,13 @@ export const ConfirmationModal = ({
           ? {
               text: t("confirmationModal.approveGasToken"),
               icon: ApproveIcon,
-              fee: fee(approveGasTokenCost, 4),
+              fee: fee(approveGasTokenCost),
             }
           : null,
         {
           text: t("confirmationModal.initiateDeposit"),
           icon: InitiateIcon,
-          fee: fee(initiateCost, 4),
+          fee: fee(initiateCost),
         },
         {
           text: t("confirmationModal.waitMinutes", {
@@ -789,7 +790,7 @@ export const ConfirmationModal = ({
               <LineItem
                 text={t("confirmationModal.approve", { symbol: token?.symbol })}
                 icon={ApproveIcon}
-                fee={fee(approveCost, 4)}
+                fee={fee(approveCost)}
               />
             )}
 

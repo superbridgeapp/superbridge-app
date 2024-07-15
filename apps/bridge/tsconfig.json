@@ -4,6 +4,7 @@
     "plugins": [{ "name": "next" }],
     "strict": true,
     "baseUrl": ".",
+    "target": "ES2016",
     "paths": {
       "@/components/*": ["components/*"],
       "@/components": ["components"],
