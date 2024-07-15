@@ -41,10 +41,8 @@ export function useTokenBalances(chainId: number | undefined) {
           amount: ethBalance.data?.value ?? BigInt(0),
           decimals: chain?.nativeCurrency.decimals ?? 18,
         });
-      } else if (reads.data?.[index].error) {
-        balance = BigInt(0);
-      } else {
-        balance = (reads.data?.[index].result as bigint) ?? BigInt(0);
+      } else if (reads.data?.[index].result) {
+        balance = BigInt(reads.data[index].result!);
       }
 
       const id = token[chainId ?? 0]?.coinGeckoId
