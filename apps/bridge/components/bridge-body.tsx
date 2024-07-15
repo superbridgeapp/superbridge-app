@@ -103,11 +103,10 @@ export const BridgeBody = () => {
   const acrossPaused = useAcrossPaused();
   const withdrawalsPaused = useWithdrawalsPaused();
 
-  const initiatingChainId =
-    forceViaL1 && withdrawing ? deployment?.l1.id : from?.id;
+  const initiatingChain = forceViaL1 && withdrawing ? deployment?.l1 : from;
   const fromEthBalance = useBalance({
     address: account.address,
-    chainId: initiatingChainId,
+    chainId: initiatingChain?.id,
   });
   const toEthBalance = useBalance({
     address: account.address,
@@ -166,28 +165,13 @@ export const BridgeBody = () => {
       !bridge.valid ||
       !bridge.args ||
       !recipient ||
-      statusCheck
+      statusCheck ||
+      !initiatingChain
     ) {
       return;
     }
 
-    let initiatingChain: ChainDto | undefined;
-
-    if (fast) {
-      initiatingChain = acrossDomains.find(
-        (x) => x.chain?.id === bridge.args?.tx.chainId
-      )?.chain;
-    } else if (bridge.args.tx.chainId === deployment?.l1.id) {
-      initiatingChain = deployment.l1;
-    } else {
-      initiatingChain = deployment?.l2;
-    }
-
-    if (!initiatingChain) {
-      console.warn("unable to infer initiating chain");
-      return;
-    }
-
+    // should be caught before
     if (
       initiatingChain.id !== account.chainId ||
       initiatingChain.id !== wallet.data.chain.id

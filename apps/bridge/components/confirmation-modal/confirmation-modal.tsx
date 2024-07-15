@@ -375,15 +375,28 @@ export const ConfirmationModal = ({
         : t("confirmationModal.initiateDeposit"),
       disabled: true,
     }))
-    .otherwise((d) => ({
-      onSubmit: onConfirm,
-      buttonText: d.fast
-        ? t("confirmationModal.initiateBridge")
-        : d.withdrawing
-        ? t("confirmationModal.initiateWithdrawal")
-        : t("confirmationModal.initiateDeposit"),
-      disabled: false,
-    }));
+    .otherwise((d) => {
+      const initiatingChain =
+        escapeHatch && withdrawing ? deployment?.l1 : from;
+
+      if (initiatingChain && account.chainId !== initiatingChain.id) {
+        return {
+          onSubmit: () => switchChain(initiatingChain),
+          buttonText: t("switchTo", { chain: initiatingChain.name }),
+          disabled: false,
+        };
+      }
+
+      return {
+        onSubmit: onConfirm,
+        buttonText: d.fast
+          ? t("confirmationModal.initiateBridge")
+          : d.withdrawing
+          ? t("confirmationModal.initiateWithdrawal")
+          : t("confirmationModal.initiateDeposit"),
+        disabled: false,
+      };
+    });
 
   const common = {
     from: from?.name,
