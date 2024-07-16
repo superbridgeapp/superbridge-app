@@ -9,7 +9,7 @@ import { useNativeToken, useToNativeToken } from "@/hooks/use-native-token";
 import { useSelectedToken } from "@/hooks/use-selected-token";
 import { useConfigState } from "@/state/config";
 import { isNativeToken } from "@/utils/is-eth";
-import { isCctp } from "@/utils/is-usdc";
+import { isCctp } from "@/utils/is-cctp";
 import { GasDrop } from "./icons";
 
 import { Button } from "../../ui/button";

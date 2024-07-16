@@ -1,4 +1,4 @@
-import { Address, Chain, Hex } from "viem";
+import { Address, Hex } from "viem";
 
 import {
   ArbitrumDepositRetryableDto,
@@ -14,11 +14,11 @@ import {
 } from "@/codegen/model";
 import { MessageStatus } from "@/constants";
 import { ArbitrumMessageStatus } from "@/constants/arbitrum-message-status";
-import { isCctpBridgeOperation } from "@/hooks/use-transaction-args/cctp-args/common";
+import { AcrossBridgeDto } from "@/types/across";
 import { MultiChainToken } from "@/types/token";
 import { isEth, isNativeToken } from "@/utils/is-eth";
 import { isArbitrum, isOptimism } from "@/utils/is-mainnet";
-import { AcrossBridgeDto } from "@/types/across";
+import { isCctp } from "./is-cctp";
 
 export const buildPendingTx = (
   deployment: DeploymentDto | null,
@@ -118,7 +118,7 @@ export const buildPendingTx = (
     }
   }
 
-  if (isCctpBridgeOperation(token)) {
+  if (isCctp(token)) {
     const from = withdrawing ? deployment.l2 : deployment.l1;
     const b: CctpBridgeDto = {
       id: Math.random().toString(),

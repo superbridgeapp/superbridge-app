@@ -40,7 +40,7 @@ import { Token } from "@/types/token";
 import { formatDecimals } from "@/utils/format-decimals";
 import { isNativeToken } from "@/utils/is-eth";
 import { isArbitrum } from "@/utils/is-mainnet";
-import { isCctp } from "@/utils/is-usdc";
+import { isCctp } from "@/utils/is-cctp";
 import { scaleToNativeTokenDecimals } from "@/utils/native-token-scaling";
 
 import { IconSuperFast } from "../icons";
@@ -410,7 +410,7 @@ export const ConfirmationModal = ({
 
   const title = match({
     fast,
-    isUsdc: isCctp(stateToken),
+    isCctp: isCctp(stateToken),
     withdrawing,
     escapeHatch,
     family: deployment?.family,
@@ -418,19 +418,19 @@ export const ConfirmationModal = ({
     .with({ fast: true }, () => {
       return "Superfast bridge";
     })
-    .with({ isUsdc: true, withdrawing: true, escapeHatch: true }, () =>
+    .with({ isCctp: true, withdrawing: true, escapeHatch: true }, () =>
       t("confirmationModal.cctpWithdrawalTitleEscapeHatch", {
         mins: totalBridgeTime?.value,
         symbol: token?.symbol,
       })
     )
-    .with({ isUsdc: true, withdrawing: true }, () =>
+    .with({ isCctp: true, withdrawing: true }, () =>
       t("confirmationModal.cctpWithdrawalTitle", {
         mins: totalBridgeTime?.value,
         symbol: token?.symbol,
       })
     )
-    .with({ isUsdc: true, withdrawing: false }, () =>
+    .with({ isCctp: true, withdrawing: false }, () =>
       t("confirmationModal.cctpDepositTitle", {
         mins: totalBridgeTime?.value,
         symbol: token?.symbol,
@@ -460,7 +460,7 @@ export const ConfirmationModal = ({
 
   const description = match({
     fast,
-    isUsdc: isCctp(stateToken),
+    isCctp: isCctp(stateToken),
     withdrawing,
     escapeHatch,
     family: deployment?.family,
@@ -469,10 +469,10 @@ export const ConfirmationModal = ({
     .with({ fast: true }, () =>
       t("confirmationModal.acrossDescription", common)
     )
-    .with({ isUsdc: true, withdrawing: true, escapeHatch: true }, () =>
+    .with({ isCctp: true, withdrawing: true, escapeHatch: true }, () =>
       t("confirmationModal.cctpDescriptionEscapeHatch", common)
     )
-    .with({ isUsdc: true }, () =>
+    .with({ isCctp: true }, () =>
       t("confirmationModal.cctpDescription", common)
     )
     .with(
@@ -505,7 +505,7 @@ export const ConfirmationModal = ({
 
   const checkbox1Text = match({
     fast,
-    isUsdc: isCctp(stateToken),
+    isCctp: isCctp(stateToken),
     withdrawing,
     family: deployment?.family,
   })
@@ -515,7 +515,7 @@ export const ConfirmationModal = ({
         rollup: to?.name,
       })
     )
-    .with({ isUsdc: true }, () =>
+    .with({ isCctp: true }, () =>
       t("confirmationModal.checkbox1Cctp", {
         mins: totalBridgeTime?.value,
         to: to?.name,
@@ -545,7 +545,7 @@ export const ConfirmationModal = ({
 
   const lineItems = match({
     fast,
-    isUsdc: isCctp(stateToken),
+    isCctp: isCctp(stateToken),
     withdrawing,
     family: deployment?.family,
     escapeHatch,
@@ -577,7 +577,7 @@ export const ConfirmationModal = ({
         },
       ].filter(isPresent)
     )
-    .with({ isUsdc: true, escapeHatch: true }, () => [
+    .with({ isCctp: true, escapeHatch: true }, () => [
       {
         text: t("confirmationModal.initiateBridgeEscapeHatch", common),
         icon: InitiateIcon,
@@ -597,7 +597,7 @@ export const ConfirmationModal = ({
         fee: fee(finalizeCost),
       },
     ])
-    .with({ isUsdc: true }, () => [
+    .with({ isCctp: true }, () => [
       {
         text: t("confirmationModal.initiateBridge"),
         icon: InitiateIcon,

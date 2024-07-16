@@ -1,5 +1,5 @@
 import { useConfigState } from "@/state/config";
-import { isCctp } from "@/utils/is-usdc";
+import { isCctp } from "@/utils/is-cctp";
 
 import { useAcrossLimits } from "../across/use-across-limits";
 import { useCctpBridgeLimit } from "../cctp/use-cctp-bridge-limit";

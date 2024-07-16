@@ -1,7 +1,7 @@
 import { DeploymentDto } from "@/codegen/model";
 import { useConfigState } from "@/state/config";
 import { isArbitrum, isMainnet, isOptimism } from "@/utils/is-mainnet";
-import { isCctp } from "@/utils/is-usdc";
+import { isCctp } from "@/utils/is-cctp";
 
 import { useDeployment } from "./use-deployment";
 import { useFastTransferPeriod } from "./use-transfer-time";

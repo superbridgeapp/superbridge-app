@@ -3,7 +3,7 @@ import { useReadContract } from "wagmi";
 
 import { TokenMinterAbi } from "@/abis/cctp/TokenMinter";
 import { useConfigState } from "@/state/config";
-import { isCctp } from "@/utils/is-usdc";
+import { isCctp } from "@/utils/is-cctp";
 
 import { useCctpDomains } from "../use-cctp-domains";
 import { useFromChain } from "../use-chain";

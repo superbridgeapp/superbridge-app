@@ -17,7 +17,7 @@ import { useConfigState } from "@/state/config";
 import { useInjectedStore } from "@/state/injected";
 import { MultiChainToken } from "@/types/token";
 import { formatDecimals } from "@/utils/format-decimals";
-import { isCctp } from "@/utils/is-usdc";
+import { isCctp } from "@/utils/is-cctp";
 
 import { CctpBadge } from "../badges/cttp-badge";
 import { TokenIcon } from "../token-icon";

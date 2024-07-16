@@ -39,7 +39,7 @@ import { usePendingTransactions } from "@/state/pending-txs";
 import { buildPendingTx } from "@/utils/build-pending-tx";
 import { formatDecimals } from "@/utils/format-decimals";
 import { isEth, isNativeToken } from "@/utils/is-eth";
-import { isCctp } from "@/utils/is-usdc";
+import { isCctp } from "@/utils/is-cctp";
 
 import { FromTo } from "./FromTo";
 import {

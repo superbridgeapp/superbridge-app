@@ -13,7 +13,7 @@ import {
 import { getNativeTokenForDeployment } from "@/utils/get-native-token";
 import { isArbitrumToken, isOptimismToken } from "@/utils/guards";
 import { isNativeToken } from "@/utils/is-eth";
-import { isBridgedUsdc, isCctp } from "@/utils/is-usdc";
+import { isBridgedUsdc, isCctp } from "@/utils/is-cctp";
 
 import { DeploymentFamily } from "@/codegen/model";
 import { useAcrossTokens } from "./across/use-across-tokens";
