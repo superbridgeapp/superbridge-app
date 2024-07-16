@@ -4,6 +4,7 @@ import {
   darkTheme,
   lightTheme,
 } from "@rainbow-me/rainbowkit";
+import "@rainbow-me/rainbowkit/styles.css";
 import { QueryClientProvider } from "@tanstack/react-query";
 import clsx from "clsx";
 import { useTheme } from "next-themes";

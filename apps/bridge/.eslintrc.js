@@ -1,8 +1,8 @@
 module.exports = {
   root: true,
   extends: ["custom"],
-  rules: { 
+  rules: {
     "react/no-unescaped-entities": 0,
-    "@next/next/no-img-element": "off"
-   },
+    "@next/next/no-img-element": "off",
+  },
 };

@@ -142,7 +142,7 @@
     "easyModeFee": "Gaz mode facile"
   },
 
-  "poweredByConduit": "Propulsé par Conduit",
+  "poweredBy": "Propulsé par {{name}}",
 
   "confirmationModal": {
     "cctpDepositTitle": "Les dépôts {{symbol}} prennent environ {{mins}} minutes",

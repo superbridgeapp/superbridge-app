@@ -30,6 +30,7 @@ export const TokenIcon = ({
   }
   return (
     <img
+      loading="lazy"
       src={token?.logoURI}
       className={clsx(className, "rounded-full bg-zinc-50 overflow-hidden")}
       onError={() => setError(true)}

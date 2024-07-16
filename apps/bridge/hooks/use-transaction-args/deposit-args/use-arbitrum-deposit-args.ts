@@ -16,6 +16,10 @@ import { useConfigState } from "@/state/config";
 import { isArbitrumToken } from "@/utils/guards";
 import { isEth } from "@/utils/is-eth";
 import { isArbitrum } from "@/utils/is-mainnet";
+import {
+  nativeTokenDecimalsTo18Decimals,
+  scaleToNativeTokenDecimals,
+} from "@/utils/native-token-scaling";
 
 export const useArbitrumGasCostsInWei = () => {
   const deployment = useDeployment();
@@ -49,7 +53,10 @@ export const useArbitrumGasCostsInWei = () => {
     l2GasCost,
 
     maxSubmissionCost,
-    extraAmount: l2GasCost * l2GasLimit + maxSubmissionCost,
+    extraAmount: scaleToNativeTokenDecimals({
+      amount: l2GasCost * l2GasLimit + maxSubmissionCost,
+      decimals: deployment?.arbitrumNativeToken?.decimals ?? 18,
+    }),
   };
 };
 
@@ -84,6 +91,11 @@ export const useArbitrumDepositArgs = () => {
   if (isEth(l2Token)) {
     const value = weiAmount + extraAmount;
     if (gasToken) {
+      const amountToBeMintedOnChildChain = nativeTokenDecimalsTo18Decimals({
+        amount: weiAmount,
+        decimals: deployment?.arbitrumNativeToken?.decimals ?? 18,
+      });
+
       return {
         approvalAddress: deployment.contractAddresses.inbox as Address,
         tx: {
@@ -93,7 +105,7 @@ export const useArbitrumDepositArgs = () => {
             functionName: "createRetryableTicket",
             args: [
               recipient, // to
-              weiAmount, // l2CallValue
+              amountToBeMintedOnChildChain, // l2CallValue
               maxSubmissionCost, // maxSubmissionCost
               recipient, // excessFeeRefundAddress
               recipient, // callValueRefundAddress

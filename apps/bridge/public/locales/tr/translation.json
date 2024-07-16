@@ -144,8 +144,7 @@
     "easyModeFee": "Kolay mod gas miktarı"
   },
 
-  "poweredByConduit": "Conduit tarafından geliştirilmiştir.",
-
+  "poweredBy": "{{name}} Tarafından Desteklenmektedir",
   "confirmationModal": {
     "cctpDepositTitle": "{{symbol}} yatırımları yaklaşık ~{{mins}} dakika sürer",
     "cctpWithdrawalTitle": "{{symbol}} çekimleri yaklaşık ~{{mins}} dakika sürer",

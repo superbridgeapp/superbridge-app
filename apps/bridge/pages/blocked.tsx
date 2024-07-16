@@ -7,7 +7,7 @@ export default function Blocked() {
     <>
       <Head />
       <div className="w-screen h-screen flex flex-col">
-        <PageNav />
+        <PageNav hideLaunchApp />
 
         <div className="flex flex-col gap-4 justify-center items-center w-full h-full p-8">
           <div className="animate-wiggle-waggle">

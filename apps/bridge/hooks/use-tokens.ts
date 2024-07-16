@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { isPresent } from "ts-is-present";
-import { Address } from "viem";
+import { Address, isAddressEqual } from "viem";
 import { bsc, bscTestnet, syscoin, syscoinTestnet } from "viem/chains";
 
 import { DeploymentFamily } from "@/codegen/model";
@@ -226,6 +226,17 @@ export function useActiveTokens() {
 
       if (isNativeToken(t)) {
         return true;
+      }
+
+      /**
+       * Manually disable depositing weETH until nobridge PR is merged
+       * https://github.com/ethereum-optimism/ethereum-optimism.github.io/pull/892
+       */
+      if (
+        !withdrawing &&
+        isAddressEqual(l1.address, "0xCd5fE23C85820F7B72D0926FC9b05b43E359b7ee")
+      ) {
+        return false;
       }
 
       /**

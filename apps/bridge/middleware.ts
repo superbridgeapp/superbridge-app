@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 export const config = {
-  matcher: "/((?!_next|img|locales|favicon.ico).*)",
+  matcher: "/((?!_next|img|locales|favicon.ico|blocked).*)",
 };
 
 const BLOCKED_COUNTRIES = [

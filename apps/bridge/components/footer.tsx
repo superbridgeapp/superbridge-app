@@ -31,7 +31,12 @@ export function Footer() {
   }, []);
 
   const defaultLinks = [
-    { url: "https://superbridge.app/support", label: t("support") },
+    {
+      url: isSuperbridge
+        ? "https://superbridge.app/support"
+        : `https://superbridge.app/support/${deployment?.name}`,
+      label: t("support"),
+    },
     {
       onClick: () => setLegalModal(true),
       label: t("legal.footerButton"),

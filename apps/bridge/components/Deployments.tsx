@@ -19,16 +19,7 @@ const SUPERCHAIN_COMING_SOON = [
     type: DeploymentType.mainnet,
   },
 ];
-const COMING_SOON = [
-  {
-    name: "frame",
-    conduitId: null,
-    displayName: "Frame",
-    type: DeploymentType.mainnet,
-  },
-];
-
-const NEW_DEPLOYMENTS = ["mode", "lyra", "orderly"];
+const NEW_DEPLOYMENTS = ["celo-testnet"];
 
 export const DeploymentsGrid = ({}) => {
   const { deployments } = useDeployments();

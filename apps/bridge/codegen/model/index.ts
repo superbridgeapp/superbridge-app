@@ -74,6 +74,7 @@ export * from './fetchedTokenDto';
 export * from './fiatPricesDto';
 export * from './forcedWithdrawalDto';
 export * from './getActivityDto';
+export * from './highlightedTokens';
 export * from './idDto';
 export * from './l2ArbitrumContractAddressesDto';
 export * from './l2OptimismContractAddressesDto';

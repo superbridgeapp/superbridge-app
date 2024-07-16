@@ -2,7 +2,7 @@ import clsx from "clsx";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { P, match } from "ts-pattern";
-import { Address, Chain, formatUnits, isAddress } from "viem";
+import { Address, Chain, formatUnits, isAddress, isAddressEqual } from "viem";
 
 import { ChainDto } from "@/codegen/model";
 import { Input } from "@/components/ui/input";
@@ -14,11 +14,12 @@ import { useIsCustomTokenFromList } from "@/hooks/use-is-custom-token-from-list"
 import { useSelectedToken } from "@/hooks/use-selected-token";
 import { trackEvent } from "@/services/ga";
 import { useConfigState } from "@/state/config";
+import { useInjectedStore } from "@/state/injected";
 import { MultiChainToken } from "@/types/token";
 import { formatDecimals } from "@/utils/format-decimals";
 import { isNativeUsdc } from "@/utils/is-usdc";
 
-import { CctpBadge } from "../cttp-badge";
+import { CctpBadge } from "../badges/cttp-badge";
 import { TokenIcon } from "../token-icon";
 import { Button } from "../ui/button";
 import { useCustomToken } from "./use-custom-token";
@@ -262,6 +263,11 @@ const TokenImport = ({ address }: { address: Address }) => {
   );
 };
 
+const highlightedTokenStyles: { [symbol: string]: string | undefined } = {
+  wstETH:
+    "bg-gradient-to-r from-sky-400/20 to-indigo-400/20 border-indigo-400/40",
+};
+
 export const FungibleTokenPicker = ({
   setOpen,
 }: {
@@ -277,6 +283,8 @@ export const FungibleTokenPicker = ({
   const fast = useConfigState.useFast();
   const tokens = useTokenBalances(from?.id);
   const { t } = useTranslation();
+  const highlightedTokens =
+    useInjectedStore((s) => s.superbridgeConfig)?.highlightedTokens ?? [];
 
   const filteredTokens = tokens.data.filter(({ token }) => {
     if (!search) {
@@ -299,11 +307,27 @@ export const FungibleTokenPicker = ({
   const onClickToken = (t: MultiChainToken) => {
     setToken(t);
     setOpen(false);
-    trackEvent({
-      event: "token-select",
-      symbol: t[from?.id ?? 0]?.symbol ?? "",
-      network: from?.name ?? "",
-    });
+
+    if (
+      highlightedTokens.find(
+        (x) =>
+          x.deploymentName === deployment?.name &&
+          t[deployment.l1.id ?? 0]?.address.toLowerCase() ===
+            x.address.toLowerCase()
+      )
+    ) {
+      trackEvent({
+        event: "highlighted-token-select",
+        symbol: t[from?.id ?? 0]?.symbol ?? "",
+        network: from?.name ?? "",
+      });
+    } else {
+      trackEvent({
+        event: "token-select",
+        symbol: t[from?.id ?? 0]?.symbol ?? "",
+        network: from?.name ?? "",
+      });
+    }
   };
 
   return (
@@ -324,12 +348,30 @@ export const FungibleTokenPicker = ({
 
           {/* highlighted tokens */}
           <div className="flex flex-wrap items-center gap-1">
-            {["ETH", "USDC", "DAI", "USDT", "WBTC"]
+            {[
+              ...highlightedTokens
+                .filter((x) => x.deploymentName === deployment?.name)
+                .map((x) => x.address),
+              "ETH",
+              "USDC",
+              "DAI",
+              "USDT",
+              "WBTC",
+            ]
               .filter(Boolean)
-              .map((symbol) => {
-                const token = tokens.data.find(
-                  (t) => t.token[deployment?.l2.id ?? 0]?.symbol === symbol
-                )?.token;
+              .map((symbolOrAddress) => {
+                const token = tokens.data.find((t) => {
+                  const l1 = t.token[deployment?.l1.id ?? 0];
+                  const l2 = t.token[deployment?.l2.id ?? 0];
+
+                  return (
+                    l2?.symbol === symbolOrAddress ||
+                    (!!l1?.address &&
+                      isAddress(symbolOrAddress) &&
+                      isAddressEqual(l1.address, symbolOrAddress))
+                  );
+                })?.token;
+
                 const fromToken = token?.[from?.id ?? 0];
                 if (!token || !fromToken) {
                   return null;
@@ -338,13 +380,23 @@ export const FungibleTokenPicker = ({
                 return (
                   <div
                     key={fromToken.address}
-                    className="border rounded-full flex items-center space-x-1 px-2 pr-3 py-1  cursor-pointer hover:bg-muted transition"
+                    className={clsx(
+                      "border rounded-full flex items-center gap-1 pl-1.5 pr-3 py-1 cursor-pointer hover:bg-muted transition",
+                      highlightedTokenStyles[fromToken.symbol]
+                    )}
                     onClick={() => onClickToken(token)}
                   >
                     <TokenIcon token={fromToken} className="h-5 w-5" />
-                    <span className="text-sm inline-flex">
-                      {fromToken.symbol}
-                    </span>
+                    <div className="flex items-baseline gap-1">
+                      <span className="text-sm inline-flex">
+                        {fromToken.symbol}
+                      </span>
+                      {highlightedTokenStyles[fromToken.symbol] && (
+                        <span className="text-[9px] font-heading tracking-tighter text-black/30 dark:text-white/40">
+                          Ad
+                        </span>
+                      )}
+                    </div>
                   </div>
                 );
               })}

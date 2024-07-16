@@ -3,7 +3,7 @@ import { FC, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Lottie from "react-lottie-player";
 import { match } from "ts-pattern";
-import { Address, formatEther, formatUnits, isAddressEqual } from "viem";
+import { Address, formatUnits, isAddressEqual } from "viem";
 import { useChainId } from "wagmi";
 
 import {
@@ -52,7 +52,7 @@ import {
 
 import inProgress from "../animation/loading.json";
 import { AcrossBadge } from "./across-badge";
-import { CctpBadge } from "./cttp-badge";
+import { CctpBadge } from "./badges/cttp-badge";
 import { FastNetworkIcon } from "./fast/network-icon";
 import { NetworkIcon } from "./network-icon";
 import { NftImage } from "./nft";
@@ -116,12 +116,13 @@ const RedeemArbitrum: FC<{
   const deploymentL1 = isArbitrumForcedWithdrawal(tx)
     ? tx.deposit.deployment.l1
     : tx.deployment.l1;
-  if (chainId === deploymentL1.id)
+  if (chainId === deploymentL1.id) {
     return (
       <Button className="rounded-full" onClick={redeem.write} size={"sm"}>
         {t("buttons.redeem")}
       </Button>
     );
+  }
   return (
     <Button onClick={() => switchChain(deploymentL1)} size={"sm"}>
       {t("buttons.switchChain")}

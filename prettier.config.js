@@ -1,10 +1,9 @@
 module.exports = {
-  "trailingComma": "es5",
-  "importOrderSeparation": true,
-  "importOrderSortSpecifiers": true,  
-  
-  "importOrder": ["<THIRD_PARTY_MODULES>", "^@/(.*)$", "^[./]"],
+  trailingComma: "es5",
+  importOrderSeparation: true,
+  importOrderSortSpecifiers: true,
 
-  
-  "plugins": ["@trivago/prettier-plugin-sort-imports"]
-}
+  importOrder: ["<THIRD_PARTY_MODULES>", "^@/(.*)$", "^[./]"],
+
+  plugins: ["@trivago/prettier-plugin-sort-imports"],
+};

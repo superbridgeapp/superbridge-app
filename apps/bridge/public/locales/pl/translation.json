@@ -142,8 +142,7 @@
     "easyModeFee": "Opłata w trybie łatwym"
   },
 
-  "poweredByConduit": "Napędzane przez Conduit",
-
+  "poweredBy": "Napędzane przez {{name}}",
   "confirmationModal": {
     "cctpDepositTitle": "Depozyty {{symbol}} zajmują około {{mins}} minut",
     "cctpWithdrawalTitle": "Wypłaty {{symbol}} zajmują około {{mins}} minut",
