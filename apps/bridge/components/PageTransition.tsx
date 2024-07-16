@@ -1,6 +1,6 @@
+import clsx from "clsx";
 import { HTMLMotionProps, motion } from "framer-motion";
 import { useState } from "react";
-import clsx from "clsx";
 
 type PageTransitionProps = HTMLMotionProps<"div">;
 

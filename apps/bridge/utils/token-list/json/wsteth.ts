@@ -1,5 +1,6 @@
-import { OptimismToken } from "@/types/token";
 import { base, mainnet, optimism } from "viem/chains";
+
+import { OptimismToken } from "@/types/token";
 
 export const wsteth: OptimismToken[] = [
   {

@@ -1,19 +1,18 @@
 import { Trans, useTranslation } from "react-i18next";
 
+import { currencySymbolMap } from "@/constants/currency-symbol-map";
 import { ModalNames } from "@/constants/modal-names";
+import { useAcrossFee } from "@/hooks/across/use-across-fee";
 import { useToChain } from "@/hooks/use-chain";
+import { useTokenPrice } from "@/hooks/use-prices";
 import { useSelectedToken } from "@/hooks/use-selected-token";
 import { useConfigState } from "@/state/config";
-import { currencySymbolMap } from "@/constants/currency-symbol-map";
-import { useTokenPrice } from "@/hooks/use-prices";
 import { useSettingsState } from "@/state/settings";
 
+import { IconSuperFast } from "../icons";
 import { TokenIcon } from "../token-icon";
 import { Button } from "../ui/button";
 import { Dialog, DialogContent } from "../ui/dialog";
-
-import { IconSuperFast } from "../icons";
-import { useAcrossFee } from "@/hooks/across/use-across-fee";
 
 export const FeeBreakdownModal = () => {
   const { t } = useTranslation();

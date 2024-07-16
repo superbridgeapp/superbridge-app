@@ -15,10 +15,10 @@ import {
 import { MessageStatus } from "@/constants";
 import { ArbitrumMessageStatus } from "@/constants/arbitrum-message-status";
 import { isCctpBridgeOperation } from "@/hooks/use-transaction-args/cctp-args/common";
+import { AcrossBridgeDto } from "@/types/across";
 import { MultiChainToken } from "@/types/token";
 import { isEth, isNativeToken } from "@/utils/is-eth";
 import { isArbitrum, isOptimism } from "@/utils/is-mainnet";
-import { AcrossBridgeDto } from "@/types/across";
 
 export const buildPendingTx = (
   deployment: DeploymentDto | null,

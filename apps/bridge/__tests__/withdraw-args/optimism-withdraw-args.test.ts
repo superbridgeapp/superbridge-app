@@ -1,11 +1,10 @@
 import { Address, encodeFunctionData } from "viem";
 import { describe, expect, test } from "vitest";
 
-import { GRAFFITI } from "@/constants/extra-data";
-
 import { L2BridgeAbi } from "@/abis/L2Bridge";
 import { L2StandardBridgeAbi } from "@/abis/L2StandardBridge";
 import { OptimismPortalAbi } from "@/abis/OptimismPortal";
+import { GRAFFITI } from "@/constants/extra-data";
 import { withdrawArgs } from "@/hooks/transaction-args/withdraw-args";
 
 import {

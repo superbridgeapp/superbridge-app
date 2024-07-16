@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
 import Lottie from "react-lottie-player";
 
-import inProgress from "../animation/loading.json";
 import inProgressDark from "../animation/loading-dark.json";
+import inProgress from "../animation/loading.json";
 
 export function Loading() {
   return (
