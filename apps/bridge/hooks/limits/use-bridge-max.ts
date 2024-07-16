@@ -1,5 +1,5 @@
 import { useConfigState } from "@/state/config";
-import { isNativeUsdc } from "@/utils/is-usdc";
+import { isCctp } from "@/utils/is-usdc";
 
 import { useAcrossLimits } from "../across/use-across-limits";
 import { useCctpBridgeLimit } from "../cctp/use-cctp-bridge-limit";
@@ -18,7 +18,7 @@ export const useBridgeMax = () => {
     return null;
   }
 
-  if (isNativeUsdc(stateToken)) {
+  if (isCctp(stateToken)) {
     return cctpMax ?? null;
   }
 

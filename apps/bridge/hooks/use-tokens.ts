@@ -13,7 +13,7 @@ import {
 import { getNativeTokenForDeployment } from "@/utils/get-native-token";
 import { isArbitrumToken, isOptimismToken } from "@/utils/guards";
 import { isNativeToken } from "@/utils/is-eth";
-import { isBridgedUsdc, isNativeUsdc } from "@/utils/is-usdc";
+import { isBridgedUsdc, isCctp } from "@/utils/is-usdc";
 
 import { DeploymentFamily } from "@/codegen/model";
 import { useAcrossTokens } from "./across/use-across-tokens";
@@ -204,7 +204,7 @@ export function useActiveTokens() {
     () =>
       !!tokens.find(
         (token) =>
-          isNativeUsdc(token) &&
+          isCctp(token) &&
           !!token[deployment?.l1.id ?? 0] &&
           !!token[deployment?.l2.id ?? 0]
       ),

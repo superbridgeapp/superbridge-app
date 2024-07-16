@@ -40,7 +40,7 @@ import { Token } from "@/types/token";
 import { formatDecimals } from "@/utils/format-decimals";
 import { isNativeToken } from "@/utils/is-eth";
 import { isArbitrum } from "@/utils/is-mainnet";
-import { isNativeUsdc } from "@/utils/is-usdc";
+import { isCctp } from "@/utils/is-usdc";
 import { scaleToNativeTokenDecimals } from "@/utils/native-token-scaling";
 
 import { IconSuperFast } from "../icons";
@@ -410,7 +410,7 @@ export const ConfirmationModal = ({
 
   const title = match({
     fast,
-    isUsdc: isNativeUsdc(stateToken),
+    isUsdc: isCctp(stateToken),
     withdrawing,
     escapeHatch,
     family: deployment?.family,
@@ -460,7 +460,7 @@ export const ConfirmationModal = ({
 
   const description = match({
     fast,
-    isUsdc: isNativeUsdc(stateToken),
+    isUsdc: isCctp(stateToken),
     withdrawing,
     escapeHatch,
     family: deployment?.family,
@@ -505,7 +505,7 @@ export const ConfirmationModal = ({
 
   const checkbox1Text = match({
     fast,
-    isUsdc: isNativeUsdc(stateToken),
+    isUsdc: isCctp(stateToken),
     withdrawing,
     family: deployment?.family,
   })
@@ -545,7 +545,7 @@ export const ConfirmationModal = ({
 
   const lineItems = match({
     fast,
-    isUsdc: isNativeUsdc(stateToken),
+    isUsdc: isCctp(stateToken),
     withdrawing,
     family: deployment?.family,
     escapeHatch,
@@ -781,7 +781,7 @@ export const ConfirmationModal = ({
                 {description}{" "}
                 <Link
                   href={
-                    isNativeUsdc(stateToken)
+                    isCctp(stateToken)
                       ? "https://docs.rollbridge.app/native-usdc"
                       : "https://docs.rollbridge.app/what-is-bridging"
                   }
@@ -919,17 +919,15 @@ export const ConfirmationModal = ({
               {initiateButton.buttonText}
             </Button>
 
-            {isSuperbridge &&
-              !fast &&
-              (withdrawing || isNativeUsdc(stateToken)) && (
-                <Link
-                  className={`mt-2 leading-3 text-center text-xs   cursor-pointer transition-all opacity-70 hover:opacity-100`}
-                  href="/alternative-bridges"
-                  target="_blank"
-                >
-                  {t("confirmationModal.viewAlternateBridges")}
-                </Link>
-              )}
+            {isSuperbridge && !fast && (withdrawing || isCctp(stateToken)) && (
+              <Link
+                className={`mt-2 leading-3 text-center text-xs   cursor-pointer transition-all opacity-70 hover:opacity-100`}
+                href="/alternative-bridges"
+                target="_blank"
+              >
+                {t("confirmationModal.viewAlternateBridges")}
+              </Link>
+            )}
           </div>
         </div>
       </DialogContent>

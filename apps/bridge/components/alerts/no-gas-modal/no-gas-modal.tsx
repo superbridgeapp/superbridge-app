@@ -9,7 +9,7 @@ import { useNativeToken, useToNativeToken } from "@/hooks/use-native-token";
 import { useSelectedToken } from "@/hooks/use-selected-token";
 import { useConfigState } from "@/state/config";
 import { isNativeToken } from "@/utils/is-eth";
-import { isNativeUsdc } from "@/utils/is-usdc";
+import { isCctp } from "@/utils/is-usdc";
 import { GasDrop } from "./icons";
 
 import { Button } from "../../ui/button";
@@ -53,7 +53,7 @@ export const NoGasModal = ({ onProceed, open, onCancel }: AlertProps) => {
   };
 
   const description = match({
-    isUsdc: isNativeUsdc(stateToken),
+    isUsdc: isCctp(stateToken),
     withdrawing,
     family: deployment?.family,
     isEth: isNativeToken(stateToken),

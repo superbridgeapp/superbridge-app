@@ -39,7 +39,7 @@ import { usePendingTransactions } from "@/state/pending-txs";
 import { buildPendingTx } from "@/utils/build-pending-tx";
 import { formatDecimals } from "@/utils/format-decimals";
 import { isEth, isNativeToken } from "@/utils/is-eth";
-import { isNativeUsdc } from "@/utils/is-usdc";
+import { isCctp } from "@/utils/is-usdc";
 
 import { FromTo } from "./FromTo";
 import {
@@ -204,7 +204,7 @@ export const BridgeBody = () => {
         token: token?.symbol ?? "",
         type: fast
           ? "across"
-          : !!stateToken && isNativeUsdc(stateToken)
+          : !!stateToken && isCctp(stateToken)
           ? "cctp"
           : withdrawing
           ? "withdraw"
@@ -270,7 +270,7 @@ export const BridgeBody = () => {
 
     const needDestinationGasConditions = [
       withdrawing, // need to prove/finalize
-      isNativeUsdc(stateToken), // need to mint
+      isCctp(stateToken), // need to mint
       !withdrawing && !isEth(stateToken?.[to?.id ?? 0]), // depositing an ERC20 with no gas on the destination (won't be able to do anything with it)
     ];
     if (
