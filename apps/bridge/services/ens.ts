@@ -1,11 +1,12 @@
 import {
   Address,
   createPublicClient,
-  http,
   fallback,
+  http,
   isAddressEqual,
 } from "viem";
 import { mainnet } from "viem/chains";
+
 interface ProfileProps {
   name: string | null;
   address: Address;

@@ -1,5 +1,5 @@
-import { useAccount, usePublicClient } from "wagmi";
 import { useQuery } from "@tanstack/react-query";
+import { useAccount, usePublicClient } from "wagmi";
 
 import { useFromChain } from "./use-chain";
 

@@ -1,8 +1,8 @@
 import { useConfigState } from "@/state/config";
 
+import { isCctpBridgeOperation } from "../cctp-args/common";
 import { useArbitrumDepositArgs } from "./use-arbitrum-deposit-args";
 import { useOptimismDepositArgs } from "./use-optimism-deposit-args";
-import { isCctpBridgeOperation } from "../cctp-args/common";
 
 export const useDepositArgs = () => {
   const withdrawing = useConfigState.useWithdrawing();

@@ -1,6 +1,6 @@
+import { FetchFeeDataResult } from "@wagmi/core";
 import { Address, encodeAbiParameters, encodeFunctionData } from "viem";
 import { describe, expect, test } from "vitest";
-import { FetchFeeDataResult } from "@wagmi/core";
 
 import { InboxAbi } from "@/abis/arbitrum/Inbox";
 import { L1BridgeArbitrum } from "@/abis/arbitrum/L1Bridge";

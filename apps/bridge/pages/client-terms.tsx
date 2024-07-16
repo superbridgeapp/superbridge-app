@@ -1,13 +1,13 @@
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import ReactMarkdown from "react-markdown";
 
-import PageFooter from "@/components/page-footer";
-import PageNav from "@/components/page-nav";
 import {
   bridgeControllerGetDeployments,
   bridgeControllerGetDeploymentsByDomain,
 } from "@/codegen/index";
 import { Head } from "@/components/head";
+import PageFooter from "@/components/page-footer";
+import PageNav from "@/components/page-nav";
 
 export default function ClientTerms({
   deployment,

@@ -1,8 +1,8 @@
 import { DeploymentDto } from "@/codegen/model";
 import { useSupportStatusChecks } from "@/hooks/support/use-support-status-checks";
 
-import { SupportCheckStatus } from "./types";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
+import { SupportCheckStatus } from "./types";
 
 const StatusLineItem = ({
   title,
