@@ -12,15 +12,15 @@ import { useStatusCheck } from "@/hooks/use-status-check";
 import { useSwitchChain } from "@/hooks/use-switch-chain";
 import { useActiveTokens } from "@/hooks/use-tokens";
 import { useWeiAmount } from "@/hooks/use-wei-amount";
+import { trackEvent } from "@/services/ga";
 import { useConfigState } from "@/state/config";
 import { useModalsState } from "@/state/modals";
 import { usePendingTransactions } from "@/state/pending-txs";
 import { buildPendingTx } from "@/utils/build-pending-tx";
 import { isNativeToken } from "@/utils/is-eth";
+import { isNativeUsdc } from "@/utils/is-usdc";
 
 import { useBridge } from "./use-bridge";
-import { trackEvent } from "@/services/ga";
-import { isNativeUsdc } from "@/utils/is-usdc";
 
 export const useInitiateBridge = (bridge: ReturnType<typeof useBridge>) => {
   const wallet = useWalletClient();
@@ -95,7 +95,7 @@ export const useInitiateBridge = (bridge: ReturnType<typeof useBridge>) => {
 
       setPendingBridgeTransactionHash(hash);
 
-       trackEvent({
+      trackEvent({
         event: "bridge",
         from: from?.name ?? "",
         to: to?.name ?? "",

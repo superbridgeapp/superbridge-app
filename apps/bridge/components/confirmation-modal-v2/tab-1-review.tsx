@@ -9,7 +9,6 @@ import { useTransferTime } from "@/hooks/use-transfer-time";
 import { useConfigState } from "@/state/config";
 import { formatDecimals } from "@/utils/format-decimals";
 
-import { CctpBadge } from "../cttp-badge";
 import {
   IconAcrossRound,
   IconCCTPRound,
