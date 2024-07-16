@@ -15,7 +15,8 @@ import MockArbitrumTokenList from "@/utils/token-list/json/mock-arbitrum.json";
 import * as pgn from "@/utils/token-list/json/pgn";
 import { rollux } from "@/utils/token-list/json/rollux";
 import * as mintTestnet from "@/utils/token-list/json/mint";
-import * as usdc from "@/utils/token-list/json/usdc";
+import * as usdc from "@/utils/token-list/json/cctp/usdc";
+import { eurc } from "@/utils/token-list/json/cctp/eurc";
 import * as lumio from "@/utils/token-list/json/lumio";
 import * as metal from "@/utils/token-list/json/metal";
 import { ebi } from "@/utils/token-list/json/ebi";
@@ -146,6 +147,7 @@ export const useTokenLists = () => {
       ...kroma.l1Tokens,
       ...usdc.bridged,
       ...usdc.native,
+      ...eurc,
       ...wsteth,
       ...dog,
       ...rollux,
