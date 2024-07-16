@@ -1,9 +1,9 @@
 import { describe, expect, test } from "vitest";
 
+import { OptimismToken } from "@/types/token";
 import { withdrawValue } from "@/utils/withdraw-value";
 
 import { ether, mainnetDeployment, usdc } from "./constants";
-import { OptimismToken } from "@/types/token";
 
 describe("withdraw value", () => {
   test("eth + no easy mode", () => {

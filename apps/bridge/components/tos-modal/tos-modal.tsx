@@ -1,4 +1,10 @@
 import clsx from "clsx";
+import {
+  motion,
+  useMotionValueEvent,
+  useScroll,
+  useSpring,
+} from "framer-motion";
 import Link from "next/link";
 import { useRef, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
@@ -12,14 +18,7 @@ import { useSettingsState } from "@/state/settings";
 
 import { Button } from "../ui/button";
 import { Dialog, DialogContent } from "../ui/dialog";
-import { DocumentIcon, QuestionMark, NoFundsIcon, SparkleIcon } from "./icons";
-
-import {
-  motion,
-  useScroll,
-  useSpring,
-  useMotionValueEvent,
-} from "framer-motion";
+import { DocumentIcon, NoFundsIcon, QuestionMark, SparkleIcon } from "./icons";
 
 export const TosModal = () => {
   const { t } = useTranslation();

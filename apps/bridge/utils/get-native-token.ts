@@ -1,8 +1,8 @@
 import { Address, zeroAddress } from "viem";
 
-import { MultiChainToken, MultiChainOptimismToken } from "@/types/token";
-import { isArbitrum, isOptimism } from "@/utils/is-mainnet";
 import { DeploymentDto } from "@/codegen/model";
+import { MultiChainOptimismToken, MultiChainToken } from "@/types/token";
+import { isArbitrum, isOptimism } from "@/utils/is-mainnet";
 
 export function getNativeTokenForDeployment(
   d: DeploymentDto

@@ -1,7 +1,7 @@
 import { useProgressRows } from "@/utils/progress-rows";
 
-import { useTransactions } from "./use-transactions";
 import { useStatusCheck } from "./use-status-check";
+import { useTransactions } from "./use-transactions";
 
 export const useHasPendingAction = () => {
   const { transactions } = useTransactions();

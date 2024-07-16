@@ -9,21 +9,21 @@ import { SuperbridgeTokenList, SuperchainTokenList } from "@/types/token-lists";
 import UniswapArbitrumTokenList from "@/utils/token-list/json/arbitrum-uniswap.json";
 import ArbArbitrumTokenList from "@/utils/token-list/json/arbitrum.json";
 import { baseTokens } from "@/utils/token-list/json/base";
+import { eurc } from "@/utils/token-list/json/cctp/eurc";
+import * as usdc from "@/utils/token-list/json/cctp/usdc";
 import { dog } from "@/utils/token-list/json/dog";
+import { ebi } from "@/utils/token-list/json/ebi";
 import * as kroma from "@/utils/token-list/json/kroma";
+import * as lumio from "@/utils/token-list/json/lumio";
+import * as metal from "@/utils/token-list/json/metal";
+import * as mintTestnet from "@/utils/token-list/json/mint";
 import MockArbitrumTokenList from "@/utils/token-list/json/mock-arbitrum.json";
 import * as pgn from "@/utils/token-list/json/pgn";
 import { rollux } from "@/utils/token-list/json/rollux";
-import * as mintTestnet from "@/utils/token-list/json/mint";
-import * as usdc from "@/utils/token-list/json/cctp/usdc";
-import { eurc } from "@/utils/token-list/json/cctp/eurc";
-import * as lumio from "@/utils/token-list/json/lumio";
-import * as metal from "@/utils/token-list/json/metal";
-import { ebi } from "@/utils/token-list/json/ebi";
+import { seam } from "@/utils/token-list/json/seam";
 import { wsteth } from "@/utils/token-list/json/wsteth";
 import { transformArbitrumTokenList } from "@/utils/token-list/transform-arbitrum-token-list";
 import { transformIntoOptimismToken } from "@/utils/token-list/transform-optimism-token";
-import { seam } from "@/utils/token-list/json/seam";
 
 export const useTokenLists = () => {
   const customTokenLists = useSettingsState.useCustomTokenLists();
@@ -66,7 +66,7 @@ export const useTokenLists = () => {
     ]: [
       SuperchainTokenList | null,
       SuperbridgeTokenList | null,
-      ...({ tokenList: CustomTokenList; result: SuperchainTokenList } | null)[]
+      ...({ tokenList: CustomTokenList; result: SuperchainTokenList } | null)[],
     ] = await Promise.all([
       superchainTokenListResponse?.json().catch(() => null),
       superbridgeTokenListResponse?.json().catch(() => null),

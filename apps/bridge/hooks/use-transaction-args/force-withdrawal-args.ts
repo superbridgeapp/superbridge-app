@@ -1,8 +1,8 @@
 import { Address, encodeFunctionData } from "viem";
 
 import { OptimismPortalAbi } from "@/abis/OptimismPortal";
-import { isOptimism } from "@/utils/is-mainnet";
 import { DeploymentDto } from "@/codegen/model";
+import { isOptimism } from "@/utils/is-mainnet";
 
 import { TransactionArgs } from "./types";
 

@@ -1,3 +1,5 @@
+import { useTranslation } from "react-i18next";
+
 import {
   AcrossBridgeDto,
   ArbitrumDepositEthDto,
@@ -29,7 +31,6 @@ import {
 } from "../guards";
 import { OptimismDeploymentDto } from "../is-mainnet";
 import { useAcrossProgressRows } from "./across";
-import { useTranslation } from "react-i18next";
 
 export const useTxTitle = (tx: Transaction) => {
   const { t } = useTranslation();

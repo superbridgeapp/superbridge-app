@@ -18,6 +18,7 @@ import { AcrossBridgeDto } from "@/types/across";
 import { MultiChainToken } from "@/types/token";
 import { isEth, isNativeToken } from "@/utils/is-eth";
 import { isArbitrum, isOptimism } from "@/utils/is-mainnet";
+
 import { isCctp } from "./is-cctp";
 
 export const buildPendingTx = (

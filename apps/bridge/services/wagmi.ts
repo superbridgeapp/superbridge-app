@@ -1,6 +1,5 @@
-import "@rainbow-me/rainbowkit/styles.css";
-
 import { getDefaultConfig, getDefaultWallets } from "@rainbow-me/rainbowkit";
+import "@rainbow-me/rainbowkit/styles.css";
 import { okxWallet, safeWallet } from "@rainbow-me/rainbowkit/wallets";
 import { fallback, http } from "wagmi";
 import { Chain, mainnet, optimism } from "wagmi/chains";

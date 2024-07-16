@@ -1,5 +1,6 @@
-import { ArbitrumToken } from "@/types/token";
 import { sepolia } from "viem/chains";
+
+import { ArbitrumToken } from "@/types/token";
 
 export const ebi: ArbitrumToken[] = [
   // MUSDT

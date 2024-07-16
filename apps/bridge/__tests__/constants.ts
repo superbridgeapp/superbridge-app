@@ -1,17 +1,17 @@
+import { FetchFeeDataResult } from "@wagmi/core";
 import { Address, pad, zeroAddress } from "viem";
 import { privateKeyToAccount } from "viem/accounts";
-import { FetchFeeDataResult } from "@wagmi/core";
 
-import {
-  ArbitrumDeploymentDto,
-  OptimismDeploymentDto,
-} from "@/utils/is-mainnet";
 import {
   DeploymentDto,
   DeploymentFamily,
   DeploymentType,
 } from "@/codegen/model";
 import { ArbitrumToken, OptimismToken, Token } from "@/types/token";
+import {
+  ArbitrumDeploymentDto,
+  OptimismDeploymentDto,
+} from "@/utils/is-mainnet";
 
 export const chainIds = {
   mainnetL1: 1,
