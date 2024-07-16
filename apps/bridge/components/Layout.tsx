@@ -6,20 +6,16 @@ import { ClosedActivity } from "@/components/activity/closed-activity";
 import { OpenActivity } from "@/components/activity/open-activity";
 import { Footer } from "@/components/footer";
 import { isSuperbridge } from "@/config/superbridge";
-import { useDeployments } from "@/hooks/use-deployments";
 import { useInitialise } from "@/hooks/use-initialise";
-import { useNavigate } from "@/hooks/use-navigate";
 import {
   useBackgroundIcon,
   useBackgroundImageBlendMode,
   useBackgroundImageOpacity,
   useBackgroundImagePosition,
   useBackgroundImageRepeat,
-  useBackgroundImageSize,
-  useNavIcon,
+  useBackgroundImageSize
 } from "@/hooks/use-theme";
 import { useConfigState } from "@/state/config";
-import { useInjectedStore } from "@/state/injected";
 
 import { BlockProvingModal } from "./fault-proofs/block-proving-modal";
 import { Header } from "./header";
@@ -31,16 +27,11 @@ import { TosModal } from "./tos-modal/tos-modal";
 export function Layout({ children }: { children: any }) {
   useInitialise();
 
-  const deployments = useDeployments();
-  const navigate = useNavigate();
   const displayTransactions = useConfigState.useDisplayTransactions();
   const setSettingsModal = useConfigState.useSetSettingsModal();
   const settingsModal = useConfigState.useSettingsModal();
-  const fast = useConfigState.useFast();
-  const superbridgeTestnetsEnabled = useInjectedStore((s) => s.testnets);
   const pathname = usePathname();
 
-  const navIcon = useNavIcon();
   const imageBackground = useBackgroundIcon();
   const backgroundImageBlendMode = useBackgroundImageBlendMode();
   const backgroundImagePosition = useBackgroundImagePosition();
