@@ -29,6 +29,7 @@ import type {
   AcrossDomainDto,
   ActionDto,
   ActivityDto,
+  ActivityV3Dto,
   BoolDto,
   BridgeControllerGetActivityParams,
   BridgeControllerGetDeploymentsParams,
@@ -42,6 +43,7 @@ import type {
   DeploymentsQueryDto,
   FiatPricesDto,
   GetActivityDto,
+  GetActivityV3Dto,
   IdDto,
   NumberDto,
   PricesDto,
@@ -157,6 +159,55 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
       > => {
 
       const mutationOptions = getBridgeControllerGetActivityV2MutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+export const bridgeControllerGetActivityV3 = (
+    getActivityV3Dto: GetActivityV3Dto, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<ActivityV3Dto>> => {
+    
+    return axios.post(
+      `/api/v3/bridge/activity`,
+      getActivityV3Dto,options
+    );
+  }
+
+
+
+export const getBridgeControllerGetActivityV3MutationOptions = <TError = AxiosError<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerGetActivityV3>>, TError,{data: GetActivityV3Dto}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerGetActivityV3>>, TError,{data: GetActivityV3Dto}, TContext> => {
+const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof bridgeControllerGetActivityV3>>, {data: GetActivityV3Dto}> = (props) => {
+          const {data} = props ?? {};
+
+          return  bridgeControllerGetActivityV3(data,axiosOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type BridgeControllerGetActivityV3MutationResult = NonNullable<Awaited<ReturnType<typeof bridgeControllerGetActivityV3>>>
+    export type BridgeControllerGetActivityV3MutationBody = GetActivityV3Dto
+    export type BridgeControllerGetActivityV3MutationError = AxiosError<unknown>
+
+    export const useBridgeControllerGetActivityV3 = <TError = AxiosError<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerGetActivityV3>>, TError,{data: GetActivityV3Dto}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationResult<
+        Awaited<ReturnType<typeof bridgeControllerGetActivityV3>>,
+        TError,
+        {data: GetActivityV3Dto},
+        TContext
+      > => {
+
+      const mutationOptions = getBridgeControllerGetActivityV3MutationOptions(options);
 
       return useMutation(mutationOptions);
     }

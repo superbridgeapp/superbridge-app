@@ -1,8 +1,8 @@
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { useAccount } from "wagmi";
 
-import { bridgeControllerGetActivityV2 } from "@/codegen";
+import { bridgeControllerGetActivityV3 } from "@/codegen";
 import { isSuperbridge } from "@/config/superbridge";
 import { useInjectedStore } from "@/state/injected";
 import { usePendingTransactions } from "@/state/pending-txs";
@@ -26,34 +26,44 @@ export const useTransactions = () => {
   const removeProving = usePendingTransactions.useRemoveProving();
   const removePending = usePendingTransactions.useRemoveTransactionByHash();
 
-  const response = useQuery({
-    // @ts-expect-error
-    queryKey: [
-      "activity",
-      account.address as string,
-      deployments.map((x) => x.id),
-      superbridgeTestnetsEnabled,
-    ],
-    queryFn: () => {
-      if (!account.address) {
-        return [];
-      }
-      return bridgeControllerGetActivityV2({
-        address: account.address,
-        includeAcross: isSuperbridge && !superbridgeTestnetsEnabled,
-        deploymentIds: deployments.map((d) => d.id),
-      });
-    },
-    enabled: !!account.address && deployments.length > 0,
-    refetchInterval: 10_000,
-  });
+  const { refetch, data, isLoading, isError, fetchNextPage } = useInfiniteQuery(
+    {
+      queryKey: [
+        "activity",
+        account.address as string,
+        deployments.map((x) => x.id),
+        superbridgeTestnetsEnabled,
+      ],
+      queryFn: ({ pageParam }) => {
+        if (!account.address) {
+          return {
+            actionRequiredCount: 0,
+            inProgressCount: 0,
+            total: 0,
+            transactions: [],
+          };
+        }
+
+        return bridgeControllerGetActivityV3({
+          address: account.address,
+          includeAcross: isSuperbridge && !superbridgeTestnetsEnabled,
+          deploymentIds: deployments.map((d) => d.id),
+          cursor: pageParam ?? null,
+        }).then((x) => x.data);
+      },
+      getNextPageParam: (lastPage) =>
+        lastPage.transactions[lastPage.transactions.length - 1].id,
+      enabled: !!account.address && deployments.length > 0,
+      refetchInterval: 10_000,
+    }
+  );
 
   useEffect(() => {
-    if (!response.data?.data) {
+    if (!data) {
       return;
     }
 
-    const txs = response.data.data.transactions as Transaction[];
+    const txs = data.pages.flatMap((x) => x.transactions) as Transaction[];
     txs.forEach((tx) => {
       const hash = getInitiatingHash(tx);
       if (hash) removePending(hash);
@@ -68,16 +78,15 @@ export const useTransactions = () => {
         if (tx.withdrawal?.finalise) removeFinalising(tx.id);
       }
     });
-  }, [
-    response.data?.data.transactions,
-    removePending,
-    removeProving,
-    removeFinalising,
-  ]);
+  }, [data?.pages, removePending, removeProving, removeFinalising]);
 
   return {
-    transactions: response.data?.data.transactions ?? [],
-    isLoading: response.isLoading,
-    isError: response.isError,
+    transactions: data?.pages.flatMap((p) => p.transactions) ?? [],
+    isLoading: isLoading,
+    isError: isError,
+    fetchNextPage,
+    total: data?.pages?.[0].total ?? 0,
+    actionRequiredCount: data?.pages?.[0].actionRequiredCount ?? 0,
+    inProgressCount: data?.pages?.[0].inProgressCount ?? 0,
   };
 };

@@ -1,5 +1,7 @@
 import { motion } from "framer-motion";
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { useInView } from "react-intersection-observer";
 import { P, match } from "ts-pattern";
 import { useAccount } from "wagmi";
 
@@ -14,14 +16,29 @@ import { Loading } from "../Loading";
 import { TransactionRow } from "../transaction-row";
 
 export const OpenActivity = ({}) => {
+  const { ref, inView } = useInView({
+    threshold: 0,
+  });
   const account = useAccount();
   const setDisplayTransactions = useConfigState.useSetDisplayTransactions();
   const open = useConfigState.useDisplayTransactions();
   const pendingTransactions = usePendingTransactions.useTransactions();
-  const { transactions, isLoading, isError } = useTransactions();
+  const {
+    transactions,
+    isLoading,
+    isError,
+    fetchNextPage,
+    total: totalTransactions,
+  } = useTransactions();
   const { t } = useTranslation();
   const statusCheck = useStatusCheck();
   const inProgressCount = useInProgressTxCount();
+
+  useEffect(() => {
+    if (inView && !isLoading) {
+      fetchNextPage();
+    }
+  }, [inView, fetchNextPage, isLoading]);
 
   return (
     <main
@@ -127,6 +144,16 @@ export const OpenActivity = ({}) => {
                   {[...pendingTransactions, ...transactions].map((t) => {
                     return <TransactionRow key={t.id} tx={t} />;
                   })}
+
+                  {totalTransactions &&
+                    transactions.length === totalTransactions && (
+                      <div>End of list</div>
+                    )}
+
+                  {totalTransactions &&
+                    transactions.length !== totalTransactions && (
+                      <div ref={ref}>Loading</div>
+                    )}
                 </div>
               );
             }
