@@ -6,7 +6,6 @@ import { bridgeControllerGetActivityV3 } from "@/codegen";
 import { isSuperbridge } from "@/config/superbridge";
 import { useInjectedStore } from "@/state/injected";
 import { usePendingTransactions } from "@/state/pending-txs";
-import { Transaction } from "@/types/transaction";
 import {
   isForcedWithdrawal,
   isOptimismForcedWithdrawal,
@@ -26,58 +25,58 @@ export const useTransactions = () => {
   const removeProving = usePendingTransactions.useRemoveProving();
   const removePending = usePendingTransactions.useRemoveTransactionByHash();
 
-  const { refetch, data, isLoading, isError, fetchNextPage } = useInfiniteQuery(
-    {
-      queryKey: [
-        "activity",
-        account.address as string,
-        deployments.map((x) => x.id),
-        superbridgeTestnetsEnabled,
-      ],
-      queryFn: ({ pageParam }) => {
-        if (!account.address) {
-          return {
-            actionRequiredCount: 0,
-            inProgressCount: 0,
-            total: 0,
-            transactions: [],
-          };
-        }
+  const { data, isLoading, isError, fetchNextPage } = useInfiniteQuery({
+    queryKey: [
+      "activity",
+      account.address as string,
+      deployments.map((x) => x.id),
+      superbridgeTestnetsEnabled,
+    ],
+    queryFn: ({ pageParam }) => {
+      if (!account.address) {
+        return {
+          actionRequiredCount: 0,
+          inProgressCount: 0,
+          total: 0,
+          transactions: [],
+        };
+      }
 
-        return bridgeControllerGetActivityV3({
-          address: account.address,
-          includeAcross: isSuperbridge && !superbridgeTestnetsEnabled,
-          deploymentIds: deployments.map((d) => d.id),
-          cursor: pageParam ?? null,
-        }).then((x) => x.data);
-      },
-      getNextPageParam: (lastPage) =>
-        lastPage.transactions[lastPage.transactions.length - 1].id,
-      enabled: !!account.address && deployments.length > 0,
-      refetchInterval: 10_000,
-    }
-  );
+      return bridgeControllerGetActivityV3({
+        address: account.address,
+        includeAcross: isSuperbridge && !superbridgeTestnetsEnabled,
+        deploymentIds: deployments.map((d) => d.id),
+        cursor: pageParam ?? null,
+      }).then((x) => x.data);
+    },
+
+    getNextPageParam: (lastPage) =>
+      lastPage?.transactions?.[lastPage.transactions.length - 1]?.id,
+    enabled: !!account.address && deployments.length > 0,
+    refetchInterval: 10_000,
+  });
 
   useEffect(() => {
-    if (!data) {
+    if (!data?.pages) {
       return;
     }
 
-    const txs = data.pages.flatMap((x) => x.transactions) as Transaction[];
-    txs.forEach((tx) => {
-      const hash = getInitiatingHash(tx);
-      if (hash) removePending(hash);
+    data.pages.forEach(({ transactions }) =>
+      transactions.forEach((tx) => {
+        const hash = getInitiatingHash(tx);
+        if (hash) removePending(hash);
 
-      if (isWithdrawal(tx)) {
-        if (isOptimismWithdrawal(tx)) if (tx.prove) removeProving(tx.id);
-        if (tx.finalise) removeFinalising(tx.id);
-      }
-      if (isForcedWithdrawal(tx)) {
-        if (isOptimismForcedWithdrawal(tx))
-          if (tx.withdrawal?.prove) removeProving(tx.id);
-        if (tx.withdrawal?.finalise) removeFinalising(tx.id);
-      }
-    });
+        if (isWithdrawal(tx)) {
+          if (isOptimismWithdrawal(tx)) if (tx.prove) removeProving(tx.id);
+          if (tx.finalise) removeFinalising(tx.id);
+        }
+        if (isForcedWithdrawal(tx)) {
+          if (isOptimismForcedWithdrawal(tx))
+            if (tx.withdrawal?.prove) removeProving(tx.id);
+          if (tx.withdrawal?.finalise) removeFinalising(tx.id);
+        }
+      })
+    );
   }, [data?.pages, removePending, removeProving, removeFinalising]);
 
   return {
