@@ -165,7 +165,7 @@
     "withdrawalTitleEscapeHatchHours_other": "Escape hatch withdrawals from {{rollup}} take ~{{count}} hours",
     "withdrawalTitleEscapeHatchDays_one": "Escape hatch withdrawals from {{rollup}} take ~{{count}} days",
     "withdrawalTitleEscapeHatchDays_other": "Escape hatch withdrawals from {{rollup}} take ~{{count}} days",
-    "cctpDescription": "Bridging native USDC via CCTP is a 3 step process, requiring 2 transactions on {{from}} and 1 transaction on {{to}}.",
+    "cctpDescription": "Bridging native {{symbol}} via CCTP is a 3 step process, requiring 2 transactions on {{from}} and 1 transaction on {{to}}.",
     "cctpDescriptionEscapeHatch": "Using Escape Hatch to force native {{symbol}} withdrawals is a 3 step process, requiring 2 transactions on {{to}} and 1 transaction on {{from}}.",
     "opDescription": "Withdrawing is a 3 step process, requiring 1 {{rollup}} transaction and 2 {{base}} transactions.",
     "opDescriptionToken": "Withdrawing is a 4 step process, requiring 2 {{rollup}} transactions and 2 {{base}} transactions.",
@@ -246,7 +246,7 @@
   "noGasModal": {
     "youNeedGasOn": "You need gas on {{to}}",
     "needHelp": "Need help? View FAQs",
-    "usdc": "Bridging USDC requires an extra transaction on {{to}}. Please top up {{gas}} on {{to}} to complete this bridge.",
+    "cctp": "Bridging {{symbol}} requires an extra transaction on {{to}}. Please top up {{gas}} on {{to}} to complete this bridge.",
     "opWithdrawing": "Withdrawing requires 2 extra transactions on {{to}}. Please top up {{gas}} on {{to}} to complete this withdrawal.",
     "arbWithdrawing": "Withdrawing {{token}} requires an extra transaction on {{to}}. Please top up {{gas}} on {{to}} to complete this withdrawal.",
     "depositing": "Without gas on {{to}} you won't be able to make any transactions. Please top up {{gas}} on {{to}} before attempting this bridge.",

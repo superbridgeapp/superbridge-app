@@ -157,7 +157,7 @@
     "withdrawalTitleEscapeHatchHours_other": "从 {{rollup}} 紧急取款需要约 {{count}} 小时",
     "withdrawalTitleEscapeHatchDays_one": "从 {{rollup}} 紧急取款需要约 {{count}} 天",
     "withdrawalTitleEscapeHatchDays_other": "从 {{rollup}} 紧急取款需要约 {{count}} 天",
-    "cctpDescription": "通过 CCTP 桥接原生 USDC 是一个三步过程，需要在 {{from}} 上进行两笔交易，在 {{to}} 上进行一笔交易。",
+    "cctpDescription": "通过 CCTP 桥接原生 {{symbol}} 是一个三步过程，需要在 {{from}} 上进行两笔交易，在 {{to}} 上进行一笔交易。",
     "cctpDescriptionEscapeHatch": "使用紧急取款来强制取回原生 {{symbol}} 是一个三步过程，需要在 {{to}} 上进行两笔交易，在 {{from}} 上进行一笔交易。",
     "opDescription": "取款是一个三步过程，需要一笔 {{rollup}} 交易和两笔 {{base}} 交易。",
     "opDescriptionToken": "取款是一个四步过程，需要两笔 {{rollup}} 交易和两笔 {{base}} 交易。",
@@ -231,7 +231,7 @@
   "noGasModal": {
     "youNeedGasOn": "你需要在 {{to}} 上的燃料",
     "needHelp": "需要帮助？查看常见问题",
-    "usdc": "桥接 USDC 需要在 {{to}} 上额外进行一次交易。请在 {{to}} 上充值 {{gas}} 以完成此桥接。",
+    "cctp": "桥接 {{symbol}} 需要在 {{to}} 上额外进行一次交易。请在 {{to}} 上充值 {{gas}} 以完成此桥接。",
     "opWithdrawing": "取款需要在 {{to}} 上额外进行两次交易。请在 {{to}} 上充值 {{gas}} 以完成此取款。",
     "arbWithdrawing": "取款 {{token}} 需要在 {{to}} 上额外进行一次交易。请在 {{to}} 上充值 {{gas}} 以完成此取款。",
     "depositing": "如果在 {{to}} 上没有燃料，你将无法进行任何交易。请在尝试此桥接前在 {{to}} 上充值 {{gas}}。",

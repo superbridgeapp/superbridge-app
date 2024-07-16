@@ -161,7 +161,7 @@
     "withdrawalTitleEscapeHatchHours_other": "Penarikan Darurat dari {{rollup}} memakan waktu ~{{count}} jam",
     "withdrawalTitleEscapeHatchDays_one": "Penarikan Darurat dari {{rollup}} memakan waktu ~{{count}} hari",
     "withdrawalTitleEscapeHatchDays_other": "Penarikan Darurat dari {{rollup}} memakan waktu ~{{count}} hari",
-    "cctpDescription": "Pembuatan jembatan USDC asli melalui CCTP adalah proses 3 langkah, memerlukan 2 transaksi di {{from}} dan 1 transaksi di {{to}}.",
+    "cctpDescription": "Pembuatan jembatan {{symbol}} asli melalui CCTP adalah proses 3 langkah, memerlukan 2 transaksi di {{from}} dan 1 transaksi di {{to}}.",
     "cctpDescriptionEscapeHatch": "Menggunakan Hatch Darurat untuk memaksa penarikan asli {{symbol}} adalah proses 3 langkah, memerlukan 2 transaksi di {{to}} dan 1 transaksi di {{from}}.",
     "opDescription": "Penarikan adalah proses 3 langkah, memerlukan 1 transaksi {{rollup}} dan 2 transaksi {{base}}.",
     "opDescriptionToken": "Penarikan adalah proses 4 langkah, memerlukan 2 transaksi {{rollup}} dan 2 transaksi {{base}}.",
@@ -238,7 +238,7 @@
   "noGasModal": {
     "youNeedGasOn": "Anda memerlukan gas di {{to}}",
     "needHelp": "Butuh bantuan? Lihat FAQ",
-    "usdc": "Pembuatan jembatan USDC memerlukan transaksi tambahan di {{to}}. Silakan isi ulang {{gas}} di {{to}} untuk menyelesaikan jembatan ini.",
+    "cctp": "Pembuatan jembatan {{symbol}} memerlukan transaksi tambahan di {{to}}. Silakan isi ulang {{gas}} di {{to}} untuk menyelesaikan jembatan ini.",
     "opWithdrawing": "Penarikan memerlukan 2 transaksi tambahan di {{to}}. Silakan isi ulang {{gas}} di {{to}} untuk menyelesaikan penarikan ini.",
     "arbWithdrawing": "Penarikan {{token}} memerlukan transaksi tambahan di {{to}}. Silakan isi ulang {{gas}} di {{to}} untuk menyelesaikan penarikan ini.",
     "depositing": "Tanpa gas di {{to}}, Anda tidak akan dapat melakukan transaksi apa pun. Silakan isi ulang {{gas}} di {{to}} sebelum mencoba jembatan ini.",

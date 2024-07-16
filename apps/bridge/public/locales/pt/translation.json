@@ -160,7 +160,7 @@
     "withdrawalTitleEscapeHatchHours_other": "Retiradas pela porta de escape de {{rollup}} levam cerca de {{count}} horas",
     "withdrawalTitleEscapeHatchDays_one": "Retiradas pela porta de escape de {{rollup}} levam cerca de {{count}} dia",
     "withdrawalTitleEscapeHatchDays_other": "Retiradas pela porta de escape de {{rollup}} levam cerca de {{count}} dias",
-    "cctpDescription": "A transferência de USDC nativo através da CCTP é um processo de 3 etapas, exigindo 2 transações em {{from}} e 1 transação em {{to}}.",
+    "cctpDescription": "A transferência de {{symbol}} nativo através da CCTP é um processo de 3 etapas, exigindo 2 transações em {{from}} e 1 transação em {{to}}.",
     "cctpDescriptionEscapeHatch": "Usar a porta de escape para forçar retiradas nativas de {{symbol}} é um processo de 3 etapas, exigindo 2 transações em {{to}} e 1 transação em {{from}}.",
     "opDescription": "A retirada é um processo de 3 etapas, exigindo 1 transação {{rollup}} e 2 transações {{base}}.",
     "opDescriptionToken": "A retirada é um processo de 4 etapas, exigindo 2 transações {{rollup}} e 2 transações {{base}}.",
@@ -237,7 +237,7 @@
   "noGasModal": {
     "youNeedGasOn": "Você precisa de gás em {{to}}",
     "needHelp": "Precisa de ajuda? Ver FAQs",
-    "usdc": "A ponte do USDC requer uma transação extra em {{to}}. Por favor, recarregue {{gas}} em {{to}} para completar esta ponte.",
+    "cctp": "A ponte do {{symbol}} requer uma transação extra em {{to}}. Por favor, recarregue {{gas}} em {{to}} para completar esta ponte.",
     "opWithdrawing": "A retirada requer 2 transações extras em {{to}}. Por favor, recarregue {{gas}} em {{to}} para completar esta retirada.",
     "arbWithdrawing": "A retirada de {{token}} requer uma transação extra em {{to}}. Por favor, recarregue {{gas}} em {{to}} para completar esta retirada.",
     "depositing": "Sem gás em {{to}}, você não poderá fazer nenhuma transação. Por favor, recarregue {{gas}} em {{to}} antes de tentar esta ponte.",

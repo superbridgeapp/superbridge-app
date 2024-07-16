@@ -53,13 +53,13 @@ export const NoGasModal = ({ onProceed, open, onCancel }: AlertProps) => {
   };
 
   const description = match({
-    isUsdc: isCctp(stateToken),
+    isCctp: isCctp(stateToken),
     withdrawing,
     family: deployment?.family,
     isEth: isNativeToken(stateToken),
   })
     .with({ withdrawing: false }, () => t("noGasModal.depositing", common))
-    .with({ isUsdc: true }, () => t("noGasModal.usdc", common))
+    .with({ isCctp: true }, () => t("noGasModal.cctp", common))
     .with({ withdrawing: true, family: DeploymentFamily.optimism }, () =>
       t("noGasModal.opWithdrawing", common)
     )
