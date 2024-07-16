@@ -1,8 +1,8 @@
 import { isAddressEqual } from "viem";
 
 import { MultiChainToken } from "@/types/token";
-import * as usdc from "@/utils/token-list/json/cctp/usdc";
 import { eurc } from "@/utils/token-list/json/cctp/eurc";
+import * as usdc from "@/utils/token-list/json/cctp/usdc";
 
 // https://developers.circle.com/stablecoins/docs/usdc-on-main-networks
 export const isCctp = (token: MultiChainToken | null) => {

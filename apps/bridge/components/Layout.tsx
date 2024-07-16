@@ -13,7 +13,7 @@ import {
   useBackgroundImageOpacity,
   useBackgroundImagePosition,
   useBackgroundImageRepeat,
-  useBackgroundImageSize
+  useBackgroundImageSize,
 } from "@/hooks/use-theme";
 import { useConfigState } from "@/state/config";
 

@@ -13,8 +13,8 @@ import {
 } from "@/types/token";
 import { getNativeTokenForDeployment } from "@/utils/get-native-token";
 import { isArbitrumToken, isOptimismToken } from "@/utils/guards";
-import { isNativeToken } from "@/utils/is-eth";
 import { isBridgedUsdc, isCctp } from "@/utils/is-cctp";
+import { isNativeToken } from "@/utils/is-eth";
 
 import { useAcrossTokens } from "./across/use-across-tokens";
 import { useDeployment } from "./use-deployment";

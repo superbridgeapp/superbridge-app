@@ -38,9 +38,9 @@ import { useConfigState } from "@/state/config";
 import { useSettingsState } from "@/state/settings";
 import { Token } from "@/types/token";
 import { formatDecimals } from "@/utils/format-decimals";
+import { isCctp } from "@/utils/is-cctp";
 import { isNativeToken } from "@/utils/is-eth";
 import { isArbitrum } from "@/utils/is-mainnet";
-import { isCctp } from "@/utils/is-cctp";
 import { scaleToNativeTokenDecimals } from "@/utils/native-token-scaling";
 
 import { IconSuperFast } from "../icons";

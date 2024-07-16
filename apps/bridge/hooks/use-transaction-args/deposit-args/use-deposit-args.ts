@@ -1,7 +1,6 @@
 import { useConfigState } from "@/state/config";
 import { isCctp } from "@/utils/is-cctp";
 
-import { isCctpBridgeOperation } from "../cctp-args/common";
 import { useArbitrumDepositArgs } from "./use-arbitrum-deposit-args";
 import { useOptimismDepositArgs } from "./use-optimism-deposit-args";
 

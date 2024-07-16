@@ -38,8 +38,8 @@ import { useConfigState } from "@/state/config";
 import { usePendingTransactions } from "@/state/pending-txs";
 import { buildPendingTx } from "@/utils/build-pending-tx";
 import { formatDecimals } from "@/utils/format-decimals";
-import { isEth, isNativeToken } from "@/utils/is-eth";
 import { isCctp } from "@/utils/is-cctp";
+import { isEth, isNativeToken } from "@/utils/is-eth";
 
 import { FromTo } from "./FromTo";
 import {
