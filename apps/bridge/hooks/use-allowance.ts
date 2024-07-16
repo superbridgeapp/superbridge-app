@@ -1,5 +1,5 @@
-import { useAccount, useReadContract } from "wagmi";
 import { Address, erc20Abi } from "viem";
+import { useAccount, useReadContract } from "wagmi";
 
 import { Token } from "@/types/token";
 import { isEth } from "@/utils/is-eth";

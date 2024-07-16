@@ -1,10 +1,10 @@
-import { type ReactNode, createContext, useRef, useContext } from "react";
+import { type ReactNode, createContext, useContext, useRef } from "react";
 import { type StoreApi, useStore } from "zustand";
 
 import {
+  InjectedState,
   type InjectedStore,
   createInjectedStore,
-  InjectedState,
 } from "./injected-store";
 
 export const InjectedStoreContext =

@@ -3,12 +3,12 @@ import {
   ForcedWithdrawalDto,
 } from "@/codegen/model";
 
+import { OptimismDeploymentDto } from "../is-mainnet";
 import { useArbitrumDepositProgressRows } from "./arbitrum-deposit";
 import { useArbitrumWithdrawalProgressRows } from "./arbitrum-withdrawal";
 import { ExpandedItem, ProgressRowStatus } from "./common";
 import { useOptimismDepositProgressRows } from "./deposit";
 import { useOptimismWithdrawalProgressRows } from "./withdrawal";
-import { OptimismDeploymentDto } from "../is-mainnet";
 
 export const useOptimismForcedWithdrawalProgressRows = () => {
   const depositRows = useOptimismDepositProgressRows();

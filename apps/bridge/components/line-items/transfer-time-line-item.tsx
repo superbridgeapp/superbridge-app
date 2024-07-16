@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import { ModalNames } from "@/constants/modal-names";
 import { useTransferTime } from "@/hooks/use-transfer-time";
 import { useConfigState } from "@/state/config";
+
 import { IconHelp } from "../icons";
 
 export const TransferTimeLineItem = () => {

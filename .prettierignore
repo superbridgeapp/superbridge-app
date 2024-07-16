@@ -1,1 +1,4 @@
-.dockerignore
+# orval
+**/codegen
+# shad
+apps/bridge/components/ui

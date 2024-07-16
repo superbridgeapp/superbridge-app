@@ -4,8 +4,8 @@ import { useReadContracts } from "wagmi";
 import { SpokePoolAbi } from "@/abis/across/SpokePool";
 import { useConfigState } from "@/state/config";
 
-import { useAcrossDomains } from "./use-across-domains";
 import { useFromChain, useToChain } from "../use-chain";
+import { useAcrossDomains } from "./use-across-domains";
 
 export const useAcrossPaused = () => {
   const fast = useConfigState.useFast();

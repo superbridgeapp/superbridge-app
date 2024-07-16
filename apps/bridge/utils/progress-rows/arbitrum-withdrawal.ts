@@ -3,9 +3,9 @@ import { P, match } from "ts-pattern";
 
 import { ArbitrumWithdrawalDto } from "@/codegen/model";
 import { ArbitrumMessageStatus } from "@/constants/arbitrum-message-status";
+import { getFinalizationPeriod } from "@/hooks/use-finalization-period";
 import { usePeriodText } from "@/hooks/use-period-text";
 import { usePendingTransactions } from "@/state/pending-txs";
-import { getFinalizationPeriod } from "@/hooks/use-finalization-period";
 
 import { transactionLink } from "../transaction-link";
 import { ButtonComponent, ExpandedItem, ProgressRowStatus } from "./common";

@@ -7,8 +7,8 @@ import {
   DeploymentType,
   TransactionStatus,
 } from "@/codegen/model";
-import { usePeriodText } from "@/hooks/use-period-text";
 import { getDepositTime } from "@/hooks/use-finalization-period";
+import { usePeriodText } from "@/hooks/use-period-text";
 
 import { transactionLink } from "../transaction-link";
 import { ButtonComponent, ExpandedItem, ProgressRowStatus } from "./common";

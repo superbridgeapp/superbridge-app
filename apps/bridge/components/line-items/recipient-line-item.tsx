@@ -3,8 +3,8 @@ import Image from "next/image";
 import { useTranslation } from "react-i18next";
 import { useAccount } from "wagmi";
 
-import { useConfigState } from "@/state/config";
 import { ModalNames } from "@/constants/modal-names";
+import { useConfigState } from "@/state/config";
 
 export const RecipientAddressLineItem = () => {
   const recipientName = useConfigState.useRecipientName();
