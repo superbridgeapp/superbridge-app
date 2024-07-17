@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { P, match } from "ts-pattern";
 
-import { ArbitrumWithdrawalDto } from "@/codegen/model";
+import { ArbitrumWithdrawalDto, DeploymentDto } from "@/codegen/model";
 import { ArbitrumMessageStatus } from "@/constants/arbitrum-message-status";
 import { getFinalizationPeriod } from "@/hooks/use-finalization-period";
 import { usePeriodText } from "@/hooks/use-period-text";
@@ -18,12 +18,17 @@ export const useArbitrumWithdrawalProgressRows = () => {
   const { t } = useTranslation();
   const pendingFinalises = usePendingTransactions.usePendingFinalises();
   const transformPeriodText = usePeriodText();
-  return (w: ArbitrumWithdrawalDto | undefined): ExpandedItem[] => {
+
+  return (
+    w: ArbitrumWithdrawalDto | undefined,
+    deployment: DeploymentDto | null
+  ): ExpandedItem[] => {
+    if (!deployment) {
+      return [];
+    }
+
     const pendingFinalise = pendingFinalises[w?.id ?? ""];
-    const finalizationPeriod = getFinalizationPeriod(
-      w?.deployment ?? null,
-      false
-    );
+    const finalizationPeriod = getFinalizationPeriod(deployment, false);
 
     const finalise = match({ ...w, pendingFinalise })
       // Special case for saved client side transactions
@@ -36,7 +41,7 @@ export const useArbitrumWithdrawalProgressRows = () => {
           label: t("activity.finalizing"),
           status: ProgressRowStatus.InProgress,
           buttonComponent: undefined,
-          link: transactionLink(pendingFinalise!, w.deployment!.l1),
+          link: transactionLink(pendingFinalise!, deployment.l1),
         })
       )
       .with({ status: ArbitrumMessageStatus.CONFIRMED }, () => ({
@@ -49,7 +54,7 @@ export const useArbitrumWithdrawalProgressRows = () => {
         label: t("activity.finalized"),
         status: ProgressRowStatus.Done,
         buttonComponent: undefined,
-        link: transactionLink(w.finalise!.transactionHash, w.deployment!.l1),
+        link: transactionLink(w.finalise!.transactionHash, deployment.l1),
       }))
       .otherwise(() => ({
         label: t("activity.finalized"),
@@ -90,7 +95,7 @@ export const useArbitrumWithdrawalProgressRows = () => {
         label: t("activity.withdrawn"),
         status: ProgressRowStatus.Done,
         link: w
-          ? transactionLink(w.withdrawal.transactionHash, w.deployment.l2)
+          ? transactionLink(w.withdrawal.transactionHash, deployment.l2)
           : undefined,
       },
       {

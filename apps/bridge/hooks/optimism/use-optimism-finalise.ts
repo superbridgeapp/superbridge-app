@@ -7,16 +7,18 @@ import { BridgeWithdrawalDto } from "@/codegen/model";
 import { trackEvent } from "@/services/ga";
 import { usePendingTransactions } from "@/state/pending-txs";
 
+import { useDeploymentById } from "../use-deployment-by-id";
 import { useSwitchChain } from "../use-switch-chain";
 
 export function useFinaliseOptimism({
   id,
-  deployment,
+  deploymentId,
   withdrawal,
 }: BridgeWithdrawalDto) {
   const account = useAccount();
-  const wallet = useWalletClient({ chainId: deployment.l1.id });
-  const client = usePublicClient({ chainId: deployment.l1.id });
+  const deployment = useDeploymentById(deploymentId);
+  const wallet = useWalletClient({ chainId: deployment?.l1.id });
+  const client = usePublicClient({ chainId: deployment?.l1.id });
   const setFinalising = usePendingTransactions.useSetFinalising();
   const removeFinalising = usePendingTransactions.useRemoveFinalising();
   const getFinaliseTransaction = useBridgeControllerGetFinaliseTransaction();
@@ -25,7 +27,7 @@ export function useFinaliseOptimism({
   const [loading, setLoading] = useState(false);
 
   const onFinalise = async () => {
-    if (!account.address || !wallet.data || !client) {
+    if (!account.address || !wallet.data || !client || !deployment) {
       return;
     }
 

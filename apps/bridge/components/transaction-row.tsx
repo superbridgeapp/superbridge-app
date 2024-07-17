@@ -7,7 +7,6 @@ import { Address, formatUnits, isAddressEqual } from "viem";
 import { useChainId } from "wagmi";
 
 import {
-  AcrossBridgeMetadataDto,
   ArbitrumDepositRetryableDto,
   ArbitrumForcedWithdrawalDto,
   ArbitrumWithdrawalDto,
@@ -24,6 +23,7 @@ import { useFinaliseOptimism } from "@/hooks/optimism/use-optimism-finalise";
 import { useProveOptimism } from "@/hooks/optimism/use-optimism-prove";
 import { useGasTokenForDeployment } from "@/hooks/use-approve-gas-token";
 import { useMintCctp } from "@/hooks/use-cctp-mint";
+import { useDeploymentById } from "@/hooks/use-deployment-by-id";
 import { useFromTo } from "@/hooks/use-from-to";
 import { useSwitchChain } from "@/hooks/use-switch-chain";
 import { useAllTokens } from "@/hooks/use-tokens";
@@ -113,10 +113,14 @@ const RedeemArbitrum: FC<{
   const { t } = useTranslation();
   const switchChain = useSwitchChain();
 
-  const deploymentL1 = isArbitrumForcedWithdrawal(tx)
-    ? tx.deposit.deployment.l1
-    : tx.deployment.l1;
-  if (chainId === deploymentL1.id) {
+  const deployment = useDeploymentById(
+    isArbitrumForcedWithdrawal(tx) ? tx.deposit.deploymentId : tx.deploymentId
+  );
+  if (!deployment) {
+    return null;
+  }
+
+  if (chainId === deployment.l1.id) {
     return (
       <Button className="rounded-full" onClick={redeem.write} size={"sm"}>
         {t("buttons.redeem")}
@@ -124,7 +128,7 @@ const RedeemArbitrum: FC<{
     );
   }
   return (
-    <Button onClick={() => switchChain(deploymentL1)} size={"sm"}>
+    <Button onClick={() => switchChain(deployment.l1)} size={"sm"}>
       {t("buttons.switchChain")}
     </Button>
   );
@@ -335,11 +339,13 @@ const getNativeToken = (tokens: MultiChainToken[], chainId: number) => {
   })?.[chainId];
 };
 function useToken(tx: Transaction, tokens: MultiChainToken[]) {
-  const deployment = isAcrossBridge(tx)
-    ? null
-    : isForcedWithdrawal(tx)
-    ? tx.deposit.deployment
-    : tx.deployment;
+  const deployment = useDeploymentById(
+    isAcrossBridge(tx) || isCctpBridge(tx)
+      ? ""
+      : isForcedWithdrawal(tx)
+      ? tx.deposit.deploymentId
+      : tx.deploymentId
+  );
   const gasToken = useGasTokenForDeployment(deployment?.id);
 
   const [from, to] = useFromTo(tx);
@@ -349,6 +355,21 @@ function useToken(tx: Transaction, tokens: MultiChainToken[]) {
       chainId: tx.from.id,
       tokenAddress: tx.token,
     });
+  }
+
+  if (isAcrossBridge(tx)) {
+    if (tx.metadata.data.isEth) {
+      return getNativeToken(tokens, from.id);
+    }
+
+    return getToken(
+      tokens,
+      {
+        chainId: from.id,
+        tokenAddress: tx.metadata.data.inputTokenAddress,
+      },
+      to.id
+    );
   }
 
   const metadata =
@@ -377,22 +398,6 @@ function useToken(tx: Transaction, tokens: MultiChainToken[]) {
         {
           chainId: from.id,
           tokenAddress,
-        },
-        to.id
-      );
-    })
-    .with({ type: "across-bridge" }, (m) => {
-      const dto = m as AcrossBridgeMetadataDto;
-
-      if (dto.data.isEth) {
-        return getNativeToken(tokens, from.id);
-      }
-
-      return getToken(
-        tokens,
-        {
-          chainId: from.id,
-          tokenAddress: dto.data.inputTokenAddress,
         },
         to.id
       );
@@ -479,11 +484,13 @@ export const TransactionRow = ({ tx }: { tx: Transaction }) => {
   );
 
   const [from, to] = useFromTo(tx);
-  const deployment = isAcrossBridge(tx)
-    ? null
-    : isForcedWithdrawal(tx)
-    ? tx.deposit.deployment
-    : tx.deployment;
+  const deployment = useDeploymentById(
+    isAcrossBridge(tx)
+      ? ""
+      : isForcedWithdrawal(tx)
+      ? tx.deposit.deploymentId
+      : tx.deploymentId
+  );
 
   const indicatorStyles = clsx(
     `w-4 h-4 outline outline-2 outline-zinc-50 dark:outline-zinc-900 absolute -right-1 bottom-0 rounded-full bg-card fill-green-400`,
@@ -512,7 +519,7 @@ export const TransactionRow = ({ tx }: { tx: Transaction }) => {
           />
         )}
         {isDeposit(tx) ||
-        (isCctpBridge(tx) && tx.from.id === tx.deployment.l1.id) ? (
+        (isCctpBridge(tx) && tx.from.id === deployment?.l1.id) ? (
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"
@@ -530,7 +537,7 @@ export const TransactionRow = ({ tx }: { tx: Transaction }) => {
             </defs>
           </svg>
         ) : isWithdrawal(tx) ||
-          (isCctpBridge(tx) && tx.from.id === tx.deployment.l2.id) ? (
+          (isCctpBridge(tx) && tx.from.id === deployment?.l2.id) ? (
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"

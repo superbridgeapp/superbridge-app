@@ -98,7 +98,7 @@ export const buildPendingTx = (
         },
         metadata,
         status: MessageStatus.STATE_ROOT_NOT_PUBLISHED,
-        deployment,
+        deploymentId: deployment.id,
       };
       return w;
     } else {
@@ -113,7 +113,7 @@ export const buildPendingTx = (
         },
         metadata,
         status: MessageStatus.UNCONFIRMED_L1_TO_L2_MESSAGE,
-        deployment,
+        deploymentId: deployment.id,
       };
       return a;
     }
@@ -130,7 +130,7 @@ export const buildPendingTx = (
       createdAt: new Date().toString(),
       updatedAt: new Date().toString(),
       amount: weiAmount.toString(),
-      deployment,
+      deploymentId: deployment.id,
       from,
       to: withdrawing ? deployment.l1 : deployment.l2,
       type: "cctp-bridge",
@@ -178,7 +178,7 @@ export const buildPendingTx = (
             transactionHash: hash,
           },
           status: MessageStatus.UNCONFIRMED_L1_TO_L2_MESSAGE,
-          deployment,
+          deploymentId: deployment.id,
         },
       };
       return w;
@@ -198,7 +198,7 @@ export const buildPendingTx = (
         },
         metadata,
         status: MessageStatus.STATE_ROOT_NOT_PUBLISHED,
-        deployment,
+        deploymentId: deployment.id,
       };
       return w;
     }
@@ -216,7 +216,7 @@ export const buildPendingTx = (
       },
       metadata,
       status: MessageStatus.UNCONFIRMED_L1_TO_L2_MESSAGE,
-      deployment: deployment,
+      deploymentId: deployment.id,
     };
     return a;
   }
@@ -224,7 +224,6 @@ export const buildPendingTx = (
   if (isArbitrum(deployment) && !withdrawing) {
     const a: ArbitrumDepositRetryableDto = {
       type: "arbitrum-deposit-retryable",
-      deployment,
       // @ts-expect-error
       deposit: {
         transactionHash: hash,
@@ -234,6 +233,7 @@ export const buildPendingTx = (
       updatedAt: new Date().toString(),
       l2TransactionHash: "0x",
       metadata,
+      deploymentId: deployment.id,
     };
     return a;
   }
@@ -250,7 +250,7 @@ export const buildPendingTx = (
       },
       metadata,
       status: ArbitrumMessageStatus.UNCONFIRMED,
-      deployment,
+      deploymentId: deployment.id,
     };
     return w;
   }

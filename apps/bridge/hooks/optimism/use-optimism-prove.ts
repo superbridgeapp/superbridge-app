@@ -8,17 +8,19 @@ import { trackEvent } from "@/services/ga";
 import { useConfigState } from "@/state/config";
 import { usePendingTransactions } from "@/state/pending-txs";
 
+import { useDeploymentById } from "../use-deployment-by-id";
 import { useFaultProofUpgradeTime } from "../use-fault-proof-upgrade-time";
 import { useSwitchChain } from "../use-switch-chain";
 
 export function useProveOptimism({
   id,
-  deployment,
+  deploymentId,
   withdrawal,
 }: BridgeWithdrawalDto) {
   const account = useAccount();
-  const wallet = useWalletClient({ chainId: deployment.l1.id });
-  const client = usePublicClient({ chainId: deployment.l1.id });
+  const deployment = useDeploymentById(deploymentId);
+  const wallet = useWalletClient({ chainId: deployment?.l1.id });
+  const client = usePublicClient({ chainId: deployment?.l1.id });
   const setProving = usePendingTransactions.useSetProving();
   const removeProving = usePendingTransactions.useRemoveProving();
   const setBlockProvingModal = useConfigState.useSetBlockProvingModal();
@@ -34,7 +36,7 @@ export function useProveOptimism({
       return;
     }
 
-    if (!account.address || !wallet.data || !client) {
+    if (!account.address || !wallet.data || !client || !deployment) {
       return;
     }
 
