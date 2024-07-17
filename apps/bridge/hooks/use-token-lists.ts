@@ -9,7 +9,6 @@ import { SuperbridgeTokenList, SuperchainTokenList } from "@/types/token-lists";
 import UniswapArbitrumTokenList from "@/utils/token-list/json/arbitrum-uniswap.json";
 import ArbArbitrumTokenList from "@/utils/token-list/json/arbitrum.json";
 import { baseTokens } from "@/utils/token-list/json/base";
-import { eurc } from "@/utils/token-list/json/cctp/eurc";
 import * as usdc from "@/utils/token-list/json/cctp/usdc";
 import { dog } from "@/utils/token-list/json/dog";
 import { ebi } from "@/utils/token-list/json/ebi";
@@ -146,8 +145,6 @@ export const useTokenLists = () => {
     [
       ...kroma.l1Tokens,
       ...usdc.bridged,
-      ...usdc.native,
-      ...eurc,
       ...wsteth,
       ...dog,
       ...rollux,
