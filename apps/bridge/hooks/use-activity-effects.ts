@@ -19,8 +19,6 @@ export const useActivityEffects = () => {
   const removePending = usePendingTransactions.useRemoveTransactionByHash();
 
   useEffect(() => {
-    console.log("Executing", transactions.length);
-
     transactions.forEach((tx) => {
       const hash = getInitiatingHash(tx);
       if (hash) removePending(hash);
@@ -35,5 +33,5 @@ export const useActivityEffects = () => {
         if (tx.withdrawal?.finalise) removeFinalising(tx.id);
       }
     });
-  }, [transactions]);
+  }, [transactions, removePending, removeProving, removeFinalising]);
 };
