@@ -34,7 +34,6 @@ export const Bridge = () => {
             new Date(deployment.deletedAt) > new Date() && (
               <ScheduledDeletion />
             )}
-          <ScheduledDeletion />
           {withdrawalsPaused && <WithdrawalsPaused />}
           {faultProofUpgradeTime && <FaultProofsBanner />}
           {hasWithdrawalReadyToFinalize && (
