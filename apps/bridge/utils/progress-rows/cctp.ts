@@ -1,11 +1,8 @@
 import { useTranslation } from "react-i18next";
 import { P, match } from "ts-pattern";
 
-import { CctpBridgeDto } from "@/codegen/model";
-import {
-  cctpPeriod,
-  getFinalizationPeriod,
-} from "@/hooks/use-finalization-period";
+import { CctpBridgeDto, DeploymentDto } from "@/codegen/model";
+import { getFinalizationPeriod } from "@/hooks/use-finalization-period";
 import { usePeriodText } from "@/hooks/use-period-text";
 import { usePendingTransactions } from "@/state/pending-txs";
 
@@ -18,9 +15,16 @@ export const useCctpProgressRows = () => {
   const pendingFinalises = usePendingTransactions.usePendingFinalises();
   const transformPeriodText = usePeriodText();
 
-  return (tx: CctpBridgeDto): ExpandedItem[] => {
+  return (
+    tx: CctpBridgeDto,
+    deployment: DeploymentDto | null
+  ): ExpandedItem[] => {
+    if (!deployment) {
+      return [];
+    }
+
     const pendingFinalise = pendingFinalises[tx?.id ?? ""];
-    const bridgeTime = getFinalizationPeriod(tx.deployment, true);
+    const bridgeTime = getFinalizationPeriod(deployment, true);
 
     const l2ConfirmationText = (() => {
       if (!bridgeTime || tx.relay) return "";

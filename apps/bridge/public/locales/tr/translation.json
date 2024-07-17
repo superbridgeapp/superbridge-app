@@ -144,8 +144,7 @@
     "easyModeFee": "Kolay mod gas miktarı"
   },
 
-  "poweredByConduit": "Conduit tarafından geliştirilmiştir.",
-
+  "poweredBy": "{{name}} Tarafından Desteklenmektedir",
   "confirmationModal": {
     "cctpDepositTitle": "{{symbol}} yatırımları yaklaşık ~{{mins}} dakika sürer",
     "cctpWithdrawalTitle": "{{symbol}} çekimleri yaklaşık ~{{mins}} dakika sürer",
@@ -163,7 +162,7 @@
     "withdrawalTitleEscapeHatchHours_other": "{{rollup}} Kaçış Kapağı çekimleri yaklaşık ~{{count}} saat sürer",
     "withdrawalTitleEscapeHatchDays_one": "{{rollup}} Kaçış Kapağı çekimleri yaklaşık ~{{count}} gün sürer",
     "withdrawalTitleEscapeHatchDays_other": "{{rollup}} Kaçış Kapağı çekimleri yaklaşık ~{{count}} gün sürer",
-    "cctpDescription": "CCTP aracılığıyla doğal USDC'yi köprüleme, {{from}} üzerinde 2 işlem ve {{to}} üzerinde 1 işlem gerektiren 3 adımlı bir işlemdir.",
+    "cctpDescription": "CCTP aracılığıyla doğal {{symbol}}'yi köprüleme, {{from}} üzerinde 2 işlem ve {{to}} üzerinde 1 işlem gerektiren 3 adımlı bir işlemdir.",
     "cctpDescriptionEscapeHatch": "Kaçış Kapağı kullanarak doğal {{symbol}} çekimlerini zorlama, {{to}} üzerinde 2 işlem ve {{from}} üzerinde 1 işlem gerektiren 3 adımlı bir işlemdir.",
     "opDescription": "Çekim, 1 {{rollup}} işlemi ve 2 {{base}} işlemi gerektiren 3 adımlı bir işlemdir.",
     "opDescriptionToken": "Çekim, 2 {{rollup}} işlemi ve 2 {{base}} işlemi gerektiren 4 adımlı bir işlemdir.",
@@ -240,7 +239,7 @@
   "noGasModal": {
     "youNeedGasOn": "{{to}} adresinde gazınız olmalıdır",
     "needHelp": "Yardıma mı ihtiyacınız var? SSS'yi Görüntüle",
-    "usdc": "USDC köprüleme için {{to}} üzerinde ek bir işlem gerekmektedir. Bu köprüyü tamamlamak için lütfen {{to}} üzerinde {{gas}} yükleyin.",
+    "cctp": "{{symbol}} köprüleme için {{to}} üzerinde ek bir işlem gerekmektedir. Bu köprüyü tamamlamak için lütfen {{to}} üzerinde {{gas}} yükleyin.",
     "opWithdrawing": "Çekim yapmak için {{to}} adresinde 2 ek işlem gerekmektedir. Bu çekimi tamamlamak için lütfen {{to}} adresine {{gas}} yükleyin.",
     "arbWithdrawing": "{{token}} çekmek için {{to}} üzerinde ek bir işlem gerekmektedir. Bu çekimi tamamlamak için lütfen {{to}} üzerine {{gas}} yükleyin.",
     "depositing": "{{to}} adresinde gaz olmadan herhangi bir işlem yapamazsınız. Bu köprüyü denemeden önce lütfen {{to}} adresinde {{gas}} yükleyin.",

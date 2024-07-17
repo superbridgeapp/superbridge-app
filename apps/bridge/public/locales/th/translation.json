@@ -142,7 +142,7 @@
     "easyModeFee": "ค่าก๊าซโหมดง่าย"
   },
 
-  "poweredByConduit": "ขับเคลื่อนโดย Conduit",
+  "poweredBy": "ขับเคลื่อนโดย {{name}}",
 
   "confirmationModal": {
     "cctpDepositTitle": "ฝาก {{symbol}} ใช้เวลาประมาณ {{mins}} นาที",
@@ -161,7 +161,7 @@
     "withdrawalTitleEscapeHatchHours_other": "การถอน Escape Hatch จาก {{rollup}} ใช้เวลาประมาณ {{count}} ชั่วโมง",
     "withdrawalTitleEscapeHatchDays_one": "การถอน Escape Hatch จาก {{rollup}} ใช้เวลาประมาณ {{count}} วัน",
     "withdrawalTitleEscapeHatchDays_other": "การถอน Escape Hatch จาก {{rollup}} ใช้เวลาประมาณ {{count}} วัน",
-    "cctpDescription": "การสร้างสะสม USDC ต้นฉบับผ่าน CCTP เป็นกระบวนการ 3 ขั้นตอน ซึ่งต้องใช้ 2 ธุรกรรมบน {{from}} และ 1 ธุรกรรมบน {{to}}",
+    "cctpDescription": "การสร้างสะสม {{symbol}} ต้นฉบับผ่าน CCTP เป็นกระบวนการ 3 ขั้นตอน ซึ่งต้องใช้ 2 ธุรกรรมบน {{from}} และ 1 ธุรกรรมบน {{to}}",
     "cctpDescriptionEscapeHatch": "การใช้ Escape Hatch เพื่อบังคับการถอนเงินต้นฉบับ {{symbol}} เป็นกระบวนการ 3 ขั้นตอน ซึ่งต้องใช้ 2 ธุรกรรมบน {{to}} และ 1 ธุรกรรมบน {{from}}",
     "opDescription": "การถอนเงินเป็นกระบวนการ 3 ขั้นตอน ซึ่งต้องใช้ 1 ธุรกรรม {{rollup}} และ 2 ธุรกรรม {{base}}",
     "opDescriptionToken": "การถอนเงินเป็นกระบวนการ 4 ขั้นตอน ซึ่งต้องใช้ 2 ธุรกรรม {{rollup}} และ 2 ธุรกรรม {{base}}",
@@ -238,7 +238,7 @@
   "noGasModal": {
     "youNeedGasOn": "คุณต้องมีแก๊สบน {{to}}",
     "needHelp": "ต้องการความช่วยเหลือหรือไม่? ดูคำถามที่พบบ่อย",
-    "usdc": "การสร้างสะสม USDC ต้องการธุรกรรมเพิ่มเติมที่ {{to}} โปรดเติม {{gas}} บน {{to}} เพื่อดำเนินการสร้างสะสมนี้",
+    "cctp": "การสร้างสะสม {{symbol}} ต้องการธุรกรรมเพิ่มเติมที่ {{to}} โปรดเติม {{gas}} บน {{to}} เพื่อดำเนินการสร้างสะสมนี้",
     "opWithdrawing": "การถอนเงินต้องการธุรกรรมเพิ่มเติม 2 ครั้งที่ {{to}} โปรดเติม {{gas}} บน {{to}} เพื่อดำเนินการถอนนี้",
     "arbWithdrawing": "การถอน{{token}}ต้องการธุรกรรมเพิ่มเติมที่ {{to}} โปรดเติม {{gas}} บน {{to}} เพื่อดำเนินการถอนนี้",
     "depositing": "หากไม่มีแก๊สบน {{to}} คุณจะไม่สามารถทำธุรกรรมใด ๆ ได้ โปรดเติม {{gas}} บน {{to}} ก่อนพยายามสร้างสะสมนี้",

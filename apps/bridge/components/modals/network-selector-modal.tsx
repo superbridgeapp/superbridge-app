@@ -1,6 +1,7 @@
 import { AcrossDomainDto } from "@/codegen/model";
 import { useAcrossDomains } from "@/hooks/across/use-across-domains";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
+import { trackEvent } from "@/services/ga";
 import { useConfigState } from "@/state/config";
 import { useFastState } from "@/state/fast";
 
@@ -23,15 +24,21 @@ export const NetworkSelectorModal = () => {
     if (networkSelectorModal === "from") {
       setFromChainId(d.chain.id);
       if (d.chain.id === to?.id) {
+        trackEvent({ event: "to-chain-select", name: from!.name });
         setToChainId(from!.id);
       }
+
+      trackEvent({ event: "from-chain-select", name: d.chain.name });
     }
 
     if (networkSelectorModal === "to") {
       setToChainId(d.chain.id);
       if (d.chain.id === from?.id) {
+        trackEvent({ event: "from-chain-select", name: to!.name });
         setFromChainId(to!.id);
       }
+
+      trackEvent({ event: "to-chain-select", name: d.chain.name });
     }
 
     setNetworkSelectorModal(null);

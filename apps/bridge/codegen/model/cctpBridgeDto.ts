@@ -6,7 +6,6 @@
  * OpenAPI spec version: 1.0
  */
 import type { ConfirmationDto } from './confirmationDto';
-import type { DeploymentDto } from './deploymentDto';
 import type { ChainDto } from './chainDto';
 import type { CctpTransactionType } from './cctpTransactionType';
 
@@ -14,7 +13,6 @@ export interface CctpBridgeDto {
   amount: string;
   bridge: ConfirmationDto;
   createdAt: string;
-  deployment: DeploymentDto;
   deploymentId: string;
   from: ChainDto;
   id: string;

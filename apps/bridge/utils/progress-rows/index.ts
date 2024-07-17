@@ -1,3 +1,5 @@
+import { useTranslation } from "react-i18next";
+
 import {
   AcrossBridgeDto,
   ArbitrumDepositEthDto,
@@ -9,7 +11,7 @@ import {
   ForcedWithdrawalDto,
   PortalDepositDto,
 } from "@/codegen/model";
-import i18n from "@/services/i18n";
+import { useDeployments } from "@/hooks/use-deployments";
 import { Transaction } from "@/types/transaction";
 import { useArbitrumDepositProgressRows } from "@/utils/progress-rows/arbitrum-deposit";
 import { useArbitrumWithdrawalProgressRows } from "@/utils/progress-rows/arbitrum-withdrawal";
@@ -27,9 +29,7 @@ import {
   isForcedWithdrawal,
   isWithdrawal,
 } from "../guards";
-import { OptimismDeploymentDto } from "../is-mainnet";
 import { useAcrossProgressRows } from "./across";
-import { useTranslation } from "react-i18next";
 
 export const useTxTitle = (tx: Transaction) => {
   const { t } = useTranslation();
@@ -63,27 +63,40 @@ export const useProgressRows = () => {
   const arbitrumForcedWithdrawal = useArbitrumForcedWithdrawalProgressRows();
   const cctp = useCctpProgressRows();
   const across = useAcrossProgressRows();
+  const { deployments } = useDeployments();
 
   return (tx: Transaction) => {
-    if (tx.type === "deposit") return optimismDeposit(tx as PortalDepositDto);
+    const deploymentId = isAcrossBridge(tx)
+      ? ""
+      : isForcedWithdrawal(tx)
+      ? tx.deposit.deploymentId
+      : tx.deploymentId;
+    const deployment = deployments.find((x) => deploymentId === x.id) ?? null;
+
+    if (tx.type === "deposit")
+      return optimismDeposit(tx as PortalDepositDto, deployment);
     if (tx.type === "withdrawal") {
       const w = tx as BridgeWithdrawalDto;
-      return optimismWithdrawal(w, w.deployment as OptimismDeploymentDto);
+      return optimismWithdrawal(w, deployment);
     }
     if (tx.type === "forced-withdrawal")
-      return optimismForcedWithdrawal(tx as ForcedWithdrawalDto);
+      return optimismForcedWithdrawal(tx as ForcedWithdrawalDto, deployment);
     if (
       tx.type === "arbitrum-deposit-eth" ||
       tx.type === "arbitrum-deposit-retryable"
     )
       return arbitrumDeposit(
-        tx as ArbitrumDepositEthDto | ArbitrumDepositRetryableDto
+        tx as ArbitrumDepositEthDto | ArbitrumDepositRetryableDto,
+        deployment
       );
     if (tx.type === "arbitrum-withdrawal")
-      return arbitrumWithdrawal(tx as ArbitrumWithdrawalDto);
+      return arbitrumWithdrawal(tx as ArbitrumWithdrawalDto, deployment);
     if (tx.type === "arbitrum-forced-withdrawal")
-      return arbitrumForcedWithdrawal(tx as ArbitrumForcedWithdrawalDto);
+      return arbitrumForcedWithdrawal(
+        tx as ArbitrumForcedWithdrawalDto,
+        deployment
+      );
     if (tx.type === "across-bridge") return across(tx as AcrossBridgeDto);
-    return cctp(tx as CctpBridgeDto);
+    return cctp(tx as CctpBridgeDto, deployment);
   };
 };

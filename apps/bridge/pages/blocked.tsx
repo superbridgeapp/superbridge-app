@@ -1,13 +1,13 @@
-import PageNav from "@/components/page-nav";
-import PageFooter from "@/components/page-footer";
 import { Head } from "@/components/head";
+import PageFooter from "@/components/page-footer";
+import PageNav from "@/components/page-nav";
 
 export default function Blocked() {
   return (
     <>
       <Head />
       <div className="w-screen h-screen flex flex-col">
-        <PageNav />
+        <PageNav hideLaunchApp />
 
         <div className="flex flex-col gap-4 justify-center items-center w-full h-full p-8">
           <div className="animate-wiggle-waggle">

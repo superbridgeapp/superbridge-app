@@ -1,25 +1,31 @@
 import {
   ArbitrumForcedWithdrawalDto,
+  DeploymentDto,
   ForcedWithdrawalDto,
 } from "@/codegen/model";
+import { useDeployments } from "@/hooks/use-deployments";
 
 import { useArbitrumDepositProgressRows } from "./arbitrum-deposit";
 import { useArbitrumWithdrawalProgressRows } from "./arbitrum-withdrawal";
 import { ExpandedItem, ProgressRowStatus } from "./common";
 import { useOptimismDepositProgressRows } from "./deposit";
 import { useOptimismWithdrawalProgressRows } from "./withdrawal";
-import { OptimismDeploymentDto } from "../is-mainnet";
 
 export const useOptimismForcedWithdrawalProgressRows = () => {
   const depositRows = useOptimismDepositProgressRows();
   const withdrawalRows = useOptimismWithdrawalProgressRows();
+  const { deployments } = useDeployments();
 
-  return (fw: ForcedWithdrawalDto): ExpandedItem[] => {
-    let a = depositRows(fw.deposit);
-    let b = withdrawalRows(
-      fw.withdrawal,
-      fw.deposit.deployment as OptimismDeploymentDto
-    );
+  return (
+    fw: ForcedWithdrawalDto,
+    deployment: DeploymentDto | null
+  ): ExpandedItem[] => {
+    if (!deployment) {
+      return [];
+    }
+
+    let a = depositRows(fw.deposit, deployment);
+    let b = withdrawalRows(fw.withdrawal, deployment);
     if (a[0].status === ProgressRowStatus.InProgress) {
       a[0].label = "Withdrawing on L1";
     } else {
@@ -43,9 +49,12 @@ export const useArbitrumForcedWithdrawalProgressRows = () => {
   const depositRows = useArbitrumDepositProgressRows();
   const withdrawalRows = useArbitrumWithdrawalProgressRows();
 
-  return (fw: ArbitrumForcedWithdrawalDto): ExpandedItem[] => {
-    let a = depositRows(fw.deposit);
-    let b = withdrawalRows(fw.withdrawal);
+  return (
+    fw: ArbitrumForcedWithdrawalDto,
+    deployment: DeploymentDto | null
+  ): ExpandedItem[] => {
+    let a = depositRows(fw.deposit, deployment);
+    let b = withdrawalRows(fw.withdrawal, deployment);
 
     if (a[0].status === ProgressRowStatus.InProgress) {
       a[0].label = "Withdrawing on L1";

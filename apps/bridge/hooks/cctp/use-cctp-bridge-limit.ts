@@ -3,7 +3,7 @@ import { useReadContract } from "wagmi";
 
 import { TokenMinterAbi } from "@/abis/cctp/TokenMinter";
 import { useConfigState } from "@/state/config";
-import { isNativeUsdc } from "@/utils/is-usdc";
+import { isCctp } from "@/utils/is-cctp";
 
 import { useCctpDomains } from "./use-cctp-domains";
 import { useFromChain } from "../use-chain";
@@ -23,7 +23,7 @@ export const useCctpBridgeLimit = () => {
     args: [stateToken?.[from?.id ?? 0]?.address as Address],
     address: fromDomain?.contractAddresses.minter as Address,
     query: {
-      enabled: isNativeUsdc(stateToken) && !fast,
+      enabled: isCctp(stateToken) && !fast,
     },
     chainId: from?.id,
   });

@@ -6,9 +6,13 @@ import { useBridgeControllerGetArbitrumFinaliseTransactionV2 } from "@/codegen";
 import { ArbitrumWithdrawalDto } from "@/codegen/model";
 import { usePendingTransactions } from "@/state/pending-txs";
 
+import { useDeploymentById } from "../use-deployment-by-id";
 import { useSwitchChain } from "../use-switch-chain";
 
-export function useFinaliseArbitrum({ id, deployment }: ArbitrumWithdrawalDto) {
+export function useFinaliseArbitrum({
+  id,
+  deploymentId,
+}: ArbitrumWithdrawalDto) {
   const account = useAccount();
   const wallet = useWalletClient();
   const setFinalising = usePendingTransactions.useSetFinalising();
@@ -16,11 +20,12 @@ export function useFinaliseArbitrum({ id, deployment }: ArbitrumWithdrawalDto) {
   const finaliseTransaction =
     useBridgeControllerGetArbitrumFinaliseTransactionV2();
   const switchChain = useSwitchChain();
+  const deployment = useDeploymentById(deploymentId);
 
   const [loading, setLoading] = useState(false);
 
   const onFinalise = async () => {
-    if (!account.address || !wallet.data) {
+    if (!account.address || !wallet.data || !deployment) {
       return;
     }
 

@@ -3,7 +3,7 @@ import clsx from "clsx";
 import { useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import { isAddressEqual, Address, erc721Abi } from "viem";
+import { Address, erc721Abi, isAddressEqual } from "viem";
 import { useReadContract } from "wagmi";
 
 import { BridgeNftDto, NftDepositDto } from "@/codegen/model";
@@ -195,6 +195,7 @@ export function NftImage({
         src={image}
         className={clsx(className, !loaded && "!h-0")}
         onLoad={() => setLoaded(true)}
+        alt={`${nft.address} image`}
       />
     </div>
   );

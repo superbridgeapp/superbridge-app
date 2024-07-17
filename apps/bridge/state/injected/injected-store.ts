@@ -1,6 +1,11 @@
 import { createStore } from "zustand";
 
-import { AcrossDomainDto, CctpDomainDto, DeploymentDto } from "@/codegen/model";
+import {
+  AcrossDomainDto,
+  CctpDomainDto,
+  DeploymentDto,
+  SuperbridgeConfigDto,
+} from "@/codegen/model";
 
 export type InjectedState = {
   deployment: DeploymentDto | null;
@@ -10,6 +15,7 @@ export type InjectedState = {
 
   acrossDomains: AcrossDomainDto[];
   cctpDomains: CctpDomainDto[];
+  superbridgeConfig: SuperbridgeConfigDto | null;
 };
 
 export type InjectedActions = {
@@ -28,6 +34,7 @@ const defaultInitState: InjectedState = {
   testnets: false,
   acrossDomains: [],
   cctpDomains: [],
+  superbridgeConfig: null,
 };
 
 export const createInjectedStore = (initState: Partial<InjectedState>) => {

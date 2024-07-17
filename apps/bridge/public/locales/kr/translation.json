@@ -142,8 +142,7 @@
     "easyModeFee": "쉬운 모드 가스"
   },
 
-  "poweredByConduit": "Conduit에서 제공",
-
+  "poweredBy": "{{name}} 제공",
   "confirmationModal": {
     "cctpDepositTitle": "{{symbol}} 예금은 약 {{mins}} 분이 소요됩니다",
     "cctpWithdrawalTitle": "{{symbol}} 인출은 약 {{mins}} 분이 소요됩니다",
@@ -161,7 +160,7 @@
     "withdrawalTitleEscapeHatchHours_other": "{{rollup}}로부터 탈출용 철회는 약 {{count}} 시간이 소요됩니다",
     "withdrawalTitleEscapeHatchDays_one": "{{rollup}}로부터 탈출용 철회는 약 {{count}}일이 소요됩니다",
     "withdrawalTitleEscapeHatchDays_other": "{{rollup}}로부터 탈출용 철회는 약 {{count}} 일이 소요됩니다",
-    "cctpDescription": "CCTP를 통해 기본 USDC를 브릿징하는 것은 {{from}}에서 2 거래와 {{to}}에서 1 거래를 필요로 하는 3 단계 프로세스입니다.",
+    "cctpDescription": "CCTP를 통해 기본 {{symbol}}를 브릿징하는 것은 {{from}}에서 2 거래와 {{to}}에서 1 거래를 필요로 하는 3 단계 프로세스입니다.",
     "cctpDescriptionEscapeHatch": "기본 {{symbol}} 인출을 강제하는 데 사용하는 탈출용 철회는 {{to}}에서 2 거래와 {{from}}에서 1 거래를 필요로 하는 3 단계 프로세스입니다.",
     "opDescription": "인출은 1 {{rollup}} 거래 및 2 {{base}} 거래를 필요로 하는 3 단계 프로세스입니다.",
     "opDescriptionToken": "인출은 2 {{rollup}} 거래와 2 {{base}} 거래를 필요로 하는 4 단계 프로세스입니다.",
@@ -238,7 +237,7 @@
   "noGasModal": {
     "youNeedGasOn": "{{to}}에 가스가 필요합니다",
     "needHelp": "도움이 필요하십니까? FAQ보기",
-    "usdc": "USDC 브리지에는 {{to}}에서 추가 거래가 필요합니다. 이 브리지를 완료하려면 {{to}}에 {{gas}}을(를) 충전하십시오.",
+    "cctp": "{{symbol}} 브리지에는 {{to}}에서 추가 거래가 필요합니다. 이 브리지를 완료하려면 {{to}}에 {{gas}}을(를) 충전하십시오.",
     "opWithdrawing": "출금에는 {{to}}에서 추가 2 거래가 필요합니다. 이 출금을 완료하려면 {{to}}에 {{gas}}을(를) 충전하십시오.",
     "arbWithdrawing": "{{token}} 출금에는 {{to}}에서 추가 거래가 필요합니다. 이 출금을 완료하려면 {{to}}에 {{gas}}을(를) 충전하십시오.",
     "depositing": "{{to}}에 가스가 없으면 어떤 거래도 할 수 없습니다. 이 브리지를 시도하기 전에 {{to}}에 {{gas}}을(를) 충전하십시오.",

@@ -35,7 +35,7 @@ export function Head({ deployment }: { deployment?: DeploymentDto | null }) {
   src: url(${
     isSuperbridge
       ? "https://superbridge-fonts.vercel.app/GT-Maru-Bold.woff2"
-      : deployment?.theme?.theme.fontBody ||
+      : deployment?.theme?.theme.fontHeading ||
         "https://superbridge-fonts.vercel.app/GT-Maru-Bold.woff2"
   });
 }
@@ -44,7 +44,7 @@ export function Head({ deployment }: { deployment?: DeploymentDto | null }) {
   src: url(${
     isSuperbridge
       ? "https://superbridge-fonts.vercel.app/GT-Maru-Bold.woff2"
-      : deployment?.theme?.theme.fontBody ||
+      : deployment?.theme?.theme.fontButton ||
         "https://superbridge-fonts.vercel.app/GT-Maru-Bold.woff2"
   });
 }

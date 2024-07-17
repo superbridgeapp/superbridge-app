@@ -7,9 +7,9 @@ import { useOptimismForcedWithdrawalProgressRows } from "@/utils/progress-rows/f
 import { useOptimismWithdrawalProgressRows } from "@/utils/progress-rows/withdrawal";
 
 import { useDeployment } from "./use-deployment";
+import { useFaultProofUpgradeTime } from "./use-fault-proof-upgrade-time";
 import { useStatusCheck } from "./use-status-check";
 import { useTransactions } from "./use-transactions";
-import { useFaultProofUpgradeTime } from "./use-fault-proof-upgrade-time";
 
 export const useHasWithdrawalReadyToFinalize = () => {
   const deployment = useDeployment();
@@ -35,7 +35,7 @@ export const useHasWithdrawalReadyToFinalize = () => {
       return !!rows[rows.length - 1].buttonComponent;
     }
     if (isOptimismForcedWithdrawal(x)) {
-      const rows = forcedWithdrawalProgressRows(x);
+      const rows = forcedWithdrawalProgressRows(x, deployment);
       return !!rows.find((x) => x.buttonComponent);
     }
     return false;

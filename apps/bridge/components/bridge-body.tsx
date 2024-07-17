@@ -7,7 +7,6 @@ import { formatUnits, parseUnits } from "viem";
 import { useAccount, useBalance, useConfig, useWalletClient } from "wagmi";
 
 import { useBridgeControllerTrack } from "@/codegen";
-import { ChainDto } from "@/codegen/model";
 import { isSuperbridge } from "@/config/superbridge";
 import { SUPERCHAIN_MAINNETS } from "@/constants/superbridge";
 import { useAcrossDomains } from "@/hooks/across/use-across-domains";
@@ -33,12 +32,13 @@ import { useSwitchChain } from "@/hooks/use-switch-chain";
 import { useActiveTokens } from "@/hooks/use-tokens";
 import { useWeiAmount } from "@/hooks/use-wei-amount";
 import { useWithdrawalsPaused } from "@/hooks/use-withdrawals-paused";
+import { trackEvent } from "@/services/ga";
 import { useConfigState } from "@/state/config";
 import { usePendingTransactions } from "@/state/pending-txs";
 import { buildPendingTx } from "@/utils/build-pending-tx";
 import { formatDecimals } from "@/utils/format-decimals";
+import { isCctp } from "@/utils/is-cctp";
 import { isEth, isNativeToken } from "@/utils/is-eth";
-import { isNativeUsdc } from "@/utils/is-usdc";
 
 import { FromTo } from "./FromTo";
 import {
@@ -84,6 +84,7 @@ export const BridgeBody = () => {
   const stateToken = useConfigState.useToken();
   const forceViaL1 = useConfigState.useForceViaL1();
   const tokensModal = useConfigState.useTokensModal();
+  const rawAmount = useConfigState.useRawAmount();
   const setTokensModal = useConfigState.useSetTokensModal();
   const fast = useConfigState.useFast();
   const nft = useConfigState.useNft();
@@ -101,11 +102,10 @@ export const BridgeBody = () => {
   const acrossPaused = useAcrossPaused();
   const withdrawalsPaused = useWithdrawalsPaused();
 
-  const initiatingChainId =
-    forceViaL1 && withdrawing ? deployment?.l1.id : from?.id;
+  const initiatingChain = forceViaL1 && withdrawing ? deployment?.l1 : from;
   const fromEthBalance = useBalance({
     address: account.address,
-    chainId: initiatingChainId,
+    chainId: initiatingChain?.id,
   });
   const toEthBalance = useBalance({
     address: account.address,
@@ -164,28 +164,13 @@ export const BridgeBody = () => {
       !bridge.valid ||
       !bridge.args ||
       !recipient ||
-      statusCheck
+      statusCheck ||
+      !initiatingChain
     ) {
       return;
     }
 
-    let initiatingChain: ChainDto | undefined;
-
-    if (fast) {
-      initiatingChain = acrossDomains.find(
-        (x) => x.chain?.id === bridge.args?.tx.chainId
-      )?.chain;
-    } else if (bridge.args.tx.chainId === deployment?.l1.id) {
-      initiatingChain = deployment.l1;
-    } else {
-      initiatingChain = deployment?.l2;
-    }
-
-    if (!initiatingChain) {
-      console.warn("unable to infer initiating chain");
-      return;
-    }
-
+    // should be caught before
     if (
       initiatingChain.id !== account.chainId ||
       initiatingChain.id !== wallet.data.chain.id
@@ -208,6 +193,22 @@ export const BridgeBody = () => {
             transaction.hash
           );
         },
+      });
+
+      trackEvent({
+        event: "bridge",
+        from: from?.name ?? "",
+        to: to?.name ?? "",
+        amount: parseFloat(rawAmount),
+        token: token?.symbol ?? "",
+        type: fast
+          ? "across"
+          : !!stateToken && isCctp(stateToken)
+          ? "cctp"
+          : withdrawing
+          ? "withdraw"
+          : "deposit",
+        transactionHash: hash,
       });
 
       if (!fast && deployment) {
@@ -268,7 +269,7 @@ export const BridgeBody = () => {
 
     const needDestinationGasConditions = [
       withdrawing, // need to prove/finalize
-      isNativeUsdc(stateToken), // need to mint
+      isCctp(stateToken), // need to mint
       !withdrawing && !isEth(stateToken?.[to?.id ?? 0]), // depositing an ERC20 with no gas on the destination (won't be able to do anything with it)
     ];
     if (
@@ -327,7 +328,13 @@ export const BridgeBody = () => {
     weiAmount,
     bridgeMax,
     bridgeMin,
+    depositsDisabled: deployment?.name === "parallel" && !withdrawing,
   })
+    .with({ depositsDisabled: true }, () => ({
+      onSubmit: () => {},
+      buttonText: "Deposits disabled",
+      disabled: true,
+    }))
     .with({ fast: true, acrossPaused: true }, () => ({
       onSubmit: () => {},
       buttonText: "Bridging paused",

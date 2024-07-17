@@ -142,7 +142,7 @@
     "easyModeFee": "Einfacher Modus Gas"
   },
 
-  "poweredByConduit": "Betrieben von Conduit",
+  "poweredBy": "Bereitgestellt von {{name}}",
 
   "confirmationModal": {
     "cctpDepositTitle": "Einlagen von {{symbol}} dauern ~{{mins}} Minuten",
@@ -161,7 +161,7 @@
     "withdrawalTitleEscapeHatchHours_other": "Notausgangsauszahlungen von {{rollup}} dauern ~{{count}} Stunden",
     "withdrawalTitleEscapeHatchDays_one": "Notausgangsauszahlungen von {{rollup}} dauern ~{{count}} Tag",
     "withdrawalTitleEscapeHatchDays_other": "Notausgangsauszahlungen von {{rollup}} dauern ~{{count}} Tage",
-    "cctpDescription": "Die Überbrückung von nativen USDC über CCTP ist ein dreistufiger Prozess, der 2 Transaktionen auf {{from}} und 1 Transaktion auf {{to}} erfordert.",
+    "cctpDescription": "Die Überbrückung von nativen {{symbol}} über CCTP ist ein dreistufiger Prozess, der 2 Transaktionen auf {{from}} und 1 Transaktion auf {{to}} erfordert.",
     "cctpDescriptionEscapeHatch": "Die Verwendung des Notausgangs zur Erzwingung von Auszahlungen von {{symbol}} ist ein dreistufiger Prozess, der 2 Transaktionen auf {{to}} und 1 Transaktion auf {{from}} erfordert.",
     "opDescription": "Das Abheben ist ein dreistufiger Prozess, der 1 Transaktion auf {{rollup}} und 2 Transaktionen auf {{base}} erfordert.",
     "opDescriptionToken": "Das Abheben ist ein vierstufiger Prozess, der 2 Transaktionen auf {{rollup}} und 2 Transaktionen auf {{base}} erfordert.",
@@ -242,7 +242,7 @@
   "noGasModal": {
     "youNeedGasOn": "Sie benötigen Gas auf {{to}}",
     "needHelp": "Brauchen Sie Hilfe? Häufig gestellte Fragen anzeigen",
-    "usdc": "Das Überbrücken von USDC erfordert eine zusätzliche Transaktion auf {{to}}. Bitte füllen Sie {{gas}} auf {{to}} auf, um diese Brücke abzuschließen.",
+    "cctp": "Das Überbrücken von {{symbol}} erfordert eine zusätzliche Transaktion auf {{to}}. Bitte füllen Sie {{gas}} auf {{to}} auf, um diese Brücke abzuschließen.",
     "opWithdrawing": "Das Abheben erfordert 2 zusätzliche Transaktionen auf {{to}}. Bitte füllen Sie {{gas}} auf {{to}} auf, um diesen Rückzug abzuschließen.",
     "arbWithdrawing": "Das Abheben von {{token}} erfordert eine zusätzliche Transaktion auf {{to}}. Bitte füllen Sie {{gas}} auf {{to}} auf, um diesen Rückzug abzuschließen.",
     "depositing": "Ohne Gas auf {{to}} können Sie keine Transaktionen durchführen. Bitte füllen Sie {{gas}} auf {{to}} auf, bevor Sie diese Brücke versuchen.",

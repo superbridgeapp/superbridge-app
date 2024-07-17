@@ -1,6 +1,6 @@
 import { useEffect } from "react";
-import { useWriteContract, useWaitForTransactionReceipt } from "wagmi";
 import { Address, erc721Abi } from "viem";
+import { useWaitForTransactionReceipt, useWriteContract } from "wagmi";
 
 import { useConfigState } from "@/state/config";
 

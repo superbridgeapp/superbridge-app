@@ -142,7 +142,7 @@
     "easyModeFee": "Gaz mode facile"
   },
 
-  "poweredByConduit": "Propulsé par Conduit",
+  "poweredBy": "Propulsé par {{name}}",
 
   "confirmationModal": {
     "cctpDepositTitle": "Les dépôts {{symbol}} prennent environ {{mins}} minutes",
@@ -161,7 +161,7 @@
     "withdrawalTitleEscapeHatchHours_other": "Les retraits par échappatoire de {{rollup}} prennent environ {{count}} heures",
     "withdrawalTitleEscapeHatchDays_one": "Les retraits par échappatoire de {{rollup}} prennent environ {{count}} jour",
     "withdrawalTitleEscapeHatchDays_other": "Les retraits par échappatoire de {{rollup}} prennent environ {{count}} jours",
-    "cctpDescription": "Le pontage de l'USDC native via CCTP est un processus en 3 étapes, nécessitant 2 transactions sur {{from}} et 1 transaction sur {{to}}.",
+    "cctpDescription": "Le pontage de l'{{symbol}} native via CCTP est un processus en 3 étapes, nécessitant 2 transactions sur {{from}} et 1 transaction sur {{to}}.",
     "cctpDescriptionEscapeHatch": "L'utilisation de l'échappatoire pour forcer les retraits natifs de {{symbol}} est un processus en 3 étapes, nécessitant 2 transactions sur {{to}} et 1 transaction sur {{from}}.",
     "opDescription": "Le retrait est un processus en 3 étapes, nécessitant 1 transaction {{rollup}} et 2 transactions {{base}}.",
     "opDescriptionToken": "Le retrait est un processus en 4 étapes, nécessitant 2 transactions {{rollup}} et 2 transactions {{base}}.",
@@ -238,7 +238,7 @@
   "noGasModal": {
     "youNeedGasOn": "Vous avez besoin de gaz sur {{to}}",
     "needHelp": "Besoin d'aide? Voir les FAQ",
-    "usdc": "La création d'un pont pour USDC nécessite une transaction supplémentaire sur {{to}}. Veuillez recharger {{gas}} sur {{to}} pour compléter ce pont.",
+    "cctp": "La création d'un pont pour {{symbol}} nécessite une transaction supplémentaire sur {{to}}. Veuillez recharger {{gas}} sur {{to}} pour compléter ce pont.",
     "opWithdrawing": "Le retrait nécessite 2 transactions supplémentaires sur {{to}}. Veuillez recharger {{gas}} sur {{to}} pour compléter ce retrait.",
     "arbWithdrawing": "Le retrait de {{token}} nécessite une transaction supplémentaire sur {{to}}. Veuillez recharger {{gas}} sur {{to}} pour compléter ce retrait.",
     "depositing": "Sans gaz sur {{to}}, vous ne pourrez effectuer aucune transaction. Veuillez recharger {{gas}} sur {{to}} avant d'essayer ce pont.",

@@ -7,9 +7,9 @@ import {
   hyperlaneDomains,
 } from "@/constants/hyperlane";
 import { useConfigState } from "@/state/config";
+import { isCctp } from "@/utils/is-cctp";
 
 import { useToChain } from "../use-chain";
-import { isCctpBridgeOperation } from "../use-transaction-args/cctp-args/common";
 
 export const useHyperlaneGasQuote = () => {
   const token = useConfigState.useToken();
@@ -22,7 +22,7 @@ export const useHyperlaneGasQuote = () => {
     functionName: "quoteGasPayment",
     args: [destinationHyperlaneDomain ?? 0, CCTP_MINT_GAS_COST],
     query: {
-      enabled: !!token && isCctpBridgeOperation(token),
+      enabled: !!token && isCctp(token),
     },
     address: hyperlaneAddresses[destinationHyperlaneDomain ?? 0]?.igp ?? "0x",
   });

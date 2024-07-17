@@ -29,6 +29,7 @@ import type {
   AcrossDomainDto,
   ActionDto,
   ActivityDto,
+  ActivityV3Dto,
   BoolDto,
   BridgeControllerGetActivityParams,
   BridgeControllerGetDeploymentsParams,
@@ -42,9 +43,11 @@ import type {
   DeploymentsQueryDto,
   FiatPricesDto,
   GetActivityDto,
+  GetActivityV3Dto,
   IdDto,
   NumberDto,
   PricesDto,
+  SuperbridgeConfigDto,
   SyncStatusDto,
   TransactionDto
 } from './model'
@@ -156,6 +159,55 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
       > => {
 
       const mutationOptions = getBridgeControllerGetActivityV2MutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+export const bridgeControllerGetActivityV3 = (
+    getActivityV3Dto: GetActivityV3Dto, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<ActivityV3Dto>> => {
+    
+    return axios.post(
+      `/api/v3/bridge/activity`,
+      getActivityV3Dto,options
+    );
+  }
+
+
+
+export const getBridgeControllerGetActivityV3MutationOptions = <TError = AxiosError<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerGetActivityV3>>, TError,{data: GetActivityV3Dto}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerGetActivityV3>>, TError,{data: GetActivityV3Dto}, TContext> => {
+const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof bridgeControllerGetActivityV3>>, {data: GetActivityV3Dto}> = (props) => {
+          const {data} = props ?? {};
+
+          return  bridgeControllerGetActivityV3(data,axiosOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type BridgeControllerGetActivityV3MutationResult = NonNullable<Awaited<ReturnType<typeof bridgeControllerGetActivityV3>>>
+    export type BridgeControllerGetActivityV3MutationBody = GetActivityV3Dto
+    export type BridgeControllerGetActivityV3MutationError = AxiosError<unknown>
+
+    export const useBridgeControllerGetActivityV3 = <TError = AxiosError<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerGetActivityV3>>, TError,{data: GetActivityV3Dto}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationResult<
+        Awaited<ReturnType<typeof bridgeControllerGetActivityV3>>,
+        TError,
+        {data: GetActivityV3Dto},
+        TContext
+      > => {
+
+      const mutationOptions = getBridgeControllerGetActivityV3MutationOptions(options);
 
       return useMutation(mutationOptions);
     }
@@ -1505,6 +1557,59 @@ export const useBridgeControllerGetLatestDisputeGame = <TData = Awaited<ReturnTy
   ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
 
   const queryOptions = getBridgeControllerGetLatestDisputeGameQueryOptions(deploymentId,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+export const bridgeControllerGetSuperbridgeConfig = (
+     options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<SuperbridgeConfigDto>> => {
+    
+    return axios.get(
+      `/api/bridge/superbridge_config`,options
+    );
+  }
+
+
+export const getBridgeControllerGetSuperbridgeConfigQueryKey = () => {
+    return [`/api/bridge/superbridge_config`] as const;
+    }
+
+    
+export const getBridgeControllerGetSuperbridgeConfigQueryOptions = <TData = Awaited<ReturnType<typeof bridgeControllerGetSuperbridgeConfig>>, TError = AxiosError<unknown>>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetSuperbridgeConfig>>, TError, TData>, axios?: AxiosRequestConfig}
+) => {
+
+const {query: queryOptions, axios: axiosOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getBridgeControllerGetSuperbridgeConfigQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof bridgeControllerGetSuperbridgeConfig>>> = ({ signal }) => bridgeControllerGetSuperbridgeConfig({ signal, ...axiosOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetSuperbridgeConfig>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type BridgeControllerGetSuperbridgeConfigQueryResult = NonNullable<Awaited<ReturnType<typeof bridgeControllerGetSuperbridgeConfig>>>
+export type BridgeControllerGetSuperbridgeConfigQueryError = AxiosError<unknown>
+
+export const useBridgeControllerGetSuperbridgeConfig = <TData = Awaited<ReturnType<typeof bridgeControllerGetSuperbridgeConfig>>, TError = AxiosError<unknown>>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetSuperbridgeConfig>>, TError, TData>, axios?: AxiosRequestConfig}
+
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+
+  const queryOptions = getBridgeControllerGetSuperbridgeConfigQueryOptions(options)
 
   const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
 

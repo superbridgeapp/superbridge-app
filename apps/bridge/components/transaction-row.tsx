@@ -3,11 +3,10 @@ import { FC, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Lottie from "react-lottie-player";
 import { match } from "ts-pattern";
-import { Address, formatEther, formatUnits, isAddressEqual } from "viem";
+import { Address, formatUnits, isAddressEqual } from "viem";
 import { useChainId } from "wagmi";
 
 import {
-  AcrossBridgeMetadataDto,
   ArbitrumDepositRetryableDto,
   ArbitrumForcedWithdrawalDto,
   ArbitrumWithdrawalDto,
@@ -24,6 +23,7 @@ import { useFinaliseOptimism } from "@/hooks/optimism/use-optimism-finalise";
 import { useProveOptimism } from "@/hooks/optimism/use-optimism-prove";
 import { useGasTokenForDeployment } from "@/hooks/use-approve-gas-token";
 import { useMintCctp } from "@/hooks/use-cctp-mint";
+import { useDeploymentById } from "@/hooks/use-deployment-by-id";
 import { useFromTo } from "@/hooks/use-from-to";
 import { useSwitchChain } from "@/hooks/use-switch-chain";
 import { useAllTokens } from "@/hooks/use-tokens";
@@ -52,7 +52,7 @@ import {
 
 import inProgress from "../animation/loading.json";
 import { AcrossBadge } from "./across-badge";
-import { CctpBadge } from "./cttp-badge";
+import { CctpBadge } from "./badges/cttp-badge";
 import { FastNetworkIcon } from "./fast/network-icon";
 import { NetworkIcon } from "./network-icon";
 import { NftImage } from "./nft";
@@ -113,17 +113,22 @@ const RedeemArbitrum: FC<{
   const { t } = useTranslation();
   const switchChain = useSwitchChain();
 
-  const deploymentL1 = isArbitrumForcedWithdrawal(tx)
-    ? tx.deposit.deployment.l1
-    : tx.deployment.l1;
-  if (chainId === deploymentL1.id)
+  const deployment = useDeploymentById(
+    isArbitrumForcedWithdrawal(tx) ? tx.deposit.deploymentId : tx.deploymentId
+  );
+  if (!deployment) {
+    return null;
+  }
+
+  if (chainId === deployment.l1.id) {
     return (
       <Button className="rounded-full" onClick={redeem.write} size={"sm"}>
         {t("buttons.redeem")}
       </Button>
     );
+  }
   return (
-    <Button onClick={() => switchChain(deploymentL1)} size={"sm"}>
+    <Button onClick={() => switchChain(deployment.l1)} size={"sm"}>
       {t("buttons.switchChain")}
     </Button>
   );
@@ -334,11 +339,13 @@ const getNativeToken = (tokens: MultiChainToken[], chainId: number) => {
   })?.[chainId];
 };
 function useToken(tx: Transaction, tokens: MultiChainToken[]) {
-  const deployment = isAcrossBridge(tx)
-    ? null
-    : isForcedWithdrawal(tx)
-    ? tx.deposit.deployment
-    : tx.deployment;
+  const deployment = useDeploymentById(
+    isAcrossBridge(tx) || isCctpBridge(tx)
+      ? ""
+      : isForcedWithdrawal(tx)
+      ? tx.deposit.deploymentId
+      : tx.deploymentId
+  );
   const gasToken = useGasTokenForDeployment(deployment?.id);
 
   const [from, to] = useFromTo(tx);
@@ -348,6 +355,21 @@ function useToken(tx: Transaction, tokens: MultiChainToken[]) {
       chainId: tx.from.id,
       tokenAddress: tx.token,
     });
+  }
+
+  if (isAcrossBridge(tx)) {
+    if (tx.metadata.data.isEth) {
+      return getNativeToken(tokens, from.id);
+    }
+
+    return getToken(
+      tokens,
+      {
+        chainId: from.id,
+        tokenAddress: tx.metadata.data.inputTokenAddress,
+      },
+      to.id
+    );
   }
 
   const metadata =
@@ -376,22 +398,6 @@ function useToken(tx: Transaction, tokens: MultiChainToken[]) {
         {
           chainId: from.id,
           tokenAddress,
-        },
-        to.id
-      );
-    })
-    .with({ type: "across-bridge" }, (m) => {
-      const dto = m as AcrossBridgeMetadataDto;
-
-      if (dto.data.isEth) {
-        return getNativeToken(tokens, from.id);
-      }
-
-      return getToken(
-        tokens,
-        {
-          chainId: from.id,
-          tokenAddress: dto.data.inputTokenAddress,
         },
         to.id
       );
@@ -478,11 +484,13 @@ export const TransactionRow = ({ tx }: { tx: Transaction }) => {
   );
 
   const [from, to] = useFromTo(tx);
-  const deployment = isAcrossBridge(tx)
-    ? null
-    : isForcedWithdrawal(tx)
-    ? tx.deposit.deployment
-    : tx.deployment;
+  const deployment = useDeploymentById(
+    isAcrossBridge(tx)
+      ? ""
+      : isForcedWithdrawal(tx)
+      ? tx.deposit.deploymentId
+      : tx.deploymentId
+  );
 
   const indicatorStyles = clsx(
     `w-4 h-4 outline outline-2 outline-zinc-50 dark:outline-zinc-900 absolute -right-1 bottom-0 rounded-full bg-card fill-green-400`,
@@ -511,7 +519,7 @@ export const TransactionRow = ({ tx }: { tx: Transaction }) => {
           />
         )}
         {isDeposit(tx) ||
-        (isCctpBridge(tx) && tx.from.id === tx.deployment.l1.id) ? (
+        (isCctpBridge(tx) && tx.from.id === deployment?.l1.id) ? (
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"
@@ -529,7 +537,7 @@ export const TransactionRow = ({ tx }: { tx: Transaction }) => {
             </defs>
           </svg>
         ) : isWithdrawal(tx) ||
-          (isCctpBridge(tx) && tx.from.id === tx.deployment.l2.id) ? (
+          (isCctpBridge(tx) && tx.from.id === deployment?.l2.id) ? (
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"
@@ -558,8 +566,8 @@ export const TransactionRow = ({ tx }: { tx: Transaction }) => {
           >
             <g clip-path="url(#clip0_83_174)">
               <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
+                fillRule="evenodd"
+                clipRule="evenodd"
                 d="M8 16C12.4183 16 16 12.4183 16 8C16 3.58172 12.4183 0 8 0C3.58172 0 0 3.58172 0 8C0 12.4183 3.58172 16 8 16ZM6 13.6419C6 13.8392 6.12849 14 6.29248 14H6.29417C6.37532 14 6.45816 13.9695 6.51395 13.9023L11.9087 7.48414C11.9696 7.41699 12 7.31728 12 7.22571C12 7.01611 11.8614 6.86756 11.6974 6.86756H7.6754L10.2096 2.56775C10.2451 2.5067 10.2553 2.43141 10.2553 2.36425C10.2553 2.15465 10.142 2 9.95774 2C9.88166 2 9.80896 2.02442 9.75317 2.08547L4.09806 8.50975C4.0355 8.58301 4 8.67662 4 8.77429C4 8.97168 4.13356 9.13244 4.29755 9.13244H8.13863L6.04057 13.4628C6.01522 13.5177 6 13.5808 6 13.6419Z"
               />
             </g>

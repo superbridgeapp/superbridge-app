@@ -6,11 +6,11 @@ import { useDeployment } from "@/hooks/use-deployment";
 import { useWeiAmount } from "@/hooks/use-wei-amount";
 import { useConfigState } from "@/state/config";
 import { isArbitrumToken } from "@/utils/guards";
+import { isCctp } from "@/utils/is-cctp";
 import { isEth } from "@/utils/is-eth";
 import { isArbitrum } from "@/utils/is-mainnet";
+import { nativeTokenDecimalsTo18Decimals } from "@/utils/native-token-scaling";
 import { withdrawValue } from "@/utils/withdraw-value";
-
-import { isCctpBridgeOperation } from "../cctp-args/common";
 
 export const ARB_SYS: Address = "0x0000000000000000000000000000000000000064";
 
@@ -33,7 +33,7 @@ export const useArbitrumWithdrawArgs = () => {
     !isArbitrumToken(l1Token) ||
     !isArbitrumToken(l2Token) ||
     !recipientAddress ||
-    isCctpBridgeOperation(stateToken)
+    isCctp(stateToken)
   ) {
     return;
   }
@@ -52,7 +52,10 @@ export const useArbitrumWithdrawArgs = () => {
             recipientAddress, // _to
           ],
         }),
-        value,
+        value: nativeTokenDecimalsTo18Decimals({
+          amount: value,
+          decimals: deployment.arbitrumNativeToken?.decimals ?? 18,
+        }),
         chainId: deployment.l2.id,
       },
     };

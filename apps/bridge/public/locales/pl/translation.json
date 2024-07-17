@@ -142,8 +142,7 @@
     "easyModeFee": "Opłata w trybie łatwym"
   },
 
-  "poweredByConduit": "Napędzane przez Conduit",
-
+  "poweredBy": "Napędzane przez {{name}}",
   "confirmationModal": {
     "cctpDepositTitle": "Depozyty {{symbol}} zajmują około {{mins}} minut",
     "cctpWithdrawalTitle": "Wypłaty {{symbol}} zajmują około {{mins}} minut",
@@ -161,7 +160,7 @@
     "withdrawalTitleEscapeHatchHours_other": "Wypłaty Escape Hatch z {{rollup}} zajmują około {{count}} godzin",
     "withdrawalTitleEscapeHatchDays_one": "Wypłaty Escape Hatch z {{rollup}} zajmują około {{count}} dzień",
     "withdrawalTitleEscapeHatchDays_other": "Wypłaty Escape Hatch z {{rollup}} zajmują około {{count}} dni",
-    "cctpDescription": "Przekładanie pierwotnego USDC za pomocą CCTP to proces składający się z 3 kroków, wymagający 2 transakcji na {{from}} i 1 transakcji na {{to}}.",
+    "cctpDescription": "Przekładanie pierwotnego {{symbol}} za pomocą CCTP to proces składający się z 3 kroków, wymagający 2 transakcji na {{from}} i 1 transakcji na {{to}}.",
     "cctpDescriptionEscapeHatch": "Użycie Hatch Escape do wymuszenia wypłat pierwotnych {{symbol}} to proces składający się z 3 kroków, wymagający 2 transakcji na {{to}} i 1 transakcji na {{from}}.",
     "opDescription": "Wypłata to proces składający się z 3 kroków, wymagający 1 transakcji {{rollup}} i 2 transakcji {{base}}.",
     "opDescriptionToken": "Wypłata to proces składający się z 4 kroków, wymagający 2 transakcji {{rollup}} i 2 transakcji {{base}}.",
@@ -238,7 +237,7 @@
   "noGasModal": {
     "youNeedGasOn": "Potrzebujesz gazu na {{to}}",
     "needHelp": "Potrzebna pomoc? Zobacz FAQ",
-    "usdc": "Mostowanie USDC wymaga dodatkowej transakcji na {{to}}. Prosimy doładować {{gas}} na {{to}}, aby ukończyć ten most.",
+    "cctp": "Mostowanie {{symbol}} wymaga dodatkowej transakcji na {{to}}. Prosimy doładować {{gas}} na {{to}}, aby ukończyć ten most.",
     "opWithdrawing": "Wypłata wymaga 2 dodatkowych transakcji na {{to}}. Prosimy doładować {{gas}} na {{to}}, aby ukończyć tę wypłatę.",
     "arbWithdrawing": "Wypłata {{token}} wymaga dodatkowej transakcji na {{to}}. Prosimy doładować {{gas}} na {{to}}, aby ukończyć tę wypłatę.",
     "depositing": "Bez gazu na {{to}} nie będziesz mógł wykonać żadnych transakcji. Prosimy doładować {{gas}} na {{to}} przed próbą tego mostu.",

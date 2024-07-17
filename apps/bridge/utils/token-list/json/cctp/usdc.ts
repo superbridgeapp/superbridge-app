@@ -12,7 +12,7 @@ import {
 
 import { OptimismToken } from "@/types/token";
 
-import * as metal from "./metal";
+import * as metal from "../metal";
 
 const BRIDGED_USDC = "bridged-usdc";
 const NATIVE_USDC = "native-usdc";

@@ -1,9 +1,9 @@
 import { Address } from "viem";
 
-import { isArbitrum, isOptimism } from "@/utils/is-mainnet";
 import { useConfigState } from "@/state/config";
 import { isArbitrumToken } from "@/utils/guards";
 import { isEth } from "@/utils/is-eth";
+import { isArbitrum, isOptimism } from "@/utils/is-mainnet";
 
 import { useFromChain, useToChain } from "./use-chain";
 import { useDeployment } from "./use-deployment";

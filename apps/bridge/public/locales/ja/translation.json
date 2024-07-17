@@ -142,7 +142,7 @@
     "easyModeFee": "簡易モードガス"
   },
 
-  "poweredByConduit": "Conduit によって提供されています",
+  "poweredBy": "{{name}} によって提供されます",
 
   "confirmationModal": {
     "cctpDepositTitle": "{{symbol}} の入金は約{{mins}}分かかります",
@@ -161,7 +161,7 @@
     "withdrawalTitleEscapeHatchHours_other": "{{rollup}} の緊急出金は約{{count}}時間かかります",
     "withdrawalTitleEscapeHatchDays_one": "{{rollup}} の緊急出金は約{{count}}日かかります",
     "withdrawalTitleEscapeHatchDays_other": "{{rollup}} の緊急出金は約{{count}}日かかります",
-    "cctpDescription": "CCTP を介した USDC のブリッジングは、{{from}} で 2 つのトランザクションと {{to}} で 1 つのトランザクションを必要とする 3 ステップのプロセスです。",
+    "cctpDescription": "CCTP を介した {{symbol}} のブリッジングは、{{from}} で 2 つのトランザクションと {{to}} で 1 つのトランザクションを必要とする 3 ステップのプロセスです。",
     "cctpDescriptionEscapeHatch": "緊急出金を使用して {{symbol}} のネイティブ出金を強制するには、{{to}} で 2 つのトランザクションと {{from}} で 1 つのトランザクションを必要とする 3 ステップのプロセスです。",
     "opDescription": "出金は {{rollup}} のトランザクション 1 つと {{base}} のトランザクション 2 つを必要とする 3 ステップのプロセスです。",
     "opDescriptionToken": "出金は {{rollup}} のトランザクション 2 つと {{base}} のトランザクション 2 つを必要とする 4 ステップのプロセスです。",
@@ -238,7 +238,7 @@
   "noGasModal": {
     "youNeedGasOn": "{{to}}にガスが必要です",
     "needHelp": "ヘルプが必要ですか？ FAQを表示",
-    "usdc": "USDCのブリッジ作成には、{{to}}での追加トランザクションが必要です。 このブリッジを完了するには、{{to}}で{{gas}}をチャージしてください。",
+    "cctp": "{{symbol}}のブリッジ作成には、{{to}}での追加トランザクションが必要です。 このブリッジを完了するには、{{to}}で{{gas}}をチャージしてください。",
     "opWithdrawing": "引き出しには{{to}}で2つの追加トランザクションが必要です。 この引き出しを完了するには、{{to}}で{{gas}}をチャージしてください。",
     "arbWithdrawing": "{{token}}の引き出しには、{{to}}で追加のトランザクションが必要です。 この引き出しを完了するには、{{to}}で{{gas}}をチャージしてください。",
     "depositing": "{{to}}でガスがないと、トランザクションを行うことができません。 このブリッジを試す前に、{{to}}で{{gas}}をチャージしてください。",

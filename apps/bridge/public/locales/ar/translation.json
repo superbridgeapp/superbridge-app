@@ -142,7 +142,7 @@
     "easyModeFee": "غاز الوضع السهل"
   },
 
-  "poweredByConduit": "مدعوم بواسطة كوندويت",
+  "poweredBy": "مدعوم من {{name}}",
 
   "confirmationModal": {
     "cctpDepositTitle": "تأخذ الإيداعات {{symbol}} حوالي {{mins}} دقيقة",
@@ -161,7 +161,7 @@
     "withdrawalTitleEscapeHatchHours_other": "تستغرق السحب بواسطة مقبض الهروب من {{rollup}} حوالي {{count}} ساعات",
     "withdrawalTitleEscapeHatchDays_one": "تستغرق السحب بواسطة مقبض الهروب من {{rollup}} حوالي {{count}} يوم",
     "withdrawalTitleEscapeHatchDays_other": "تستغرق السحب بواسطة مقبض الهروب من {{rollup}} حوالي {{count}} أيام",
-    "cctpDescription": "يُعد تقديم USDC الأصلية عبر CCTP عملية مكونة من 3 خطوات ، تتطلب 2 معاملات على {{from}} ومعاملة واحدة على {{to}}.",
+    "cctpDescription": "يُعد تقديم {{symbol}} الأصلية عبر CCTP عملية مكونة من 3 خطوات ، تتطلب 2 معاملات على {{from}} ومعاملة واحدة على {{to}}.",
     "cctpDescriptionEscapeHatch": "استخدام Hatch الطارئ لإجبار السحوبات الأصلية من {{symbol}} هو عملية مكونة من 3 خطوات ، تتطلب 2 معاملات على {{to}} ومعاملة واحدة على {{from}}.",
     "opDescription": "السحب هو عملية مكونة من 3 خطوات ، تتطلب معاملة {{rollup}} و 2 معاملات {{base}}.",
     "opDescriptionToken": "السحب هو عملية مكونة من 4 خطوات ، تتطلب 2 معاملات {{rollup}} و 2 معاملات {{base}}.",
@@ -242,7 +242,7 @@
   "noGasModal": {
     "youNeedGasOn": "تحتاج إلى غاز على {{to}}",
     "needHelp": "هل تحتاج إلى مساعدة؟ عرض الأسئلة الشائعة",
-    "usdc": "يتطلب جسر USDC عملية تحويل إضافية على {{to}}. يرجى شحن {{gas}} على {{to}} لإكمال هذا الجسر.",
+    "cctp": "يتطلب جسر {{symbol}} عملية تحويل إضافية على {{to}}. يرجى شحن {{gas}} على {{to}} لإكمال هذا الجسر.",
     "opWithdrawing": "يتطلب السحب معاملات إضافية 2 على {{to}}. يرجى شحن {{gas}} على {{to}} لإكمال هذا السحب.",
     "arbWithdrawing": "يتطلب سحب {{token}} عملية تحويل إضافية على {{to}}. يرجى شحن {{gas}} على {{to}} لإكمال هذا السحب.",
     "depositing": "بدون غاز على {{to}} ، لن تتمكن من إجراء أي معاملات. يرجى شحن {{gas}} على {{to}} قبل محاولة هذا الجسر.",

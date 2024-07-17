@@ -1,8 +1,9 @@
 import { useMemo } from "react";
 import { isPresent } from "ts-is-present";
-import { Address } from "viem";
+import { Address, isAddressEqual } from "viem";
 import { bsc, bscTestnet, syscoin, syscoinTestnet } from "viem/chains";
 
+import { DeploymentFamily } from "@/codegen/model";
 import { useConfigState } from "@/state/config";
 import { useSettingsState } from "@/state/settings";
 import {
@@ -12,10 +13,9 @@ import {
 } from "@/types/token";
 import { getNativeTokenForDeployment } from "@/utils/get-native-token";
 import { isArbitrumToken, isOptimismToken } from "@/utils/guards";
+import { isBridgedUsdc, isCctp } from "@/utils/is-cctp";
 import { isNativeToken } from "@/utils/is-eth";
-import { isBridgedUsdc, isNativeUsdc } from "@/utils/is-usdc";
 
-import { DeploymentFamily } from "@/codegen/model";
 import { useAcrossTokens } from "./across/use-across-tokens";
 import { useDeployment } from "./use-deployment";
 import { useDeployments } from "./use-deployments";
@@ -94,12 +94,11 @@ function useDeploymentTokens(): MultiChainToken[] {
   );
 }
 
-function useNativeTokens(): MultiChainToken[] {
+function useNativeTokens(): (MultiChainToken | null)[] {
   const { deployments } = useDeployments();
 
   return useMemo(
-    () =>
-      deployments.map((d) => getNativeTokenForDeployment(d)).filter(isPresent),
+    () => deployments.map((d) => getNativeTokenForDeployment(d)),
     [deployments]
   );
 }
@@ -168,9 +167,8 @@ export function useAllTokens() {
                 };
               }
 
-              const nativeToken = nativeTokens[deploymentIndex];
-              if (nativeToken) {
-                return copy;
+              if (nativeTokens[deploymentIndex]) {
+                return;
               }
 
               if (!copy[d.l2.id]) {
@@ -206,7 +204,7 @@ export function useActiveTokens() {
     () =>
       !!tokens.find(
         (token) =>
-          isNativeUsdc(token) &&
+          isCctp(token) &&
           !!token[deployment?.l1.id ?? 0] &&
           !!token[deployment?.l2.id ?? 0]
       ),
@@ -228,6 +226,17 @@ export function useActiveTokens() {
 
       if (isNativeToken(t)) {
         return true;
+      }
+
+      /**
+       * Manually disable depositing weETH until nobridge PR is merged
+       * https://github.com/ethereum-optimism/ethereum-optimism.github.io/pull/892
+       */
+      if (
+        !withdrawing &&
+        isAddressEqual(l1.address, "0xCd5fE23C85820F7B72D0926FC9b05b43E359b7ee")
+      ) {
+        return false;
       }
 
       /**

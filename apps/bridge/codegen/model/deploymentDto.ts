@@ -24,12 +24,16 @@ export interface DeploymentDto {
   config: DeploymentDtoConfig;
   contractAddresses: DeploymentDtoContractAddresses;
   createdAt: string;
+  /** @nullable */
+  deletedAt: string | null;
   displayName: string;
   family: DeploymentDtoFamily;
   id: string;
   l1: ChainDto;
   l2: ChainDto;
   name: string;
+  /** @nullable */
+  provider: string | null;
   status: DeploymentDtoStatus;
   supportsNftBridging: boolean;
   /** @nullable */

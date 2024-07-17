@@ -5,14 +5,12 @@
  * API docs
  * OpenAPI spec version: 1.0
  */
-import type { DeploymentDto } from './deploymentDto';
 import type { ConfirmationDto } from './confirmationDto';
 import type { ArbitrumDepositEthDtoMetadata } from './arbitrumDepositEthDtoMetadata';
 import type { ArbitrumTransactionType } from './arbitrumTransactionType';
 
 export interface ArbitrumDepositEthDto {
   createdAt: string;
-  deployment: DeploymentDto;
   deploymentId: string;
   deposit: ConfirmationDto;
   id: string;

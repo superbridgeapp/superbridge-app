@@ -38,9 +38,10 @@ import { useConfigState } from "@/state/config";
 import { useSettingsState } from "@/state/settings";
 import { Token } from "@/types/token";
 import { formatDecimals } from "@/utils/format-decimals";
+import { isCctp } from "@/utils/is-cctp";
 import { isNativeToken } from "@/utils/is-eth";
 import { isArbitrum } from "@/utils/is-mainnet";
-import { isNativeUsdc } from "@/utils/is-usdc";
+import { scaleToNativeTokenDecimals } from "@/utils/native-token-scaling";
 
 import { IconSuperFast } from "../icons";
 import { PoweredByAcross } from "../powered-by-across";
@@ -196,34 +197,34 @@ export const ConfirmationModal = ({
     return value ?? "";
   };
 
-  const fee = (
-    {
-      gasLimit,
-      gasToken,
-    }: {
-      gasToken: {
-        token: Token | undefined;
-        price: number | null;
-        gasPrice: bigint;
-      };
-      gasLimit: bigint;
-    },
-    maximumFractionDigits: number
-  ) => {
+  const fee = ({
+    gasLimit,
+    gasToken,
+  }: {
+    gasToken: {
+      token: Token | undefined;
+      price: number | null;
+      gasPrice: bigint;
+    };
+    gasLimit: bigint;
+  }) => {
     const nativeTokenAmount = gasLimit * gasToken.gasPrice;
 
     const formattedAmount = parseFloat(
-      formatUnits(nativeTokenAmount, gasToken.token?.decimals ?? 18)
+      formatUnits(
+        scaleToNativeTokenDecimals({
+          amount: nativeTokenAmount,
+          decimals: gasToken.token?.decimals ?? 18,
+        }),
+        gasToken.token?.decimals ?? 18
+      )
     );
 
     if (!gasToken.price) {
       return `${formattedAmount} ${gasToken.token?.symbol}`;
     }
 
-    const amount = (gasToken.price * formattedAmount).toLocaleString("en", {
-      maximumFractionDigits,
-    });
-
+    const amount = formatDecimals(gasToken.price * formattedAmount);
     return `${currencySymbolMap[currency]}${amount}`;
   };
 
@@ -374,15 +375,28 @@ export const ConfirmationModal = ({
         : t("confirmationModal.initiateDeposit"),
       disabled: true,
     }))
-    .otherwise((d) => ({
-      onSubmit: onConfirm,
-      buttonText: d.fast
-        ? t("confirmationModal.initiateBridge")
-        : d.withdrawing
-        ? t("confirmationModal.initiateWithdrawal")
-        : t("confirmationModal.initiateDeposit"),
-      disabled: false,
-    }));
+    .otherwise((d) => {
+      const initiatingChain =
+        escapeHatch && withdrawing ? deployment?.l1 : from;
+
+      if (initiatingChain && account.chainId !== initiatingChain.id) {
+        return {
+          onSubmit: () => switchChain(initiatingChain),
+          buttonText: t("switchTo", { chain: initiatingChain.name }),
+          disabled: false,
+        };
+      }
+
+      return {
+        onSubmit: onConfirm,
+        buttonText: d.fast
+          ? t("confirmationModal.initiateBridge")
+          : d.withdrawing
+          ? t("confirmationModal.initiateWithdrawal")
+          : t("confirmationModal.initiateDeposit"),
+        disabled: false,
+      };
+    });
 
   const common = {
     from: from?.name,
@@ -396,7 +410,7 @@ export const ConfirmationModal = ({
 
   const title = match({
     fast,
-    isUsdc: isNativeUsdc(stateToken),
+    isCctp: isCctp(stateToken),
     withdrawing,
     escapeHatch,
     family: deployment?.family,
@@ -404,19 +418,19 @@ export const ConfirmationModal = ({
     .with({ fast: true }, () => {
       return "Superfast bridge";
     })
-    .with({ isUsdc: true, withdrawing: true, escapeHatch: true }, () =>
+    .with({ isCctp: true, withdrawing: true, escapeHatch: true }, () =>
       t("confirmationModal.cctpWithdrawalTitleEscapeHatch", {
         mins: totalBridgeTime?.value,
         symbol: token?.symbol,
       })
     )
-    .with({ isUsdc: true, withdrawing: true }, () =>
+    .with({ isCctp: true, withdrawing: true }, () =>
       t("confirmationModal.cctpWithdrawalTitle", {
         mins: totalBridgeTime?.value,
         symbol: token?.symbol,
       })
     )
-    .with({ isUsdc: true, withdrawing: false }, () =>
+    .with({ isCctp: true, withdrawing: false }, () =>
       t("confirmationModal.cctpDepositTitle", {
         mins: totalBridgeTime?.value,
         symbol: token?.symbol,
@@ -446,7 +460,7 @@ export const ConfirmationModal = ({
 
   const description = match({
     fast,
-    isUsdc: isNativeUsdc(stateToken),
+    isCctp: isCctp(stateToken),
     withdrawing,
     escapeHatch,
     family: deployment?.family,
@@ -455,10 +469,10 @@ export const ConfirmationModal = ({
     .with({ fast: true }, () =>
       t("confirmationModal.acrossDescription", common)
     )
-    .with({ isUsdc: true, withdrawing: true, escapeHatch: true }, () =>
+    .with({ isCctp: true, withdrawing: true, escapeHatch: true }, () =>
       t("confirmationModal.cctpDescriptionEscapeHatch", common)
     )
-    .with({ isUsdc: true }, () =>
+    .with({ isCctp: true }, () =>
       t("confirmationModal.cctpDescription", common)
     )
     .with(
@@ -491,7 +505,7 @@ export const ConfirmationModal = ({
 
   const checkbox1Text = match({
     fast,
-    isUsdc: isNativeUsdc(stateToken),
+    isCctp: isCctp(stateToken),
     withdrawing,
     family: deployment?.family,
   })
@@ -501,7 +515,7 @@ export const ConfirmationModal = ({
         rollup: to?.name,
       })
     )
-    .with({ isUsdc: true }, () =>
+    .with({ isCctp: true }, () =>
       t("confirmationModal.checkbox1Cctp", {
         mins: totalBridgeTime?.value,
         to: to?.name,
@@ -531,7 +545,7 @@ export const ConfirmationModal = ({
 
   const lineItems = match({
     fast,
-    isUsdc: isNativeUsdc(stateToken),
+    isCctp: isCctp(stateToken),
     withdrawing,
     family: deployment?.family,
     escapeHatch,
@@ -543,13 +557,13 @@ export const ConfirmationModal = ({
           ? {
               text: t("confirmationModal.approveGasToken"),
               icon: ApproveIcon,
-              fee: fee(approveGasTokenCost, 4),
+              fee: fee(approveGasTokenCost),
             }
           : null,
         {
           text: t("confirmationModal.initiateDeposit"),
           icon: InitiateIcon,
-          fee: fee(initiateCost, 4),
+          fee: fee(initiateCost),
         },
         {
           text: t("confirmationModal.waitMinutes", {
@@ -563,11 +577,11 @@ export const ConfirmationModal = ({
         },
       ].filter(isPresent)
     )
-    .with({ isUsdc: true, escapeHatch: true }, () => [
+    .with({ isCctp: true, escapeHatch: true }, () => [
       {
         text: t("confirmationModal.initiateBridgeEscapeHatch", common),
         icon: InitiateIcon,
-        fee: fee(initiateCost, 4),
+        fee: fee(initiateCost),
       },
       {
         text: transformPeriodText(
@@ -580,14 +594,14 @@ export const ConfirmationModal = ({
       {
         text: t("confirmationModal.finalize", common),
         icon: FinalizeIcon,
-        fee: fee(finalizeCost, 4),
+        fee: fee(finalizeCost),
       },
     ])
-    .with({ isUsdc: true }, () => [
+    .with({ isCctp: true }, () => [
       {
         text: t("confirmationModal.initiateBridge"),
         icon: InitiateIcon,
-        fee: fee(initiateCost, 4),
+        fee: fee(initiateCost),
       },
       {
         text: transformPeriodText(
@@ -600,14 +614,14 @@ export const ConfirmationModal = ({
       {
         text: t("confirmationModal.finalize", common),
         icon: FinalizeIcon,
-        fee: fee(finalizeCost, 4),
+        fee: fee(finalizeCost),
       },
     ])
     .with({ withdrawing: true, family: "optimism", escapeHatch: true }, () => [
       {
         text: t("confirmationModal.initiateBridgeEscapeHatch", common),
         icon: EscapeHatchIcon,
-        fee: fee(initiateCost, 4),
+        fee: fee(initiateCost),
       },
       {
         text: transformPeriodText(
@@ -620,7 +634,7 @@ export const ConfirmationModal = ({
       {
         text: t("confirmationModal.prove", common),
         icon: ProveIcon,
-        fee: fee(proveCost, 4),
+        fee: fee(proveCost),
       },
       {
         text: transformPeriodText(
@@ -633,14 +647,14 @@ export const ConfirmationModal = ({
       {
         text: t("confirmationModal.finalize", common),
         icon: FinalizeIcon,
-        fee: fee(finalizeCost, 2),
+        fee: fee(finalizeCost),
       },
     ])
     .with({ withdrawing: true, family: "optimism" }, () => [
       {
         text: t("confirmationModal.initiateWithdrawal"),
         icon: InitiateIcon,
-        fee: fee(initiateCost, 4),
+        fee: fee(initiateCost),
       },
       {
         text: transformPeriodText("confirmationModal.wait", {}, proveTime),
@@ -649,7 +663,7 @@ export const ConfirmationModal = ({
       {
         text: t("confirmationModal.prove", common),
         icon: ProveIcon,
-        fee: fee(proveCost, 4),
+        fee: fee(proveCost),
       },
       {
         text: transformPeriodText(
@@ -662,7 +676,7 @@ export const ConfirmationModal = ({
       {
         text: t("confirmationModal.finalize", common),
         icon: FinalizeIcon,
-        fee: fee(finalizeCost, 2),
+        fee: fee(finalizeCost),
       },
     ])
 
@@ -670,7 +684,7 @@ export const ConfirmationModal = ({
       {
         text: t("confirmationModal.initiateWithdrawal"),
         icon: InitiateIcon,
-        fee: fee(initiateCost, 4),
+        fee: fee(initiateCost),
       },
       {
         text: transformPeriodText(
@@ -683,7 +697,7 @@ export const ConfirmationModal = ({
       {
         text: t("confirmationModal.finalize", common),
         icon: FinalizeIcon,
-        fee: fee(finalizeCost, 2),
+        fee: fee(finalizeCost),
       },
     ])
     .with({ withdrawing: false, family: "optimism" }, (c) =>
@@ -692,13 +706,13 @@ export const ConfirmationModal = ({
           ? {
               text: t("confirmationModal.approveGasToken"),
               icon: ApproveIcon,
-              fee: fee(approveGasTokenCost, 4),
+              fee: fee(approveGasTokenCost),
             }
           : null,
         {
           text: t("confirmationModal.initiateDeposit"),
           icon: InitiateIcon,
-          fee: fee(initiateCost, 4),
+          fee: fee(initiateCost),
         },
         {
           text: t("confirmationModal.waitMinutes", {
@@ -718,13 +732,13 @@ export const ConfirmationModal = ({
           ? {
               text: t("confirmationModal.approveGasToken"),
               icon: ApproveIcon,
-              fee: fee(approveGasTokenCost, 4),
+              fee: fee(approveGasTokenCost),
             }
           : null,
         {
           text: t("confirmationModal.initiateDeposit"),
           icon: InitiateIcon,
-          fee: fee(initiateCost, 4),
+          fee: fee(initiateCost),
         },
         {
           text: t("confirmationModal.waitMinutes", {
@@ -767,7 +781,7 @@ export const ConfirmationModal = ({
                 {description}{" "}
                 <Link
                   href={
-                    isNativeUsdc(stateToken)
+                    isCctp(stateToken)
                       ? "https://docs.rollbridge.app/native-usdc"
                       : "https://docs.rollbridge.app/what-is-bridging"
                   }
@@ -789,7 +803,7 @@ export const ConfirmationModal = ({
               <LineItem
                 text={t("confirmationModal.approve", { symbol: token?.symbol })}
                 icon={ApproveIcon}
-                fee={fee(approveCost, 4)}
+                fee={fee(approveCost)}
               />
             )}
 
@@ -905,17 +919,15 @@ export const ConfirmationModal = ({
               {initiateButton.buttonText}
             </Button>
 
-            {isSuperbridge &&
-              !fast &&
-              (withdrawing || isNativeUsdc(stateToken)) && (
-                <Link
-                  className={`mt-2 leading-3 text-center text-xs   cursor-pointer transition-all opacity-70 hover:opacity-100`}
-                  href="/alternative-bridges"
-                  target="_blank"
-                >
-                  {t("confirmationModal.viewAlternateBridges")}
-                </Link>
-              )}
+            {isSuperbridge && !fast && (withdrawing || isCctp(stateToken)) && (
+              <Link
+                className={`mt-2 leading-3 text-center text-xs   cursor-pointer transition-all opacity-70 hover:opacity-100`}
+                href="/alternative-bridges"
+                target="_blank"
+              >
+                {t("confirmationModal.viewAlternateBridges")}
+              </Link>
+            )}
           </div>
         </div>
       </DialogContent>

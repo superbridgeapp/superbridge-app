@@ -1,10 +1,11 @@
 import { useBridgeControllerGetCctpMintTransactionV2 } from "@/codegen";
 import { CctpBridgeDto } from "@/codegen/model";
+import { trackEvent } from "@/services/ga";
 import { usePendingTransactions } from "@/state/pending-txs";
 
 import { useSendTransactionDto } from "../use-send-transaction-dto";
 
-export function useMintCctp({ id, to }: CctpBridgeDto) {
+export function useMintCctp({ id, to, from, bridge }: CctpBridgeDto) {
   const setFinalising = usePendingTransactions.useSetFinalising();
   const finaliseTransaction = useBridgeControllerGetCctpMintTransactionV2();
 
@@ -15,7 +16,12 @@ export function useMintCctp({ id, to }: CctpBridgeDto) {
   const write = async () => {
     const hash = await onSubmit();
     if (hash) {
-      // rainbow just returns null if cancelled
+      trackEvent({
+        event: "cctp-mint",
+        burnNetwork: from.name,
+        network: to.name,
+        burnTransactionHash: bridge.transactionHash,
+      });
       setFinalising(id, hash);
     }
   };

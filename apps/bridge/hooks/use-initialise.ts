@@ -7,6 +7,7 @@ import { useConfigState } from "@/state/config";
 import { usePendingTransactions } from "@/state/pending-txs";
 import { isMainnet, isOptimism } from "@/utils/is-mainnet";
 
+import { useActivityEffects } from "./use-activity-effects";
 import { useDeployment } from "./use-deployment";
 import { useInitialiseToken } from "./use-initialise-token";
 import { useIsContractAccount } from "./use-is-contract-account";
@@ -23,11 +24,13 @@ export const useInitialise = () => {
   const setForceViaL1 = useConfigState.useSetForceViaL1();
   const setFast = useConfigState.useSetFast();
   const setWithdrawing = useConfigState.useSetWithdrawing();
+  const setRawAmount = useConfigState.useSetRawAmount();
   const clearPendingTransactionsStorage = usePendingTransactions.useLogout();
 
   useInitialiseRecipient();
   useTokenLists();
   useInitialiseToken();
+  useActivityEffects();
 
   useAccountEffect({
     onDisconnect: () => {
@@ -39,6 +42,11 @@ export const useInitialise = () => {
     const direction = router.query.direction as string | undefined;
     if (direction === "withdraw") {
       setWithdrawing(true);
+    }
+
+    const amount = router.query.amount as string | undefined;
+    if (amount && parseFloat(amount)) {
+      setRawAmount(amount);
     }
   }, []);
 

@@ -1,8 +1,8 @@
-import { base, mainnet, mode, optimism } from "viem/chains";
 import { Address, zeroAddress } from "viem";
+import { base, mainnet, mode, optimism } from "viem/chains";
 
-import { deadAddress } from "@/utils/is-eth";
 import { MultiChainToken, OptimismToken } from "@/types/token";
+import { deadAddress } from "@/utils/is-eth";
 
 const nativeUsdc = (address: Address, chainId: number): OptimismToken => ({
   chainId,

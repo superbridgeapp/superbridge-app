@@ -1,10 +1,9 @@
+import { DeploymentDto } from "@/codegen/model";
 import { isSuperbridge } from "@/config/superbridge";
 
 import { useDeployment } from "./use-deployment";
 
-export const useMetadata = () => {
-  const deployment = useDeployment();
-
+export const getMetadata = (deployment: DeploymentDto | null) => {
   if (isSuperbridge) {
     return {
       title: "Superbridge",
@@ -20,4 +19,9 @@ export const useMetadata = () => {
       deployment?.theme?.theme.imageLogo ??
       "https://superbridge.app/img/superbridge-icon.png",
   };
+};
+
+export const useMetadata = () => {
+  const deployment = useDeployment();
+  return getMetadata(deployment);
 };

@@ -1,24 +1,25 @@
+import { AxiosResponse } from "axios";
 import { useState } from "react";
 import { Address, Chain, Hex } from "viem";
 import { useAccount, usePublicClient, useWalletClient } from "wagmi";
 
 import { ChainDto, TransactionDto } from "@/codegen/model";
-import { AxiosResponse } from "axios";
+
 import { useSwitchChain } from "./use-switch-chain";
 
 export function useSendTransactionDto(
-  chain: ChainDto,
+  chain: ChainDto | undefined,
   getTransactionDto: () => Promise<AxiosResponse<TransactionDto>>
 ) {
   const account = useAccount();
-  const wallet = useWalletClient({ chainId: chain.id });
-  const client = usePublicClient({ chainId: chain.id });
+  const wallet = useWalletClient({ chainId: chain?.id });
+  const client = usePublicClient({ chainId: chain?.id });
   const switchChain = useSwitchChain();
 
   const [loading, setLoading] = useState(false);
 
   const onSubmit = async () => {
-    if (!account.address || !wallet.data || !client) {
+    if (!account.address || !wallet.data || !client || !chain) {
       return;
     }
 

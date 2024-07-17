@@ -8,10 +8,10 @@ import { useGraffiti } from "@/hooks/use-graffiti";
 import { useWeiAmount } from "@/hooks/use-wei-amount";
 import { useConfigState } from "@/state/config";
 import { isOptimismToken } from "@/utils/guards";
+import { isCctp } from "@/utils/is-cctp";
 import { isEth } from "@/utils/is-eth";
 import { OptimismDeploymentDto, isOptimism } from "@/utils/is-mainnet";
 
-import { isCctpBridgeOperation } from "../cctp-args/common";
 import { TransactionArgs } from "../types";
 
 const onlyHasNewMethods = (d: OptimismDeploymentDto) => {
@@ -38,7 +38,7 @@ export const useOptimismDepositArgs = (): TransactionArgs | undefined => {
     !isOptimism(deployment) ||
     !recipient ||
     !isAddress(recipient) ||
-    isCctpBridgeOperation(stateToken)
+    isCctp(stateToken)
   ) {
     return;
   }

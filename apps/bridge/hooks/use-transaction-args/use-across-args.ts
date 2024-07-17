@@ -6,9 +6,9 @@ import { SpokePoolAbi } from "@/abis/across/SpokePool";
 import { useConfigState } from "@/state/config";
 import { isNativeToken } from "@/utils/is-eth";
 
-import { useAcrossTokenAddress } from "../across/use-across-token-address";
 import { useAcrossDomains } from "../across/use-across-domains";
 import { useAcrossQuote } from "../across/use-across-quote";
+import { useAcrossTokenAddress } from "../across/use-across-token-address";
 import { useFromChain, useToChain } from "../use-chain";
 import { useWeiAmount } from "../use-wei-amount";
 

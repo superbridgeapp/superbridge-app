@@ -4,11 +4,12 @@ import { P, match } from "ts-pattern";
 import {
   ArbitrumDepositEthDto,
   ArbitrumDepositRetryableDto,
-  DeploymentType,
+  DeploymentDto,
   TransactionStatus,
 } from "@/codegen/model";
-import { usePeriodText } from "@/hooks/use-period-text";
+import { useDeployments } from "@/hooks/use-deployments";
 import { getDepositTime } from "@/hooks/use-finalization-period";
+import { usePeriodText } from "@/hooks/use-period-text";
 
 import { transactionLink } from "../transaction-link";
 import { ButtonComponent, ExpandedItem, ProgressRowStatus } from "./common";
@@ -17,14 +18,20 @@ import { getRemainingTimePeriod } from "./get-remaining-period";
 export const useArbitrumDepositProgressRows = () => {
   const { t } = useTranslation();
   const transformPeriodText = usePeriodText();
+  const { deployments } = useDeployments();
 
   return (
     tx: Pick<
       ArbitrumDepositRetryableDto | ArbitrumDepositEthDto,
-      "deposit" | "relay" | "deployment"
-    >
+      "deposit" | "relay"
+    >,
+    deployment: DeploymentDto | null
   ): ExpandedItem[] => {
-    const depositTime = getDepositTime(tx.deployment);
+    if (!deployment) {
+      return [];
+    }
+
+    const depositTime = getDepositTime(deployment);
     const l2ConfirmationText = (() => {
       if (!tx.deposit.blockNumber) {
         return transformPeriodText("transferTime", {}, depositTime);
@@ -50,7 +57,7 @@ export const useArbitrumDepositProgressRows = () => {
         status: tx.deposit.blockNumber
           ? ProgressRowStatus.Done
           : ProgressRowStatus.InProgress,
-        link: transactionLink(tx.deposit.transactionHash, tx.deployment.l1),
+        link: transactionLink(tx.deposit.transactionHash, deployment.l1),
       },
       match(tx)
         .with({ deposit: P.when(({ blockNumber }) => !blockNumber) }, (d) => ({
@@ -61,12 +68,12 @@ export const useArbitrumDepositProgressRows = () => {
         .with({ relay: { status: TransactionStatus.confirmed } }, (tx) => ({
           label: t("activity.l2Confirmation"),
           status: ProgressRowStatus.Done,
-          link: transactionLink(tx.relay.transactionHash, tx.deployment.l2),
+          link: transactionLink(tx.relay.transactionHash, deployment.l2),
         }))
         .with({ relay: { status: TransactionStatus.reverted } }, (tx) => ({
           label: t("activity.l2Confirmation"),
           status: ProgressRowStatus.Reverted,
-          link: transactionLink(tx.relay.transactionHash, tx.deployment.l2),
+          link: transactionLink(tx.relay.transactionHash, deployment.l2),
         }))
         .otherwise((tx) => {
           if (tx.deposit.timestamp < Date.now() - 1000 * 60 * 60) {
