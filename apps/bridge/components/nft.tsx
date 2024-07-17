@@ -195,6 +195,7 @@ export function NftImage({
         src={image}
         className={clsx(className, !loaded && "!h-0")}
         onLoad={() => setLoaded(true)}
+        alt={`${nft.address} image`}
       />
     </div>
   );
