@@ -161,7 +161,7 @@
     "withdrawalTitleEscapeHatchHours_other": "Las retiradas del Escape Hatch de {{rollup}} tardan ~{{count}} horas",
     "withdrawalTitleEscapeHatchDays_one": "Las retiradas del Escape Hatch de {{rollup}} tardan ~{{count}} día",
     "withdrawalTitleEscapeHatchDays_other": "Las retiradas del Escape Hatch de {{rollup}} tardan ~{{count}} días",
-    "cctpDescription": "La transferencia de USDC nativo a través de CCTP es un proceso de 3 pasos, que requiere 2 transacciones en {{from}} y 1 transacción en {{to}}.",
+    "cctpDescription": "La transferencia de {{symbol}} nativo a través de CCTP es un proceso de 3 pasos, que requiere 2 transacciones en {{from}} y 1 transacción en {{to}}.",
     "cctpDescriptionEscapeHatch": "El uso del Escape Hatch para forzar retiradas nativas de {{symbol}} es un proceso de 3 pasos, que requiere 2 transacciones en {{to}} y 1 transacción en {{from}}.",
     "opDescription": "Las retiradas son un proceso de 3 pasos, que requiere 1 transacción {{rollup}} y 2 transacciones {{base}}.",
     "opDescriptionToken": "Las retiradas son un proceso de 4 pasos, que requiere 2 transacciones {{rollup}} y 2 transacciones {{base}}.",
@@ -238,7 +238,7 @@
   "noGasModal": {
     "youNeedGasOn": "Necesitas gas en {{to}}",
     "needHelp": "¿Necesitas ayuda? Ver preguntas frecuentes",
-    "usdc": "La creación de puentes para USDC requiere una transacción adicional en {{to}}. Por favor, recarga {{gas}} en {{to}} para completar este puente.",
+    "cctp": "La creación de puentes para {{symbol}} requiere una transacción adicional en {{to}}. Por favor, recarga {{gas}} en {{to}} para completar este puente.",
     "opWithdrawing": "El retiro requiere 2 transacciones adicionales en {{to}}. Por favor, recarga {{gas}} en {{to}} para completar este retiro.",
     "arbWithdrawing": "El retiro de {{token}} requiere una transacción adicional en {{to}}. Por favor, recarga {{gas}} en {{to}} para completar este retiro.",
     "depositing": "Sin gas en {{to}}, no podrás realizar ninguna transacción. Por favor, recarga {{gas}} en {{to}} antes de intentar este puente.",

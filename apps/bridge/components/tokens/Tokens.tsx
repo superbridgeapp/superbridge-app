@@ -17,7 +17,7 @@ import { useConfigState } from "@/state/config";
 import { useInjectedStore } from "@/state/injected";
 import { MultiChainToken } from "@/types/token";
 import { formatDecimals } from "@/utils/format-decimals";
-import { isNativeUsdc } from "@/utils/is-usdc";
+import { isCctp } from "@/utils/is-cctp";
 
 import { CctpBadge } from "../badges/cttp-badge";
 import { TokenIcon } from "../token-icon";
@@ -58,7 +58,7 @@ const TokenComponent = ({
             <span className="text-sm font-heading">
               {token[from?.id ?? 0]?.name}
             </span>
-            {isNativeUsdc(token) && !fast && <CctpBadge />}
+            {isCctp(token) && !fast && <CctpBadge />}
           </div>
           <span className="text-xs  text-muted-foreground">
             {token[from?.id ?? 0]?.symbol}

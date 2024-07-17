@@ -161,7 +161,7 @@
     "withdrawalTitleEscapeHatchHours_other": "Rút qua cửa thoát hiểm từ {{rollup}} mất khoảng {{count}} giờ",
     "withdrawalTitleEscapeHatchDays_one": "Rút qua cửa thoát hiểm từ {{rollup}} mất khoảng {{count}} ngày",
     "withdrawalTitleEscapeHatchDays_other": "Rút qua cửa thoát hiểm từ {{rollup}} mất khoảng {{count}} ngày",
-    "cctpDescription": "Chuyển USDC gốc qua CCTP là quy trình 3 bước, yêu cầu 2 giao dịch trên {{from}} và 1 giao dịch trên {{to}}.",
+    "cctpDescription": "Chuyển {{symbol}} gốc qua CCTP là quy trình 3 bước, yêu cầu 2 giao dịch trên {{from}} và 1 giao dịch trên {{to}}.",
     "cctpDescriptionEscapeHatch": "Sử dụng cửa thoát hiểm để ép rút tiền gốc {{symbol}} là quy trình 3 bước, yêu cầu 2 giao dịch trên {{to}} và 1 giao dịch trên {{from}}.",
     "opDescription": "Rút tiền là quy trình 3 bước, yêu cầu 1 giao dịch {{rollup}} và 2 giao dịch {{base}}.",
     "opDescriptionToken": "Rút tiền là quy trình 4 bước, yêu cầu 2 giao dịch {{rollup}} và 2 giao dịch {{base}}.",
@@ -238,7 +238,7 @@
   "noGasModal": {
     "youNeedGasOn": "Bạn cần gas trên {{to}}",
     "needHelp": "Cần giúp đỡ? Xem Câu hỏi thường gặp",
-    "usdc": "Tạo cầu cho USDC yêu cầu một giao dịch phụ trên {{to}}. Vui lòng nạp thêm {{gas}} trên {{to}} để hoàn thành cầu này.",
+    "cctp": "Tạo cầu cho {{symbol}} yêu cầu một giao dịch phụ trên {{to}}. Vui lòng nạp thêm {{gas}} trên {{to}} để hoàn thành cầu này.",
     "opWithdrawing": "Rút cầu yêu cầu 2 giao dịch phụ trên {{to}}. Vui lòng nạp thêm {{gas}} trên {{to}} để hoàn thành rút này.",
     "arbWithdrawing": "Rút {{token}} yêu cầu một giao dịch phụ trên {{to}}. Vui lòng nạp thêm {{gas}} trên {{to}} để hoàn thành rút này.",
     "depositing": "Không có gas trên {{to}}, bạn sẽ không thể thực hiện bất kỳ giao dịch nào. Vui lòng nạp thêm {{gas}} trên {{to}} trước khi thử cầu này.",

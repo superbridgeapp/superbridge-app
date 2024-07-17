@@ -2,7 +2,6 @@ import { Address, encodeFunctionData } from "viem";
 
 import { L2StandardBridgeAbi } from "@/abis/L2StandardBridge";
 import { L2ToL1MessagePasserAbi } from "@/abis/L2ToL1MessagePasser";
-import { OptimismPortalAbi } from "@/abis/OptimismPortal";
 import { useGasToken } from "@/hooks/use-approve-gas-token";
 import { useDeployment } from "@/hooks/use-deployment";
 import { useGraffiti } from "@/hooks/use-graffiti";
@@ -10,10 +9,9 @@ import { useL2TokenIsLegacy } from "@/hooks/use-l2-token-is-legacy";
 import { useWeiAmount } from "@/hooks/use-wei-amount";
 import { useConfigState } from "@/state/config";
 import { isOptimismToken } from "@/utils/guards";
+import { isCctp } from "@/utils/is-cctp";
 import { isEth } from "@/utils/is-eth";
 import { isOptimism } from "@/utils/is-mainnet";
-
-import { isCctpBridgeOperation } from "../cctp-args/common";
 
 export const useOptimismWithdrawArgs = () => {
   const stateToken = useConfigState.useToken();
@@ -38,7 +36,7 @@ export const useOptimismWithdrawArgs = () => {
     !isOptimism(deployment) ||
     typeof l2TokenIsLegacy === "undefined" ||
     !recipientAddress ||
-    isCctpBridgeOperation(stateToken)
+    isCctp(stateToken)
   ) {
     return;
   }

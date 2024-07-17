@@ -1,7 +1,7 @@
 import { DeploymentDto } from "@/codegen/model";
 import { useConfigState } from "@/state/config";
+import { isCctp } from "@/utils/is-cctp";
 import { isArbitrum, isMainnet, isOptimism } from "@/utils/is-mainnet";
-import { isNativeUsdc } from "@/utils/is-usdc";
 
 import { useDeployment } from "./use-deployment";
 import { useFastTransferPeriod } from "./use-transfer-time";
@@ -69,7 +69,7 @@ export const getFinalizationPeriod = (
 export const useFinalizationPeriod = (): Period => {
   const stateToken = useConfigState.useToken();
   const deployment = useDeployment();
-  return getFinalizationPeriod(deployment, isNativeUsdc(stateToken));
+  return getFinalizationPeriod(deployment, isCctp(stateToken));
 };
 
 export const getProvePeriod = (deployment: DeploymentDto | null): Period => {
@@ -136,7 +136,7 @@ export const useTotalBridgeTime = (
   const fast = useConfigState.useFast();
 
   const prove = useProvePeriod(deployment);
-  const finalize = getFinalizationPeriod(deployment, isNativeUsdc(stateToken));
+  const finalize = getFinalizationPeriod(deployment, isCctp(stateToken));
   const deposit = useDepositTime(deployment);
   const fastBridgePeriod = useFastTransferPeriod();
 
@@ -144,7 +144,7 @@ export const useTotalBridgeTime = (
     return fastBridgePeriod;
   }
 
-  if (isNativeUsdc(stateToken)) {
+  if (isCctp(stateToken)) {
     if (escapeHatch) {
       return addPeriods(deposit, cctpPeriod(deployment));
     }
