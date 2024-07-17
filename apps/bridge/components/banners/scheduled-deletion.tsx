@@ -9,7 +9,9 @@ export const ScheduledDeletion = () => {
 
   const supportLink =
     deployment?.theme?.links.find((x) =>
-      ["discord", "twitter"].find((y) => x.url.toLowerCase().includes(y))
+      ["discord", "twitter", "x.com"].find((y) =>
+        x.url.toLowerCase().includes(y)
+      )
     )?.url ?? deployment?.theme?.links[0].url;
 
   return (
