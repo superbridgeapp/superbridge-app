@@ -13,6 +13,7 @@ import { useConfigState } from "@/state/config";
 import { usePendingTransactions } from "@/state/pending-txs";
 
 import { Loading } from "../Loading";
+import { IconSpinner } from "../icons";
 import { TransactionRow } from "../transaction-row";
 
 export const OpenActivity = ({}) => {
@@ -140,19 +141,37 @@ export const OpenActivity = ({}) => {
               }
 
               return (
-                <div className="overflow-y-auto overflow-x-hidden">
+                <div className="overflow-y-auto overflow-x-hidden -mb-[2px]">
                   {[...pendingTransactions, ...transactions].map((t) => {
                     return <TransactionRow key={t.id} tx={t} />;
                   })}
 
-                  {totalTransactions &&
+                  {/* TODO: Do we actually need this one? */}
+                  {/* TODO: Do we need a button to load more? Can be more reliable than scroll triggered */}
+                  {/* {totalTransactions &&
                     transactions.length === totalTransactions && (
-                      <div>End of list</div>
-                    )}
+                      <div className="flex justify-center items-center p-3">
+                        <div className="bg-muted px-3 py-2 flex items-center rounded-full">
+                          <span className="text-[10px] text-muted-foreground leading-none font-heading">
+                            {transactions.length} bridges loaded
+                          </span>
+                        </div>
+                      </div>
+                    )} */}
 
                   {totalTransactions &&
                     transactions.length !== totalTransactions && (
-                      <div ref={ref}>Loading</div>
+                      <div className="flex justify-center items-center p-3">
+                        <div
+                          ref={ref}
+                          className="bg-muted pl-2 pr-3 py-2 flex gap-1 items-center rounded-full"
+                        >
+                          <IconSpinner className="w-3 h-3 block text-muted-foreground" />
+                          <span className="text-[10px] text-muted-foreground leading-none font-heading">
+                            Loading
+                          </span>
+                        </div>
+                      </div>
                     )}
                 </div>
               );
