@@ -7,7 +7,6 @@ import { formatUnits, parseUnits } from "viem";
 import { useAccount, useBalance, useConfig, useWalletClient } from "wagmi";
 
 import { useBridgeControllerTrack } from "@/codegen";
-import { ChainDto } from "@/codegen/model";
 import { isSuperbridge } from "@/config/superbridge";
 import { SUPERCHAIN_MAINNETS } from "@/constants/superbridge";
 import { useAcrossDomains } from "@/hooks/across/use-across-domains";
