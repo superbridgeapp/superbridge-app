@@ -98,7 +98,7 @@ export const buildPendingTx = (
         },
         metadata,
         status: MessageStatus.STATE_ROOT_NOT_PUBLISHED,
-        deployment,
+        deploymentId: deployment.id,
       };
       return w;
     } else {

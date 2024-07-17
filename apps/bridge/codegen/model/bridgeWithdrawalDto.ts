@@ -5,7 +5,6 @@
  * API docs
  * OpenAPI spec version: 1.0
  */
-import type { DeploymentDto } from './deploymentDto';
 import type { ConfirmationDto } from './confirmationDto';
 import type { BridgeWithdrawalDtoMetadata } from './bridgeWithdrawalDtoMetadata';
 import type { ProveConfirmationDto } from './proveConfirmationDto';
@@ -13,7 +12,6 @@ import type { OptimismTransactionType } from './optimismTransactionType';
 
 export interface BridgeWithdrawalDto {
   createdAt: string;
-  deployment: DeploymentDto;
   deploymentId: string;
   finalise?: ConfirmationDto;
   id: string;

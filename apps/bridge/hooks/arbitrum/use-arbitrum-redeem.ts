@@ -8,6 +8,8 @@ import {
 } from "@/codegen/model";
 import { isArbitrumDeposit } from "@/utils/guards";
 
+import { useDeploymentById } from "../use-deployment-by-id";
+
 export function useRedeemArbitrum(
   tx: ArbitrumDepositRetryableDto | ArbitrumForcedWithdrawalDto
 ) {
@@ -15,9 +17,9 @@ export function useRedeemArbitrum(
   const wallet = useWalletClient();
   const { writeContract, isLoading } = useWriteContract();
 
-  const deployment = isArbitrumDeposit(tx)
-    ? tx.deployment
-    : tx.deposit.deployment;
+  const deployment = useDeploymentById(
+    isArbitrumDeposit(tx) ? tx.deploymentId : tx.deposit.deploymentId
+  );
   const l2TransactionHash = isArbitrumDeposit(tx)
     ? tx.l2TransactionHash
     : tx.deposit.l2TransactionHash;
@@ -30,7 +32,7 @@ export function useRedeemArbitrum(
     writeContract({
       abi: ArbRetryableTxAbi,
       functionName: "redeem",
-      chainId: deployment.l2.id,
+      chainId: deployment?.l2.id,
       address: "0x000000000000000000000000000000000000006e",
       args: [l2TransactionHash as Address],
     });

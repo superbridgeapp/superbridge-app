@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { P, match } from "ts-pattern";
 
-import { BridgeWithdrawalDto } from "@/codegen/model";
+import { BridgeWithdrawalDto, DeploymentDto } from "@/codegen/model";
 import { MessageStatus } from "@/constants/optimism-message-status";
 import {
   addPeriods,
@@ -12,7 +12,7 @@ import {
 import { usePeriodText } from "@/hooks/use-period-text";
 import { usePendingTransactions } from "@/state/pending-txs";
 
-import { OptimismDeploymentDto } from "../is-mainnet";
+import { isOptimism } from "../is-mainnet";
 import { transactionLink } from "../transaction-link";
 import { ButtonComponent, ExpandedItem, ProgressRowStatus } from "./common";
 import { getRemainingTimePeriod } from "./get-remaining-period";
@@ -25,8 +25,12 @@ export const useOptimismWithdrawalProgressRows = () => {
 
   return (
     w: BridgeWithdrawalDto | undefined,
-    deployment: OptimismDeploymentDto | null
+    deployment: DeploymentDto | null
   ): ExpandedItem[] => {
+    if (!deployment) {
+      return [];
+    }
+
     const finalizationPeriod = getFinalizationPeriod(deployment, false);
     const provePeriod = getProvePeriod(deployment);
     const pendingProve = pendingProves[w?.id ?? ""];
@@ -81,7 +85,7 @@ export const useOptimismWithdrawalProgressRows = () => {
         status: ProgressRowStatus.Done,
         buttonComponent: undefined,
         link: w?.prove?.transactionHash
-          ? transactionLink(w.prove.transactionHash, w.deployment.l1)
+          ? transactionLink(w.prove.transactionHash, deployment.l1)
           : undefined,
       }));
 
@@ -109,7 +113,7 @@ export const useOptimismWithdrawalProgressRows = () => {
         label: t("activity.finalized"),
         status: ProgressRowStatus.Done,
         buttonComponent: undefined,
-        link: transactionLink(w.finalise!.transactionHash, w.deployment?.l1),
+        link: transactionLink(w.finalise!.transactionHash, deployment?.l1),
       }))
       .otherwise(() => ({
         label: t("activity.finalized"),
@@ -154,6 +158,7 @@ export const useOptimismWithdrawalProgressRows = () => {
         finalizationPeriod
       );
       if (
+        isOptimism(deployment) &&
         deployment?.contractAddresses.disputeGameFactory &&
         deployment?.config.disputeGameFinalityDelaySeconds &&
         w.prove.game?.resolvedAt
@@ -176,13 +181,14 @@ export const useOptimismWithdrawalProgressRows = () => {
         label: t("activity.withdrawn"),
         status: w ? ProgressRowStatus.Done : ProgressRowStatus.NotDone,
         link: w
-          ? transactionLink(w.withdrawal.transactionHash, w.deployment.l2)
+          ? transactionLink(w.withdrawal.transactionHash, deployment.l2)
           : undefined,
       },
       {
         label:
           w?.status === MessageStatus.STATE_ROOT_NOT_PUBLISHED
-            ? deployment?.contractAddresses.disputeGameFactory
+            ? isOptimism(deployment) &&
+              deployment?.contractAddresses.disputeGameFactory
               ? t("activity.waitingForDisputeGame")
               : t("activity.waitingForStateRoot")
             : t("activity.stateRootPublished"),
