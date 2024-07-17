@@ -1,5 +1,7 @@
 import { motion } from "framer-motion";
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { useInView } from "react-intersection-observer";
 import { P, match } from "ts-pattern";
 import { useAccount } from "wagmi";
 
@@ -11,17 +13,34 @@ import { useConfigState } from "@/state/config";
 import { usePendingTransactions } from "@/state/pending-txs";
 
 import { Loading } from "../Loading";
+import { IconSpinner } from "../icons";
 import { TransactionRow } from "../transaction-row";
 
 export const OpenActivity = ({}) => {
+  const { ref, inView } = useInView({
+    threshold: 0,
+  });
   const account = useAccount();
   const setDisplayTransactions = useConfigState.useSetDisplayTransactions();
   const open = useConfigState.useDisplayTransactions();
   const pendingTransactions = usePendingTransactions.useTransactions();
-  const { transactions, isLoading, isError } = useTransactions();
+  const {
+    transactions,
+    isLoading,
+    isFetchingNextPage,
+    isError,
+    fetchNextPage,
+    total: totalTransactions,
+  } = useTransactions();
   const { t } = useTranslation();
   const statusCheck = useStatusCheck();
   const inProgressCount = useInProgressTxCount();
+
+  useEffect(() => {
+    if (inView && !isFetchingNextPage) {
+      fetchNextPage();
+    }
+  }, [inView, fetchNextPage, isFetchingNextPage]);
 
   return (
     <main
@@ -123,10 +142,36 @@ export const OpenActivity = ({}) => {
               }
 
               return (
-                <div className="overflow-y-auto overflow-x-hidden">
+                <div className="overflow-y-auto overflow-x-hidden -mb-[2px]">
                   {[...pendingTransactions, ...transactions].map((t) => {
                     return <TransactionRow key={t.id} tx={t} />;
                   })}
+
+                  {transactions.length !== totalTransactions && (
+                    <div
+                      ref={ref}
+                      className="flex justify-center items-center p-3"
+                    >
+                      <div className="bg-muted pl-2 pr-3 py-2 flex gap-1 items-center rounded-full">
+                        {isFetchingNextPage ? (
+                          <>
+                            <IconSpinner className="w-3 h-3 block text-muted-foreground" />
+                            <span className="text-[10px] text-muted-foreground leading-none font-heading">
+                              Loading
+                            </span>
+                          </>
+                        ) : (
+                          // just handling the case where the IntersectionObserver doesn't work
+                          <button
+                            onClick={() => fetchNextPage()}
+                            className="text-[10px] text-muted-foreground leading-none font-heading"
+                          >
+                            Load more
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  )}
                 </div>
               );
             }
