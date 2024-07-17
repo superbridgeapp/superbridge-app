@@ -20,8 +20,8 @@ export const ScheduledDeletion = () => {
       <div className="prose">
         <p className="text-white text-xs">
           {deployment?.l2.name} bridge will shut down on{" "}
-          {new Date(deployment?.deletedAt ?? 0).toUTCString()}
-          UTC. Please finalize any withdrawals before the shut down date.
+          {new Date(deployment?.deletedAt ?? 0).toUTCString()}. Please finalize
+          any withdrawals before the shut down date.
         </p>
         <p className="text-white text-xs">
           <a
