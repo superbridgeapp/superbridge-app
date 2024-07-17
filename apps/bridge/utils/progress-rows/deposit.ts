@@ -18,7 +18,7 @@ export const useOptimismDepositProgressRows = () => {
   const transformPeriodText = usePeriodText();
 
   return (
-    tx: Pick<PortalDepositDto, "deposit" | "relay" | "deploymentId">,
+    tx: Pick<PortalDepositDto, "deposit" | "relay">,
     deployment: DeploymentDto | null
   ): ExpandedItem[] => {
     if (!deployment) {

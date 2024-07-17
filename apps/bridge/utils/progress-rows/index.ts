@@ -97,6 +97,6 @@ export const useProgressRows = () => {
         deployment
       );
     if (tx.type === "across-bridge") return across(tx as AcrossBridgeDto);
-    return cctp(tx as CctpBridgeDto);
+    return cctp(tx as CctpBridgeDto, deployment);
   };
 };
