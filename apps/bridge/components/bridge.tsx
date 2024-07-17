@@ -51,17 +51,22 @@ export const Bridge = () => {
               <>
                 <BridgeHeader />
                 <BridgeBody />
-                <div className="flex gap-2 py-1 justify-center items-center -translate-y-2">
-                  {deployment?.type === DeploymentType.testnet && (
-                    <TestnetBadge />
-                  )}
-                  {deployment?.provider === "conduit" && isSuperbridge && (
-                    <PoweredByConduit />
-                  )}
-                  {deployment?.provider === "alt-layer" && isSuperbridge && (
-                    <PoweredByAltLayer />
-                  )}
-                </div>
+
+                {(deployment?.type === DeploymentType.testnet ||
+                  (deployment?.provider === "conduit" && isSuperbridge) ||
+                  (deployment?.provider === "alt-layer" && isSuperbridge)) && (
+                  <div className="flex gap-2 py-1 justify-center items-center -translate-y-2">
+                    {deployment?.type === DeploymentType.testnet && (
+                      <TestnetBadge />
+                    )}
+                    {deployment?.provider === "conduit" && isSuperbridge && (
+                      <PoweredByConduit />
+                    )}
+                    {deployment?.provider === "alt-layer" && isSuperbridge && (
+                      <PoweredByAltLayer />
+                    )}
+                  </div>
+                )}
               </>
             )}
           </div>
