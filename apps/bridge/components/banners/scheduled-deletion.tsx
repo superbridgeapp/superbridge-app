@@ -1,8 +1,17 @@
-import Link from "next/link";
+import clsx from "clsx";
+
+import { useDeployment } from "@/hooks/use-deployment";
 
 import { IconAlert } from "../icons";
 
 export const ScheduledDeletion = () => {
+  const deployment = useDeployment();
+
+  const supportLink =
+    deployment?.theme?.links.find((x) =>
+      ["discord", "twitter"].find((y) => x.url.toLowerCase().includes(y))
+    )?.url ?? deployment?.theme?.links[0].url;
+
   return (
     <div className="flex relative items-start gap-3 w-full p-4 bg-red-500/80 bg-[url('/img/shutdown-grid.svg')] bg-repeat rounded-[18px] shadow-sm">
       <div className="animate-wiggle-waggle drop-shadow-lg">
@@ -10,18 +19,20 @@ export const ScheduledDeletion = () => {
       </div>
       <div className="prose">
         <p className="text-white text-xs">
-          Parallel bridge will shut down on 8 August 2024 12:00 AM UTC. New
-          withdrawals will be paused 1 August 2024 12:00 AM UTC. Please finalize
-          any withdrawals before the shut down date.
+          {deployment?.l2.name} bridge will shut down on{" "}
+          {new Date(deployment?.deletedAt ?? 0).toUTCString()}
+          UTC. Please finalize any withdrawals before the shut down date.
         </p>
         <p className="text-white text-xs">
-          <Link
-            href={"#"}
-            target="_blank"
-            className="text-white cursor-pointer hover:underline"
+          <a
+            href={supportLink}
+            className={clsx(
+              "text-white",
+              supportLink && "cursor-pointer hover:underline"
+            )}
           >
-            For support contact the Parallel Team.
-          </Link>
+            For support contact the {deployment?.l2.name} team.
+          </a>
         </p>
       </div>
     </div>
