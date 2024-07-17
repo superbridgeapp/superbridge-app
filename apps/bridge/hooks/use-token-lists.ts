@@ -145,6 +145,7 @@ export const useTokenLists = () => {
     [
       ...kroma.l1Tokens,
       ...usdc.bridged,
+      ...usdc.native,
       ...wsteth,
       ...dog,
       ...rollux,
