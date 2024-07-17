@@ -25,36 +25,37 @@ export const useTransactions = () => {
   const removeProving = usePendingTransactions.useRemoveProving();
   const removePending = usePendingTransactions.useRemoveTransactionByHash();
 
-  const { data, isLoading, isError, fetchNextPage } = useInfiniteQuery({
-    queryKey: [
-      "activity",
-      account.address as string,
-      deployments.map((x) => x.id),
-      superbridgeTestnetsEnabled,
-    ],
-    queryFn: ({ pageParam }) => {
-      if (!account.address) {
-        return {
-          actionRequiredCount: 0,
-          inProgressCount: 0,
-          total: 0,
-          transactions: [],
-        };
-      }
+  const { data, isLoading, isFetchingNextPage, isError, fetchNextPage } =
+    useInfiniteQuery({
+      queryKey: [
+        "activity",
+        account.address as string,
+        deployments.map((x) => x.id),
+        superbridgeTestnetsEnabled,
+      ],
+      queryFn: ({ pageParam }) => {
+        if (!account.address) {
+          return {
+            actionRequiredCount: 0,
+            inProgressCount: 0,
+            total: 0,
+            transactions: [],
+          };
+        }
 
-      return bridgeControllerGetActivityV3({
-        address: account.address,
-        includeAcross: isSuperbridge && !superbridgeTestnetsEnabled,
-        deploymentIds: deployments.map((d) => d.id),
-        cursor: pageParam ?? null,
-      }).then((x) => x.data);
-    },
+        return bridgeControllerGetActivityV3({
+          address: account.address,
+          includeAcross: isSuperbridge && !superbridgeTestnetsEnabled,
+          deploymentIds: deployments.map((d) => d.id),
+          cursor: pageParam ?? null,
+        }).then((x) => x.data);
+      },
 
-    getNextPageParam: (lastPage) =>
-      lastPage?.transactions?.[lastPage.transactions.length - 1]?.id,
-    enabled: !!account.address && deployments.length > 0,
-    refetchInterval: 10_000,
-  });
+      getNextPageParam: (lastPage) =>
+        lastPage?.transactions?.[lastPage.transactions.length - 1]?.id,
+      enabled: !!account.address && deployments.length > 0,
+      refetchInterval: 10_000,
+    });
 
   useEffect(() => {
     if (!data?.pages) {
@@ -81,8 +82,9 @@ export const useTransactions = () => {
 
   return {
     transactions: data?.pages.flatMap((p) => p.transactions) ?? [],
-    isLoading: isLoading,
-    isError: isError,
+    isLoading,
+    isFetchingNextPage,
+    isError,
     fetchNextPage,
     total: data?.pages?.[0].total ?? 0,
     actionRequiredCount: data?.pages?.[0].actionRequiredCount ?? 0,

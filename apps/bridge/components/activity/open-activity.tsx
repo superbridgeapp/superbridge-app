@@ -27,6 +27,7 @@ export const OpenActivity = ({}) => {
   const {
     transactions,
     isLoading,
+    isFetchingNextPage,
     isError,
     fetchNextPage,
     total: totalTransactions,
@@ -146,33 +147,31 @@ export const OpenActivity = ({}) => {
                     return <TransactionRow key={t.id} tx={t} />;
                   })}
 
-                  {/* TODO: Do we actually need this one? */}
-                  {/* TODO: Do we need a button to load more? Can be more reliable than scroll triggered */}
-                  {/* {totalTransactions &&
-                    transactions.length === totalTransactions && (
-                      <div className="flex justify-center items-center p-3">
-                        <div className="bg-muted px-3 py-2 flex items-center rounded-full">
-                          <span className="text-[10px] text-muted-foreground leading-none font-heading">
-                            {transactions.length} bridges loaded
-                          </span>
-                        </div>
+                  {transactions.length !== totalTransactions && (
+                    <div
+                      ref={ref}
+                      className="flex justify-center items-center p-3"
+                    >
+                      <div className="bg-muted pl-2 pr-3 py-2 flex gap-1 items-center rounded-full">
+                        {isFetchingNextPage ? (
+                          <>
+                            <IconSpinner className="w-3 h-3 block text-muted-foreground" />
+                            <span className="text-[10px] text-muted-foreground leading-none font-heading">
+                              Loading
+                            </span>
+                          </>
+                        ) : (
+                          // just handling the case where the IntersectionObserver doesn't work
+                          <button
+                            onClick={() => fetchNextPage()}
+                            className="text-[10px] text-muted-foreground leading-none font-heading"
+                          >
+                            Load more
+                          </button>
+                        )}
                       </div>
-                    )} */}
-
-                  {totalTransactions &&
-                    transactions.length !== totalTransactions && (
-                      <div className="flex justify-center items-center p-3">
-                        <div
-                          ref={ref}
-                          className="bg-muted pl-2 pr-3 py-2 flex gap-1 items-center rounded-full"
-                        >
-                          <IconSpinner className="w-3 h-3 block text-muted-foreground" />
-                          <span className="text-[10px] text-muted-foreground leading-none font-heading">
-                            Loading
-                          </span>
-                        </div>
-                      </div>
-                    )}
+                    </div>
+                  )}
                 </div>
               );
             }
