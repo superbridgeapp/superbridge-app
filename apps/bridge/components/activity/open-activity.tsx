@@ -37,10 +37,10 @@ export const OpenActivity = ({}) => {
   const inProgressCount = useInProgressTxCount();
 
   useEffect(() => {
-    if (inView && !isLoading) {
+    if (inView && !isFetchingNextPage) {
       fetchNextPage();
     }
-  }, [inView, fetchNextPage, isLoading]);
+  }, [inView, fetchNextPage, isFetchingNextPage]);
 
   return (
     <main
