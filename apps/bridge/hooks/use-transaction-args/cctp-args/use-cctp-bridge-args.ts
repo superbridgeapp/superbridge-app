@@ -1,7 +1,7 @@
 import { Address, Hex, encodeFunctionData } from "viem";
 
 import { TokenMessengerAbi } from "@/abis/cctp/TokenMessenger";
-import { useCctpDomains } from "@/hooks/use-cctp-domains";
+import { useCctpDomains } from "@/hooks/cctp/use-cctp-domains";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
 import { useGraffiti } from "@/hooks/use-graffiti";
 import { useWeiAmount } from "@/hooks/use-wei-amount";

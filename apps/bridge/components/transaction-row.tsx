@@ -19,10 +19,10 @@ import {
 } from "@/codegen/model";
 import { useFinaliseArbitrum } from "@/hooks/arbitrum/use-arbitrum-finalise";
 import { useRedeemArbitrum } from "@/hooks/arbitrum/use-arbitrum-redeem";
+import { useMintCctp } from "@/hooks/cctp/use-cctp-mint";
 import { useFinaliseOptimism } from "@/hooks/optimism/use-optimism-finalise";
 import { useProveOptimism } from "@/hooks/optimism/use-optimism-prove";
 import { useGasTokenForDeployment } from "@/hooks/use-approve-gas-token";
-import { useMintCctp } from "@/hooks/use-cctp-mint";
 import { useDeploymentById } from "@/hooks/use-deployment-by-id";
 import { useFromTo } from "@/hooks/use-from-to";
 import { useSwitchChain } from "@/hooks/use-switch-chain";
