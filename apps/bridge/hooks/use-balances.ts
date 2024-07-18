@@ -45,9 +45,12 @@ export function useTokenBalances(chainId: number | undefined) {
         balance = BigInt(reads.data[index].result!);
       }
 
-      const id = token[chainId ?? 0]?.coinGeckoId
-        ? `coingecko:${token[chainId ?? 0]?.coinGeckoId}`
-        : `ethereum:${token[1]?.address}`;
+      const id =
+        chainId && token[chainId]?.coinGeckoId
+          ? `coingecko:${token[chainId]?.coinGeckoId}`
+          : token[1]?.coinGeckoId
+          ? `coingecko:${token[1].coinGeckoId}`
+          : `ethereum:${token[1]?.address}`;
       const price: number = prices.data?.data?.[id]?.price ?? 0;
       const usdValue =
         parseFloat(
@@ -60,7 +63,15 @@ export function useTokenBalances(chainId: number | undefined) {
         usdValue,
       };
     })
-    .sort((a, b) => b.usdValue - a.usdValue);
+    .sort((a, b) => {
+      if (b.usdValue && a.usdValue) {
+        return b.usdValue - a.usdValue;
+      }
+
+      return (
+        parseFloat(b.balance.toString()) - parseFloat(a.balance.toString())
+      );
+    });
   return {
     isLoading: reads.isLoading,
     isError: reads.isError,

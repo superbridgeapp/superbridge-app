@@ -35,7 +35,7 @@ export const useHasWithdrawalReadyToFinalize = () => {
       return !!rows[rows.length - 1].buttonComponent;
     }
     if (isOptimismForcedWithdrawal(x)) {
-      const rows = forcedWithdrawalProgressRows(x);
+      const rows = forcedWithdrawalProgressRows(x, deployment);
       return !!rows.find((x) => x.buttonComponent);
     }
     return false;

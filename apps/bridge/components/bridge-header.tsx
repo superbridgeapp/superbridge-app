@@ -17,7 +17,7 @@ export const BridgeHeader = () => {
   const setWithdrawing = useConfigState.useSetWithdrawing();
   const { resolvedTheme } = useTheme();
   const { t } = useTranslation();
-  const { deployments } = useDeployments();
+  const deployments = useDeployments();
   return (
     <>
       <div className="flex items-center justify-between px-4 md:px-6 pt-3 md:pt-6 pb-2 md:pb-4">

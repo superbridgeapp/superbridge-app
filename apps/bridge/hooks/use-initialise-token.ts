@@ -56,24 +56,23 @@ export const useInitialiseToken = () => {
         return;
       }
 
+      const direction = router.query.direction as string | undefined;
+      const token = direction === "withdraw" ? l2 : l1;
+
       if (nameOrTokenOrUndefined) {
         if (isAddress(nameOrTokenOrUndefined)) {
-          return (
-            isAddressEqual(nameOrTokenOrUndefined, l1.address) ||
-            isAddressEqual(nameOrTokenOrUndefined, l2.address)
-          );
+          return isAddressEqual(nameOrTokenOrUndefined, token.address);
         }
-        return nameOrTokenOrUndefined.toLowerCase() === l1.symbol.toLowerCase();
+        return (
+          nameOrTokenOrUndefined.toLowerCase() === token.symbol.toLowerCase()
+        );
       }
 
       if (nameOrToken) {
         if (isAddress(nameOrToken)) {
-          return (
-            isAddressEqual(nameOrToken, l1.address) ||
-            isAddressEqual(nameOrToken, l2.address)
-          );
+          return isAddressEqual(nameOrToken, token.address);
         }
-        return nameOrToken.toLowerCase() === l1.symbol.toLowerCase();
+        return nameOrToken.toLowerCase() === token.symbol.toLowerCase();
       }
     });
 

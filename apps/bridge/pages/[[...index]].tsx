@@ -46,21 +46,17 @@ export const getServerSideProps = async ({
     const [name] = req.url.split(/[?\/]/).filter(Boolean);
 
     let testnets = false;
-    let names: string[] = [];
     if (
       req.headers.host === "testnets.superbridge.app" ||
       SUPERCHAIN_TESTNETS.includes(name)
     ) {
-      names = SUPERCHAIN_TESTNETS;
       testnets = true;
-    } else {
-      names = SUPERCHAIN_MAINNETS;
     }
 
     const [{ data }, cctpDomains, acrossDomains, superbridgeConfig] =
       await Promise.all([
         bridgeControllerGetDeployments({
-          names,
+          names: [...SUPERCHAIN_MAINNETS, ...SUPERCHAIN_TESTNETS],
         }),
         bridgeControllerGetCctpDomains(),
         bridgeControllerGetAcrossDomains(),
@@ -181,7 +177,7 @@ export default function IndexRoot({
 
 function Index() {
   const deployment = useDeployment();
-  const { deployments } = useDeployments();
+  const deployments = useDeployments();
 
   const fast = useConfigState.useFast();
 

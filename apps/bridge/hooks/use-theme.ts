@@ -23,7 +23,7 @@ const L1s: number[] = [
 ];
 
 export const useNavIcon = () => {
-  const { deployments } = useDeployments();
+  const deployments = useDeployments();
   const theme = useContext(ThemeContext);
   const { resolvedTheme } = useTheme();
 
@@ -45,7 +45,7 @@ export const useNavIcon = () => {
 };
 
 export const useNetworkIcon = (deploymentId?: string) => {
-  const { deployments } = useDeployments();
+  const deployments = useDeployments();
   const theme = useContext(ThemeContext);
 
   const deployment = deployments.find((d) => d.id === deploymentId);
@@ -81,7 +81,7 @@ export const useBackgroundIcon = () => {
 };
 
 export const useDarkModeEnabled = () => {
-  const { deployments } = useDeployments();
+  const deployments = useDeployments();
 
   const theme = useContext(ThemeContext);
 

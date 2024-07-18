@@ -8,7 +8,7 @@ import { useTokenPrice } from "@/hooks/use-prices";
 import { useSelectedToken } from "@/hooks/use-selected-token";
 import { useConfigState } from "@/state/config";
 import { formatDecimals } from "@/utils/format-decimals";
-import { isNativeUsdc } from "@/utils/is-usdc";
+import { isCctp } from "@/utils/is-cctp";
 
 import { CctpBadge } from "./badges/cttp-badge";
 import { TokenIcon } from "./token-icon";
@@ -126,6 +126,10 @@ export const TokenInput = () => {
               symbol: token?.symbol,
             })}
           </span>
+<<<<<<< HEAD
+=======
+          {isCctp(stateToken) && !fast && <CctpBadge />}
+>>>>>>> main
         </div>
       </div>
     </div>

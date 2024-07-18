@@ -7,12 +7,17 @@ import {
 } from "@/utils/guards";
 
 import { useAcrossDomains } from "./across/use-across-domains";
+import { useDeployments } from "./use-deployments";
 
 export const useFromTo = (tx: Transaction) => {
   const acrossDomains = useAcrossDomains();
+  const deployments = useDeployments();
 
   if (isForcedWithdrawal(tx)) {
-    return [tx.deposit.deployment.l2, tx.deposit.deployment.l1];
+    const deployment = deployments.find(
+      (d) => tx.deposit.deploymentId === d.id
+    )!;
+    return [deployment.l2, deployment.l1];
   }
 
   if (isCctpBridge(tx)) {
@@ -27,7 +32,8 @@ export const useFromTo = (tx: Transaction) => {
     return [from, to];
   }
 
+  const deployment = deployments.find((d) => tx.deploymentId === d.id)!;
   return isDeposit(tx)
-    ? [tx.deployment.l1, tx.deployment.l2]
-    : [tx.deployment.l2, tx.deployment.l1];
+    ? [deployment.l1, deployment.l2]
+    : [deployment.l2, deployment.l1];
 };

@@ -7,6 +7,7 @@ import { useConfigState } from "@/state/config";
 import { usePendingTransactions } from "@/state/pending-txs";
 import { isMainnet, isOptimism } from "@/utils/is-mainnet";
 
+import { useActivityEffects } from "./use-activity-effects";
 import { useDeployment } from "./use-deployment";
 import { useInitialiseToken } from "./use-initialise-token";
 import { useIsContractAccount } from "./use-is-contract-account";
@@ -29,6 +30,7 @@ export const useInitialise = () => {
   useInitialiseRecipient();
   useTokenLists();
   useInitialiseToken();
+  useActivityEffects();
 
   useAccountEffect({
     onDisconnect: () => {

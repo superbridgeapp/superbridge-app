@@ -11,8 +11,8 @@ import { useNativeToken, useToNativeToken } from "@/hooks/use-native-token";
 import { useNavigate } from "@/hooks/use-navigate";
 import { useSelectedToken } from "@/hooks/use-selected-token";
 import { useConfigState } from "@/state/config";
+import { isCctp } from "@/utils/is-cctp";
 import { isNativeToken } from "@/utils/is-eth";
-import { isNativeUsdc } from "@/utils/is-usdc";
 
 import { Button } from "../../ui/button";
 import { Dialog, DialogContent } from "../../ui/dialog";
@@ -56,13 +56,13 @@ export const NoGasModal = ({ onProceed, open, onCancel }: AlertProps) => {
   };
 
   const description = match({
-    isUsdc: isNativeUsdc(stateToken),
+    isCctp: isCctp(stateToken),
     withdrawing,
     family: deployment?.family,
     isEth: isNativeToken(stateToken),
   })
     .with({ withdrawing: false }, () => t("noGasModal.depositing", common))
-    .with({ isUsdc: true }, () => t("noGasModal.usdc", common))
+    .with({ isCctp: true }, () => t("noGasModal.cctp", common))
     .with({ withdrawing: true, family: DeploymentFamily.optimism }, () =>
       t("noGasModal.opWithdrawing", common)
     )

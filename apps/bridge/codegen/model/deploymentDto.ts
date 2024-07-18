@@ -24,6 +24,8 @@ export interface DeploymentDto {
   config: DeploymentDtoConfig;
   contractAddresses: DeploymentDtoContractAddresses;
   createdAt: string;
+  /** @nullable */
+  deletedAt: string | null;
   displayName: string;
   family: DeploymentDtoFamily;
   id: string;

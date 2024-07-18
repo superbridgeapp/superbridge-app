@@ -17,8 +17,8 @@ import { useConfigState } from "@/state/config";
 import { useModalsState } from "@/state/modals";
 import { usePendingTransactions } from "@/state/pending-txs";
 import { buildPendingTx } from "@/utils/build-pending-tx";
+import { isCctp } from "@/utils/is-cctp";
 import { isNativeToken } from "@/utils/is-eth";
-import { isNativeUsdc } from "@/utils/is-usdc";
 
 import { useBridge } from "./use-bridge";
 
@@ -103,7 +103,7 @@ export const useInitiateBridge = (bridge: ReturnType<typeof useBridge>) => {
         token: token?.symbol ?? "",
         type: fast
           ? "across"
-          : !!stateToken && isNativeUsdc(stateToken)
+          : !!stateToken && isCctp(stateToken)
           ? "cctp"
           : withdrawing
           ? "withdraw"

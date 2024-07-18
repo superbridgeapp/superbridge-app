@@ -5,7 +5,6 @@
  * API docs
  * OpenAPI spec version: 1.0
  */
-import type { DeploymentDto } from './deploymentDto';
 import type { ConfirmationDto } from './confirmationDto';
 import type { PortalDepositDtoMetadata } from './portalDepositDtoMetadata';
 import type { DepositNftDto } from './depositNftDto';
@@ -13,7 +12,6 @@ import type { OptimismTransactionType } from './optimismTransactionType';
 
 export interface PortalDepositDto {
   createdAt: string;
-  deployment: DeploymentDto;
   deploymentId: string;
   deposit: ConfirmationDto;
   id: string;

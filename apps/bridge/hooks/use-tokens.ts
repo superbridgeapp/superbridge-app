@@ -13,15 +13,15 @@ import {
 } from "@/types/token";
 import { getNativeTokenForDeployment } from "@/utils/get-native-token";
 import { isArbitrumToken, isOptimismToken } from "@/utils/guards";
+import { isBridgedUsdc, isCctp } from "@/utils/is-cctp";
 import { isNativeToken } from "@/utils/is-eth";
-import { isBridgedUsdc, isNativeUsdc } from "@/utils/is-usdc";
 
 import { useAcrossTokens } from "./across/use-across-tokens";
 import { useDeployment } from "./use-deployment";
 import { useDeployments } from "./use-deployments";
 
 function useDeploymentTokens(): MultiChainToken[] {
-  const { deployments } = useDeployments();
+  const deployments = useDeployments();
 
   return useMemo(
     () =>
@@ -95,7 +95,7 @@ function useDeploymentTokens(): MultiChainToken[] {
 }
 
 function useNativeTokens(): (MultiChainToken | null)[] {
-  const { deployments } = useDeployments();
+  const deployments = useDeployments();
 
   return useMemo(
     () => deployments.map((d) => getNativeTokenForDeployment(d)),
@@ -115,7 +115,7 @@ export function useAllTokens() {
   const deploymentTokens = useDeploymentTokens();
   const nativeTokens = useNativeTokens();
 
-  const { deployments } = useDeployments();
+  const deployments = useDeployments();
 
   return useMemo(
     () => [
@@ -204,7 +204,7 @@ export function useActiveTokens() {
     () =>
       !!tokens.find(
         (token) =>
-          isNativeUsdc(token) &&
+          isCctp(token) &&
           !!token[deployment?.l1.id ?? 0] &&
           !!token[deployment?.l2.id ?? 0]
       ),

@@ -70,15 +70,18 @@ type ImportCustomToken = {
 type ProveWithdrawal = {
   event: "prove-withdrawal";
   network: string;
+  originNetwork: string;
   withdrawalTransactionHash: string;
 };
 type FinalizeWithdrawal = {
   event: "finalize-withdrawal";
   network: string;
+  originNetwork: string;
   withdrawalTransactionHash: string;
 };
 type CctpMint = {
   event: "cctp-mint";
+  burnNetwork: string;
   network: string;
   burnTransactionHash: string;
 };

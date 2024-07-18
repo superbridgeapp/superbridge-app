@@ -1,13 +1,14 @@
 import { Address, Hex, encodeFunctionData } from "viem";
 
 import { TokenMessengerAbi } from "@/abis/cctp/TokenMessenger";
-import { useCctpDomains } from "@/hooks/use-cctp-domains";
+import { useCctpDomains } from "@/hooks/cctp/use-cctp-domains";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
 import { useGraffiti } from "@/hooks/use-graffiti";
 import { useWeiAmount } from "@/hooks/use-wei-amount";
 import { useConfigState } from "@/state/config";
+import { isCctp } from "@/utils/is-cctp";
 
-import { addressToBytes32, isCctpBridgeOperation } from "./common";
+import { addressToBytes32 } from "./common";
 
 export const useCctpArgs = () => {
   const stateToken = useConfigState.useToken();
@@ -30,7 +31,7 @@ export const useCctpArgs = () => {
     !fromCctp ||
     !toCctp ||
     !recipientAddress ||
-    !isCctpBridgeOperation(stateToken)
+    !isCctp(stateToken)
   ) {
     return;
   }
