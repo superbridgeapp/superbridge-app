@@ -9,12 +9,10 @@ import { useApprovalAddressGasToken } from "./use-approval-address-gas-token";
 import { APPROVE_ABI_WITHOUT_RETURN } from "./use-approve";
 import { useFromChain } from "./use-chain";
 import { useDeployment } from "./use-deployment";
-import { useDeployments } from "./use-deployments";
+import { useDeploymentById } from "./use-deployment-by-id";
 
 export const useGasTokenForDeployment = (deploymentId: string | undefined) => {
-  const deployments = useDeployments();
-  const deploymentIndex = deployments.findIndex((x) => x.id === deploymentId);
-  const deployment = deployments[deploymentIndex];
+  const deployment = useDeploymentById(deploymentId ?? "");
   if (!deployment) {
     return null;
   }
