@@ -11,8 +11,8 @@ import { useTokenPrice } from "@/hooks/use-prices";
 import { useReceiveAmount } from "@/hooks/use-receive-amount";
 import { useConfigState } from "@/state/config";
 import { useModalsState } from "@/state/modals";
+import { isCctp } from "@/utils/is-cctp";
 import { isEth } from "@/utils/is-eth";
-import { isNativeUsdc } from "@/utils/is-usdc";
 
 export const useSubmitBridge = (initiateBridge: () => void) => {
   const account = useAccount();
@@ -41,7 +41,7 @@ export const useSubmitBridge = (initiateBridge: () => void) => {
 
     const needDestinationGasConditions = [
       withdrawing, // need to prove/finalize
-      isNativeUsdc(stateToken), // need to mint
+      isCctp(stateToken), // need to mint
       !withdrawing && !isEth(stateToken?.[to?.id ?? 0]), // depositing an ERC20 with no gas on the destination (won't be able to do anything with it)
     ];
     if (

@@ -126,10 +126,7 @@ export const TokenInput = () => {
               symbol: token?.symbol,
             })}
           </span>
-<<<<<<< HEAD
-=======
           {isCctp(stateToken) && !fast && <CctpBadge />}
->>>>>>> main
         </div>
       </div>
     </div>

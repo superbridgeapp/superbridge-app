@@ -37,12 +37,12 @@ import { useConfigState } from "@/state/config";
 import { useSettingsState } from "@/state/settings";
 import { Token } from "@/types/token";
 import { formatDecimals } from "@/utils/format-decimals";
+import { isCctp } from "@/utils/is-cctp";
 import { isNativeToken } from "@/utils/is-eth";
 import { isArbitrum } from "@/utils/is-mainnet";
-import { isNativeUsdc } from "@/utils/is-usdc";
 
 import { FastNetworkIcon } from "../fast/network-icon";
-import { IconGas, IconSimpleGas, IconSuperFast, IconTime } from "../icons";
+import { IconSimpleGas, IconSuperFast, IconTime } from "../icons";
 import { NetworkIcon } from "../network-icon";
 import { PoweredByAcross } from "../powered-by-across";
 import { Button } from "../ui/button";
@@ -423,7 +423,7 @@ export const ConfirmationModalStartTab = ({
 
   const title = match({
     fast,
-    isUsdc: isNativeUsdc(stateToken),
+    isUsdc: isCctp(stateToken),
     withdrawing,
     escapeHatch,
     family: deployment?.family,
@@ -473,7 +473,7 @@ export const ConfirmationModalStartTab = ({
 
   const description = match({
     fast,
-    isUsdc: isNativeUsdc(stateToken),
+    isUsdc: isCctp(stateToken),
     withdrawing,
     escapeHatch,
     family: deployment?.family,
@@ -518,7 +518,7 @@ export const ConfirmationModalStartTab = ({
 
   const lineItems = match({
     fast,
-    isUsdc: isNativeUsdc(stateToken),
+    isUsdc: isCctp(stateToken),
     withdrawing,
     family: deployment?.family,
     escapeHatch,
@@ -839,7 +839,7 @@ export const ConfirmationModalStartTab = ({
           />
         ))}
       </div>
-      {isSuperbridge && !fast && (withdrawing || isNativeUsdc(stateToken)) && (
+      {isSuperbridge && !fast && (withdrawing || isCctp(stateToken)) && (
         <DialogFooter>
           <Link
             className={`mt-2 leading-3 text-center text-xs   cursor-pointer transition-all opacity-70 hover:opacity-100`}

@@ -4,10 +4,10 @@ import Link from "next/link";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
 import { useDeployment } from "@/hooks/use-deployment";
 import { useReceiveAmount } from "@/hooks/use-receive-amount";
-import { isCctpBridgeOperation } from "@/hooks/use-transaction-args/cctp-args/common";
 import { useTransferTime } from "@/hooks/use-transfer-time";
 import { useConfigState } from "@/state/config";
 import { formatDecimals } from "@/utils/format-decimals";
+import { isCctp } from "@/utils/is-cctp";
 
 import {
   IconAcrossRound,
@@ -131,13 +131,13 @@ export const ConfirmationModalReviewTab = ({
               <span>
                 {fast
                   ? "Across"
-                  : !!stateToken && isCctpBridgeOperation(stateToken)
+                  : !!stateToken && isCctp(stateToken)
                   ? "Circle (CCTP)"
                   : `${to?.name} Native Bridge`}
               </span>
               {fast ? (
                 <IconAcrossRound className="h-4 w-4" />
-              ) : !!stateToken && isCctpBridgeOperation(stateToken) ? (
+              ) : !!stateToken && isCctp(stateToken) ? (
                 <IconCCTPRound className="h-4 w-4" />
               ) : (
                 <NetworkIcon

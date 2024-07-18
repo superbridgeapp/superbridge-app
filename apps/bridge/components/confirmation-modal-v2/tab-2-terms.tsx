@@ -11,7 +11,7 @@ import {
 } from "@/hooks/use-finalization-period";
 import { usetTransformPeriodText } from "@/hooks/use-transform-period-text";
 import { useConfigState } from "@/state/config";
-import { isNativeUsdc } from "@/utils/is-usdc";
+import { isCctp } from "@/utils/is-cctp";
 
 import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
@@ -56,7 +56,7 @@ export const ConfirmationModalTermsTab = ({
 
   const checkbox1Text = match({
     fast,
-    isUsdc: isNativeUsdc(stateToken),
+    isUsdc: isCctp(stateToken),
     withdrawing,
     family: deployment?.family,
   })
