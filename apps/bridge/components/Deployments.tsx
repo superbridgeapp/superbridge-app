@@ -21,15 +21,13 @@ const SUPERCHAIN_COMING_SOON = [
 ];
 const NEW_DEPLOYMENTS = ["celo-testnet"];
 
-export const DeploymentsGrid = ({}) => {
-  const { deployments } = useDeployments();
+export const DeploymentsGrid = () => {
+  const deployments = useDeployments();
   const navigate = useNavigate();
 
   const onDeploymentClick = (n: DeploymentDto) => {
     navigate(n);
   };
-
-  const comingSoon = SUPERCHAIN_COMING_SOON;
 
   return (
     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-3 px-3 md:px-16 pt-[108px] md:pt-24 xl:pt-32 w-full h-auto w-screen max-w-[1334px]">
@@ -55,7 +53,7 @@ export const DeploymentsGrid = ({}) => {
         </motion.div>
       ))}
 
-      {comingSoon.map((n, index) => (
+      {SUPERCHAIN_COMING_SOON.map((n, index) => (
         <motion.div
           key={"grid" + n.displayName}
           transition={spring}
@@ -70,7 +68,7 @@ export const DeploymentsGrid = ({}) => {
           <div
             className={clsx(
               "w-full aspect-[3/4] relative",
-              index === comingSoon.length - 1 && "mb-40"
+              index === SUPERCHAIN_COMING_SOON.length - 1 && "mb-40"
             )}
           >
             <BridgePlaceholder deployment={n} comingSoon />

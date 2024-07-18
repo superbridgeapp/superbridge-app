@@ -21,7 +21,7 @@ import { useDeployment } from "./use-deployment";
 import { useDeployments } from "./use-deployments";
 
 function useDeploymentTokens(): MultiChainToken[] {
-  const { deployments } = useDeployments();
+  const deployments = useDeployments();
 
   return useMemo(
     () =>
@@ -95,7 +95,7 @@ function useDeploymentTokens(): MultiChainToken[] {
 }
 
 function useNativeTokens(): (MultiChainToken | null)[] {
-  const { deployments } = useDeployments();
+  const deployments = useDeployments();
 
   return useMemo(
     () => deployments.map((d) => getNativeTokenForDeployment(d)),
@@ -115,7 +115,7 @@ export function useAllTokens() {
   const deploymentTokens = useDeploymentTokens();
   const nativeTokens = useNativeTokens();
 
-  const { deployments } = useDeployments();
+  const deployments = useDeployments();
 
   return useMemo(
     () => [

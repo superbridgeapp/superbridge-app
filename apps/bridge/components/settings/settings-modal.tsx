@@ -1,9 +1,6 @@
 import { useTranslation } from "react-i18next";
 
-import {
-  bridgeControllerGetDeployments,
-  useBridgeControllerFiatPrices,
-} from "@/codegen/index";
+import { useBridgeControllerFiatPrices } from "@/codegen/index";
 import {
   Select,
   SelectContent,
@@ -13,10 +10,6 @@ import {
 } from "@/components/ui/select";
 import { isSuperbridge } from "@/config/superbridge";
 import { flagSymbolMap } from "@/constants/currency-symbol-map";
-import {
-  SUPERCHAIN_MAINNETS,
-  SUPERCHAIN_TESTNETS,
-} from "@/constants/superbridge";
 import { useNavigate } from "@/hooks/use-navigate";
 import { trackEvent } from "@/services/ga";
 import { useInjectedStore } from "@/state/injected";
@@ -34,7 +27,6 @@ export interface SettingsModalProps {
 export const SettingsModal = ({ open, setOpen }: SettingsModalProps) => {
   const { t, i18n } = useTranslation();
 
-  const setDeployments = useInjectedStore((store) => store.setDeployments);
   const testnets = useInjectedStore((store) => store.testnets);
   const setTestnets = useInjectedStore((store) => store.setTestnets);
   const navigate = useNavigate();
@@ -51,15 +43,9 @@ export const SettingsModal = ({ open, setOpen }: SettingsModalProps) => {
     if (checked) {
       setTestnets(true);
       navigate("/");
-      bridgeControllerGetDeployments({ names: SUPERCHAIN_TESTNETS }).then((x) =>
-        setDeployments(x.data)
-      );
     } else {
       setTestnets(false);
       navigate("/");
-      bridgeControllerGetDeployments({ names: SUPERCHAIN_MAINNETS }).then((x) =>
-        setDeployments(x.data)
-      );
     }
   };
 

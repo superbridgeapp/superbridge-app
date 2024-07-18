@@ -26,13 +26,13 @@ export function Header() {
   return (
     <nav className="flex flex-row justify-between items-center p-3 md:p-6 fixed top-0 left-0 w-screen z-10">
       <div onClick={() => navigate("/")} className="cursor-pointer">
-        {deployments.deployments.length === 1 ? (
+        {deployments.length === 1 ? (
           <img
             src={navIcon!}
             width="0"
             height="0"
             sizes="100vw"
-            alt={deployments.deployments[0]?.name}
+            alt={deployments[0]?.name}
             draggable={false}
             className="inline-flex w-auto max-w-40 h-8"
           />

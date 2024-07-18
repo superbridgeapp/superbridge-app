@@ -10,7 +10,7 @@ export const useNavigate = () => {
   const setDisplayTransactions = useConfigState.useSetDisplayTransactions();
   const setDeployment = useInjectedStore((s) => s.setDeployment);
   const router = useRouter();
-  const { deployments } = useDeployments();
+  const deployments = useDeployments();
   const setFast = useConfigState.useSetFast();
 
   return (to: "/" | DeploymentDto | "fast") => {

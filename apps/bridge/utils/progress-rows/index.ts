@@ -63,7 +63,7 @@ export const useProgressRows = () => {
   const arbitrumForcedWithdrawal = useArbitrumForcedWithdrawalProgressRows();
   const cctp = useCctpProgressRows();
   const across = useAcrossProgressRows();
-  const { deployments } = useDeployments();
+  const deployments = useDeployments();
 
   return (tx: Transaction) => {
     const deploymentId = isAcrossBridge(tx)

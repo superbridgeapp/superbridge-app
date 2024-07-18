@@ -1,7 +1,5 @@
 import Image from "next/image";
 
-import { bridgeControllerGetDeployments } from "@/codegen/index";
-import { SUPERCHAIN_MAINNETS } from "@/constants/superbridge";
 import { useDeployment } from "@/hooks/use-deployment";
 import { useDeployments } from "@/hooks/use-deployments";
 import { useNavigate } from "@/hooks/use-navigate";
@@ -14,7 +12,6 @@ export function TokenBanner() {
   const deployment = useDeployment();
   const deployments = useDeployments();
   const navigate = useNavigate();
-  const setDeployments = useInjectedStore((store) => store.setDeployments);
   const superbridgeConfig = useInjectedStore(
     (store) => store.superbridgeConfig
   );
@@ -25,17 +22,10 @@ export function TokenBanner() {
     trackEvent({ event: "token-banner-click", symbol });
 
     if (deployment?.name !== deploymentName) {
-      let exists = deployments.deployments.find(
-        (x) => x.name === deploymentName
-      );
-      if (!exists) {
-        const mainnets = await bridgeControllerGetDeployments({
-          names: SUPERCHAIN_MAINNETS,
-        });
-        setDeployments(mainnets.data);
-        exists = mainnets.data.find((x) => x.name === deploymentName)!;
+      let exists = deployments.find((x) => x.name === deploymentName);
+      if (exists) {
+        navigate(exists);
       }
-      navigate(exists);
 
       setTimeout(() => {
         const token = useConfigState

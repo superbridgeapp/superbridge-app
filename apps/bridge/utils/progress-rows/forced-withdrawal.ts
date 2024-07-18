@@ -14,7 +14,7 @@ import { useOptimismWithdrawalProgressRows } from "./withdrawal";
 export const useOptimismForcedWithdrawalProgressRows = () => {
   const depositRows = useOptimismDepositProgressRows();
   const withdrawalRows = useOptimismWithdrawalProgressRows();
-  const { deployments } = useDeployments();
+  const deployments = useDeployments();
 
   return (
     fw: ForcedWithdrawalDto,

@@ -20,7 +20,6 @@ export type InjectedState = {
 
 export type InjectedActions = {
   setDeployment: (d: DeploymentDto | null) => void;
-  setDeployments: (d: DeploymentDto[]) => void;
   toggleWithdrawing: () => void;
   setTestnets: (b: boolean) => void;
 };
@@ -43,7 +42,6 @@ export const createInjectedStore = (initState: Partial<InjectedState>) => {
     ...initState,
 
     setDeployment: (deployment) => set({ deployment }),
-    setDeployments: (deployments) => set({ deployments }),
     toggleWithdrawing: () => set((s) => ({ withdrawing: !s.withdrawing })),
     setTestnets: (testnets) => set({ testnets }),
   }));
