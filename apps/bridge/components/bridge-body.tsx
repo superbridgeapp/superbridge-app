@@ -1,54 +1,40 @@
 import { useConnectModal } from "@rainbow-me/rainbowkit";
-import { waitForTransactionReceipt } from "@wagmi/core";
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { match } from "ts-pattern";
 import { formatUnits, parseUnits } from "viem";
-import { useAccount, useBalance, useConfig, useWalletClient } from "wagmi";
+import { useAccount, useBalance } from "wagmi";
 
-import { useBridgeControllerTrack } from "@/codegen";
-import { isSuperbridge } from "@/config/superbridge";
-import { SUPERCHAIN_MAINNETS } from "@/constants/superbridge";
-import { useAcrossDomains } from "@/hooks/across/use-across-domains";
+import { AlertModals } from "@/constants/modal-names";
 import { useAcrossPaused } from "@/hooks/across/use-across-paused";
+import { useBridge } from "@/hooks/bridge/use-bridge";
+import { useCancelBridge } from "@/hooks/bridge/use-cancel-bridge";
+import { useDismissAlert } from "@/hooks/bridge/use-dismiss-alert";
+import { useInitiateBridge } from "@/hooks/bridge/use-initiate-bridge";
 import { useBridgeMax } from "@/hooks/limits/use-bridge-max";
 import { useBridgeMin } from "@/hooks/limits/use-bridge-min";
 import { useAllowance } from "@/hooks/use-allowance";
 import { useApprove } from "@/hooks/use-approve";
 import { useTokenBalance } from "@/hooks/use-balances";
 import { useBaseNativeTokenBalance } from "@/hooks/use-base-native-token-balance";
-import { useBridge } from "@/hooks/use-bridge";
 import { useBridgeV2 } from "@/hooks/use-bridge-v2";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
 import { useDeployment } from "@/hooks/use-deployment";
-import { useFaultProofUpgradeTime } from "@/hooks/use-fault-proof-upgrade-time";
 import { useNativeToken } from "@/hooks/use-native-token";
 import { useNetworkFee } from "@/hooks/use-network-fee";
-import { useTokenPrice } from "@/hooks/use-prices";
-import { useReceiveAmount } from "@/hooks/use-receive-amount";
 import { useRequiredCustomGasTokenBalance } from "@/hooks/use-required-custom-gas-token-balance";
 import { useSelectedToken } from "@/hooks/use-selected-token";
-import { useStatusCheck } from "@/hooks/use-status-check";
-import { useSwitchChain } from "@/hooks/use-switch-chain";
-import { useActiveTokens } from "@/hooks/use-tokens";
 import { useWeiAmount } from "@/hooks/use-wei-amount";
 import { useWithdrawalsPaused } from "@/hooks/use-withdrawals-paused";
-import { trackEvent } from "@/services/ga";
 import { useConfigState } from "@/state/config";
-import { usePendingTransactions } from "@/state/pending-txs";
-import { buildPendingTx } from "@/utils/build-pending-tx";
+import { useModalsState } from "@/state/modals";
 import { formatDecimals } from "@/utils/format-decimals";
-import { isCctp } from "@/utils/is-cctp";
-import { isEth, isNativeToken } from "@/utils/is-eth";
+import { isEth } from "@/utils/is-eth";
 
 import { FromTo } from "./FromTo";
-import {
-  ExpensiveGasModal,
-  useEstimateTotalFeesInFiat,
-} from "./alerts/expensive-gas-modal";
+import { ExpensiveGasModal } from "./alerts/expensive-gas-modal";
 import { FaultProofsModal } from "./alerts/fault-proofs-modal";
 import { NoGasModal } from "./alerts/no-gas-modal";
-import { ConfirmationModal } from "./confirmation-modal";
+import { ConfirmationModalV2 } from "./confirmation-modal-v2";
 import { FastFromTo } from "./fast/FromTo";
 import { FaultProofInfoModal } from "./fault-proof-info-modal";
 import { LineItems } from "./line-items";
@@ -60,21 +46,12 @@ import { CustomTokenImportModal } from "./tokens/custom-token-import-modal";
 import { Button } from "./ui/button";
 import { WithdrawalReadyToFinalizeModal } from "./withdrawal-ready-to-finalize-modal";
 
-enum AlertModals {
-  NoGas = "no-gas",
-  GasExpensive = "gas-expensive",
-  FaultProofs = "fault-proofs",
-}
-
 export const BridgeBody = () => {
   const { openConnectModal } = useConnectModal();
-  const wallet = useWalletClient();
   const account = useAccount();
   const from = useFromChain();
   const to = useToChain();
   const bridge = useBridge();
-  const switchChain = useSwitchChain();
-  const tokens = useActiveTokens();
   const weiAmount = useWeiAmount();
   const token = useSelectedToken();
   const { t } = useTranslation();
@@ -91,33 +68,23 @@ export const BridgeBody = () => {
   const fast = useConfigState.useFast();
   const nft = useConfigState.useNft();
   const recipient = useConfigState.useRecipientAddress();
-  const setToken = useConfigState.useSetToken();
-  const addPendingTransaction = usePendingTransactions.useAddTransaction();
-  const updatePendingTransactionHash =
-    usePendingTransactions.useUpdateTransactionByHash();
   const nativeToken = useNativeToken();
-  const statusCheck = useStatusCheck();
   const bridgeMax = useBridgeMax();
   const bridgeMin = useBridgeMin();
-  const track = useBridgeControllerTrack();
-  const faultProofUpgradeTime = useFaultProofUpgradeTime(deployment);
   const acrossPaused = useAcrossPaused();
   const withdrawalsPaused = useWithdrawalsPaused();
+  const alerts = useModalsState.useAlerts();
+
+  const initiateBridge = useInitiateBridge(bridge);
 
   const initiatingChain = forceViaL1 && withdrawing ? deployment?.l1 : from;
   const fromEthBalance = useBalance({
     address: account.address,
     chainId: initiatingChain?.id,
   });
-  const toEthBalance = useBalance({
-    address: account.address,
-    chainId: to?.id,
-  });
   const baseNativeTokenBalance = useBaseNativeTokenBalance();
   const tokenBalance = useTokenBalance(token);
-  const wagmiConfig = useConfig();
 
-  const acrossDomains = useAcrossDomains();
   const allowance = useAllowance(token, bridge.address);
 
   const networkFee = useNetworkFee();
@@ -129,9 +96,6 @@ export const BridgeBody = () => {
     bridge.refetch,
     weiAmount
   );
-  const usdPrice = useTokenPrice(stateToken);
-
-  const receive = useReceiveAmount();
 
   const hasInsufficientBalance = weiAmount > tokenBalance;
   const hasInsufficientGas = (() => {
@@ -145,10 +109,6 @@ export const BridgeBody = () => {
     return availableGasBalance < BigInt(parseUnits(networkFee.toFixed(18), 18));
   })();
 
-  const totalFeesInFiat = useEstimateTotalFeesInFiat();
-  const fiatValueBeingBridged =
-    usdPrice && receive.data ? receive.data * usdPrice : null;
-
   const requiredCustomGasTokenBalance = useRequiredCustomGasTokenBalance();
   /**
    * Transferring native gas token to rollup, need to make sure wei + extraAmount is < balance
@@ -159,153 +119,8 @@ export const BridgeBody = () => {
     typeof baseNativeTokenBalance.data !== "undefined" &&
     requiredCustomGasTokenBalance > baseNativeTokenBalance.data;
 
-  const onWrite = async () => {
-    if (
-      !account.address ||
-      !wallet.data ||
-      !bridge.valid ||
-      !bridge.args ||
-      !recipient ||
-      statusCheck ||
-      !initiatingChain
-    ) {
-      return;
-    }
-
-    // should be caught before
-    if (
-      initiatingChain.id !== account.chainId ||
-      initiatingChain.id !== wallet.data.chain.id
-    ) {
-      await switchChain(initiatingChain);
-    }
-
-    try {
-      const hash = await bridge.write!();
-      waitForTransactionReceipt(wagmiConfig, {
-        hash,
-        chainId: withdrawing
-          ? forceViaL1
-            ? deployment!.l1.id
-            : deployment?.l2.id
-          : deployment?.l1.id,
-        onReplaced: ({ replacedTransaction, transaction }) => {
-          updatePendingTransactionHash(
-            replacedTransaction.hash,
-            transaction.hash
-          );
-        },
-      });
-
-      trackEvent({
-        event: "bridge",
-        from: from?.name ?? "",
-        to: to?.name ?? "",
-        amount: parseFloat(rawAmount),
-        token: token?.symbol ?? "",
-        type: fast
-          ? "across"
-          : !!stateToken && isCctp(stateToken)
-          ? "cctp"
-          : withdrawing
-          ? "withdraw"
-          : "deposit",
-        transactionHash: hash,
-      });
-
-      if (!fast && deployment) {
-        track.mutate({
-          data: {
-            amount: weiAmount.toString(),
-            deploymentId: deployment.id,
-            transactionHash: hash,
-            action: withdrawing
-              ? forceViaL1
-                ? "force-withdraw"
-                : "withdraw"
-              : "deposit",
-          },
-        });
-      }
-
-      const pending = buildPendingTx(
-        deployment,
-        account.address,
-        recipient,
-        weiAmount,
-        stateToken,
-        nft,
-        withdrawing,
-        hash,
-        forceViaL1,
-        fast,
-        { from: from!, to: to! }
-      );
-      if (pending) addPendingTransaction(pending);
-
-      if (nft) {
-        setToken(tokens.find((x) => isNativeToken(x))!);
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  const initiateBridge = async () => {
-    await onWrite();
-    allowance.refetch();
-    setConfirmationModal(false);
-  };
-
-  const [alerts, setAlerts] = useState<AlertModals[]>([]);
-
-  const onDismissAlert = (id: AlertModals) => () => {
-    setAlerts(alerts.filter((a) => a !== id));
-    if (alerts.length === 1) {
-      initiateBridge();
-    }
-  };
-
-  const onSubmit = () => {
-    const modals: AlertModals[] = [];
-
-    const needDestinationGasConditions = [
-      withdrawing, // need to prove/finalize
-      isCctp(stateToken), // need to mint
-      !withdrawing && !isEth(stateToken?.[to?.id ?? 0]), // depositing an ERC20 with no gas on the destination (won't be able to do anything with it)
-    ];
-    if (
-      needDestinationGasConditions.some((x) => x) &&
-      toEthBalance.data?.value === BigInt(0)
-    ) {
-      modals.push(AlertModals.NoGas);
-    }
-
-    if (
-      totalFeesInFiat &&
-      fiatValueBeingBridged &&
-      totalFeesInFiat > fiatValueBeingBridged &&
-      isSuperbridge &&
-      SUPERCHAIN_MAINNETS.includes(deployment?.name ?? "")
-    ) {
-      modals.push(AlertModals.GasExpensive);
-    }
-
-    if (faultProofUpgradeTime && withdrawing) {
-      modals.push(AlertModals.FaultProofs);
-    }
-
-    if (modals.length === 0) {
-      initiateBridge();
-    } else {
-      setAlerts(modals);
-    }
-  };
-
-  const onCancel = () => {
-    setAlerts([]);
-    setConfirmationModal(false);
-  };
+  const onDismissAlert = useDismissAlert(initiateBridge);
+  const onCancel = useCancelBridge();
 
   const handleSubmitClick = () => {
     if (!nft && weiAmount === BigInt(0)) {
@@ -434,11 +249,11 @@ export const BridgeBody = () => {
     <div className="flex flex-col gap-4 px-4 pb-4">
       <TokenModal open={tokensModal} setOpen={setTokensModal} />
       <CustomTokenImportModal />
-      <ConfirmationModal
-        onConfirm={onSubmit}
+      <ConfirmationModalV2
         approve={approve}
         allowance={allowance}
         bridge={bridge}
+        initiateBridge={initiateBridge}
       />
       <FaultProofInfoModal />
       <WithdrawalReadyToFinalizeModal />
@@ -448,17 +263,17 @@ export const BridgeBody = () => {
       <NoGasModal
         open={alerts.includes(AlertModals.NoGas)}
         onCancel={onCancel}
-        onProceed={onDismissAlert(AlertModals.NoGas)}
+        onProceed={() => onDismissAlert(AlertModals.NoGas)}
       />
       <ExpensiveGasModal
         open={alerts.includes(AlertModals.GasExpensive)}
         onCancel={onCancel}
-        onProceed={onDismissAlert(AlertModals.GasExpensive)}
+        onProceed={() => onDismissAlert(AlertModals.GasExpensive)}
       />
       <FaultProofsModal
         open={alerts.includes(AlertModals.FaultProofs)}
         onCancel={onCancel}
-        onProceed={onDismissAlert(AlertModals.FaultProofs)}
+        onProceed={() => onDismissAlert(AlertModals.FaultProofs)}
       />
 
       <div className="flex flex-col gap-1">

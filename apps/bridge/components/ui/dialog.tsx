@@ -72,10 +72,7 @@ const DialogHeader = ({
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) => (
   <div
-    className={cn(
-      "flex flex-col space-y-1.5 text-left px-6 py-6 font-heading",
-      className
-    )}
+    className={cn("flex flex-col text-left px-6 py-6 gap-1", className)}
     {...props}
   />
 );
@@ -85,13 +82,7 @@ const DialogFooter = ({
   className,
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) => (
-  <div
-    className={cn(
-      "flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2",
-      className
-    )}
-    {...props}
-  />
+  <div className={cn("flex flex-col gap-3 px-6 py-6", className)} {...props} />
 );
 DialogFooter.displayName = "DialogFooter";
 

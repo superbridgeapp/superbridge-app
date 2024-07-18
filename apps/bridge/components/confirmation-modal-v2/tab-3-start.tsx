@@ -1,18 +1,17 @@
 import clsx from "clsx";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { isPresent } from "ts-is-present";
 import { match } from "ts-pattern";
 import { formatUnits } from "viem";
 import { useAccount, useEstimateFeesPerGas } from "wagmi";
 
-import { DeploymentFamily } from "@/codegen/model";
-import { Checkbox } from "@/components/ui/checkbox";
+import { ChainDto, DeploymentFamily } from "@/codegen/model";
 import { isSuperbridge } from "@/config/superbridge";
 import { currencySymbolMap } from "@/constants/currency-symbol-map";
 import { FINALIZE_GAS, PROVE_GAS } from "@/constants/gas-limits";
 import { useBridge } from "@/hooks/bridge/use-bridge";
+import { useSubmitBridge } from "@/hooks/bridge/use-submit-bridge";
 import { useAllowance } from "@/hooks/use-allowance";
 import { useAllowanceGasToken } from "@/hooks/use-allowance-gas-token";
 import { useApprove } from "@/hooks/use-approve";
@@ -41,16 +40,20 @@ import { formatDecimals } from "@/utils/format-decimals";
 import { isCctp } from "@/utils/is-cctp";
 import { isNativeToken } from "@/utils/is-eth";
 import { isArbitrum } from "@/utils/is-mainnet";
-import { scaleToNativeTokenDecimals } from "@/utils/native-token-scaling";
 
-import { IconSuperFast } from "../icons";
+import { FastNetworkIcon } from "../fast/network-icon";
+import { IconSimpleGas, IconSuperFast, IconTime } from "../icons";
+import { NetworkIcon } from "../network-icon";
 import { PoweredByAcross } from "../powered-by-across";
 import { Button } from "../ui/button";
-import { Dialog, DialogContent } from "../ui/dialog";
 import {
-  ApproveIcon,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "../ui/dialog";
+import {
   EscapeHatchIcon,
-  FeesIcon,
   FinalizeIcon,
   InitiateIcon,
   ProveIcon,
@@ -60,64 +63,97 @@ import {
 
 function LineItem({
   text,
-  icon,
   fee,
   className,
+  button,
+  chain,
 }: {
   text: string;
-  icon: any;
   fee?: string | null;
   className?: string;
+  button?: any;
+  chain?: ChainDto | undefined;
 }) {
+  const deployment = useDeployment();
+  const fast = useConfigState.useFast();
+
+  if (!chain) {
+    return (
+      <div className="flex gap-4 px-3 py-2 rounded-lg justify-start items-center">
+        <div className="flex items-center gap-2">
+          <IconTime className="w-8 h-8" />
+          <span className="text-xs font-heading leading-none text-muted-foreground">
+            {text}
+          </span>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div
       className={clsx(
-        "py-2 px-3  justify-between flex items-center",
+        "flex gap-4 px-3 py-4 rounded-lg justify-between bg-muted",
         className
       )}
     >
-      <div className="flex gap-2 items-center">
-        {icon}
-        <p className="text-xs ">{text}</p>
-      </div>
-      {fee && (
-        <div className="flex gap-2 items-center">
-          <p className="text-xs ">{fee}</p>
-          <FeesIcon />
+      <div className="flex items-start gap-2">
+        {fast ? (
+          <FastNetworkIcon chain={chain} className="w-8 h-8" />
+        ) : (
+          <NetworkIcon
+            deployment={deployment}
+            chain={chain}
+            className="w-8 h-8"
+          />
+        )}
+        <div className="flex flex-col gap-1">
+          <span className="text-sm font-heading leading-none">{text}</span>
+          <div className="flex gap-1">
+            <IconSimpleGas className="w-3.5 h-auto fill-muted-foreground opacity-80" />
+            <span className="text-xs text-muted-foreground leading-none">
+              {fee && <p className="text-xs">{fee}</p>}
+            </span>
+          </div>
         </div>
-      )}
+      </div>
+
+      {button}
     </div>
   );
 }
 
-export const ConfirmationModal = ({
-  onConfirm,
+export const ConfirmationModalStartTab = ({
   approve,
   allowance,
   bridge,
+  initiateBridge,
 }: {
-  onConfirm: () => void;
   approve: ReturnType<typeof useApprove>;
   allowance: ReturnType<typeof useAllowance>;
   bridge: ReturnType<typeof useBridge>;
+  initiateBridge: () => void;
 }) => {
   const { t } = useTranslation();
-  const open = useConfigState.useDisplayConfirmationModal();
-  const setOpen = useConfigState.useSetDisplayConfirmationModal();
-  const stateToken = useConfigState.useToken();
+
   const currency = useSettingsState.useCurrency();
-  const from = useFromChain();
-  const to = useToChain();
-  const token = useSelectedToken();
-  const weiAmount = useWeiAmount();
-  const account = useAccount();
+  const stateToken = useConfigState.useToken();
   const withdrawing = useConfigState.useWithdrawing();
   const escapeHatch = useConfigState.useForceViaL1();
   const fast = useConfigState.useFast();
+  const rawAmount = useConfigState.useRawAmount();
+
+  const from = useFromChain();
+  const to = useToChain();
+  const weiAmount = useWeiAmount();
+  const account = useAccount();
   const { gas } = useBridge();
   const receive = useReceiveAmount();
-
+  const token = useSelectedToken();
   const gasToken = useGasToken();
+
+  const onSubmitBridge = useSubmitBridge(initiateBridge);
+
   const gasTokenAllowance = useAllowanceGasToken();
   const deployment = useDeployment();
   const approveGasToken = useApproveGasToken(
@@ -174,10 +210,6 @@ export const ConfirmationModal = ({
     gasLimit: BigInt(50_000),
   };
 
-  const [checkbox1, setCheckbox1] = useState(false);
-  const [checkbox2, setCheckbox2] = useState(false);
-  const [checkbox3, setCheckbox3] = useState(false);
-
   const transformPeriodText = (str: string, args: any, period: Period) => {
     const value =
       period?.period === "mins"
@@ -197,42 +229,36 @@ export const ConfirmationModal = ({
     return value ?? "";
   };
 
-  const fee = ({
-    gasLimit,
-    gasToken,
-  }: {
-    gasToken: {
-      token: Token | undefined;
-      price: number | null;
-      gasPrice: bigint;
-    };
-    gasLimit: bigint;
-  }) => {
+  const fee = (
+    {
+      gasLimit,
+      gasToken,
+    }: {
+      gasToken: {
+        token: Token | undefined;
+        price: number | null;
+        gasPrice: bigint;
+      };
+      gasLimit: bigint;
+    },
+    maximumFractionDigits: number
+  ) => {
     const nativeTokenAmount = gasLimit * gasToken.gasPrice;
 
     const formattedAmount = parseFloat(
-      formatUnits(
-        scaleToNativeTokenDecimals({
-          amount: nativeTokenAmount,
-          decimals: gasToken.token?.decimals ?? 18,
-        }),
-        gasToken.token?.decimals ?? 18
-      )
+      formatUnits(nativeTokenAmount, gasToken.token?.decimals ?? 18)
     );
 
     if (!gasToken.price) {
       return `${formattedAmount} ${gasToken.token?.symbol}`;
     }
 
-    const amount = formatDecimals(gasToken.price * formattedAmount);
+    const amount = (gasToken.price * formattedAmount).toLocaleString("en", {
+      maximumFractionDigits,
+    });
+
     return `${currencySymbolMap[currency]}${amount}`;
   };
-
-  useEffect(() => {
-    setCheckbox1(false);
-    setCheckbox2(false);
-    setCheckbox3(false);
-  }, [open]);
 
   const approved =
     typeof allowance.data !== "undefined" && allowance.data >= weiAmount;
@@ -375,28 +401,15 @@ export const ConfirmationModal = ({
         : t("confirmationModal.initiateDeposit"),
       disabled: true,
     }))
-    .otherwise((d) => {
-      const initiatingChain =
-        escapeHatch && withdrawing ? deployment?.l1 : from;
-
-      if (initiatingChain && account.chainId !== initiatingChain.id) {
-        return {
-          onSubmit: () => switchChain(initiatingChain),
-          buttonText: t("switchTo", { chain: initiatingChain.name }),
-          disabled: false,
-        };
-      }
-
-      return {
-        onSubmit: onConfirm,
-        buttonText: d.fast
-          ? t("confirmationModal.initiateBridge")
-          : d.withdrawing
-          ? t("confirmationModal.initiateWithdrawal")
-          : t("confirmationModal.initiateDeposit"),
-        disabled: false,
-      };
-    });
+    .otherwise((d) => ({
+      onSubmit: onSubmitBridge,
+      buttonText: d.fast
+        ? t("confirmationModal.initiateBridge")
+        : d.withdrawing
+        ? t("confirmationModal.initiateWithdrawal")
+        : t("confirmationModal.initiateDeposit"),
+      disabled: false,
+    }));
 
   const common = {
     from: from?.name,
@@ -410,7 +423,7 @@ export const ConfirmationModal = ({
 
   const title = match({
     fast,
-    isCctp: isCctp(stateToken),
+    isUsdc: isCctp(stateToken),
     withdrawing,
     escapeHatch,
     family: deployment?.family,
@@ -418,19 +431,19 @@ export const ConfirmationModal = ({
     .with({ fast: true }, () => {
       return "Superfast bridge";
     })
-    .with({ isCctp: true, withdrawing: true, escapeHatch: true }, () =>
+    .with({ isUsdc: true, withdrawing: true, escapeHatch: true }, () =>
       t("confirmationModal.cctpWithdrawalTitleEscapeHatch", {
         mins: totalBridgeTime?.value,
         symbol: token?.symbol,
       })
     )
-    .with({ isCctp: true, withdrawing: true }, () =>
+    .with({ isUsdc: true, withdrawing: true }, () =>
       t("confirmationModal.cctpWithdrawalTitle", {
         mins: totalBridgeTime?.value,
         symbol: token?.symbol,
       })
     )
-    .with({ isCctp: true, withdrawing: false }, () =>
+    .with({ isUsdc: true, withdrawing: false }, () =>
       t("confirmationModal.cctpDepositTitle", {
         mins: totalBridgeTime?.value,
         symbol: token?.symbol,
@@ -460,7 +473,7 @@ export const ConfirmationModal = ({
 
   const description = match({
     fast,
-    isCctp: isCctp(stateToken),
+    isUsdc: isCctp(stateToken),
     withdrawing,
     escapeHatch,
     family: deployment?.family,
@@ -469,10 +482,10 @@ export const ConfirmationModal = ({
     .with({ fast: true }, () =>
       t("confirmationModal.acrossDescription", common)
     )
-    .with({ isCctp: true, withdrawing: true, escapeHatch: true }, () =>
+    .with({ isUsdc: true, withdrawing: true, escapeHatch: true }, () =>
       t("confirmationModal.cctpDescriptionEscapeHatch", common)
     )
-    .with({ isCctp: true }, () =>
+    .with({ isUsdc: true }, () =>
       t("confirmationModal.cctpDescription", common)
     )
     .with(
@@ -503,49 +516,9 @@ export const ConfirmationModal = ({
     .with({ withdrawing: false }, () => "")
     .otherwise(() => null);
 
-  const checkbox1Text = match({
-    fast,
-    isCctp: isCctp(stateToken),
-    withdrawing,
-    family: deployment?.family,
-  })
-    .with({ fast: true }, () =>
-      t("confirmationModal.checkbox1Deposit", {
-        mins: totalBridgeTime?.value,
-        rollup: to?.name,
-      })
-    )
-    .with({ isCctp: true }, () =>
-      t("confirmationModal.checkbox1Cctp", {
-        mins: totalBridgeTime?.value,
-        to: to?.name,
-      })
-    )
-    .with({ withdrawing: true, family: "optimism" }, () =>
-      transformPeriodText(
-        "confirmationModal.opCheckbox1Withdrawal",
-        common,
-        finalizationTime
-      )
-    )
-    .with({ withdrawing: true, family: "arbitrum" }, () =>
-      transformPeriodText(
-        "confirmationModal.arbCheckbox1Withdrawal",
-        common,
-        totalBridgeTime
-      )
-    )
-    .with({ withdrawing: false }, () =>
-      t("confirmationModal.checkbox1Deposit", {
-        ...common,
-        mins: totalBridgeTime?.value,
-      })
-    )
-    .otherwise(() => null);
-
   const lineItems = match({
     fast,
-    isCctp: isCctp(stateToken),
+    isUsdc: isCctp(stateToken),
     withdrawing,
     family: deployment?.family,
     escapeHatch,
@@ -553,17 +526,12 @@ export const ConfirmationModal = ({
   })
     .with({ fast: true }, (c) =>
       [
-        c.gasToken
-          ? {
-              text: t("confirmationModal.approveGasToken"),
-              icon: ApproveIcon,
-              fee: fee(approveGasTokenCost),
-            }
-          : null,
         {
           text: t("confirmationModal.initiateDeposit"),
           icon: InitiateIcon,
-          fee: fee(initiateCost),
+          fee: fee(initiateCost, 4),
+          initiate: true,
+          chain: from,
         },
         {
           text: t("confirmationModal.waitMinutes", {
@@ -574,14 +542,17 @@ export const ConfirmationModal = ({
         {
           text: t("confirmationModal.receiveAmountOnChain", common),
           icon: ReceiveIcon,
+          chain: to,
         },
       ].filter(isPresent)
     )
-    .with({ isCctp: true, escapeHatch: true }, () => [
+    .with({ isUsdc: true, escapeHatch: true }, () => [
       {
         text: t("confirmationModal.initiateBridgeEscapeHatch", common),
         icon: InitiateIcon,
-        fee: fee(initiateCost),
+        fee: fee(initiateCost, 4),
+        initiate: true,
+        chain: deployment?.l1,
       },
       {
         text: transformPeriodText(
@@ -594,14 +565,17 @@ export const ConfirmationModal = ({
       {
         text: t("confirmationModal.finalize", common),
         icon: FinalizeIcon,
-        fee: fee(finalizeCost),
+        fee: fee(finalizeCost, 4),
+        chain: to,
       },
     ])
-    .with({ isCctp: true }, () => [
+    .with({ isUsdc: true }, () => [
       {
         text: t("confirmationModal.initiateBridge"),
         icon: InitiateIcon,
-        fee: fee(initiateCost),
+        fee: fee(initiateCost, 4),
+        chain: from,
+        initiate: true,
       },
       {
         text: transformPeriodText(
@@ -614,14 +588,17 @@ export const ConfirmationModal = ({
       {
         text: t("confirmationModal.finalize", common),
         icon: FinalizeIcon,
-        fee: fee(finalizeCost),
+        fee: fee(finalizeCost, 4),
+        chain: to,
       },
     ])
     .with({ withdrawing: true, family: "optimism", escapeHatch: true }, () => [
       {
         text: t("confirmationModal.initiateBridgeEscapeHatch", common),
         icon: EscapeHatchIcon,
-        fee: fee(initiateCost),
+        fee: fee(initiateCost, 4),
+        chain: deployment?.l1,
+        initiate: true,
       },
       {
         text: transformPeriodText(
@@ -634,7 +611,8 @@ export const ConfirmationModal = ({
       {
         text: t("confirmationModal.prove", common),
         icon: ProveIcon,
-        fee: fee(proveCost),
+        fee: fee(proveCost, 4),
+        chain: deployment?.l1,
       },
       {
         text: transformPeriodText(
@@ -647,14 +625,17 @@ export const ConfirmationModal = ({
       {
         text: t("confirmationModal.finalize", common),
         icon: FinalizeIcon,
-        fee: fee(finalizeCost),
+        fee: fee(finalizeCost, 2),
+        chain: deployment?.l1,
       },
     ])
     .with({ withdrawing: true, family: "optimism" }, () => [
       {
         text: t("confirmationModal.initiateWithdrawal"),
         icon: InitiateIcon,
-        fee: fee(initiateCost),
+        fee: fee(initiateCost, 4),
+        chain: deployment?.l2,
+        initiate: true,
       },
       {
         text: transformPeriodText("confirmationModal.wait", {}, proveTime),
@@ -663,7 +644,8 @@ export const ConfirmationModal = ({
       {
         text: t("confirmationModal.prove", common),
         icon: ProveIcon,
-        fee: fee(proveCost),
+        fee: fee(proveCost, 4),
+        chain: deployment?.l1,
       },
       {
         text: transformPeriodText(
@@ -676,7 +658,8 @@ export const ConfirmationModal = ({
       {
         text: t("confirmationModal.finalize", common),
         icon: FinalizeIcon,
-        fee: fee(finalizeCost),
+        fee: fee(finalizeCost, 2),
+        chain: deployment?.l1,
       },
     ])
 
@@ -684,7 +667,9 @@ export const ConfirmationModal = ({
       {
         text: t("confirmationModal.initiateWithdrawal"),
         icon: InitiateIcon,
-        fee: fee(initiateCost),
+        fee: fee(initiateCost, 4),
+        chain: deployment?.l2,
+        initiate: true,
       },
       {
         text: transformPeriodText(
@@ -697,22 +682,18 @@ export const ConfirmationModal = ({
       {
         text: t("confirmationModal.finalize", common),
         icon: FinalizeIcon,
-        fee: fee(finalizeCost),
+        fee: fee(finalizeCost, 2),
+        chain: deployment?.l1,
       },
     ])
     .with({ withdrawing: false, family: "optimism" }, (c) =>
       [
-        c.gasToken && isNativeToken(stateToken)
-          ? {
-              text: t("confirmationModal.approveGasToken"),
-              icon: ApproveIcon,
-              fee: fee(approveGasTokenCost),
-            }
-          : null,
         {
           text: t("confirmationModal.initiateDeposit"),
           icon: InitiateIcon,
-          fee: fee(initiateCost),
+          fee: fee(initiateCost, 4),
+          chain: deployment?.l1,
+          initiate: true,
         },
         {
           text: t("confirmationModal.waitMinutes", {
@@ -723,22 +704,18 @@ export const ConfirmationModal = ({
         {
           text: t("confirmationModal.receiveDeposit", common),
           icon: ReceiveIcon,
+          chain: deployment?.l2,
         },
       ].filter(isPresent)
     )
     .with({ withdrawing: false, family: "arbitrum" }, (c) =>
       [
-        c.gasToken
-          ? {
-              text: t("confirmationModal.approveGasToken"),
-              icon: ApproveIcon,
-              fee: fee(approveGasTokenCost),
-            }
-          : null,
         {
           text: t("confirmationModal.initiateDeposit"),
           icon: InitiateIcon,
-          fee: fee(initiateCost),
+          fee: fee(initiateCost, 4),
+          initiate: true,
+          chain: deployment?.l1,
         },
         {
           text: t("confirmationModal.waitMinutes", {
@@ -749,188 +726,130 @@ export const ConfirmationModal = ({
         {
           text: t("confirmationModal.receiveDeposit", common),
           icon: ReceiveIcon,
+          chain: deployment?.l2,
         },
       ].filter(isPresent)
     )
     .otherwise(() => null);
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent>
-        <div className="flex flex-col p-6 pt-8">
-          {fast && (
-            <div className="flex flex-col items-center gap-2 text-center mb-3">
-              <div className="animate-wiggle-waggle">
-                <IconSuperFast className="w-10 h-auto" />
-              </div>
-              <h1 className="font-heading tracking-tight text-2xl text-pretty leading-6">
-                {title}
-              </h1>
-              <PoweredByAcross />
-              <p className="text-xs md:text-sm text-pretty text-muted-foreground tracking-tight">
-                {description}
-              </p>
+    <div>
+      <DialogHeader className="items-center">
+        <DialogTitle className="text-3xl">Start your bridge</DialogTitle>
+        <DialogDescription>
+          Bridging {rawAmount} {token?.symbol} from {from?.name} to {to?.name}
+        </DialogDescription>
+      </DialogHeader>
+
+      <div className="flex flex-col p-6 pt-0 gap-1">
+        {fast && (
+          <div className="flex flex-col items-center gap-2 text-center mb-3">
+            <div className="animate-wiggle-waggle">
+              <IconSuperFast className="w-10 h-auto" />
             </div>
-          )}
-          {!fast && (
-            <div className="flex flex-col gap-1">
-              <h1 className="font-heading text-xl  text-pretty leading-6 mr-6">
-                {title}
-              </h1>
-              <p className="text-xs md:text-sm text-pretty text-muted-foreground">
-                {description}{" "}
-                <Link
-                  href={
-                    isCctp(stateToken)
-                      ? "https://docs.rollbridge.app/native-usdc"
-                      : "https://docs.rollbridge.app/what-is-bridging"
-                  }
-                  className="underline "
-                  target="_blank"
+            <h1 className="font-heading tracking-tight text-2xl text-pretty leading-6">
+              {title}
+            </h1>
+            <PoweredByAcross />
+            <p className="text-xs md:text-sm text-pretty text-muted-foreground tracking-tight">
+              {description}
+            </p>
+          </div>
+        )}
+
+        {approveGasTokenButton && (
+          <>
+            <LineItem
+              text={t("confirmationModal.approveGasToken", {
+                symbol: token?.symbol,
+              })}
+              chain={from}
+              fee={fee(approveCost, 4)}
+              button={
+                <Button
+                  onClick={approveGasTokenButton.onSubmit}
+                  disabled={approveGasTokenButton.disabled}
+                  size="xs"
                 >
-                  {t("confirmationModal.learnMore")}
-                </Link>
-              </p>
-            </div>
-          )}
-          <div className="justify-end flex items-center px-1 py-1">
-            <span className="text-muted-foreground  text-[11px]">
-              {t("confirmationModal.approxFees")}
-            </span>
-          </div>
-          <div className="py-1 flex flex-col border divide-y divide-border rounded-[16px]">
-            {approveButton && (
-              <LineItem
-                text={t("confirmationModal.approve", { symbol: token?.symbol })}
-                icon={ApproveIcon}
-                fee={fee(approveCost)}
-              />
-            )}
-
-            {lineItems?.map(({ text, icon, fee }) => (
-              <LineItem key={text} text={text} icon={icon} fee={fee} />
-            ))}
-          </div>
-
-          <div className="flex flex-col gap-2 py-4">
-            <div className="pl-4 flex gap-2">
-              <Checkbox
-                id="timeframe"
-                checked={checkbox1}
-                onCheckedChange={(c) => setCheckbox1(c as boolean)}
-              />
-              <label
-                htmlFor="timeframe"
-                className="text-[11px] text-muted-foreground "
-              >
-                {checkbox1Text}
-              </label>
-            </div>
-            <div className="pl-4 flex gap-2">
-              <Checkbox
-                id="speed"
-                checked={checkbox2}
-                onCheckedChange={(c) => setCheckbox2(c as boolean)}
-              />
-              <label
-                htmlFor="speed"
-                className="text-[11px] text-muted-foreground "
-              >
-                {withdrawing
-                  ? t("confirmationModal.checkbox2Withdrawal")
-                  : t("confirmationModal.checkbox2Deposit")}
-              </label>
-            </div>
-            <div className="pl-4 flex gap-2">
-              <Checkbox
-                id="fees"
-                checked={checkbox3}
-                onCheckedChange={(c) => setCheckbox3(c as boolean)}
-              />
-              <label
-                htmlFor="fees"
-                className="text-[11px] text-muted-foreground "
-              >
-                {t("confirmationModal.checkbox3")}
-              </label>
-            </div>
-          </div>
-
-          <div className="flex flex-col gap-2">
-            {approveGasTokenButton && (
-              <Button
-                onClick={approveGasTokenButton.onSubmit}
-                disabled={
-                  !checkbox1 ||
-                  !checkbox2 ||
-                  !checkbox3 ||
-                  approveGasTokenButton.disabled
-                }
-              >
-                {approveGasTokenButton.buttonText}
-                {approvedGasToken && (
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="15"
-                    height="12"
-                    viewBox="0 0 15 12"
-                    className="fill-white dark:fill-zinc-950 ml-2 h-2.5 w-auto"
-                  >
-                    <path d="M6.80216 12C6.32268 12 5.94594 11.8716 5.67623 11.559L0.63306 6.02355C0.384755 5.7624 0.269165 5.41563 0.269165 5.07742C0.269165 4.31109 0.915614 3.67749 1.66909 3.67749C2.04583 3.67749 2.42257 3.83161 2.69228 4.13129L6.57955 8.38245L12.1921 0.56939C12.4661 0.192651 12.8899 0 13.3309 0C14.0715 0 14.7308 0.56939 14.7308 1.38709C14.7308 1.67392 14.6538 1.96932 14.4697 2.21762L7.84676 11.4306C7.61558 11.7688 7.21315 12 6.79788 12H6.80216Z" />
-                  </svg>
-                )}
-              </Button>
-            )}
-
-            {approveButton && (
-              <Button
-                onClick={approveButton.onSubmit}
-                disabled={
-                  !checkbox1 ||
-                  !checkbox2 ||
-                  !checkbox3 ||
-                  approveButton.disabled
-                }
-              >
-                {approveButton.buttonText}
-                {approved && (
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="15"
-                    height="12"
-                    viewBox="0 0 15 12"
-                    className="fill-white dark:fill-zinc-950 ml-2 h-2.5 w-auto"
-                  >
-                    <path d="M6.80216 12C6.32268 12 5.94594 11.8716 5.67623 11.559L0.63306 6.02355C0.384755 5.7624 0.269165 5.41563 0.269165 5.07742C0.269165 4.31109 0.915614 3.67749 1.66909 3.67749C2.04583 3.67749 2.42257 3.83161 2.69228 4.13129L6.57955 8.38245L12.1921 0.56939C12.4661 0.192651 12.8899 0 13.3309 0C14.0715 0 14.7308 0.56939 14.7308 1.38709C14.7308 1.67392 14.6538 1.96932 14.4697 2.21762L7.84676 11.4306C7.61558 11.7688 7.21315 12 6.79788 12H6.80216Z" />
-                  </svg>
-                )}
-              </Button>
-            )}
-
-            <Button
-              onClick={initiateButton.onSubmit}
-              disabled={
-                !checkbox1 ||
-                !checkbox2 ||
-                !checkbox3 ||
-                initiateButton.disabled
+                  {approveGasTokenButton.buttonText}
+                  {approvedGasToken && (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="15"
+                      height="12"
+                      viewBox="0 0 15 12"
+                      className="fill-white dark:fill-zinc-950 ml-2 h-2.5 w-auto"
+                    >
+                      <path d="M6.80216 12C6.32268 12 5.94594 11.8716 5.67623 11.559L0.63306 6.02355C0.384755 5.7624 0.269165 5.41563 0.269165 5.07742C0.269165 4.31109 0.915614 3.67749 1.66909 3.67749C2.04583 3.67749 2.42257 3.83161 2.69228 4.13129L6.57955 8.38245L12.1921 0.56939C12.4661 0.192651 12.8899 0 13.3309 0C14.0715 0 14.7308 0.56939 14.7308 1.38709C14.7308 1.67392 14.6538 1.96932 14.4697 2.21762L7.84676 11.4306C7.61558 11.7688 7.21315 12 6.79788 12H6.80216Z" />
+                    </svg>
+                  )}
+                </Button>
               }
-            >
-              {initiateButton.buttonText}
-            </Button>
+            />
+          </>
+        )}
 
-            {isSuperbridge && !fast && (withdrawing || isCctp(stateToken)) && (
-              <Link
-                className={`mt-2 leading-3 text-center text-xs   cursor-pointer transition-all opacity-70 hover:opacity-100`}
-                href="/alternative-bridges"
-                target="_blank"
-              >
-                {t("confirmationModal.viewAlternateBridges")}
-              </Link>
-            )}
-          </div>
-        </div>
-      </DialogContent>
-    </Dialog>
+        {approveButton && (
+          <>
+            <LineItem
+              text={t("confirmationModal.approve", { symbol: token?.symbol })}
+              chain={from}
+              fee={fee(approveCost, 4)}
+              button={
+                <Button
+                  onClick={approveButton.onSubmit}
+                  disabled={approveButton.disabled}
+                  size="xs"
+                >
+                  {approveButton.buttonText}
+                  {approved && (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="15"
+                      height="12"
+                      viewBox="0 0 15 12"
+                      className="fill-white dark:fill-zinc-950 ml-2 h-2.5 w-auto"
+                    >
+                      <path d="M6.80216 12C6.32268 12 5.94594 11.8716 5.67623 11.559L0.63306 6.02355C0.384755 5.7624 0.269165 5.41563 0.269165 5.07742C0.269165 4.31109 0.915614 3.67749 1.66909 3.67749C2.04583 3.67749 2.42257 3.83161 2.69228 4.13129L6.57955 8.38245L12.1921 0.56939C12.4661 0.192651 12.8899 0 13.3309 0C14.0715 0 14.7308 0.56939 14.7308 1.38709C14.7308 1.67392 14.6538 1.96932 14.4697 2.21762L7.84676 11.4306C7.61558 11.7688 7.21315 12 6.79788 12H6.80216Z" />
+                    </svg>
+                  )}
+                </Button>
+              }
+            />
+          </>
+        )}
+
+        {lineItems?.map(({ text, fee, chain, initiate }) => (
+          <LineItem
+            key={text}
+            text={text}
+            fee={fee}
+            chain={chain}
+            button={
+              initiate ? (
+                <Button
+                  onClick={initiateButton.onSubmit}
+                  disabled={initiateButton.disabled}
+                  size={"xs"}
+                >
+                  {initiateButton.buttonText}
+                </Button>
+              ) : undefined
+            }
+          />
+        ))}
+      </div>
+      {isSuperbridge && !fast && (withdrawing || isCctp(stateToken)) && (
+        <DialogFooter>
+          <Link
+            className={`mt-2 leading-3 text-center text-xs   cursor-pointer transition-all opacity-70 hover:opacity-100`}
+            href="/alternative-bridges"
+            target="_blank"
+          >
+            {t("confirmationModal.viewAlternateBridges")}
+          </Link>
+        </DialogFooter>
+      )}
+    </div>
   );
 };

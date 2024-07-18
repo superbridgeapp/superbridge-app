@@ -1,11 +1,14 @@
 import { useTranslation } from "react-i18next";
 import { match } from "ts-pattern";
-import { arbitrum, base, mainnet, optimism } from "viem/chains";
+import { arbitrum, base, mainnet, mode, optimism } from "viem/chains";
 
 import { DeploymentDto, DeploymentFamily } from "@/codegen/model";
+import { IconGas } from "@/components/icons";
+import { isSuperbridge } from "@/config/superbridge";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
 import { useDeployment } from "@/hooks/use-deployment";
 import { useNativeToken, useToNativeToken } from "@/hooks/use-native-token";
+import { useNavigate } from "@/hooks/use-navigate";
 import { useSelectedToken } from "@/hooks/use-selected-token";
 import { useConfigState } from "@/state/config";
 import { isCctp } from "@/utils/is-cctp";
@@ -21,6 +24,7 @@ const ACROSS_NETWORKS: number[] = [
   optimism.id,
   base.id,
   arbitrum.id,
+  mode.id,
 ];
 const supportsAcross = (deployment: DeploymentDto) => {
   return (
@@ -34,15 +38,14 @@ export const NoGasModal = ({ onProceed, open, onCancel }: AlertProps) => {
   const stateToken = useConfigState.useToken();
   const setStateToken = useConfigState.useSetToken();
   const withdrawing = useConfigState.useWithdrawing();
-  const setDisplayConfirmationModal =
-    useConfigState.useSetDisplayConfirmationModal();
+
   const from = useFromChain();
   const to = useToChain();
   const token = useSelectedToken();
   const deployment = useDeployment();
   const toNativeToken = useToNativeToken();
   const nativeToken = useNativeToken();
-  const amount = useConfigState.useRawAmount();
+  const navigate = useNavigate();
 
   const common = {
     from: from?.name,
@@ -70,24 +73,18 @@ export const NoGasModal = ({ onProceed, open, onCancel }: AlertProps) => {
 
   const cancelButton = match({
     withdrawing,
-    supportsAcross: !!deployment && supportsAcross(deployment),
+    supportsAcross: isSuperbridge && !!deployment && supportsAcross(deployment),
   })
     .with({ withdrawing: false }, () => ({
       text: t("noGasModal.topup", common),
       onClick: () => {
         setStateToken(nativeToken ?? null);
         onCancel();
-        setDisplayConfirmationModal(false);
       },
     }))
     .with({ supportsAcross: true }, () => ({
       text: t("noGasModal.topup", common),
-      onClick: () => {
-        window.open(
-          `https://app.across.to/bridge?from=${from?.id}&to=${to?.id}&asset=eth&amount=${amount}`,
-          "_blank"
-        );
-      },
+      onClick: () => navigate("fast"),
     }))
     .otherwise(() => ({
       text: t("noGasModal.goBack", common),
@@ -100,7 +97,8 @@ export const NoGasModal = ({ onProceed, open, onCancel }: AlertProps) => {
         <div className="flex flex-col gap-8 p-6">
           <div className="flex flex-col gap-2 items-center text-center pt-10">
             <div className="animate-bounce">
-              <GasDrop />
+              {/* <GasDrop /> */}
+              <IconGas className="w-16 h-auto" />
             </div>
             <h1 className="font-heading text-2xl  text-pretty">
               {t("noGasModal.youNeedGasOn", common)}

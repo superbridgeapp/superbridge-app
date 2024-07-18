@@ -3,7 +3,7 @@ import { useEstimateFeesPerGas } from "wagmi";
 
 import { useConfigState } from "@/state/config";
 
-import { useBridge } from "./use-bridge";
+import { useBridge } from "./bridge/use-bridge";
 import { useFromChain } from "./use-chain";
 import { useDeployment } from "./use-deployment";
 
