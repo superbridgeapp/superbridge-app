@@ -33,6 +33,7 @@ import type {
   BoolDto,
   BridgeControllerGetActivityParams,
   BridgeControllerGetDeploymentsParams,
+  BridgeControllerGetRoutesParams,
   BridgeNftDto,
   CcipReadDto,
   CcipReadResponseDto,
@@ -47,6 +48,7 @@ import type {
   IdDto,
   NumberDto,
   PricesDto,
+  RouteResponseDto,
   SuperbridgeConfigDto,
   SyncStatusDto,
   TransactionDto
@@ -1610,6 +1612,61 @@ export const useBridgeControllerGetSuperbridgeConfig = <TData = Awaited<ReturnTy
   ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
 
   const queryOptions = getBridgeControllerGetSuperbridgeConfigQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+export const bridgeControllerGetRoutes = (
+    params: BridgeControllerGetRoutesParams, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<RouteResponseDto[]>> => {
+    
+    return axios.get(
+      `/api/bridge/routes`,{
+    ...options,
+        params: {...params, ...options?.params},}
+    );
+  }
+
+
+export const getBridgeControllerGetRoutesQueryKey = (params: BridgeControllerGetRoutesParams,) => {
+    return [`/api/bridge/routes`, ...(params ? [params]: [])] as const;
+    }
+
+    
+export const getBridgeControllerGetRoutesQueryOptions = <TData = Awaited<ReturnType<typeof bridgeControllerGetRoutes>>, TError = AxiosError<unknown>>(params: BridgeControllerGetRoutesParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetRoutes>>, TError, TData>, axios?: AxiosRequestConfig}
+) => {
+
+const {query: queryOptions, axios: axiosOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getBridgeControllerGetRoutesQueryKey(params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof bridgeControllerGetRoutes>>> = ({ signal }) => bridgeControllerGetRoutes(params, { signal, ...axiosOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetRoutes>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type BridgeControllerGetRoutesQueryResult = NonNullable<Awaited<ReturnType<typeof bridgeControllerGetRoutes>>>
+export type BridgeControllerGetRoutesQueryError = AxiosError<unknown>
+
+export const useBridgeControllerGetRoutes = <TData = Awaited<ReturnType<typeof bridgeControllerGetRoutes>>, TError = AxiosError<unknown>>(
+ params: BridgeControllerGetRoutesParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetRoutes>>, TError, TData>, axios?: AxiosRequestConfig}
+
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+
+  const queryOptions = getBridgeControllerGetRoutesQueryOptions(params,options)
 
   const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
