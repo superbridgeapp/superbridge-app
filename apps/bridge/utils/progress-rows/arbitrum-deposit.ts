@@ -18,7 +18,7 @@ import { getRemainingTimePeriod } from "./get-remaining-period";
 export const useArbitrumDepositProgressRows = () => {
   const { t } = useTranslation();
   const transformPeriodText = usePeriodText();
-  const { deployments } = useDeployments();
+  const deployments = useDeployments();
 
   return (
     tx: Pick<

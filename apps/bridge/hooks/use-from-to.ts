@@ -11,7 +11,7 @@ import { useDeployments } from "./use-deployments";
 
 export const useFromTo = (tx: Transaction) => {
   const acrossDomains = useAcrossDomains();
-  const { deployments } = useDeployments();
+  const deployments = useDeployments();
 
   if (isForcedWithdrawal(tx)) {
     const deployment = deployments.find(

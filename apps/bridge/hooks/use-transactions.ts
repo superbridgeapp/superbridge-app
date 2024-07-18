@@ -10,7 +10,7 @@ import { useDeployments } from "./use-deployments";
 
 export const useTransactions = () => {
   const account = useAccount();
-  const { deployments } = useDeployments();
+  const deployments = useDeployments();
 
   const superbridgeTestnetsEnabled = useInjectedStore((s) => s.testnets);
 

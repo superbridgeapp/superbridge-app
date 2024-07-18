@@ -14,16 +14,18 @@ import { WagmiProvider } from "wagmi";
 import { Chain } from "wagmi/chains";
 
 import { useDeployment } from "@/hooks/use-deployment";
-import { useDeployments } from "@/hooks/use-deployments";
 import { useMetadata } from "@/hooks/use-metadata";
 import { getWagmiConfig } from "@/services/wagmi";
+import { useInjectedStore } from "@/state/injected";
 import { queryClient } from "@/utils/query-client";
 
 import { Loading } from "./Loading";
 
 function Web3Provider({ children }: { children: React.ReactNode }) {
   const { resolvedTheme } = useTheme();
-  const { deployments } = useDeployments();
+  // use this instead of useDeployments because RainbowKit doesn't
+  // like it when wagmiConfig changes
+  const allDeployments = useInjectedStore((s) => s.deployments);
   const deployment = useDeployment();
   const [mounted, setMounted] = useState(false);
   const { i18n } = useTranslation();
@@ -33,11 +35,12 @@ function Web3Provider({ children }: { children: React.ReactNode }) {
     setMounted(true);
   }, []);
 
-  const config = useMemo(() => getWagmiConfig(deployments), [deployments]);
+  const config = useMemo(
+    () => getWagmiConfig(allDeployments),
+    [allDeployments]
+  );
 
-  // this is a temp Rainbowkit 2 workaround. Because `config` changes whenever deployments
-  // change, users are disconnected when navigating to the app
-  if (!deployments.length) {
+  if (!allDeployments.length) {
     return (
       <div className="bg-background w-screen h-screen overflow-hidden z-40 relative transition-colors duration-1000  flex justify-center">
         <div

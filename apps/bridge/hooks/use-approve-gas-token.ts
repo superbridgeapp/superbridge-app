@@ -12,7 +12,7 @@ import { useDeployment } from "./use-deployment";
 import { useDeployments } from "./use-deployments";
 
 export const useGasTokenForDeployment = (deploymentId: string | undefined) => {
-  const { deployments } = useDeployments();
+  const deployments = useDeployments();
   const deploymentIndex = deployments.findIndex((x) => x.id === deploymentId);
   const deployment = deployments[deploymentIndex];
   if (!deployment) {
