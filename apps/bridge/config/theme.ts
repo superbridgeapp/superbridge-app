@@ -680,6 +680,11 @@ const celoTheme: Theme = {
     title: "text-black",
   },
 };
+
+const swanTheme: Theme = {
+  ...defaultTheme,
+};
+
 export const themes: { [name: string]: Theme | undefined } = {
   ["base"]: baseTheme,
   ["base-sepolia"]: baseTheme,
@@ -737,6 +742,7 @@ export const themes: { [name: string]: Theme | undefined } = {
   ["xterio-chain-eth"]: xterioTheme,
   ["xterio-eth-testnet"]: xterioTheme,
   ["celo-testnet"]: celoTheme,
+  ["swan-chain"]: swanTheme,
 };
 
 export const deploymentTheme = (
