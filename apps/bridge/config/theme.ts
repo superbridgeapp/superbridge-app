@@ -683,6 +683,15 @@ const celoTheme: Theme = {
 
 const swanTheme: Theme = {
   ...defaultTheme,
+  iconSrc: "/img/swanchain/icon.svg",
+  card: {
+    className: "bg-[#447DFF]",
+    title: "text-white",
+    overlay: {
+      image: "/img/swanchain/bg-card.svg",
+      className: "bg-cover bg-bottom bg-no-repeat mix-blend-multiply",
+    },
+  },
 };
 
 export const themes: { [name: string]: Theme | undefined } = {
