@@ -1,29 +1,21 @@
-import { useConfigState } from "@/state/config";
+import { formatUnits } from "viem";
 
-import { useAcrossFee } from "./across/use-across-fee";
+import { useSelectedBridgeRoute } from "./use-selected-bridge-route";
+import { useSelectedToken } from "./use-selected-token";
 
 export const useReceiveAmount = () => {
-  const rawAmount = useConfigState.useRawAmount();
-  const fast = useConfigState.useFast();
+  const route = useSelectedBridgeRoute();
+  const token = useSelectedToken();
 
-  const acrossFee = useAcrossFee();
-  const parsedRawAmount = parseFloat(rawAmount) || 0;
-
-  if (!fast) {
-    return { data: parsedRawAmount, isFetching: false };
-  }
-
-  if (acrossFee.data) {
-    const data = parsedRawAmount - acrossFee.data;
-
+  if (!route || !token) {
     return {
-      data,
-      isFetching: false,
+      data: null,
+      isFetching: true,
     };
   }
 
   return {
-    data: null,
-    isFetching: true,
+    data: formatUnits(BigInt(route.receive), token.decimals),
+    isFetching: false,
   };
 };

@@ -201,8 +201,6 @@ export function useActiveTokens() {
     [tokens]
   );
 
-  console.log(tokens.filter((x) => x[1]?.symbol === "USDC"));
-
   return useMemo(() => {
     return tokens
       .filter((x) => x[1]?.symbol === "USDC" || x[1]?.symbol === "ETH")
