@@ -1,7 +1,7 @@
 import { Address, zeroAddress } from "viem";
 
 import { DeploymentDto } from "@/codegen/model";
-import { MultiChainOptimismToken, MultiChainToken } from "@/types/token";
+import { MultiChainToken } from "@/types/token";
 import { isArbitrum, isOptimism } from "@/utils/is-mainnet";
 
 export function getNativeTokenForDeployment(
@@ -40,7 +40,7 @@ export function getNativeTokenForDeployment(
   }
 
   if (isOptimism(d)) {
-    const token: MultiChainOptimismToken = {
+    const token: MultiChainToken = {
       [d.l1.id]: {
         address: d.arbitrumNativeToken.address as Address,
         name: d.arbitrumNativeToken.name,

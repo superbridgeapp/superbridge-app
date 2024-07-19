@@ -6,17 +6,12 @@ import { bsc, bscTestnet, syscoin, syscoinTestnet } from "viem/chains";
 import { DeploymentFamily } from "@/codegen/model";
 import { useConfigState } from "@/state/config";
 import { useSettingsState } from "@/state/settings";
-import {
-  MultiChainArbitrumToken,
-  MultiChainOptimismToken,
-  MultiChainToken,
-} from "@/types/token";
+import { MultiChainToken } from "@/types/token";
 import { getNativeTokenForDeployment } from "@/utils/get-native-token";
-import { isArbitrumToken, isOptimismToken } from "@/utils/guards";
+import { isArbitrumToken, isCctpToken, isOptimismToken } from "@/utils/guards";
 import { isBridgedUsdc, isCctp } from "@/utils/is-cctp";
 import { isNativeToken } from "@/utils/is-eth";
 
-import { useAcrossTokens } from "./across/use-across-tokens";
 import { useDeployment } from "./use-deployment";
 import { useDeployments } from "./use-deployments";
 
@@ -31,7 +26,7 @@ function useDeploymentTokens(): MultiChainToken[] {
             const opTokenId = `custom-${t.l1.symbol}`;
 
             if (d.family === DeploymentFamily.optimism) {
-              const tok: MultiChainOptimismToken = {
+              const tok: MultiChainToken = {
                 [t.l1.chainId]: {
                   chainId: t.l1.chainId,
                   address: t.l1.address as Address,
@@ -60,7 +55,7 @@ function useDeploymentTokens(): MultiChainToken[] {
 
               return tok;
             } else {
-              const tok: MultiChainArbitrumToken = {
+              const tok: MultiChainToken = {
                 [t.l1.chainId]: {
                   chainId: t.l1.chainId,
                   address: t.l1.address as Address,
@@ -194,74 +189,74 @@ export function useAllTokens() {
 }
 
 export function useActiveTokens() {
-  const deployment = useDeployment();
-  const fast = useConfigState.useFast();
-  const withdrawing = useConfigState.useWithdrawing();
   const tokens = useAllTokens();
-  const acrossTokens = useAcrossTokens();
+  const fromChainId = useConfigState.useFromChainId();
+  const toChainId = useConfigState.useToChainId();
 
   const hasNativeUsdc = useMemo(
     () =>
       !!tokens.find(
-        (token) =>
-          isCctp(token) &&
-          !!token[deployment?.l1.id ?? 0] &&
-          !!token[deployment?.l2.id ?? 0]
+        (token) => isCctp(token) && !!token[fromChainId] && !!token[toChainId]
       ),
-    [tokens, deployment]
+    [tokens]
   );
 
+  console.log(tokens.filter((x) => x[1]?.symbol === "USDC"));
+
   return useMemo(() => {
-    if (fast) {
-      return acrossTokens;
-    }
+    return tokens
+      .filter((x) => x[1]?.symbol === "USDC" || x[1]?.symbol === "ETH")
+      .filter((t) => {
+        const from = t[fromChainId];
+        const to = t[toChainId];
 
-    return tokens.filter((t) => {
-      if (!deployment) return false;
+        if (!from || !to) return false;
 
-      const l1 = t[deployment.l1.id];
-      const l2 = t[deployment.l2.id];
+        if (isNativeToken(t)) {
+          return true;
+        }
 
-      if (!l1 || !l2) return false;
+        /**
+         * Manually disable depositing weETH until nobridge PR is merged
+         * https://github.com/ethereum-optimism/ethereum-optimism.github.io/pull/892
+         */
+        if (
+          fromChainId === 1 &&
+          isAddressEqual(
+            from.address,
+            "0xCd5fE23C85820F7B72D0926FC9b05b43E359b7ee"
+          )
+        ) {
+          return false;
+        }
 
-      if (isNativeToken(t)) {
-        return true;
-      }
+        /**
+         * We want to disable selection of the bridged-USDC token
+         * when depositing if there exists a native USDC option
+         */
+        if (fromChainId === 1 && hasNativeUsdc && isBridgedUsdc(t)) {
+          return false;
+        }
 
-      /**
-       * Manually disable depositing weETH until nobridge PR is merged
-       * https://github.com/ethereum-optimism/ethereum-optimism.github.io/pull/892
-       */
-      if (
-        !withdrawing &&
-        isAddressEqual(l1.address, "0xCd5fE23C85820F7B72D0926FC9b05b43E359b7ee")
-      ) {
+        if (isCctpToken(from) && isCctpToken(to)) {
+          return true;
+        }
+
+        if (isOptimismToken(from) && isOptimismToken(to)) {
+          return (
+            !!from.standardBridgeAddresses[to.chainId] &&
+            !!to.standardBridgeAddresses[from.chainId]
+          );
+        }
+
+        if (isArbitrumToken(from) && isArbitrumToken(to)) {
+          return (
+            !!from.arbitrumBridgeInfo[to.chainId] &&
+            !!to.arbitrumBridgeInfo[from.chainId]
+          );
+        }
+
         return false;
-      }
-
-      /**
-       * We want to disable selection of the bridged-USDC token
-       * when depositing if there exists a native USDC option
-       */
-      if (!withdrawing && hasNativeUsdc && isBridgedUsdc(t)) {
-        return false;
-      }
-
-      if (isOptimismToken(l1) && isOptimismToken(l2)) {
-        return (
-          !!l1.standardBridgeAddresses[l2.chainId] &&
-          !!l2.standardBridgeAddresses[l1.chainId]
-        );
-      }
-
-      if (isArbitrumToken(l1) && isArbitrumToken(l2)) {
-        return (
-          !!l1.arbitrumBridgeInfo[l2.chainId] &&
-          !!l2.arbitrumBridgeInfo[l1.chainId]
-        );
-      }
-
-      return false;
-    });
-  }, [deployment, tokens, hasNativeUsdc, fast]);
+      });
+  }, [tokens, hasNativeUsdc]);
 }

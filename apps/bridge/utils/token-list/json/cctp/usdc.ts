@@ -10,7 +10,7 @@ import {
   zora,
 } from "viem/chains";
 
-import { OptimismToken } from "@/types/token";
+import { CctpToken, OptimismToken } from "@/types/token";
 
 import * as metal from "../metal";
 
@@ -111,7 +111,7 @@ export const bridged: OptimismToken[] = [
   },
 ];
 
-export const native: OptimismToken[] = [
+export const native: CctpToken[] = [
   // sepolia
   {
     chainId: sepolia.id,
@@ -120,11 +120,7 @@ export const native: OptimismToken[] = [
     symbol: "USDC",
     decimals: 6,
     logoURI: "https://ethereum-optimism.github.io/data/USDC/logo.png",
-    standardBridgeAddresses: {
-      [optimismSepolia.id]: "0x",
-      [baseSepolia.id]: "0x",
-    },
-    opTokenId: NATIVE_USDC,
+    isCctp: true,
   },
   {
     chainId: optimismSepolia.id,
@@ -133,10 +129,7 @@ export const native: OptimismToken[] = [
     symbol: "USDC",
     decimals: 6,
     logoURI: "https://ethereum-optimism.github.io/data/USDC/logo.png",
-    standardBridgeAddresses: {
-      [sepolia.id]: "0x",
-    },
-    opTokenId: NATIVE_USDC,
+    isCctp: true,
   },
   {
     chainId: baseSepolia.id,
@@ -145,10 +138,7 @@ export const native: OptimismToken[] = [
     symbol: "USDC",
     decimals: 6,
     logoURI: "https://ethereum-optimism.github.io/data/USDC/logo.png",
-    standardBridgeAddresses: {
-      [sepolia.id]: "0x",
-    },
-    opTokenId: NATIVE_USDC,
+    isCctp: true,
   },
   // mainnet
   {
@@ -158,12 +148,7 @@ export const native: OptimismToken[] = [
     symbol: "USDC",
     decimals: 6,
     logoURI: "https://ethereum-optimism.github.io/data/USDC/logo.png",
-    standardBridgeAddresses: {
-      [optimism.id]: "0x",
-      [base.id]: "0x",
-      [arbitrum.id]: "0x",
-    },
-    opTokenId: NATIVE_USDC,
+    isCctp: true,
   },
   {
     chainId: base.id,
@@ -172,10 +157,7 @@ export const native: OptimismToken[] = [
     symbol: "USDC",
     decimals: 6,
     logoURI: "https://ethereum-optimism.github.io/data/USDC/logo.png",
-    standardBridgeAddresses: {
-      [mainnet.id]: "0x",
-    },
-    opTokenId: NATIVE_USDC,
+    isCctp: true,
   },
   {
     chainId: optimism.id,
@@ -184,10 +166,7 @@ export const native: OptimismToken[] = [
     symbol: "USDC",
     decimals: 6,
     logoURI: "https://ethereum-optimism.github.io/data/USDC/logo.png",
-    standardBridgeAddresses: {
-      [mainnet.id]: "0x",
-    },
-    opTokenId: NATIVE_USDC,
+    isCctp: true,
   },
   {
     chainId: arbitrum.id,
@@ -196,9 +175,6 @@ export const native: OptimismToken[] = [
     symbol: "USDC",
     decimals: 6,
     logoURI: "https://ethereum-optimism.github.io/data/USDC/logo.png",
-    standardBridgeAddresses: {
-      [mainnet.id]: "0x",
-    },
-    opTokenId: NATIVE_USDC,
+    isCctp: true,
   },
 ];

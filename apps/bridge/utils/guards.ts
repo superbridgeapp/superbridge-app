@@ -16,7 +16,7 @@ import {
   TrialDeploymentStatus,
 } from "@/codegen/model";
 import { AcrossBridgeDto } from "@/types/across";
-import { ArbitrumToken, OptimismToken, Token } from "@/types/token";
+import { ArbitrumToken, CctpToken, OptimismToken, Token } from "@/types/token";
 import {
   AbritrumTransaction,
   OptimismTransaction,
@@ -118,6 +118,10 @@ export const isOptimismToken = (t: Token): t is OptimismToken => {
 
 export const isArbitrumToken = (t: Token): t is ArbitrumToken => {
   return isEth(t) || !!(t as ArbitrumToken).arbitrumBridgeInfo;
+};
+
+export const isCctpToken = (t: Token): t is CctpToken => {
+  return (t as CctpToken).isCctp;
 };
 
 export const isActive = (

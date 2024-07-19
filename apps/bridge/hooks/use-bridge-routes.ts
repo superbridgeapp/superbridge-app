@@ -46,6 +46,6 @@ export const useBridgeRoutes = () => {
     }
   );
 
-  console.log(routes);
+  console.log(routes.data?.data);
   return routes.data?.data;
 };

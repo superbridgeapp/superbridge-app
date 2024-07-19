@@ -32,16 +32,12 @@ export interface ArbitrumToken extends BaseToken {
   };
 }
 
-export type Token = OptimismToken | ArbitrumToken;
+export interface CctpToken extends BaseToken {
+  isCctp: true;
+}
+
+export type Token = OptimismToken | ArbitrumToken | CctpToken;
 
 export interface MultiChainToken {
   [chainId: number]: Token | undefined;
-}
-
-export interface MultiChainOptimismToken {
-  [chainId: number]: OptimismToken | undefined;
-}
-
-export interface MultiChainArbitrumToken {
-  [chainId: number]: ArbitrumToken | undefined;
 }

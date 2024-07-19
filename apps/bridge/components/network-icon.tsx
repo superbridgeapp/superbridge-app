@@ -3,8 +3,9 @@ import { ImageProps } from "next/image";
 import { Chain } from "viem";
 import { mainnet, sepolia, syscoin } from "viem/chains";
 
-import { ChainDto, DeploymentDto } from "@/codegen/model";
+import { ChainDto } from "@/codegen/model";
 import { chainIcons } from "@/config/theme";
+import { useDeployments } from "@/hooks/use-deployments";
 import { useNetworkIcon } from "@/hooks/use-theme";
 
 export const L1_BASE_CHAINS: number[] = [
@@ -16,12 +17,12 @@ export const L1_BASE_CHAINS: number[] = [
 
 export const NetworkIcon = ({
   chain,
-  deployment,
   ...props
 }: {
-  chain: Chain | ChainDto | undefined;
-  deployment: DeploymentDto | null;
+  chain: Chain | ChainDto | undefined | null;
 } & Omit<ImageProps, "src" | "alt">) => {
+  const deployment = useDeployments().find((x) => x.l2.id === chain?.id);
+
   const isBase = chain?.id === deployment?.l1.id;
   const isRollup = chain?.id === deployment?.l2.id;
   const isL3 = !L1_BASE_CHAINS.includes(deployment?.l1.id ?? 0);

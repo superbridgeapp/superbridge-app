@@ -1,4 +1,3 @@
-import { AcrossDomainDto } from "@/codegen/model";
 import { ModalNames } from "@/constants/modal-names";
 import { useBridgeRoutes } from "@/hooks/use-bridge-routes";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
@@ -6,16 +5,16 @@ import { useConfigState } from "@/state/config";
 
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
 
-export const NetworkSelectorModal = () => {
+export const RouteSelectorModal = () => {
   const to = useToChain();
   const from = useFromChain();
 
   const routes = useBridgeRoutes();
   const open = useConfigState.useModals().RouteSelector === true;
   const removeModal = useConfigState.useRemoveModal();
-  const setNetworkSelectorModal = useConfigState.useSetNetworkSelectorModal();
+  const setRouteIndex = useConfigState.useSetRouteIndex();
 
-  const onSelect = (d: AcrossDomainDto) => {
+  const onSelect = (index: number) => {
     // if (networkSelectorModal === "from") {
     //   setFromChainId(d.chain.id);
     //   if (d.chain.id === to?.id) {
@@ -36,7 +35,8 @@ export const NetworkSelectorModal = () => {
     //   trackEvent({ event: "to-chain-select", name: d.chain.name });
     // }
 
-    setNetworkSelectorModal(null);
+    setRouteIndex(index);
+    removeModal(ModalNames.RouteSelector);
   };
 
   return (
@@ -49,22 +49,14 @@ export const NetworkSelectorModal = () => {
           <DialogTitle>Choose route</DialogTitle>
         </DialogHeader>
         <div className="flex flex-col">
-          {routes?.map((route) => (
+          {routes?.map((route, index) => (
             <div
               key={route.id}
-              // onClick={() => onSelect(domain)}
-              className="flex items-center gap-2 px-6 py-4 bg-transparent transition-all hover:bg-muted cursor-pointer"
+              onClick={() => onSelect(index)}
+              className="flex flex-col p-4 hover:bg-zinc-50 transition"
             >
-              {route.id}
-              {/* <NetworkIcon
-                chain={domain.chain}
-                deployment={null}
-                width={32}
-                height={32}
-              /> */}
-              {/* <span className="text-base leading-none">
-                {domain.chain.name}
-              </span> */}
+              <div>Route: {route.id}</div>
+              <div>Receive: {route.receive}</div>
             </div>
           ))}
         </div>

@@ -91,6 +91,11 @@ interface ConfigState {
 
   routeIndex: number;
   setRouteIndex: (n: number) => void;
+
+  fromChainId: number;
+  setFromChainId: (id: number) => void;
+  toChainId: number;
+  setToChainId: (id: number) => void;
 }
 
 const ConfigState = create<ConfigState>()((set, get) => ({
@@ -199,6 +204,12 @@ const ConfigState = create<ConfigState>()((set, get) => ({
 
   routeIndex: 0,
   setRouteIndex: (routeIndex) => set({ routeIndex }),
+
+  fromChainId: 10,
+  toChainId: 8453,
+
+  setFromChainId: (fromChainId) => set({ fromChainId }),
+  setToChainId: (toChainId) => set({ toChainId }),
 }));
 
 export const useConfigState = createSelectorHooks(ConfigState);

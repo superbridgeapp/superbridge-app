@@ -53,7 +53,6 @@ import {
 import inProgress from "../animation/loading.json";
 import { AcrossBadge } from "./across-badge";
 import { CctpBadge } from "./badges/cttp-badge";
-import { FastNetworkIcon } from "./fast/network-icon";
 import { NetworkIcon } from "./network-icon";
 import { NftImage } from "./nft";
 import { TokenIcon } from "./token-icon";
@@ -646,24 +645,12 @@ export const TransactionRow = ({ tx }: { tx: Transaction }) => {
           </div>
           <div className="flex items-center text-sm text-muted-foreground">
             <div className="flex items-center">
-              {tx.type === "across-bridge" ? (
-                <>
-                  <FastNetworkIcon
-                    chain={from}
-                    className="h-4 w-4 mr-1"
-                    height={12}
-                    width={12}
-                  />
-                </>
-              ) : (
-                <NetworkIcon
-                  chain={from}
-                  deployment={deployment}
-                  className="h-4 w-4 mr-1"
-                  height={12}
-                  width={12}
-                />
-              )}
+              <NetworkIcon
+                chain={from}
+                className="h-4 w-4 mr-1"
+                height={12}
+                width={12}
+              />
               <span className="text-xs">{from.name}</span>
             </div>
             <div className="mx-1">
@@ -680,22 +667,12 @@ export const TransactionRow = ({ tx }: { tx: Transaction }) => {
             </div>
 
             <div className="flex items-center">
-              {tx.type === "across-bridge" ? (
-                <FastNetworkIcon
-                  chain={to}
-                  className="h-4 w-4 mr-1"
-                  height={12}
-                  width={12}
-                />
-              ) : (
-                <NetworkIcon
-                  chain={to}
-                  deployment={deployment}
-                  className="h-4 w-4 mr-1"
-                  height={12}
-                  width={12}
-                />
-              )}
+              <NetworkIcon
+                chain={to}
+                className="h-4 w-4 mr-1"
+                height={12}
+                width={12}
+              />
               <span className="text-xs">{to.name}</span>
             </div>
             <button className="ml-auto">

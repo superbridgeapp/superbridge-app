@@ -17,9 +17,7 @@ import { useConfigState } from "@/state/config";
 import { useInjectedStore } from "@/state/injected";
 import { MultiChainToken } from "@/types/token";
 import { formatDecimals } from "@/utils/format-decimals";
-import { isCctp } from "@/utils/is-cctp";
 
-import { CctpBadge } from "../badges/cttp-badge";
 import { TokenIcon } from "../token-icon";
 import { Button } from "../ui/button";
 import { useCustomToken } from "./use-custom-token";
@@ -31,7 +29,7 @@ const TokenComponent = ({
   onClick,
 }: {
   token: MultiChainToken;
-  from: ChainDto | Chain | undefined;
+  from: ChainDto | Chain | undefined | null;
   balance: bigint;
   onClick: () => void;
 }) => {
@@ -58,7 +56,6 @@ const TokenComponent = ({
             <span className="text-sm font-heading">
               {token[from?.id ?? 0]?.name}
             </span>
-            {isCctp(token) && !fast && <CctpBadge />}
           </div>
           <span className="text-xs  text-muted-foreground">
             {token[from?.id ?? 0]?.symbol}

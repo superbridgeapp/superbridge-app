@@ -3,7 +3,6 @@ import { useAcrossDomains } from "@/hooks/across/use-across-domains";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
 import { trackEvent } from "@/services/ga";
 import { useConfigState } from "@/state/config";
-import { useFastState } from "@/state/fast";
 
 import { NetworkIcon } from "../network-icon";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
@@ -14,9 +13,8 @@ export const NetworkSelectorModal = () => {
 
   const networkSelectorModal = useConfigState.useNetworkSelectorModal();
   const setNetworkSelectorModal = useConfigState.useSetNetworkSelectorModal();
-
-  const setFromChainId = useFastState.useSetFromChainId();
-  const setToChainId = useFastState.useSetToChainId();
+  const setFromChainId = useConfigState.useSetFromChainId();
+  const setToChainId = useConfigState.useSetToChainId();
 
   const acrossDomains = useAcrossDomains();
 
@@ -60,12 +58,7 @@ export const NetworkSelectorModal = () => {
               onClick={() => onSelect(domain)}
               className="flex items-center gap-2 px-6 py-4 bg-transparent transition-all hover:bg-muted cursor-pointer"
             >
-              <NetworkIcon
-                chain={domain.chain}
-                deployment={null}
-                width={32}
-                height={32}
-              />
+              <NetworkIcon chain={domain.chain} width={32} height={32} />
               <span className="text-base leading-none">
                 {domain.chain.name}
               </span>

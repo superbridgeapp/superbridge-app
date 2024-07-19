@@ -12,8 +12,8 @@ export const RouteLineItem = () => {
       className="flex items-center justify-between px-3 py-2 -mr-0.5"
       onClick={
         routes?.length && routes.length > 1
-          ? () => {}
-          : () => openModal(ModalNames.RouteSelector)
+          ? () => openModal(ModalNames.RouteSelector)
+          : () => {}
       }
     >
       {routes?.[routeIndex]?.id}

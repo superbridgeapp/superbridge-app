@@ -145,7 +145,7 @@ export const useTokenLists = () => {
     [
       ...kroma.l1Tokens,
       ...usdc.bridged,
-      ...usdc.native,
+      // ...usdc.native,
       ...wsteth,
       ...dog,
       ...rollux,
@@ -159,6 +159,14 @@ export const useTokenLists = () => {
         multichainTokens[tok.opTokenId][tok.chainId] = tok;
       } else {
         multichainTokens[tok.opTokenId] = { [tok.chainId]: tok };
+      }
+    });
+
+    usdc.native.forEach((tok) => {
+      if (multichainTokens["native-usdc"]) {
+        multichainTokens["native-usdc"][tok.chainId] = tok;
+      } else {
+        multichainTokens["native-usdc"] = { [tok.chainId]: tok };
       }
     });
 

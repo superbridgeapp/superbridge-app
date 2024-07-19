@@ -34,7 +34,6 @@ import { ExpensiveGasModal } from "./alerts/expensive-gas-modal";
 import { FaultProofsModal } from "./alerts/fault-proofs-modal";
 import { NoGasModal } from "./alerts/no-gas-modal";
 import { ConfirmationModalV2 } from "./confirmation-modal-v2";
-import { FastFromTo } from "./fast/FromTo";
 import { FaultProofInfoModal } from "./fault-proof-info-modal";
 import { LineItems } from "./line-items";
 import { Modals } from "./modals";
@@ -275,7 +274,7 @@ export const BridgeBody = () => {
       />
 
       <div className="flex flex-col gap-1">
-        {fast ? <FastFromTo /> : <FromTo />}
+        <FromTo />
 
         {token ? (
           <TokenInput />

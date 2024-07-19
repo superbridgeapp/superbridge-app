@@ -1,55 +1,35 @@
 import { useConfigState } from "@/state/config";
-import { useFastState } from "@/state/fast";
 
 import { useAcrossDomains } from "./across/use-across-domains";
-import { useDeployment } from "./use-deployment";
-
-export const useFromChain = () => {
-  const deployment = useDeployment();
-  const acrossDomains = useAcrossDomains();
-
-  const fast = useConfigState.useFast();
-  const withdrawing = useConfigState.useWithdrawing();
-  const fastFromChainId = useFastState.useFromChainId();
-
-  if (fast) {
-    return acrossDomains.find((x) => x.chain.id === fastFromChainId)?.chain;
-  }
-
-  return withdrawing ? deployment?.l2 : deployment?.l1;
-};
-
-export const useToChain = () => {
-  const deployment = useDeployment();
-  const acrossDomains = useAcrossDomains();
-
-  const fast = useConfigState.useFast();
-  const withdrawing = useConfigState.useWithdrawing();
-  const fastToChainId = useFastState.useToChainId();
-
-  if (fast) {
-    return acrossDomains.find((x) => x.chain.id === fastToChainId)?.chain;
-  }
-
-  return withdrawing ? deployment?.l1 : deployment?.l2;
-};
+import { useCctpDomains } from "./cctp/use-cctp-domains";
+import { useDeployments } from "./use-deployments";
 
 export const useChain = (chainId: number | undefined) => {
-  const deployment = useDeployment();
+  const deployments = useDeployments();
   const acrossDomains = useAcrossDomains();
-
-  const fast = useConfigState.useFast();
+  const cctpDomains = useCctpDomains();
 
   if (!chainId) {
     return null;
   }
 
-  if (fast) {
-    return acrossDomains.find((x) => x.chain.id === chainId)?.chain;
+  const chain =
+    deployments.find((d) => d.l1.id === chainId)?.l1 ||
+    deployments.find((d) => d.l2.id === chainId)?.l2 ||
+    acrossDomains.find((x) => x.chain.id === chainId)?.chain;
+  if (chain) {
+    return chain;
   }
 
-  if (deployment?.l1.id === chainId) return deployment.l1;
-  if (deployment?.l2.id === chainId) return deployment.l2;
-
   return null;
+};
+
+export const useFromChain = () => {
+  const fromChainId = useConfigState.useFromChainId();
+  return useChain(fromChainId);
+};
+
+export const useToChain = () => {
+  const toChainId = useConfigState.useToChainId();
+  return useChain(toChainId);
 };
