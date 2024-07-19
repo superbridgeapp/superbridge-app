@@ -680,6 +680,20 @@ const celoTheme: Theme = {
     title: "text-black",
   },
 };
+
+const swanTheme: Theme = {
+  ...defaultTheme,
+  iconSrc: "/img/swanchain/icon.svg",
+  card: {
+    className: "bg-[#447DFF]",
+    title: "text-white",
+    overlay: {
+      image: "/img/swanchain/bg-card.svg",
+      className: "bg-cover bg-bottom bg-no-repeat mix-blend-multiply",
+    },
+  },
+};
+
 export const themes: { [name: string]: Theme | undefined } = {
   ["base"]: baseTheme,
   ["base-sepolia"]: baseTheme,
@@ -737,6 +751,7 @@ export const themes: { [name: string]: Theme | undefined } = {
   ["xterio-chain-eth"]: xterioTheme,
   ["xterio-eth-testnet"]: xterioTheme,
   ["celo-testnet"]: celoTheme,
+  ["swan-chain"]: swanTheme,
 };
 
 export const deploymentTheme = (

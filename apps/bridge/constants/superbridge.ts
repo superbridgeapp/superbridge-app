@@ -15,6 +15,7 @@ export const SUPERCHAIN_MAINNETS = [
   "mint-mainnet-0",
   // "kroma",
   "xterio-chain-eth",
+  "swan-chain",
 ];
 
 export const SUPERCHAIN_TESTNETS = [
