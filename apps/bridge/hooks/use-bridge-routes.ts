@@ -8,7 +8,7 @@ import { useFromChain, useToChain } from "./use-chain";
 import { useGraffiti } from "./use-graffiti";
 import { useWeiAmount } from "./use-wei-amount";
 
-export const useBridgeV2 = () => {
+export const useBridgeRoutes = () => {
   const from = useFromChain();
   const to = useToChain();
   const account = useAccount();
@@ -46,44 +46,6 @@ export const useBridgeV2 = () => {
     }
   );
 
-  console.log(routes.data?.data);
-  // const withdrawing = useConfigState.useWithdrawing();
-  // const escapeHatch = useConfigState.useForceViaL1();
-
-  // const bridgeArgs = useTransactionArgs();
-  // const { sendTransactionAsync, isLoading } = useSendTransaction();
-  // const deployment = useDeployment();
-
-  // const chainId = withdrawing && escapeHatch ? deployment?.l1.id : from?.id;
-
-  // const fromFeeData = useEstimateFeesPerGas({ chainId });
-  // let { data: gas, refetch } = useEstimateGas({
-  //   ...bridgeArgs?.tx,
-  //   gasPrice: fromFeeData.data?.gasPrice,
-  //   maxFeePerGas: fromFeeData.data?.maxFeePerGas,
-  //   maxPriorityFeePerGas: fromFeeData.data?.maxPriorityFeePerGas,
-  // });
-
-  // if (gas) {
-  //   gas = gas + gas / BigInt("10");
-  // }
-
-  // return {
-  //   write: !bridgeArgs?.tx
-  //     ? undefined
-  //     : () =>
-  //         sendTransactionAsync({
-  //           ...bridgeArgs.tx,
-  //           gas,
-  //           gasPrice: fromFeeData.data?.gasPrice,
-  //           maxFeePerGas: fromFeeData.data?.maxFeePerGas,
-  //           maxPriorityFeePerGas: fromFeeData.data?.maxPriorityFeePerGas,
-  //         }),
-  //   isLoading,
-  //   address: bridgeArgs?.approvalAddress,
-  //   refetch,
-  //   valid: !!bridgeArgs,
-  //   args: bridgeArgs,
-  //   gas,
-  // };
+  console.log(routes);
+  return routes.data?.data;
 };

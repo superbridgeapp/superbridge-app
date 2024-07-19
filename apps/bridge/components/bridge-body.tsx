@@ -16,7 +16,6 @@ import { useAllowance } from "@/hooks/use-allowance";
 import { useApprove } from "@/hooks/use-approve";
 import { useTokenBalance } from "@/hooks/use-balances";
 import { useBaseNativeTokenBalance } from "@/hooks/use-base-native-token-balance";
-import { useBridgeV2 } from "@/hooks/use-bridge-v2";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
 import { useDeployment } from "@/hooks/use-deployment";
 import { useNativeToken } from "@/hooks/use-native-token";
@@ -55,7 +54,6 @@ export const BridgeBody = () => {
   const weiAmount = useWeiAmount();
   const token = useSelectedToken();
   const { t } = useTranslation();
-  useBridgeV2();
 
   const deployment = useDeployment();
   const setConfirmationModal = useConfigState.useSetDisplayConfirmationModal();

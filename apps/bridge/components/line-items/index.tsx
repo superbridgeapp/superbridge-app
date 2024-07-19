@@ -5,6 +5,7 @@ import { FeeLineItem } from "./fee-line-item";
 import { NetworkFees } from "./fees/network-fees";
 import { WithdrawFees } from "./fees/withdraw-fees";
 import { RecipientAddressLineItem } from "./recipient-line-item";
+import { RouteLineItem } from "./route-line-item";
 import { TransferTimeLineItem } from "./transfer-time-line-item";
 
 export const LineItems = () => {
@@ -18,6 +19,7 @@ export const LineItems = () => {
       <RecipientAddressLineItem />
       {fast && <FeeLineItem />}
       <AmountReceivedLineItem />
+      <RouteLineItem />
       <TransferTimeLineItem />
       {fast || !withdrawing ? <NetworkFees /> : <WithdrawFees />}
     </div>

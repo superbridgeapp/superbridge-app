@@ -88,6 +88,9 @@ interface ConfigState {
 
   networkSelectorModal: "from" | "to" | null;
   setNetworkSelectorModal: (x: "from" | "to" | null) => void;
+
+  routeIndex: number;
+  setRouteIndex: (n: number) => void;
 }
 
 const ConfigState = create<ConfigState>()((set, get) => ({
@@ -193,6 +196,9 @@ const ConfigState = create<ConfigState>()((set, get) => ({
         [name]: false,
       },
     }),
+
+  routeIndex: 0,
+  setRouteIndex: (routeIndex) => set({ routeIndex }),
 }));
 
 export const useConfigState = createSelectorHooks(ConfigState);
