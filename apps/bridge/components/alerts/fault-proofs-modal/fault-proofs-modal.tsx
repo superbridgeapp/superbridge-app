@@ -28,7 +28,7 @@ export const FaultProofsModal = ({ onProceed, open, onCancel }: AlertProps) => {
             <div className="text-xs text-left md:text-sm prose-sm  leading-relaxed  text-muted-foreground text-pretty">
               <p>
                 The {deployment?.l2.name} Fault Proof upgrade has been targeted
-                for June.
+                for late July.
               </p>
               <p>
                 Any withdrawals initiated cannot be proved until the upgrade is
@@ -45,7 +45,7 @@ export const FaultProofsModal = ({ onProceed, open, onCancel }: AlertProps) => {
                 </a>{" "}
                 or check the{" "}
                 <a
-                  href="https://superbridge.app/support/optimism"
+                  href={`https://superbridge.app/support/${deployment?.name}`}
                   target="_blank"
                   className="text-foreground underline"
                 >

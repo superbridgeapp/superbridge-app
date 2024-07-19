@@ -25,7 +25,7 @@ export const FaultProofInfoModal = () => {
             <div className="text-xs text-left md:text-sm prose-sm  leading-relaxed  text-muted-foreground text-pretty">
               <p>
                 The {deployment?.l2.name} Fault Proof upgrade has been targeted
-                for June.
+                for late July.
               </p>
               <p>
                 Withdrawals submitted now cannot be proved and therefore
