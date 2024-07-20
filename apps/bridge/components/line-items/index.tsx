@@ -1,4 +1,4 @@
-import { useConfigState } from "@/state/config";
+import { useIsWithdrawal } from "@/hooks/use-withdrawing";
 
 import { AmountReceivedLineItem } from "./amount-received-line-item";
 import { FeeLineItem } from "./fee-line-item";
@@ -9,15 +9,14 @@ import { RouteLineItem } from "./route-line-item";
 import { TransferTimeLineItem } from "./transfer-time-line-item";
 
 export const LineItems = () => {
-  const withdrawing = useConfigState.useWithdrawing();
-  const fast = useConfigState.useFast();
+  const withdrawing = useIsWithdrawal();
 
   return (
     <div
       className={`border border-border rounded-2xl divide-y divide-border pt-1`}
     >
       <RecipientAddressLineItem />
-      {fast && <FeeLineItem />}
+      <FeeLineItem />
       <AmountReceivedLineItem />
       <RouteLineItem />
       <TransferTimeLineItem />

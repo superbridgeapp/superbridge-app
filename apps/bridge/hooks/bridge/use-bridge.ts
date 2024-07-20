@@ -6,22 +6,19 @@ import {
 
 import { useConfigState } from "@/state/config";
 
-import { useFromChain } from "../use-chain";
-import { useDeployment } from "../use-deployment";
+import { useInitiatingChainId } from "../use-initiating-chain-id";
 import { useTransactionArgs } from "../use-transaction-args";
 
 export const useBridge = () => {
-  const withdrawing = useConfigState.useWithdrawing();
+  const initiatingChainId = useInitiatingChainId();
   const escapeHatch = useConfigState.useForceViaL1();
 
   const bridgeArgs = useTransactionArgs();
   const { sendTransactionAsync, isLoading } = useSendTransaction();
-  const deployment = useDeployment();
 
-  const from = useFromChain();
-  const chainId = withdrawing && escapeHatch ? deployment?.l1.id : from?.id;
-
-  const fromFeeData = useEstimateFeesPerGas({ chainId });
+  const fromFeeData = useEstimateFeesPerGas({
+    chainId: initiatingChainId || undefined,
+  });
   let { data: gas, refetch } = useEstimateGas({
     ...bridgeArgs?.tx,
     gasPrice: fromFeeData.data?.gasPrice,

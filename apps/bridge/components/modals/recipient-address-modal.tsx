@@ -63,7 +63,6 @@ const Profile = ({
 };
 
 export const RecipientAddressModal = () => {
-  const withdrawing = useConfigState.useWithdrawing();
   const toChain = useToChain();
   const recipientName = useConfigState.useRecipientName();
   const recipientAddress = useConfigState.useRecipientAddress();
@@ -140,18 +139,16 @@ export const RecipientAddressModal = () => {
       >
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>
-              {withdrawing
-                ? t("recipient.withdrawDestination")
-                : t("recipient.depositDestination")}
-            </DialogTitle>
+            <DialogTitle>{t("recipient.bridgeDestination")}</DialogTitle>
           </DialogHeader>
 
           <div className="space-y-4 p-6">
             <div className="flex flex-col gap-6">
               <div className="flex flex-col gap-1">
                 <div className="flex items-center justify-between">
-                  <h3 className="font-heading text-sm mb-2">To address</h3>
+                  <h3 className="font-heading text-sm mb-2">
+                    {t("recipient.toAddress")}
+                  </h3>
                   <Profile
                     data={profile.data ?? null}
                     showName={!debouncedInput.endsWith(".eth")}
@@ -177,7 +174,7 @@ export const RecipientAddressModal = () => {
                     .with({ isLoading: true }, () => (
                       <div className="inline-flex gap-1 px-2 py-1 rounded-full bg-zinc-100 dark:bg-zinc-900">
                         <span className="text-xs leading-none text-muted-foreground">
-                          Checking address…
+                          {t("recipient.checkingAddress")}
                         </span>
                       </div>
                     ))

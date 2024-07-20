@@ -28,7 +28,6 @@ export const ConfirmationModalReviewTab = ({
   const to = useToChain();
   const stateToken = useConfigState.useToken();
   const rawAmount = useConfigState.useRawAmount();
-  const fast = useConfigState.useFast();
 
   const route = useSelectedBridgeRoute();
 

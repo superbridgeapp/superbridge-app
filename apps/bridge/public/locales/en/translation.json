@@ -123,13 +123,14 @@
   },
 
   "recipient": {
-    "withdrawDestination": "Withdraw destination",
-    "depositDestination": "Deposit destination",
+    "bridgeDestination": "Bridge destination",
+    "toAddress": "To address",
     "invalidAddress": "Not a valid address",
     "yourChainAddress": "This is your {{chain}} address",
     "usedBefore": "Account used before",
     "usedBeforeMultiple": "Account used {{count}} times before",
-    "newAddress": "New address - please be careful!"
+    "newAddress": "New address - please be careful!",
+    "checkingAddress": "Checking address…"
   },
 
   "buttons": {

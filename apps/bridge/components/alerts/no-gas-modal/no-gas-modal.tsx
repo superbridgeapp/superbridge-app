@@ -5,19 +5,19 @@ import { arbitrum, base, mainnet, mode, optimism } from "viem/chains";
 import { DeploymentDto, DeploymentFamily } from "@/codegen/model";
 import { IconGas } from "@/components/icons";
 import { isSuperbridge } from "@/config/superbridge";
+import { useIsCctpRoute } from "@/hooks/cctp/use-is-cctp-route";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
 import { useDeployment } from "@/hooks/use-deployment";
 import { useNativeToken, useToNativeToken } from "@/hooks/use-native-token";
 import { useNavigate } from "@/hooks/use-navigate";
 import { useSelectedToken } from "@/hooks/use-selected-token";
+import { useWithdrawing } from "@/hooks/use-withdrawing";
 import { useConfigState } from "@/state/config";
-import { isCctp } from "@/utils/is-cctp";
 import { isNativeToken } from "@/utils/is-eth";
 
 import { Button } from "../../ui/button";
 import { Dialog, DialogContent } from "../../ui/dialog";
 import { AlertProps } from "../types";
-import { GasDrop } from "./icons";
 
 const ACROSS_NETWORKS: number[] = [
   mainnet.id,
@@ -37,8 +37,9 @@ export const NoGasModal = ({ onProceed, open, onCancel }: AlertProps) => {
   const { t } = useTranslation();
   const stateToken = useConfigState.useToken();
   const setStateToken = useConfigState.useSetToken();
-  const withdrawing = useConfigState.useWithdrawing();
 
+  const withdrawing = useWithdrawing();
+  const isCctp = useIsCctpRoute();
   const from = useFromChain();
   const to = useToChain();
   const token = useSelectedToken();
@@ -56,7 +57,7 @@ export const NoGasModal = ({ onProceed, open, onCancel }: AlertProps) => {
   };
 
   const description = match({
-    isCctp: isCctp(stateToken),
+    isCctp,
     withdrawing,
     family: deployment?.family,
     isEth: isNativeToken(stateToken),

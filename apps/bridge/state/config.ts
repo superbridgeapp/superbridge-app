@@ -9,10 +9,6 @@ import { MultiChainToken } from "@/types/token";
 import { CustomTokenList } from "./settings";
 
 interface ConfigState {
-  withdrawing: boolean;
-  toggleWithdrawing: () => void;
-  setWithdrawing: (b: boolean) => void;
-
   displayConfirmationModal: boolean;
   setDisplayConfirmationModal: (x: boolean) => void;
 
@@ -99,11 +95,6 @@ interface ConfigState {
 }
 
 const ConfigState = create<ConfigState>()((set, get) => ({
-  withdrawing: false,
-  toggleWithdrawing: () =>
-    set((s) => ({ withdrawing: !s.withdrawing, fast: false })),
-  setWithdrawing: (withdrawing) => set({ withdrawing, fast: false }),
-
   fast: false,
   setFast: (fast: boolean) => set({ fast }),
 

@@ -1,11 +1,8 @@
 import { formatUnits } from "viem";
 import { useEstimateFeesPerGas } from "wagmi";
 
-import { useConfigState } from "@/state/config";
-
 import { useBridge } from "./bridge/use-bridge";
-import { useFromChain } from "./use-chain";
-import { useDeployment } from "./use-deployment";
+import { useInitiatingChainId } from "./use-initiating-chain-id";
 
 // If gas estimation is failing, likely because they don't
 // have enough ETH, we still want to provide a rough gas estimate.
@@ -14,16 +11,11 @@ const DEFAULT_GAS_ESTIMATION = BigInt(200_000);
 
 export const useNetworkFee = () => {
   const { gas } = useBridge();
-  const deployment = useDeployment();
-  const withdrawing = useConfigState.useWithdrawing();
-  const forceViaL1 = useConfigState.useForceViaL1();
-  const from = useFromChain();
 
-  const initiatingChainId =
-    forceViaL1 && withdrawing ? deployment?.l1.id : from?.id;
+  const initiatingChainId = useInitiatingChainId();
 
   const feeData = useEstimateFeesPerGas({
-    chainId: initiatingChainId,
+    chainId: initiatingChainId || undefined,
   });
 
   let networkFee = 0;

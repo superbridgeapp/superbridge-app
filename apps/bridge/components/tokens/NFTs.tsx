@@ -7,6 +7,7 @@ import { useBridgeControllerGetNfts } from "@/codegen/index";
 import { BridgeNftDto } from "@/codegen/model";
 import { Input } from "@/components/ui/input";
 import { useDeployment } from "@/hooks/use-deployment";
+import { useIsWithdrawal } from "@/hooks/use-withdrawing";
 import { useConfigState } from "@/state/config";
 
 import { NftImage } from "../nft";
@@ -20,7 +21,7 @@ export const NonFungibleTokenPicker = ({
   const [search, setSearch] = useState("");
 
   const deployment = useDeployment();
-  const withdrawing = useConfigState.useWithdrawing();
+  const withdrawing = useIsWithdrawal();
   const account = useAccount();
   const nfts = useBridgeControllerGetNfts(
     deployment!.id,

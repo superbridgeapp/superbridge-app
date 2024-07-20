@@ -17,7 +17,6 @@ export function Header() {
   const deployments = useDeployments();
   const navigate = useNavigate();
   const displayTransactions = useConfigState.useDisplayTransactions();
-  const fast = useConfigState.useFast();
   const superbridgeTestnetsEnabled = useInjectedStore((s) => s.testnets);
   const pathname = usePathname();
 
@@ -92,7 +91,7 @@ export function Header() {
                 width="27"
                 height="16"
                 className={
-                  pathname === "/" && !fast && !displayTransactions
+                  pathname === "/" && !displayTransactions
                     ? "fill-foreground transition-all"
                     : "fill-muted-foreground transition-all"
                 }
@@ -116,7 +115,7 @@ export function Header() {
               >
                 <IconSuperFastSimple
                   className={
-                    fast && !displayTransactions
+                    !displayTransactions
                       ? "fill-foreground transition-all"
                       : "fill-muted-foreground transition-all"
                   }

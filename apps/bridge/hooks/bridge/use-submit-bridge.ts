@@ -14,12 +14,14 @@ import { useModalsState } from "@/state/modals";
 import { isCctp } from "@/utils/is-cctp";
 import { isEth } from "@/utils/is-eth";
 
+import { useIsWithdrawal } from "../use-withdrawing";
+
 export const useSubmitBridge = (initiateBridge: () => void) => {
   const account = useAccount();
   const to = useToChain();
   const deployment = useDeployment();
 
-  const withdrawing = useConfigState.useWithdrawing();
+  const withdrawing = useIsWithdrawal();
   const stateToken = useConfigState.useToken();
   const faultProofUpgradeTime = useFaultProofUpgradeTime(deployment);
   const setAlerts = useModalsState.useSetAlerts();

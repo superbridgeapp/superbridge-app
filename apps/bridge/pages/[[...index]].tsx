@@ -26,7 +26,6 @@ import {
 } from "@/constants/superbridge";
 import { useDeployment } from "@/hooks/use-deployment";
 import { useDeployments } from "@/hooks/use-deployments";
-import { useConfigState } from "@/state/config";
 import { InjectedStoreProvider } from "@/state/injected";
 import { ThemeProvider } from "@/state/theme";
 
@@ -179,16 +178,10 @@ function Index() {
   const deployment = useDeployment();
   const deployments = useDeployments();
 
-  const fast = useConfigState.useFast();
-
   return (
     <PageTransition key={"index"}>
       <AnimatePresence mode="sync">
-        {fast ? (
-          <PageTransition key={"fast-bridge"}>
-            <Bridge key={"fast-bridge"} />
-          </PageTransition>
-        ) : deployment ? (
+        {deployment ? (
           <PageTransition key={"bridge"}>
             <Bridge key={"bridge"} />
           </PageTransition>

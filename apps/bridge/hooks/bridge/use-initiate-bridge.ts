@@ -2,10 +2,8 @@ import { waitForTransactionReceipt } from "@wagmi/core";
 import { useAccount, useConfig, useWalletClient } from "wagmi";
 
 import { useBridgeControllerTrack } from "@/codegen";
-import { ChainDto } from "@/codegen/model";
-import { useAcrossDomains } from "@/hooks/across/use-across-domains";
 import { useAllowance } from "@/hooks/use-allowance";
-import { useFromChain, useToChain } from "@/hooks/use-chain";
+import { useChain, useFromChain, useToChain } from "@/hooks/use-chain";
 import { useDeployment } from "@/hooks/use-deployment";
 import { useSelectedToken } from "@/hooks/use-selected-token";
 import { useStatusCheck } from "@/hooks/use-status-check";
@@ -20,6 +18,8 @@ import { buildPendingTx } from "@/utils/build-pending-tx";
 import { isCctp } from "@/utils/is-cctp";
 import { isNativeToken } from "@/utils/is-eth";
 
+import { useInitiatingChainId } from "../use-initiating-chain-id";
+import { useIsWithdrawal } from "../use-withdrawing";
 import { useBridge } from "./use-bridge";
 
 export const useInitiateBridge = (bridge: ReturnType<typeof useBridge>) => {
@@ -33,11 +33,10 @@ export const useInitiateBridge = (bridge: ReturnType<typeof useBridge>) => {
   const token = useSelectedToken();
 
   const deployment = useDeployment();
-  const withdrawing = useConfigState.useWithdrawing();
+  const withdrawing = useIsWithdrawal();
   const stateToken = useConfigState.useToken();
   const forceViaL1 = useConfigState.useForceViaL1();
   const rawAmount = useConfigState.useRawAmount();
-  const fast = useConfigState.useFast();
   const nft = useConfigState.useNft();
   const recipient = useConfigState.useRecipientAddress();
   const setToken = useConfigState.useSetToken();
@@ -49,9 +48,10 @@ export const useInitiateBridge = (bridge: ReturnType<typeof useBridge>) => {
   const statusCheck = useStatusCheck();
   const track = useBridgeControllerTrack();
 
+  const initiatingChainId = useInitiatingChainId();
+  const initiatingChain = useChain(initiatingChainId);
   const wagmiConfig = useConfig();
 
-  const acrossDomains = useAcrossDomains();
   const allowance = useAllowance(token, bridge.address);
 
   return async () => {
@@ -61,25 +61,9 @@ export const useInitiateBridge = (bridge: ReturnType<typeof useBridge>) => {
       !bridge.valid ||
       !bridge.args ||
       !recipient ||
-      statusCheck
+      statusCheck ||
+      !initiatingChain
     ) {
-      return;
-    }
-
-    let initiatingChain: ChainDto | undefined;
-
-    if (fast) {
-      initiatingChain = acrossDomains.find(
-        (x) => x.chain?.id === bridge.args?.tx.chainId
-      )?.chain;
-    } else if (bridge.args.tx.chainId === deployment?.l1.id) {
-      initiatingChain = deployment?.l1;
-    } else {
-      initiatingChain = deployment?.l2;
-    }
-
-    if (!initiatingChain) {
-      console.warn("unable to infer initiating chain");
       return;
     }
 
@@ -101,7 +85,7 @@ export const useInitiateBridge = (bridge: ReturnType<typeof useBridge>) => {
         to: to?.name ?? "",
         amount: parseFloat(rawAmount),
         token: token?.symbol ?? "",
-        type: fast
+        type: "fast"
           ? "across"
           : !!stateToken && isCctp(stateToken)
           ? "cctp"

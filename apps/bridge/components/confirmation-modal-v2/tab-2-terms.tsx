@@ -8,7 +8,7 @@ import { useToChain } from "@/hooks/use-chain";
 import { useFinalizationPeriod } from "@/hooks/use-finalization-period";
 import { useSelectedBridgeRoute } from "@/hooks/use-selected-bridge-route";
 import { useApproxTotalBridgeTime } from "@/hooks/use-transfer-time";
-import { usetTransformPeriodText } from "@/hooks/use-transform-period-text";
+import { useTransformPeriodText } from "@/hooks/use-transform-period-text";
 import { useConfigState } from "@/state/config";
 
 import { Button } from "../ui/button";
@@ -27,7 +27,6 @@ export const ConfirmationModalTermsTab = ({
   onNext: () => void;
   commonTranslationProps: object;
 }) => {
-  const withdrawing = useConfigState.useWithdrawing();
   const open = useConfigState.useDisplayConfirmationModal();
   const route = useSelectedBridgeRoute();
 
@@ -38,7 +37,7 @@ export const ConfirmationModalTermsTab = ({
   const totalBridgeTime = useApproxTotalBridgeTime();
   const finalizationTime = useFinalizationPeriod();
   const to = useToChain();
-  const transformPeriodText = usetTransformPeriodText();
+  const transformPeriodText = useTransformPeriodText();
 
   const { t } = useTranslation();
 

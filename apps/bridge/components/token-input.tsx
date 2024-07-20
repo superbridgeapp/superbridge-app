@@ -18,7 +18,6 @@ export const TokenInput = () => {
   const rawAmount = useConfigState.useRawAmount();
   const stateToken = useConfigState.useToken();
   const setRawAmount = useConfigState.useSetRawAmount();
-  const fast = useConfigState.useFast();
   const setTokensModal = useConfigState.useSetTokensModal();
 
   const tokenBalance = useTokenBalance(token);

@@ -5,6 +5,7 @@ import { formatUnits, parseUnits } from "viem";
 import { useAccount, useBalance } from "wagmi";
 
 import { AlertModals } from "@/constants/modal-names";
+import { useIsAcrossRoute } from "@/hooks/across/use-is-across-route";
 import { useBridge } from "@/hooks/bridge/use-bridge";
 import { useBridgeMax } from "@/hooks/bridge/use-bridge-max";
 import { useBridgeMin } from "@/hooks/bridge/use-bridge-min";
@@ -21,9 +22,9 @@ import { useDeployment } from "@/hooks/use-deployment";
 import { useNativeToken } from "@/hooks/use-native-token";
 import { useNetworkFee } from "@/hooks/use-network-fee";
 import { useRequiredCustomGasTokenBalance } from "@/hooks/use-required-custom-gas-token-balance";
-import { useSelectedBridgeRoute } from "@/hooks/use-selected-bridge-route";
 import { useSelectedToken } from "@/hooks/use-selected-token";
 import { useWeiAmount } from "@/hooks/use-wei-amount";
+import { useIsWithdrawal } from "@/hooks/use-withdrawing";
 import { useConfigState } from "@/state/config";
 import { useModalsState } from "@/state/modals";
 import { formatDecimals } from "@/utils/format-decimals";
@@ -54,17 +55,13 @@ export const BridgeBody = () => {
   const token = useSelectedToken();
   const { t } = useTranslation();
 
-  const route = useSelectedBridgeRoute();
-
   const deployment = useDeployment();
   const setConfirmationModal = useConfigState.useSetDisplayConfirmationModal();
-  const withdrawing = useConfigState.useWithdrawing();
-  const stateToken = useConfigState.useToken();
+  const withdrawing = useIsWithdrawal();
   const forceViaL1 = useConfigState.useForceViaL1();
   const tokensModal = useConfigState.useTokensModal();
-  const rawAmount = useConfigState.useRawAmount();
   const setTokensModal = useConfigState.useSetTokensModal();
-  const fast = useConfigState.useFast();
+  const isAcross = useIsAcrossRoute();
   const nft = useConfigState.useNft();
   const recipient = useConfigState.useRecipientAddress();
   const nativeToken = useNativeToken();
@@ -130,7 +127,7 @@ export const BridgeBody = () => {
 
   const submitButton = match({
     withdrawing,
-    fast,
+    isAcross,
     paused,
     isSubmitting: bridge.isLoading,
     account: account.address,
@@ -152,11 +149,6 @@ export const BridgeBody = () => {
     .with({ paused: true }, () => ({
       onSubmit: () => {},
       buttonText: "Bridging paused",
-      disabled: true,
-    }))
-    .with({ fast: false, withdrawing: true, withdrawalsPaused: true }, () => ({
-      onSubmit: () => {},
-      buttonText: "Withdrawals paused",
       disabled: true,
     }))
     .when(
@@ -228,17 +220,9 @@ export const BridgeBody = () => {
       buttonText: d.withdrawing ? t("withdrawing") : t("depositing"),
       disabled: true,
     }))
-    .otherwise((d) => ({
+    .otherwise(() => ({
       onSubmit: handleSubmitClick,
-      buttonText: d.nft
-        ? d.withdrawing
-          ? t("withdrawNft", { tokenId: `#${d.nft.tokenId}` })
-          : t("depositNft", { tokenId: `#${d.nft.tokenId}` })
-        : d.fast
-        ? t("reviewBridge")
-        : d.withdrawing
-        ? t("withdraw")
-        : t("deposit"),
+      buttonText: t("reviewBridge"),
       disabled: false,
     }));
 

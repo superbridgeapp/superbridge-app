@@ -10,6 +10,7 @@ import { useDeployment } from "@/hooks/use-deployment";
 import { useNativeToken, useToNativeToken } from "@/hooks/use-native-token";
 import { useTokenPrice } from "@/hooks/use-prices";
 import { useSelectedToken } from "@/hooks/use-selected-token";
+import { useWithdrawing } from "@/hooks/use-withdrawing";
 import { useConfigState } from "@/state/config";
 import { useSettingsState } from "@/state/settings";
 import { isOptimism } from "@/utils/is-mainnet";
@@ -23,7 +24,7 @@ import { AlertProps } from "../types";
 export const useEstimateTotalFeesInFiat = () => {
   const from = useFromChain();
   const to = useToChain();
-  const withdrawing = useConfigState.useWithdrawing();
+  const withdrawing = useWithdrawing();
   const escapeHatch = useConfigState.useForceViaL1();
 
   const deployment = useDeployment();

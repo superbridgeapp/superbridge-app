@@ -4,7 +4,7 @@ import { ModalNames } from "@/constants/modal-names";
 import { useToChain } from "@/hooks/use-chain";
 import { useFiatAmount } from "@/hooks/use-fiat-amount";
 import { useSelectedToken } from "@/hooks/use-selected-token";
-import { useTransferTime } from "@/hooks/use-transfer-time";
+import { useApproxTotalBridgeTimeText } from "@/hooks/use-transfer-time";
 import { useConfigState } from "@/state/config";
 
 import { IconTime } from "../icons";
@@ -22,7 +22,7 @@ export const TransferTimeInfoModal = () => {
 
   const onClose = () => removeModal(ModalNames.TransferTime);
 
-  const transferTime = useTransferTime();
+  const transferTime = useApproxTotalBridgeTimeText();
 
   const { fiatAmount, rawAmount } = useFiatAmount();
 

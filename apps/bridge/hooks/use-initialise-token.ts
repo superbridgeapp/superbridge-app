@@ -7,6 +7,7 @@ import { useConfigState } from "@/state/config";
 import { isNativeToken } from "@/utils/is-eth";
 
 import { useGasToken } from "./use-approve-gas-token";
+import { useFromChain, useToChain } from "./use-chain";
 import { useDeployment } from "./use-deployment";
 import { useAllTokens } from "./use-tokens";
 
@@ -27,31 +28,23 @@ export const useInitialiseToken = () => {
 
   const setToken = useConfigState.useSetToken();
   const setEasyMode = useConfigState.useSetEasyMode();
-  const toggleWithdrawing = useConfigState.useToggleWithdrawing();
-  const fast = useConfigState.useFast();
   const deployment = useDeployment();
+  const from = useFromChain();
+  const to = useToChain();
   const tokens = useAllTokens();
   const arbitrumGasToken = useGasToken();
 
   useEffect(() => {
-    if (!tokens.length) {
+    if (!tokens.length || !from || !to) {
       return;
     }
 
-    if (fast) {
-      setToken(tokens.find((x) => isNativeToken(x))!);
-      return;
-    }
-
-    if (!deployment) {
-      return;
-    }
     const [nameOrToken, nameOrTokenOrUndefined]: (string | undefined)[] =
       router.asPath.split(/[?\/]/).filter(Boolean);
 
     const token = tokens.find((x) => {
-      const l1 = x[deployment.l1.id];
-      const l2 = x[deployment.l2.id];
+      const l1 = x[from.id];
+      const l2 = x[to.id];
       if (!l1 || !l2) {
         return;
       }
@@ -87,7 +80,6 @@ export const useInitialiseToken = () => {
         (isAddress(nameOrToken) &&
           isAddressEqual(token[deployment.l2.id]!.address, nameOrToken))
       ) {
-        toggleWithdrawing();
       }
     } else {
       if (arbitrumGasToken) {

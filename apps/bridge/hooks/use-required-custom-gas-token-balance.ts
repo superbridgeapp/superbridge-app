@@ -9,6 +9,8 @@ import { useWeiAmount } from "@/hooks/use-wei-amount";
 import { useConfigState } from "@/state/config";
 import { isArbitrum } from "@/utils/is-mainnet";
 
+import { useIsArbitrumWithdrawal } from "./use-withdrawing";
+
 /**
  * When depositing to an Arbitrum rollup with a custom gas token, we
  * need to make sure we have a balance of that custom gas token on
@@ -20,7 +22,7 @@ import { isArbitrum } from "@/utils/is-mainnet";
  * if depositing token, extraAmount < balance
  */
 export const useRequiredCustomGasTokenBalance = () => {
-  const withdrawing = useConfigState.useWithdrawing();
+  const withdrawing = useIsArbitrumWithdrawal();
   const stateToken = useConfigState.useToken();
 
   const from = useFromChain();

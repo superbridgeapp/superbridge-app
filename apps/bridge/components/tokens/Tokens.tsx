@@ -36,8 +36,6 @@ const TokenComponent = ({
   const { t } = useTranslation();
   const selectedToken = useSelectedToken();
 
-  const fast = useConfigState.useFast();
-
   const isCustomToken = useIsCustomToken(token);
   const isCustomTokenFromList = useIsCustomTokenFromList(token);
 
@@ -277,7 +275,6 @@ export const FungibleTokenPicker = ({
   const to = useToChain();
   const deployment = useDeployment();
   const setToken = useConfigState.useSetToken();
-  const fast = useConfigState.useFast();
   const tokens = useTokenBalances(from?.id);
   const { t } = useTranslation();
   const highlightedTokens =
@@ -329,77 +326,75 @@ export const FungibleTokenPicker = ({
 
   return (
     <>
-      {!fast && (
-        <div className="flex flex-col gap-2 p-4 border-b ">
-          <Input
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            type="text"
-            autoComplete="off"
-            autoCorrect="off"
-            spellCheck="false"
-            name="token"
-            id="token"
-            placeholder="Search"
-          />
+      <div className="flex flex-col gap-2 p-4 border-b ">
+        <Input
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          type="text"
+          autoComplete="off"
+          autoCorrect="off"
+          spellCheck="false"
+          name="token"
+          id="token"
+          placeholder="Search"
+        />
 
-          {/* highlighted tokens */}
-          <div className="flex flex-wrap items-center gap-1">
-            {[
-              ...highlightedTokens
-                .filter((x) => x.deploymentName === deployment?.name)
-                .map((x) => x.address),
-              "ETH",
-              "USDC",
-              "DAI",
-              "USDT",
-              "WBTC",
-            ]
-              .filter(Boolean)
-              .map((symbolOrAddress) => {
-                const token = tokens.data.find((t) => {
-                  const l1 = t.token[deployment?.l1.id ?? 0];
-                  const l2 = t.token[deployment?.l2.id ?? 0];
-
-                  return (
-                    l2?.symbol === symbolOrAddress ||
-                    (!!l1?.address &&
-                      isAddress(symbolOrAddress) &&
-                      isAddressEqual(l1.address, symbolOrAddress))
-                  );
-                })?.token;
-
-                const fromToken = token?.[from?.id ?? 0];
-                if (!token || !fromToken) {
-                  return null;
-                }
+        {/* highlighted tokens */}
+        <div className="flex flex-wrap items-center gap-1">
+          {[
+            ...highlightedTokens
+              .filter((x) => x.deploymentName === deployment?.name)
+              .map((x) => x.address),
+            "ETH",
+            "USDC",
+            "DAI",
+            "USDT",
+            "WBTC",
+          ]
+            .filter(Boolean)
+            .map((symbolOrAddress) => {
+              const token = tokens.data.find((t) => {
+                const l1 = t.token[deployment?.l1.id ?? 0];
+                const l2 = t.token[deployment?.l2.id ?? 0];
 
                 return (
-                  <div
-                    key={fromToken.address}
-                    className={clsx(
-                      "border rounded-full flex items-center gap-1 pl-1.5 pr-3 py-1 cursor-pointer hover:bg-muted transition",
-                      highlightedTokenStyles[fromToken.symbol]
-                    )}
-                    onClick={() => onClickToken(token)}
-                  >
-                    <TokenIcon token={fromToken} className="h-5 w-5" />
-                    <div className="flex items-baseline gap-1">
-                      <span className="text-sm inline-flex">
-                        {fromToken.symbol}
-                      </span>
-                      {highlightedTokenStyles[fromToken.symbol] && (
-                        <span className="text-[9px] font-heading tracking-tighter text-black/30 dark:text-white/40">
-                          Ad
-                        </span>
-                      )}
-                    </div>
-                  </div>
+                  l2?.symbol === symbolOrAddress ||
+                  (!!l1?.address &&
+                    isAddress(symbolOrAddress) &&
+                    isAddressEqual(l1.address, symbolOrAddress))
                 );
-              })}
-          </div>
+              })?.token;
+
+              const fromToken = token?.[from?.id ?? 0];
+              if (!token || !fromToken) {
+                return null;
+              }
+
+              return (
+                <div
+                  key={fromToken.address}
+                  className={clsx(
+                    "border rounded-full flex items-center gap-1 pl-1.5 pr-3 py-1 cursor-pointer hover:bg-muted transition",
+                    highlightedTokenStyles[fromToken.symbol]
+                  )}
+                  onClick={() => onClickToken(token)}
+                >
+                  <TokenIcon token={fromToken} className="h-5 w-5" />
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-sm inline-flex">
+                      {fromToken.symbol}
+                    </span>
+                    {highlightedTokenStyles[fromToken.symbol] && (
+                      <span className="text-[9px] font-heading tracking-tighter text-black/30 dark:text-white/40">
+                        Ad
+                      </span>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
         </div>
-      )}
+      </div>
 
       <div className="overflow-y-scroll flex flex-col basis-full">
         {match({ filteredTokens, searchIsToken: isAddress(search) })

@@ -14,13 +14,16 @@ import { useTokenPrice } from "@/hooks/use-prices";
 import { useConfigState } from "@/state/config";
 import { useSettingsState } from "@/state/settings";
 
+import { useChain } from "./use-chain";
 import { useDeployment } from "./use-deployment";
+import { useInitiatingChainId } from "./use-initiating-chain-id";
 import { useNativeToken } from "./use-native-token";
 import { useNetworkFee } from "./use-network-fee";
 
 export const useFees = (from: Chain | ChainDto | undefined) => {
   const deployment = useDeployment();
-  const withdrawing = useConfigState.useWithdrawing();
+  const initiatingChainId = useInitiatingChainId();
+  const chain = useChain(initiatingChainId);
   const forceViaL1 = useConfigState.useForceViaL1();
   const easyMode = useConfigState.useEasyMode();
   const currency = useSettingsState.useCurrency();
@@ -40,7 +43,7 @@ export const useFees = (from: Chain | ChainDto | undefined) => {
   return [
     {
       name: t("fees.networkGas", {
-        chain: forceViaL1 && withdrawing ? deployment?.l1.name : from?.name,
+        chain: chain?.name,
       }),
       usd: {
         raw: nativeTokenUsdPrice ? networkFee * nativeTokenUsdPrice : undefined,

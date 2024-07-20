@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 
 import { Period } from "./use-finalization-period";
 
-export const usetTransformPeriodText = () => {
+export const useTransformPeriodText = () => {
   const { t } = useTranslation();
 
   return (str: string, args: any, period: Period) => {
