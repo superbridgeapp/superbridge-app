@@ -8,7 +8,11 @@ export const useSelectedBridgeRoute = () => {
   const routeId = useConfigState.useRouteId();
 
   if (!routeId) {
-    return routes?.find((x) => !isRouteQuoteError(x.result)) ?? null;
+    const successful = routes?.find((x) => !isRouteQuoteError(x.result));
+    if (successful) {
+      return successful;
+    }
+    return routes?.[0] ?? null;
   }
   return routes?.find((x) => x.id === routeId) ?? null;
 };

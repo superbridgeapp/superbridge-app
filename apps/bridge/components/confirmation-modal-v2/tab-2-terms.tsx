@@ -5,10 +5,8 @@ import { match } from "ts-pattern";
 
 import { useToChain } from "@/hooks/use-chain";
 import { useDeployment } from "@/hooks/use-deployment";
-import {
-  useFinalizationPeriod,
-  useTotalBridgeTime,
-} from "@/hooks/use-finalization-period";
+import { useFinalizationPeriod } from "@/hooks/use-finalization-period";
+import { useApproxTotalBridgeTime } from "@/hooks/use-transfer-time";
 import { usetTransformPeriodText } from "@/hooks/use-transform-period-text";
 import { useConfigState } from "@/state/config";
 import { isCctp } from "@/utils/is-cctp";
@@ -39,7 +37,7 @@ export const ConfirmationModalTermsTab = ({
   const [checkbox2, setCheckbox2] = useState(false);
   const [checkbox3, setCheckbox3] = useState(false);
 
-  const totalBridgeTime = useTotalBridgeTime(deployment);
+  const totalBridgeTime = useApproxTotalBridgeTime();
   const finalizationTime = useFinalizationPeriod();
   const to = useToChain();
   const transformPeriodText = usetTransformPeriodText();

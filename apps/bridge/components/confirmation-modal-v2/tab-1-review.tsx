@@ -8,15 +8,8 @@ import { useSelectedBridgeRoute } from "@/hooks/use-selected-bridge-route";
 import { useApproxTotalBridgeTime } from "@/hooks/use-transfer-time";
 import { useConfigState } from "@/state/config";
 import { formatDecimals } from "@/utils/format-decimals";
-import { isCctp } from "@/utils/is-cctp";
 
-import {
-  IconAcrossRound,
-  IconCCTPRound,
-  IconGas,
-  IconSB,
-  IconTime,
-} from "../icons";
+import { IconGas, IconSB, IconTime } from "../icons";
 import { NetworkIcon } from "../network-icon";
 import { Button } from "../ui/button";
 import {
@@ -135,13 +128,15 @@ export const ConfirmationModalReviewTab = ({
             </div>
             <div className="flex gap-1.5 items-center justify-between ">
               <span>{route?.id}</span>
-              {fast ? (
+
+              <span>Icon</span>
+              {/* {fast ? (
                 <IconAcrossRound className="h-4 w-4" />
               ) : !!stateToken && isCctp(stateToken) ? (
                 <IconCCTPRound className="h-4 w-4" />
               ) : (
                 <NetworkIcon chain={to} className="h-4 w-4" />
-              )}
+              )} */}
             </div>
           </div>
 
