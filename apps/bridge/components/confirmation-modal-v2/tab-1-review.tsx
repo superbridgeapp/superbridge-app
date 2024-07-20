@@ -2,9 +2,10 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { useFromChain, useToChain } from "@/hooks/use-chain";
-import { useDeployment } from "@/hooks/use-deployment";
+import { usePeriodText } from "@/hooks/use-period-text";
 import { useReceiveAmount } from "@/hooks/use-receive-amount";
-import { useTransferTime } from "@/hooks/use-transfer-time";
+import { useSelectedBridgeRoute } from "@/hooks/use-selected-bridge-route";
+import { useApproxTotalBridgeTime } from "@/hooks/use-transfer-time";
 import { useConfigState } from "@/state/config";
 import { formatDecimals } from "@/utils/format-decimals";
 import { isCctp } from "@/utils/is-cctp";
@@ -30,16 +31,23 @@ export const ConfirmationModalReviewTab = ({
 }: {
   onNext: () => void;
 }) => {
-  const deployment = useDeployment();
   const from = useFromChain();
   const to = useToChain();
   const stateToken = useConfigState.useToken();
   const rawAmount = useConfigState.useRawAmount();
   const fast = useConfigState.useFast();
 
+  const route = useSelectedBridgeRoute();
+
   const receive = useReceiveAmount();
 
-  const transferTime = useTransferTime();
+  const transformPeriodIntoText = usePeriodText();
+
+  const transferTime = transformPeriodIntoText(
+    "transferTime",
+    {},
+    useApproxTotalBridgeTime()
+  );
 
   return (
     <div>
@@ -54,11 +62,7 @@ export const ConfirmationModalReviewTab = ({
           {/* Send */}
           <div className="flex gap-4 px-3 py-4 rounded-lg justify-between bg-muted">
             <div className="flex items-center gap-2">
-              <NetworkIcon
-                chain={from}
-                deployment={deployment}
-                className="h-7 w-7"
-              />
+              <NetworkIcon chain={from} className="h-7 w-7" />
               <div className="flex flex-col gap-0.5">
                 <span className="text-xs text-muted-foreground leading-none">
                   Send from{" "}
@@ -86,11 +90,7 @@ export const ConfirmationModalReviewTab = ({
           {/* Receive 2 */}
           <div className="flex gap-4 px-3 py-4 rounded-lg justify-between bg-muted">
             <div className="flex items-center gap-2">
-              <NetworkIcon
-                chain={to}
-                deployment={deployment}
-                className="h-7 w-7"
-              />
+              <NetworkIcon chain={to} className="h-7 w-7" />
               <div className="flex flex-col gap-0.5">
                 <span className="text-xs text-muted-foreground leading-none">
                   Receive on{" "}
@@ -103,8 +103,14 @@ export const ConfirmationModalReviewTab = ({
 
             <div className="flex items-center gap-2">
               <span>
-                {formatDecimals(receive.data)}{" "}
-                {stateToken?.[to?.id ?? 0]?.symbol}
+                {receive.data ? (
+                  <>
+                    {formatDecimals(receive.data)}{" "}
+                    {stateToken?.[to?.id ?? 0]?.symbol}
+                  </>
+                ) : (
+                  "…"
+                )}
               </span>
               <Image
                 src={stateToken?.[to?.id ?? 0]?.logoURI ?? ""}
@@ -128,23 +134,13 @@ export const ConfirmationModalReviewTab = ({
               </div>
             </div>
             <div className="flex gap-1.5 items-center justify-between ">
-              <span>
-                {fast
-                  ? "Across"
-                  : !!stateToken && isCctp(stateToken)
-                  ? "Circle (CCTP)"
-                  : `${to?.name} Native Bridge`}
-              </span>
+              <span>{route?.id}</span>
               {fast ? (
                 <IconAcrossRound className="h-4 w-4" />
               ) : !!stateToken && isCctp(stateToken) ? (
                 <IconCCTPRound className="h-4 w-4" />
               ) : (
-                <NetworkIcon
-                  chain={to}
-                  deployment={deployment}
-                  className="h-4 w-4"
-                />
+                <NetworkIcon chain={to} className="h-4 w-4" />
               )}
             </div>
           </div>

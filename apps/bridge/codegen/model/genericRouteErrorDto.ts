@@ -5,9 +5,9 @@
  * API docs
  * OpenAPI spec version: 1.0
  */
-import type { GenericRouteErrorDtoType } from './genericRouteErrorDtoType';
+import type { RouteErrorType } from './routeErrorType';
 
 export interface GenericRouteErrorDto {
   error: string;
-  type: GenericRouteErrorDtoType;
+  type: RouteErrorType;
 }

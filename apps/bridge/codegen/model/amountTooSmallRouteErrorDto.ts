@@ -5,9 +5,9 @@
  * API docs
  * OpenAPI spec version: 1.0
  */
-import type { AmountTooSmallRouteErrorDtoType } from './amountTooSmallRouteErrorDtoType';
+import type { RouteErrorType } from './routeErrorType';
 
 export interface AmountTooSmallRouteErrorDto {
   minimum: string;
-  type: AmountTooSmallRouteErrorDtoType;
+  type: RouteErrorType;
 }

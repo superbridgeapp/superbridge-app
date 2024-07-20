@@ -5,9 +5,9 @@
  * API docs
  * OpenAPI spec version: 1.0
  */
-import type { AmountTooLargeRouteErrorDtoType } from './amountTooLargeRouteErrorDtoType';
+import type { RouteErrorType } from './routeErrorType';
 
 export interface AmountTooLargeRouteErrorDto {
   maximum: string;
-  type: AmountTooLargeRouteErrorDtoType;
+  type: RouteErrorType;
 }

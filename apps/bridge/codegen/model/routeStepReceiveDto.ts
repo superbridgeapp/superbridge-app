@@ -7,7 +7,6 @@
  */
 import type { RouteStepType } from './routeStepType';
 
-export interface RouteStepWaitDto {
-  duration: number;
+export interface RouteStepReceiveDto {
   type: RouteStepType;
 }

@@ -1,10 +1,16 @@
 import { useTranslation } from "react-i18next";
 
 import { useConfigState } from "@/state/config";
+import { isRouteQuote, isRouteWaitStep } from "@/utils/guards";
 
 import { useAcrossLimits } from "./across/use-across-limits";
 import { useDeployment } from "./use-deployment";
-import { Period, useTotalBridgeTime } from "./use-finalization-period";
+import {
+  Period,
+  getPeriod,
+  useTotalBridgeTime,
+} from "./use-finalization-period";
+import { useSelectedBridgeRoute } from "./use-selected-bridge-route";
 import { useWeiAmount } from "./use-wei-amount";
 
 export const useFastTransferPeriod = (): Period => {
@@ -48,4 +54,18 @@ export const useTransferTime = () => {
   }
 
   return t("transferTimeDays", { count: time?.value });
+};
+
+export const useApproxTotalBridgeTime = () => {
+  const route = useSelectedBridgeRoute();
+
+  if (route?.result && isRouteQuote(route.result)) {
+    const ms = route.result.steps.reduce(
+      (accum, x) => (isRouteWaitStep(x) ? x.duration + accum : accum),
+      0
+    );
+    return getPeriod(ms / 1000);
+  }
+
+  return null;
 };

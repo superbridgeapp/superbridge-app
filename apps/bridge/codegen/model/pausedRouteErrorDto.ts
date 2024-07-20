@@ -5,8 +5,8 @@
  * API docs
  * OpenAPI spec version: 1.0
  */
-import type { PausedRouteErrorDtoType } from './pausedRouteErrorDtoType';
+import type { RouteErrorType } from './routeErrorType';
 
 export interface PausedRouteErrorDto {
-  type: PausedRouteErrorDtoType;
+  type: RouteErrorType;
 }

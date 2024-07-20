@@ -6,11 +6,11 @@
  * OpenAPI spec version: 1.0
  */
 
-export type GenericRouteErrorDtoType = typeof GenericRouteErrorDtoType[keyof typeof GenericRouteErrorDtoType];
+export type RouteErrorType = typeof RouteErrorType[keyof typeof RouteErrorType];
 
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GenericRouteErrorDtoType = {
+export const RouteErrorType = {
   GenericError: 'GenericError',
   AmountTooSmall: 'AmountTooSmall',
   AmountTooLarge: 'AmountTooLarge',

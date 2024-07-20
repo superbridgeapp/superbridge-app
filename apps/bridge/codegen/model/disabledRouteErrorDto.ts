@@ -5,8 +5,8 @@
  * API docs
  * OpenAPI spec version: 1.0
  */
-import type { DisabledRouteErrorDtoType } from './disabledRouteErrorDtoType';
+import type { RouteErrorType } from './routeErrorType';
 
 export interface DisabledRouteErrorDto {
-  type: DisabledRouteErrorDtoType;
+  type: RouteErrorType;
 }

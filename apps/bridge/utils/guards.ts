@@ -19,6 +19,10 @@ import {
   PausedRouteErrorDto,
   PortalDepositDto,
   RouteQuoteDto,
+  RouteStepReceiveDto,
+  RouteStepTransactionDto,
+  RouteStepType,
+  RouteStepWaitDto,
   TrialDeploymentStatus,
 } from "@/codegen/model";
 import { AcrossBridgeDto } from "@/types/across";
@@ -173,8 +177,12 @@ export const isAmountTooSmallRouteError = (
   return isRouteQuoteError(a) && a.type === "AmountTooSmall";
 };
 
-export const isRouteQuote = (
-  a: RouteQuoteDto | GenericRouteErrorDto
-): a is RouteQuoteDto => {
+export const isRouteQuote = (a: RouteQuote): a is RouteQuoteDto => {
   return !!(a as RouteQuoteDto).initiatingTransaction;
+};
+
+export const isRouteWaitStep = (
+  a: RouteStepWaitDto | RouteStepReceiveDto | RouteStepTransactionDto
+): a is RouteStepWaitDto => {
+  return a.type === RouteStepType.Wait;
 };

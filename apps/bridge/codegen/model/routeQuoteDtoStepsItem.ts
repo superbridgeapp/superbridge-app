@@ -7,5 +7,6 @@
  */
 import type { RouteStepTransactionDto } from './routeStepTransactionDto';
 import type { RouteStepWaitDto } from './routeStepWaitDto';
+import type { RouteStepReceiveDto } from './routeStepReceiveDto';
 
-export type RouteQuoteDtoStepsItem = RouteStepTransactionDto | RouteStepWaitDto;
+export type RouteQuoteDtoStepsItem = RouteStepTransactionDto | RouteStepWaitDto | RouteStepReceiveDto;
