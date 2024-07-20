@@ -5,9 +5,10 @@
  * API docs
  * OpenAPI spec version: 1.0
  */
+import type { RouteProvider } from './routeProvider';
 import type { RouteResponseDtoResult } from './routeResponseDtoResult';
 
 export interface RouteResponseDto {
-  id: string;
+  id: RouteProvider;
   result: RouteResponseDtoResult;
 }

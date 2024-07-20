@@ -101,6 +101,7 @@ export * from './pricesDto';
 export * from './proveConfirmationDto';
 export * from './routeErrorType';
 export * from './routeFeeItemDto';
+export * from './routeProvider';
 export * from './routeQuoteDto';
 export * from './routeQuoteDtoStepsItem';
 export * from './routeResponseDto';
