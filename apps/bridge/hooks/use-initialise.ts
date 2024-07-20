@@ -2,7 +2,6 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useAccountEffect } from "wagmi";
 
-import { isSuperbridge } from "@/config/superbridge";
 import { useConfigState } from "@/state/config";
 import { usePendingTransactions } from "@/state/pending-txs";
 import { isMainnet, isOptimism } from "@/utils/is-mainnet";
@@ -22,8 +21,6 @@ export const useInitialise = () => {
   const deployment = useDeployment();
   const setEasyMode = useConfigState.useSetEasyMode();
   const setForceViaL1 = useConfigState.useSetForceViaL1();
-  const setFast = useConfigState.useSetFast();
-  const setWithdrawing = useConfigState.useSetWithdrawing();
   const setRawAmount = useConfigState.useSetRawAmount();
   const clearPendingTransactionsStorage = usePendingTransactions.useLogout();
 
@@ -39,20 +36,13 @@ export const useInitialise = () => {
   });
 
   useEffect(() => {
-    const direction = router.query.direction as string | undefined;
-    if (direction === "withdraw") {
-      setWithdrawing(true);
-    }
+    // const direction = router.query.direction as string | undefined;
+    // if (direction === "withdraw") {
+    // }
 
     const amount = router.query.amount as string | undefined;
     if (amount && parseFloat(amount)) {
       setRawAmount(amount);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (isSuperbridge && router.asPath === "/fast") {
-      setFast(true);
     }
   }, []);
 

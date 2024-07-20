@@ -21,9 +21,6 @@ interface ConfigState {
   legalModal: boolean;
   setLegalModal: (x: boolean) => void;
 
-  fast: boolean;
-  setFast: (x: boolean) => void;
-
   forceViaL1: boolean;
   toggleForceViaL1: () => void;
   setForceViaL1: (b: boolean) => void;
@@ -95,9 +92,6 @@ interface ConfigState {
 }
 
 const ConfigState = create<ConfigState>()((set, get) => ({
-  fast: false,
-  setFast: (fast: boolean) => set({ fast }),
-
   forceViaL1: false,
   toggleForceViaL1: () => set((s) => ({ forceViaL1: !s.forceViaL1 })),
   setForceViaL1: (forceViaL1) => set({ forceViaL1 }),

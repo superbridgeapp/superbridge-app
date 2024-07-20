@@ -11,27 +11,20 @@ export const useNavigate = () => {
   const setDeployment = useInjectedStore((s) => s.setDeployment);
   const router = useRouter();
   const deployments = useDeployments();
-  const setFast = useConfigState.useSetFast();
 
-  return (to: "/" | DeploymentDto | "fast") => {
+  return (to: "/" | DeploymentDto) => {
     setDisplayTransactions(false);
 
     if (to === "/" && deployments.length === 1) {
       return;
     }
 
-    if (to === "fast") {
-      router.push("/fast", undefined, { shallow: true });
-      setDeployment(null);
-      setFast(true);
-    } else if (to === "/") {
+    if (to === "/") {
       router.push("/", undefined, { shallow: true });
       setDeployment(null);
-      setFast(false);
     } else {
       router.push(`/${to.name}`, undefined, { shallow: true });
       setDeployment(to);
-      setFast(false);
     }
   };
 };
