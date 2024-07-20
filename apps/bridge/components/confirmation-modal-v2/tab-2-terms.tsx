@@ -3,13 +3,13 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { match } from "ts-pattern";
 
+import { RouteProvider } from "@/codegen/model";
 import { useToChain } from "@/hooks/use-chain";
-import { useDeployment } from "@/hooks/use-deployment";
 import { useFinalizationPeriod } from "@/hooks/use-finalization-period";
+import { useSelectedBridgeRoute } from "@/hooks/use-selected-bridge-route";
 import { useApproxTotalBridgeTime } from "@/hooks/use-transfer-time";
 import { usetTransformPeriodText } from "@/hooks/use-transform-period-text";
 import { useConfigState } from "@/state/config";
-import { isCctp } from "@/utils/is-cctp";
 
 import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
@@ -27,11 +27,9 @@ export const ConfirmationModalTermsTab = ({
   onNext: () => void;
   commonTranslationProps: object;
 }) => {
-  const deployment = useDeployment();
-  const stateToken = useConfigState.useToken();
-  const fast = useConfigState.useFast();
   const withdrawing = useConfigState.useWithdrawing();
   const open = useConfigState.useDisplayConfirmationModal();
+  const route = useSelectedBridgeRoute();
 
   const [checkbox1, setCheckbox1] = useState(false);
   const [checkbox2, setCheckbox2] = useState(false);
@@ -53,17 +51,31 @@ export const ConfirmationModalTermsTab = ({
   }, [open]);
 
   const checkbox1Text = match({
-    fast,
-    isUsdc: isCctp(stateToken),
-    withdrawing,
-    family: deployment?.family,
+    isAcross: route?.id === RouteProvider.Across,
+    isCctp: route?.id === RouteProvider.Cctp,
+    withdrawing: (
+      [
+        RouteProvider.ArbitrumWithdrawal,
+        RouteProvider.OptimismWithdrawal,
+        RouteProvider.OptimismForcedWithdrawal,
+      ] as string[]
+    ).includes(route?.id ?? ""),
+    family: (
+      [
+        RouteProvider.OptimismDeposit,
+        RouteProvider.OptimismWithdrawal,
+        RouteProvider.OptimismForcedWithdrawal,
+      ] as string[]
+    ).includes(route?.id ?? "")
+      ? "optimism"
+      : "arbitrum",
   })
     .with(
-      { fast: true },
+      { isAcross: true },
       () =>
         `I understand it will take ~${totalBridgeTime?.value} mins until my funds are on ${to?.name}`
     )
-    .with({ isUsdc: true }, () =>
+    .with({ isCctp: true }, () =>
       t("confirmationModal.checkbox1Cctp", {
         mins: totalBridgeTime?.value,
         to: to?.name,
