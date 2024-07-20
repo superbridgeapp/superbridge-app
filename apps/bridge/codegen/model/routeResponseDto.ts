@@ -5,16 +5,9 @@
  * API docs
  * OpenAPI spec version: 1.0
  */
-import type { RouteFeeItemDto } from './routeFeeItemDto';
-import type { InitiatingTransactionDto } from './initiatingTransactionDto';
-import type { RouteStepItemDto } from './routeStepItemDto';
+import type { RouteResponseDtoResult } from './routeResponseDtoResult';
 
 export interface RouteResponseDto {
-  fees: RouteFeeItemDto[];
-  gasTokenApprovalAddress?: string;
   id: string;
-  initiatingTransaction: InitiatingTransactionDto;
-  receive: string;
-  steps: RouteStepItemDto[];
-  tokenApprovalAddress?: string;
+  result: RouteResponseDtoResult;
 }

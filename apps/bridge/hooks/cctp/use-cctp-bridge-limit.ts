@@ -5,8 +5,8 @@ import { TokenMinterAbi } from "@/abis/cctp/TokenMinter";
 import { useConfigState } from "@/state/config";
 import { isCctp } from "@/utils/is-cctp";
 
-import { useCctpDomains } from "./use-cctp-domains";
 import { useFromChain } from "../use-chain";
+import { useCctpDomains } from "./use-cctp-domains";
 
 export const useCctpBridgeLimit = () => {
   const domains = useCctpDomains();

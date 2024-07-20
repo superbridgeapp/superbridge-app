@@ -89,8 +89,8 @@ interface ConfigState {
   networkSelectorModal: "from" | "to" | null;
   setNetworkSelectorModal: (x: "from" | "to" | null) => void;
 
-  routeIndex: number;
-  setRouteIndex: (n: number) => void;
+  routeId: string | null;
+  setRouteId: (n: string | null) => void;
 
   fromChainId: number;
   setFromChainId: (id: number) => void;
@@ -202,8 +202,8 @@ const ConfigState = create<ConfigState>()((set, get) => ({
       },
     }),
 
-  routeIndex: 0,
-  setRouteIndex: (routeIndex) => set({ routeIndex }),
+  routeId: null,
+  setRouteId: (routeId) => set({ routeId }),
 
   fromChainId: 10,
   toChainId: 8453,

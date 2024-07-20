@@ -1,6 +1,8 @@
 import {
   AcrossTransactionType,
   ActiveDeploymentStatus,
+  AmountTooLargeRouteErrorDto,
+  AmountTooSmallRouteErrorDto,
   ArbitrumDepositEthDto,
   ArbitrumDepositRetryableDto,
   ArbitrumForcedWithdrawalDto,
@@ -10,9 +12,13 @@ import {
   CctpBridgeDto,
   CctpTransactionType,
   DeploymentStatus,
+  DisabledRouteErrorDto,
   ForcedWithdrawalDto,
+  GenericRouteErrorDto,
   OptimismTransactionType,
+  PausedRouteErrorDto,
   PortalDepositDto,
+  RouteQuoteDto,
   TrialDeploymentStatus,
 } from "@/codegen/model";
 import { AcrossBridgeDto } from "@/types/across";
@@ -134,4 +140,41 @@ export const isTrial = (
   s: TrialDeploymentStatus | ActiveDeploymentStatus
 ): s is TrialDeploymentStatus => {
   return s.status === DeploymentStatus.trial;
+};
+
+type RouteQuote =
+  | RouteQuoteDto
+  | GenericRouteErrorDto
+  | AmountTooLargeRouteErrorDto
+  | AmountTooSmallRouteErrorDto
+  | PausedRouteErrorDto
+  | DisabledRouteErrorDto;
+
+type RouteQuoteError =
+  | GenericRouteErrorDto
+  | AmountTooLargeRouteErrorDto
+  | AmountTooSmallRouteErrorDto
+  | PausedRouteErrorDto
+  | DisabledRouteErrorDto;
+
+export const isRouteQuoteError = (a: RouteQuote): a is RouteQuoteError => {
+  return !!(a as any).type;
+};
+
+export const isAmountTooLargeRouteError = (
+  a: RouteQuote
+): a is AmountTooLargeRouteErrorDto => {
+  return isRouteQuoteError(a) && a.type === "AmountTooLarge";
+};
+
+export const isAmountTooSmallRouteError = (
+  a: RouteQuote
+): a is AmountTooSmallRouteErrorDto => {
+  return isRouteQuoteError(a) && a.type === "AmountTooSmall";
+};
+
+export const isRouteQuote = (
+  a: RouteQuoteDto | GenericRouteErrorDto
+): a is RouteQuoteDto => {
+  return !!(a as RouteQuoteDto).initiatingTransaction;
 };

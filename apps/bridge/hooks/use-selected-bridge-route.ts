@@ -4,7 +4,10 @@ import { useBridgeRoutes } from "./use-bridge-routes";
 
 export const useSelectedBridgeRoute = () => {
   const routes = useBridgeRoutes();
-  const routeIndex = useConfigState.useRouteIndex();
+  const routeId = useConfigState.useRouteId();
 
-  return routes?.[routeIndex];
+  if (!routeId) {
+    return routes?.[0] ?? null;
+  }
+  return routes?.find((x) => x.id === routeId) ?? null;
 };

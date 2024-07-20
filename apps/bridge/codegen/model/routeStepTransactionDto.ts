@@ -6,7 +6,7 @@
  * OpenAPI spec version: 1.0
  */
 
-export interface RouteStepItemDto {
+export interface RouteStepTransactionDto {
   chainId: string;
   estimatedGasLimit: number;
   type: string;

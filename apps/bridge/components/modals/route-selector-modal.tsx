@@ -2,6 +2,7 @@ import { ModalNames } from "@/constants/modal-names";
 import { useBridgeRoutes } from "@/hooks/use-bridge-routes";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
 import { useConfigState } from "@/state/config";
+import { isRouteQuoteError } from "@/utils/guards";
 
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
 
@@ -12,9 +13,9 @@ export const RouteSelectorModal = () => {
   const routes = useBridgeRoutes();
   const open = useConfigState.useModals().RouteSelector === true;
   const removeModal = useConfigState.useRemoveModal();
-  const setRouteIndex = useConfigState.useSetRouteIndex();
+  const setRouteId = useConfigState.useSetRouteId();
 
-  const onSelect = (index: number) => {
+  const onSelect = (id: string) => {
     // if (networkSelectorModal === "from") {
     //   setFromChainId(d.chain.id);
     //   if (d.chain.id === to?.id) {
@@ -35,7 +36,7 @@ export const RouteSelectorModal = () => {
     //   trackEvent({ event: "to-chain-select", name: d.chain.name });
     // }
 
-    setRouteIndex(index);
+    setRouteId(id);
     removeModal(ModalNames.RouteSelector);
   };
 
@@ -49,16 +50,21 @@ export const RouteSelectorModal = () => {
           <DialogTitle>Choose route</DialogTitle>
         </DialogHeader>
         <div className="flex flex-col">
-          {routes?.map((route, index) => (
-            <div
-              key={route.id}
-              onClick={() => onSelect(index)}
-              className="flex flex-col p-4 hover:bg-zinc-50 transition"
-            >
-              <div>Route: {route.id}</div>
-              <div>Receive: {route.receive}</div>
-            </div>
-          ))}
+          {routes?.map((route) => {
+            if (isRouteQuoteError(route.result)) {
+              return null;
+            }
+            return (
+              <div
+                key={route.id}
+                onClick={() => onSelect(route.id)}
+                className="flex flex-col p-4 hover:bg-zinc-50 transition"
+              >
+                <div>Route: {route.id}</div>
+                <div>Receive: {route.result.receive}</div>
+              </div>
+            );
+          })}
         </div>
       </DialogContent>
     </Dialog>

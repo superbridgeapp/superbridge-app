@@ -5,13 +5,13 @@ import { formatUnits, parseUnits } from "viem";
 import { useAccount, useBalance } from "wagmi";
 
 import { AlertModals } from "@/constants/modal-names";
-import { useAcrossPaused } from "@/hooks/across/use-across-paused";
 import { useBridge } from "@/hooks/bridge/use-bridge";
+import { useBridgeMax } from "@/hooks/bridge/use-bridge-max";
+import { useBridgeMin } from "@/hooks/bridge/use-bridge-min";
+import { useBridgePaused } from "@/hooks/bridge/use-bridge-paused";
 import { useCancelBridge } from "@/hooks/bridge/use-cancel-bridge";
 import { useDismissAlert } from "@/hooks/bridge/use-dismiss-alert";
 import { useInitiateBridge } from "@/hooks/bridge/use-initiate-bridge";
-import { useBridgeMax } from "@/hooks/limits/use-bridge-max";
-import { useBridgeMin } from "@/hooks/limits/use-bridge-min";
 import { useAllowance } from "@/hooks/use-allowance";
 import { useApprove } from "@/hooks/use-approve";
 import { useTokenBalance } from "@/hooks/use-balances";
@@ -21,9 +21,9 @@ import { useDeployment } from "@/hooks/use-deployment";
 import { useNativeToken } from "@/hooks/use-native-token";
 import { useNetworkFee } from "@/hooks/use-network-fee";
 import { useRequiredCustomGasTokenBalance } from "@/hooks/use-required-custom-gas-token-balance";
+import { useSelectedBridgeRoute } from "@/hooks/use-selected-bridge-route";
 import { useSelectedToken } from "@/hooks/use-selected-token";
 import { useWeiAmount } from "@/hooks/use-wei-amount";
-import { useWithdrawalsPaused } from "@/hooks/use-withdrawals-paused";
 import { useConfigState } from "@/state/config";
 import { useModalsState } from "@/state/modals";
 import { formatDecimals } from "@/utils/format-decimals";
@@ -54,6 +54,8 @@ export const BridgeBody = () => {
   const token = useSelectedToken();
   const { t } = useTranslation();
 
+  const route = useSelectedBridgeRoute();
+
   const deployment = useDeployment();
   const setConfirmationModal = useConfigState.useSetDisplayConfirmationModal();
   const withdrawing = useConfigState.useWithdrawing();
@@ -68,8 +70,7 @@ export const BridgeBody = () => {
   const nativeToken = useNativeToken();
   const bridgeMax = useBridgeMax();
   const bridgeMin = useBridgeMin();
-  const acrossPaused = useAcrossPaused();
-  const withdrawalsPaused = useWithdrawalsPaused();
+  const paused = useBridgePaused();
   const alerts = useModalsState.useAlerts();
 
   const initiateBridge = useInitiateBridge(bridge);
@@ -130,8 +131,7 @@ export const BridgeBody = () => {
   const submitButton = match({
     withdrawing,
     fast,
-    acrossPaused,
-    withdrawalsPaused,
+    paused,
     isSubmitting: bridge.isLoading,
     account: account.address,
     hasInsufficientBalance,
@@ -149,7 +149,7 @@ export const BridgeBody = () => {
       buttonText: "Deposits disabled",
       disabled: true,
     }))
-    .with({ fast: true, acrossPaused: true }, () => ({
+    .with({ paused: true }, () => ({
       onSubmit: () => {},
       buttonText: "Bridging paused",
       disabled: true,

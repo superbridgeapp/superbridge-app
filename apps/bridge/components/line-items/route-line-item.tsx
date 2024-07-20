@@ -1,11 +1,12 @@
 import { ModalNames } from "@/constants/modal-names";
 import { useBridgeRoutes } from "@/hooks/use-bridge-routes";
+import { useSelectedBridgeRoute } from "@/hooks/use-selected-bridge-route";
 import { useConfigState } from "@/state/config";
 
 export const RouteLineItem = () => {
   const routes = useBridgeRoutes();
-  const routeIndex = useConfigState.useRouteIndex();
   const openModal = useConfigState.useAddModal();
+  const route = useSelectedBridgeRoute();
 
   return (
     <div
@@ -16,7 +17,8 @@ export const RouteLineItem = () => {
           : () => {}
       }
     >
-      {routes?.[routeIndex]?.id}
+      <span>Bridge</span>
+      <span>{route?.id ?? "…"}</span>
     </div>
   );
 };

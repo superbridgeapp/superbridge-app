@@ -1,5 +1,7 @@
 import { formatUnits } from "viem";
 
+import { isRouteQuote } from "@/utils/guards";
+
 import { useSelectedBridgeRoute } from "./use-selected-bridge-route";
 import { useSelectedToken } from "./use-selected-token";
 
@@ -14,8 +16,13 @@ export const useReceiveAmount = () => {
     };
   }
 
+  const data =
+    !!route && isRouteQuote(route.result)
+      ? formatUnits(BigInt(route.result.receive), token.decimals)
+      : null;
+
   return {
-    data: formatUnits(BigInt(route.receive), token.decimals),
+    data,
     isFetching: false,
   };
 };

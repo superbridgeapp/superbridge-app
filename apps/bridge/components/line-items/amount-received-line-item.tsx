@@ -27,7 +27,7 @@ export const AmountReceivedLineItem = () => {
   const acrossFee = useAcrossFee();
 
   const fiatValueBeingBridged =
-    usdPrice && receive.data ? receive.data * usdPrice : null;
+    usdPrice && receive.data ? parseFloat(receive.data) * usdPrice : null;
 
   return (
     <div
@@ -62,7 +62,7 @@ export const AmountReceivedLineItem = () => {
 
               {receive.data ? (
                 <span className={`text-xs text-foreground text-right`}>
-                  {formatDecimals(receive.data)}{" "}
+                  {formatDecimals(parseFloat(receive.data))}{" "}
                   {stateToken?.[to?.id ?? 0]?.symbol}
                 </span>
               ) : (
