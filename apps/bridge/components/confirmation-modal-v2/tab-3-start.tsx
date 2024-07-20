@@ -6,7 +6,7 @@ import { match } from "ts-pattern";
 import { formatUnits } from "viem";
 import { useAccount, useEstimateFeesPerGas } from "wagmi";
 
-import { ChainDto, DeploymentFamily } from "@/codegen/model";
+import { ChainDto, DeploymentFamily, RouteStepType } from "@/codegen/model";
 import { isSuperbridge } from "@/config/superbridge";
 import { currencySymbolMap } from "@/constants/currency-symbol-map";
 import { FINALIZE_GAS, PROVE_GAS } from "@/constants/gas-limits";
@@ -19,17 +19,18 @@ import { useApproveGasToken, useGasToken } from "@/hooks/use-approve-gas-token";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
 import { useDeployment } from "@/hooks/use-deployment";
 import {
-  Period,
-  addPeriods,
+  getPeriod,
   useDepositTime,
   useFinalizationPeriod,
   useProvePeriod,
   useTotalBridgeTime,
 } from "@/hooks/use-finalization-period";
 import { useNativeToken, useToNativeToken } from "@/hooks/use-native-token";
+import { usePeriodText } from "@/hooks/use-period-text";
 import { useTokenPrice } from "@/hooks/use-prices";
 import { useReceiveAmount } from "@/hooks/use-receive-amount";
 import { useRequiredCustomGasTokenBalance } from "@/hooks/use-required-custom-gas-token-balance";
+import { useSelectedBridgeRoute } from "@/hooks/use-selected-bridge-route";
 import { useSelectedToken } from "@/hooks/use-selected-token";
 import { useSwitchChain } from "@/hooks/use-switch-chain";
 import { useWeiAmount } from "@/hooks/use-wei-amount";
@@ -37,11 +38,16 @@ import { useConfigState } from "@/state/config";
 import { useSettingsState } from "@/state/settings";
 import { Token } from "@/types/token";
 import { formatDecimals } from "@/utils/format-decimals";
+import {
+  isRouteQuote,
+  isRouteReceiveStep,
+  isRouteTransactionStep,
+  isRouteWaitStep,
+} from "@/utils/guards";
 import { isCctp } from "@/utils/is-cctp";
 import { isNativeToken } from "@/utils/is-eth";
 import { isArbitrum } from "@/utils/is-mainnet";
 
-import { FastNetworkIcon } from "../fast/network-icon";
 import { IconSimpleGas, IconSuperFast, IconTime } from "../icons";
 import { NetworkIcon } from "../network-icon";
 import { PoweredByAcross } from "../powered-by-across";
@@ -52,14 +58,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "../ui/dialog";
-import {
-  EscapeHatchIcon,
-  FinalizeIcon,
-  InitiateIcon,
-  ProveIcon,
-  ReceiveIcon,
-  WaitIcon,
-} from "./icons";
+import { WaitIcon } from "./icons";
 
 function LineItem({
   text,
@@ -72,11 +71,8 @@ function LineItem({
   fee?: string | null;
   className?: string;
   button?: any;
-  chain?: ChainDto | undefined;
+  chain?: ChainDto | undefined | null;
 }) {
-  const deployment = useDeployment();
-  const fast = useConfigState.useFast();
-
   if (!chain) {
     return (
       <div className="flex gap-4 px-3 py-2 rounded-lg justify-start items-center">
@@ -98,15 +94,7 @@ function LineItem({
       )}
     >
       <div className="flex items-start gap-2">
-        {fast ? (
-          <FastNetworkIcon chain={chain} className="w-8 h-8" />
-        ) : (
-          <NetworkIcon
-            deployment={deployment}
-            chain={chain}
-            className="w-8 h-8"
-          />
-        )}
+        <NetworkIcon chain={chain} className="w-8 h-8" />
         <div className="flex flex-col gap-1">
           <span className="text-sm font-heading leading-none">{text}</span>
           <div className="flex gap-1">
@@ -151,6 +139,7 @@ export const ConfirmationModalStartTab = ({
   const receive = useReceiveAmount();
   const token = useSelectedToken();
   const gasToken = useGasToken();
+  const route = useSelectedBridgeRoute();
 
   const onSubmitBridge = useSubmitBridge(initiateBridge);
 
@@ -173,6 +162,8 @@ export const ConfirmationModalStartTab = ({
   const toNativeToken = useToNativeToken();
   const switchChain = useSwitchChain();
 
+  const transformPeriodText = usePeriodText();
+
   const fromNativeTokenPrice = useTokenPrice(fromNativeToken ?? null);
   const toNativeTokenPrice = useTokenPrice(toNativeToken ?? null);
 
@@ -192,6 +183,8 @@ export const ConfirmationModalStartTab = ({
     gasPrice: toGasPrice,
   };
 
+  const getCost = () => {};
+
   const initiateCost =
     withdrawing && escapeHatch
       ? { gasToken: toGas, gasLimit: gas ?? BigInt(200_000) }
@@ -210,23 +203,9 @@ export const ConfirmationModalStartTab = ({
     gasLimit: BigInt(50_000),
   };
 
-  const transformPeriodText = (str: string, args: any, period: Period) => {
-    const value =
-      period?.period === "mins"
-        ? t(`${str}Minutes`, {
-            ...args,
-            count: period.value,
-          }).toString()
-        : period?.period === "hours"
-        ? t(`${str}Hours`, {
-            ...args,
-            count: period.value,
-          }).toString()
-        : t(`${str}Days`, {
-            ...args,
-            count: period?.value,
-          }).toString();
-    return value ?? "";
+  const getGasCost = (chainId: string, gasLimit: number) => {
+    const gasToken = parseInt(chainId) === from?.id ? fromGas : toGas;
+    return { gasToken, gasLimit: BigInt(gasLimit) };
   };
 
   const fee = (
@@ -516,221 +495,265 @@ export const ConfirmationModalStartTab = ({
     .with({ withdrawing: false }, () => "")
     .otherwise(() => null);
 
-  const lineItems = match({
-    fast,
-    isUsdc: isCctp(stateToken),
-    withdrawing,
-    family: deployment?.family,
-    escapeHatch,
-    gasToken,
-  })
-    .with({ fast: true }, (c) =>
-      [
-        {
-          text: t("confirmationModal.initiateDeposit"),
-          icon: InitiateIcon,
-          fee: fee(initiateCost, 4),
-          initiate: true,
-          chain: from,
-        },
-        {
-          text: t("confirmationModal.waitMinutes", {
-            count: totalBridgeTime?.value,
-          }),
-          icon: WaitIcon,
-        },
-        {
-          text: t("confirmationModal.receiveAmountOnChain", common),
-          icon: ReceiveIcon,
-          chain: to,
-        },
-      ].filter(isPresent)
-    )
-    .with({ isUsdc: true, escapeHatch: true }, () => [
-      {
-        text: t("confirmationModal.initiateBridgeEscapeHatch", common),
-        icon: InitiateIcon,
-        fee: fee(initiateCost, 4),
-        initiate: true,
-        chain: deployment?.l1,
-      },
-      {
-        text: transformPeriodText(
-          "confirmationModal.wait",
-          {},
-          totalBridgeTime
-        ),
-        icon: WaitIcon,
-      },
-      {
-        text: t("confirmationModal.finalize", common),
-        icon: FinalizeIcon,
-        fee: fee(finalizeCost, 4),
-        chain: to,
-      },
-    ])
-    .with({ isUsdc: true }, () => [
-      {
-        text: t("confirmationModal.initiateBridge"),
-        icon: InitiateIcon,
-        fee: fee(initiateCost, 4),
-        chain: from,
-        initiate: true,
-      },
-      {
-        text: transformPeriodText(
-          "confirmationModal.wait",
-          {},
-          totalBridgeTime
-        ),
-        icon: WaitIcon,
-      },
-      {
-        text: t("confirmationModal.finalize", common),
-        icon: FinalizeIcon,
-        fee: fee(finalizeCost, 4),
-        chain: to,
-      },
-    ])
-    .with({ withdrawing: true, family: "optimism", escapeHatch: true }, () => [
-      {
-        text: t("confirmationModal.initiateBridgeEscapeHatch", common),
-        icon: EscapeHatchIcon,
-        fee: fee(initiateCost, 4),
-        chain: deployment?.l1,
-        initiate: true,
-      },
-      {
-        text: transformPeriodText(
-          "confirmationModal.wait",
-          {},
-          addPeriods(depositTime, proveTime)
-        ),
-        icon: WaitIcon,
-      },
-      {
-        text: t("confirmationModal.prove", common),
-        icon: ProveIcon,
-        fee: fee(proveCost, 4),
-        chain: deployment?.l1,
-      },
-      {
-        text: transformPeriodText(
-          "confirmationModal.wait",
-          {},
-          finalizationTime
-        ),
-        icon: WaitIcon,
-      },
-      {
-        text: t("confirmationModal.finalize", common),
-        icon: FinalizeIcon,
-        fee: fee(finalizeCost, 2),
-        chain: deployment?.l1,
-      },
-    ])
-    .with({ withdrawing: true, family: "optimism" }, () => [
-      {
-        text: t("confirmationModal.initiateWithdrawal"),
-        icon: InitiateIcon,
-        fee: fee(initiateCost, 4),
-        chain: deployment?.l2,
-        initiate: true,
-      },
-      {
-        text: transformPeriodText("confirmationModal.wait", {}, proveTime),
-        icon: WaitIcon,
-      },
-      {
-        text: t("confirmationModal.prove", common),
-        icon: ProveIcon,
-        fee: fee(proveCost, 4),
-        chain: deployment?.l1,
-      },
-      {
-        text: transformPeriodText(
-          "confirmationModal.wait",
-          {},
-          finalizationTime
-        ),
-        icon: WaitIcon,
-      },
-      {
-        text: t("confirmationModal.finalize", common),
-        icon: FinalizeIcon,
-        fee: fee(finalizeCost, 2),
-        chain: deployment?.l1,
-      },
-    ])
+  // const lineItems = match({
+  //   fast,
+  //   isUsdc: isCctp(stateToken),
+  //   withdrawing,
+  //   family: deployment?.family,
+  //   escapeHatch,
+  //   gasToken,
+  // })
+  //   .with({ fast: true }, (c) =>
+  //     [
+  //       {
+  //         text: t("confirmationModal.initiateDeposit"),
+  //         icon: InitiateIcon,
+  //         fee: fee(initiateCost, 4),
+  //         initiate: true,
+  //         chain: from,
+  //       },
+  //       {
+  //         text: t("confirmationModal.waitMinutes", {
+  //           count: totalBridgeTime?.value,
+  //         }),
+  //         icon: WaitIcon,
+  //       },
+  //       {
+  //         text: t("confirmationModal.receiveAmountOnChain", common),
+  //         icon: ReceiveIcon,
+  //         chain: to,
+  //       },
+  //     ].filter(isPresent)
+  //   )
+  //   .with({ isUsdc: true, escapeHatch: true }, () => [
+  //     {
+  //       text: t("confirmationModal.initiateBridgeEscapeHatch", common),
+  //       icon: InitiateIcon,
+  //       fee: fee(initiateCost, 4),
+  //       initiate: true,
+  //       chain: deployment?.l1,
+  //     },
+  //     {
+  //       text: transformPeriodText(
+  //         "confirmationModal.wait",
+  //         {},
+  //         totalBridgeTime
+  //       ),
+  //       icon: WaitIcon,
+  //     },
+  //     {
+  //       text: t("confirmationModal.finalize", common),
+  //       icon: FinalizeIcon,
+  //       fee: fee(finalizeCost, 4),
+  //       chain: to,
+  //     },
+  //   ])
+  //   .with({ isUsdc: true }, () => [
+  //     {
+  //       text: t("confirmationModal.initiateBridge"),
+  //       icon: InitiateIcon,
+  //       fee: fee(initiateCost, 4),
+  //       chain: from,
+  //       initiate: true,
+  //     },
+  //     {
+  //       text: transformPeriodText(
+  //         "confirmationModal.wait",
+  //         {},
+  //         totalBridgeTime
+  //       ),
+  //       icon: WaitIcon,
+  //     },
+  //     {
+  //       text: t("confirmationModal.finalize", common),
+  //       icon: FinalizeIcon,
+  //       fee: fee(finalizeCost, 4),
+  //       chain: to,
+  //     },
+  //   ])
+  //   .with({ withdrawing: true, family: "optimism", escapeHatch: true }, () => [
+  //     {
+  //       text: t("confirmationModal.initiateBridgeEscapeHatch", common),
+  //       icon: EscapeHatchIcon,
+  //       fee: fee(initiateCost, 4),
+  //       chain: deployment?.l1,
+  //       initiate: true,
+  //     },
+  //     {
+  //       text: transformPeriodText(
+  //         "confirmationModal.wait",
+  //         {},
+  //         addPeriods(depositTime, proveTime)
+  //       ),
+  //       icon: WaitIcon,
+  //     },
+  //     {
+  //       text: t("confirmationModal.prove", common),
+  //       icon: ProveIcon,
+  //       fee: fee(proveCost, 4),
+  //       chain: deployment?.l1,
+  //     },
+  //     {
+  //       text: transformPeriodText(
+  //         "confirmationModal.wait",
+  //         {},
+  //         finalizationTime
+  //       ),
+  //       icon: WaitIcon,
+  //     },
+  //     {
+  //       text: t("confirmationModal.finalize", common),
+  //       icon: FinalizeIcon,
+  //       fee: fee(finalizeCost, 2),
+  //       chain: deployment?.l1,
+  //     },
+  //   ])
+  //   .with({ withdrawing: true, family: "optimism" }, () => [
+  //     {
+  //       text: t("confirmationModal.initiateWithdrawal"),
+  //       icon: InitiateIcon,
+  //       fee: fee(initiateCost, 4),
+  //       chain: deployment?.l2,
+  //       initiate: true,
+  //     },
+  //     {
+  //       text: transformPeriodText("confirmationModal.wait", {}, proveTime),
+  //       icon: WaitIcon,
+  //     },
+  //     {
+  //       text: t("confirmationModal.prove", common),
+  //       icon: ProveIcon,
+  //       fee: fee(proveCost, 4),
+  //       chain: deployment?.l1,
+  //     },
+  //     {
+  //       text: transformPeriodText(
+  //         "confirmationModal.wait",
+  //         {},
+  //         finalizationTime
+  //       ),
+  //       icon: WaitIcon,
+  //     },
+  //     {
+  //       text: t("confirmationModal.finalize", common),
+  //       icon: FinalizeIcon,
+  //       fee: fee(finalizeCost, 2),
+  //       chain: deployment?.l1,
+  //     },
+  //   ])
 
-    .with({ withdrawing: true, family: "arbitrum" }, () => [
-      {
-        text: t("confirmationModal.initiateWithdrawal"),
-        icon: InitiateIcon,
-        fee: fee(initiateCost, 4),
-        chain: deployment?.l2,
-        initiate: true,
-      },
-      {
-        text: transformPeriodText(
-          "confirmationModal.wait",
-          {},
-          finalizationTime
-        ),
-        icon: WaitIcon,
-      },
-      {
-        text: t("confirmationModal.finalize", common),
-        icon: FinalizeIcon,
-        fee: fee(finalizeCost, 2),
-        chain: deployment?.l1,
-      },
-    ])
-    .with({ withdrawing: false, family: "optimism" }, (c) =>
-      [
-        {
-          text: t("confirmationModal.initiateDeposit"),
-          icon: InitiateIcon,
-          fee: fee(initiateCost, 4),
-          chain: deployment?.l1,
-          initiate: true,
-        },
-        {
-          text: t("confirmationModal.waitMinutes", {
-            count: totalBridgeTime?.value,
-          }),
-          icon: WaitIcon,
-        },
-        {
-          text: t("confirmationModal.receiveDeposit", common),
-          icon: ReceiveIcon,
-          chain: deployment?.l2,
-        },
-      ].filter(isPresent)
-    )
-    .with({ withdrawing: false, family: "arbitrum" }, (c) =>
-      [
-        {
-          text: t("confirmationModal.initiateDeposit"),
-          icon: InitiateIcon,
-          fee: fee(initiateCost, 4),
-          initiate: true,
-          chain: deployment?.l1,
-        },
-        {
-          text: t("confirmationModal.waitMinutes", {
-            count: totalBridgeTime?.value,
-          }),
-          icon: WaitIcon,
-        },
-        {
-          text: t("confirmationModal.receiveDeposit", common),
-          icon: ReceiveIcon,
-          chain: deployment?.l2,
-        },
-      ].filter(isPresent)
-    )
-    .otherwise(() => null);
+  //   .with({ withdrawing: true, family: "arbitrum" }, () => [
+  //     {
+  //       text: t("confirmationModal.initiateWithdrawal"),
+  //       icon: InitiateIcon,
+  //       fee: fee(initiateCost, 4),
+  //       chain: deployment?.l2,
+  //       initiate: true,
+  //     },
+  //     {
+  //       text: transformPeriodText(
+  //         "confirmationModal.wait",
+  //         {},
+  //         finalizationTime
+  //       ),
+  //       icon: WaitIcon,
+  //     },
+  //     {
+  //       text: t("confirmationModal.finalize", common),
+  //       icon: FinalizeIcon,
+  //       fee: fee(finalizeCost, 2),
+  //       chain: deployment?.l1,
+  //     },
+  //   ])
+  //   .with({ withdrawing: false, family: "optimism" }, (c) =>
+  //     [
+  //       {
+  //         text: t("confirmationModal.initiateDeposit"),
+  //         icon: InitiateIcon,
+  //         fee: fee(initiateCost, 4),
+  //         chain: deployment?.l1,
+  //         initiate: true,
+  //       },
+  //       {
+  //         text: t("confirmationModal.waitMinutes", {
+  //           count: totalBridgeTime?.value,
+  //         }),
+  //         icon: WaitIcon,
+  //       },
+  //       {
+  //         text: t("confirmationModal.receiveDeposit", common),
+  //         icon: ReceiveIcon,
+  //         chain: deployment?.l2,
+  //       },
+  //     ].filter(isPresent)
+  //   )
+  //   .with({ withdrawing: false, family: "arbitrum" }, (c) =>
+  //     [
+  //       {
+  //         text: t("confirmationModal.initiateDeposit"),
+  //         icon: InitiateIcon,
+  //         fee: fee(initiateCost, 4),
+  //         initiate: true,
+  //         chain: deployment?.l1,
+  //       },
+  //       {
+  //         text: t("confirmationModal.waitMinutes", {
+  //           count: totalBridgeTime?.value,
+  //         }),
+  //         icon: WaitIcon,
+  //       },
+  //       {
+  //         text: t("confirmationModal.receiveDeposit", common),
+  //         icon: ReceiveIcon,
+  //         chain: deployment?.l2,
+  //       },
+  //     ].filter(isPresent)
+  //   )
+  //   .otherwise(() => null);
+
+  const lineItems =
+    route?.result && isRouteQuote(route.result)
+      ? route.result.steps.map((x) => {
+          if (isRouteTransactionStep(x)) {
+            const text =
+              x.type === RouteStepType.Initiate
+                ? "Initiate bridge"
+                : x.type === RouteStepType.Prove
+                ? "Prove"
+                : x.type === RouteStepType.Finalize
+                ? "Claim"
+                : x.type === RouteStepType.Mint
+                ? "Claim"
+                : null;
+
+            const chain = x.chainId === from?.id.toString() ? from : to;
+
+            return {
+              text: text,
+              fee: fee(getGasCost(x.chainId, x.estimatedGasLimit), 4),
+              chain,
+              initiate: x.type === RouteStepType.Initiate,
+            };
+          }
+
+          if (isRouteWaitStep(x)) {
+            return {
+              text: transformPeriodText(
+                "confirmationModal.wait",
+                {},
+                getPeriod(x.duration / 1000)
+              ),
+              icon: WaitIcon,
+            };
+          }
+
+          if (isRouteReceiveStep(x)) {
+            return {
+              text: t("confirmationModal.receiveDeposit", common),
+            };
+          }
+        })
+      : [];
 
   return (
     <div>
@@ -757,7 +780,7 @@ export const ConfirmationModalStartTab = ({
           </div>
         )}
 
-        {approveGasTokenButton && (
+        {approveGasTokenButton && from && (
           <>
             <LineItem
               text={t("confirmationModal.approveGasToken", {
@@ -789,7 +812,7 @@ export const ConfirmationModalStartTab = ({
           </>
         )}
 
-        {approveButton && (
+        {approveButton && from && (
           <>
             <LineItem
               text={t("confirmationModal.approve", { symbol: token?.symbol })}
@@ -819,7 +842,7 @@ export const ConfirmationModalStartTab = ({
           </>
         )}
 
-        {lineItems?.map(({ text, fee, chain, initiate }) => (
+        {lineItems.filter(isPresent).map(({ text, fee, chain, initiate }) => (
           <LineItem
             key={text}
             text={text}

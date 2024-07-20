@@ -132,9 +132,7 @@ export const ConfirmationModalTermsTab = ({
             className="mt-0.5"
           />
           <label htmlFor="speed" className="text-xs text-muted-foreground ">
-            {withdrawing
-              ? t("confirmationModal.checkbox2Withdrawal")
-              : t("confirmationModal.checkbox2Deposit")}
+            {t("confirmationModal.checkbox2")}
           </label>
         </div>
         <div className="flex gap-3">

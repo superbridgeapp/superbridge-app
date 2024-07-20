@@ -186,3 +186,21 @@ export const isRouteWaitStep = (
 ): a is RouteStepWaitDto => {
   return a.type === RouteStepType.Wait;
 };
+
+export const isRouteReceiveStep = (
+  a: RouteStepWaitDto | RouteStepReceiveDto | RouteStepTransactionDto
+): a is RouteStepReceiveDto => {
+  return a.type === RouteStepType.Receive;
+};
+
+export const isRouteTransactionStep = (
+  a: RouteStepWaitDto | RouteStepReceiveDto | RouteStepTransactionDto
+): a is RouteStepTransactionDto => {
+  const options: RouteStepType[] = [
+    RouteStepType.Initiate,
+    RouteStepType.Prove,
+    RouteStepType.Finalize,
+    RouteStepType.Mint,
+  ];
+  return options.includes(a.type);
+};

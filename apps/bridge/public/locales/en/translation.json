@@ -211,8 +211,7 @@
     "arbCheckbox1WithdrawalHours_other": "I understand it will take ~{{count}} hours until my funds are claimable on {{base}}",
     "arbCheckbox1WithdrawalDays_one": "I understand it will take ~{{count}} day until my funds are claimable on {{base}}",
     "arbCheckbox1WithdrawalDays_other": "I understand it will take ~{{count}} days until my funds are claimable on {{base}}",
-    "checkbox2Deposit": "I understand once a deposit is initiated it cannot be sped up or cancelled",
-    "checkbox2Withdrawal": "I understand once a withdrawal is initiated it cannot be sped up or cancelled",
+    "checkbox2": "I understand once a bridge is initiated it cannot be sped up or cancelled",
     "checkbox3": "I understand network fees are approximate and will change",
 
     "continue": "Continue withdraw",
