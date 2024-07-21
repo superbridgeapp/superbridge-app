@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
 import { trackEvent } from "@/services/ga";
 import { useConfigState } from "@/state/config";
+import { useInjectedStore } from "@/state/injected";
 
 import { FastNetworkIcon } from "./fast/network-icon";
 import { NetworkIcon } from "./network-icon";
@@ -10,8 +11,8 @@ import { NetworkIcon } from "./network-icon";
 export const FromTo = () => {
   const from = useFromChain();
   const to = useToChain();
-  const setFromChainId = useConfigState.useSetFromChainId();
-  const setToChainId = useConfigState.useSetToChainId();
+  const setFromChainId = useInjectedStore((s) => s.setFromChainId);
+  const setToChainId = useInjectedStore((s) => s.setToChainId);
   const setNetworkSelectorModal = useConfigState.useSetNetworkSelectorModal();
   const { t } = useTranslation();
 

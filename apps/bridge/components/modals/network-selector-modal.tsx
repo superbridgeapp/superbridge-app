@@ -18,8 +18,8 @@ export const NetworkSelectorModal = () => {
 
   const networkSelectorModal = useConfigState.useNetworkSelectorModal();
   const setNetworkSelectorModal = useConfigState.useSetNetworkSelectorModal();
-  const setFromChainId = useConfigState.useSetFromChainId();
-  const setToChainId = useConfigState.useSetToChainId();
+  const setFromChainId = useInjectedStore((s) => s.setFromChainId);
+  const setToChainId = useInjectedStore((s) => s.setToChainId);
   const superbridgeTestnets = useInjectedStore((s) => s.testnets);
 
   const acrossDomains = useAcrossDomains();
