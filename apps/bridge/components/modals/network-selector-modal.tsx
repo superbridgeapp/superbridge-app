@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 
 import { ChainDto } from "@/codegen/model";
+import { isSuperbridge } from "@/config/superbridge";
 import { useAcrossDomains } from "@/hooks/across/use-across-domains";
 import { useCctpDomains } from "@/hooks/cctp/use-cctp-domains";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
@@ -50,7 +51,7 @@ export const NetworkSelectorModal = () => {
     setNetworkSelectorModal(null);
   };
 
-  const chains = useMemo(() => {
+  const availableChains = useMemo(() => {
     const byId: { [x: string]: ChainDto } = {};
 
     for (const d of deployments) {
@@ -62,16 +63,24 @@ export const NetworkSelectorModal = () => {
       }
     }
 
-    if (!superbridgeTestnets) {
-      for (const d of acrossDomains) {
-        if (!byId[d.chain.id]) {
+    if (isSuperbridge) {
+      if (!superbridgeTestnets) {
+        for (const d of acrossDomains) {
+          if (!byId[d.chain.id]) {
+            byId[d.chain.id] = d.chain;
+          }
+        }
+      }
+
+      for (const d of cctpDomains) {
+        if (!byId[d.chain.id] && d.chain.testnet === superbridgeTestnets) {
           byId[d.chain.id] = d.chain;
         }
       }
     }
 
     return Object.values(byId);
-  }, [superbridgeTestnets]);
+  }, [superbridgeTestnets, networkSelectorModal, from, to]);
 
   return (
     <Dialog
@@ -83,7 +92,7 @@ export const NetworkSelectorModal = () => {
           <DialogTitle>Choose network</DialogTitle>
         </DialogHeader>
         <div className="flex flex-col">
-          {chains.map((chain) => (
+          {availableChains.map((chain) => (
             <div
               key={`chain-${chain.id}`}
               onClick={() => onSelect(chain)}

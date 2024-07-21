@@ -34,7 +34,7 @@ export const useInitialInjectedState = (
     deployments: props.deployments,
     superbridgeConfig: props.superbridgeConfig ?? null,
     testnets: props.testnets ?? false,
-    fromChainId: 1,
-    toChainId: 1,
+    fromChainId,
+    toChainId,
   };
 };

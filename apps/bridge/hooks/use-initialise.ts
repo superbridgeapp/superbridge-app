@@ -8,6 +8,7 @@ import { isMainnet, isOptimism } from "@/utils/is-mainnet";
 
 import { useActivityEffects } from "./use-activity-effects";
 import { useDeployment } from "./use-deployment";
+import { useInitialiseQueryParams } from "./use-initialise-query-params";
 import { useInitialiseToken } from "./use-initialise-token";
 import { useIsContractAccount } from "./use-is-contract-account";
 import { useInitialiseRecipient } from "./use-recipient";
@@ -21,30 +22,19 @@ export const useInitialise = () => {
   const deployment = useDeployment();
   const setEasyMode = useConfigState.useSetEasyMode();
   const setForceViaL1 = useConfigState.useSetForceViaL1();
-  const setRawAmount = useConfigState.useSetRawAmount();
   const clearPendingTransactionsStorage = usePendingTransactions.useLogout();
 
   useInitialiseRecipient();
   useTokenLists();
   useInitialiseToken();
   useActivityEffects();
+  useInitialiseQueryParams();
 
   useAccountEffect({
     onDisconnect: () => {
       clearPendingTransactionsStorage();
     },
   });
-
-  useEffect(() => {
-    // const direction = router.query.direction as string | undefined;
-    // if (direction === "withdraw") {
-    // }
-
-    const amount = router.query.amount as string | undefined;
-    if (amount && parseFloat(amount)) {
-      setRawAmount(amount);
-    }
-  }, []);
 
   useEffect(() => {
     if (isContractAccount.data === true) {
