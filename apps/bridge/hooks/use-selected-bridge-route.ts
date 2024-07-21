@@ -5,6 +5,7 @@ import { useBridgeRoutes } from "./use-bridge-routes";
 
 export const useSelectedBridgeRoute = () => {
   const routes = useBridgeRoutes();
+  console.log(routes);
   const routeId = useConfigState.useRouteId();
 
   if (routes.isLoading) {

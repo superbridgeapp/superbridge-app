@@ -42,11 +42,13 @@ export const useBridge = () => {
   }
 
   // @ts-expect-error
-  let { data: gas, refetch } = useEstimateGas(params);
+  let { data: gas, refetch, error } = useEstimateGas(params);
 
   if (gas) {
     params.gas = gas + gas / BigInt("10");
   }
+
+  console.log(params, error, gas);
 
   return {
     write: !params.gas ? undefined : () => sendTransactionAsync(params),
