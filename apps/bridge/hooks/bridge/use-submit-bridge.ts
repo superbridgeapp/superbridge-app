@@ -41,8 +41,6 @@ export const useSubmitBridge = (initiateBridge: () => void) => {
   return () => {
     const modals: AlertModals[] = [];
 
-    console.log("hier");
-
     const needDestinationGasConditions = [
       withdrawing, // need to prove/finalize
       isCctp(stateToken), // need to mint
@@ -68,8 +66,6 @@ export const useSubmitBridge = (initiateBridge: () => void) => {
     if (faultProofUpgradeTime && withdrawing) {
       modals.push(AlertModals.FaultProofs);
     }
-
-    console.log(modals);
 
     if (modals.length === 0) {
       initiateBridge();
