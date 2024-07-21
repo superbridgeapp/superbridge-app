@@ -177,7 +177,8 @@ export const isAmountTooSmallRouteError = (
   return isRouteQuoteError(a) && a.type === "AmountTooSmall";
 };
 
-export const isRouteQuote = (a: RouteQuote): a is RouteQuoteDto => {
+export const isRouteQuote = (a: RouteQuote | undefined): a is RouteQuoteDto => {
+  if (!a) return false;
   return !!(a as RouteQuoteDto).initiatingTransaction;
 };
 

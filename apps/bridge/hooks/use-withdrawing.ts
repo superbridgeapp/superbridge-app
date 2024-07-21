@@ -23,3 +23,8 @@ export const useIsArbitrumWithdrawal = () => {
   const route = useSelectedBridgeRoute();
   return route?.id === RouteProvider.ArbitrumWithdrawal;
 };
+
+export const useIsArbitrumDeposit = () => {
+  const route = useSelectedBridgeRoute();
+  return route?.id === RouteProvider.ArbitrumDeposit;
+};

@@ -2,6 +2,7 @@ import { waitForTransactionReceipt } from "@wagmi/core";
 import { useAccount, useConfig, useWalletClient } from "wagmi";
 
 import { useBridgeControllerTrack } from "@/codegen";
+import { RouteProvider } from "@/codegen/model";
 import { useAllowance } from "@/hooks/use-allowance";
 import { useChain, useFromChain, useToChain } from "@/hooks/use-chain";
 import { useDeployment } from "@/hooks/use-deployment";
@@ -9,16 +10,14 @@ import { useSelectedToken } from "@/hooks/use-selected-token";
 import { useStatusCheck } from "@/hooks/use-status-check";
 import { useSwitchChain } from "@/hooks/use-switch-chain";
 import { useActiveTokens } from "@/hooks/use-tokens";
-import { useWeiAmount } from "@/hooks/use-wei-amount";
 import { trackEvent } from "@/services/ga";
 import { useConfigState } from "@/state/config";
 import { useModalsState } from "@/state/modals";
 import { usePendingTransactions } from "@/state/pending-txs";
-import { buildPendingTx } from "@/utils/build-pending-tx";
-import { isCctp } from "@/utils/is-cctp";
 import { isNativeToken } from "@/utils/is-eth";
 
 import { useInitiatingChainId } from "../use-initiating-chain-id";
+import { useSelectedBridgeRoute } from "../use-selected-bridge-route";
 import { useIsWithdrawal } from "../use-withdrawing";
 import { useBridge } from "./use-bridge";
 
@@ -29,7 +28,6 @@ export const useInitiateBridge = (bridge: ReturnType<typeof useBridge>) => {
   const to = useToChain();
   const switchChain = useSwitchChain();
   const tokens = useActiveTokens();
-  const weiAmount = useWeiAmount();
   const token = useSelectedToken();
 
   const deployment = useDeployment();
@@ -51,6 +49,7 @@ export const useInitiateBridge = (bridge: ReturnType<typeof useBridge>) => {
   const initiatingChainId = useInitiatingChainId();
   const initiatingChain = useChain(initiatingChainId);
   const wagmiConfig = useConfig();
+  const route = useSelectedBridgeRoute();
 
   const allowance = useAllowance(token, bridge.address);
 
@@ -59,10 +58,10 @@ export const useInitiateBridge = (bridge: ReturnType<typeof useBridge>) => {
       !account.address ||
       !wallet.data ||
       !bridge.valid ||
-      !bridge.args ||
       !recipient ||
       statusCheck ||
-      !initiatingChain
+      !initiatingChain ||
+      !route
     ) {
       return;
     }
@@ -79,51 +78,39 @@ export const useInitiateBridge = (bridge: ReturnType<typeof useBridge>) => {
 
       setPendingBridgeTransactionHash(hash);
 
+      const type =
+        route.id === RouteProvider.Across
+          ? "across"
+          : route.id === RouteProvider.Cctp
+          ? "cctp"
+          : withdrawing
+          ? "withdraw"
+          : "deposit";
+
       trackEvent({
         event: "bridge",
         from: from?.name ?? "",
         to: to?.name ?? "",
         amount: parseFloat(rawAmount),
         token: token?.symbol ?? "",
-        type: "fast"
-          ? "across"
-          : !!stateToken && isCctp(stateToken)
-          ? "cctp"
-          : withdrawing
-          ? "withdraw"
-          : "deposit",
+        type,
         transactionHash: hash,
       });
 
-      if (!fast && deployment) {
-        track.mutate({
-          data: {
-            amount: weiAmount.toString(),
-            deploymentId: deployment.id,
-            transactionHash: hash,
-            action: withdrawing
-              ? forceViaL1
-                ? "force-withdraw"
-                : "withdraw"
-              : "deposit",
-          },
-        });
-      }
-
-      const pending = buildPendingTx(
-        deployment,
-        account.address,
-        recipient,
-        weiAmount,
-        stateToken,
-        nft,
-        withdrawing,
-        hash,
-        forceViaL1,
-        fast,
-        { from: from!, to: to! }
-      );
-      if (pending) addPendingTransaction(pending);
+      // todo: pending transactions
+      // const pending = buildPendingTx(
+      //   deployment,
+      //   account.address,
+      //   recipient,
+      //   weiAmount,
+      //   stateToken,
+      //   nft,
+      //   withdrawing,
+      //   hash,
+      //   forceViaL1,
+      //   { from: from!, to: to! }
+      // );
+      // if (pending) addPendingTransaction(pending);
 
       if (nft) {
         setToken(tokens.find((x) => isNativeToken(x))!);
@@ -131,11 +118,7 @@ export const useInitiateBridge = (bridge: ReturnType<typeof useBridge>) => {
 
       await waitForTransactionReceipt(wagmiConfig, {
         hash,
-        chainId: withdrawing
-          ? forceViaL1
-            ? deployment!.l1.id
-            : deployment?.l2.id
-          : deployment?.l1.id,
+        chainId: initiatingChain.id,
         onReplaced: ({ replacedTransaction, transaction }) => {
           updatePendingTransactionHash(
             replacedTransaction.hash,

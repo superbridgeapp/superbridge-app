@@ -8,7 +8,7 @@ import { getNativeTokenForDeployment } from "@/utils/get-native-token";
 import { useApprovalAddressGasToken } from "./use-approval-address-gas-token";
 import { APPROVE_ABI_WITHOUT_RETURN } from "./use-approve";
 import { useFromChain } from "./use-chain";
-import { useDeployment } from "./use-deployment";
+import { useDeployment, useDeployment2 } from "./use-deployment";
 import { useDeploymentById } from "./use-deployment-by-id";
 
 export const useGasTokenForDeployment = (deploymentId: string | undefined) => {
@@ -20,7 +20,7 @@ export const useGasTokenForDeployment = (deploymentId: string | undefined) => {
 };
 
 export const useGasToken = () => {
-  const deployment = useDeployment();
+  const deployment = useDeployment2();
   return useGasTokenForDeployment(deployment?.id);
 };
 

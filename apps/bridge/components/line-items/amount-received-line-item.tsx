@@ -3,7 +3,6 @@ import Image from "next/image";
 import { useTranslation } from "react-i18next";
 
 import { currencySymbolMap } from "@/constants/currency-symbol-map";
-import { useAcrossFee } from "@/hooks/across/use-across-fee";
 import { useToChain } from "@/hooks/use-chain";
 import { useTokenPrice } from "@/hooks/use-prices";
 import { useReceiveAmount } from "@/hooks/use-receive-amount";
@@ -24,7 +23,6 @@ export const AmountReceivedLineItem = () => {
 
   const usdPrice = useTokenPrice(stateToken);
   const receive = useReceiveAmount();
-  const acrossFee = useAcrossFee();
 
   const fiatValueBeingBridged =
     usdPrice && receive.data ? receive.data * usdPrice : null;
@@ -48,7 +46,7 @@ export const AmountReceivedLineItem = () => {
 
       {stateToken && (
         <>
-          {acrossFee.isFetching ? (
+          {receive.isFetching ? (
             <Skeleton className="h-4 w-[88px]" />
           ) : (
             <>

@@ -6,7 +6,7 @@ import { useSettingsState } from "@/state/settings";
 const statelessTransactionLink = (
   type: "tx" | "address",
   payload: string,
-  chain: Chain | ChainDto | undefined,
+  chain: Chain | ChainDto | undefined | null,
   preferredExplorer: string
 ) => {
   const etherscan = chain?.blockExplorers?.etherscan?.url;
@@ -56,7 +56,7 @@ export const addressLink = (
 export const useExplorerLink = (
   type: "tx" | "address",
   payload: string,
-  chain: Chain | ChainDto | undefined
+  chain: Chain | ChainDto | undefined | null
 ) => {
   const preferredExplorer = useSettingsState.usePreferredExplorer();
   return statelessTransactionLink(type, payload, chain, preferredExplorer);

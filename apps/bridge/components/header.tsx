@@ -9,9 +9,7 @@ import { useNavIcon } from "@/hooks/use-theme";
 import { useConfigState } from "@/state/config";
 import { useInjectedStore } from "@/state/injected";
 
-import { BadgeNew } from "./badges/new-badge";
 import { TokenBanner } from "./banners/token-banner";
-import { IconSuperFastSimple } from "./icons";
 
 export function Header() {
   const deployments = useDeployments();
@@ -107,22 +105,6 @@ export function Header() {
                 </defs>
               </svg>
             </button>
-
-            {!superbridgeTestnetsEnabled && (
-              <button
-                onClick={() => navigate("fast")}
-                className={`relative flex items-center justify-center h-10 w-14 bg-card rounded-full shadow-sm transition-all hover:scale-105`}
-              >
-                <IconSuperFastSimple
-                  className={
-                    !displayTransactions
-                      ? "fill-foreground transition-all"
-                      : "fill-muted-foreground transition-all"
-                  }
-                />
-                <BadgeNew className="absolute -top-1.5 -right-2.5 w-7 h-7" />
-              </button>
-            )}
           </div>
         )}
         <ConnectButton

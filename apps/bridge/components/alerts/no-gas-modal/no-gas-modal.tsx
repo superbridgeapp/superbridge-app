@@ -11,7 +11,7 @@ import { useDeployment } from "@/hooks/use-deployment";
 import { useNativeToken, useToNativeToken } from "@/hooks/use-native-token";
 import { useNavigate } from "@/hooks/use-navigate";
 import { useSelectedToken } from "@/hooks/use-selected-token";
-import { useWithdrawing } from "@/hooks/use-withdrawing";
+import { useIsWithdrawal } from "@/hooks/use-withdrawing";
 import { useConfigState } from "@/state/config";
 import { isNativeToken } from "@/utils/is-eth";
 
@@ -38,7 +38,7 @@ export const NoGasModal = ({ onProceed, open, onCancel }: AlertProps) => {
   const stateToken = useConfigState.useToken();
   const setStateToken = useConfigState.useSetToken();
 
-  const withdrawing = useWithdrawing();
+  const withdrawing = useIsWithdrawal();
   const isCctp = useIsCctpRoute();
   const from = useFromChain();
   const to = useToChain();
@@ -82,10 +82,6 @@ export const NoGasModal = ({ onProceed, open, onCancel }: AlertProps) => {
         setStateToken(nativeToken ?? null);
         onCancel();
       },
-    }))
-    .with({ supportsAcross: true }, () => ({
-      text: t("noGasModal.topup", common),
-      onClick: () => navigate("fast"),
     }))
     .otherwise(() => ({
       text: t("noGasModal.goBack", common),

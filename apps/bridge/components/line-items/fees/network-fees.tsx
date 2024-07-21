@@ -1,14 +1,11 @@
 import Image from "next/image";
 import { useTranslation } from "react-i18next";
 
-import { useFromChain } from "@/hooks/use-chain";
-import { useFees } from "@/hooks/use-fee-line-items";
+import { useNetworkFeeLineItems } from "@/hooks/use-fee-line-items";
 
 export const NetworkFees = () => {
   const { t } = useTranslation();
-  const from = useFromChain();
-
-  const fee = useFees(from)[0];
+  const fee = useNetworkFeeLineItems()[0];
 
   return (
     <div>

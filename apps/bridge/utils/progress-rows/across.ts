@@ -1,8 +1,9 @@
 import { useTranslation } from "react-i18next";
 
 import { useAcrossDomains } from "@/hooks/across/use-across-domains";
+import { Period } from "@/hooks/use-finalization-period";
 import { usePeriodText } from "@/hooks/use-period-text";
-import { useFastTransferPeriod } from "@/hooks/use-transfer-time";
+// import { useFastTransferPeriod } from "@/hooks/use-transfer-time";
 import { AcrossBridgeDto } from "@/types/across";
 
 import { transactionLink } from "../transaction-link";
@@ -12,7 +13,8 @@ import { getRemainingTimePeriod } from "./get-remaining-period";
 export const useAcrossProgressRows = () => {
   const { t } = useTranslation();
   const transformPeriodText = usePeriodText();
-  const transferPeriod = useFastTransferPeriod();
+  // todo: think about estimating time remaining for fast transfers
+  const transferPeriod: Period = { value: 1, period: "days" };
 
   const acrossDomains = useAcrossDomains();
   return (tx: AcrossBridgeDto): ExpandedItem[] => {

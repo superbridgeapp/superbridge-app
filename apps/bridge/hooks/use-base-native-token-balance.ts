@@ -1,10 +1,12 @@
 import { Address, erc20Abi } from "viem";
 import { useAccount, useReadContract } from "wagmi";
 
-import { useDeployment } from "./use-deployment";
+import { useDeployment2 } from "./use-deployment";
+import { useIsArbitrumDeposit } from "./use-withdrawing";
 
 export function useBaseNativeTokenBalance() {
-  const deployment = useDeployment();
+  const isArbitrumDeposit = useIsArbitrumDeposit();
+  const deployment = useDeployment2();
   const account = useAccount();
 
   return useReadContract({
@@ -13,5 +15,8 @@ export function useBaseNativeTokenBalance() {
     args: [account.address as Address],
     chainId: deployment?.l1.id,
     address: deployment?.arbitrumNativeToken?.address as Address,
+    query: {
+      enabled: isArbitrumDeposit,
+    },
   });
 }

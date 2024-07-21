@@ -6,7 +6,7 @@ import { configurations } from "@/config/contract-addresses";
 import { currencySymbolMap } from "@/constants/currency-symbol-map";
 import { ModalNames } from "@/constants/modal-names";
 import { useDeployment } from "@/hooks/use-deployment";
-import { useFees } from "@/hooks/use-fee-line-items";
+import { useNetworkFeeLineItems } from "@/hooks/use-fee-line-items";
 import { useConfigState } from "@/state/config";
 import { useSettingsState } from "@/state/settings";
 import { isOptimism } from "@/utils/is-mainnet";
@@ -15,7 +15,7 @@ export const WithdrawFees = () => {
   const deployment = useDeployment();
   const forceViaL1 = useConfigState.useForceViaL1();
   const easyMode = useConfigState.useEasyMode();
-  const fees = useFees(deployment?.l2);
+  const fees = useNetworkFeeLineItems();
   const { t } = useTranslation();
   const currency = useSettingsState.useCurrency();
   const openModal = useConfigState.useAddModal();

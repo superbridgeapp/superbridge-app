@@ -1,17 +1,11 @@
 import clsx from "clsx";
 import Image from "next/image";
 
-import { currencySymbolMap } from "@/constants/currency-symbol-map";
-import { ModalNames } from "@/constants/modal-names";
-import { useAcrossFee } from "@/hooks/across/use-across-fee";
 import { useToChain } from "@/hooks/use-chain";
 import { useTokenPrice } from "@/hooks/use-prices";
+import { useSelectedBridgeRoute } from "@/hooks/use-selected-bridge-route";
 import { useConfigState } from "@/state/config";
 import { useSettingsState } from "@/state/settings";
-import { formatDecimals } from "@/utils/format-decimals";
-
-import { IconHelp } from "../icons";
-import { Skeleton } from "../ui/skeleton";
 
 export const FeeLineItem = () => {
   const to = useToChain();
@@ -22,16 +16,20 @@ export const FeeLineItem = () => {
 
   const usdPrice = useTokenPrice(stateToken);
 
-  const acrossFee = useAcrossFee();
+  const route = useSelectedBridgeRoute();
+
+  // todo: selectedBridgeRoute needs to expose isLoading
+  // const fee = route;
 
   return (
     <div
       className={clsx(
-        "flex items-center justify-between px-3 py-2 md:py-3",
-        !!acrossFee.data && "cursor-pointer"
+        "flex items-center justify-between px-3 py-2 md:py-3"
+        // !!acrossFee.data && "cursor-pointer"
       )}
       onClick={
-        !!acrossFee.data ? () => openModal(ModalNames.FeeBreakdown) : undefined
+        () => {}
+        // !!acrossFee.data ? () => openModal(ModalNames.FeeBreakdown) : undefined
       }
     >
       <div className="flex justify-center gap-2">
@@ -45,7 +43,7 @@ export const FeeLineItem = () => {
         <span className={`text-foreground text-xs `}>Superfast fee</span>
       </div>
 
-      <div className="flex items-center">
+      {/* <div className="flex items-center">
         {acrossFee.isFetching ? (
           <Skeleton className="h-4 w-[88px]" />
         ) : (
@@ -74,8 +72,8 @@ export const FeeLineItem = () => {
           <div className="ml-1 transition-all hover:scale-105">
             <IconHelp className="w-3.5 h-3.5 fill-muted-foreground opacity-50" />
           </div>
-        )}
-      </div>
+        )} 
+      </div>*/}
     </div>
   );
 };

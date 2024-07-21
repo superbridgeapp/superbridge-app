@@ -5,7 +5,7 @@ import { configurations } from "@/config/contract-addresses";
 import { ModalNames } from "@/constants/modal-names";
 import { useToChain } from "@/hooks/use-chain";
 import { useDeployment } from "@/hooks/use-deployment";
-import { useFees } from "@/hooks/use-fee-line-items";
+import { useNetworkFeeLineItems } from "@/hooks/use-fee-line-items";
 import { useIsContractAccount } from "@/hooks/use-is-contract-account";
 import { useConfigState } from "@/state/config";
 import { isOptimism } from "@/utils/is-mainnet";
@@ -26,7 +26,7 @@ export const WithdrawSettingsModal = () => {
   const removeModal = useConfigState.useRemoveModal();
 
   const to = useToChain();
-  const fees = useFees(deployment?.l2);
+  const fees = useNetworkFeeLineItems();
 
   return (
     <Dialog

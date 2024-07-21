@@ -4,7 +4,6 @@ import { isCctp } from "@/utils/is-cctp";
 import { isArbitrum, isMainnet, isOptimism } from "@/utils/is-mainnet";
 
 import { useDeployment } from "./use-deployment";
-import { useFastTransferPeriod } from "./use-transfer-time";
 
 const ONE_MINUTE = 60;
 const ONE_HOUR = 60 * 60;

@@ -11,6 +11,7 @@ import {
   ForcedWithdrawalDto,
   NftDepositDto,
   PortalDepositDto,
+  RouteQuoteDto,
 } from "@/codegen/model";
 import { MessageStatus } from "@/constants";
 import { ArbitrumMessageStatus } from "@/constants/arbitrum-message-status";
@@ -32,6 +33,7 @@ export const buildPendingTx = (
   hash: Hex,
   force: boolean,
   fast: boolean,
+  route: RouteQuoteDto,
   { from, to }: { from: ChainDto; to: ChainDto }
 ) => {
   if (!token) {

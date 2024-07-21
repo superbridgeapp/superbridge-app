@@ -2,9 +2,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { isAddress, isAddressEqual } from "viem";
 
-import { configurations } from "@/config/contract-addresses";
 import { useConfigState } from "@/state/config";
-import { isNativeToken } from "@/utils/is-eth";
 
 import { useGasToken } from "./use-approve-gas-token";
 import { useFromChain, useToChain } from "./use-chain";
@@ -69,32 +67,32 @@ export const useInitialiseToken = () => {
       }
     });
 
-    if (token) {
-      setToken(token);
-      if (
-        (isAddress(nameOrTokenOrUndefined) &&
-          isAddressEqual(
-            token[deployment.l2.id]!.address,
-            nameOrTokenOrUndefined
-          )) ||
-        (isAddress(nameOrToken) &&
-          isAddressEqual(token[deployment.l2.id]!.address, nameOrToken))
-      ) {
-      }
-    } else {
-      if (arbitrumGasToken) {
-        setToken(arbitrumGasToken);
-        return;
-      }
+    // if (token) {
+    //   setToken(token);
+    //   if (
+    //     (isAddress(nameOrTokenOrUndefined) &&
+    //       isAddressEqual(
+    //         token[deployment.l2.id]!.address,
+    //         nameOrTokenOrUndefined
+    //       )) ||
+    //     (isAddress(nameOrToken) &&
+    //       isAddressEqual(token[deployment.l2.id]!.address, nameOrToken))
+    //   ) {
+    //   }
+    // } else {
+    //   if (arbitrumGasToken) {
+    //     setToken(arbitrumGasToken);
+    //     return;
+    //   }
 
-      const t = tokens.find((x) => isNativeToken(x));
-      if (t) {
-        setToken(t);
+    //   const t = tokens.find((x) => isNativeToken(x));
+    //   if (t) {
+    //     setToken(t);
 
-        if (!configurations[deployment.name]) {
-          setEasyMode(false);
-        }
-      }
-    }
-  }, [router.asPath, deployment, tokens, arbitrumGasToken, fast]);
+    //     if (!configurations[deployment.name]) {
+    //       setEasyMode(false);
+    //     }
+    //   }
+    // }
+  }, [router.asPath, deployment, tokens, arbitrumGasToken]);
 };
