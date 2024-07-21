@@ -11,6 +11,7 @@ import {
   ForcedWithdrawalDto,
   NftDepositDto,
   PortalDepositDto,
+  RouteProvider,
   RouteQuoteDto,
 } from "@/codegen/model";
 import { MessageStatus } from "@/constants";
@@ -19,8 +20,6 @@ import { AcrossBridgeDto } from "@/types/across";
 import { MultiChainToken } from "@/types/token";
 import { isEth, isNativeToken } from "@/utils/is-eth";
 import { isArbitrum, isOptimism } from "@/utils/is-mainnet";
-
-import { isCctp } from "./is-cctp";
 
 export const buildPendingTx = (
   deployment: DeploymentDto | null,
@@ -32,7 +31,7 @@ export const buildPendingTx = (
   withdrawing: boolean,
   hash: Hex,
   force: boolean,
-  fast: boolean,
+  provider: RouteProvider,
   route: RouteQuoteDto,
   { from, to }: { from: ChainDto; to: ChainDto }
 ) => {
@@ -40,7 +39,7 @@ export const buildPendingTx = (
     return null;
   }
 
-  if (fast) {
+  if (provider == RouteProvider.Across) {
     const b: AcrossBridgeDto = {
       id: Math.random().toString(),
       // @ts-expect-error
@@ -121,8 +120,7 @@ export const buildPendingTx = (
     }
   }
 
-  if (isCctp(token)) {
-    const from = withdrawing ? deployment.l2 : deployment.l1;
+  if (provider === RouteProvider.Cctp) {
     const b: CctpBridgeDto = {
       id: Math.random().toString(),
       // @ts-expect-error
@@ -134,7 +132,7 @@ export const buildPendingTx = (
       amount: weiAmount.toString(),
       deploymentId: deployment.id,
       from,
-      to: withdrawing ? deployment.l1 : deployment.l2,
+      to,
       type: "cctp-bridge",
       relay: undefined,
       token: token[from.id]!.address,

@@ -13,10 +13,14 @@ import { trackEvent } from "@/services/ga";
 import { useConfigState } from "@/state/config";
 import { useModalsState } from "@/state/modals";
 import { usePendingTransactions } from "@/state/pending-txs";
+import { buildPendingTx } from "@/utils/build-pending-tx";
+import { isRouteQuote } from "@/utils/guards";
 import { isNativeToken } from "@/utils/is-eth";
 
+import { useDeployment } from "../use-deployment";
 import { useInitiatingChainId } from "../use-initiating-chain-id";
 import { useSelectedBridgeRoute } from "../use-selected-bridge-route";
+import { useWeiAmount } from "../use-wei-amount";
 import { useIsWithdrawal } from "../use-withdrawing";
 import { useBridge } from "./use-bridge";
 
@@ -29,6 +33,8 @@ export const useInitiateBridge = (bridge: ReturnType<typeof useBridge>) => {
   const tokens = useActiveTokens();
   const token = useSelectedToken();
 
+  const weiAmount = useWeiAmount();
+  const deployment = useDeployment();
   const withdrawing = useIsWithdrawal();
   const stateToken = useConfigState.useToken();
   const forceViaL1 = useConfigState.useForceViaL1();
@@ -59,7 +65,7 @@ export const useInitiateBridge = (bridge: ReturnType<typeof useBridge>) => {
       !recipient ||
       statusCheck ||
       !initiatingChain ||
-      !route.data
+      !isRouteQuote(route.data?.result)
     ) {
       console.log("fff.hier", route, bridge.valid);
       return;
@@ -96,20 +102,21 @@ export const useInitiateBridge = (bridge: ReturnType<typeof useBridge>) => {
         transactionHash: hash,
       });
 
-      // todo: pending transactions
-      // const pending = buildPendingTx(
-      //   deployment,
-      //   account.address,
-      //   recipient,
-      //   weiAmount,
-      //   stateToken,
-      //   nft,
-      //   withdrawing,
-      //   hash,
-      //   forceViaL1,
-      //   { from: from!, to: to! }
-      // );
-      // if (pending) addPendingTransaction(pending);
+      const pending = buildPendingTx(
+        deployment,
+        account.address,
+        recipient,
+        weiAmount,
+        stateToken,
+        nft,
+        withdrawing,
+        hash,
+        forceViaL1,
+        route.data.id,
+        route.data.result,
+        { from: from!, to: to! }
+      );
+      if (pending) addPendingTransaction(pending);
 
       if (nft) {
         setToken(tokens.find((x) => isNativeToken(x))!);

@@ -220,7 +220,6 @@ export const RecipientAddressModal = () => {
                       ({ transactions, profile }) => {
                         const count = transactions.transactions.reduce(
                           (accum, tx) => {
-                            // todo: make this work with ENS
                             if (
                               isDeposit(tx) &&
                               !!profile?.address &&
