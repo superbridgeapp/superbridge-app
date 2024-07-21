@@ -8,7 +8,7 @@ import {
   bridgeControllerGetDeployments,
 } from "@/codegen/index";
 import { DeploymentDto, DeploymentFamily } from "@/codegen/model";
-import { Head } from "@/components/head";
+import { StatelessHead } from "@/components/head";
 import { IconAlert } from "@/components/icons";
 import PageFooter from "@/components/page-footer";
 import PageNav from "@/components/page-nav";
@@ -302,7 +302,7 @@ function Support({
 
   return (
     <>
-      <Head deployment={deployment} />
+      <StatelessHead deployment={deployment} />
       <div className="w-screen h-screen overflow-y-auto bg-background">
         <PageNav />
 

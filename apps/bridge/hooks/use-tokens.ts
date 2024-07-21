@@ -5,6 +5,7 @@ import { bsc, bscTestnet, syscoin, syscoinTestnet } from "viem/chains";
 
 import { DeploymentFamily } from "@/codegen/model";
 import { useConfigState } from "@/state/config";
+import { useInjectedStore } from "@/state/injected";
 import { useSettingsState } from "@/state/settings";
 import { MultiChainToken } from "@/types/token";
 import { getNativeTokenForDeployment } from "@/utils/get-native-token";
@@ -190,8 +191,8 @@ export function useAllTokens() {
 
 export function useActiveTokens() {
   const tokens = useAllTokens();
-  const fromChainId = useConfigState.useFromChainId();
-  const toChainId = useConfigState.useToChainId();
+  const fromChainId = useInjectedStore((s) => s.fromChainId);
+  const toChainId = useInjectedStore((s) => s.toChainId);
 
   const hasNativeUsdc = useMemo(
     () =>

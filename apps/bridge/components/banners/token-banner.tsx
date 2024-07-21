@@ -1,48 +1,39 @@
 import Image from "next/image";
 
-import { useDeployment } from "@/hooks/use-deployment";
 import { useDeployments } from "@/hooks/use-deployments";
-import { useNavigate } from "@/hooks/use-navigate";
 import { trackEvent } from "@/services/ga";
 import { useConfigState } from "@/state/config";
 import { useInjectedStore } from "@/state/injected";
 
 export function TokenBanner() {
   const setToken = useConfigState.useSetToken();
-  const deployment = useDeployment();
   const deployments = useDeployments();
-  const navigate = useNavigate();
   const superbridgeConfig = useInjectedStore(
     (store) => store.superbridgeConfig
   );
+  const setFromChainId = useInjectedStore((store) => store.setFromChainId);
+  const setToChainId = useInjectedStore((store) => store.setToChainId);
 
   const onClick = async () => {
     const { deploymentName, symbol } = superbridgeConfig!.banner!;
+    const deployment = deployments.find((x) => x.name === deploymentName);
+    if (!deployment) {
+      return;
+    }
 
     trackEvent({ event: "token-banner-click", symbol });
 
-    if (deployment?.name !== deploymentName) {
-      let exists = deployments.find((x) => x.name === deploymentName);
-      if (exists) {
-        navigate(exists);
-      }
+    setFromChainId(deployment.l1.id);
+    setToChainId(deployment.l2.id);
 
-      setTimeout(() => {
-        const token = useConfigState
-          .getState()
-          .tokens.find((x) => x[1]?.symbol === symbol);
-        if (token) {
-          setToken(token);
-        }
-      }, 500);
-    } else {
+    setTimeout(() => {
       const token = useConfigState
         .getState()
         .tokens.find((x) => x[1]?.symbol === symbol);
       if (token) {
         setToken(token);
       }
-    }
+    }, 500);
   };
 
   if (!superbridgeConfig?.banner) {

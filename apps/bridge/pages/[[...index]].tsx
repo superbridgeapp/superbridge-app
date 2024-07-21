@@ -3,7 +3,6 @@ import type {
   GetServerSidePropsContext,
   InferGetServerSidePropsType,
 } from "next";
-import { useRouter } from "next/router";
 
 import {
   bridgeControllerGetAcrossDomains,
@@ -17,13 +16,14 @@ import { Layout } from "@/components/Layout";
 import { PageTransition } from "@/components/PageTransition";
 import { Providers } from "@/components/Providers";
 import { Bridge } from "@/components/bridge";
-import { Head } from "@/components/head";
+import { StatefulHead } from "@/components/head";
 import { isSuperbridge } from "@/config/superbridge";
 import {
   SUPERCHAIN_MAINNETS,
   SUPERCHAIN_TESTNETS,
 } from "@/constants/superbridge";
 import { useDeployments } from "@/hooks/use-deployments";
+import { useInitialInjectedState } from "@/hooks/use-initial-injected-state";
 import { InjectedStoreProvider } from "@/state/injected";
 import { ThemeProvider } from "@/state/theme";
 
@@ -127,42 +127,15 @@ export const getServerSideProps = async ({
   return { props: { deployments: data } };
 };
 
-export default function IndexRoot({
-  deployments,
-  testnets,
-  acrossDomains,
-  cctpDomains,
-  superbridgeConfig,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const router = useRouter();
-
-  const [name]: (string | undefined)[] = router.asPath
-    .split(/[?\/]/)
-    .filter(Boolean);
-
-  const found = deployments.find((x) => x.name === name);
-  let deployment = null;
-  if (deployments.length === 1) {
-    deployment = deployments[0];
-  } else if (isSuperbridge && found) {
-    deployment = found;
-  }
-
+export default function IndexRoot(
+  props: InferGetServerSidePropsType<typeof getServerSideProps>
+) {
+  const initialValues = useInitialInjectedState(props);
   return (
-    <InjectedStoreProvider
-      initialValues={{
-        deployments,
-        deployment,
-        withdrawing: router.query.direction === "withdraw",
-        testnets: testnets ?? false,
-        acrossDomains: acrossDomains ?? [],
-        cctpDomains: cctpDomains ?? [],
-        superbridgeConfig: superbridgeConfig ?? null,
-      }}
-    >
+    <InjectedStoreProvider initialValues={initialValues}>
       <ThemeProvider>
         <Providers>
-          <Head deployment={deployment} />
+          <StatefulHead />
           <Layout>
             <Index />
           </Layout>

@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 
-import { useConfigState } from "@/state/config";
+import { useInjectedStore } from "@/state/injected";
 
 import { useAcrossDomains } from "./across/use-across-domains";
 import { useCctpDomains } from "./cctp/use-cctp-domains";
@@ -29,11 +29,11 @@ export const useChain = (chainId: number | undefined | null) => {
 };
 
 export const useFromChain = () => {
-  const fromChainId = useConfigState.useFromChainId();
+  const fromChainId = useInjectedStore((s) => s.fromChainId);
   return useChain(fromChainId);
 };
 
 export const useToChain = () => {
-  const toChainId = useConfigState.useToChainId();
+  const toChainId = useInjectedStore((s) => s.toChainId);
   return useChain(toChainId);
 };

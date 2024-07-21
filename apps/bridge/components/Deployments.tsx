@@ -26,7 +26,7 @@ export const DeploymentsGrid = () => {
   const navigate = useNavigate();
 
   const onDeploymentClick = (n: DeploymentDto) => {
-    navigate(n);
+    // navigate(n);
   };
 
   return (

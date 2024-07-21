@@ -2,6 +2,7 @@ import NextHead from "next/head";
 
 import { DeploymentDto } from "@/codegen/model";
 import { isSuperbridge } from "@/config/superbridge";
+import { useDeployment } from "@/hooks/use-deployment";
 
 function useMetadata(deployment: DeploymentDto | null | undefined) {
   if (isSuperbridge) {
@@ -17,7 +18,16 @@ function useMetadata(deployment: DeploymentDto | null | undefined) {
   };
 }
 
-export function Head({ deployment }: { deployment?: DeploymentDto | null }) {
+export function StatefulHead() {
+  const deployment = useDeployment();
+  return <StatelessHead deployment={deployment} />;
+}
+
+export function StatelessHead({
+  deployment,
+}: {
+  deployment?: DeploymentDto | null;
+}) {
   const metadata = useMetadata(deployment);
 
   const defaultOg = isSuperbridge
