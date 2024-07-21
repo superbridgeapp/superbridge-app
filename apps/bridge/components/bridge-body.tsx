@@ -7,6 +7,7 @@ import { useAccount, useBalance } from "wagmi";
 import { AlertModals } from "@/constants/modal-names";
 import { useIsAcrossRoute } from "@/hooks/across/use-is-across-route";
 import { useBridge } from "@/hooks/bridge/use-bridge";
+import { useBridgeDisabled } from "@/hooks/bridge/use-bridge-disabled";
 import { useBridgeMax } from "@/hooks/bridge/use-bridge-max";
 import { useBridgeMin } from "@/hooks/bridge/use-bridge-min";
 import { useBridgePaused } from "@/hooks/bridge/use-bridge-paused";
@@ -17,8 +18,9 @@ import { useAllowance } from "@/hooks/use-allowance";
 import { useApprove } from "@/hooks/use-approve";
 import { useTokenBalance } from "@/hooks/use-balances";
 import { useBaseNativeTokenBalance } from "@/hooks/use-base-native-token-balance";
-import { useFromChain, useToChain } from "@/hooks/use-chain";
+import { useChain, useFromChain, useToChain } from "@/hooks/use-chain";
 import { useDeployment } from "@/hooks/use-deployment";
+import { useInitiatingChainId } from "@/hooks/use-initiating-chain-id";
 import { useNativeToken } from "@/hooks/use-native-token";
 import { useNetworkFee } from "@/hooks/use-network-fee";
 import { useRequiredCustomGasTokenBalance } from "@/hooks/use-required-custom-gas-token-balance";
@@ -68,11 +70,13 @@ export const BridgeBody = () => {
   const bridgeMax = useBridgeMax();
   const bridgeMin = useBridgeMin();
   const paused = useBridgePaused();
+  const disabled = useBridgeDisabled();
   const alerts = useModalsState.useAlerts();
 
   const initiateBridge = useInitiateBridge(bridge);
 
-  const initiatingChain = forceViaL1 && withdrawing ? deployment?.l1 : from;
+  const initiatingChainId = useInitiatingChainId();
+  const initiatingChain = useChain(initiatingChainId);
   const fromEthBalance = useBalance({
     address: account.address,
     chainId: initiatingChain?.id,
@@ -139,11 +143,11 @@ export const BridgeBody = () => {
     weiAmount,
     bridgeMax,
     bridgeMin,
-    depositsDisabled: deployment?.name === "parallel" && !withdrawing,
+    disabled,
   })
-    .with({ depositsDisabled: true }, () => ({
+    .with({ disabled: true }, () => ({
       onSubmit: () => {},
-      buttonText: "Deposits disabled",
+      buttonText: "Bridging disabled",
       disabled: true,
     }))
     .with({ paused: true }, () => ({

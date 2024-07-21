@@ -14,7 +14,6 @@ import { ScheduledDeletion } from "./banners/scheduled-deletion";
 import { BridgeBody } from "./bridge-body";
 import { BridgeDeleted } from "./bridge-deleted";
 import { BridgeHeader } from "./bridge-header";
-import { UpgradePromo } from "./upgrade-promo";
 
 export const Bridge = () => {
   const deployment = useDeployment();
@@ -69,8 +68,6 @@ export const Bridge = () => {
               </>
             )}
           </div>
-
-          <UpgradePromo />
         </div>
       </div>
     </main>

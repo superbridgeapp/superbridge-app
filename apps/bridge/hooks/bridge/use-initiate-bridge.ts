@@ -5,7 +5,6 @@ import { useBridgeControllerTrack } from "@/codegen";
 import { RouteProvider } from "@/codegen/model";
 import { useAllowance } from "@/hooks/use-allowance";
 import { useChain, useFromChain, useToChain } from "@/hooks/use-chain";
-import { useDeployment } from "@/hooks/use-deployment";
 import { useSelectedToken } from "@/hooks/use-selected-token";
 import { useStatusCheck } from "@/hooks/use-status-check";
 import { useSwitchChain } from "@/hooks/use-switch-chain";
@@ -30,7 +29,6 @@ export const useInitiateBridge = (bridge: ReturnType<typeof useBridge>) => {
   const tokens = useActiveTokens();
   const token = useSelectedToken();
 
-  const deployment = useDeployment();
   const withdrawing = useIsWithdrawal();
   const stateToken = useConfigState.useToken();
   const forceViaL1 = useConfigState.useForceViaL1();

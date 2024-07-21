@@ -5,7 +5,6 @@ import { isSuperbridge } from "@/config/superbridge";
 import { AlertModals } from "@/constants/modal-names";
 import { SUPERCHAIN_MAINNETS } from "@/constants/superbridge";
 import { useToChain } from "@/hooks/use-chain";
-import { useDeployment } from "@/hooks/use-deployment";
 import { useFaultProofUpgradeTime } from "@/hooks/use-fault-proof-upgrade-time";
 import { useTokenPrice } from "@/hooks/use-prices";
 import { useReceiveAmount } from "@/hooks/use-receive-amount";
@@ -14,6 +13,7 @@ import { useModalsState } from "@/state/modals";
 import { isCctp } from "@/utils/is-cctp";
 import { isEth } from "@/utils/is-eth";
 
+import { useDeployment } from "../use-deployment";
 import { useIsWithdrawal } from "../use-withdrawing";
 
 export const useSubmitBridge = (initiateBridge: () => void) => {

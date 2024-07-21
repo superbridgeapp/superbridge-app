@@ -3,7 +3,7 @@ import { Address, isAddressEqual } from "viem";
 import { useGasToken } from "@/hooks/use-approve-gas-token";
 import { useBaseNativeTokenBalance } from "@/hooks/use-base-native-token-balance";
 import { useFromChain } from "@/hooks/use-chain";
-import { useDeployment2 } from "@/hooks/use-deployment";
+import { useDeployment } from "@/hooks/use-deployment";
 import { useWeiAmount } from "@/hooks/use-wei-amount";
 import { useConfigState } from "@/state/config";
 
@@ -31,7 +31,7 @@ export const useRequiredCustomGasTokenBalance = () => {
   const weiAmount = useWeiAmount();
   const arbitrumGasCosts = useArbitrumGasCostsInWei();
   const gasToken = useGasToken();
-  const deployment = useDeployment2();
+  const deployment = useDeployment();
   const baseNativeTokenBalance = useBaseNativeTokenBalance();
   const isArbitrumDeposit = useIsArbitrumDeposit();
 
