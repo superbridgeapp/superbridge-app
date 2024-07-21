@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { useTranslation } from "react-i18next";
 
-import { useNetworkFeeLineItems } from "@/hooks/use-fee-line-items";
+import { useNetworkFeeLineItems } from "@/hooks/use-network-fees";
 
 export const NetworkFees = () => {
   const { t } = useTranslation();

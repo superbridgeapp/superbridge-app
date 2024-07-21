@@ -9,7 +9,7 @@ export const useReceiveAmount = () => {
   const route = useSelectedBridgeRoute();
   const token = useSelectedToken();
 
-  if (!route || !token) {
+  if (route.isLoading) {
     return {
       data: null,
       isFetching: true,
@@ -17,7 +17,7 @@ export const useReceiveAmount = () => {
   }
 
   const data =
-    !!route.data && isRouteQuote(route.data.result)
+    !!route.data && isRouteQuote(route.data.result) && !!token
       ? parseFloat(
           formatUnits(BigInt(route.data.result.receive), token.decimals)
         )

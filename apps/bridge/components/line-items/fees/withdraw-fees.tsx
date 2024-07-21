@@ -6,7 +6,7 @@ import { configurations } from "@/config/contract-addresses";
 import { currencySymbolMap } from "@/constants/currency-symbol-map";
 import { ModalNames } from "@/constants/modal-names";
 import { useDeployment } from "@/hooks/use-deployment";
-import { useNetworkFeeLineItems } from "@/hooks/use-fee-line-items";
+import { useNetworkFeeLineItems } from "@/hooks/use-network-fees";
 import { useConfigState } from "@/state/config";
 import { useSettingsState } from "@/state/settings";
 import { isOptimism } from "@/utils/is-mainnet";

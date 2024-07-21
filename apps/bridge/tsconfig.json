@@ -4,7 +4,7 @@
     "plugins": [{ "name": "next" }],
     "strict": true,
     "baseUrl": ".",
-    "target": "ES2016",
+    "target": "ES2020",
     "paths": {
       "@/components/*": ["components/*"],
       "@/components": ["components"],

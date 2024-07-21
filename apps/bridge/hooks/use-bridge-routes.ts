@@ -47,7 +47,7 @@ export const useBridgeRoutes = () => {
   );
 
   return {
-    isLoading: routes.isLoading,
+    isLoading: routes.isFetching,
     data: routes.data?.data ?? null,
   };
 };

@@ -5,8 +5,8 @@ import { configurations } from "@/config/contract-addresses";
 import { ModalNames } from "@/constants/modal-names";
 import { useToChain } from "@/hooks/use-chain";
 import { useDeployment } from "@/hooks/use-deployment";
-import { useNetworkFeeLineItems } from "@/hooks/use-fee-line-items";
 import { useIsContractAccount } from "@/hooks/use-is-contract-account";
+import { useNetworkFeeLineItems } from "@/hooks/use-network-fees";
 import { useConfigState } from "@/state/config";
 import { isOptimism } from "@/utils/is-mainnet";
 
