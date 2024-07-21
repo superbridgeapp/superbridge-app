@@ -50,33 +50,33 @@ export const ConfirmationModalTermsTab = ({
   }, [open]);
 
   const checkbox1Text = match({
-    isAcross: route?.id === RouteProvider.Across,
-    isCctp: route?.id === RouteProvider.Cctp,
+    isAcross: route.data?.id === RouteProvider.Across,
+    isCctp: route.data?.id === RouteProvider.Cctp,
     withdrawing: (
       [
         RouteProvider.ArbitrumWithdrawal,
         RouteProvider.OptimismWithdrawal,
         RouteProvider.OptimismForcedWithdrawal,
       ] as string[]
-    ).includes(route?.id ?? ""),
+    ).includes(route.data?.id ?? ""),
     family: (
       [
         RouteProvider.OptimismDeposit,
         RouteProvider.OptimismWithdrawal,
         RouteProvider.OptimismForcedWithdrawal,
       ] as string[]
-    ).includes(route?.id ?? "")
+    ).includes(route.data?.id ?? "")
       ? "optimism"
       : "arbitrum",
   })
     .with(
       { isAcross: true },
       () =>
-        `I understand it will take ~${totalBridgeTime?.value} mins until my funds are on ${to?.name}`
+        `I understand it will take ~${totalBridgeTime.data?.value} mins until my funds are on ${to?.name}`
     )
     .with({ isCctp: true }, () =>
       t("confirmationModal.checkbox1Cctp", {
-        mins: totalBridgeTime?.value,
+        mins: totalBridgeTime.data?.value,
         to: to?.name,
       })
     )
@@ -91,13 +91,13 @@ export const ConfirmationModalTermsTab = ({
       transformPeriodText(
         "confirmationModal.arbCheckbox1Withdrawal",
         commonTranslationProps,
-        totalBridgeTime
+        totalBridgeTime.data
       )
     )
     .with({ withdrawing: false }, () =>
       t("confirmationModal.checkbox1Deposit", {
         ...commonTranslationProps,
-        mins: totalBridgeTime?.value,
+        mins: totalBridgeTime.data?.value,
       })
     )
     .otherwise(() => null);

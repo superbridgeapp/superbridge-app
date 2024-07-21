@@ -3,12 +3,10 @@ import { useEstimateFeesPerGas } from "wagmi";
 import { scaleToNativeTokenDecimals } from "@/utils/native-token-scaling";
 
 import { useFromChain, useToChain } from "../use-chain";
-import { useSelectedBridgeRoute } from "../use-selected-bridge-route";
 import { useIsArbitrumDeposit } from "../use-withdrawing";
 
 export const useArbitrumGasCostsInWei = () => {
   const isArbitrumDeposit = useIsArbitrumDeposit();
-  const route = useSelectedBridgeRoute();
   const from = useFromChain();
   const to = useToChain();
 

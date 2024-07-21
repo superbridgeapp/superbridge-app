@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { isAddress, isAddressEqual } from "viem";
 
 import { useConfigState } from "@/state/config";
+import { isNativeToken } from "@/utils/is-eth";
 
 import { useGasToken } from "./use-approve-gas-token";
 import { useFromChain, useToChain } from "./use-chain";
@@ -41,14 +42,14 @@ export const useInitialiseToken = () => {
       router.asPath.split(/[?\/]/).filter(Boolean);
 
     const token = tokens.find((x) => {
-      const l1 = x[from.id];
-      const l2 = x[to.id];
-      if (!l1 || !l2) {
+      const fromToken = x[from.id];
+      const toToken = x[to.id];
+      if (!fromToken || !toToken) {
         return;
       }
 
       const direction = router.query.direction as string | undefined;
-      const token = direction === "withdraw" ? l2 : l1;
+      const token = direction === "withdraw" ? toToken : fromToken;
 
       if (nameOrTokenOrUndefined) {
         if (isAddress(nameOrTokenOrUndefined)) {
@@ -67,32 +68,18 @@ export const useInitialiseToken = () => {
       }
     });
 
-    // if (token) {
-    //   setToken(token);
-    //   if (
-    //     (isAddress(nameOrTokenOrUndefined) &&
-    //       isAddressEqual(
-    //         token[deployment.l2.id]!.address,
-    //         nameOrTokenOrUndefined
-    //       )) ||
-    //     (isAddress(nameOrToken) &&
-    //       isAddressEqual(token[deployment.l2.id]!.address, nameOrToken))
-    //   ) {
-    //   }
-    // } else {
-    //   if (arbitrumGasToken) {
-    //     setToken(arbitrumGasToken);
-    //     return;
-    //   }
+    if (token) {
+      setToken(token);
+    } else {
+      if (arbitrumGasToken) {
+        setToken(arbitrumGasToken);
+        return;
+      }
 
-    //   const t = tokens.find((x) => isNativeToken(x));
-    //   if (t) {
-    //     setToken(t);
-
-    //     if (!configurations[deployment.name]) {
-    //       setEasyMode(false);
-    //     }
-    //   }
-    // }
+      const t = tokens.find((x) => isNativeToken(x));
+      if (t) {
+        setToken(t);
+      }
+    }
   }, [router.asPath, deployment, tokens, arbitrumGasToken]);
 };

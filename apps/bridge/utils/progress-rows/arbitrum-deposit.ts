@@ -7,7 +7,6 @@ import {
   DeploymentDto,
   TransactionStatus,
 } from "@/codegen/model";
-import { useDeployments } from "@/hooks/use-deployments";
 import { getDepositTime } from "@/hooks/use-finalization-period";
 import { usePeriodText } from "@/hooks/use-period-text";
 
@@ -18,7 +17,6 @@ import { getRemainingTimePeriod } from "./get-remaining-period";
 export const useArbitrumDepositProgressRows = () => {
   const { t } = useTranslation();
   const transformPeriodText = usePeriodText();
-  const deployments = useDeployments();
 
   return (
     tx: Pick<

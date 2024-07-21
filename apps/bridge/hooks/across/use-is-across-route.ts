@@ -4,5 +4,5 @@ import { useSelectedBridgeRoute } from "../use-selected-bridge-route";
 
 export const useIsAcrossRoute = () => {
   const route = useSelectedBridgeRoute();
-  return route?.id === RouteProvider.Across;
+  return route.data?.id === RouteProvider.Across;
 };

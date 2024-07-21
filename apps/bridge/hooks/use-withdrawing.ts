@@ -10,7 +10,7 @@ export const useIsWithdrawal = () => {
 };
 
 export const useIsOptimismWithdrawal = () => {
-  const route = useSelectedBridgeRoute();
+  const route = useSelectedBridgeRoute().data;
   return (
     [
       RouteProvider.OptimismWithdrawal,
@@ -20,11 +20,11 @@ export const useIsOptimismWithdrawal = () => {
 };
 
 export const useIsArbitrumWithdrawal = () => {
-  const route = useSelectedBridgeRoute();
+  const route = useSelectedBridgeRoute().data;
   return route?.id === RouteProvider.ArbitrumWithdrawal;
 };
 
 export const useIsArbitrumDeposit = () => {
-  const route = useSelectedBridgeRoute();
+  const route = useSelectedBridgeRoute().data;
   return route?.id === RouteProvider.ArbitrumDeposit;
 };

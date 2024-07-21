@@ -5,10 +5,10 @@ import { useSelectedBridgeRoute } from "./use-selected-bridge-route";
 export const useInitiatingChainId = () => {
   const route = useSelectedBridgeRoute();
 
-  return route?.result &&
-    isRouteQuote(route.result) &&
-    route.result.steps[0] &&
-    isRouteTransactionStep(route.result.steps[0])
-    ? parseInt(route.result.steps[0].chainId)
+  return route.data?.result &&
+    isRouteQuote(route.data.result) &&
+    route.data.result.steps[0] &&
+    isRouteTransactionStep(route.data.result.steps[0])
+    ? parseInt(route.data.result.steps[0].chainId)
     : null;
 };

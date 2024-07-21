@@ -7,12 +7,22 @@ export const useSelectedBridgeRoute = () => {
   const routes = useBridgeRoutes();
   const routeId = useConfigState.useRouteId();
 
-  if (!routeId) {
-    const successful = routes?.find((x) => !isRouteQuoteError(x.result));
-    if (successful) {
-      return successful;
-    }
-    return routes?.[0] ?? null;
+  if (routes.isLoading) {
+    return { isLoading: true, data: null };
   }
-  return routes?.find((x) => x.id === routeId) ?? null;
+
+  // take first successful otherwise take first
+  if (!routeId) {
+    const successful = routes.data?.find((x) => !isRouteQuoteError(x.result));
+    return {
+      isLoading: false,
+      data: successful ?? routes.data?.[0] ?? null,
+    };
+  }
+
+  // if we've explicitly chosen a route, keep taking that
+  return {
+    isLoading: false,
+    data: routes.data?.find((x) => x.id === routeId) ?? null,
+  };
 };

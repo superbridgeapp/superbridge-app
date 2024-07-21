@@ -5,8 +5,8 @@ import { useSelectedBridgeRoute } from "../use-selected-bridge-route";
 export const useBridgeMin = () => {
   const route = useSelectedBridgeRoute();
 
-  if (!!route?.result && isAmountTooSmallRouteError(route.result)) {
-    return BigInt(route.result.minimum);
+  if (!!route.data?.result && isAmountTooSmallRouteError(route.data.result)) {
+    return BigInt(route.data.result.minimum);
   }
 
   return null;

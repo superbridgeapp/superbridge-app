@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import Skeleton from "react-loading-skeleton";
 
 import { ModalNames } from "@/constants/modal-names";
 import { useToChain } from "@/hooks/use-chain";
@@ -70,7 +71,11 @@ export const TransferTimeInfoModal = () => {
                 </span>
               </div>
               <span className="text-xs md:text-sm">
-                15 secs - {transferTime.slice(1)}
+                {transferTime.isLoading ? (
+                  <Skeleton className="h-4 w-[88px]" />
+                ) : (
+                  <>15 secs - {transferTime.data.slice(1)}</>
+                )}
               </span>
             </div>
           </div>

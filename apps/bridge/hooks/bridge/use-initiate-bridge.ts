@@ -59,7 +59,7 @@ export const useInitiateBridge = (bridge: ReturnType<typeof useBridge>) => {
       !recipient ||
       statusCheck ||
       !initiatingChain ||
-      !route
+      !route.data
     ) {
       return;
     }
@@ -77,9 +77,9 @@ export const useInitiateBridge = (bridge: ReturnType<typeof useBridge>) => {
       setPendingBridgeTransactionHash(hash);
 
       const type =
-        route.id === RouteProvider.Across
+        route.data.id === RouteProvider.Across
           ? "across"
-          : route.id === RouteProvider.Cctp
+          : route.data.id === RouteProvider.Cctp
           ? "cctp"
           : withdrawing
           ? "withdraw"

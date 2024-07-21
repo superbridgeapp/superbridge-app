@@ -24,8 +24,8 @@ export const useBridge = () => {
     chainId: initiatingChainId || undefined,
   });
 
-  const route = isRouteQuote(selectedRoute?.result)
-    ? selectedRoute.result
+  const route = isRouteQuote(selectedRoute?.data?.result)
+    ? selectedRoute.data.result
     : undefined;
   const tx = route?.initiatingTransaction;
 

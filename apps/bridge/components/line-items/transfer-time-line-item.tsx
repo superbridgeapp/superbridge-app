@@ -7,6 +7,7 @@ import { useApproxTotalBridgeTimeText } from "@/hooks/use-transfer-time";
 import { useConfigState } from "@/state/config";
 
 import { IconHelp } from "../icons";
+import { Skeleton } from "../ui/skeleton";
 
 export const TransferTimeLineItem = () => {
   const transferTime = useApproxTotalBridgeTimeText();
@@ -34,9 +35,13 @@ export const TransferTimeLineItem = () => {
       </div>
 
       <div className="flex items-center">
-        <span className={`text-xs text-foreground text-right`}>
-          {transferTime}
-        </span>
+        {transferTime.isLoading ? (
+          <Skeleton className="h-4 w-[88px]" />
+        ) : (
+          <span className={`text-xs text-foreground text-right`}>
+            {transferTime.data}
+          </span>
+        )}
 
         <div className="ml-1 transition-all hover:scale-105">
           <IconHelp className="w-3.5 h-3.5 fill-muted-foreground opacity-50" />

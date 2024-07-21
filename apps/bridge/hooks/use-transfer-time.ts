@@ -1,21 +1,26 @@
 import { isRouteQuote, isRouteWaitStep } from "@/utils/guards";
 
-import { getPeriod } from "./use-finalization-period";
+import { Period, getPeriod } from "./use-finalization-period";
 import { useSelectedBridgeRoute } from "./use-selected-bridge-route";
 import { useTransformPeriodText } from "./use-transform-period-text";
 
 export const useApproxTotalBridgeTime = () => {
   const route = useSelectedBridgeRoute();
 
-  if (route?.result && isRouteQuote(route.result)) {
-    const ms = route.result.steps.reduce(
+  let data: null | Period = null;
+
+  if (route.data?.result && isRouteQuote(route.data.result)) {
+    const ms = route.data?.result.steps.reduce(
       (accum, x) => (isRouteWaitStep(x) ? x.duration + accum : accum),
       0
     );
-    return getPeriod(ms / 1000);
+    data = getPeriod(ms / 1000);
   }
 
-  return null;
+  return {
+    isLoading: route.isLoading,
+    data,
+  };
 };
 
 export const useApproxTotalBridgeTimeText = () => {
@@ -23,5 +28,15 @@ export const useApproxTotalBridgeTimeText = () => {
 
   const transformPeriod = useTransformPeriodText();
 
-  return transformPeriod("transferTime", {}, time);
+  if (time.isLoading) {
+    return {
+      data: null,
+      isLoading: time.isLoading,
+    };
+  }
+
+  return {
+    data: transformPeriod("transferTime", {}, time.data),
+    isLoading: false,
+  };
 };

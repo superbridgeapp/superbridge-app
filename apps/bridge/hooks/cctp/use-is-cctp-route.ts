@@ -4,5 +4,5 @@ import { useSelectedBridgeRoute } from "../use-selected-bridge-route";
 
 export const useIsCctpRoute = () => {
   const route = useSelectedBridgeRoute();
-  return route?.id === RouteProvider.Cctp;
+  return route.data?.id === RouteProvider.Cctp;
 };

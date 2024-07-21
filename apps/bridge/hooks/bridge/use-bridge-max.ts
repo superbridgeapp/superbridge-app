@@ -5,8 +5,8 @@ import { useSelectedBridgeRoute } from "../use-selected-bridge-route";
 export const useBridgeMax = () => {
   const route = useSelectedBridgeRoute();
 
-  if (!!route?.result && isAmountTooLargeRouteError(route.result)) {
-    return BigInt(route.result.maximum);
+  if (!!route.data?.result && isAmountTooLargeRouteError(route.data.result)) {
+    return BigInt(route.data.result.maximum);
   }
 
   return null;

@@ -148,7 +148,7 @@ export const ConfirmationModalStartTab = ({
     bridge.refetch
   );
 
-  const totalBridgeTime = useApproxTotalBridgeTime();
+  const totalBridgeTime = useApproxTotalBridgeTime().data;
 
   const fromFeeData = useEstimateFeesPerGas({ chainId: from?.id });
   const toFeeData = useEstimateFeesPerGas({ chainId: to?.id });
@@ -363,8 +363,8 @@ export const ConfirmationModalStartTab = ({
       disabled: false,
     }));
 
-  const isAcross = route?.id === RouteProvider.Across;
-  const isCctp = route?.id === RouteProvider.Cctp;
+  const isAcross = route.data?.id === RouteProvider.Across;
+  const isCctp = route.data?.id === RouteProvider.Cctp;
 
   const common = {
     from: from?.name,
@@ -472,8 +472,8 @@ export const ConfirmationModalStartTab = ({
     .otherwise(() => null);
 
   const lineItems =
-    route?.result && isRouteQuote(route.result)
-      ? route.result.steps.map((x) => {
+    route.data?.result && isRouteQuote(route.data.result)
+      ? route.data.result.steps.map((x) => {
           if (isRouteTransactionStep(x)) {
             const text =
               x.type === RouteStepType.Initiate

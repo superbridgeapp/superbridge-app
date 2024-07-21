@@ -50,7 +50,7 @@ export const RouteSelectorModal = () => {
           <DialogTitle>Choose route</DialogTitle>
         </DialogHeader>
         <div className="flex flex-col">
-          {routes?.map((route) => {
+          {routes.data?.map((route) => {
             if (isRouteQuoteError(route.result)) {
               return null;
             }

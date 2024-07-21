@@ -17,8 +17,10 @@ export const useReceiveAmount = () => {
   }
 
   const data =
-    !!route && isRouteQuote(route.result)
-      ? parseFloat(formatUnits(BigInt(route.result.receive), token.decimals))
+    !!route.data && isRouteQuote(route.data.result)
+      ? parseFloat(
+          formatUnits(BigInt(route.data.result.receive), token.decimals)
+        )
       : null;
 
   return {

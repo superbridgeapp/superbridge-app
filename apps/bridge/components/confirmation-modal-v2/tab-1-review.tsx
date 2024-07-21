@@ -11,6 +11,7 @@ import { formatDecimals } from "@/utils/format-decimals";
 
 import { IconGas, IconSB, IconTime } from "../icons";
 import { NetworkIcon } from "../network-icon";
+import { RouteProviderIcon } from "../route-provider-icon";
 import { Button } from "../ui/button";
 import {
   DialogDescription,
@@ -38,7 +39,7 @@ export const ConfirmationModalReviewTab = ({
   const transferTime = transformPeriodIntoText(
     "transferTime",
     {},
-    useApproxTotalBridgeTime()
+    useApproxTotalBridgeTime().data
   );
 
   return (
@@ -126,16 +127,12 @@ export const ConfirmationModalReviewTab = ({
               </div>
             </div>
             <div className="flex gap-1.5 items-center justify-between ">
-              <span>{route?.id}</span>
+              <span>{route.data?.id}</span>
 
-              <span>Icon</span>
-              {/* {fast ? (
-                <IconAcrossRound className="h-4 w-4" />
-              ) : !!stateToken && isCctp(stateToken) ? (
-                <IconCCTPRound className="h-4 w-4" />
-              ) : (
-                <NetworkIcon chain={to} className="h-4 w-4" />
-              )} */}
+              <RouteProviderIcon
+                provider={route.data!.id}
+                className="h-4 w-4"
+              />
             </div>
           </div>
 

@@ -32,8 +32,8 @@ export const FeeBreakdownModal = () => {
 
   const onClose = () => removeModal(ModalNames.FeeBreakdown);
 
-  const fees = isRouteQuote(route?.result)
-    ? route.result.fees.map((x) => {
+  const fees = isRouteQuote(route.data?.result)
+    ? route.data.result.fees.map((x) => {
         const fiatFee =
           x.amount && usdPrice
             ? `${currencySymbolMap[currency]}${(

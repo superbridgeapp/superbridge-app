@@ -12,7 +12,6 @@ import {
   bridgeControllerGetDeploymentsByDomain,
   bridgeControllerGetSuperbridgeConfig,
 } from "@/codegen";
-import { DeploymentsGrid } from "@/components/Deployments";
 import { ErrorComponent } from "@/components/Error";
 import { Layout } from "@/components/Layout";
 import { PageTransition } from "@/components/PageTransition";
@@ -24,7 +23,6 @@ import {
   SUPERCHAIN_MAINNETS,
   SUPERCHAIN_TESTNETS,
 } from "@/constants/superbridge";
-import { useDeployment } from "@/hooks/use-deployment";
 import { useDeployments } from "@/hooks/use-deployments";
 import { InjectedStoreProvider } from "@/state/injected";
 import { ThemeProvider } from "@/state/theme";
@@ -175,23 +173,18 @@ export default function IndexRoot({
 }
 
 function Index() {
-  const deployment = useDeployment();
   const deployments = useDeployments();
 
   return (
     <PageTransition key={"index"}>
       <AnimatePresence mode="sync">
-        {deployment ? (
-          <PageTransition key={"bridge"}>
-            <Bridge key={"bridge"} />
-          </PageTransition>
-        ) : !deployments.length ? (
+        {!deployments.length ? (
           <PageTransition key={"error"}>
             <ErrorComponent key={"error"} />
           </PageTransition>
         ) : (
-          <PageTransition key={"grid"}>
-            <DeploymentsGrid key={"grid"} />
+          <PageTransition key={"bridge"}>
+            <Bridge key={"bridge"} />
           </PageTransition>
         )}
       </AnimatePresence>

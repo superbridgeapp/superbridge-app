@@ -3,7 +3,6 @@ import {
   DeploymentDto,
   ForcedWithdrawalDto,
 } from "@/codegen/model";
-import { useDeployments } from "@/hooks/use-deployments";
 
 import { useArbitrumDepositProgressRows } from "./arbitrum-deposit";
 import { useArbitrumWithdrawalProgressRows } from "./arbitrum-withdrawal";
@@ -14,7 +13,6 @@ import { useOptimismWithdrawalProgressRows } from "./withdrawal";
 export const useOptimismForcedWithdrawalProgressRows = () => {
   const depositRows = useOptimismDepositProgressRows();
   const withdrawalRows = useOptimismWithdrawalProgressRows();
-  const deployments = useDeployments();
 
   return (
     fw: ForcedWithdrawalDto,
