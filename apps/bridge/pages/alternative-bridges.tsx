@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-import { Head } from "@/components/head";
+import { StatelessHead } from "@/components/head";
 import PageFooter from "@/components/page-footer";
 import PageNav from "@/components/page-nav";
 
@@ -41,7 +41,7 @@ const BridgeCard = ({
 const AlternativeBridges = () => {
   return (
     <>
-      <Head />
+      <StatelessHead />
       <div className="w-screen h-screen overflow-y-auto">
         <PageNav />
         <div className="bg-background w-full">
