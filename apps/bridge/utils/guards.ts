@@ -15,6 +15,8 @@ import {
   DisabledRouteErrorDto,
   ForcedWithdrawalDto,
   GenericRouteErrorDto,
+  HyperlaneBridgeDto,
+  HyperlaneTransactionType,
   OptimismTransactionType,
   PausedRouteErrorDto,
   PortalDepositDto,
@@ -120,6 +122,12 @@ export const isCctpBridge = (tx: Transaction): tx is CctpBridgeDto => {
 
 export const isAcrossBridge = (tx: Transaction): tx is AcrossBridgeDto => {
   return tx.type === AcrossTransactionType["across-bridge"];
+};
+
+export const isHyperlaneBridge = (
+  tx: Transaction
+): tx is HyperlaneBridgeDto => {
+  return tx.type === HyperlaneTransactionType["hyperlane-bridge"];
 };
 
 export const isOptimismToken = (t: Token): t is OptimismToken => {

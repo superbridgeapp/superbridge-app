@@ -14,5 +14,6 @@ import type { ArbitrumWithdrawalDto } from './arbitrumWithdrawalDto';
 import type { ArbitrumForcedWithdrawalDto } from './arbitrumForcedWithdrawalDto';
 import type { CctpBridgeDto } from './cctpBridgeDto';
 import type { AcrossBridgeDto } from './acrossBridgeDto';
+import type { HyperlaneBridgeDto } from './hyperlaneBridgeDto';
 
-export type ActivityV3DtoTransactionsItem = BridgeWithdrawalDto | PortalDepositDto | ForcedWithdrawalDto | ArbitrumDepositRetryableDto | ArbitrumDepositEthDto | ArbitrumWithdrawalDto | ArbitrumForcedWithdrawalDto | CctpBridgeDto | AcrossBridgeDto;
+export type ActivityV3DtoTransactionsItem = BridgeWithdrawalDto | PortalDepositDto | ForcedWithdrawalDto | ArbitrumDepositRetryableDto | ArbitrumDepositEthDto | ArbitrumWithdrawalDto | ArbitrumForcedWithdrawalDto | CctpBridgeDto | AcrossBridgeDto | HyperlaneBridgeDto;

@@ -6,11 +6,13 @@ import { bridgeControllerGetActivityV3 } from "@/codegen";
 import { isSuperbridge } from "@/config/superbridge";
 import { useInjectedStore } from "@/state/injected";
 
+import { useHyperlaneMailboxes } from "./hyperlane/use-hyperlane-mailboxes";
 import { useDeployments } from "./use-deployments";
 
 export const useTransactions = () => {
   const account = useAccount();
   const deployments = useDeployments();
+  const hyperlaneMailboxes = useHyperlaneMailboxes();
 
   const superbridgeTestnetsEnabled = useInjectedStore((s) => s.testnets);
 
@@ -20,6 +22,7 @@ export const useTransactions = () => {
         "activity",
         account.address as string,
         deployments.map((x) => x.id),
+        hyperlaneMailboxes.map((x) => x.id),
         superbridgeTestnetsEnabled,
       ],
       queryFn: ({ pageParam }) => {
@@ -37,15 +40,17 @@ export const useTransactions = () => {
           includeAcross: isSuperbridge && !superbridgeTestnetsEnabled,
           deploymentIds: deployments.map((d) => d.id),
           cursor: pageParam ?? null,
+          hyperlaneMailboxes: hyperlaneMailboxes.map((x) => x.id),
         }).then((x) => x.data);
       },
 
       getNextPageParam: (lastPage) =>
         lastPage?.transactions?.[lastPage.transactions.length - 1]?.id,
-      enabled: !!account.address && deployments.length > 0,
+      enabled: !!account.address,
       refetchInterval: 10_000,
     });
 
+  console.log(data);
   return {
     transactions: useMemo(
       () => data?.pages.flatMap((p) => p.transactions) ?? [],

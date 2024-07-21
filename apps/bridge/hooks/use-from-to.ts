@@ -4,14 +4,17 @@ import {
   isCctpBridge,
   isDeposit,
   isForcedWithdrawal,
+  isHyperlaneBridge,
 } from "@/utils/guards";
 
 import { useAcrossDomains } from "./across/use-across-domains";
+import { useHyperlaneMailboxes } from "./hyperlane/use-hyperlane-mailboxes";
 import { useDeployments } from "./use-deployments";
 
 export const useFromTo = (tx: Transaction) => {
   const acrossDomains = useAcrossDomains();
   const deployments = useDeployments();
+  const hyperlaneMailboxes = useHyperlaneMailboxes();
 
   if (isForcedWithdrawal(tx)) {
     const deployment = deployments.find(
@@ -32,6 +35,15 @@ export const useFromTo = (tx: Transaction) => {
     return [from, to];
   }
 
+  if (isHyperlaneBridge(tx)) {
+    const from = hyperlaneMailboxes.find(
+      (x) => x.domain === tx.fromDomain
+    )!.chain;
+    const to = hyperlaneMailboxes.find((x) => x.domain === tx.toDomain)!.chain;
+    return [from, to];
+  }
+
+  console.log(tx);
   const deployment = deployments.find((d) => tx.deploymentId === d.id)!;
   return isDeposit(tx)
     ? [deployment.l1, deployment.l2]

@@ -11,5 +11,6 @@ export interface GetActivityV3Dto {
   /** @nullable */
   cursor: string | null;
   deploymentIds: string[];
+  hyperlaneMailboxes?: string[];
   includeAcross: boolean;
 }

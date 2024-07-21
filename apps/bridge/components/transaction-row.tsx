@@ -38,6 +38,7 @@ import {
   isCctpBridge,
   isDeposit,
   isForcedWithdrawal,
+  isHyperlaneBridge,
   isOptimismForcedWithdrawal,
   isOptimismWithdrawal,
   isWithdrawal,
@@ -339,7 +340,7 @@ const getNativeToken = (tokens: MultiChainToken[], chainId: number) => {
 };
 function useToken(tx: Transaction, tokens: MultiChainToken[]) {
   const deployment = useDeploymentById(
-    isAcrossBridge(tx) || isCctpBridge(tx)
+    isAcrossBridge(tx) || isCctpBridge(tx) || isHyperlaneBridge(tx)
       ? ""
       : isForcedWithdrawal(tx)
       ? tx.deposit.deploymentId
@@ -366,6 +367,17 @@ function useToken(tx: Transaction, tokens: MultiChainToken[]) {
       {
         chainId: from.id,
         tokenAddress: tx.metadata.data.inputTokenAddress,
+      },
+      to.id
+    );
+  }
+
+  if (isHyperlaneBridge(tx)) {
+    return getToken(
+      tokens,
+      {
+        chainId: from.id,
+        tokenAddress: tx.token,
       },
       to.id
     );
@@ -405,7 +417,7 @@ function useToken(tx: Transaction, tokens: MultiChainToken[]) {
 }
 
 function useNft(tx: Transaction) {
-  if (isCctpBridge(tx)) {
+  if (isCctpBridge(tx) || isHyperlaneBridge(tx)) {
     return null;
   }
 
@@ -434,6 +446,10 @@ function getDepositAmount(tx: Transaction, token: Token | null | undefined) {
     symbol = token?.symbol ?? "USDC";
   } else if (tx.type === "across-bridge") {
     amount = tx.metadata.data.inputAmount;
+    decimals = token?.decimals ?? 18;
+    symbol = token?.symbol ?? "ETH";
+  } else if (isHyperlaneBridge(tx)) {
+    amount = tx.amount;
     decimals = token?.decimals ?? 18;
     symbol = token?.symbol ?? "ETH";
   } else {
@@ -484,7 +500,7 @@ export const TransactionRow = ({ tx }: { tx: Transaction }) => {
 
   const [from, to] = useFromTo(tx);
   const deployment = useDeploymentById(
-    isAcrossBridge(tx)
+    isAcrossBridge(tx) || isHyperlaneBridge(tx)
       ? ""
       : isForcedWithdrawal(tx)
       ? tx.deposit.deploymentId

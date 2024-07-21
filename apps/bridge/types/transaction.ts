@@ -6,6 +6,7 @@ import {
   BridgeWithdrawalDto,
   CctpBridgeDto,
   ForcedWithdrawalDto,
+  HyperlaneBridgeDto,
   PortalDepositDto,
 } from "@/codegen/model";
 
@@ -25,4 +26,5 @@ export type Transaction =
   | AbritrumTransaction
   | OptimismTransaction
   | CctpBridgeDto
-  | AcrossBridgeDto;
+  | AcrossBridgeDto
+  | HyperlaneBridgeDto;
