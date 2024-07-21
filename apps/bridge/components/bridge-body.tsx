@@ -309,6 +309,7 @@ export const BridgeBody = () => {
       </div>
 
       <LineItems />
+
       <Button disabled={submitButton.disabled} onClick={submitButton.onSubmit}>
         {submitButton.buttonText}
       </Button>
