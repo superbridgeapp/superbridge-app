@@ -67,7 +67,6 @@ export const useInitiateBridge = (bridge: ReturnType<typeof useBridge>) => {
       !initiatingChain ||
       !isRouteQuote(route.data?.result)
     ) {
-      console.log("fff.hier", route, bridge.valid);
       return;
     }
 

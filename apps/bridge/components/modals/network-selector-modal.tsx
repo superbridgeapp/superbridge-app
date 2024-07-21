@@ -5,6 +5,7 @@ import { isSuperbridge } from "@/config/superbridge";
 import { useAcrossDomains } from "@/hooks/across/use-across-domains";
 import { useCctpDomains } from "@/hooks/cctp/use-cctp-domains";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
+import { useChains } from "@/hooks/use-chains";
 import { useDeployments } from "@/hooks/use-deployments";
 import { trackEvent } from "@/services/ga";
 import { useConfigState } from "@/state/config";
@@ -26,6 +27,7 @@ export const NetworkSelectorModal = () => {
   const acrossDomains = useAcrossDomains();
   const deployments = useDeployments();
   const cctpDomains = useCctpDomains();
+  const chains = useChains();
 
   const onSelect = (chain: ChainDto) => {
     if (networkSelectorModal === "from") {
@@ -51,36 +53,37 @@ export const NetworkSelectorModal = () => {
     setNetworkSelectorModal(null);
   };
 
-  const availableChains = useMemo(() => {
-    const byId: { [x: string]: ChainDto } = {};
+  // todo
+  // const availableChains = useMemo(() => {
+  //   const byId: { [x: string]: ChainDto } = {};
 
-    for (const d of deployments) {
-      if (!byId[d.l1.id]) {
-        byId[d.l1.id] = d.l1;
-      }
-      if (!byId[d.l2.id]) {
-        byId[d.l2.id] = d.l2;
-      }
-    }
+  //   for (const d of deployments) {
+  //     if (!byId[d.l1.id]) {
+  //       byId[d.l1.id] = d.l1;
+  //     }
+  //     if (!byId[d.l2.id]) {
+  //       byId[d.l2.id] = d.l2;
+  //     }
+  //   }
 
-    if (isSuperbridge) {
-      if (!superbridgeTestnets) {
-        for (const d of acrossDomains) {
-          if (!byId[d.chain.id]) {
-            byId[d.chain.id] = d.chain;
-          }
-        }
-      }
+  //   if (isSuperbridge) {
+  //     if (!superbridgeTestnets) {
+  //       for (const d of acrossDomains) {
+  //         if (!byId[d.chain.id]) {
+  //           byId[d.chain.id] = d.chain;
+  //         }
+  //       }
+  //     }
 
-      for (const d of cctpDomains) {
-        if (!byId[d.chain.id] && d.chain.testnet === superbridgeTestnets) {
-          byId[d.chain.id] = d.chain;
-        }
-      }
-    }
+  //     for (const d of cctpDomains) {
+  //       if (!byId[d.chain.id] && d.chain.testnet === superbridgeTestnets) {
+  //         byId[d.chain.id] = d.chain;
+  //       }
+  //     }
+  //   }
 
-    return Object.values(byId);
-  }, [superbridgeTestnets, networkSelectorModal, from, to]);
+  //   return Object.values(byId);
+  // }, [superbridgeTestnets, networkSelectorModal, from, to]);
 
   return (
     <Dialog
@@ -92,7 +95,7 @@ export const NetworkSelectorModal = () => {
           <DialogTitle>Choose network</DialogTitle>
         </DialogHeader>
         <div className="flex flex-col">
-          {availableChains.map((chain) => (
+          {chains.map((chain) => (
             <div
               key={`chain-${chain.id}`}
               onClick={() => onSelect(chain)}

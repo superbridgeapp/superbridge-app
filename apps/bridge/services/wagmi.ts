@@ -2,41 +2,34 @@ import { getDefaultConfig, getDefaultWallets } from "@rainbow-me/rainbowkit";
 import "@rainbow-me/rainbowkit/styles.css";
 import { okxWallet, safeWallet } from "@rainbow-me/rainbowkit/wallets";
 import { fallback, http } from "wagmi";
-import { Chain, mainnet, optimism } from "wagmi/chains";
+import { Chain } from "wagmi/chains";
 
-import { DeploymentDto } from "@/codegen/model";
+import { ChainDto } from "@/codegen/model";
 import { isSuperbridge } from "@/config/superbridge";
 import { chainIcons } from "@/config/theme";
 import { getMetadata } from "@/hooks/use-metadata";
 
-export function getWagmiConfig(deployments: DeploymentDto[]) {
-  const metadata = getMetadata(deployments[0]);
+export function getWagmiConfig(chainDtos: ChainDto[]) {
+  // const metadata = getMetadata(deployments[0]);
 
-  const chains: Chain[] =
-    deployments.length === 0
-      ? [mainnet, optimism]
-      : Object.values(
-          deployments.reduce((accum, d) => {
-            if (chainIcons[d.l1.id]) {
-              // @ts-expect-error
-              d.l1.iconUrl = chainIcons[d.l1.id];
-            }
+  const chains: Chain[] = chainDtos.map((c) => {
+    if (chainIcons[c.id]) {
+      // @ts-expect-error
+      c.iconUrl = chainIcons[c.id];
+    }
 
-            if (d.theme?.theme.imageNetwork) {
-              // @ts-expect-error
-              d.l2.iconUrl = d.theme?.theme.imageNetwork;
-            } else if (chainIcons[d.l2.id]) {
-              // @ts-expect-error
-              d.l2.iconUrl = chainIcons[d.l2.id];
-            }
+    // todo: don't lose these icons
+    // if (d.theme?.theme.imageNetwork) {
+    //   // @ts-expect-error
+    //   d.l2.iconUrl = d.theme?.theme.imageNetwork;
+    // } else if (chainIcons[d.l2.id]) {
+    //   // @ts-expect-error
+    //   d.l2.iconUrl = chainIcons[d.l2.id];
+    // }
 
-            return {
-              ...accum,
-              [d.l1.id]: d.l1,
-              [d.l2.id]: d.l2,
-            };
-          }, {})
-        );
+    return c as unknown as Chain;
+  });
+
   const transports = chains.reduce(
     (accum, chain) => ({
       ...accum,
@@ -47,18 +40,20 @@ export function getWagmiConfig(deployments: DeploymentDto[]) {
 
   const { wallets } = getDefaultWallets();
 
-  if (
-    isSuperbridge ||
-    (deployments.length === 1 &&
-      deployments[0].name === "camp-network-4xje7wy105")
-  ) {
-    wallets[0].wallets.push(okxWallet);
-  }
+  // todo
+  // if (
+  //   isSuperbridge ||
+  //   (deployments.length === 1 &&
+  //     deployments[0].name === "camp-network-4xje7wy105")
+  // ) {
+  //   wallets[0].wallets.push(okxWallet);
+  // }
 
   return getDefaultConfig({
-    appName: metadata.title,
-    appDescription: metadata.description,
-    appIcon: metadata.icon,
+    // todo
+    // appName: metadata.title,
+    // appDescription: metadata.description,
+    // appIcon: metadata.icon,
     projectId: "50c3481ab766b0e9c611c9356a42987b",
     // @ts-expect-error
     chains,

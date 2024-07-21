@@ -45,6 +45,7 @@ import type {
   FiatPricesDto,
   GetActivityDto,
   GetActivityV3Dto,
+  HyperlaneMailboxDto,
   IdDto,
   NumberDto,
   PricesDto,
@@ -980,6 +981,59 @@ export const useBridgeControllerGetAcrossDomains = <TData = Awaited<ReturnType<t
   ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
 
   const queryOptions = getBridgeControllerGetAcrossDomainsQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+export const bridgeControllerGetHyperlaneMailboxes = (
+     options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<HyperlaneMailboxDto[]>> => {
+    
+    return axios.get(
+      `/api/bridge/hyperlane_mailboxes`,options
+    );
+  }
+
+
+export const getBridgeControllerGetHyperlaneMailboxesQueryKey = () => {
+    return [`/api/bridge/hyperlane_mailboxes`] as const;
+    }
+
+    
+export const getBridgeControllerGetHyperlaneMailboxesQueryOptions = <TData = Awaited<ReturnType<typeof bridgeControllerGetHyperlaneMailboxes>>, TError = AxiosError<unknown>>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetHyperlaneMailboxes>>, TError, TData>, axios?: AxiosRequestConfig}
+) => {
+
+const {query: queryOptions, axios: axiosOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getBridgeControllerGetHyperlaneMailboxesQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof bridgeControllerGetHyperlaneMailboxes>>> = ({ signal }) => bridgeControllerGetHyperlaneMailboxes({ signal, ...axiosOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetHyperlaneMailboxes>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type BridgeControllerGetHyperlaneMailboxesQueryResult = NonNullable<Awaited<ReturnType<typeof bridgeControllerGetHyperlaneMailboxes>>>
+export type BridgeControllerGetHyperlaneMailboxesQueryError = AxiosError<unknown>
+
+export const useBridgeControllerGetHyperlaneMailboxes = <TData = Awaited<ReturnType<typeof bridgeControllerGetHyperlaneMailboxes>>, TError = AxiosError<unknown>>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetHyperlaneMailboxes>>, TError, TData>, axios?: AxiosRequestConfig}
+
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+
+  const queryOptions = getBridgeControllerGetHyperlaneMailboxesQueryOptions(options)
 
   const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
 

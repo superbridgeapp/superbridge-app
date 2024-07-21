@@ -9,20 +9,19 @@ import {
   bridgeControllerGetCctpDomains,
   bridgeControllerGetDeployments,
   bridgeControllerGetDeploymentsByDomain,
+  bridgeControllerGetHyperlaneMailboxes,
   bridgeControllerGetSuperbridgeConfig,
 } from "@/codegen";
-import { ErrorComponent } from "@/components/Error";
 import { Layout } from "@/components/Layout";
 import { PageTransition } from "@/components/PageTransition";
 import { Providers } from "@/components/Providers";
 import { Bridge } from "@/components/bridge";
 import { StatefulHead } from "@/components/head";
-import { isSuperbridge } from "@/config/superbridge";
+import { isRenzo, isSuperbridge } from "@/config/superbridge";
 import {
   SUPERCHAIN_MAINNETS,
   SUPERCHAIN_TESTNETS,
 } from "@/constants/superbridge";
-import { useDeployments } from "@/hooks/use-deployments";
 import { useInitialInjectedState } from "@/hooks/use-initial-injected-state";
 import { InjectedStoreProvider } from "@/state/injected";
 import { ThemeProvider } from "@/state/theme";
@@ -67,6 +66,18 @@ export const getServerSideProps = async ({
         cctpDomains: cctpDomains.data,
         testnets,
         superbridgeConfig: superbridgeConfig.data,
+      },
+    };
+  }
+
+  if (isRenzo) {
+    const [hyperlaneMailboxes] = await Promise.all([
+      bridgeControllerGetHyperlaneMailboxes(),
+    ]);
+
+    return {
+      props: {
+        hyperlaneMailboxes: hyperlaneMailboxes.data,
       },
     };
   }
@@ -146,20 +157,12 @@ export default function IndexRoot(
 }
 
 function Index() {
-  const deployments = useDeployments();
-
   return (
     <PageTransition key={"index"}>
       <AnimatePresence mode="sync">
-        {!deployments.length ? (
-          <PageTransition key={"error"}>
-            <ErrorComponent key={"error"} />
-          </PageTransition>
-        ) : (
-          <PageTransition key={"bridge"}>
-            <Bridge key={"bridge"} />
-          </PageTransition>
-        )}
+        <PageTransition key={"bridge"}>
+          <Bridge key={"bridge"} />
+        </PageTransition>
       </AnimatePresence>
     </PageTransition>
   );

@@ -4,6 +4,7 @@ import {
   AcrossDomainDto,
   CctpDomainDto,
   DeploymentDto,
+  HyperlaneMailboxDto,
   SuperbridgeConfigDto,
 } from "@/codegen/model";
 
@@ -13,6 +14,7 @@ export type InjectedState = {
 
   acrossDomains: AcrossDomainDto[];
   cctpDomains: CctpDomainDto[];
+  hyperlaneMailboxes: HyperlaneMailboxDto[];
   superbridgeConfig: SuperbridgeConfigDto | null;
 
   fromChainId: number;

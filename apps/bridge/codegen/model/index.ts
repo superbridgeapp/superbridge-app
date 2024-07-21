@@ -83,6 +83,8 @@ export * from './genericRouteErrorDto';
 export * from './getActivityDto';
 export * from './getActivityV3Dto';
 export * from './highlightedTokens';
+export * from './hyperlaneContractAddressesDto';
+export * from './hyperlaneMailboxDto';
 export * from './idDto';
 export * from './initiatingTransactionDto';
 export * from './l2ArbitrumContractAddressesDto';
