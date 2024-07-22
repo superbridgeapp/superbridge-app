@@ -12,18 +12,17 @@ import { useTranslation } from "react-i18next";
 import { WagmiProvider } from "wagmi";
 import { Chain } from "wagmi/chains";
 
-import { useChains } from "@/hooks/use-chains";
+import { useAllChains } from "@/hooks/use-chains";
 import { useDeployment } from "@/hooks/use-deployment";
 import { useMetadata } from "@/hooks/use-metadata";
 import { getWagmiConfig } from "@/services/wagmi";
-import { useInjectedStore } from "@/state/injected";
 import { queryClient } from "@/utils/query-client";
 
 function Web3Provider({ children }: { children: React.ReactNode }) {
   const { resolvedTheme } = useTheme();
   // use this instead of useDeployments because RainbowKit doesn't
   // like it when wagmiConfig changes
-  const chains = useChains();
+  const chains = useAllChains();
   const deployment = useDeployment();
   const [mounted, setMounted] = useState(false);
   const { i18n } = useTranslation();

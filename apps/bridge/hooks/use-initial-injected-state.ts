@@ -1,5 +1,7 @@
 import { InferGetServerSidePropsType } from "next";
+import { useRouter } from "next/router";
 
+import { isSuperbridge } from "@/config/app";
 import { InjectedState } from "@/state/injected";
 
 import { getServerSideProps } from "../pages/[[...index]]";
@@ -7,13 +9,31 @@ import { getServerSideProps } from "../pages/[[...index]]";
 export const useInitialInjectedState = (
   props: InferGetServerSidePropsType<typeof getServerSideProps>
 ): InjectedState => {
+  const router = useRouter();
+
   // default Superbridge
   let fromChainId = 1;
   let toChainId = 10;
 
-  if (props.deployments?.length === 1) {
+  // legacy setup was to have superbridge.app/network/
+  // token initialisation is handled in useInitialiseToken
+  const [deploymentName]: (string | undefined)[] = router.asPath.split(/[?\/]/);
+
+  if (deploymentName) {
+    const deployment = props.deployments?.find(
+      (x) => x.name === deploymentName
+    );
+    if (deployment) {
+      fromChainId = deployment.l1.id;
+      toChainId = deployment.l2.id;
+    }
+    // rollie
+  } else if (props.deployments?.length === 1) {
     fromChainId = props.deployments[0].l1.id;
     toChainId = props.deployments[0].l2.id;
+  } else if (isSuperbridge) {
+    fromChainId = 1;
+    toChainId = 10;
   } else if (props.cctpDomains && props.cctpDomains.length >= 2) {
     fromChainId = props.cctpDomains[0].chainId;
     toChainId = props.cctpDomains[1].chainId;

@@ -39,7 +39,9 @@ export interface ArbitrumToken extends BaseToken {
 }
 
 export interface CctpToken extends BaseToken {
-  isCctp: true;
+  cctp: {
+    [chainId: number]: true | undefined;
+  };
 }
 
 export type Token =

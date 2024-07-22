@@ -120,7 +120,10 @@ export const native: CctpToken[] = [
     symbol: "USDC",
     decimals: 6,
     logoURI: "https://ethereum-optimism.github.io/data/USDC/logo.png",
-    isCctp: true,
+    cctp: {
+      [optimismSepolia.id]: true,
+      [baseSepolia.id]: true,
+    },
   },
   {
     chainId: optimismSepolia.id,
@@ -129,7 +132,10 @@ export const native: CctpToken[] = [
     symbol: "USDC",
     decimals: 6,
     logoURI: "https://ethereum-optimism.github.io/data/USDC/logo.png",
-    isCctp: true,
+    cctp: {
+      [sepolia.id]: true,
+      [baseSepolia.id]: true,
+    },
   },
   {
     chainId: baseSepolia.id,
@@ -138,7 +144,10 @@ export const native: CctpToken[] = [
     symbol: "USDC",
     decimals: 6,
     logoURI: "https://ethereum-optimism.github.io/data/USDC/logo.png",
-    isCctp: true,
+    cctp: {
+      [optimismSepolia.id]: true,
+      [baseSepolia.id]: true,
+    },
   },
   // mainnet
   {
@@ -148,7 +157,11 @@ export const native: CctpToken[] = [
     symbol: "USDC",
     decimals: 6,
     logoURI: "https://ethereum-optimism.github.io/data/USDC/logo.png",
-    isCctp: true,
+    cctp: {
+      [base.id]: true,
+      [optimism.id]: true,
+      [arbitrum.id]: true,
+    },
   },
   {
     chainId: base.id,
@@ -157,7 +170,11 @@ export const native: CctpToken[] = [
     symbol: "USDC",
     decimals: 6,
     logoURI: "https://ethereum-optimism.github.io/data/USDC/logo.png",
-    isCctp: true,
+    cctp: {
+      [mainnet.id]: true,
+      [optimism.id]: true,
+      [arbitrum.id]: true,
+    },
   },
   {
     chainId: optimism.id,
@@ -166,7 +183,11 @@ export const native: CctpToken[] = [
     symbol: "USDC",
     decimals: 6,
     logoURI: "https://ethereum-optimism.github.io/data/USDC/logo.png",
-    isCctp: true,
+    cctp: {
+      [base.id]: true,
+      [mainnet.id]: true,
+      [arbitrum.id]: true,
+    },
   },
   {
     chainId: arbitrum.id,
@@ -175,6 +196,10 @@ export const native: CctpToken[] = [
     symbol: "USDC",
     decimals: 6,
     logoURI: "https://ethereum-optimism.github.io/data/USDC/logo.png",
-    isCctp: true,
+    cctp: {
+      [base.id]: true,
+      [optimism.id]: true,
+      [mainnet.id]: true,
+    },
   },
 ];
