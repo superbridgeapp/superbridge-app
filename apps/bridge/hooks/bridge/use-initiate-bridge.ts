@@ -1,7 +1,6 @@
 import { waitForTransactionReceipt } from "@wagmi/core";
 import { useAccount, useConfig, useWalletClient } from "wagmi";
 
-import { useBridgeControllerTrack } from "@/codegen";
 import { RouteProvider } from "@/codegen/model";
 import { useAllowance } from "@/hooks/use-allowance";
 import { useChain, useFromChain, useToChain } from "@/hooks/use-chain";
@@ -17,6 +16,7 @@ import { buildPendingTx } from "@/utils/build-pending-tx";
 import { isRouteQuote } from "@/utils/guards";
 import { isNativeToken } from "@/utils/is-eth";
 
+import { useHyperlaneMailboxes } from "../hyperlane/use-hyperlane-mailboxes";
 import { useDeployment } from "../use-deployment";
 import { useInitiatingChainId } from "../use-initiating-chain-id";
 import { useSelectedBridgeRoute } from "../use-selected-bridge-route";
@@ -48,7 +48,7 @@ export const useInitiateBridge = (bridge: ReturnType<typeof useBridge>) => {
   const updatePendingTransactionHash =
     usePendingTransactions.useUpdateTransactionByHash();
   const statusCheck = useStatusCheck();
-  const track = useBridgeControllerTrack();
+  const hyperlaneMailboxes = useHyperlaneMailboxes();
 
   const initiatingChainId = useInitiatingChainId();
   const initiatingChain = useChain(initiatingChainId);
@@ -112,7 +112,7 @@ export const useInitiateBridge = (bridge: ReturnType<typeof useBridge>) => {
         hash,
         forceViaL1,
         route.data.id,
-        route.data.result,
+        hyperlaneMailboxes,
         { from: from!, to: to! }
       );
       if (pending) addPendingTransaction(pending);

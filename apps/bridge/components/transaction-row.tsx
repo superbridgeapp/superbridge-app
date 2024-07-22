@@ -379,7 +379,12 @@ function useToken(tx: Transaction, tokens: MultiChainToken[]) {
       if (!src || !isHyperlaneToken(src)) {
         return false;
       }
-      return isAddressEqual(src.hyperlane.router, tx.token as Address);
+      return (
+        // when they come from the backend
+        isAddressEqual(src.hyperlane.router, tx.token as Address) ||
+        // when we add a pending tx
+        isAddressEqual(src.address, tx.token as Address)
+      );
     });
 
     return t?.[from.id] ?? null;

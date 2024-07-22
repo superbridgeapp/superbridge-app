@@ -9,6 +9,8 @@ import {
   ChainDto,
   DeploymentDto,
   ForcedWithdrawalDto,
+  HyperlaneBridgeDto,
+  HyperlaneMailboxDto,
   NftDepositDto,
   PortalDepositDto,
   RouteProvider,
@@ -32,7 +34,7 @@ export const buildPendingTx = (
   hash: Hex,
   force: boolean,
   provider: RouteProvider,
-  route: RouteQuoteDto,
+  hyperlaneMailboxes: HyperlaneMailboxDto[],
   { from, to }: { from: ChainDto; to: ChainDto }
 ) => {
   if (!token) {
@@ -64,6 +66,32 @@ export const buildPendingTx = (
       },
       type: "across-bridge",
       fill: undefined,
+    };
+    return b;
+  }
+
+  if (provider == RouteProvider.Hyperlane) {
+    const fromMailbox = hyperlaneMailboxes.find((x) => x.chainId === from.id);
+    const toMailbox = hyperlaneMailboxes.find((x) => x.chainId === to.id);
+    if (!fromMailbox || !toMailbox) {
+      return null;
+    }
+    const b: HyperlaneBridgeDto = {
+      id: Math.random().toString(),
+      // @ts-expect-error
+      send: {
+        transactionHash: hash,
+      },
+      createdAt: new Date().toString(),
+      updatedAt: new Date().toString(),
+
+      amount: weiAmount.toString(),
+      type: "hyperlane-bridge",
+      receive: undefined,
+
+      fromDomain: fromMailbox.domain,
+      toDomain: toMailbox.domain,
+      token: token[from.id ?? 0]?.address ?? "",
     };
     return b;
   }
