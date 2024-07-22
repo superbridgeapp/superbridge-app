@@ -21,17 +21,20 @@ export const useHyperlaneProgressRows = (
 
   const hyperlaneMailboxes = useInjectedStore((s) => s.hyperlaneMailboxes);
 
-  const mailbox = isHyperlaneBridge(tx)
+  const fromMailbox = isHyperlaneBridge(tx)
     ? hyperlaneMailboxes.find((x) => x.domain === tx.fromDomain)
     : null;
+  const toMailbox = isHyperlaneBridge(tx)
+    ? hyperlaneMailboxes.find((x) => x.domain === tx.toDomain)
+    : null;
 
-  const chain = useChain(mailbox?.chainId);
+  const fromChain = useChain(fromMailbox?.chainId);
+  const toChain = useChain(toMailbox?.chainId);
 
-  if (!isHyperlaneBridge(tx)) {
+  if (!isHyperlaneBridge(tx) || !fromChain || !toChain) {
     return null;
   }
 
-  const pendingFinalise = pendingFinalises[tx?.id ?? ""];
   const bridgeTime: Period = { period: "mins", value: 5 };
 
   const l2ConfirmationText = (() => {
@@ -55,35 +58,16 @@ export const useHyperlaneProgressRows = (
       status: tx.send.blockNumber
         ? ProgressRowStatus.Done
         : ProgressRowStatus.InProgress,
-      link: transactionLink(tx.send.transactionHash, chain),
+      link: transactionLink(tx.send.transactionHash, fromChain),
     },
     {
-      label: tx.receive?.blockNumber
-        ? t("activity.bridged")
-        : t("activity.bridging"),
+      label: tx.receive?.blockNumber ? "Finalized" : t("activity.bridging"),
       status: tx.receive?.blockNumber
         ? ProgressRowStatus.Done
         : ProgressRowStatus.InProgress,
       link: tx.receive
-        ? transactionLink(tx.receive?.transactionHash, chain)
+        ? transactionLink(tx.receive?.transactionHash, toChain)
         : undefined,
     },
-    // .with(
-    //   { tx: { bridge: P.when(({ blockNumber }) => !blockNumber) } },
-    //   () => ({
-    //     label: t("activity.l2Confirmation"),
-    //     status: ProgressRowStatus.NotDone,
-    //     text: l2ConfirmationText,
-    //   })
-    // )
-    // .with({ tx: { relay: P.when((relay) => !!relay?.blockNumber) } }, () => ({
-    //   label: t("activity.minted"),
-    //   status: ProgressRowStatus.Done,
-    //   link: transactionLink(tx.relay!.transactionHash, tx.to),
-    // }))
-    // .with({ pendingFinalise: P.not(undefined) }, () => ({
-    //   label: t("activity.minting"),
-    //   status: ProgressRowStatus.InProgress,
-    // }))
   ];
 };

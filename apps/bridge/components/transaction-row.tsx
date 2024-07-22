@@ -489,12 +489,12 @@ export const TransactionRow = ({ tx }: { tx: Transaction }) => {
   const [expanded, setExpanded] = useState(false);
 
   const title = useTxTitle(tx);
-  const progressRows = useProgressRows()(tx);
+  const progressRows = useProgressRows(tx);
 
-  const inProgressItem = progressRows.find(
+  const inProgressItem = progressRows?.find(
     (x) => x.status === ProgressRowStatus.InProgress
   );
-  const revertedItem = progressRows.find(
+  const revertedItem = progressRows?.find(
     (x) => x.status === ProgressRowStatus.Reverted
   );
 
@@ -712,7 +712,7 @@ export const TransactionRow = ({ tx }: { tx: Transaction }) => {
 
         {expanded ? (
           <div className="space-y-2 mt-4">
-            {progressRows.map((item) => (
+            {progressRows?.map((item) => (
               <TransactionProgressRow key={item.label} item={item} tx={tx} />
             ))}
           </div>
