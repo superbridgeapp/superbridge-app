@@ -35,6 +35,13 @@ export const useApproxTotalBridgeTimeText = () => {
     };
   }
 
+  if (!time.data) {
+    return {
+      isLoading: false,
+      data: null,
+    };
+  }
+
   return {
     data: transformPeriod("transferTime", {}, time.data),
     isLoading: false,

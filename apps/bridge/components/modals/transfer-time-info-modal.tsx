@@ -73,8 +73,10 @@ export const TransferTimeInfoModal = () => {
               <span className="text-xs md:text-sm">
                 {transferTime.isLoading ? (
                   <Skeleton className="h-4 w-[88px]" />
-                ) : (
+                ) : transferTime.data ? (
                   <>15 secs - {transferTime.data.slice(1)}</>
+                ) : (
+                  "…"
                 )}
               </span>
             </div>

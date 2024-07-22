@@ -19,9 +19,11 @@ export const TransferTimeLineItem = () => {
     <div
       className={clsx(
         "flex items-center justify-between px-3 py-2 md:py-3",
-        "cursor-pointer"
+        transferTime.data && "cursor-pointer"
       )}
-      onClick={() => openModal(ModalNames.TransferTime)}
+      onClick={
+        transferTime.data ? () => openModal(ModalNames.TransferTime) : undefined
+      }
     >
       <div className="flex justify-center gap-2">
         <Image
@@ -37,15 +39,19 @@ export const TransferTimeLineItem = () => {
       <div className="flex items-center">
         {transferTime.isLoading ? (
           <Skeleton className="h-4 w-[88px]" />
-        ) : (
+        ) : transferTime.data ? (
           <span className={`text-xs text-foreground text-right`}>
             {transferTime.data}
           </span>
+        ) : (
+          "…"
         )}
 
-        <div className="ml-1 transition-all hover:scale-105">
-          <IconHelp className="w-3.5 h-3.5 fill-muted-foreground opacity-50" />
-        </div>
+        {transferTime.data && (
+          <div className="ml-1 transition-all hover:scale-105">
+            <IconHelp className="w-3.5 h-3.5 fill-muted-foreground opacity-50" />
+          </div>
+        )}
       </div>
     </div>
   );
