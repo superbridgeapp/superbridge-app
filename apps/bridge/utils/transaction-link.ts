@@ -39,7 +39,7 @@ const statelessTransactionLink = (
 
 export const transactionLink = (
   payload: string,
-  chain: Chain | ChainDto | undefined
+  chain: Chain | ChainDto | undefined | null
 ) => {
   const preferredExplorer = useSettingsState.getState().preferredExplorer;
   return statelessTransactionLink("tx", payload, chain, preferredExplorer).link;

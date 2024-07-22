@@ -9,6 +9,8 @@ import type { ActivityV3DtoTransactionsItem } from './activityV3DtoTransactionsI
 
 export interface ActivityV3Dto {
   actionRequiredCount: number;
+  /** @nullable */
+  hasWithdrawalReadyToFinalize: string | null;
   inProgressCount: number;
   total: number;
   transactions: ActivityV3DtoTransactionsItem[];

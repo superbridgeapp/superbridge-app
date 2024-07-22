@@ -32,6 +32,7 @@ export const useTransactions = () => {
             inProgressCount: 0,
             total: 0,
             transactions: [],
+            hasWithdrawalReadyToFinalize: null,
           };
         }
 
@@ -62,5 +63,7 @@ export const useTransactions = () => {
     total: data?.pages?.[0].total ?? 0,
     actionRequiredCount: data?.pages?.[0].actionRequiredCount ?? 0,
     inProgressCount: data?.pages?.[0].inProgressCount ?? 0,
+    hasWithdrawalReadyToFinalize:
+      data?.pages?.[0]?.hasWithdrawalReadyToFinalize ?? null,
   };
 };
