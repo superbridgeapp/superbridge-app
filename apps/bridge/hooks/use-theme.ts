@@ -2,7 +2,6 @@ import { useTheme } from "next-themes";
 import { useContext } from "react";
 import { bsc, bscTestnet, holesky, mainnet, sepolia } from "viem/chains";
 
-import { isSuperbridge } from "@/config/app";
 import { ThemeContext } from "@/state/theme";
 
 import { useDeployment } from "./use-deployment";
@@ -26,8 +25,6 @@ export const useNavIcon = () => {
   const deployments = useDeployments();
   const theme = useContext(ThemeContext);
   const { resolvedTheme } = useTheme();
-
-  if (isSuperbridge) return "/img/logo.svg";
 
   if (resolvedTheme === "light") {
     return (
