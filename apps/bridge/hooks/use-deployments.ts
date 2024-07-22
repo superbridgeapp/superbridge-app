@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 
-import { isSuperbridge } from "@/config/superbridge";
+import { isSuperbridge } from "@/config/app";
 import {
   SUPERCHAIN_MAINNETS,
   SUPERCHAIN_TESTNETS,

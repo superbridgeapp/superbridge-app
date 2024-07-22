@@ -1,7 +1,4 @@
-import { useMemo } from "react";
-
 import { ChainDto } from "@/codegen/model";
-import { isSuperbridge } from "@/config/superbridge";
 import { useAcrossDomains } from "@/hooks/across/use-across-domains";
 import { useCctpDomains } from "@/hooks/cctp/use-cctp-domains";
 import { useFromChain, useToChain } from "@/hooks/use-chain";

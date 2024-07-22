@@ -8,7 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { isSuperbridge } from "@/config/superbridge";
+import { isSuperbridge } from "@/config/app";
 import { flagSymbolMap } from "@/constants/currency-symbol-map";
 import { useNavigate } from "@/hooks/use-navigate";
 import { trackEvent } from "@/services/ga";

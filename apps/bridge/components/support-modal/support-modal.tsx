@@ -2,7 +2,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 import { Checkbox } from "@/components/ui/checkbox";
-import { isSuperbridge } from "@/config/superbridge";
+import { isSuperbridge } from "@/config/app";
 import { Period } from "@/hooks/use-finalization-period";
 
 import { Button } from "../ui/button";

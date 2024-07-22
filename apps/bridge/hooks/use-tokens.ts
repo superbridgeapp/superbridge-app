@@ -4,7 +4,7 @@ import { Address, isAddressEqual } from "viem";
 import { bsc, bscTestnet, syscoin, syscoinTestnet } from "viem/chains";
 
 import { DeploymentFamily } from "@/codegen/model";
-import { isRenzo } from "@/config/superbridge";
+import { isRenzo } from "@/config/app";
 import { useConfigState } from "@/state/config";
 import { useInjectedStore } from "@/state/injected";
 import { useSettingsState } from "@/state/settings";

@@ -1,5 +1,5 @@
 import { DeploymentDto } from "@/codegen/model";
-import { isSuperbridge } from "@/config/superbridge";
+import { isSuperbridge } from "@/config/app";
 
 import { useDeployment } from "./use-deployment";
 

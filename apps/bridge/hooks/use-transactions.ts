@@ -3,7 +3,7 @@ import { useMemo } from "react";
 import { useAccount } from "wagmi";
 
 import { bridgeControllerGetActivityV3 } from "@/codegen";
-import { isSuperbridge } from "@/config/superbridge";
+import { isSuperbridge } from "@/config/app";
 import { useInjectedStore } from "@/state/injected";
 
 import { useHyperlaneMailboxes } from "./hyperlane/use-hyperlane-mailboxes";

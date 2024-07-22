@@ -12,7 +12,7 @@ import {
   RouteProvider,
   RouteStepType,
 } from "@/codegen/model";
-import { isSuperbridge } from "@/config/superbridge";
+import { isSuperbridge } from "@/config/app";
 import { currencySymbolMap } from "@/constants/currency-symbol-map";
 import { useBridge } from "@/hooks/bridge/use-bridge";
 import { useSubmitBridge } from "@/hooks/bridge/use-submit-bridge";

@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { isAddress, isAddressEqual } from "viem";
 
-import { isSuperbridge } from "@/config/superbridge";
+import { isSuperbridge } from "@/config/app";
 import { useConfigState } from "@/state/config";
 import { useInjectedStore } from "@/state/injected";
 import { isNativeToken } from "@/utils/is-eth";

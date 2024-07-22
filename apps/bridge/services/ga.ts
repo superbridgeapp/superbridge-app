@@ -1,6 +1,6 @@
 import { sendGAEvent } from "@next/third-parties/google";
 
-import { isSuperbridge } from "@/config/superbridge";
+import { isSuperbridge } from "@/config/app";
 
 type FromChainSelect = {
   event: "from-chain-select";

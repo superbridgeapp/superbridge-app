@@ -10,7 +10,7 @@ import { useRef, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import ReactMarkdown from "react-markdown";
 
-import { isSuperbridge } from "@/config/superbridge";
+import { isSuperbridge } from "@/config/app";
 import { useDeployment } from "@/hooks/use-deployment";
 import { useMetadata } from "@/hooks/use-metadata";
 import { useConfigState } from "@/state/config";
