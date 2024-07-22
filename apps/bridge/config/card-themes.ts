@@ -1,53 +1,5 @@
-import {
-  arbitrum,
-  arbitrumNova,
-  arbitrumSepolia,
-  base,
-  baseSepolia,
-  bsc,
-  bscTestnet,
-  holesky,
-  kroma,
-  mainnet,
-  mode,
-  modeTestnet,
-  optimism,
-  optimismSepolia,
-  pgn,
-  rollux,
-  sepolia,
-  syscoin,
-  zora,
-  zoraSepolia,
-} from "viem/chains";
-
 import { DeploymentDto } from "@/codegen/model";
 import { Theme } from "@/types/theme";
-
-export const chainIcons: { [chainId: number]: string | undefined } = {
-  [mainnet.id]: "/img/network-ethereum.svg",
-  [sepolia.id]: "/img/network-sepolia.svg",
-  [holesky.id]: "/img/network-holesky.png",
-  [arbitrumSepolia.id]: "/img/arbitrum-one/network.svg",
-  [arbitrum.id]: "/img/arbitrum-one/network.svg",
-  [arbitrumNova.id]: "/img/arbitrum-nova/network.svg",
-  [syscoin.id]: "/img/network-syscoin.png",
-  [rollux.id]: "/img/rollux/network.svg",
-  [788988]: "/img/orb3-mainnet/network.svg",
-  [pgn.id]: "/img/pgn/network.svg",
-  [kroma.id]: "/img/kroma/network.svg",
-  1024: "/img/parallel/network.svg",
-  [mode.id]: "/img/mode/network.svg",
-  [modeTestnet.id]: "/img/mode/network.svg",
-  [zora.id]: "/img/zora/network.svg",
-  [zoraSepolia.id]: "/img/zora/network.svg",
-  [base.id]: "/img/base/network.svg",
-  [baseSepolia.id]: "/img/base/network.svg",
-  [optimism.id]: "/img/optimism/network.svg",
-  [optimismSepolia.id]: "/img/optimism/network.svg",
-  [bsc.id]: "/img/bsc/network.png",
-  [bscTestnet.id]: "/img/bsc/network.png",
-};
 
 const defaultTheme: Theme = {
   bg: "bg-zinc-50 dark:bg-black/70",

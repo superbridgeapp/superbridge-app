@@ -1,13 +1,11 @@
 import { getDefaultConfig, getDefaultWallets } from "@rainbow-me/rainbowkit";
 import "@rainbow-me/rainbowkit/styles.css";
-import { okxWallet, safeWallet } from "@rainbow-me/rainbowkit/wallets";
+import { safeWallet } from "@rainbow-me/rainbowkit/wallets";
 import { fallback, http } from "wagmi";
 import { Chain } from "wagmi/chains";
 
 import { ChainDto } from "@/codegen/model";
-import { isSuperbridge } from "@/config/superbridge";
-import { chainIcons } from "@/config/theme";
-import { getMetadata } from "@/hooks/use-metadata";
+import { chainIcons } from "@/config/chain-icon-overrides";
 
 export function getWagmiConfig(chainDtos: ChainDto[]) {
   // const metadata = getMetadata(deployments[0]);

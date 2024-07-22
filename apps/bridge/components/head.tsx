@@ -1,6 +1,11 @@
 import NextHead from "next/head";
 
 import { DeploymentDto } from "@/codegen/model";
+import {
+  defaultBodyFont,
+  defaultButtonFont,
+  defaultHeadingFont,
+} from "@/config/fonts";
 import { isSuperbridge } from "@/config/superbridge";
 import { useDeployment } from "@/hooks/use-deployment";
 
@@ -44,27 +49,24 @@ export function StatelessHead({
   font-family: sb-heading;
   src: url(${
     isSuperbridge
-      ? "https://superbridge-fonts.vercel.app/GT-Maru-Bold.woff2"
-      : deployment?.theme?.theme.fontHeading ||
-        "https://superbridge-fonts.vercel.app/GT-Maru-Bold.woff2"
+      ? defaultHeadingFont
+      : deployment?.theme?.theme.fontHeading || defaultHeadingFont
   });
 }
 @font-face {
   font-family: sb-button;
   src: url(${
     isSuperbridge
-      ? "https://superbridge-fonts.vercel.app/GT-Maru-Bold.woff2"
-      : deployment?.theme?.theme.fontButton ||
-        "https://superbridge-fonts.vercel.app/GT-Maru-Bold.woff2"
+      ? defaultButtonFont
+      : deployment?.theme?.theme.fontButton || defaultButtonFont
   });
 }
 @font-face {
   font-family: sb-body;
   src: url(${
     isSuperbridge
-      ? "https://superbridge-fonts.vercel.app/GT-Maru-Medium.woff2"
-      : deployment?.theme?.theme.fontBody ||
-        "https://superbridge-fonts.vercel.app/GT-Maru-Medium.woff2"
+      ? defaultBodyFont
+      : deployment?.theme?.theme.fontBody || defaultBodyFont
   });
 }`;
 

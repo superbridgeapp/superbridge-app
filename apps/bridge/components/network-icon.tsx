@@ -4,7 +4,7 @@ import { Chain } from "viem";
 import { mainnet, sepolia, syscoin } from "viem/chains";
 
 import { ChainDto } from "@/codegen/model";
-import { chainIcons } from "@/config/theme";
+import { chainIcons } from "@/config/chain-icon-overrides";
 import { useDeployments } from "@/hooks/use-deployments";
 import { useNetworkIcon } from "@/hooks/use-theme";
 
