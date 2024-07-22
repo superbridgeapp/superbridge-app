@@ -2,7 +2,6 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { isAddress, isAddressEqual } from "viem";
 
-import { isSuperbridge } from "@/config/app";
 import { useConfigState } from "@/state/config";
 import { useInjectedStore } from "@/state/injected";
 import { isNativeToken } from "@/utils/is-eth";
@@ -12,6 +11,21 @@ import { useFromChain, useToChain } from "./use-chain";
 import { useDeployment } from "./use-deployment";
 import { useAllTokens } from "./use-tokens";
 
+/**
+ * // legacy & new
+ * ?recipient - handled in useInitialiseRecipient
+ * ?amount - handled here
+ *
+ * // legacy
+ * /usdc - handled here
+ * /base/usdc - handled here (network handled in use-initiate-injected-store)
+ * ?direction - handled handled in use-initiate-injected-store
+ *
+ * // new
+ * ?fromChainId - handled here
+ * ?toChainId - handled here
+ * ?tokenAddress - handled here
+ */
 export const useInitialiseQueryParams = () => {
   const router = useRouter();
 
@@ -30,51 +44,18 @@ export const useInitialiseQueryParams = () => {
       return;
     }
 
-    const [nameOrToken, nameOrTokenOrUndefined]: (string | undefined)[] =
-      router.asPath.split(/[?\/]/).filter(Boolean);
-
-    // legacy setup was to have superbridge.app/network/token or mybridge.com/token.
-
-    const isLegacyRouteParams = !!nameOrToken || !!nameOrTokenOrUndefined;
-
     const amount = router.query.amount as string | undefined;
     if (amount && parseFloat(amount)) {
       setRawAmount(amount);
     }
 
-    const fromChainId = router.query.fromChainId as string | undefined;
-    if (fromChainId) {
-      setFromChainId(parseInt(fromChainId));
-    }
+    const [deploymentTokenUndefined, tokenUndefined]: (string | undefined)[] =
+      router.asPath.split(/[?\/]/).filter(Boolean);
 
-    const toChainId = router.query.toChainId as string | undefined;
-    if (toChainId) {
-      setToChainId(parseInt(toChainId));
-    }
+    const isLegacyRouteParams =
+      !!deploymentTokenUndefined || !!deploymentTokenUndefined;
 
-    const tokenAddress = router.query.tokenAddress as string | undefined;
-
-    if (tokenAddress) {
-      const token = tokens.find((x) => {
-        const fromToken = x[from.id];
-        if (!fromToken) {
-          return false;
-        }
-
-        if (isAddress(tokenAddress)) {
-          return isAddressEqual(tokenAddress, fromToken.address);
-        }
-      });
-      if (token) {
-        setToken(token);
-      }
-    }
-
-    if (isSuperbridge && isLegacyRouteParams) {
-      // const direction = router.query.direction as string | undefined;
-      // if (direction === "withdraw") {
-      // }
-
+    if (isLegacyRouteParams) {
       const token = tokens.find((x) => {
         const fromToken = x[from.id];
         const toToken = x[to.id];
@@ -82,37 +63,62 @@ export const useInitialiseQueryParams = () => {
           return;
         }
 
-        const direction = router.query.direction as string | undefined;
-        const token = direction === "withdraw" ? toToken : fromToken;
-
-        if (nameOrTokenOrUndefined) {
-          if (isAddress(nameOrTokenOrUndefined)) {
-            return isAddressEqual(nameOrTokenOrUndefined, token.address);
+        if (deploymentTokenUndefined) {
+          if (isAddress(deploymentTokenUndefined)) {
+            return isAddressEqual(deploymentTokenUndefined, fromToken.address);
           }
-          return (
-            nameOrTokenOrUndefined.toLowerCase() === token.symbol.toLowerCase()
-          );
+          if (
+            deploymentTokenUndefined.toLowerCase() ===
+            fromToken.symbol.toLowerCase()
+          ) {
+            return true;
+          }
         }
 
-        if (nameOrToken) {
-          if (isAddress(nameOrToken)) {
-            return isAddressEqual(nameOrToken, token.address);
+        if (tokenUndefined) {
+          if (isAddress(tokenUndefined)) {
+            return isAddressEqual(tokenUndefined, fromToken.address);
           }
-          return nameOrToken.toLowerCase() === token.symbol.toLowerCase();
+
+          return (
+            tokenUndefined.toLowerCase() === fromToken.symbol.toLowerCase()
+          );
         }
       });
 
       if (token) {
         setToken(token);
+      } else if (arbitrumGasToken) {
+        setToken(arbitrumGasToken);
       } else {
-        if (arbitrumGasToken) {
-          setToken(arbitrumGasToken);
-          return;
-        }
+        setToken(tokens.find((x) => isNativeToken(x)) ?? null);
+      }
+    } else {
+      const fromChainId = router.query.fromChainId as string | undefined;
+      if (fromChainId) {
+        setFromChainId(parseInt(fromChainId));
+      }
 
-        const t = tokens.find((x) => isNativeToken(x));
-        if (t) {
-          setToken(t);
+      const toChainId = router.query.toChainId as string | undefined;
+      if (toChainId) {
+        setToChainId(parseInt(toChainId));
+      }
+
+      const tokenAddress = router.query.tokenAddress as string | undefined;
+      if (tokenAddress) {
+        const token = tokens.find((x) => {
+          const fromToken = x[from.id];
+          const toToken = x[to.id];
+          if (!fromToken || !toToken) {
+            return false;
+          }
+
+          if (isAddress(tokenAddress)) {
+            return isAddressEqual(tokenAddress, fromToken.address);
+          }
+        });
+        if (token) {
+          setToken(token);
         }
       }
     }

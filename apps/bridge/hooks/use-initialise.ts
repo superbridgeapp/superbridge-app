@@ -9,9 +9,9 @@ import { isMainnet, isOptimism } from "@/utils/is-mainnet";
 import { useActivityEffects } from "./use-activity-effects";
 import { useDeployment } from "./use-deployment";
 import { useInitialiseQueryParams } from "./use-initialise-query-params";
+import { useInitialiseRecipient } from "./use-initialise-recipient";
 import { useInitialiseToken } from "./use-initialise-token";
 import { useIsContractAccount } from "./use-is-contract-account";
-import { useInitialiseRecipient } from "./use-recipient";
 import { useTokenLists } from "./use-token-lists";
 
 export const useInitialise = () => {
@@ -28,7 +28,7 @@ export const useInitialise = () => {
   useTokenLists();
   useInitialiseToken();
   useActivityEffects();
-  // useInitialiseQueryParams();
+  useInitialiseQueryParams();
 
   useAccountEffect({
     onDisconnect: () => {

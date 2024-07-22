@@ -14,6 +14,17 @@ const icons = {
   [RouteProvider.Hyperlane]: "/img/alt-bridges/hyperlane.svg",
 };
 
+const names = {
+  [RouteProvider.Across]: "Across",
+  [RouteProvider.Cctp]: "CCTP",
+  [RouteProvider.ArbitrumDeposit]: "Native bridge",
+  [RouteProvider.ArbitrumWithdrawal]: "Native bridge",
+  [RouteProvider.OptimismDeposit]: "Native bridge",
+  [RouteProvider.OptimismWithdrawal]: "Native bridge",
+  [RouteProvider.OptimismForcedWithdrawal]: "Native bridge",
+  [RouteProvider.Hyperlane]: "Hyperlane",
+};
+
 export const RouteProviderIcon = ({
   provider,
   className,
@@ -21,14 +32,16 @@ export const RouteProviderIcon = ({
   provider: RouteProvider;
   className?: string;
 }) => {
-  const src = icons[provider];
   return (
-    <Image
-      alt={`${provider} icon`}
-      src={src}
-      className={className}
-      height={24}
-      width={24}
-    />
+    <div className="flex items-center text-xs gap-2">
+      <span>{names[provider]}</span>
+      <Image
+        alt={`${provider} icon`}
+        src={icons[provider]}
+        className={className}
+        height={24}
+        width={24}
+      />
+    </div>
   );
 };

@@ -17,15 +17,22 @@ export const useInitialInjectedState = (
 
   // legacy setup was to have superbridge.app/network/
   // token initialisation is handled in useInitialiseToken
-  const [deploymentName]: (string | undefined)[] = router.asPath.split(/[?\/]/);
+  const [deploymentName]: (string | undefined)[] = router.asPath
+    .split(/[?\/]/)
+    .filter(Boolean);
 
   if (deploymentName) {
     const deployment = props.deployments?.find(
       (x) => x.name === deploymentName
     );
     if (deployment) {
-      fromChainId = deployment.l1.id;
-      toChainId = deployment.l2.id;
+      if (router.query.direction === "withdraw") {
+        fromChainId = deployment.l2.id;
+        toChainId = deployment.l1.id;
+      } else {
+        fromChainId = deployment.l1.id;
+        toChainId = deployment.l2.id;
+      }
     }
     // rollie
   } else if (props.deployments?.length === 1) {
