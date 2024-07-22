@@ -15,4 +15,7 @@ sender: string;
 recipient: string;
 amount: string;
 graffiti: string;
+forceViaL1: boolean;
+hyperlaneFromTokenRouterAddress?: string;
+hyperlaneToTokenRouterAddress?: string;
 };

@@ -149,7 +149,7 @@ export const isCctpToken = (t: Token): t is CctpToken => {
 };
 
 export const isHyperlaneToken = (t: Token): t is HyperlaneToken => {
-  return (t as HyperlaneToken).isHyperlane;
+  return !!(t as HyperlaneToken).hyperlane;
 };
 
 export const isActive = (

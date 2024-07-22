@@ -2,6 +2,7 @@ import { isAddress } from "viem";
 import { useAccount } from "wagmi";
 
 import { useConfigState } from "@/state/config";
+import { isHyperlaneToken } from "@/utils/guards";
 
 import { useBridgeControllerGetRoutes } from "../codegen";
 import { useFromChain, useToChain } from "./use-chain";
@@ -16,8 +17,10 @@ export const useBridgeRoutes = () => {
   const stateToken = useConfigState.useToken();
   const recipientAddress = useConfigState.useRecipientAddress();
 
-  const fromTokenAddress = stateToken?.[from?.id ?? 0]?.address;
-  const toTokenAddress = stateToken?.[to?.id ?? 0]?.address;
+  const fromToken = stateToken?.[from?.id ?? 0];
+  const toToken = stateToken?.[to?.id ?? 0];
+  const fromTokenAddress = fromToken?.address;
+  const toTokenAddress = toToken?.address;
 
   const weiAmount = useWeiAmount();
   const routes = useBridgeControllerGetRoutes(
@@ -30,6 +33,17 @@ export const useBridgeRoutes = () => {
       graffiti: useGraffiti(),
       recipient: recipientAddress,
       sender: account.address ?? "",
+
+      forceViaL1: false,
+
+      hyperlaneFromTokenRouterAddress:
+        !!fromToken && isHyperlaneToken(fromToken)
+          ? fromToken.hyperlane.router
+          : undefined,
+      hyperlaneToTokenRouterAddress:
+        !!toToken && isHyperlaneToken(toToken)
+          ? toToken.hyperlane.router
+          : undefined,
     },
     {
       query: {

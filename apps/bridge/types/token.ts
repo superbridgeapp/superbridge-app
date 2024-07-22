@@ -18,7 +18,9 @@ export interface OptimismToken extends BaseToken {
 }
 
 export interface HyperlaneToken extends BaseToken {
-  isHyperlane: true;
+  hyperlane: {
+    router: Address;
+  };
 }
 
 export interface SuperbridgeTokenListToken extends BaseToken {

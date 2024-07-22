@@ -11,6 +11,7 @@ const icons = {
   [RouteProvider.OptimismDeposit]: "/img/optimism/icon.svg",
   [RouteProvider.OptimismWithdrawal]: "/img/optimism/icon.svg",
   [RouteProvider.OptimismForcedWithdrawal]: "/img/optimism/icon.svg",
+  [RouteProvider.Hyperlane]: "/img/alt-bridges/hyperlane.svg",
 };
 
 export const RouteProviderIcon = ({

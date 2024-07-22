@@ -18,4 +18,5 @@ export const RouteProvider = {
   ArbitrumWithdrawal: 'ArbitrumWithdrawal',
   Cctp: 'Cctp',
   Across: 'Across',
+  Hyperlane: 'Hyperlane',
 } as const;
