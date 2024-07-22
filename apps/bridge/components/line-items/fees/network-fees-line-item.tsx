@@ -5,6 +5,5 @@ import { WithdrawFees } from "./withdraw-fees";
 
 export const NetworkFeesLineItem = () => {
   const withdrawing = useIsWithdrawal();
-
   return withdrawing ? <WithdrawFees /> : <NetworkFees />;
 };

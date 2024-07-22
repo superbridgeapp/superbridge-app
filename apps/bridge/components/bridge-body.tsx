@@ -98,14 +98,17 @@ export const BridgeBody = () => {
 
   const hasInsufficientBalance = weiAmount > tokenBalance;
   const hasInsufficientGas = (() => {
-    if (!networkFee) return false;
+    if (!networkFee.data) return false;
 
     let availableGasBalance = fromEthBalance.data?.value ?? BigInt(0);
     if (isEth(token)) {
       availableGasBalance = availableGasBalance - weiAmount;
     }
 
-    return availableGasBalance < BigInt(parseUnits(networkFee.toFixed(18), 18));
+    return (
+      availableGasBalance <
+      BigInt(parseUnits(networkFee.data.token.raw.toFixed(18), 18))
+    );
   })();
 
   const requiredCustomGasTokenBalance = useRequiredCustomGasTokenBalance();

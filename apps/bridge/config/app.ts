@@ -51,10 +51,10 @@ const renzo: AppConfig = {
   },
 
   images: {
-    logoLight: "/img/logo.svg",
-    logoDark: "/img/logo-dark.svg",
-    logoLightSmall: "/img/logo-small.svg",
-    logoDarkSmall: "/img/logo-small-dark.svg",
+    logoLight: "/img/renzo/logo.svg",
+    logoDark: "/img/renzo/logo.svg",
+    logoLightSmall: "/img/renzo/logo.svg",
+    logoDarkSmall: "/img/renzo/logo.svg",
   },
   theme: renzoTheme,
 };

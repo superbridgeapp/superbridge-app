@@ -19,6 +19,11 @@ export const useIsOptimismWithdrawal = () => {
   ).includes(route?.id ?? "");
 };
 
+export const useIsOptimismForcedWithdrawal = () => {
+  const route = useSelectedBridgeRoute().data;
+  return route?.id === RouteProvider.OptimismForcedWithdrawal;
+};
+
 export const useIsArbitrumWithdrawal = () => {
   const route = useSelectedBridgeRoute().data;
   return route?.id === RouteProvider.ArbitrumWithdrawal;

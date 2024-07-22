@@ -6,11 +6,12 @@ import { ModalNames } from "@/constants/modal-names";
 import { useToChain } from "@/hooks/use-chain";
 import { useDeployment } from "@/hooks/use-deployment";
 import { useIsContractAccount } from "@/hooks/use-is-contract-account";
-import { useNetworkFeeLineItems } from "@/hooks/use-network-fees";
+import { useNetworkFee } from "@/hooks/use-network-fee";
 import { useConfigState } from "@/state/config";
 import { isOptimism } from "@/utils/is-mainnet";
 
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
+import { Skeleton } from "../ui/skeleton";
 import { Switch } from "../ui/switch";
 
 export const WithdrawSettingsModal = () => {
@@ -26,7 +27,7 @@ export const WithdrawSettingsModal = () => {
   const removeModal = useConfigState.useRemoveModal();
 
   const to = useToChain();
-  const fees = useNetworkFeeLineItems();
+  const fee = useNetworkFee();
 
   return (
     <Dialog
@@ -94,27 +95,31 @@ export const WithdrawSettingsModal = () => {
           <div className="space-y-2">
             <h2 className="font-heading">{t("settings.feeBreakdown")}</h2>
             <div className="border  rounded-lg divide-y divide-zinc-100 dark:divide-zinc-800">
-              {fees.map((fee) => (
-                <div
-                  key={fee.name}
-                  className="flex items-center justify-between  px-4 py-2"
-                >
-                  <span className={`text-muted-foreground text-xs `}>
-                    {fee.name}
-                  </span>
+              <div className="flex items-center justify-between  px-4 py-2">
+                <span className={`text-muted-foreground text-xs `}>
+                  Network fee
+                </span>
 
-                  {fee.usd && (
-                    <span
-                      className={`text-muted-foreground ml-auto text-xs  mr-2`}
-                    >
-                      {fee.usd.formatted}
+                {fee.isLoading ? (
+                  <Skeleton className="h-4 w-[88px]" />
+                ) : fee.data ? (
+                  <>
+                    {fee.data.fiat && (
+                      <span
+                        className={`text-muted-foreground ml-auto text-xs  mr-2`}
+                      >
+                        {fee.data.fiat.formatted}
+                      </span>
+                    )}
+
+                    <span className={`text-xs `}>
+                      {fee.data.token.formatted}
                     </span>
-                  )}
-                  <span className={`text-xs `}>
-                    {fee.token ? fee.token.formatted : "-"}
-                  </span>
-                </div>
-              ))}
+                  </>
+                ) : (
+                  "…"
+                )}
+              </div>
             </div>
           </div>
         </div>

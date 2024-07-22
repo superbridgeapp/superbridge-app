@@ -1,11 +1,12 @@
 import Image from "next/image";
 import { useTranslation } from "react-i18next";
 
-import { useNetworkFeeLineItems } from "@/hooks/use-network-fees";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useNetworkFee } from "@/hooks/use-network-fee";
 
 export const NetworkFees = () => {
   const { t } = useTranslation();
-  const fee = useNetworkFeeLineItems()[0];
+  const fee = useNetworkFee();
 
   return (
     <div>
@@ -22,16 +23,22 @@ export const NetworkFees = () => {
         </div>
 
         <div className="flex items-center gap-2">
-          <span className={`text-xs  text-foreground`}>
-            {fee.usd?.formatted && (
-              <span className={`text-muted-foreground ml-auto text-xs  mr-2`}>
-                {fee.usd?.formatted}
-              </span>
-            )}
+          {fee.isLoading ? (
+            <Skeleton className="h-4 w-[88px]" />
+          ) : fee.data ? (
             <span className={`text-xs  text-foreground`}>
-              {fee.token?.formatted}
+              {fee.data.fiat && (
+                <span className={`text-muted-foreground ml-auto text-xs  mr-2`}>
+                  {fee.data.fiat.formatted}
+                </span>
+              )}
+              <span className={`text-xs  text-foreground`}>
+                {fee.data.token.formatted}
+              </span>
             </span>
-          </span>
+          ) : (
+            "…"
+          )}
         </div>
       </div>
     </div>

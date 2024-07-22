@@ -2,22 +2,20 @@ import clsx from "clsx";
 import Image from "next/image";
 import { useTranslation } from "react-i18next";
 
+import { Skeleton } from "@/components/ui/skeleton";
 import { configurations } from "@/config/contract-addresses";
-import { currencySymbolMap } from "@/constants/currency-symbol-map";
 import { ModalNames } from "@/constants/modal-names";
 import { useDeployment } from "@/hooks/use-deployment";
-import { useNetworkFeeLineItems } from "@/hooks/use-network-fees";
+import { useNetworkFee } from "@/hooks/use-network-fee";
 import { useConfigState } from "@/state/config";
-import { useSettingsState } from "@/state/settings";
 import { isOptimism } from "@/utils/is-mainnet";
 
 export const WithdrawFees = () => {
   const deployment = useDeployment();
   const forceViaL1 = useConfigState.useForceViaL1();
   const easyMode = useConfigState.useEasyMode();
-  const fees = useNetworkFeeLineItems();
+  const fee = useNetworkFee();
   const { t } = useTranslation();
-  const currency = useSettingsState.useCurrency();
   const openModal = useConfigState.useAddModal();
 
   const forceIsEnabled = !!deployment && isOptimism(deployment);
@@ -44,11 +42,14 @@ export const WithdrawFees = () => {
         </div>
 
         <div className="flex items-center gap-2">
-          <span className={`text-xs  text-foreground ml-auto`}>
-            {currencySymbolMap[currency]}
-            {fees
-              .reduce((accum, fee) => (fee.usd?.raw ?? 0) + accum, 0)
-              .toLocaleString("en", { maximumFractionDigits: 2 })}
+          <span className={`text-xs text-foreground ml-auto`}>
+            {fee.isLoading ? (
+              <Skeleton className="h-4 w-[88px]" />
+            ) : fee.data ? (
+              <>{fee.data.fiat?.formatted ?? fee.data.token.formatted}</>
+            ) : (
+              "…"
+            )}
           </span>
 
           {hasSettings && (
