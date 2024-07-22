@@ -38,13 +38,15 @@ export const useTxTitle = (tx: Transaction) => {
     return "Superfast bridge";
   }
 
+  if (isHyperlaneBridge(tx)) {
+    return "Hyperlane bridge";
+  }
+
   // CCTP
   return "Bridge";
 };
 
 export const useProgressRows = (tx: Transaction) => {
-  console.log(tx);
-
   const deployments = useDeployments();
   const deploymentId =
     isAcrossBridge(tx) || isHyperlaneBridge(tx)

@@ -39,6 +39,7 @@ import {
   isDeposit,
   isForcedWithdrawal,
   isHyperlaneBridge,
+  isHyperlaneToken,
   isOptimismForcedWithdrawal,
   isOptimismWithdrawal,
   isWithdrawal,
@@ -373,14 +374,15 @@ function useToken(tx: Transaction, tokens: MultiChainToken[]) {
   }
 
   if (isHyperlaneBridge(tx)) {
-    return getToken(
-      tokens,
-      {
-        chainId: from.id,
-        tokenAddress: tx.token,
-      },
-      to.id
-    );
+    const t = tokens.find((x) => {
+      const src = x[from.id];
+      if (!src || !isHyperlaneToken(src)) {
+        return false;
+      }
+      return isAddressEqual(src.hyperlane.router, tx.token as Address);
+    });
+
+    return t?.[from.id] ?? null;
   }
 
   const metadata =
@@ -570,6 +572,29 @@ export const TransactionRow = ({ tx }: { tx: Transaction }) => {
             </defs>
           </svg>
         ) : isAcrossBridge(tx) ? (
+          // Superfast Aross bridge icon
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            className={indicatorStyles}
+          >
+            <g clip-path="url(#clip0_83_174)">
+              <path
+                fillRule="evenodd"
+                clipRule="evenodd"
+                d="M8 16C12.4183 16 16 12.4183 16 8C16 3.58172 12.4183 0 8 0C3.58172 0 0 3.58172 0 8C0 12.4183 3.58172 16 8 16ZM6 13.6419C6 13.8392 6.12849 14 6.29248 14H6.29417C6.37532 14 6.45816 13.9695 6.51395 13.9023L11.9087 7.48414C11.9696 7.41699 12 7.31728 12 7.22571C12 7.01611 11.8614 6.86756 11.6974 6.86756H7.6754L10.2096 2.56775C10.2451 2.5067 10.2553 2.43141 10.2553 2.36425C10.2553 2.15465 10.142 2 9.95774 2C9.88166 2 9.80896 2.02442 9.75317 2.08547L4.09806 8.50975C4.0355 8.58301 4 8.67662 4 8.77429C4 8.97168 4.13356 9.13244 4.29755 9.13244H8.13863L6.04057 13.4628C6.01522 13.5177 6 13.5808 6 13.6419Z"
+              />
+            </g>
+            <defs>
+              <clipPath id="clip0_83_174">
+                <rect width="16" height="16" fill="white" />
+              </clipPath>
+            </defs>
+          </svg>
+        ) : isHyperlaneBridge(tx) ? (
           // Superfast Aross bridge icon
           <svg
             xmlns="http://www.w3.org/2000/svg"
