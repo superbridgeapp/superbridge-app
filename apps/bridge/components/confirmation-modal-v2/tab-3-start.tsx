@@ -96,12 +96,14 @@ function LineItem({
         <NetworkIcon chain={chain} className="w-8 h-8" />
         <div className="flex flex-col gap-1">
           <span className="text-sm font-heading leading-none">{text}</span>
-          <div className="flex gap-1">
-            <IconSimpleGas className="w-3.5 h-auto fill-muted-foreground opacity-80" />
-            <span className="text-xs text-muted-foreground leading-none">
-              {fee && <p className="text-xs">{fee}</p>}
-            </span>
-          </div>
+          {fee && (
+            <div className="flex gap-1">
+              <IconSimpleGas className="w-3.5 h-auto fill-muted-foreground opacity-80" />
+              <span className="text-xs text-muted-foreground leading-none">
+                <p className="text-xs">{fee}</p>
+              </span>
+            </div>
+          )}
         </div>
       </div>
 
@@ -507,7 +509,7 @@ export const ConfirmationModalStartTab = ({
 
           if (isRouteReceiveStep(x)) {
             return {
-              text: t("confirmationModal.receiveDeposit", common),
+              text: t("confirmationModal.receiveAmountOnChain", common),
               chain: to,
             };
           }
