@@ -1,13 +1,10 @@
-import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { isAddress, isAddressEqual } from "viem";
 
 import { useConfigState } from "@/state/config";
 import { isNativeToken } from "@/utils/is-eth";
 
 import { useGasToken } from "./use-approve-gas-token";
 import { useFromChain, useToChain } from "./use-chain";
-import { useDeployment } from "./use-deployment";
 import { useAllTokens } from "./use-tokens";
 
 /**
@@ -23,11 +20,7 @@ import { useAllTokens } from "./use-tokens";
 
  */
 export const useInitialiseToken = () => {
-  const router = useRouter();
-
   const setToken = useConfigState.useSetToken();
-  const setEasyMode = useConfigState.useSetEasyMode();
-  const deployment = useDeployment();
   const from = useFromChain();
   const to = useToChain();
   const tokens = useAllTokens();
@@ -38,48 +31,17 @@ export const useInitialiseToken = () => {
       return;
     }
 
-    const [nameOrToken, nameOrTokenOrUndefined]: (string | undefined)[] =
-      router.asPath.split(/[?\/]/).filter(Boolean);
-
-    const token = tokens.find((x) => {
-      const fromToken = x[from.id];
-      const toToken = x[to.id];
-      if (!fromToken || !toToken) {
-        return;
-      }
-
-      const direction = router.query.direction as string | undefined;
-      const token = direction === "withdraw" ? toToken : fromToken;
-
-      if (nameOrTokenOrUndefined) {
-        if (isAddress(nameOrTokenOrUndefined)) {
-          return isAddressEqual(nameOrTokenOrUndefined, token.address);
-        }
-        return (
-          nameOrTokenOrUndefined.toLowerCase() === token.symbol.toLowerCase()
-        );
-      }
-
-      if (nameOrToken) {
-        if (isAddress(nameOrToken)) {
-          return isAddressEqual(nameOrToken, token.address);
-        }
-        return nameOrToken.toLowerCase() === token.symbol.toLowerCase();
-      }
-    });
-
-    if (token) {
-      setToken(token);
-    } else {
-      if (arbitrumGasToken) {
-        setToken(arbitrumGasToken);
-        return;
-      }
-
-      const t = tokens.find((x) => isNativeToken(x));
-      if (t) {
-        setToken(t);
-      }
+    if (arbitrumGasToken) {
+      setToken(arbitrumGasToken);
+      return;
     }
-  }, [router.asPath, deployment, tokens, arbitrumGasToken]);
+
+    const t =
+      tokens.find(
+        (x) => isNativeToken(x) && !!x[from?.id ?? 0] && !!x[to?.id ?? 0]
+      ) ?? tokens[0];
+    if (t) {
+      setToken(t);
+    }
+  }, [from, to, tokens, arbitrumGasToken]);
 };

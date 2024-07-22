@@ -28,7 +28,7 @@ export const useInitialise = () => {
   useTokenLists();
   useInitialiseToken();
   useActivityEffects();
-  useInitialiseQueryParams();
+  // useInitialiseQueryParams();
 
   useAccountEffect({
     onDisconnect: () => {

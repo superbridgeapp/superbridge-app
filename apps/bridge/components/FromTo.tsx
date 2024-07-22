@@ -1,14 +1,16 @@
+import clsx from "clsx";
 import { useTranslation } from "react-i18next";
 
 import { useFromChain, useToChain } from "@/hooks/use-chain";
+import { useChains } from "@/hooks/use-chains";
 import { trackEvent } from "@/services/ga";
 import { useConfigState } from "@/state/config";
 import { useInjectedStore } from "@/state/injected";
 
-import { FastNetworkIcon } from "./fast/network-icon";
 import { NetworkIcon } from "./network-icon";
 
 export const FromTo = () => {
+  const chains = useChains();
   const from = useFromChain();
   const to = useToChain();
   const setFromChainId = useInjectedStore((s) => s.setFromChainId);
@@ -16,13 +18,21 @@ export const FromTo = () => {
   const setNetworkSelectorModal = useConfigState.useSetNetworkSelectorModal();
   const { t } = useTranslation();
 
+  const networkSelectorEnabled = chains.length > 2;
   return (
     <div
       className={`relative flex items-start justify-between gap-1 select-none`}
     >
       <div
-        className="flex gap-2 w-full items-start justify-start bg-muted px-3.5 pt-3 pb-2.5 rounded-lg transition-all hover:scale-[1.02] origin-right cursor-pointer"
-        onClick={() => setNetworkSelectorModal("from")}
+        className={clsx(
+          "flex gap-2 w-full items-start justify-start bg-muted px-3.5 pt-3 pb-2.5 rounded-lg transition-all origin-right",
+          networkSelectorEnabled && "cursor-pointer hover:scale-[1.02]"
+        )}
+        onClick={
+          networkSelectorEnabled
+            ? () => setNetworkSelectorModal("from")
+            : undefined
+        }
       >
         <NetworkIcon
           chain={from}
@@ -65,8 +75,15 @@ export const FromTo = () => {
         </div>
       </button>
       <div
-        className="flex gap-2 w-full items-start justify-end bg-muted px-3.5 pt-3 pb-2.5 rounded-lg transition-all origin-left hover:scale-[1.02] cursor-pointer"
-        onClick={() => setNetworkSelectorModal("to")}
+        className={clsx(
+          "flex gap-2 w-full items-start justify-end bg-muted px-3.5 pt-3 pb-2.5 rounded-lg transition-all origin-left",
+          networkSelectorEnabled && "cursor-pointer hover:scale-[1.02]"
+        )}
+        onClick={
+          networkSelectorEnabled
+            ? () => setNetworkSelectorModal("to")
+            : undefined
+        }
       >
         <div className="text-right">
           <span

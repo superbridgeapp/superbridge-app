@@ -28,7 +28,13 @@ import {
   TrialDeploymentStatus,
 } from "@/codegen/model";
 import { AcrossBridgeDto } from "@/types/across";
-import { ArbitrumToken, CctpToken, OptimismToken, Token } from "@/types/token";
+import {
+  ArbitrumToken,
+  CctpToken,
+  HyperlaneToken,
+  OptimismToken,
+  Token,
+} from "@/types/token";
 import {
   AbritrumTransaction,
   OptimismTransaction,
@@ -140,6 +146,10 @@ export const isArbitrumToken = (t: Token): t is ArbitrumToken => {
 
 export const isCctpToken = (t: Token): t is CctpToken => {
   return (t as CctpToken).isCctp;
+};
+
+export const isHyperlaneToken = (t: Token): t is HyperlaneToken => {
+  return (t as HyperlaneToken).isHyperlane;
 };
 
 export const isActive = (

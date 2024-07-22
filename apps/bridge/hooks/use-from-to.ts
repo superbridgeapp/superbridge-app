@@ -43,7 +43,6 @@ export const useFromTo = (tx: Transaction) => {
     return [from, to];
   }
 
-  console.log(tx);
   const deployment = deployments.find((d) => tx.deploymentId === d.id)!;
   return isDeposit(tx)
     ? [deployment.l1, deployment.l2]

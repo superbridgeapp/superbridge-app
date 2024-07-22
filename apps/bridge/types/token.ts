@@ -17,6 +17,10 @@ export interface OptimismToken extends BaseToken {
   };
 }
 
+export interface HyperlaneToken extends BaseToken {
+  isHyperlane: true;
+}
+
 export interface SuperbridgeTokenListToken extends BaseToken {
   extensions: {
     opTokenId: string;
@@ -36,7 +40,12 @@ export interface CctpToken extends BaseToken {
   isCctp: true;
 }
 
-export type Token = OptimismToken | ArbitrumToken | CctpToken;
+export type Token =
+  | BaseToken
+  | OptimismToken
+  | ArbitrumToken
+  | CctpToken
+  | HyperlaneToken;
 
 export interface MultiChainToken {
   [chainId: number]: Token | undefined;

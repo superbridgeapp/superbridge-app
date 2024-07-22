@@ -50,7 +50,6 @@ export const useTransactions = () => {
       refetchInterval: 10_000,
     });
 
-  console.log(data);
   return {
     transactions: useMemo(
       () => data?.pages.flatMap((p) => p.transactions) ?? [],
