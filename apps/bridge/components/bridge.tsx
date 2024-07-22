@@ -1,5 +1,5 @@
 import { DeploymentType } from "@/codegen/model";
-import { isSuperbridge } from "@/config/superbridge";
+import { isSuperbridge } from "@/config/app";
 import { useDeployment } from "@/hooks/use-deployment";
 import { useFaultProofUpgradeTime } from "@/hooks/use-fault-proof-upgrade-time";
 import { useHasWithdrawalReadyToFinalize } from "@/hooks/use-has-withdrawal-ready-to-finalize";

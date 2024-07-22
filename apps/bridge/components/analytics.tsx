@@ -1,7 +1,7 @@
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { Analytics as VercelAnalytics } from "@vercel/analytics/react";
 
-import { isSuperbridge } from "@/config/superbridge";
+import { isSuperbridge } from "@/config/app";
 
 export function Analytics() {
   return (

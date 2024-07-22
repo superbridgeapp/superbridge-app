@@ -10,7 +10,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { isSuperbridge } from "@/config/superbridge";
+import { isSuperbridge } from "@/config/app";
 import { useDeployment } from "@/hooks/use-deployment";
 import { useDarkModeEnabled } from "@/hooks/use-theme";
 import { useConfigState } from "@/state/config";

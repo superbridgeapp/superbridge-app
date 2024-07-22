@@ -17,7 +17,7 @@ import { PageTransition } from "@/components/PageTransition";
 import { Providers } from "@/components/Providers";
 import { Bridge } from "@/components/bridge";
 import { StatefulHead } from "@/components/head";
-import { isRenzo, isSuperbridge } from "@/config/superbridge";
+import { isRenzo, isSuperbridge } from "@/config/app";
 import {
   SUPERCHAIN_MAINNETS,
   SUPERCHAIN_TESTNETS,

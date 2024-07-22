@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { ClosedActivity } from "@/components/activity/closed-activity";
 import { OpenActivity } from "@/components/activity/open-activity";
 import { Footer } from "@/components/footer";
-import { isSuperbridge } from "@/config/superbridge";
+import { isSuperbridge } from "@/config/app";
 import { useInitialise } from "@/hooks/use-initialise";
 import {
   useBackgroundIcon,
@@ -43,9 +43,6 @@ export function Layout({ children }: { children: any }) {
     <div className="bg-background w-screen h-screen overflow-hidden z-40 relative transition-colors duration-1000  flex justify-center">
       {isSuperbridge && (
         <motion.div
-          animate={{
-            opacity: pathname === "/" || pathname === "/fast" ? 1 : 0,
-          }}
           initial={{ opacity: 0 }}
           className="bg-gradient-to-t from-violet-500 to-violet-500/0 dark:from-violet-500/0 dark:to-violet-500/50 inset-0 z-0 fixed mix-blend-plus-lighter"
         />

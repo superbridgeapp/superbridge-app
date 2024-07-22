@@ -4,7 +4,7 @@ import { arbitrum, base, mainnet, mode, optimism } from "viem/chains";
 
 import { DeploymentDto, DeploymentFamily } from "@/codegen/model";
 import { IconGas } from "@/components/icons";
-import { isSuperbridge } from "@/config/superbridge";
+import { isSuperbridge } from "@/config/app";
 import { useIsCctpRoute } from "@/hooks/cctp/use-is-cctp-route";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
 import { useDeployment } from "@/hooks/use-deployment";

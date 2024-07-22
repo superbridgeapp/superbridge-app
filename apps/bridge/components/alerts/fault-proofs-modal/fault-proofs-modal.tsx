@@ -2,7 +2,7 @@ import Link from "next/link";
 import { useTranslation } from "react-i18next";
 
 import { IconAlert } from "@/components/icons";
-import { isSuperbridge } from "@/config/superbridge";
+import { isSuperbridge } from "@/config/app";
 import { optimismFaultProofsUpgrade } from "@/constants/links";
 import { useDeployment } from "@/hooks/use-deployment";
 

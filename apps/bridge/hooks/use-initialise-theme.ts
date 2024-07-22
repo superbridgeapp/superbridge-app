@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 
 import { ThemeDto } from "@/codegen/model";
+import { isRenzo, isSuperbridge } from "@/config/app";
 import {
   defaultBodyFont,
   defaultButtonFont,
   defaultHeadingFont,
 } from "@/config/fonts";
-import { isRenzo, isSuperbridge } from "@/config/superbridge";
 import { renzoTheme, superbridgeTheme } from "@/config/themes";
 
 import { useDeployment } from "./use-deployment";

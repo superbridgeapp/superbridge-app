@@ -1,19 +1,19 @@
 import NextHead from "next/head";
 
 import { DeploymentDto } from "@/codegen/model";
+import { app } from "@/config/app";
 import {
   defaultBodyFont,
   defaultButtonFont,
   defaultHeadingFont,
 } from "@/config/fonts";
-import { isSuperbridge } from "@/config/superbridge";
 import { useDeployment } from "@/hooks/use-deployment";
 
 function useMetadata(deployment: DeploymentDto | null | undefined) {
-  if (isSuperbridge) {
+  if (app) {
     return {
-      title: `Superbridge`,
-      description: `Bridge ETH and ERC20 tokens into and out of the Superchain`,
+      title: app.head.name,
+      description: app.head.description,
     };
   }
 
@@ -35,39 +35,25 @@ export function StatelessHead({
 }) {
   const metadata = useMetadata(deployment);
 
-  const defaultOg = isSuperbridge
-    ? "https://superbridge.app/og/superbridge-og-image.png"
-    : "https://raw.githubusercontent.com/superbridgeapp/assets/main/rollies/og-rollies.png";
-  const og = deployment?.theme?.theme.imageOg ?? defaultOg;
+  const og =
+    app?.head.og ??
+    deployment?.theme?.theme.imageOg ??
+    "https://raw.githubusercontent.com/superbridgeapp/assets/main/rollies/og-rollies.png";
 
-  const icon = isSuperbridge
-    ? "/img/superbridge/favicon-32x32.png"
-    : deployment?.theme?.theme.imageNetwork;
+  const icon = app?.head.favicon ?? deployment?.theme?.theme.imageNetwork;
 
   const fonts = `
 @font-face {
   font-family: sb-heading;
-  src: url(${
-    isSuperbridge
-      ? defaultHeadingFont
-      : deployment?.theme?.theme.fontHeading || defaultHeadingFont
-  });
+  src: url(${deployment?.theme?.theme.fontHeading || defaultHeadingFont});
 }
 @font-face {
   font-family: sb-button;
-  src: url(${
-    isSuperbridge
-      ? defaultButtonFont
-      : deployment?.theme?.theme.fontButton || defaultButtonFont
-  });
+  src: url(${deployment?.theme?.theme.fontButton || defaultButtonFont});
 }
 @font-face {
   font-family: sb-body;
-  src: url(${
-    isSuperbridge
-      ? defaultBodyFont
-      : deployment?.theme?.theme.fontBody || defaultBodyFont
-  });
+  src: url(${deployment?.theme?.theme.fontBody || defaultBodyFont});
 }`;
 
   return (
