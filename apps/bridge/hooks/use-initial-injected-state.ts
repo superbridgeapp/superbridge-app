@@ -12,8 +12,12 @@ export const useInitialInjectedState = (
   const router = useRouter();
 
   // default Superbridge
-  let fromChainId = 1;
-  let toChainId = 10;
+  let fromChainId = parseInt(
+    (router.query.fromChainId as string | undefined) ?? "1"
+  );
+  let toChainId = parseInt(
+    (router.query.toChainId as string | undefined) ?? "10"
+  );
 
   // legacy setup was to have superbridge.app/network/
   // token initialisation is handled in useInitialiseToken
@@ -39,8 +43,7 @@ export const useInitialInjectedState = (
     fromChainId = props.deployments[0].l1.id;
     toChainId = props.deployments[0].l2.id;
   } else if (isSuperbridge) {
-    fromChainId = 1;
-    toChainId = 10;
+    // leave empty to use defaults
   } else if (props.cctpDomains && props.cctpDomains.length >= 2) {
     fromChainId = props.cctpDomains[0].chainId;
     toChainId = props.cctpDomains[1].chainId;

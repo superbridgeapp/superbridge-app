@@ -1,4 +1,3 @@
-import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useAccountEffect } from "wagmi";
 
@@ -10,13 +9,10 @@ import { useActivityEffects } from "./use-activity-effects";
 import { useDeployment } from "./use-deployment";
 import { useInitialiseQueryParams } from "./use-initialise-query-params";
 import { useInitialiseRecipient } from "./use-initialise-recipient";
-import { useInitialiseToken } from "./use-initialise-token";
 import { useIsContractAccount } from "./use-is-contract-account";
 import { useTokenLists } from "./use-token-lists";
 
 export const useInitialise = () => {
-  const router = useRouter();
-
   const isContractAccount = useIsContractAccount();
 
   const deployment = useDeployment();
@@ -26,7 +22,6 @@ export const useInitialise = () => {
 
   useInitialiseRecipient();
   useTokenLists();
-  useInitialiseToken();
   useActivityEffects();
   useInitialiseQueryParams();
 

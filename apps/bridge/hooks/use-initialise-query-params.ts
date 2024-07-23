@@ -3,13 +3,13 @@ import { useEffect } from "react";
 import { isAddress, isAddressEqual } from "viem";
 
 import { useConfigState } from "@/state/config";
-import { useInjectedStore } from "@/state/injected";
+import { MultiChainToken } from "@/types/token";
 import { isNativeToken } from "@/utils/is-eth";
 
 import { useGasToken } from "./use-approve-gas-token";
 import { useFromChain, useToChain } from "./use-chain";
 import { useDeployment } from "./use-deployment";
-import { useAllTokens } from "./use-tokens";
+import { useActiveTokens } from "./use-tokens";
 
 /**
  * // legacy & new
@@ -22,8 +22,8 @@ import { useAllTokens } from "./use-tokens";
  * ?direction - handled handled in use-initiate-injected-store
  *
  * // new
- * ?fromChainId - handled here
- * ?toChainId - handled here
+ * ?fromChainId - handled handled in use-initiate-injected-store
+ * ?toChainId - handled handled in use-initiate-injected-store
  * ?tokenAddress - handled here
  */
 export const useInitialiseQueryParams = () => {
@@ -31,12 +31,10 @@ export const useInitialiseQueryParams = () => {
 
   const setToken = useConfigState.useSetToken();
   const setRawAmount = useConfigState.useSetRawAmount();
-  const setFromChainId = useInjectedStore((s) => s.setFromChainId);
-  const setToChainId = useInjectedStore((s) => s.setToChainId);
   const deployment = useDeployment();
   const from = useFromChain();
   const to = useToChain();
-  const tokens = useAllTokens();
+  const tokens = useActiveTokens();
   const arbitrumGasToken = useGasToken();
 
   useEffect(() => {
@@ -53,10 +51,12 @@ export const useInitialiseQueryParams = () => {
       router.asPath.split(/[?\/]/).filter(Boolean);
 
     const isLegacyRouteParams =
-      !!deploymentTokenUndefined || !!deploymentTokenUndefined;
+      (!!deploymentTokenUndefined || !!deploymentTokenUndefined) &&
+      !deploymentTokenUndefined.includes("&");
 
+    let token: MultiChainToken | undefined;
     if (isLegacyRouteParams) {
-      const token = tokens.find((x) => {
+      token = tokens.find((x) => {
         const fromToken = x[from.id];
         const toToken = x[to.id];
         if (!fromToken || !toToken) {
@@ -94,19 +94,9 @@ export const useInitialiseQueryParams = () => {
         setToken(tokens.find((x) => isNativeToken(x)) ?? null);
       }
     } else {
-      const fromChainId = router.query.fromChainId as string | undefined;
-      if (fromChainId) {
-        setFromChainId(parseInt(fromChainId));
-      }
-
-      const toChainId = router.query.toChainId as string | undefined;
-      if (toChainId) {
-        setToChainId(parseInt(toChainId));
-      }
-
       const tokenAddress = router.query.tokenAddress as string | undefined;
       if (tokenAddress) {
-        const token = tokens.find((x) => {
+        token = tokens.find((x) => {
           const fromToken = x[from.id];
           const toToken = x[to.id];
           if (!fromToken || !toToken) {
@@ -117,9 +107,14 @@ export const useInitialiseQueryParams = () => {
             return isAddressEqual(tokenAddress, fromToken.address);
           }
         });
-        if (token) {
-          setToken(token);
-        }
+      }
+
+      if (token) {
+        setToken(token);
+      } else if (arbitrumGasToken) {
+        setToken(arbitrumGasToken);
+      } else {
+        setToken(tokens.find((x) => isNativeToken(x)) ?? tokens[0]);
       }
     }
   }, [router.asPath, deployment, tokens, arbitrumGasToken]);
