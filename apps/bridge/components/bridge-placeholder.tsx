@@ -3,7 +3,7 @@ import Image from "next/image";
 import { useTranslation } from "react-i18next";
 
 import { DeploymentDto, DeploymentType } from "@/codegen/model";
-import { deploymentTheme } from "@/config/theme";
+import { deploymentTheme } from "@/config/card-themes";
 
 import { BadgeNew } from "./badges/new-badge";
 

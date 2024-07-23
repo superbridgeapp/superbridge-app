@@ -145,7 +145,7 @@ export const isArbitrumToken = (t: Token): t is ArbitrumToken => {
 };
 
 export const isCctpToken = (t: Token): t is CctpToken => {
-  return (t as CctpToken).isCctp;
+  return !!(t as CctpToken).cctp;
 };
 
 export const isHyperlaneToken = (t: Token): t is HyperlaneToken => {
