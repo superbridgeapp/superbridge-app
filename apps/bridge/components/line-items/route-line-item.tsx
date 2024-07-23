@@ -1,3 +1,5 @@
+import clsx from "clsx";
+
 import { ModalNames } from "@/constants/modal-names";
 import { useBridgeRoutes } from "@/hooks/use-bridge-routes";
 import { useSelectedBridgeRoute } from "@/hooks/use-selected-bridge-route";
@@ -11,13 +13,16 @@ export const RouteLineItem = () => {
   const openModal = useConfigState.useAddModal();
   const route = useSelectedBridgeRoute();
 
+  const hasMultipleRoutes = routes.data?.length && routes.data.length > 1;
+
   return (
     <div
-      className="flex items-center justify-between px-3 py-2 -mr-0.5"
+      className={clsx(
+        "flex items-center justify-between px-3 py-2 -mr-0.5",
+        hasMultipleRoutes && "cursor-pointer"
+      )}
       onClick={
-        routes.data?.length && routes.data.length > 1
-          ? () => openModal(ModalNames.RouteSelector)
-          : () => {}
+        hasMultipleRoutes ? () => openModal(ModalNames.RouteSelector) : () => {}
       }
     >
       <span>Bridge via</span>
