@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { formatUnits } from "viem";
 
@@ -9,9 +10,9 @@ import { useSelectedToken } from "@/hooks/use-selected-token";
 import { useConfigState } from "@/state/config";
 import { formatDecimals } from "@/utils/format-decimals";
 
-import { TokenIcon } from "./token-icon";
+import { TokenIcon } from "../token-icon";
 
-export const TokenInput = () => {
+export const ERC20TokenInput = () => {
   const token = useSelectedToken();
   const { t } = useTranslation();
 

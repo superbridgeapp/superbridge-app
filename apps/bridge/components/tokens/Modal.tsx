@@ -2,15 +2,16 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { useDeployment } from "@/hooks/use-deployment";
+import { useConfigState } from "@/state/config";
 
 import { Dialog, DialogContent } from "../ui/dialog";
 import { NonFungibleTokenPicker } from "./NFTs";
 import { FungibleTokenPicker } from "./Tokens";
 
-export const TokenModal = (props: {
-  open: boolean;
-  setOpen: (b: boolean) => void;
-}) => {
+export const TokenModal = () => {
+  const open = useConfigState.useTokensModal();
+  const setOpen = useConfigState.useSetTokensModal();
+
   const [nfts, setNfts] = useState(false);
   const deployment = useDeployment();
   const { t } = useTranslation();
@@ -20,7 +21,7 @@ export const TokenModal = (props: {
   }, [deployment]);
 
   return (
-    <Dialog open={props.open} onOpenChange={props.setOpen}>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent>
         {deployment?.supportsNftBridging && (
           <div className="flex justify-between items-center px-4 pt-14 pb-0">
@@ -76,9 +77,9 @@ export const TokenModal = (props: {
         )}
 
         {nfts ? (
-          <NonFungibleTokenPicker {...props} />
+          <NonFungibleTokenPicker setOpen={setOpen} />
         ) : (
-          <FungibleTokenPicker {...props} />
+          <FungibleTokenPicker setOpen={setOpen} />
         )}
       </DialogContent>
     </Dialog>

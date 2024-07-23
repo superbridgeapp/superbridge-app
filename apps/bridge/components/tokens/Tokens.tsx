@@ -266,7 +266,6 @@ const highlightedTokenStyles: { [symbol: string]: string | undefined } = {
 export const FungibleTokenPicker = ({
   setOpen,
 }: {
-  open: boolean;
   setOpen: (b: boolean) => void;
 }) => {
   const [search, setSearch] = useState("");

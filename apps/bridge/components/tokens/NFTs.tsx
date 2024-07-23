@@ -15,7 +15,6 @@ import { NftImage } from "../nft";
 export const NonFungibleTokenPicker = ({
   setOpen,
 }: {
-  open: boolean;
   setOpen: (b: boolean) => void;
 }) => {
   const [search, setSearch] = useState("");

@@ -212,7 +212,7 @@ export function useActiveTokens() {
     [tokens]
   );
 
-  return useMemo(() => {
+  const a = useMemo(() => {
     return tokens.filter((t) => {
       const from = t[fromChainId];
       const to = t[toChainId];
@@ -270,4 +270,5 @@ export function useActiveTokens() {
       return false;
     });
   }, [tokens, hasNativeUsdc]);
+  return a;
 }

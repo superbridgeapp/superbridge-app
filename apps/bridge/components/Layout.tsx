@@ -1,6 +1,5 @@
 import clsx from "clsx";
 import { AnimatePresence, motion } from "framer-motion";
-import { usePathname } from "next/navigation";
 
 import { ClosedActivity } from "@/components/activity/closed-activity";
 import { OpenActivity } from "@/components/activity/open-activity";
@@ -30,7 +29,6 @@ export function Layout({ children }: { children: any }) {
   const displayTransactions = useConfigState.useDisplayTransactions();
   const setSettingsModal = useConfigState.useSetSettingsModal();
   const settingsModal = useConfigState.useSettingsModal();
-  const pathname = usePathname();
 
   const imageBackground = useBackgroundIcon();
   const backgroundImageBlendMode = useBackgroundImageBlendMode();

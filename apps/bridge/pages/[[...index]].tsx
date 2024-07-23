@@ -142,6 +142,7 @@ export default function IndexRoot(
   props: InferGetServerSidePropsType<typeof getServerSideProps>
 ) {
   const initialValues = useInitialInjectedState(props);
+
   return (
     <InjectedStoreProvider initialValues={initialValues}>
       <ThemeProvider>
