@@ -2,10 +2,12 @@ import { useTranslation } from "react-i18next";
 import { formatUnits } from "viem";
 
 import { useTokenBalance } from "@/hooks/use-balances";
+import { useFromChain } from "@/hooks/use-chain";
 import { useIsCustomToken } from "@/hooks/use-is-custom-token";
 import { useIsCustomTokenFromList } from "@/hooks/use-is-custom-token-from-list";
 import { useTokenPrice } from "@/hooks/use-prices";
 import { useSelectedToken } from "@/hooks/use-selected-token";
+import { trackEvent } from "@/services/ga";
 import { useConfigState } from "@/state/config";
 import { formatDecimals } from "@/utils/format-decimals";
 import { isCctp } from "@/utils/is-cctp";
@@ -15,6 +17,7 @@ import { TokenIcon } from "./token-icon";
 
 export const TokenInput = () => {
   const token = useSelectedToken();
+  const from = useFromChain();
   const { t } = useTranslation();
 
   const rawAmount = useConfigState.useRawAmount();
@@ -61,7 +64,13 @@ export const TokenInput = () => {
         />
 
         <button
-          onClick={() => setTokensModal(true)}
+          onClick={() => {
+            setTokensModal(true);
+            trackEvent({
+              event: "tokens-modal-click",
+              network: from?.name ?? "",
+            });
+          }}
           className={`flex shrink-0 relative gap-1 rounded-full pl-3 pr-3 items-center font-button transition-all hover:scale-105 text-foreground bg-card`}
         >
           <TokenIcon token={token} className="h-[20px] w-[20px] shrink-0" />

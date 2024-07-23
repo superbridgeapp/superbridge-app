@@ -24,6 +24,10 @@ type TokenBannerClick = {
   event: "token-banner-click";
   symbol: string;
 };
+type TokensModalClick = {
+  event: "tokens-modal-click";
+  network: string;
+};
 type Bridge = {
   event: "bridge";
   from: string;
@@ -105,6 +109,7 @@ export const trackEvent = (
     | ProveWithdrawal
     | FinalizeWithdrawal
     | CctpMint
+    | TokensModalClick
 ) => {
   if (isSuperbridge) {
     sendGAEvent("event", args.event, args);
