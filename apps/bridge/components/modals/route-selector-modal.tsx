@@ -1,41 +1,77 @@
+import { formatUnits } from "viem";
+
+import { RouteProvider, RouteQuoteDto } from "@/codegen/model";
+import { currencySymbolMap } from "@/constants/currency-symbol-map";
 import { ModalNames } from "@/constants/modal-names";
 import { useBridgeRoutes } from "@/hooks/use-bridge-routes";
-import { useFromChain, useToChain } from "@/hooks/use-chain";
+import { useTokenPrice } from "@/hooks/use-prices";
+import { useDestinationToken } from "@/hooks/use-selected-token";
 import { useConfigState } from "@/state/config";
+import { useSettingsState } from "@/state/settings";
 import { isRouteQuoteError } from "@/utils/guards";
 
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
 
-export const RouteSelectorModal = () => {
-  const to = useToChain();
-  const from = useFromChain();
+const useFormattedAmount = (
+  raw: string | undefined,
+  chainId: number | undefined
+) => {
+  const stateToken = useConfigState.useToken();
+  const currency = useSettingsState.useCurrency();
+  const usdPrice = useTokenPrice(stateToken);
 
+  const amount = parseFloat(
+    formatUnits(BigInt(raw ?? "0"), stateToken?.[chainId ?? 0]?.decimals ?? 18)
+  );
+
+  const fiat = usdPrice ? amount * usdPrice : null;
+  const fiatFormatted = fiat
+    ? `${currencySymbolMap[currency]}${fiat.toLocaleString("en")}`
+    : null;
+
+  const tokenFormatted = `${amount.toLocaleString("en", {
+    maximumFractionDigits: 4,
+  })} ${stateToken?.[chainId ?? 0]?.symbol}`;
+
+  return {
+    fiat: fiat ? { formatted: fiatFormatted, amount: fiat } : null,
+    token: { formatted: tokenFormatted, amount },
+  };
+};
+
+const Route = ({
+  provider,
+  quote,
+  onSelect,
+}: {
+  provider: RouteProvider;
+  quote: RouteQuoteDto;
+  onSelect: () => void;
+}) => {
+  const token = useDestinationToken();
+
+  const amount = useFormattedAmount(quote.receive, token?.chainId);
+  return (
+    <div
+      onClick={onSelect}
+      className="flex flex-col p-4 hover:bg-zinc-50 transition"
+    >
+      <div>Route: {provider}</div>
+      <div>
+        Receive: {amount.token.formatted}{" "}
+        {amount.fiat && <span>({amount.fiat.formatted})</span>}
+      </div>
+    </div>
+  );
+};
+
+export const RouteSelectorModal = () => {
   const routes = useBridgeRoutes();
   const open = useConfigState.useModals().RouteSelector === true;
   const removeModal = useConfigState.useRemoveModal();
   const setRouteId = useConfigState.useSetRouteId();
 
   const onSelect = (id: string) => {
-    // if (networkSelectorModal === "from") {
-    //   setFromChainId(d.chain.id);
-    //   if (d.chain.id === to?.id) {
-    //     trackEvent({ event: "to-chain-select", name: from!.name });
-    //     setToChainId(from!.id);
-    //   }
-
-    //   trackEvent({ event: "from-chain-select", name: d.chain.name });
-    // }
-
-    // if (networkSelectorModal === "to") {
-    //   setToChainId(d.chain.id);
-    //   if (d.chain.id === from?.id) {
-    //     trackEvent({ event: "from-chain-select", name: to!.name });
-    //     setFromChainId(to!.id);
-    //   }
-
-    //   trackEvent({ event: "to-chain-select", name: d.chain.name });
-    // }
-
     setRouteId(id);
     removeModal(ModalNames.RouteSelector);
   };
@@ -55,14 +91,12 @@ export const RouteSelectorModal = () => {
               return null;
             }
             return (
-              <div
+              <Route
                 key={route.id}
-                onClick={() => onSelect(route.id)}
-                className="flex flex-col p-4 hover:bg-zinc-50 transition"
-              >
-                <div>Route: {route.id}</div>
-                <div>Receive: {route.result.receive}</div>
-              </div>
+                provider={route.id}
+                quote={route.result}
+                onSelect={() => onSelect(route.id)}
+              />
             );
           })}
         </div>

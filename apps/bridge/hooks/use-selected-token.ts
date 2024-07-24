@@ -1,6 +1,6 @@
 import { useConfigState } from "@/state/config";
 
-import { useFromChain } from "./use-chain";
+import { useFromChain, useToChain } from "./use-chain";
 
 export const useSelectedToken = () => {
   const token = useConfigState.useToken();
@@ -11,4 +11,11 @@ export const useSelectedToken = () => {
   }
 
   return token[from?.id ?? 0] ?? null;
+};
+
+export const useDestinationToken = () => {
+  const token = useConfigState.useToken();
+  const to = useToChain();
+
+  return token?.[to?.id ?? 0] ?? null;
 };
