@@ -2,6 +2,7 @@ import clsx from "clsx";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { useCancelBridge } from "@/hooks/bridge/use-cancel-bridge";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
 import { useDeployment } from "@/hooks/use-deployment";
@@ -9,7 +10,6 @@ import { useSelectedToken } from "@/hooks/use-selected-token";
 import { useConfigState } from "@/state/config";
 import { useModalsState } from "@/state/modals";
 
-import { Dialog, DialogContent } from "../ui/dialog";
 import { ConfirmationModalReviewTab } from "./tab-1-review";
 import { ConfirmationModalTermsTab } from "./tab-2-terms";
 import { ConfirmationModalStartTab } from "./tab-3-start";

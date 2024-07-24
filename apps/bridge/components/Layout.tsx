@@ -16,9 +16,9 @@ import {
 } from "@/hooks/use-theme";
 import { useConfigState } from "@/state/config";
 
-import { BlockProvingModal } from "./fault-proofs/block-proving-modal";
 import { Header } from "./header";
 import { LegalModal } from "./legal-modal";
+import { BlockProvingModal } from "./modals/fault-proofs/block-proving-modal";
 import { CustomTokenListModal } from "./settings/custom-token-list-modal";
 import { SettingsModal } from "./settings/settings-modal";
 import { TosModal } from "./tos-modal/tos-modal";

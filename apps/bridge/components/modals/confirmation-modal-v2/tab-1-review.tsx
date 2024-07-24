@@ -1,6 +1,16 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { IconGas, IconSB, IconTime } from "@/components/icons";
+import { NetworkIcon } from "@/components/network-icon";
+import { RouteProviderIcon } from "@/components/route-provider-icon";
+import { Button } from "@/components/ui/button";
+import {
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
 import { usePeriodText } from "@/hooks/use-period-text";
 import { useReceiveAmount } from "@/hooks/use-receive-amount";
@@ -8,17 +18,6 @@ import { useSelectedBridgeRoute } from "@/hooks/use-selected-bridge-route";
 import { useApproxTotalBridgeTime } from "@/hooks/use-transfer-time";
 import { useConfigState } from "@/state/config";
 import { formatDecimals } from "@/utils/format-decimals";
-
-import { IconGas, IconSB, IconTime } from "../icons";
-import { NetworkIcon } from "../network-icon";
-import { RouteProviderIcon } from "../route-provider-icon";
-import { Button } from "../ui/button";
-import {
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "../ui/dialog";
 
 export const ConfirmationModalReviewTab = ({
   onNext,

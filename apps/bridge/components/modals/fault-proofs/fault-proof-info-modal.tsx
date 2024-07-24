@@ -3,8 +3,8 @@ import { optimismFaultProofsUpgrade } from "@/constants/links";
 import { useDeployment } from "@/hooks/use-deployment";
 import { useConfigState } from "@/state/config";
 
-import { Button } from "../ui/button";
-import { Dialog, DialogContent } from "../ui/dialog";
+import { Button } from "../../ui/button";
+import { Dialog, DialogContent } from "../../ui/dialog";
 
 export const FaultProofInfoModal = () => {
   const deployment = useDeployment();

@@ -12,6 +12,16 @@ import {
   RouteProvider,
   RouteStepType,
 } from "@/codegen/model";
+import { IconSimpleGas, IconSuperFast, IconTime } from "@/components/icons";
+import { NetworkIcon } from "@/components/network-icon";
+import { PoweredByAcross } from "@/components/powered-by-across";
+import { Button } from "@/components/ui/button";
+import {
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { isSuperbridge } from "@/config/app";
 import { currencySymbolMap } from "@/constants/currency-symbol-map";
 import { useBridge } from "@/hooks/bridge/use-bridge";
@@ -47,16 +57,6 @@ import {
 import { isNativeToken } from "@/utils/is-eth";
 import { isArbitrum } from "@/utils/is-mainnet";
 
-import { IconSimpleGas, IconSuperFast, IconTime } from "../icons";
-import { NetworkIcon } from "../network-icon";
-import { PoweredByAcross } from "../powered-by-across";
-import { Button } from "../ui/button";
-import {
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "../ui/dialog";
 import { WaitIcon } from "./icons";
 
 function LineItem({

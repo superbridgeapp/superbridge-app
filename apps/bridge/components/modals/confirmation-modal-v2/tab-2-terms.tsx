@@ -4,21 +4,20 @@ import { useTranslation } from "react-i18next";
 import { match } from "ts-pattern";
 
 import { RouteProvider } from "@/codegen/model";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import {
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { useToChain } from "@/hooks/use-chain";
 import { useFinalizationPeriod } from "@/hooks/use-finalization-period";
 import { useSelectedBridgeRoute } from "@/hooks/use-selected-bridge-route";
 import { useApproxTotalBridgeTime } from "@/hooks/use-transfer-time";
 import { useTransformPeriodText } from "@/hooks/use-transform-period-text";
 import { useConfigState } from "@/state/config";
-
-import { Button } from "../ui/button";
-import { Checkbox } from "../ui/checkbox";
-import {
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "../ui/dialog";
 
 export const ConfirmationModalTermsTab = ({
   onNext,

@@ -1,1 +1,1 @@
-export * from "./withdrawal-ready-to-finalize-modal";
+export * from "../modals/withdrawal-ready-to-finalize-modal";

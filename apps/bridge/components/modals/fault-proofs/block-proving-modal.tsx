@@ -2,8 +2,8 @@ import { IconAlert } from "@/components/icons";
 import { optimismFaultProofsUpgrade } from "@/constants/links";
 import { useConfigState } from "@/state/config";
 
-import { Button } from "../ui/button";
-import { Dialog, DialogContent } from "../ui/dialog";
+import { Button } from "../../ui/button";
+import { Dialog, DialogContent } from "../../ui/dialog";
 
 export const BlockProvingModal = () => {
   const deployment = useConfigState.useBlockProvingModal();

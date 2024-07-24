@@ -1,19 +1,18 @@
 import Link from "next/link";
 
+import { Button } from "@/components/ui/button";
+import {
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { useCancelBridge } from "@/hooks/bridge/use-cancel-bridge";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
 import { useSelectedToken } from "@/hooks/use-selected-token";
 import { useConfigState } from "@/state/config";
 import { useModalsState } from "@/state/modals";
 import { useExplorerLink } from "@/utils/transaction-link";
-
-import { Button } from "../ui/button";
-import {
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "../ui/dialog";
 
 export const TrackBridgeProgress = () => {
   const rawAmount = useConfigState.useRawAmount();
