@@ -39,7 +39,7 @@ import { useSettingsState } from "@/state/settings";
 import { Token } from "@/types/token";
 import { formatDecimals } from "@/utils/format-decimals";
 import { isCctp } from "@/utils/is-cctp";
-import { isNativeToken } from "@/utils/is-eth";
+import { isEth, isNativeToken } from "@/utils/is-eth";
 import { isArbitrum } from "@/utils/is-mainnet";
 import { scaleToNativeTokenDecimals } from "@/utils/native-token-scaling";
 
@@ -262,10 +262,7 @@ export const ConfirmationModal = ({
     .with({ withdrawing: true }, () => null)
     .with({ gasToken: null }, () => null)
     .with({ family: undefined }, () => null)
-    .with(
-      { family: DeploymentFamily.optimism, isNativeToken: false },
-      () => null
-    )
+    .with({ family: DeploymentFamily.optimism }, () => null)
     .with({ approving: true }, () => ({
       onSubmit: () => {},
       buttonText: t("confirmationModal.approvingGasToken"),
@@ -298,8 +295,15 @@ export const ConfirmationModal = ({
     approving: approve.isLoading,
     bridge,
     withdrawing,
-    isNativeToken: isNativeToken(stateToken),
+    isNativeToken: isEth(token),
+    isDepositingCustomGasToken:
+      deployment?.family === DeploymentFamily.arbitrum &&
+      !!deployment?.arbitrumNativeToken &&
+      !!token &&
+      deployment.arbitrumNativeToken.address.toLowerCase() ===
+        token.address.toLowerCase(),
   })
+    .with({ isDepositingCustomGasToken: true }, () => null)
     .with({ isNativeToken: true }, () => null)
     .with({ approving: true }, () => ({
       onSubmit: () => {},
@@ -553,7 +557,7 @@ export const ConfirmationModal = ({
   })
     .with({ fast: true }, (c) =>
       [
-        c.gasToken
+        c.gasToken && c.family === DeploymentFamily.arbitrum
           ? {
               text: t("confirmationModal.approveGasToken"),
               icon: ApproveIcon,
@@ -702,13 +706,6 @@ export const ConfirmationModal = ({
     ])
     .with({ withdrawing: false, family: "optimism" }, (c) =>
       [
-        c.gasToken && isNativeToken(stateToken)
-          ? {
-              text: t("confirmationModal.approveGasToken"),
-              icon: ApproveIcon,
-              fee: fee(approveGasTokenCost),
-            }
-          : null,
         {
           text: t("confirmationModal.initiateDeposit"),
           icon: InitiateIcon,
