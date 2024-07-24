@@ -1,32 +1,15 @@
 import { Address } from "viem";
 
-import { useConfigState } from "@/state/config";
-import { isArbitrumToken } from "@/utils/guards";
-import { isEth } from "@/utils/is-eth";
-import { isArbitrum, isOptimism } from "@/utils/is-mainnet";
+import { isRouteQuote } from "@/utils/guards";
 
-import { useFromChain, useToChain } from "./use-chain";
-import { useDeployment } from "./use-deployment";
+import { useSelectedBridgeRoute } from "./use-selected-bridge-route";
 
 export function useApprovalAddressGasToken(): Address | undefined {
-  const from = useFromChain();
-  const to = useToChain();
-  const deployment = useDeployment();
-  const stateToken = useConfigState.useToken();
+  const route = useSelectedBridgeRoute();
 
-  const fromToken = stateToken?.[from?.id ?? 0];
-  const toToken = stateToken?.[to?.id ?? 0];
-
-  if (!deployment) return;
-
-  if (isArbitrum(deployment)) {
-    if (fromToken && toToken && isArbitrumToken(fromToken) && !isEth(toToken)) {
-      return fromToken.arbitrumBridgeInfo?.[to?.id ?? 0];
-    }
-    return deployment.contractAddresses.inbox as Address;
+  if (!route.data || !isRouteQuote(route.data.result)) {
+    return;
   }
 
-  if (isOptimism(deployment)) {
-    return deployment.contractAddresses.optimismPortal as Address;
-  }
+  return route.data.result.gasTokenApprovalAddress as Address | undefined;
 }
