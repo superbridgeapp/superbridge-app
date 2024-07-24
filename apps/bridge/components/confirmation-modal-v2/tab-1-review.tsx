@@ -116,7 +116,7 @@ export const ConfirmationModalReviewTab = ({
             </div>
           </div>
         </div>
-        {/* Todo: Maybe should componentise the info lists / tables */}
+
         <div className="flex flex-col divide-y divide-border rounded-lg border py-0.5 text-xs">
           {/* Row 1 */}
           <div className="flex items-start gap-4 p-2 justify-between">
@@ -127,8 +127,6 @@ export const ConfirmationModalReviewTab = ({
               </div>
             </div>
             <div className="flex gap-1.5 items-center justify-between ">
-              <span>{route.data?.id}</span>
-
               <RouteProviderIcon
                 provider={route.data!.id}
                 className="h-4 w-4"
