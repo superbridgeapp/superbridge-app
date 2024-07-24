@@ -55,7 +55,7 @@ export const useInitiateBridge = (bridge: ReturnType<typeof useBridge>) => {
   const wagmiConfig = useConfig();
   const route = useSelectedBridgeRoute();
 
-  const allowance = useAllowance(token, bridge.address);
+  const allowance = useAllowance();
 
   return async () => {
     if (
