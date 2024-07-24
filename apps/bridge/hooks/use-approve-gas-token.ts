@@ -1,15 +1,17 @@
 import { waitForTransactionReceipt } from "@wagmi/core";
 import { useState } from "react";
-import { maxUint256 } from "viem";
 import { useConfig, useWriteContract } from "wagmi";
 
 import { getNativeTokenForDeployment } from "@/utils/get-native-token";
+import { isArbitrum, isOptimism } from "@/utils/is-mainnet";
 
 import { useApprovalAddressGasToken } from "./use-approval-address-gas-token";
 import { APPROVE_ABI_WITHOUT_RETURN } from "./use-approve";
 import { useFromChain } from "./use-chain";
 import { useDeployment } from "./use-deployment";
 import { useDeploymentById } from "./use-deployment-by-id";
+import { useRequiredCustomGasTokenBalance } from "./use-required-custom-gas-token-balance";
+import { useWeiAmount } from "./use-wei-amount";
 
 export const useGasTokenForDeployment = (deploymentId: string | undefined) => {
   const deployment = useDeploymentById(deploymentId ?? "");
@@ -24,6 +26,22 @@ export const useGasToken = () => {
   return useGasTokenForDeployment(deployment?.id);
 };
 
+const useGasTokenApprovalAmount = () => {
+  const deployment = useDeployment();
+  const weiAmount = useWeiAmount();
+  const requiredGasTokenBalance = useRequiredCustomGasTokenBalance();
+
+  if (deployment && isOptimism(deployment)) {
+    return weiAmount;
+  }
+
+  if (deployment && isArbitrum(deployment)) {
+    return requiredGasTokenBalance;
+  }
+
+  return null;
+};
+
 export function useApproveGasToken(
   refreshAllowance: () => void,
   refreshTx: () => void
@@ -35,6 +53,8 @@ export function useApproveGasToken(
   const from = useFromChain();
   const deployment = useDeployment();
 
+  const gasTokenApprovalAmount = useGasTokenApprovalAmount();
+
   const approvalAddress = useApprovalAddressGasToken();
   return {
     write: async () => {
@@ -45,7 +65,7 @@ export function useApproveGasToken(
         const hash = await writeContractAsync({
           abi: APPROVE_ABI_WITHOUT_RETURN,
           address: baseGasToken.address,
-          args: [approvalAddress, maxUint256],
+          args: [approvalAddress, gasTokenApprovalAmount],
           functionName: "approve",
           chainId: from?.id,
         });
