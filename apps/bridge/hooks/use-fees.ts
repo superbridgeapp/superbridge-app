@@ -51,7 +51,7 @@ export const useFees = () => {
     : [];
 
   const totalFiat = usdPrice
-    ? fees.reduce((acc, f) => f.fiat!.amount + acc, 0)
+    ? fees.reduce((acc, f) => (f.fiat?.amount ?? 0) + acc, 0)
     : null;
   const totalFiatFormatted =
     usdPrice && totalFiat !== null
