@@ -1,7 +1,7 @@
 import { createSelectorHooks } from "auto-zustand-selectors-hook";
 import { create } from "zustand";
 
-interface FastState {
+interface TxState {
   fromChainId: number;
   setFromChainId: (id: number) => void;
   toChainId: number;

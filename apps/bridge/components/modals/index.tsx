@@ -2,6 +2,9 @@ import { FaultProofInfoModal } from "../fault-proof-info-modal";
 import { TokenModal } from "../tokens";
 import { CustomTokenImportModal } from "../tokens/custom-token-import-modal";
 import { WithdrawalReadyToFinalizeModal } from "../withdrawal-ready-to-finalize-modal";
+import { ExpensiveGasModal } from "./alerts/expensive-gas-modal";
+import { FaultProofsModal } from "./alerts/fault-proofs-modal";
+import { NoGasModal } from "./alerts/no-gas-modal";
 import { FeeBreakdownModal } from "./fee-breakdown-modal";
 import { NetworkSelectorModal } from "./network-selector-modal";
 import { RecipientAddressModal } from "./recipient-address-modal";
@@ -22,6 +25,11 @@ export const Modals = () => {
       <WithdrawalReadyToFinalizeModal />
       <CustomTokenImportModal />
       <TokenModal />
+
+      {/* Alerts */}
+      <NoGasModal />
+      <ExpensiveGasModal />
+      <FaultProofsModal />
     </>
   );
 };

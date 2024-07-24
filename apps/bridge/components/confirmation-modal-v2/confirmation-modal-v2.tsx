@@ -2,10 +2,7 @@ import clsx from "clsx";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
-import { useBridge } from "@/hooks/bridge/use-bridge";
 import { useCancelBridge } from "@/hooks/bridge/use-cancel-bridge";
-import { useAllowance } from "@/hooks/use-allowance";
-import { useApprove } from "@/hooks/use-approve";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
 import { useDeployment } from "@/hooks/use-deployment";
 import { useSelectedToken } from "@/hooks/use-selected-token";
@@ -18,17 +15,7 @@ import { ConfirmationModalTermsTab } from "./tab-2-terms";
 import { ConfirmationModalStartTab } from "./tab-3-start";
 import { TrackBridgeProgress } from "./track-progress";
 
-export const ConfirmationModalV2 = ({
-  approve,
-  allowance,
-  bridge,
-  initiateBridge,
-}: {
-  approve: ReturnType<typeof useApprove>;
-  allowance: ReturnType<typeof useAllowance>;
-  bridge: ReturnType<typeof useBridge>;
-  initiateBridge: () => void;
-}) => {
+export const ConfirmationModalV2 = () => {
   const open = useConfigState.useDisplayConfirmationModal();
   const cancel = useCancelBridge();
   const from = useFromChain();
@@ -68,14 +55,7 @@ export const ConfirmationModalV2 = ({
     },
     {
       name: "start",
-      component: (
-        <ConfirmationModalStartTab
-          bridge={bridge}
-          allowance={allowance}
-          approve={approve}
-          initiateBridge={initiateBridge}
-        />
-      ),
+      component: <ConfirmationModalStartTab />,
     },
   ];
 

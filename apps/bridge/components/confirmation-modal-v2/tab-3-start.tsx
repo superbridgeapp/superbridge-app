@@ -112,17 +112,10 @@ function LineItem({
   );
 }
 
-export const ConfirmationModalStartTab = ({
-  approve,
-  allowance,
-  bridge,
-  initiateBridge,
-}: {
-  approve: ReturnType<typeof useApprove>;
-  allowance: ReturnType<typeof useAllowance>;
-  bridge: ReturnType<typeof useBridge>;
-  initiateBridge: () => void;
-}) => {
+export const ConfirmationModalStartTab = () => {
+  const bridge = useBridge();
+  const allowance = useAllowance();
+  const approve = useApprove();
   const { t } = useTranslation();
 
   const currency = useSettingsState.useCurrency();
@@ -135,13 +128,12 @@ export const ConfirmationModalStartTab = ({
   const to = useToChain();
   const weiAmount = useWeiAmount();
   const account = useAccount();
-  const { gas } = useBridge();
   const receive = useReceiveAmount();
   const token = useSelectedToken();
   const gasToken = useGasToken();
   const route = useSelectedBridgeRoute();
 
-  const onSubmitBridge = useSubmitBridge(initiateBridge);
+  const onSubmitBridge = useSubmitBridge();
 
   const gasTokenAllowance = useAllowanceGasToken();
   const deployment = useDeployment();

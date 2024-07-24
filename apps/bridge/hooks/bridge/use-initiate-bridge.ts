@@ -17,6 +17,7 @@ import { isRouteQuote } from "@/utils/guards";
 import { isNativeToken } from "@/utils/is-eth";
 
 import { useHyperlaneMailboxes } from "../hyperlane/use-hyperlane-mailboxes";
+import { useAllowanceGasToken } from "../use-allowance-gas-token";
 import { useDeployment } from "../use-deployment";
 import { useInitiatingChainId } from "../use-initiating-chain-id";
 import { useSelectedBridgeRoute } from "../use-selected-bridge-route";
@@ -24,7 +25,8 @@ import { useWeiAmount } from "../use-wei-amount";
 import { useIsWithdrawal } from "../use-withdrawing";
 import { useBridge } from "./use-bridge";
 
-export const useInitiateBridge = (bridge: ReturnType<typeof useBridge>) => {
+export const useInitiateBridge = () => {
+  const bridge = useBridge();
   const wallet = useWalletClient();
   const account = useAccount();
   const from = useFromChain();
@@ -56,6 +58,7 @@ export const useInitiateBridge = (bridge: ReturnType<typeof useBridge>) => {
   const route = useSelectedBridgeRoute();
 
   const allowance = useAllowance();
+  const gasTokenAllowance = useAllowanceGasToken();
 
   return async () => {
     if (
@@ -135,6 +138,7 @@ export const useInitiateBridge = (bridge: ReturnType<typeof useBridge>) => {
       console.log(e);
     } finally {
       allowance.refetch();
+      gasTokenAllowance.refetch();
     }
   };
 };

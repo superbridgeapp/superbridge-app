@@ -15,11 +15,13 @@ import { isEth } from "@/utils/is-eth";
 
 import { useDeployment } from "../use-deployment";
 import { useIsWithdrawal } from "../use-withdrawing";
+import { useInitiateBridge } from "./use-initiate-bridge";
 
-export const useSubmitBridge = (initiateBridge: () => void) => {
+export const useSubmitBridge = () => {
   const account = useAccount();
   const to = useToChain();
   const deployment = useDeployment();
+  const initiateBridge = useInitiateBridge();
 
   const withdrawing = useIsWithdrawal();
   const stateToken = useConfigState.useToken();

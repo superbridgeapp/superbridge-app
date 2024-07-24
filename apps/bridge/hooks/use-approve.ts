@@ -2,6 +2,8 @@ import { waitForTransactionReceipt } from "@wagmi/core";
 import { useState } from "react";
 import { useConfig, useWriteContract } from "wagmi";
 
+import { useBridge } from "./bridge/use-bridge";
+import { useAllowance } from "./use-allowance";
 import { useApprovalAddress } from "./use-approval-address";
 import { useSelectedToken } from "./use-selected-token";
 import { useWeiAmount } from "./use-wei-amount";
@@ -32,10 +34,9 @@ export const APPROVE_ABI_WITHOUT_RETURN = [
   },
 ];
 
-export function useApprove(
-  refreshAllowance: () => void,
-  refreshTx: () => void
-) {
+export function useApprove() {
+  const allowance = useAllowance();
+  const bridge = useBridge();
   const token = useSelectedToken();
   const weiAmount = useWeiAmount();
   const approvalAddress = useApprovalAddress();
@@ -64,11 +65,11 @@ export function useApprove(
       } catch (e) {
         console.log(e);
       } finally {
-        refreshAllowance();
-        refreshTx();
+        allowance.refetch();
+        bridge.refetch();
         setTimeout(() => {
-          refreshAllowance();
-          refreshTx();
+          allowance.refetch();
+          bridge.refetch();
         }, 200);
         setIsLoading(false);
       }

@@ -2,9 +2,16 @@ import { Trans, useTranslation } from "react-i18next";
 import { formatUnits } from "viem";
 import { useEstimateFeesPerGas } from "wagmi";
 
+import { IconAlert, IconFees } from "@/components/icons";
+import { TokenIcon } from "@/components/token-icon";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { currencySymbolMap } from "@/constants/currency-symbol-map";
 import { FINALIZE_GAS, PROVE_GAS } from "@/constants/gas-limits";
+import { AlertModals } from "@/constants/modal-names";
 import { useBridge } from "@/hooks/bridge/use-bridge";
+import { useCancelBridge } from "@/hooks/bridge/use-cancel-bridge";
+import { useDismissAlert } from "@/hooks/bridge/use-dismiss-alert";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
 import { useDeployment } from "@/hooks/use-deployment";
 import { useNativeToken, useToNativeToken } from "@/hooks/use-native-token";
@@ -12,14 +19,9 @@ import { useTokenPrice } from "@/hooks/use-prices";
 import { useSelectedToken } from "@/hooks/use-selected-token";
 import { useIsWithdrawal } from "@/hooks/use-withdrawing";
 import { useConfigState } from "@/state/config";
+import { useModalsState } from "@/state/modals";
 import { useSettingsState } from "@/state/settings";
 import { isOptimism } from "@/utils/is-mainnet";
-
-import { IconAlert, IconFees } from "../../icons";
-import { TokenIcon } from "../../token-icon";
-import { Button } from "../../ui/button";
-import { Dialog, DialogContent } from "../../ui/dialog";
-import { AlertProps } from "../types";
 
 export const useEstimateTotalFeesInFiat = () => {
   const from = useFromChain();
@@ -88,11 +90,11 @@ export const useEstimateTotalFeesInFiat = () => {
   }, 0);
 };
 
-export const ExpensiveGasModal = ({
-  onProceed,
-  open,
-  onCancel,
-}: AlertProps) => {
+export const ExpensiveGasModal = () => {
+  const onProceed = useDismissAlert(AlertModals.GasExpensive);
+  const onCancel = useCancelBridge();
+  const open = useModalsState.useAlerts().includes(AlertModals.GasExpensive);
+
   const { t } = useTranslation();
   const stateToken = useConfigState.useToken();
   const token = useSelectedToken();

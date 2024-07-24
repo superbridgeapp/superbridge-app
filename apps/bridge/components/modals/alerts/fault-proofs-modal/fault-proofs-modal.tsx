@@ -1,120 +1,69 @@
+import Link from "next/link";
 import { useTranslation } from "react-i18next";
-import { match } from "ts-pattern";
-import { arbitrum, base, mainnet, mode, optimism } from "viem/chains";
 
-import { DeploymentDto, DeploymentFamily } from "@/codegen/model";
-import { IconGas } from "@/components/icons";
+import { IconAlert } from "@/components/icons";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { isSuperbridge } from "@/config/app";
-import { useIsCctpRoute } from "@/hooks/cctp/use-is-cctp-route";
-import { useFromChain, useToChain } from "@/hooks/use-chain";
+import { optimismFaultProofsUpgrade } from "@/constants/links";
+import { AlertModals } from "@/constants/modal-names";
+import { useCancelBridge } from "@/hooks/bridge/use-cancel-bridge";
+import { useDismissAlert } from "@/hooks/bridge/use-dismiss-alert";
 import { useDeployment } from "@/hooks/use-deployment";
-import { useNativeToken, useToNativeToken } from "@/hooks/use-native-token";
-import { useNavigate } from "@/hooks/use-navigate";
-import { useSelectedToken } from "@/hooks/use-selected-token";
-import { useIsWithdrawal } from "@/hooks/use-withdrawing";
-import { useConfigState } from "@/state/config";
-import { isNativeToken } from "@/utils/is-eth";
+import { useModalsState } from "@/state/modals";
 
-import { Button } from "../../ui/button";
-import { Dialog, DialogContent } from "../../ui/dialog";
-import { AlertProps } from "../types";
+export const FaultProofsModal = () => {
+  const onProceed = useDismissAlert(AlertModals.FaultProofs);
+  const onCancel = useCancelBridge();
+  const open = useModalsState.useAlerts().includes(AlertModals.FaultProofs);
 
-const ACROSS_NETWORKS: number[] = [
-  mainnet.id,
-  optimism.id,
-  base.id,
-  arbitrum.id,
-  mode.id,
-];
-const supportsAcross = (deployment: DeploymentDto) => {
-  return (
-    !!ACROSS_NETWORKS.includes(deployment.l1.id) &&
-    !!ACROSS_NETWORKS.includes(deployment.l2.id)
-  );
-};
-
-export const NoGasModal = ({ onProceed, open, onCancel }: AlertProps) => {
   const { t } = useTranslation();
-  const stateToken = useConfigState.useToken();
-  const setStateToken = useConfigState.useSetToken();
-
-  const withdrawing = useIsWithdrawal();
-  const isCctp = useIsCctpRoute();
-  const from = useFromChain();
-  const to = useToChain();
-  const token = useSelectedToken();
   const deployment = useDeployment();
-  const toNativeToken = useToNativeToken();
-  const nativeToken = useNativeToken();
-  const navigate = useNavigate();
-
-  const common = {
-    from: from?.name,
-    to: to?.name,
-    gas: toNativeToken?.[to?.id ?? 0]?.symbol,
-    symbol: token?.symbol,
-    token: token?.name,
-  };
-
-  const description = match({
-    isCctp,
-    withdrawing,
-    family: deployment?.family,
-    isEth: isNativeToken(stateToken),
-  })
-    .with({ withdrawing: false }, () => t("noGasModal.depositing", common))
-    .with({ isCctp: true }, () => t("noGasModal.cctp", common))
-    .with({ withdrawing: true, family: DeploymentFamily.optimism }, () =>
-      t("noGasModal.opWithdrawing", common)
-    )
-    .with({ withdrawing: true, family: DeploymentFamily.arbitrum }, () =>
-      t("noGasModal.arbWithdrawing", common)
-    )
-    .otherwise(() => null);
-
-  const cancelButton = match({
-    withdrawing,
-    supportsAcross: isSuperbridge && !!deployment && supportsAcross(deployment),
-  })
-    .with({ withdrawing: false }, () => ({
-      text: t("noGasModal.topup", common),
-      onClick: () => {
-        setStateToken(nativeToken ?? null);
-        onCancel();
-      },
-    }))
-    .otherwise(() => ({
-      text: t("noGasModal.goBack", common),
-      onClick: onCancel,
-    }));
 
   return (
     <Dialog open={open} onOpenChange={onCancel}>
       <DialogContent>
         <div className="flex flex-col gap-8 p-6">
-          <div className="flex flex-col gap-2 items-center text-center pt-10">
-            <div className="animate-bounce">
-              {/* <GasDrop /> */}
-              <IconGas className="w-16 h-auto" />
+          <div className="flex flex-col gap-4 pt-6">
+            <div className="animate-bounce mx-auto">
+              <IconAlert className="w-16 h-16" />
             </div>
-            <h1 className="font-heading text-2xl  text-pretty">
-              {t("noGasModal.youNeedGasOn", common)}
+            <h1 className="font-heading text-xl  text-left">
+              {deployment?.l2.name} Fault Proof upgrade
             </h1>
-            <p className="text-xs md:text-sm prose-sm font-heading text-muted-foreground text-pretty text-center">
-              {description}
-            </p>
+            <div className="text-xs text-left md:text-sm prose-sm  leading-relaxed  text-muted-foreground text-pretty">
+              <p>
+                The {deployment?.l2.name} Fault Proof upgrade has been targeted
+                for June.
+              </p>
+              <p>
+                Any withdrawals initiated cannot be proved until the upgrade is
+                complete.
+              </p>
+              <p>
+                Find out more at{" "}
+                <a
+                  href={optimismFaultProofsUpgrade}
+                  target="_blank"
+                  className="text-foreground underline"
+                >
+                  optimism.io
+                </a>{" "}
+                or check the{" "}
+                <a
+                  href="https://superbridge.app/support/optimism"
+                  target="_blank"
+                  className="text-foreground underline"
+                >
+                  FAQs
+                </a>
+                .
+              </p>
+            </div>
           </div>
 
           <div className="flex flex-col gap-2">
-            <a
-              href={`https://superbridge.app/support/${deployment?.name}`}
-              target="_blank"
-              className="text-xs text-center font-heading text-foreground hover:underline mb-2"
-            >
-              {t("noGasModal.needHelp")}
-            </a>
-
-            <Button onClick={cancelButton.onClick}>{cancelButton.text}</Button>
+            <Button onClick={onCancel}>{t("noGasModal.goBack")}</Button>
 
             <Button variant={"secondary"} onClick={onProceed}>
               <span>{t("noGasModal.proceedAnyway")}</span>
@@ -152,6 +101,16 @@ export const NoGasModal = ({ onProceed, open, onCancel }: AlertProps) => {
                 </defs>
               </svg>
             </Button>
+
+            {isSuperbridge && (
+              <Link
+                className={`mt-2 leading-3 text-center text-xs   cursor-pointer transition-all opacity-70 hover:opacity-100`}
+                href="/alternative-bridges"
+                target="_blank"
+              >
+                {t("confirmationModal.viewAlternateBridges")}
+              </Link>
+            )}
           </div>
         </div>
       </DialogContent>
