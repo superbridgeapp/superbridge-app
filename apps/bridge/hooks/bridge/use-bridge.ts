@@ -62,7 +62,6 @@ export const useBridge = () => {
   return {
     write: !params.gas ? undefined : () => sendTransactionAsync(params),
     isLoading,
-    address: route?.tokenApprovalAddress,
     refetch,
     valid: !!tx && !!params.gas,
     gas,

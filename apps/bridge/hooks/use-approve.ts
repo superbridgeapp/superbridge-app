@@ -2,7 +2,9 @@ import { waitForTransactionReceipt } from "@wagmi/core";
 import { useState } from "react";
 import { useConfig, useWriteContract } from "wagmi";
 
-import { Token } from "@/types/token";
+import { useApprovalAddress } from "./use-approval-address";
+import { useSelectedToken } from "./use-selected-token";
+import { useWeiAmount } from "./use-wei-amount";
 
 // Trying to approve USDT with the vanilla Wagmi ERC20 ABI
 // causes problems because it doesn't return anything
@@ -31,12 +33,12 @@ export const APPROVE_ABI_WITHOUT_RETURN = [
 ];
 
 export function useApprove(
-  token: Token | null,
-  contract: string | undefined,
   refreshAllowance: () => void,
-  refreshTx: () => void,
-  amount: bigint
+  refreshTx: () => void
 ) {
+  const token = useSelectedToken();
+  const weiAmount = useWeiAmount();
+  const approvalAddress = useApprovalAddress();
   const { writeContractAsync } = useWriteContract();
   const config = useConfig();
   const [isLoading, setIsLoading] = useState(false);
@@ -49,7 +51,7 @@ export function useApprove(
         const hash = await writeContractAsync({
           abi: APPROVE_ABI_WITHOUT_RETURN,
           address: token?.address,
-          args: [contract, amount],
+          args: [approvalAddress, weiAmount],
           functionName: "approve",
           chainId: token?.chainId,
         });

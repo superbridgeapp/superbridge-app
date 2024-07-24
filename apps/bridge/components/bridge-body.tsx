@@ -5,8 +5,6 @@ import { useDismissAlert } from "@/hooks/bridge/use-dismiss-alert";
 import { useInitiateBridge } from "@/hooks/bridge/use-initiate-bridge";
 import { useAllowance } from "@/hooks/use-allowance";
 import { useApprove } from "@/hooks/use-approve";
-import { useSelectedToken } from "@/hooks/use-selected-token";
-import { useWeiAmount } from "@/hooks/use-wei-amount";
 import { useModalsState } from "@/state/modals";
 
 import { FromTo } from "./FromTo";
@@ -21,22 +19,13 @@ import { TokenInput } from "./token-input";
 
 export const BridgeBody = () => {
   const bridge = useBridge();
-  const weiAmount = useWeiAmount();
-  const token = useSelectedToken();
 
   const alerts = useModalsState.useAlerts();
 
   const initiateBridge = useInitiateBridge(bridge);
 
-  const allowance = useAllowance(token, bridge.address);
-
-  const approve = useApprove(
-    token,
-    bridge.address,
-    allowance.refetch,
-    bridge.refetch,
-    weiAmount
-  );
+  const allowance = useAllowance();
+  const approve = useApprove(allowance.refetch, bridge.refetch);
 
   const onDismissAlert = useDismissAlert(initiateBridge);
   const onCancel = useCancelBridge();
