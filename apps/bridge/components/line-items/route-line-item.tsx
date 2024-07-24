@@ -4,6 +4,7 @@ import { ModalNames } from "@/constants/modal-names";
 import { useBridgeRoutes } from "@/hooks/use-bridge-routes";
 import { useSelectedBridgeRoute } from "@/hooks/use-selected-bridge-route";
 import { useConfigState } from "@/state/config";
+import { isRouteQuote } from "@/utils/guards";
 
 import { RouteProviderIcon } from "../route-provider-icon";
 import { Skeleton } from "../ui/skeleton";
@@ -13,7 +14,9 @@ export const RouteLineItem = () => {
   const openModal = useConfigState.useAddModal();
   const route = useSelectedBridgeRoute();
 
-  const hasMultipleRoutes = routes.data?.length && routes.data.length > 1;
+  const hasMultipleRoutes =
+    routes.data?.length &&
+    routes.data.filter((r) => isRouteQuote(r.result)).length > 1;
 
   return (
     <div
