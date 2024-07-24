@@ -1,3 +1,4 @@
+import { ConfirmationModalV2 } from "../confirmation-modal-v2";
 import { FaultProofInfoModal } from "../fault-proof-info-modal";
 import { TokenModal } from "../tokens";
 import { CustomTokenImportModal } from "../tokens/custom-token-import-modal";
@@ -25,6 +26,7 @@ export const Modals = () => {
       <WithdrawalReadyToFinalizeModal />
       <CustomTokenImportModal />
       <TokenModal />
+      <ConfirmationModalV2 />
 
       {/* Alerts */}
       <NoGasModal />
