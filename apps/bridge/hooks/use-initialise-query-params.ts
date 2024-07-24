@@ -6,10 +6,10 @@ import { useConfigState } from "@/state/config";
 import { MultiChainToken } from "@/types/token";
 import { isNativeToken } from "@/utils/is-eth";
 
+import { useActiveTokens } from "./tokens/use-active-tokens";
 import { useGasToken } from "./use-approve-gas-token";
 import { useFromChain, useToChain } from "./use-chain";
 import { useDeployment } from "./use-deployment";
-import { useActiveTokens } from "./use-tokens";
 
 /**
  * // legacy & new

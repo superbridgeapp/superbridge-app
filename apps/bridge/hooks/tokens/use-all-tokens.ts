@@ -1,27 +1,19 @@
 import { useMemo } from "react";
 import { isPresent } from "ts-is-present";
-import { Address, isAddressEqual } from "viem";
+import { Address } from "viem";
 import { bsc, bscTestnet, syscoin, syscoinTestnet } from "viem/chains";
 
 import { DeploymentFamily } from "@/codegen/model";
 import { isRenzo } from "@/config/app";
 import { useConfigState } from "@/state/config";
-import { useInjectedStore } from "@/state/injected";
 import { useSettingsState } from "@/state/settings";
 import { MultiChainToken } from "@/types/token";
 import { getNativeTokenForDeployment } from "@/utils/get-native-token";
-import {
-  isArbitrumToken,
-  isCctpToken,
-  isHyperlaneToken,
-  isOptimismToken,
-} from "@/utils/guards";
-import { isBridgedUsdc, isCctp } from "@/utils/is-cctp";
 import { isNativeToken } from "@/utils/is-eth";
 import { renzo } from "@/utils/token-list/json/renzo";
 
-import { useDeployment } from "./use-deployment";
-import { useDeployments } from "./use-deployments";
+import { useDeployment } from "../use-deployment";
+import { useDeployments } from "../use-deployments";
 
 function useDeploymentTokens(): MultiChainToken[] {
   const deployments = useDeployments();
@@ -197,78 +189,4 @@ export function useAllTokens() {
       ...deploymentTokens,
     ];
   }, [deployment, tokens, customTokens, nativeTokens, deploymentTokens]);
-}
-
-export function useActiveTokens() {
-  const tokens = useAllTokens();
-  const fromChainId = useInjectedStore((s) => s.fromChainId);
-  const toChainId = useInjectedStore((s) => s.toChainId);
-
-  const hasNativeUsdc = useMemo(
-    () =>
-      !!tokens.find(
-        (token) => isCctp(token) && !!token[fromChainId] && !!token[toChainId]
-      ),
-    [tokens]
-  );
-
-  const a = useMemo(() => {
-    return tokens.filter((t) => {
-      const from = t[fromChainId];
-      const to = t[toChainId];
-
-      if (!from || !to) return false;
-
-      if (isNativeToken(t)) {
-        return true;
-      }
-
-      /**
-       * Manually disable depositing weETH until nobridge PR is merged
-       * https://github.com/ethereum-optimism/ethereum-optimism.github.io/pull/892
-       */
-      if (
-        fromChainId === 1 &&
-        isAddressEqual(
-          from.address,
-          "0xCd5fE23C85820F7B72D0926FC9b05b43E359b7ee"
-        )
-      ) {
-        return false;
-      }
-
-      /**
-       * We want to disable selection of the bridged-USDC token
-       * when depositing if there exists a native USDC option
-       */
-      if (fromChainId === 1 && hasNativeUsdc && isBridgedUsdc(t)) {
-        return false;
-      }
-
-      if (isCctpToken(from) && isCctpToken(to)) {
-        return true;
-      }
-
-      if (isHyperlaneToken(from) && isHyperlaneToken(to)) {
-        return true;
-      }
-
-      if (isOptimismToken(from) && isOptimismToken(to)) {
-        return (
-          !!from.standardBridgeAddresses[to.chainId] &&
-          !!to.standardBridgeAddresses[from.chainId]
-        );
-      }
-
-      if (isArbitrumToken(from) && isArbitrumToken(to)) {
-        return (
-          !!from.arbitrumBridgeInfo[to.chainId] &&
-          !!to.arbitrumBridgeInfo[from.chainId]
-        );
-      }
-
-      return false;
-    });
-  }, [tokens, hasNativeUsdc]);
-  return a;
 }

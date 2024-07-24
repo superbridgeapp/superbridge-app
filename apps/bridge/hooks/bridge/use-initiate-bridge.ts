@@ -2,12 +2,12 @@ import { waitForTransactionReceipt } from "@wagmi/core";
 import { useAccount, useConfig, useWalletClient } from "wagmi";
 
 import { RouteProvider } from "@/codegen/model";
+import { useActiveTokens } from "@/hooks/tokens/use-active-tokens";
 import { useAllowance } from "@/hooks/use-allowance";
 import { useChain, useFromChain, useToChain } from "@/hooks/use-chain";
 import { useSelectedToken } from "@/hooks/use-selected-token";
 import { useStatusCheck } from "@/hooks/use-status-check";
 import { useSwitchChain } from "@/hooks/use-switch-chain";
-import { useActiveTokens } from "@/hooks/use-tokens";
 import { trackEvent } from "@/services/ga";
 import { useConfigState } from "@/state/config";
 import { useModalsState } from "@/state/modals";

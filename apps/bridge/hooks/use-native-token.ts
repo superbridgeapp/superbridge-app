@@ -1,7 +1,7 @@
 import { isEth } from "@/utils/is-eth";
 
+import { useAllTokens } from "./tokens/use-all-tokens";
 import { useFromChain, useToChain } from "./use-chain";
-import { useAllTokens } from "./use-tokens";
 
 export function useNativeToken() {
   const from = useFromChain();

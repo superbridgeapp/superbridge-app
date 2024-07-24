@@ -6,8 +6,8 @@ import { Token } from "@/types/token";
 import { isEth } from "@/utils/is-eth";
 import { scaleToNativeTokenDecimals } from "@/utils/native-token-scaling";
 
+import { useActiveTokens } from "./tokens/use-active-tokens";
 import { useChain } from "./use-chain";
-import { useActiveTokens } from "./use-tokens";
 
 export function useTokenBalances(chainId: number | undefined) {
   const account = useAccount();
