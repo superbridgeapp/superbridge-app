@@ -1,5 +1,3 @@
-import { useMemo } from "react";
-
 import { ChainDto } from "@/codegen/model";
 import { Token } from "@/types/token";
 import {
@@ -9,7 +7,6 @@ import {
   isOptimismToken,
 } from "@/utils/guards";
 
-import { useFromChain } from "../use-chain";
 import { useChains } from "../use-chains";
 import { useAllTokens } from "../use-tokens";
 
@@ -34,15 +31,13 @@ function isBridgeable(a: Token, b: Token) {
   }
 }
 
-export const usePossibleToChains = () => {
-  const from = useFromChain();
+export const useGetPossibleToChains = () => {
   const chains = useChains();
-
   const allTokens = useAllTokens();
 
   const possible: { [chainId: string]: ChainDto } = {};
 
-  return useMemo(() => {
+  return (from: ChainDto | undefined | null) => {
     if (!from) {
       return [];
     }
@@ -70,5 +65,5 @@ export const usePossibleToChains = () => {
     }
 
     return Object.values(possible);
-  }, [from, chains, allTokens]);
+  };
 };

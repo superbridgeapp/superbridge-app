@@ -1,6 +1,6 @@
 import { ChainDto } from "@/codegen/model";
 import { usePossibleFromChains } from "@/hooks/network-selector/use-possible-from-chains";
-import { usePossibleToChains } from "@/hooks/network-selector/use-possible-to-chains";
+import { useGetPossibleToChains } from "@/hooks/network-selector/use-possible-to-chains";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
 import { trackEvent } from "@/services/ga";
 import { useConfigState } from "@/state/config";
@@ -16,37 +16,53 @@ export const NetworkSelectorModal = () => {
   const networkSelectorModal = useConfigState.useNetworkSelectorModal();
   const setNetworkSelectorModal = useConfigState.useSetNetworkSelectorModal();
   const setFromChainId = useInjectedStore((s) => s.setFromChainId);
+  const toChainId = useInjectedStore((s) => s.toChainId);
   const setToChainId = useInjectedStore((s) => s.setToChainId);
+
+  const possibleFrom = usePossibleFromChains();
+  const getPossibleTo = useGetPossibleToChains();
+
+  const availableChains =
+    networkSelectorModal === "from" ? possibleFrom : getPossibleTo(from);
 
   const onSelect = (chain: ChainDto) => {
     if (networkSelectorModal === "from") {
+      trackEvent({ event: "from-chain-select", name: chain.name });
+
       setFromChainId(chain.id);
+
+      // invert
       if (chain.id === to?.id) {
         trackEvent({ event: "to-chain-select", name: from!.name });
         setToChainId(from!.id);
+        return;
       }
 
-      trackEvent({ event: "from-chain-select", name: chain.name });
+      // handle case where no routes to toChain
+      const nextToChains = getPossibleTo(chain);
+      if (!nextToChains.find((x) => x.id === toChainId)) {
+        const nextTo = nextToChains.find((x) => x.id !== chain.id);
+        if (nextTo) {
+          trackEvent({ event: "to-chain-select", name: nextTo.name });
+          setToChainId(nextTo.id);
+        }
+      }
     }
 
     if (networkSelectorModal === "to") {
+      trackEvent({ event: "to-chain-select", name: chain.name });
+
       setToChainId(chain.id);
+
+      // invert
       if (chain.id === from?.id) {
         trackEvent({ event: "from-chain-select", name: to!.name });
         setFromChainId(to!.id);
       }
-
-      trackEvent({ event: "to-chain-select", name: chain.name });
     }
 
     setNetworkSelectorModal(null);
   };
-
-  const possibleFrom = usePossibleFromChains();
-  const possibleTo = usePossibleToChains();
-
-  const availableChains =
-    networkSelectorModal === "from" ? possibleFrom : possibleTo;
 
   return (
     <Dialog
