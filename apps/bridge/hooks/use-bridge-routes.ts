@@ -16,6 +16,7 @@ export const useBridgeRoutes = () => {
 
   const stateToken = useConfigState.useToken();
   const recipientAddress = useConfigState.useRecipientAddress();
+  const forceViaL1 = useConfigState.useForceViaL1();
 
   const fromToken = stateToken?.[from?.id ?? 0];
   const toToken = stateToken?.[to?.id ?? 0];
@@ -34,7 +35,7 @@ export const useBridgeRoutes = () => {
       recipient: recipientAddress,
       sender: account.address ?? "",
 
-      forceViaL1: false,
+      forceViaL1,
 
       hyperlaneFromTokenRouterAddress:
         !!fromToken && isHyperlaneToken(fromToken)

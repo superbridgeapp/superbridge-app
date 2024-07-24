@@ -13,7 +13,6 @@ import { useSelectedBridgeRoute } from "../use-selected-bridge-route";
 
 export const useBridge = () => {
   const initiatingChainId = useInitiatingChainId();
-  const escapeHatch = useConfigState.useForceViaL1();
 
   const selectedRoute = useSelectedBridgeRoute();
   const { sendTransactionAsync, isLoading } = useSendTransaction();
