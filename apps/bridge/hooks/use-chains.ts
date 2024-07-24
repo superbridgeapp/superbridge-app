@@ -12,7 +12,7 @@ export const useAllChains = () => {
   const { deployments, cctpDomains, acrossDomains, hyperlaneMailboxes } =
     useInjectedStore((s) => s);
 
-  const a = useMemo(() => {
+  return useMemo(() => {
     const byId: { [chainId: string]: ChainDto } = {};
 
     for (const d of deployments) {
@@ -31,9 +31,7 @@ export const useAllChains = () => {
     });
 
     return Object.values(byId);
-  }, []);
-
-  return a;
+  }, [deployments, cctpDomains, acrossDomains, hyperlaneMailboxes]);
 };
 
 export const useChains = () => {
@@ -61,5 +59,5 @@ export const useChains = () => {
     });
 
     return Object.values(byId);
-  }, []);
+  }, [deployments, cctpDomains, acrossDomains, hyperlaneMailboxes]);
 };

@@ -44,7 +44,7 @@ export const NetworkSelectorModal = () => {
 
   const possibleFrom = usePossibleFromChains();
   const possibleTo = usePossibleToChains();
-  // todo
+
   const availableChains =
     networkSelectorModal === "from" ? possibleFrom : possibleTo;
 

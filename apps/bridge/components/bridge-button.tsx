@@ -10,9 +10,6 @@ import { useBridgeDisabled } from "@/hooks/bridge/use-bridge-disabled";
 import { useBridgeMax } from "@/hooks/bridge/use-bridge-max";
 import { useBridgeMin } from "@/hooks/bridge/use-bridge-min";
 import { useBridgePaused } from "@/hooks/bridge/use-bridge-paused";
-import { useCancelBridge } from "@/hooks/bridge/use-cancel-bridge";
-import { useDismissAlert } from "@/hooks/bridge/use-dismiss-alert";
-import { useInitiateBridge } from "@/hooks/bridge/use-initiate-bridge";
 import { useTokenBalance } from "@/hooks/use-balances";
 import { useBaseNativeTokenBalance } from "@/hooks/use-base-native-token-balance";
 import { useChain, useFromChain, useToChain } from "@/hooks/use-chain";
@@ -50,8 +47,6 @@ export const BridgeButton = () => {
   const paused = useBridgePaused();
   const disabled = useBridgeDisabled();
 
-  const initiateBridge = useInitiateBridge(bridge);
-
   const initiatingChainId = useInitiatingChainId();
   const initiatingChain = useChain(initiatingChainId);
   const fromEthBalance = useBalance({
@@ -87,9 +82,6 @@ export const BridgeButton = () => {
     !!requiredCustomGasTokenBalance &&
     typeof baseNativeTokenBalance.data !== "undefined" &&
     requiredCustomGasTokenBalance > baseNativeTokenBalance.data;
-
-  const onDismissAlert = useDismissAlert(initiateBridge);
-  const onCancel = useCancelBridge();
 
   const handleSubmitClick = () => {
     if (!nft && weiAmount === BigInt(0)) {

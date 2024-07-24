@@ -1,6 +1,6 @@
 import { useAccount, useBalance } from "wagmi";
 
-import { useEstimateTotalFeesInFiat } from "@/components/alerts/expensive-gas-modal";
+import { useEstimateTotalFeesInFiat } from "@/components/modals/alerts/expensive-gas-modal";
 import { isSuperbridge } from "@/config/app";
 import { AlertModals } from "@/constants/modal-names";
 import { SUPERCHAIN_MAINNETS } from "@/constants/superbridge";
