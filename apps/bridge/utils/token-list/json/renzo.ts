@@ -1,4 +1,4 @@
-import { base, optimism } from "viem/chains";
+import { arbitrum, base, optimism } from "viem/chains";
 
 import { MultiChainToken } from "@/types/token";
 
@@ -26,6 +26,17 @@ export const renzo: MultiChainToken[] = [
         router: "0x4b36617B3D2cAb714a056090306A88Dd6DD4cCcf",
       },
     },
+    [arbitrum.id]: {
+      chainId: arbitrum.id,
+      address: "0x2416092f143378750bb29b79eD961ab195CcEea5",
+      name: "Renzo Restaked ETH",
+      symbol: "ezETH",
+      decimals: 18,
+      logoURI: "https://renzo.hyperlane.xyz/logos/ezeth.svg",
+      hyperlane: {
+        router: "0x1217441e6E8E960D065698317FE13594a5704f69",
+      },
+    },
   },
   {
     [optimism.id]: {
@@ -40,6 +51,16 @@ export const renzo: MultiChainToken[] = [
   {
     [base.id]: {
       chainId: base.id,
+      address: "0xDeadDeAddeAddEAddeadDEaDDEAdDeaDDeAD0000",
+      name: "Ether",
+      symbol: "ETH",
+      decimals: 18,
+      logoURI: "https://ethereum-optimism.github.io/data/ETH/logo.svg",
+    },
+  },
+  {
+    [arbitrum.id]: {
+      chainId: arbitrum.id,
       address: "0xDeadDeAddeAddEAddeadDEaDDEAdDeaDDeAD0000",
       name: "Ether",
       symbol: "ETH",
