@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 
 import { useBridgeControllerFiatPrices } from "@/codegen/index";
+import { DeploymentType } from "@/codegen/model";
 import {
   Select,
   SelectContent,
@@ -10,7 +11,6 @@ import {
 } from "@/components/ui/select";
 import { isSuperbridge } from "@/config/app";
 import { flagSymbolMap } from "@/constants/currency-symbol-map";
-import { useNavigate } from "@/hooks/use-navigate";
 import { trackEvent } from "@/services/ga";
 import { useInjectedStore } from "@/state/injected";
 import { useSettingsState } from "@/state/settings";
@@ -29,23 +29,33 @@ export const SettingsModal = ({ open, setOpen }: SettingsModalProps) => {
 
   const testnets = useInjectedStore((store) => store.testnets);
   const setTestnets = useInjectedStore((store) => store.setTestnets);
-  const navigate = useNavigate();
+  const setFromChainId = useInjectedStore((store) => store.setFromChainId);
+  const setToChainId = useInjectedStore((store) => store.setToChainId);
+  const allDeployments = useInjectedStore((store) => store.deployments);
 
   const currency = useSettingsState.useCurrency();
   const setCurrency = useSettingsState.useSetCurrency();
-
-  const fiat = useBridgeControllerFiatPrices();
-
   const preferredExplorer = useSettingsState.usePreferredExplorer();
   const setPreferredExplorer = useSettingsState.useSetPreferredExplorer();
+
+  const fiat = useBridgeControllerFiatPrices();
 
   const onTestnetsChange = (checked: boolean) => {
     if (checked) {
       setTestnets(true);
-      navigate("/");
+
+      const d = allDeployments.find((x) => x.type === DeploymentType.testnet);
+      if (d) {
+        setFromChainId(d.l1.id);
+        setToChainId(d.l2.id);
+      }
     } else {
       setTestnets(false);
-      navigate("/");
+      const d = allDeployments.find((x) => x.type === DeploymentType.mainnet);
+      if (d) {
+        setFromChainId(d.l1.id);
+        setToChainId(d.l2.id);
+      }
     }
   };
 
