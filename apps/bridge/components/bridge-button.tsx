@@ -15,8 +15,7 @@ import { useDismissAlert } from "@/hooks/bridge/use-dismiss-alert";
 import { useInitiateBridge } from "@/hooks/bridge/use-initiate-bridge";
 import { useTokenBalance } from "@/hooks/use-balances";
 import { useBaseNativeTokenBalance } from "@/hooks/use-base-native-token-balance";
-import { useChain, useFromChain } from "@/hooks/use-chain";
-import { useDeployment } from "@/hooks/use-deployment";
+import { useChain, useFromChain, useToChain } from "@/hooks/use-chain";
 import { useInitiatingChainId } from "@/hooks/use-initiating-chain-id";
 import { useNativeToken } from "@/hooks/use-native-token";
 import { useNetworkFee } from "@/hooks/use-network-fee";
@@ -34,12 +33,12 @@ export const BridgeButton = () => {
   const { openConnectModal } = useConnectModal();
   const account = useAccount();
   const from = useFromChain();
+  const to = useToChain();
   const bridge = useBridge();
   const weiAmount = useWeiAmount();
   const token = useSelectedToken();
   const { t } = useTranslation();
 
-  const deployment = useDeployment();
   const setConfirmationModal = useConfigState.useSetDisplayConfirmationModal();
   const withdrawing = useIsWithdrawal();
   const isAcross = useIsAcrossRoute();
@@ -186,7 +185,7 @@ export const BridgeButton = () => {
     .with({ hasInsufficientBaseNativeTokenBalance: true }, (d) => ({
       onSubmit: handleSubmitClick,
       buttonText: t("insufficientGas", {
-        symbol: deployment?.arbitrumNativeToken?.symbol,
+        symbol: to?.nativeCurrency.symbol,
       }),
       disabled: true,
     }))
