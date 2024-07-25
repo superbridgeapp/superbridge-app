@@ -8,6 +8,7 @@ import {
   bscTestnet,
   holesky,
   kroma,
+  lisk,
   mainnet,
   mode,
   modeTestnet,
@@ -47,6 +48,7 @@ export const chainIcons: { [chainId: number]: string | undefined } = {
   [optimismSepolia.id]: "/img/optimism/network.svg",
   [bsc.id]: "/img/bsc/network.png",
   [bscTestnet.id]: "/img/bsc/network.png",
+  [lisk.id]: "/img/lisk-mainnet/network.png",
 };
 
 const defaultTheme: Theme = {

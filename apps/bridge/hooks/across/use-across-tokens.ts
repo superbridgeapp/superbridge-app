@@ -1,5 +1,5 @@
 import { Address, zeroAddress } from "viem";
-import { base, mainnet, mode, optimism } from "viem/chains";
+import { base, lisk, mainnet, mode, optimism } from "viem/chains";
 
 import { MultiChainToken, OptimismToken } from "@/types/token";
 import { deadAddress } from "@/utils/is-eth";
@@ -62,6 +62,7 @@ export const useAcrossTokens = (): MultiChainToken[] => {
       [base.id]: eth(deadAddress, base.id),
       [optimism.id]: eth(deadAddress, optimism.id),
       [mode.id]: eth(deadAddress, mode.id),
+      [lisk.id]: eth(deadAddress, lisk.id),
     },
   ];
 };
