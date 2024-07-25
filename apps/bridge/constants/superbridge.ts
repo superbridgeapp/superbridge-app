@@ -33,4 +33,5 @@ export const SUPERCHAIN_TESTNETS = [
   "mint-sepolia-testnet-ijtsrc4ffq",
   "xterio-eth-testnet",
   "celo-testnet",
+  "shape-testnet",
 ];
