@@ -696,6 +696,11 @@ const swanTheme: Theme = {
 
 const shapeTheme: Theme = {
   ...defaultTheme,
+  iconSrc: "/img/shape/icon.svg",
+  card: {
+    className: "bg-[#31E3DF]",
+    title: "text-black",
+  },
 };
 
 export const themes: { [name: string]: Theme | undefined } = {
