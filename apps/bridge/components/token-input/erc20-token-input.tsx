@@ -10,6 +10,7 @@ import { useSelectedToken } from "@/hooks/use-selected-token";
 import { useWeiAmount } from "@/hooks/use-wei-amount";
 import { useConfigState } from "@/state/config";
 import { formatDecimals } from "@/utils/format-decimals";
+import { isEth } from "@/utils/is-eth";
 
 import { TokenIcon } from "../token-icon";
 import { Recipient } from "./recipient";
@@ -30,6 +31,11 @@ export const ERC20TokenInput = () => {
 
   const isCustomToken = useIsCustomToken(stateToken);
   const isCustomTokenFromList = useIsCustomTokenFromList(stateToken);
+
+  const formattedTokenBalance = formatUnits(
+    tokenBalance,
+    token?.decimals ?? 18
+  );
 
   if (!token) {
     return null;
@@ -126,12 +132,20 @@ export const ERC20TokenInput = () => {
         <div className="flex items-center gap-1">
           <span className={`text-muted-foreground text-xs`}>
             {t("availableBalance", {
-              amount: formatDecimals(
-                parseFloat(formatUnits(tokenBalance, token?.decimals ?? 18))
-              ),
+              amount: formatDecimals(parseFloat(formattedTokenBalance)),
               symbol: token?.symbol,
             })}
           </span>
+
+          {!isEth(token) && (
+            <button
+              onClick={() => {
+                setRawAmount(formattedTokenBalance);
+              }}
+            >
+              Max
+            </button>
+          )}
         </div>
       </div>
     </div>
