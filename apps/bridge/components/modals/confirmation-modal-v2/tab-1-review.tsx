@@ -17,7 +17,6 @@ import { useReceiveAmount } from "@/hooks/use-receive-amount";
 import { useSelectedBridgeRoute } from "@/hooks/use-selected-bridge-route";
 import { useApproxTotalBridgeTime } from "@/hooks/use-transfer-time";
 import { useConfigState } from "@/state/config";
-import { formatDecimals } from "@/utils/format-decimals";
 
 export const ConfirmationModalReviewTab = ({
   onNext,
@@ -95,14 +94,7 @@ export const ConfirmationModalReviewTab = ({
 
             <div className="flex items-center gap-2">
               <span>
-                {receive.data ? (
-                  <>
-                    {formatDecimals(receive.data)}{" "}
-                    {stateToken?.[to?.id ?? 0]?.symbol}
-                  </>
-                ) : (
-                  "…"
-                )}
+                {receive.data ? <>{receive.data.token.formatted}</> : "…"}
               </span>
               <Image
                 src={stateToken?.[to?.id ?? 0]?.logoURI ?? ""}

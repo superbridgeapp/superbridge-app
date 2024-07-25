@@ -15,6 +15,7 @@ export const AmountReceivedLineItem = () => {
 
   const stateToken = useConfigState.useToken();
   const nft = useConfigState.useNft();
+
   const receive = useReceiveAmount();
 
   return (
@@ -41,7 +42,7 @@ export const AmountReceivedLineItem = () => {
           ) : (
             <>
               <span className={`text-muted-foreground ml-auto text-xs  mr-2`}>
-                {receive.data?.fiat ? receive.data.fiat.formatted : null}
+                {receive.data?.fiat ? receive.data.fiat.formatted : ""}
               </span>
 
               {receive.data ? (

@@ -47,7 +47,6 @@ import { useIsWithdrawal } from "@/hooks/use-withdrawing";
 import { useConfigState } from "@/state/config";
 import { useSettingsState } from "@/state/settings";
 import { Token } from "@/types/token";
-import { formatDecimals } from "@/utils/format-decimals";
 import {
   isRouteQuote,
   isRouteReceiveStep,
@@ -366,7 +365,7 @@ export const ConfirmationModalStartTab = () => {
     base: deployment?.l1.name,
     rollup: deployment?.l2.name,
     symbol: token?.symbol,
-    receiveAmount: formatDecimals(receive.data),
+    receiveAmount: receive.data?.token.formatted,
     receiveSymbol: stateToken?.[to?.id ?? 0]?.symbol,
   };
 

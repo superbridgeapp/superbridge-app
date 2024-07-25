@@ -2,6 +2,7 @@ import { FromTo } from "./FromTo";
 import { BridgeButton } from "./bridge-button";
 import { LineItems } from "./line-items";
 import { Modals } from "./modals";
+import { RoutePreview } from "./route-preview";
 import { TokenInput } from "./token-input";
 
 export const BridgeBody = () => {
@@ -14,6 +15,7 @@ export const BridgeBody = () => {
         </div>
 
         <LineItems />
+        <RoutePreview />
 
         <BridgeButton />
       </div>

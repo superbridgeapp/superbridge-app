@@ -6,7 +6,6 @@ import { AlertModals } from "@/constants/modal-names";
 import { SUPERCHAIN_MAINNETS } from "@/constants/superbridge";
 import { useToChain } from "@/hooks/use-chain";
 import { useFaultProofUpgradeTime } from "@/hooks/use-fault-proof-upgrade-time";
-import { useTokenPrice } from "@/hooks/use-prices";
 import { useReceiveAmount } from "@/hooks/use-receive-amount";
 import { useConfigState } from "@/state/config";
 import { useModalsState } from "@/state/modals";
@@ -33,12 +32,9 @@ export const useSubmitBridge = () => {
     chainId: to?.id,
   });
 
-  const usdPrice = useTokenPrice(stateToken);
-
   const receive = useReceiveAmount();
   const totalFeesInFiat = useEstimateTotalFeesInFiat();
-  const fiatValueBeingBridged =
-    usdPrice && receive.data ? receive.data * usdPrice : null;
+  const fiatValueBeingBridged = receive.data?.fiat?.amount ?? null;
 
   return () => {
     const modals: AlertModals[] = [];
