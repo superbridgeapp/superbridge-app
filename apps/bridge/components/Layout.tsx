@@ -1,7 +1,6 @@
 import clsx from "clsx";
 import { AnimatePresence, motion } from "framer-motion";
 
-import { ClosedActivity } from "@/components/activity/closed-activity";
 import { OpenActivity } from "@/components/activity/open-activity";
 import { Footer } from "@/components/footer";
 import { isSuperbridge } from "@/config/app";
@@ -71,16 +70,16 @@ export function Layout({ children }: { children: any }) {
       <Header />
 
       {/* bridge */}
-      <AnimatePresence mode="sync" initial={false}>
-        {displayTransactions ? null : children}
-      </AnimatePresence>
+      {children}
 
       {/* Transactions container */}
-      <AnimatePresence mode="sync" initial={false}>
-        {displayTransactions ? (
-          <OpenActivity key="transactionItemsContainer" />
-        ) : (
-          <ClosedActivity key="closeActivityBtn" />
+      <AnimatePresence mode="wait" initial={false}>
+        {displayTransactions && (
+          <>
+            <OpenActivity key="transactionItemsContainer" />
+            {/* fade background */}
+            <motion.div className="h-screen w-screen bg-black/40 z-10"></motion.div>
+          </>
         )}
       </AnimatePresence>
       <SettingsModal open={settingsModal} setOpen={setSettingsModal} />
