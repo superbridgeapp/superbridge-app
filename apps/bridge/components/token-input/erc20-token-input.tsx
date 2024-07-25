@@ -1,12 +1,14 @@
-import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { formatUnits } from "viem";
 
 import { useTokenBalance } from "@/hooks/use-balances";
+import { useFromChain } from "@/hooks/use-chain";
+import { useGetFormattedAmount } from "@/hooks/use-get-formatted-amount";
 import { useIsCustomToken } from "@/hooks/use-is-custom-token";
 import { useIsCustomTokenFromList } from "@/hooks/use-is-custom-token-from-list";
 import { useTokenPrice } from "@/hooks/use-prices";
 import { useSelectedToken } from "@/hooks/use-selected-token";
+import { useWeiAmount } from "@/hooks/use-wei-amount";
 import { useConfigState } from "@/state/config";
 import { formatDecimals } from "@/utils/format-decimals";
 
@@ -16,13 +18,16 @@ export const ERC20TokenInput = () => {
   const token = useSelectedToken();
   const { t } = useTranslation();
 
+  const from = useFromChain();
   const rawAmount = useConfigState.useRawAmount();
   const stateToken = useConfigState.useToken();
   const setRawAmount = useConfigState.useSetRawAmount();
   const setTokensModal = useConfigState.useSetTokensModal();
+  const weiAmount = useWeiAmount();
 
   const tokenBalance = useTokenBalance(token);
   const usdPrice = useTokenPrice(stateToken);
+  const getFormattedAmount = useGetFormattedAmount(stateToken, from?.id);
 
   const receive = parseFloat(rawAmount) || 0;
 
@@ -33,10 +38,13 @@ export const ERC20TokenInput = () => {
     return null;
   }
 
+  const amount = getFormattedAmount(weiAmount.toString());
+
   return (
     <div
       className={`relative rounded-[16px] px-4 py-3 border-2 border-transparent focus-within:border-border transition-colors bg-muted `}
     >
+      <span>Send</span>
       <div className="flex gap-1">
         <input
           value={rawAmount}
@@ -109,9 +117,9 @@ export const ERC20TokenInput = () => {
       </div>
       <div className="pt-1 flex items-center justify-between">
         <div>
-          {usdPrice && (
+          {amount.fiat && (
             <span className="text-muted-foreground text-xs">
-              ${(receive * usdPrice).toLocaleString("en")}
+              {amount.fiat.formatted}
             </span>
           )}
         </div>
