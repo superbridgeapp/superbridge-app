@@ -694,6 +694,10 @@ const swanTheme: Theme = {
   },
 };
 
+const shapeTheme: Theme = {
+  ...defaultTheme,
+};
+
 export const themes: { [name: string]: Theme | undefined } = {
   ["base"]: baseTheme,
   ["base-sepolia"]: baseTheme,
@@ -752,6 +756,7 @@ export const themes: { [name: string]: Theme | undefined } = {
   ["xterio-eth-testnet"]: xterioTheme,
   ["celo-testnet"]: celoTheme,
   ["swan-chain"]: swanTheme,
+  ["shape-testnet"]: shapeTheme,
 };
 
 export const deploymentTheme = (
