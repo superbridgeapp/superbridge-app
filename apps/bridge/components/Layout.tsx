@@ -18,6 +18,7 @@ import { useConfigState } from "@/state/config";
 import { Header } from "./header";
 import { LegalModal } from "./legal-modal";
 import { BlockProvingModal } from "./modals/fault-proofs/block-proving-modal";
+import { NetworkSelector } from "./modals/network-selector-modal";
 import { CustomTokenListModal } from "./settings/custom-token-list-modal";
 import { SettingsModal } from "./settings/settings-modal";
 import { TosModal } from "./tos-modal/tos-modal";
@@ -28,6 +29,8 @@ export function Layout({ children }: { children: any }) {
   const displayTransactions = useConfigState.useDisplayTransactions();
   const setSettingsModal = useConfigState.useSetSettingsModal();
   const settingsModal = useConfigState.useSettingsModal();
+  const networkSelector = useConfigState.useNetworkSelector();
+  const modals = useConfigState.useModals();
 
   const imageBackground = useBackgroundIcon();
   const backgroundImageBlendMode = useBackgroundImageBlendMode();
@@ -81,7 +84,16 @@ export function Layout({ children }: { children: any }) {
             <motion.div className="h-screen w-screen bg-black/40 z-10"></motion.div>
           </>
         )}
+
+        {networkSelector && (
+          <>
+            <NetworkSelector key="networkSelector" />
+            {/* fade background */}
+            <motion.div className="h-screen w-screen bg-black/40 z-10"></motion.div>
+          </>
+        )}
       </AnimatePresence>
+
       <SettingsModal open={settingsModal} setOpen={setSettingsModal} />
       <Footer />
     </div>

@@ -6,7 +6,6 @@ import { NoGasModal } from "./alerts/no-gas-modal";
 import { ConfirmationModalV2 } from "./confirmation-modal-v2";
 import { FaultProofInfoModal } from "./fault-proofs/fault-proof-info-modal";
 import { FeeBreakdownModal } from "./fee-breakdown-modal";
-import { NetworkSelectorModal } from "./network-selector-modal";
 import { RecipientAddressModal } from "./recipient-address-modal";
 import { RouteSelectorModal } from "./route-selector-modal";
 import { TransferTimeInfoModal } from "./transfer-time-info-modal";
@@ -18,7 +17,6 @@ export const Modals = () => {
     <>
       <TransferTimeInfoModal />
       <FeeBreakdownModal />
-      <NetworkSelectorModal />
       <RecipientAddressModal />
       <WithdrawSettingsModal />
       <RouteSelectorModal />

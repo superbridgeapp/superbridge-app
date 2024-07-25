@@ -4,6 +4,7 @@ export enum ModalNames {
   RecipientAddress = "RecipientAddress",
   WithdrawSettings = "WithdrawSettings",
   RouteSelector = "RouteSelector",
+  NetworkSelector = "NetworkSelector",
 }
 
 export enum AlertModals {
