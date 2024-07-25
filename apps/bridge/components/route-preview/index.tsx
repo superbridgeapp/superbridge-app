@@ -48,7 +48,6 @@ export const RoutePreview = () => {
         Fees: {fees.data?.totals.tokenFormatted} (
         {fees.data?.totals.fiatFormatted ?? "$0"})
       </div>
-      <div>Fees fiat: </div>
       <div>
         Gas fee: {networkFee.data?.token.formatted} (
         {networkFee.data?.fiat?.formatted ?? "$0"})
