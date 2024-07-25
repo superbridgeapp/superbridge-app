@@ -2,25 +2,16 @@ import clsx from "clsx";
 import Image from "next/image";
 
 import { ModalNames } from "@/constants/modal-names";
-import { useFromChain, useToChain } from "@/hooks/use-chain";
 import { useFees } from "@/hooks/use-fees";
-import { useTokenPrice } from "@/hooks/use-prices";
 import { useSelectedBridgeRoute } from "@/hooks/use-selected-bridge-route";
 import { useConfigState } from "@/state/config";
-import { useSettingsState } from "@/state/settings";
 
 import { IconHelp } from "../icons";
 import { Skeleton } from "../ui/skeleton";
 
 export const FeeLineItem = () => {
-  const to = useToChain();
-  const from = useFromChain();
-
   const stateToken = useConfigState.useToken();
-  const currency = useSettingsState.useCurrency();
   const openModal = useConfigState.useAddModal();
-
-  const usdPrice = useTokenPrice(stateToken);
 
   const route = useSelectedBridgeRoute();
   const fees = useFees();

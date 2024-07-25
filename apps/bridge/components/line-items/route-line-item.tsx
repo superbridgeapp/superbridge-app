@@ -17,7 +17,6 @@ export const RouteLineItem = () => {
   const hasMultipleRoutes =
     routes.data?.length &&
     routes.data.filter((r) => isRouteQuote(r.result)).length > 1;
-
   return (
     <div
       className={clsx(
