@@ -14,7 +14,7 @@ import { usePendingTransactions } from "@/state/pending-txs";
 
 import { Loading } from "../Loading";
 import { IconSpinner } from "../icons";
-import { TransactionRow } from "../transaction-row";
+import { TransactionRowV2 } from "../transaction-row-v2";
 
 export const OpenActivity = ({}) => {
   const { ref, inView } = useInView({
@@ -144,7 +144,7 @@ export const OpenActivity = ({}) => {
               return (
                 <div className="overflow-y-auto overflow-x-hidden -mb-[2px]">
                   {[...pendingTransactions, ...transactions].map((t) => {
-                    return <TransactionRow key={t.id} tx={t} />;
+                    return <TransactionRowV2 key={t.id} tx={t} />;
                   })}
 
                   {transactions.length !== totalTransactions && (
