@@ -586,7 +586,7 @@ export const TransactionRowV2 = ({ tx }: { tx: Transaction }) => {
                 className={clsx(
                   "w-full h-1",
                   bar.status === "done" && "bg-blue-500",
-                  bar.status === "in-progress" && "bg-orange-500 animate-pulse",
+                  bar.status === "in-progress" && "bg-blue-400 animate-pulse",
                   bar.status === "not-started" && "bg-gray-500"
                 )}
               ></div>
