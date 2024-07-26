@@ -9,6 +9,7 @@ import { isMainnet, isOptimism } from "@/utils/is-mainnet";
 
 import { useActivityEffects } from "./use-activity-effects";
 import { useDeployment } from "./use-deployment";
+import { useInitialiseFastToken } from "./use-initialise-fast-token";
 import { useInitialiseToken } from "./use-initialise-token";
 import { useIsContractAccount } from "./use-is-contract-account";
 import { useInitialiseRecipient } from "./use-recipient";
@@ -30,6 +31,7 @@ export const useInitialise = () => {
   useInitialiseRecipient();
   useTokenLists();
   useInitialiseToken();
+  useInitialiseFastToken();
   useActivityEffects();
 
   useAccountEffect({

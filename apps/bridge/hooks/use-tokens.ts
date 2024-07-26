@@ -5,6 +5,7 @@ import { bsc, bscTestnet, syscoin, syscoinTestnet } from "viem/chains";
 
 import { DeploymentFamily } from "@/codegen/model";
 import { useConfigState } from "@/state/config";
+import { useFastState } from "@/state/fast";
 import { useSettingsState } from "@/state/settings";
 import {
   MultiChainArbitrumToken,
@@ -196,6 +197,8 @@ export function useAllTokens() {
 export function useActiveTokens() {
   const deployment = useDeployment();
   const fast = useConfigState.useFast();
+  const fastFromChainId = useFastState.useFromChainId();
+  const fastToChainId = useFastState.useToChainId();
   const withdrawing = useConfigState.useWithdrawing();
   const tokens = useAllTokens();
   const acrossTokens = useAcrossTokens();
@@ -213,7 +216,7 @@ export function useActiveTokens() {
 
   return useMemo(() => {
     if (fast) {
-      return acrossTokens;
+      return acrossTokens.filter((x) => x[fastFromChainId] && x[fastToChainId]);
     }
 
     return tokens.filter((t) => {
@@ -263,5 +266,5 @@ export function useActiveTokens() {
 
       return false;
     });
-  }, [deployment, tokens, hasNativeUsdc, fast]);
+  }, [deployment, tokens, hasNativeUsdc, fast, fastFromChainId, fastToChainId]);
 }

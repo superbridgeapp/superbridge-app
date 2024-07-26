@@ -1,5 +1,5 @@
 import { waitForTransactionReceipt } from "@wagmi/core";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useConfig, useWriteContract } from "wagmi";
 
 import { getNativeTokenForDeployment } from "@/utils/get-native-token";
@@ -15,10 +15,12 @@ import { useWeiAmount } from "./use-wei-amount";
 
 export const useGasTokenForDeployment = (deploymentId: string | undefined) => {
   const deployment = useDeploymentById(deploymentId ?? "");
-  if (!deployment) {
-    return null;
-  }
-  return getNativeTokenForDeployment(deployment);
+  return useMemo(() => {
+    if (!deployment) {
+      return null;
+    }
+    return getNativeTokenForDeployment(deployment);
+  }, [deployment]);
 };
 
 export const useGasToken = () => {
