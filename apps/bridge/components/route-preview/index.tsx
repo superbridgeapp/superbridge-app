@@ -26,7 +26,7 @@ export const RoutePreview = () => {
   }
 
   if (!route.data) {
-    return <div>No route</div>;
+    return <div></div>;
   }
 
   if (isRouteQuoteError(route.data.result)) {

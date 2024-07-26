@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { formatDistanceToNow } from "date-fns";
-import { FC, useState } from "react";
+import { FC } from "react";
 import { useTranslation } from "react-i18next";
 import Lottie from "react-lottie-player";
 import { match } from "ts-pattern";
@@ -17,6 +17,7 @@ import {
   ForcedWithdrawalDto,
   NftDepositDto,
   TokenDepositDto,
+  TransactionStatus,
 } from "@/codegen/model";
 import { useTxTimestamp } from "@/hooks/activity/use-tx-timestamp";
 import { useFinaliseArbitrum } from "@/hooks/arbitrum/use-arbitrum-finalise";
@@ -47,7 +48,6 @@ import {
   isWithdrawal,
 } from "@/utils/guards";
 import { isNativeToken } from "@/utils/is-eth";
-import { useProgressRows, useTxTitle } from "@/utils/progress-rows";
 import {
   ButtonComponent,
   ExpandedItem,
@@ -55,8 +55,6 @@ import {
 } from "@/utils/progress-rows/common";
 
 import inProgress from "../animation/loading.json";
-import { AcrossBadge } from "./across-badge";
-import { CctpBadge } from "./badges/cttp-badge";
 import { NetworkIcon } from "./network-icon";
 import { TokenIcon } from "./token-icon";
 import { Button } from "./ui/button";
@@ -469,37 +467,81 @@ function getDepositAmount(tx: Transaction, token: Token | null | undefined) {
   return `${formatted} ${symbol}`;
 }
 
+const useInitiatingTx = (tx: Transaction) => {
+  if (isAcrossBridge(tx)) return tx.deposit;
+  if (isHyperlaneBridge(tx)) return tx.send;
+  if (isDeposit(tx)) return tx.deposit;
+  if (isWithdrawal(tx)) return tx.withdrawal;
+  if (isForcedWithdrawal(tx)) return tx.deposit.deposit;
+  return tx.bridge;
+};
+
+const useFinalisingTx = (tx: Transaction) => {
+  if (isAcrossBridge(tx)) return tx.fill;
+  if (isHyperlaneBridge(tx)) return tx.receive;
+  if (isDeposit(tx)) return tx.relay;
+  if (isWithdrawal(tx)) return tx.finalise;
+  if (isForcedWithdrawal(tx)) return tx.withdrawal?.finalise;
+  return tx.relay;
+};
+
+const useIsSuccessfulBridge = (tx: Transaction) => {
+  const finalTx = useFinalisingTx(tx);
+  return finalTx?.status === TransactionStatus.confirmed;
+};
+
+const useIsInProgress = (tx: Transaction) => {
+  const finalTx = useFinalisingTx(tx);
+  return !finalTx;
+};
+
+const useProgressBars = (
+  tx: Transaction
+): { status: "done" | "in-progress" | "not-started" }[] => {
+  const initiatingTx = useInitiatingTx(tx);
+  const finalisingTx = useFinalisingTx(tx);
+  const proveTx = isOptimismWithdrawal(tx)
+    ? tx.prove
+    : isOptimismForcedWithdrawal(tx)
+    ? tx.withdrawal?.prove
+    : null;
+
+  const bars: { status: "done" | "in-progress" | "not-started" }[] = [];
+  if (initiatingTx.timestamp) {
+    bars.push({ status: "done" });
+  } else {
+    bars.push({ status: "in-progress" });
+  }
+
+  if (proveTx) {
+    if (proveTx.timestamp) {
+      bars.push({ status: "done" });
+    } else {
+      bars.push({ status: "in-progress" });
+    }
+  }
+
+  if (finalisingTx?.timestamp) {
+    bars.push({ status: "done" });
+  } else {
+    bars.push({ status: "in-progress" });
+  }
+
+  return bars;
+};
+
 export const TransactionRowV2 = ({ tx }: { tx: Transaction }) => {
   const tokens = useAllTokens();
 
   const token = useToken(tx, tokens);
 
-  const [expanded, setExpanded] = useState(false);
-
-  const progressRows = useProgressRows(tx);
-
-  const inProgressItem = progressRows?.find(
-    (x) => x.status === ProgressRowStatus.InProgress
-  );
-  const revertedItem = progressRows?.find(
-    (x) => x.status === ProgressRowStatus.Reverted
-  );
-
   const timestamp = useTxTimestamp(tx);
   const [from, to] = useFromTo(tx);
-  const deployment = useDeploymentById(
-    isAcrossBridge(tx) || isHyperlaneBridge(tx)
-      ? ""
-      : isForcedWithdrawal(tx)
-      ? tx.deposit.deploymentId
-      : tx.deploymentId
-  );
 
-  const indicatorStyles = clsx(
-    `w-4 h-4 outline outline-2 outline-zinc-50 dark:outline-zinc-900 absolute -right-1 bottom-0 rounded-full bg-card fill-green-400`,
-    !!inProgressItem && "fill-muted-foreground",
-    !!revertedItem && "fill-red-400"
-  );
+  const isSuccessful = useIsSuccessfulBridge(tx);
+  const isInProgress = useIsInProgress(tx);
+  const finalizingTx = useFinalisingTx(tx);
+  const bars = useProgressBars(tx);
 
   return (
     <div className="flex flex-col p-6 border-b relative" key={tx.id}>
@@ -531,81 +573,29 @@ export const TransactionRowV2 = ({ tx }: { tx: Transaction }) => {
       </div>
       <div>Amount: {getDepositAmount(tx, token)}</div>
 
-      <div className="w-full ">
-        <div
-          className="flex flex-col gap-1 cursor-pointer"
-          onClick={() => setExpanded((e) => !e)}
-        >
-          <div className="flex justify-between text-sm">
-            <div className="flex items-center gap-1">
-              {tx.type === "cctp-bridge" && <CctpBadge />}
-              {tx.type === "across-bridge" && <AcrossBadge />}
-              <span className="text-right">{getDepositAmount(tx, token)}</span>
-            </div>
-          </div>
-          <div className="flex items-center text-sm text-muted-foreground">
-            <div className="flex items-center">
-              <NetworkIcon
-                chain={from}
-                className="h-4 w-4 mr-1"
-                height={12}
-                width={12}
-              />
-              <span className="text-xs">{from.name}</span>
-            </div>
-            <div className="mx-1">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                viewBox="0 0 16 16"
-                fill="none"
-                className="fill-muted-foreground w-2.5 h-auto"
-              >
-                <path d="M16 7.99276C16 8.49014 15.7134 8.76539 15.4174 8.97304L8.57699 13.7972C8.37966 13.9276 8.14946 14 7.93804 14C7.25682 14 6.8011 13.4302 6.8011 12.8314C6.8011 12.4644 6.97023 12.1022 7.2991 11.8656L11.1234 9.16137H1.13694C0.498 9.16137 0 8.63501 0 7.99276C0 7.3505 0.498 6.82414 1.13694 6.82414H11.1234L7.2991 4.13441C6.97023 3.90262 6.8011 3.53561 6.8011 3.16861C6.8011 2.54085 7.3132 2 7.93804 2C8.14946 2 8.37966 2.05795 8.57699 2.20282L15.4174 6.99799C15.7322 7.21529 16 7.58229 16 7.99276Z" />
-              </svg>{" "}
-            </div>
-
-            <div className="flex items-center">
-              <NetworkIcon
-                chain={to}
-                className="h-4 w-4 mr-1"
-                height={12}
-                width={12}
-              />
-              <span className="text-xs">{to.name}</span>
-            </div>
-            <button className="ml-auto">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                viewBox="0 0 16 16"
-                className={`fill-muted-foreground transition-all ${
-                  expanded ? "rotate-180" : "rotate-0"
-                }`}
-              >
-                <path
-                  d="M8 0a8 8 0 108 8 8.01 8.01 0 00-8-8zm3.592 6.186a.89.89 0 010 1.26l-2.963 2.962a.889.889 0 01-1.26 0L4.408 7.445a.89.89 0 111.26-1.259L8 8.519l2.334-2.335a.89.89 0 011.258.002z"
-                  clipRule="evenodd"
-                ></path>
-              </svg>
-            </button>
-          </div>
+      {isSuccessful ? (
+        <div>
+          Bridge successful :{" "}
+          {formatDistanceToNow(finalizingTx?.timestamp ?? 0)} ago
         </div>
-
-        {expanded ? (
-          <div className="space-y-2 mt-4">
-            {progressRows?.map((item) => (
-              <TransactionProgressRow key={item.label} item={item} tx={tx} />
+      ) : isInProgress ? (
+        <div>
+          <div className="w-full flex items-center gap-2">
+            {bars.map((bar) => (
+              <div
+                className={clsx(
+                  "w-full h-1",
+                  bar.status === "done" && "bg-blue-500",
+                  bar.status === "in-progress" && "bg-orange-500 animate-pulse",
+                  bar.status === "not-started" && "bg-gray-500"
+                )}
+              ></div>
             ))}
           </div>
-        ) : inProgressItem ? (
-          <div className="mt-4">
-            <TransactionProgressRow item={inProgressItem} tx={tx} />
-          </div>
-        ) : null}
-      </div>
+        </div>
+      ) : (
+        <div></div>
+      )}
     </div>
   );
 };

@@ -14,7 +14,6 @@ export const BridgeBody = () => {
           <TokenInput />
         </div>
 
-        <LineItems />
         <RoutePreview />
 
         <BridgeButton />
