@@ -34,10 +34,18 @@ export const useInitialiseToken = () => {
   const arbitrumGasToken = useGasToken();
 
   useEffect(() => {
-    if (!tokens.length || fast || !deployment) {
+    if (!tokens.length) {
       return;
     }
 
+    if (fast) {
+      setToken(tokens.find((x) => isNativeToken(x))!);
+      return;
+    }
+
+    if (!deployment) {
+      return;
+    }
     const [nameOrToken, nameOrTokenOrUndefined]: (string | undefined)[] =
       router.asPath.split(/[?\/]/).filter(Boolean);
 

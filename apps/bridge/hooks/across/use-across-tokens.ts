@@ -26,17 +26,6 @@ const bridgedUsdc = (address: Address, chainId: number): OptimismToken => ({
   opTokenId: "bridged-usdc",
 });
 
-const usdt = (address: Address, chainId: number): OptimismToken => ({
-  chainId,
-  address,
-  name: "Tether USD",
-  symbol: "USDT",
-  decimals: 6,
-  logoURI: "https://ethereum-optimism.github.io/data/USDT/logo.png",
-  standardBridgeAddresses: {},
-  opTokenId: "USDT",
-});
-
 const eth = (address: Address, chainId: number): OptimismToken => ({
   chainId,
   address,
@@ -74,18 +63,6 @@ export const useAcrossTokens = (): MultiChainToken[] => {
       [optimism.id]: eth(deadAddress, optimism.id),
       [mode.id]: eth(deadAddress, mode.id),
       [lisk.id]: eth(deadAddress, lisk.id),
-    },
-    {
-      [mainnet.id]: usdt(
-        "0xdac17f958d2ee523a2206206994597c13d831ec7",
-        mainnet.id
-      ),
-      [optimism.id]: usdt(
-        "0x94b008aA00579c1307B0EF2c499aD98a8ce58e58",
-        optimism.id
-      ),
-      [mode.id]: usdt("0xf0F161fDA2712DB8b566946122a5af183995e2eD", mode.id),
-      [lisk.id]: usdt("0x05D032ac25d322df992303dCa074EE7392C117b9", lisk.id),
     },
   ];
 };
