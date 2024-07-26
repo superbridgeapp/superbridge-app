@@ -110,3 +110,8 @@ html {
   font-family: sb-body, SFRounded, ui-rounded, "SF Pro Rounded", system-ui,
     "Helvetica Neue", Arial, Helvetica, sans-serif;
 }
+
+/* Radix */
+.ScopeSelectHeightToViewport {
+  max-height: var(--radix-select-content-available-height);
+}
