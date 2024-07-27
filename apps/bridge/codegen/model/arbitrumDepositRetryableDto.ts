@@ -13,6 +13,7 @@ export interface ArbitrumDepositRetryableDto {
   createdAt: string;
   deploymentId: string;
   deposit: ConfirmationDto;
+  duration: number;
   id: string;
   l2TransactionHash: string;
   metadata: ArbitrumDepositRetryableDtoMetadata;

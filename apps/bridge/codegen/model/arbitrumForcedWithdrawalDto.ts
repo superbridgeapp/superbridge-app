@@ -11,6 +11,7 @@ import type { ArbitrumWithdrawalDto } from './arbitrumWithdrawalDto';
 
 export interface ArbitrumForcedWithdrawalDto {
   deposit: ArbitrumForcedWithdrawalDtoDeposit;
+  duration: number;
   id: string;
   type: ArbitrumTransactionType;
   withdrawal?: ArbitrumWithdrawalDto;

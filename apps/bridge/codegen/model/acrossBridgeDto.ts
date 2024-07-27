@@ -12,6 +12,7 @@ import type { AcrossTransactionType } from './acrossTransactionType';
 export interface AcrossBridgeDto {
   createdAt: string;
   deposit: ConfirmationDtoV2;
+  duration: number;
   fill?: ConfirmationDtoV2;
   fromChainId: number;
   id: string;

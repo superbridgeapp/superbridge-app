@@ -14,6 +14,7 @@ export interface PortalDepositDto {
   createdAt: string;
   deploymentId: string;
   deposit: ConfirmationDto;
+  duration: number;
   id: string;
   l2TransactionHash: string;
   metadata: PortalDepositDtoMetadata;

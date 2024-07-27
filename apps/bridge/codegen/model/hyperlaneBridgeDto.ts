@@ -11,6 +11,7 @@ import type { HyperlaneTransactionType } from './hyperlaneTransactionType';
 export interface HyperlaneBridgeDto {
   amount: string;
   createdAt: string;
+  duration: number;
   fromDomain: number;
   id: string;
   receive?: ConfirmationDto;

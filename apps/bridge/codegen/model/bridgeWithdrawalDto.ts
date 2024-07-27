@@ -14,11 +14,11 @@ export interface BridgeWithdrawalDto {
   createdAt: string;
   deploymentId: string;
   finalise?: ConfirmationDto;
+  finalizeDuration: number;
   id: string;
-  l1ChainId: number;
-  l2ChainId: number;
   metadata: BridgeWithdrawalDtoMetadata;
   prove?: ProveConfirmationDto;
+  proveDuration: number;
   status: number;
   type: OptimismTransactionType;
   updatedAt: string;

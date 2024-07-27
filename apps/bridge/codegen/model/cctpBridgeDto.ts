@@ -14,6 +14,7 @@ export interface CctpBridgeDto {
   bridge: ConfirmationDto;
   createdAt: string;
   deploymentId: string;
+  duration: number;
   from: ChainDto;
   id: string;
   relay?: ConfirmationDto;

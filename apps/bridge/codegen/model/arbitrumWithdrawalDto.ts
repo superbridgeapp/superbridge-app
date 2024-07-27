@@ -12,6 +12,7 @@ import type { ArbitrumTransactionType } from './arbitrumTransactionType';
 export interface ArbitrumWithdrawalDto {
   createdAt: string;
   deploymentId: string;
+  duration: number;
   finalise?: ConfirmationDto;
   id: string;
   metadata: ArbitrumWithdrawalDtoMetadata;
