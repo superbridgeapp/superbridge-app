@@ -29,9 +29,13 @@ export const RouteProviderIcon = ({
   provider,
   className,
 }: {
-  provider: RouteProvider;
+  provider: RouteProvider | null;
   className?: string;
 }) => {
+  if (!provider) {
+    return null;
+  }
+
   return (
     <div className="flex items-center text-xs gap-2">
       <span>{names[provider]}</span>

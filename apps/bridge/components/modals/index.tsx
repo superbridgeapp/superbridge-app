@@ -8,6 +8,7 @@ import { FaultProofInfoModal } from "./fault-proofs/fault-proof-info-modal";
 import { FeeBreakdownModal } from "./fee-breakdown-modal";
 import { RecipientAddressModal } from "./recipient-address-modal";
 import { RouteSelectorModal } from "./route-selector-modal";
+import { TransactionDetailsModal } from "./transaction-details-modal";
 import { TransferTimeInfoModal } from "./transfer-time-info-modal";
 import { WithdrawSettingsModal } from "./withdraw-settings-modal";
 import { WithdrawalReadyToFinalizeModal } from "./withdrawal-ready-to-finalize-modal";
@@ -25,6 +26,7 @@ export const Modals = () => {
       <CustomTokenImportModal />
       <TokenModal />
       <ConfirmationModalV2 />
+      <TransactionDetailsModal />
 
       {/* Alerts */}
       <NoGasModal />

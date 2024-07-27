@@ -3,8 +3,6 @@ import { formatDistanceToNow } from "date-fns";
 import { FC } from "react";
 import { useTranslation } from "react-i18next";
 import Lottie from "react-lottie-player";
-import { match } from "ts-pattern";
-import { Address, formatUnits, isAddressEqual } from "viem";
 import { useChainId } from "wagmi";
 
 import {
@@ -13,26 +11,23 @@ import {
   ArbitrumWithdrawalDto,
   BridgeWithdrawalDto,
   CctpBridgeDto,
-  EthDepositDto,
   ForcedWithdrawalDto,
-  NftDepositDto,
-  TokenDepositDto,
   TransactionStatus,
 } from "@/codegen/model";
+import { useTxAmount } from "@/hooks/activity/use-tx-amount";
+import { useTxFromTo } from "@/hooks/activity/use-tx-from-to";
 import { useTxTimestamp } from "@/hooks/activity/use-tx-timestamp";
+import { useTxToken } from "@/hooks/activity/use-tx-token";
 import { useFinaliseArbitrum } from "@/hooks/arbitrum/use-arbitrum-finalise";
 import { useRedeemArbitrum } from "@/hooks/arbitrum/use-arbitrum-redeem";
 import { useMintCctp } from "@/hooks/cctp/use-cctp-mint";
 import { useFinaliseOptimism } from "@/hooks/optimism/use-optimism-finalise";
 import { useProveOptimism } from "@/hooks/optimism/use-optimism-prove";
-import { useAllTokens } from "@/hooks/tokens/use-all-tokens";
-import { useGasTokenForDeployment } from "@/hooks/use-approve-gas-token";
 import { useDeploymentById } from "@/hooks/use-deployment-by-id";
-import { useFromTo } from "@/hooks/use-from-to";
 import { useSwitchChain } from "@/hooks/use-switch-chain";
-import { MultiChainToken, Token } from "@/types/token";
+import { useConfigState } from "@/state/config";
+import { useModalsState } from "@/state/modals";
 import { Transaction } from "@/types/transaction";
-import { formatDecimals } from "@/utils/format-decimals";
 import {
   isAcrossBridge,
   isArbitrumDeposit,
@@ -42,12 +37,10 @@ import {
   isDeposit,
   isForcedWithdrawal,
   isHyperlaneBridge,
-  isHyperlaneToken,
   isOptimismForcedWithdrawal,
   isOptimismWithdrawal,
   isWithdrawal,
 } from "@/utils/guards";
-import { isNativeToken } from "@/utils/is-eth";
 import {
   ButtonComponent,
   ExpandedItem,
@@ -300,173 +293,6 @@ const TransactionProgressRow = ({
   );
 };
 
-const getToken = (
-  tokens: MultiChainToken[],
-  {
-    chainId,
-    tokenAddress,
-  }: {
-    chainId: number;
-    tokenAddress: string;
-  },
-  destChainId?: number
-) => {
-  let match: Token | null = null;
-  for (const t of tokens) {
-    if (
-      destChainId &&
-      t[chainId]?.address &&
-      t[destChainId]?.address &&
-      isAddressEqual(t[chainId]!.address, tokenAddress as Address)
-    ) {
-      return t[chainId]!;
-    }
-
-    if (
-      t[chainId]?.address &&
-      isAddressEqual(t[chainId]!.address, tokenAddress as Address)
-    ) {
-      match = t[chainId]!;
-    }
-  }
-
-  return match;
-};
-
-const getNativeToken = (tokens: MultiChainToken[], chainId: number) => {
-  return tokens.find((x) => {
-    return x[chainId] && isNativeToken(x);
-  })?.[chainId];
-};
-function useToken(tx: Transaction, tokens: MultiChainToken[]) {
-  const deployment = useDeploymentById(
-    isAcrossBridge(tx) || isCctpBridge(tx) || isHyperlaneBridge(tx)
-      ? ""
-      : isForcedWithdrawal(tx)
-      ? tx.deposit.deploymentId
-      : tx.deploymentId
-  );
-  const gasToken = useGasTokenForDeployment(deployment?.id);
-
-  const [from, to] = useFromTo(tx);
-
-  if (isCctpBridge(tx)) {
-    return getToken(tokens, {
-      chainId: tx.from.id,
-      tokenAddress: tx.token,
-    });
-  }
-
-  if (isAcrossBridge(tx)) {
-    if (tx.metadata.data.isEth) {
-      return getNativeToken(tokens, from.id);
-    }
-
-    return getToken(
-      tokens,
-      {
-        chainId: from.id,
-        tokenAddress: tx.metadata.data.inputTokenAddress,
-      },
-      to.id
-    );
-  }
-
-  if (isHyperlaneBridge(tx)) {
-    const t = tokens.find((x) => {
-      const src = x[from.id];
-      if (!src || !isHyperlaneToken(src)) {
-        return false;
-      }
-      return (
-        // when they come from the backend
-        isAddressEqual(src.hyperlane.router, tx.token as Address) ||
-        // when we add a pending tx
-        isAddressEqual(src.address, tx.token as Address)
-      );
-    });
-
-    return t?.[from.id] ?? null;
-  }
-
-  const metadata =
-    isForcedWithdrawal(tx) && tx.withdrawal
-      ? tx.withdrawal.metadata
-      : isForcedWithdrawal(tx)
-      ? tx.deposit.metadata
-      : tx.metadata;
-
-  return match(metadata)
-    .with({ type: "eth-deposit" }, () => {
-      if (gasToken) {
-        return isDeposit(tx)
-          ? gasToken[deployment?.l1.id ?? 0]
-          : gasToken[deployment?.l2.id ?? 0];
-      }
-      return getNativeToken(tokens, from.id);
-    })
-    .with({ type: "token-deposit" }, (m) => {
-      const dto = m as TokenDepositDto;
-      const tokenAddress = isDeposit(tx)
-        ? dto.data.l1TokenAddress
-        : dto.data.l2TokenAddress;
-      return getToken(
-        tokens,
-        {
-          chainId: from.id,
-          tokenAddress,
-        },
-        to.id
-      );
-    })
-    .otherwise(() => null);
-}
-
-function getDepositAmount(tx: Transaction, token: Token | null | undefined) {
-  let amount: string;
-  let decimals: number;
-  let symbol: string | undefined;
-
-  if (isCctpBridge(tx)) {
-    amount = tx.amount;
-    decimals = 6;
-    symbol = token?.symbol ?? "USDC";
-  } else if (tx.type === "across-bridge") {
-    amount = tx.metadata.data.inputAmount;
-    decimals = token?.decimals ?? 18;
-    symbol = token?.symbol ?? "ETH";
-  } else if (isHyperlaneBridge(tx)) {
-    amount = tx.amount;
-    decimals = token?.decimals ?? 18;
-    symbol = token?.symbol ?? "ETH";
-  } else {
-    const metadata =
-      isForcedWithdrawal(tx) && tx.withdrawal
-        ? tx.withdrawal.metadata
-        : isForcedWithdrawal(tx)
-        ? tx.deposit.metadata
-        : tx.metadata;
-
-    if (metadata.type === "eth-deposit") {
-      amount = (metadata as EthDepositDto).data.amount;
-      decimals = 18;
-      symbol = token?.symbol ?? "ETH";
-    } else if (metadata.type === "nft-deposit") {
-      return `#${(metadata as NftDepositDto).data.tokenId}`;
-    } else {
-      const dto = metadata as TokenDepositDto;
-      amount = dto.data.amount;
-      decimals = token?.decimals ?? 18;
-      symbol = token?.symbol;
-    }
-  }
-
-  const formatted = formatDecimals(
-    parseFloat(formatUnits(BigInt(amount), decimals))
-  );
-  return `${formatted} ${symbol}`;
-}
-
 const useInitiatingTx = (tx: Transaction) => {
   if (isAcrossBridge(tx)) return tx.deposit;
   if (isHyperlaneBridge(tx)) return tx.send;
@@ -497,7 +323,7 @@ const useIsInProgress = (tx: Transaction) => {
 
 const useProgressBars = (
   tx: Transaction
-): { status: "done" | "in-progress" | "not-started" }[] => {
+): { status: "done" | "in-progress" | "not-started"; name: string }[] => {
   const initiatingTx = useInitiatingTx(tx);
   const finalisingTx = useFinalisingTx(tx);
   const proveTx = isOptimismWithdrawal(tx)
@@ -506,37 +332,41 @@ const useProgressBars = (
     ? tx.withdrawal?.prove
     : null;
 
-  const bars: { status: "done" | "in-progress" | "not-started" }[] = [];
+  const bars: {
+    status: "done" | "in-progress" | "not-started";
+    name: string;
+  }[] = [];
   if (initiatingTx.timestamp) {
-    bars.push({ status: "done" });
+    bars.push({ status: "done", name: "initiating" });
   } else {
-    bars.push({ status: "in-progress" });
+    bars.push({ status: "in-progress", name: "initiating" });
   }
 
   if (proveTx) {
     if (proveTx.timestamp) {
-      bars.push({ status: "done" });
+      bars.push({ status: "done", name: "prove" });
     } else {
-      bars.push({ status: "in-progress" });
+      bars.push({ status: "in-progress", name: "prove" });
     }
   }
 
   if (finalisingTx?.timestamp) {
-    bars.push({ status: "done" });
+    bars.push({ status: "done", name: "finalise" });
   } else {
-    bars.push({ status: "in-progress" });
+    bars.push({ status: "in-progress", name: "finalise" });
   }
 
   return bars;
 };
 
 export const TransactionRowV2 = ({ tx }: { tx: Transaction }) => {
-  const tokens = useAllTokens();
+  const token = useTxToken(tx);
 
-  const token = useToken(tx, tokens);
-
+  const chains = useTxFromTo(tx);
+  const openModal = useConfigState.useAddModal();
+  const openActivityModal = useModalsState.useSetActivityId();
   const timestamp = useTxTimestamp(tx);
-  const [from, to] = useFromTo(tx);
+  const amount = useTxAmount(tx, token);
 
   const isSuccessful = useIsSuccessfulBridge(tx);
   const isInProgress = useIsInProgress(tx);
@@ -545,6 +375,7 @@ export const TransactionRowV2 = ({ tx }: { tx: Transaction }) => {
 
   return (
     <div className="flex flex-col p-6 border-b relative" key={tx.id}>
+      <button onClick={() => openActivityModal(tx.id)}>Open</button>
       <div>Time: {formatDistanceToNow(timestamp)} ago</div>
       <div>
         Icon:
@@ -556,7 +387,7 @@ export const TransactionRowV2 = ({ tx }: { tx: Transaction }) => {
       <div>
         From:{" "}
         <NetworkIcon
-          chain={from}
+          chain={chains?.from}
           className="h-4 w-4 mr-1"
           height={12}
           width={12}
@@ -565,13 +396,13 @@ export const TransactionRowV2 = ({ tx }: { tx: Transaction }) => {
       <div>
         To:{" "}
         <NetworkIcon
-          chain={to}
+          chain={chains?.to}
           className="h-4 w-4 mr-1"
           height={12}
           width={12}
         />
       </div>
-      <div>Amount: {getDepositAmount(tx, token)}</div>
+      <div>Amount: {amount}</div>
 
       {isSuccessful ? (
         <div>
@@ -583,6 +414,7 @@ export const TransactionRowV2 = ({ tx }: { tx: Transaction }) => {
           <div className="w-full flex items-center gap-2">
             {bars.map((bar) => (
               <div
+                key={bar.status}
                 className={clsx(
                   "w-full h-1",
                   bar.status === "done" && "bg-blue-500",

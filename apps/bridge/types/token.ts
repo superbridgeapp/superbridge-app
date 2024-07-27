@@ -1,6 +1,6 @@
 import { Address } from "viem";
 
-interface BaseToken {
+export interface BaseToken {
   chainId: number;
   address: Address;
   name: string;

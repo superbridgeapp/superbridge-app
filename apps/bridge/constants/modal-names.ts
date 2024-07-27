@@ -5,6 +5,7 @@ export enum ModalNames {
   WithdrawSettings = "WithdrawSettings",
   RouteSelector = "RouteSelector",
   NetworkSelector = "NetworkSelector",
+  TransactionDetails = "TransactionDetails",
 }
 
 export enum AlertModals {

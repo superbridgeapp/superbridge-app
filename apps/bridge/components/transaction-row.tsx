@@ -17,6 +17,7 @@ import {
   NftDepositDto,
   TokenDepositDto,
 } from "@/codegen/model";
+import { useTxFromTo } from "@/hooks/activity/use-tx-from-to";
 import { useFinaliseArbitrum } from "@/hooks/arbitrum/use-arbitrum-finalise";
 import { useRedeemArbitrum } from "@/hooks/arbitrum/use-arbitrum-redeem";
 import { useMintCctp } from "@/hooks/cctp/use-cctp-mint";
@@ -25,7 +26,6 @@ import { useProveOptimism } from "@/hooks/optimism/use-optimism-prove";
 import { useAllTokens } from "@/hooks/tokens/use-all-tokens";
 import { useGasTokenForDeployment } from "@/hooks/use-approve-gas-token";
 import { useDeploymentById } from "@/hooks/use-deployment-by-id";
-import { useFromTo } from "@/hooks/use-from-to";
 import { useSwitchChain } from "@/hooks/use-switch-chain";
 import { MultiChainToken, Token } from "@/types/token";
 import { Transaction } from "@/types/transaction";
@@ -349,7 +349,12 @@ function useToken(tx: Transaction, tokens: MultiChainToken[]) {
   );
   const gasToken = useGasTokenForDeployment(deployment?.id);
 
-  const [from, to] = useFromTo(tx);
+  const chains = useTxFromTo(tx);
+  if (!chains) {
+    return null;
+  }
+
+  const { from, to } = chains;
 
   if (isCctpBridge(tx)) {
     return getToken(tokens, {
@@ -505,7 +510,6 @@ export const TransactionRow = ({ tx }: { tx: Transaction }) => {
     (x) => x.status === ProgressRowStatus.Reverted
   );
 
-  const [from, to] = useFromTo(tx);
   const deployment = useDeploymentById(
     isAcrossBridge(tx) || isHyperlaneBridge(tx)
       ? ""
@@ -513,6 +517,12 @@ export const TransactionRow = ({ tx }: { tx: Transaction }) => {
       ? tx.deposit.deploymentId
       : tx.deploymentId
   );
+
+  const chains = useTxFromTo(tx);
+  if (!chains) {
+    return null;
+  }
+  const { from, to } = chains;
 
   const indicatorStyles = clsx(
     `w-4 h-4 outline outline-2 outline-zinc-50 dark:outline-zinc-900 absolute -right-1 bottom-0 rounded-full bg-card fill-green-400`,
