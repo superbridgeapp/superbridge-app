@@ -14,6 +14,7 @@ import {
   ForcedWithdrawalDto,
   TransactionStatus,
 } from "@/codegen/model";
+import { ArbitrumMessageStatus } from "@/constants/arbitrum-message-status";
 import { useTxAmount } from "@/hooks/activity/use-tx-amount";
 import { useTxFromTo } from "@/hooks/activity/use-tx-from-to";
 import { useTxTimestamp } from "@/hooks/activity/use-tx-timestamp";
@@ -48,9 +49,109 @@ import {
 } from "@/utils/progress-rows/common";
 
 import inProgress from "../animation/loading.json";
+import { MessageStatus } from "../constants";
 import { NetworkIcon } from "./network-icon";
 import { TokenIcon } from "./token-icon";
 import { Button } from "./ui/button";
+
+const useCurrentRemainingDuration = (tx: Transaction) => {
+  const initiatingTx = useInitiatingTx(tx);
+
+  if (isOptimismWithdrawal(tx) || isOptimismForcedWithdrawal(tx)) {
+    const withdrawal = isOptimismWithdrawal(tx) ? tx : tx.withdrawal;
+    const status = isOptimismWithdrawal(tx) ? tx.status : tx.withdrawal?.status;
+    if (!withdrawal || !status) {
+      return null;
+    }
+
+    if (status === MessageStatus.STATE_ROOT_NOT_PUBLISHED) {
+      return {
+        description: "Waiting for state root",
+        remaining:
+          Date.now() -
+          withdrawal.withdrawal.timestamp +
+          withdrawal.proveDuration,
+      };
+    }
+
+    if (withdrawal.prove && status === MessageStatus.IN_CHALLENGE_PERIOD) {
+      return {
+        description: "challenge period",
+        remaining:
+          Date.now() - withdrawal.prove.timestamp + withdrawal.finalizeDuration,
+      };
+    }
+
+    return null;
+  }
+
+  return {
+    remaining: Date.now() - initiatingTx.timestamp + tx.duration,
+    description: "",
+  };
+};
+
+const useStatus = (
+  tx: Transaction
+):
+  | { description: string; button: string }
+  | { description: string; remaining: number }
+  | null => {
+  const action = useAction(tx);
+  const chains = useTxFromTo(tx);
+  const remainingDuration = useCurrentRemainingDuration(tx);
+
+  if (!chains) {
+    return null;
+  }
+
+  if (action === "prove") {
+    return {
+      description: `Ready to prove on ${chains.to.name}`,
+      button: "Prove",
+    };
+  }
+
+  if (action === "finalize") {
+    return {
+      description: `Ready to finalize on ${chains.to.name}`,
+      button: "Finalize",
+    };
+  }
+
+  if (action === "mint") {
+    return {
+      description: `Ready to mint on ${chains.to.name}`,
+      button: "Mint",
+    };
+  }
+
+  return remainingDuration;
+};
+
+const ActionRow = ({ tx }: { tx: Transaction }) => {
+  const status = useStatus(tx);
+
+  if (!status) {
+    return null;
+  }
+
+  return (
+    <div className="w-full flex items-center justify-between">
+      <span>{status.description}</span>
+
+      {(status as any).button && (
+        <button className="bg-blue-100"> Prove</button>
+      )}
+
+      {(status as any).remaining && (
+        <span className="bg-blue-100">
+          ~{formatDistanceToNow(Date.now() + (status as any).remaining)}
+        </span>
+      )}
+    </div>
+  );
+};
 
 const Prove = ({ tx }: { tx: BridgeWithdrawalDto | ForcedWithdrawalDto }) => {
   const prove = useProveOptimism(isWithdrawal(tx) ? tx : tx.withdrawal!);
@@ -321,6 +422,35 @@ const useIsInProgress = (tx: Transaction) => {
   return !finalTx;
 };
 
+const useAction = (tx: Transaction) => {
+  if (isAcrossBridge(tx) || isHyperlaneBridge(tx) || isDeposit(tx)) {
+    return null;
+  }
+
+  if (isOptimismWithdrawal(tx) || isOptimismForcedWithdrawal(tx)) {
+    const status = isOptimismWithdrawal(tx) ? tx.status : tx.withdrawal?.status;
+    if (!status) {
+      return null;
+    }
+
+    return status === MessageStatus.READY_TO_PROVE
+      ? "prove"
+      : status === MessageStatus.READY_FOR_RELAY
+      ? "finalize"
+      : null;
+  }
+
+  if (isArbitrumWithdrawal(tx)) {
+    return tx.status === ArbitrumMessageStatus.CONFIRMED ? "finalize" : null;
+  }
+
+  if (isCctpBridge(tx)) {
+    return tx.bridge.timestamp + tx.duration > Date.now() ? "mint" : null;
+  }
+
+  return null;
+};
+
 const useProgressBars = (
   tx: Transaction
 ): { status: "done" | "in-progress" | "not-started"; name: string }[] => {
@@ -375,32 +505,24 @@ export const TransactionRowV2 = ({ tx }: { tx: Transaction }) => {
 
   return (
     <div className="flex flex-col p-6 border-b relative" key={tx.id}>
-      <button onClick={() => openActivityModal(tx.id)}>Open</button>
-      <div>Time: {formatDistanceToNow(timestamp)} ago</div>
-      <div>
-        Icon:
-        <TokenIcon
-          token={token ?? null}
-          className="h-12 w-12 min-h-12 min-w-12"
-        />
+      <button
+        className="border border-1"
+        onClick={() => openActivityModal(tx.id)}
+      >
+        Open details
+      </button>
+      <div>Initiated: {formatDistanceToNow(timestamp)} ago</div>
+      <div className="flex items-center gap-3">
+        <span>Token:</span>
+        <TokenIcon token={token ?? null} className="h-6 w-6" />
       </div>
-      <div>
-        From:{" "}
-        <NetworkIcon
-          chain={chains?.from}
-          className="h-4 w-4 mr-1"
-          height={12}
-          width={12}
-        />
+      <div className="flex items-center gap-3">
+        <span>From:</span>
+        <NetworkIcon chain={chains?.from} className="h-6 w-6" />
       </div>
-      <div>
-        To:{" "}
-        <NetworkIcon
-          chain={chains?.to}
-          className="h-4 w-4 mr-1"
-          height={12}
-          width={12}
-        />
+      <div className="flex items-center gap-3">
+        <span>To:</span>
+        <NetworkIcon chain={chains?.to} className="h-6 w-6" />
       </div>
       <div>Amount: {amount}</div>
 
@@ -424,6 +546,8 @@ export const TransactionRowV2 = ({ tx }: { tx: Transaction }) => {
               ></div>
             ))}
           </div>
+
+          <ActionRow tx={tx} />
         </div>
       ) : (
         <div></div>
