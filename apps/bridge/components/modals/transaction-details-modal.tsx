@@ -61,7 +61,6 @@ const useSteps = (
       {
         type: RouteStepType.Receive,
         chainId: to.id.toString(),
-        estimatedGasLimit: 100_000,
       },
     ];
   }
@@ -124,7 +123,7 @@ const useSteps = (
       },
       {
         type: RouteStepType.Wait,
-        duration: 1000,
+        duration: isOptimismWithdrawal(tx) ? tx.proveDuration : tx.duration,
       },
       ...(isOptimismWithdrawal(tx)
         ? [
@@ -135,7 +134,7 @@ const useSteps = (
             },
             {
               type: RouteStepType.Wait,
-              duration: 1000,
+              duration: tx.finalizeDuration,
             },
           ]
         : []),
@@ -178,6 +177,14 @@ const useSteps = (
   return [];
 };
 
+const WaitStep = ({
+  tx,
+  step,
+}: {
+  tx: Transaction;
+  step: RouteStepWaitDto;
+}) => {};
+
 const TransactionStatus = () => {
   const activityId = useModalsState.useActivityId();
   const tx = useTransactionById(activityId);
@@ -196,16 +203,22 @@ const TransactionStatus = () => {
 
   return (
     <div className="bg-blue-400">
-      <div>Bridging {amount}</div>
-      <TokenIcon token={token} className="h-4 w-4" />
-      <RouteProviderIcon provider={provider} />
+      <div>Amount: {amount}</div>
+      <div className="flex items-center gap-2">
+        <span>Token:</span>
+        <TokenIcon token={token} className="h-4 w-4" />
+      </div>
+      <div className="flex items-center gap-2">
+        <span>Route:</span>
+        <RouteProviderIcon provider={provider} />
+      </div>
 
-      <div>
-        From:
+      <div className="flex items-center gap-2">
+        <span>From:</span>
         <NetworkIcon chain={chains?.from} className="h-4 w-4" />
       </div>
-      <div>
-        To:
+      <div className="flex items-center gap-2">
+        <span>To:</span>
         <NetworkIcon chain={chains?.to} className="h-4 w-4" />
       </div>
 
@@ -214,12 +227,10 @@ const TransactionStatus = () => {
 
         {steps.map((step) => (
           <div key={step.type}>
-            {step.type}
-
             {isRouteWaitStep(step) ? (
-              <div>Wait</div>
+              <div>{step.type}</div>
             ) : isRouteReceiveStep(step) ? (
-              <div>Receive</div>
+              <div>{step.type}</div>
             ) : (
               <div>Transaction</div>
             )}
