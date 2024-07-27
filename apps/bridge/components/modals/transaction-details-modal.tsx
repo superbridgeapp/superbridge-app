@@ -1,7 +1,6 @@
 import { useTranslation } from "react-i18next";
 
 import {
-  RouteProvider,
   RouteStepReceiveDto,
   RouteStepTransactionDto,
   RouteStepType,
@@ -12,6 +11,7 @@ import { useInitiatingTx } from "@/hooks/activity/use-initiating-tx";
 import { useProveTx } from "@/hooks/activity/use-prove-tx";
 import { useTxAmount } from "@/hooks/activity/use-tx-amount";
 import { useTxFromTo } from "@/hooks/activity/use-tx-from-to";
+import { useTxProvider } from "@/hooks/activity/use-tx-provider";
 import { useTxToken } from "@/hooks/activity/use-tx-token";
 import { useToChain } from "@/hooks/use-chain";
 import { useSelectedToken } from "@/hooks/use-selected-token";
@@ -20,12 +20,9 @@ import { useModalsState } from "@/state/modals";
 import { Transaction } from "@/types/transaction";
 import {
   isAcrossBridge,
-  isArbitrumDeposit,
-  isArbitrumWithdrawal,
   isCctpBridge,
   isDeposit,
   isHyperlaneBridge,
-  isOptimismDeposit,
   isOptimismForcedWithdrawal,
   isOptimismWithdrawal,
   isRouteReceiveStep,
@@ -42,18 +39,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 const useTransactionById = (id: string | null) => {
   const { transactions } = useTransactions();
   return transactions.find((x) => x.id === id);
-};
-
-const useTxProvider = (tx: Transaction | undefined | null) => {
-  if (!tx) return null;
-  if (isArbitrumDeposit(tx)) return RouteProvider.ArbitrumDeposit;
-  if (isArbitrumWithdrawal(tx)) return RouteProvider.ArbitrumWithdrawal;
-  if (isOptimismDeposit(tx)) return RouteProvider.OptimismDeposit;
-  if (isOptimismWithdrawal(tx)) return RouteProvider.OptimismWithdrawal;
-  if (isOptimismForcedWithdrawal(tx))
-    return RouteProvider.OptimismForcedWithdrawal;
-  if (isAcrossBridge(tx)) return RouteProvider.Across;
-  return RouteProvider.Hyperlane;
 };
 
 const useSteps = (

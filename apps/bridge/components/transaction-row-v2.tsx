@@ -17,6 +17,7 @@ import {
 import { ArbitrumMessageStatus } from "@/constants/arbitrum-message-status";
 import { useTxAmount } from "@/hooks/activity/use-tx-amount";
 import { useTxFromTo } from "@/hooks/activity/use-tx-from-to";
+import { useTxProvider } from "@/hooks/activity/use-tx-provider";
 import { useTxTimestamp } from "@/hooks/activity/use-tx-timestamp";
 import { useTxToken } from "@/hooks/activity/use-tx-token";
 import { useFinaliseArbitrum } from "@/hooks/arbitrum/use-arbitrum-finalise";
@@ -51,6 +52,7 @@ import {
 import inProgress from "../animation/loading.json";
 import { MessageStatus } from "../constants";
 import { NetworkIcon } from "./network-icon";
+import { RouteProviderIcon } from "./route-provider-icon";
 import { TokenIcon } from "./token-icon";
 import { Button } from "./ui/button";
 
@@ -502,6 +504,7 @@ export const TransactionRowV2 = ({ tx }: { tx: Transaction }) => {
   const isInProgress = useIsInProgress(tx);
   const finalizingTx = useFinalisingTx(tx);
   const bars = useProgressBars(tx);
+  const provider = useTxProvider(tx);
 
   return (
     <div className="flex flex-col p-6 border-b relative" key={tx.id}>
@@ -511,6 +514,10 @@ export const TransactionRowV2 = ({ tx }: { tx: Transaction }) => {
       >
         Open details
       </button>
+      <div className="flex items-center gap-3">
+        <span>Route:</span>
+        <RouteProviderIcon provider={provider} />
+      </div>
       <div>Initiated: {formatDistanceToNow(timestamp)} ago</div>
       <div className="flex items-center gap-3">
         <span>Token:</span>
