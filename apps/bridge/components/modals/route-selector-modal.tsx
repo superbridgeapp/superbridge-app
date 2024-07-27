@@ -1,9 +1,16 @@
-import { RouteProvider, RouteQuoteDto } from "@/codegen/model";
+import {
+  RouteProvider,
+  RouteQuoteDto,
+  RouteStepTransactionDto,
+} from "@/codegen/model";
 import { ModalNames } from "@/constants/modal-names";
 import { useBridgeRoutes } from "@/hooks/use-bridge-routes";
 import { useToChain } from "@/hooks/use-chain";
+import { useFeesForRoute } from "@/hooks/use-fees";
 import { useGetFormattedAmount } from "@/hooks/use-get-formatted-amount";
+import { useNetworkFeeForGasLimit } from "@/hooks/use-network-fee";
 import { useDestinationToken } from "@/hooks/use-selected-token";
+import { useApproxTotalBridgeTimeTextForRoute } from "@/hooks/use-transfer-time";
 import { useConfigState } from "@/state/config";
 import { isRouteQuoteError } from "@/utils/guards";
 
@@ -24,6 +31,19 @@ const Route = ({
   const getFormattedAmount = useGetFormattedAmount(stateToken, to?.id);
 
   const receive = getFormattedAmount(quote.receive);
+
+  const networkFee = useNetworkFeeForGasLimit(
+    parseInt((quote.steps[0] as RouteStepTransactionDto).chainId),
+    BigInt((quote.steps[0] as RouteStepTransactionDto).estimatedGasLimit)
+  );
+
+  const route = {
+    isLoading: false,
+    data: { id: provider, result: quote },
+  };
+  const fees = useFeesForRoute(route);
+  const time = useApproxTotalBridgeTimeTextForRoute(route);
+
   return (
     <div
       onClick={onSelect}
@@ -34,6 +54,20 @@ const Route = ({
         Receive: {receive.token.formatted}{" "}
         {receive.fiat && <span>({receive.fiat.formatted})</span>}
       </div>
+
+      <div>
+        Network fee: {networkFee.data?.token.formatted}{" "}
+        {networkFee.data?.fiat && <span>{networkFee.data.fiat.formatted}</span>}
+      </div>
+
+      <div>
+        Fees: {fees.data?.totals.tokenFormatted}{" "}
+        {fees.data?.totals.fiatFormatted && (
+          <span>{fees.data?.totals.fiatFormatted}</span>
+        )}
+      </div>
+
+      <div>Bridge time: {time.data}</div>
     </div>
   );
 };

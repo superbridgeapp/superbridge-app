@@ -4,9 +4,9 @@ import { Period, getPeriod } from "./use-finalization-period";
 import { useSelectedBridgeRoute } from "./use-selected-bridge-route";
 import { useTransformPeriodText } from "./use-transform-period-text";
 
-export const useApproxTotalBridgeTime = () => {
-  const route = useSelectedBridgeRoute();
-
+export const useApproxTotalBridgeTimeForRoute = (
+  route: ReturnType<typeof useSelectedBridgeRoute>
+) => {
   let data: null | Period = null;
 
   if (route.data?.result && isRouteQuote(route.data.result)) {
@@ -23,8 +23,15 @@ export const useApproxTotalBridgeTime = () => {
   };
 };
 
-export const useApproxTotalBridgeTimeText = () => {
-  const time = useApproxTotalBridgeTime();
+export const useApproxTotalBridgeTime = () => {
+  const route = useSelectedBridgeRoute();
+  return useApproxTotalBridgeTimeForRoute(route);
+};
+
+export const useApproxTotalBridgeTimeTextForRoute = (
+  route: ReturnType<typeof useSelectedBridgeRoute>
+) => {
+  const time = useApproxTotalBridgeTimeForRoute(route);
 
   const transformPeriod = useTransformPeriodText();
 
@@ -46,4 +53,9 @@ export const useApproxTotalBridgeTimeText = () => {
     data: transformPeriod("transferTime", {}, time.data),
     isLoading: false,
   };
+};
+
+export const useApproxTotalBridgeTimeText = () => {
+  const route = useSelectedBridgeRoute();
+  return useApproxTotalBridgeTimeTextForRoute(route);
 };
