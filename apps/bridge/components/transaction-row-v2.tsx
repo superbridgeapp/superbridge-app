@@ -16,6 +16,7 @@ import {
 } from "@/codegen/model";
 import { ArbitrumMessageStatus } from "@/constants/arbitrum-message-status";
 import { useTxAmount } from "@/hooks/activity/use-tx-amount";
+import { useTxDeployment } from "@/hooks/activity/use-tx-deployment";
 import { useTxFromTo } from "@/hooks/activity/use-tx-from-to";
 import { useTxProvider } from "@/hooks/activity/use-tx-provider";
 import { useTxTimestamp } from "@/hooks/activity/use-tx-timestamp";
@@ -43,6 +44,7 @@ import {
   isOptimismWithdrawal,
   isWithdrawal,
 } from "@/utils/guards";
+import { isOptimism } from "@/utils/is-mainnet";
 import {
   ButtonComponent,
   ExpandedItem,
@@ -56,8 +58,9 @@ import { RouteProviderIcon } from "./route-provider-icon";
 import { TokenIcon } from "./token-icon";
 import { Button } from "./ui/button";
 
-const useCurrentRemainingDuration = (tx: Transaction) => {
+const useNextStateChangeTimestamp = (tx: Transaction) => {
   const initiatingTx = useInitiatingTx(tx);
+  const deployment = useTxDeployment(tx);
 
   if (isOptimismWithdrawal(tx) || isOptimismForcedWithdrawal(tx)) {
     const withdrawal = isOptimismWithdrawal(tx) ? tx : tx.withdrawal;
@@ -68,19 +71,20 @@ const useCurrentRemainingDuration = (tx: Transaction) => {
 
     if (status === MessageStatus.STATE_ROOT_NOT_PUBLISHED) {
       return {
-        description: "Waiting for state root",
-        remaining:
-          Date.now() -
-          withdrawal.withdrawal.timestamp +
-          withdrawal.proveDuration,
+        description:
+          !!deployment &&
+          isOptimism(deployment) &&
+          deployment?.contractAddresses.disputeGameFactory
+            ? "Waiting for dispute game"
+            : "Waiting for state root",
+        timestamp: withdrawal.withdrawal.timestamp + withdrawal.proveDuration,
       };
     }
 
     if (withdrawal.prove && status === MessageStatus.IN_CHALLENGE_PERIOD) {
       return {
         description: "challenge period",
-        remaining:
-          Date.now() - withdrawal.prove.timestamp + withdrawal.finalizeDuration,
+        timestamp: withdrawal.prove.timestamp + withdrawal.finalizeDuration,
       };
     }
 
@@ -88,7 +92,7 @@ const useCurrentRemainingDuration = (tx: Transaction) => {
   }
 
   return {
-    remaining: Date.now() - initiatingTx.timestamp + tx.duration,
+    timestamp: initiatingTx.timestamp + tx.duration,
     description: "",
   };
 };
@@ -97,11 +101,11 @@ const useStatus = (
   tx: Transaction
 ):
   | { description: string; button: string }
-  | { description: string; remaining: number }
+  | { description: string; timestamp: number }
   | null => {
   const action = useAction(tx);
   const chains = useTxFromTo(tx);
-  const remainingDuration = useCurrentRemainingDuration(tx);
+  const nextStateChangeTimestamp = useNextStateChangeTimestamp(tx);
 
   if (!chains) {
     return null;
@@ -128,7 +132,7 @@ const useStatus = (
     };
   }
 
-  return remainingDuration;
+  return nextStateChangeTimestamp;
 };
 
 const ActionRow = ({ tx }: { tx: Transaction }) => {
@@ -146,9 +150,9 @@ const ActionRow = ({ tx }: { tx: Transaction }) => {
         <button className="bg-blue-100"> Prove</button>
       )}
 
-      {(status as any).remaining && (
+      {(status as any).timestamp && (status as any).timestamp > Date.now() && (
         <span className="bg-blue-100">
-          ~{formatDistanceToNow(Date.now() + (status as any).remaining)}
+          ~{formatDistanceToNow((status as any).timestamp)}
         </span>
       )}
     </div>
