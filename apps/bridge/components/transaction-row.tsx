@@ -148,7 +148,7 @@ const MintCctp: FC<{
   );
 };
 
-const TransactionProgressRow = ({
+export const TransactionProgressRow = ({
   item,
   tx,
 }: {
