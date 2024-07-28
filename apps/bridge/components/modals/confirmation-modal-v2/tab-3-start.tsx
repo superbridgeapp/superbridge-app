@@ -365,7 +365,7 @@ export const ConfirmationModalStartTab = () => {
     base: deployment?.l1.name,
     rollup: deployment?.l2.name,
     symbol: token?.symbol,
-    receiveAmount: receive.data?.token.formatted,
+    receiveAmount: receive.data?.token.amount,
     receiveSymbol: stateToken?.[to?.id ?? 0]?.symbol,
   };
 
