@@ -17,14 +17,14 @@ import {
 } from "./get-remaining-period";
 
 export const useArbitrumWithdrawalProgressRows = (
-  w: Transaction,
+  w: Transaction | null,
   deployment: DeploymentDto | null
 ): ExpandedItem[] | null => {
   const { t } = useTranslation();
   const pendingFinalises = usePendingTransactions.usePendingFinalises();
   const transformPeriodText = usePeriodText();
 
-  if (!isArbitrumWithdrawal(w) || !deployment) {
+  if (!w || !isArbitrumWithdrawal(w) || !deployment) {
     return null;
   }
 

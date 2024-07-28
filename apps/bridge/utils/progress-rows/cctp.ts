@@ -13,14 +13,14 @@ import { ButtonComponent, ExpandedItem, ProgressRowStatus } from "./common";
 import { getRemainingTimePeriod } from "./get-remaining-period";
 
 export const useCctpProgressRows = (
-  tx: Transaction,
+  tx: Transaction | null,
   deployment: DeploymentDto | null
 ): ExpandedItem[] | null => {
   const { t } = useTranslation();
   const pendingFinalises = usePendingTransactions.usePendingFinalises();
   const transformPeriodText = usePeriodText();
 
-  if (!isCctpBridge(tx) || !deployment) {
+  if (!tx || !isCctpBridge(tx) || !deployment) {
     return null;
   }
 

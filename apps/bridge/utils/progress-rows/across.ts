@@ -11,14 +11,14 @@ import { transactionLink } from "../transaction-link";
 import { ProgressRowStatus } from "./common";
 import { getRemainingTimePeriod } from "./get-remaining-period";
 
-export const useAcrossProgressRows = (tx: Transaction) => {
+export const useAcrossProgressRows = (tx: Transaction | null) => {
   const { t } = useTranslation();
   const transformPeriodText = usePeriodText();
   // todo: think about estimating time remaining for fast transfers
   const transferPeriod: Period = { value: 1, period: "days" };
 
   const acrossDomains = useAcrossDomains();
-  if (!isAcrossBridge(tx)) {
+  if (!tx || !isAcrossBridge(tx)) {
     return null;
   }
   const fromDomain = acrossDomains.find((x) => x.chain.id === tx.fromChainId);

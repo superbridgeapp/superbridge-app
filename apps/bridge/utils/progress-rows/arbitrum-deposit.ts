@@ -12,13 +12,13 @@ import { ButtonComponent, ExpandedItem, ProgressRowStatus } from "./common";
 import { getRemainingTimePeriod } from "./get-remaining-period";
 
 export const useArbitrumDepositProgressRows = (
-  tx: Transaction,
+  tx: Transaction | null,
   deployment: DeploymentDto | null
 ): ExpandedItem[] | null => {
   const { t } = useTranslation();
   const transformPeriodText = usePeriodText();
 
-  if (!isArbitrumDeposit(tx) || !deployment) {
+  if (!tx || !isArbitrumDeposit(tx) || !deployment) {
     return null;
   }
 

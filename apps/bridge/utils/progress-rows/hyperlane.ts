@@ -9,23 +9,25 @@ import { transactionLink } from "../transaction-link";
 import { ExpandedItem, ProgressRowStatus } from "./common";
 
 export const useHyperlaneProgressRows = (
-  tx: Transaction
+  tx: Transaction | null
 ): ExpandedItem[] | null => {
   const { t } = useTranslation();
 
   const hyperlaneMailboxes = useInjectedStore((s) => s.hyperlaneMailboxes);
 
-  const fromMailbox = isHyperlaneBridge(tx)
-    ? hyperlaneMailboxes.find((x) => x.domain === tx.fromDomain)
-    : null;
-  const toMailbox = isHyperlaneBridge(tx)
-    ? hyperlaneMailboxes.find((x) => x.domain === tx.toDomain)
-    : null;
+  const fromMailbox =
+    tx && isHyperlaneBridge(tx)
+      ? hyperlaneMailboxes.find((x) => x.domain === tx.fromDomain)
+      : null;
+  const toMailbox =
+    tx && isHyperlaneBridge(tx)
+      ? hyperlaneMailboxes.find((x) => x.domain === tx.toDomain)
+      : null;
 
   const fromChain = useChain(fromMailbox?.chainId);
   const toChain = useChain(toMailbox?.chainId);
 
-  if (!isHyperlaneBridge(tx) || !fromChain || !toChain) {
+  if (!tx || !isHyperlaneBridge(tx) || !fromChain || !toChain) {
     return null;
   }
 

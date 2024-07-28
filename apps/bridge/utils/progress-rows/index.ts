@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 
-import { useDeployments } from "@/hooks/use-deployments";
+import { useTxDeployment } from "@/hooks/activity/use-tx-deployment";
 import { Transaction } from "@/types/transaction";
 import { useArbitrumDepositProgressRows } from "@/utils/progress-rows/arbitrum-deposit";
 import { useArbitrumWithdrawalProgressRows } from "@/utils/progress-rows/arbitrum-withdrawal";
@@ -46,15 +46,8 @@ export const useTxTitle = (tx: Transaction) => {
   return "Bridge";
 };
 
-export const useProgressRows = (tx: Transaction) => {
-  const deployments = useDeployments();
-  const deploymentId =
-    isAcrossBridge(tx) || isHyperlaneBridge(tx)
-      ? ""
-      : isForcedWithdrawal(tx)
-      ? tx.deposit.deploymentId
-      : tx.deploymentId;
-  const deployment = deployments.find((x) => deploymentId === x.id) ?? null;
+export const useProgressRows = (tx: Transaction | null) => {
+  const deployment = useTxDeployment(tx);
 
   const optimismDeposit = useOptimismDepositProgressRows(tx, deployment);
   const optimismWithdrawal = useOptimismWithdrawalProgressRows(tx, deployment);

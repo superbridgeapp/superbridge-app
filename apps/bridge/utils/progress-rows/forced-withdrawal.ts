@@ -7,21 +7,21 @@ import { useOptimismDepositProgressRows } from "./deposit";
 import { useOptimismWithdrawalProgressRows } from "./withdrawal";
 
 export const useOptimismForcedWithdrawalProgressRows = (
-  fw: Transaction,
+  fw: Transaction | null,
   deployment: DeploymentDto | null
 ): ExpandedItem[] | null => {
   let depositRows =
     useOptimismDepositProgressRows(
-      isOptimismForcedWithdrawal(fw) ? fw.deposit : null,
+      fw && isOptimismForcedWithdrawal(fw) ? fw.deposit : null,
       deployment
     ) || [];
   let withdrawalRows =
     useOptimismWithdrawalProgressRows(
-      isOptimismForcedWithdrawal(fw) ? fw.withdrawal ?? null : null,
+      fw && isOptimismForcedWithdrawal(fw) ? fw.withdrawal ?? null : null,
       deployment
     ) || [];
 
-  if (!deployment || !isOptimismForcedWithdrawal(fw)) {
+  if (!fw || !deployment || !isOptimismForcedWithdrawal(fw)) {
     return null;
   }
 
