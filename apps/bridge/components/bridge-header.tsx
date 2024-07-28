@@ -3,6 +3,7 @@ import { useConfigState } from "@/state/config";
 
 export const BridgeHeader = () => {
   const setDisplayTransactions = useConfigState.useSetDisplayTransactions();
+  const setSettingsModal = useConfigState.useSetSettingsModal();
 
   const { inProgressCount } = useTransactions();
 
@@ -20,7 +21,9 @@ export const BridgeHeader = () => {
             {inProgressCount}
           </span>
         </button>
-        <span className="ml-auto">Settings</span>
+        <button className="ml-auto" onClick={() => setSettingsModal(true)}>
+          Settings
+        </button>
       </div>
     </>
   );
