@@ -129,7 +129,7 @@ function Support({
             More details can be found in the official{" "}
             <a
               href={
-                deployment.family === DeploymentFamily.optimism
+                isOptimism(deployment)
                   ? "https://docs.optimism.io/builders/app-developers/bridging/standard-bridge"
                   : "https://docs.arbitrum.io/build-decentralized-apps/cross-chain-messaging"
               }
@@ -152,7 +152,7 @@ function Support({
             Superbridge is a pretty user interface over the{" "}
             <a
               href={
-                deployment.family === DeploymentFamily.optimism
+                isOptimism(deployment)
                   ? "https://docs.optimism.io/builders/app-developers/bridging/standard-bridge"
                   : "https://docs.arbitrum.io/build-decentralized-apps/cross-chain-messaging"
               }
@@ -413,7 +413,15 @@ function Support({
                       <span className="font-heading">Challenge Period</span> and
                       serves to help secure the assets stored on {rollupChain}.
                       You can find more information about the Challenge Period{" "}
-                      <a href="https://docs.rollbridge.app/withdrawals">here</a>
+                      <a
+                        href={
+                          isOptimism(deployment)
+                            ? "https://docs.superbridge.app/optimism/withdrawals"
+                            : "https://docs.superbridge.app/arbitrum/withdrawals"
+                        }
+                      >
+                        here
+                      </a>
                       .
                     </p>
                     <p>
@@ -452,7 +460,7 @@ function Support({
                     <ol>
                       <li>Initiate the withdrawal on {rollupChain}.</li>
 
-                      {deployment.family === DeploymentFamily.optimism && (
+                      {isOptimism(deployment) && (
                         <>
                           <li>
                             Wait until the withdrawals root is published on{" "}
