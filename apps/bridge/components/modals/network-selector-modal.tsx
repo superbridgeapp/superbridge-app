@@ -69,6 +69,7 @@ export const NetworkSelector = () => {
     <main
       className="flex items-start justify-center w-screen h-screen fixed inset-0 px-2 md:px-0 py-16 pt-[108px] md:py-24 z-[25]"
       key="bridgeMain"
+      onClick={() => setNetworkSelector(null)}
     >
       <motion.div
         initial={{ y: "100vh" }}
@@ -77,6 +78,8 @@ export const NetworkSelector = () => {
         transition={{ type: "spring", damping: 12, delay: 0.08 }}
         className="bg-card border flex flex-col self-start  z-50 relative overflow-hidden rounded-[32px] h-[calc(76dvh)] max-h-[680px]  w-screen md:w-[50vw] md:max-w-[420px] aspect-[3/4] backdrop-blur shadow-sm"
       >
+        <div className="p-4">Bridge {networkSelector}</div>
+
         <div className="flex flex-col">
           {availableChains.map((chain) => (
             <div
