@@ -7,6 +7,7 @@ import { useNavigate } from "@/hooks/use-navigate";
 import { useNavIcon } from "@/hooks/use-theme";
 
 import { TokenBanner } from "./banners/token-banner";
+import { HeaderLinks } from "./header/header-links";
 
 export function Header() {
   const deployments = useDeployments();
@@ -80,6 +81,8 @@ export function Header() {
           largeScreen: "avatar",
         }}
       />
+
+      <HeaderLinks />
     </nav>
   );
 }

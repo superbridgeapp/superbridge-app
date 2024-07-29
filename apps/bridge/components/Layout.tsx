@@ -2,7 +2,6 @@ import clsx from "clsx";
 import { AnimatePresence, motion } from "framer-motion";
 
 import { OpenActivity } from "@/components/activity/open-activity";
-import { Footer } from "@/components/footer";
 import { isSuperbridge } from "@/config/app";
 import { useInitialise } from "@/hooks/use-initialise";
 import {
@@ -95,7 +94,6 @@ export function Layout({ children }: { children: any }) {
       </AnimatePresence>
 
       <SettingsModal open={settingsModal} setOpen={setSettingsModal} />
-      <Footer />
     </div>
   );
 }
