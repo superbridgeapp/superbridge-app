@@ -1,11 +1,7 @@
-import { DeploymentType } from "@/codegen/model";
-import { isSuperbridge } from "@/config/app";
 import { useDeployment } from "@/hooks/use-deployment";
 
-import { PoweredByAltLayer } from "./badges/powered-by-alt-layer-badge";
-import { PoweredByConduit } from "./badges/powered-by-conduit-badge";
-import { TestnetBadge } from "./badges/testnet-badge";
 import { Banners } from "./banners";
+import { BridgeBadges } from "./bridge-badges";
 import { BridgeBody } from "./bridge-body";
 import { BridgeDeleted } from "./bridge-deleted";
 import { BridgeHeader } from "./bridge-header";
@@ -31,22 +27,7 @@ export const Bridge = () => {
               <>
                 <BridgeHeader />
                 <BridgeBody />
-
-                {(deployment?.type === DeploymentType.testnet ||
-                  (deployment?.provider === "conduit" && isSuperbridge) ||
-                  (deployment?.provider === "alt-layer" && isSuperbridge)) && (
-                  <div className="flex gap-2 py-1 justify-center items-center -translate-y-2">
-                    {deployment?.type === DeploymentType.testnet && (
-                      <TestnetBadge />
-                    )}
-                    {deployment?.provider === "conduit" && isSuperbridge && (
-                      <PoweredByConduit />
-                    )}
-                    {deployment?.provider === "alt-layer" && isSuperbridge && (
-                      <PoweredByAltLayer />
-                    )}
-                  </div>
-                )}
+                <BridgeBadges />
               </>
             )}
           </div>
