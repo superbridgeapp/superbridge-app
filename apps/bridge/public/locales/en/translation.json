@@ -191,6 +191,7 @@
     "finalize": "Claim on {{to}}",
     "receiveDeposit": "Receive on {{rollup}}",
     "receiveAmountOnChain": "Receive {{receiveAmount}} {{receiveSymbol}} on {{to}}",
+    "receiveAmount": "Receive {{formatted}}",
     "approve": "Approve {{symbol}}",
     "approved": "Approved",
     "approveGasToken": "Approve gas token",

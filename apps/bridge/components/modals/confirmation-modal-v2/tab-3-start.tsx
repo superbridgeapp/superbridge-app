@@ -91,7 +91,7 @@ function LineItem({
         className
       )}
     >
-      <div className="flex items-start gap-2">
+      <div className={clsx("flex gap-2", fee ? "items-start" : "items-center")}>
         <NetworkIcon chain={chain} className="w-8 h-8" />
         <div className="flex flex-col gap-1">
           <span className="text-sm font-heading leading-none">{text}</span>
@@ -367,6 +367,7 @@ export const ConfirmationModalStartTab = () => {
     symbol: token?.symbol,
     receiveAmount: receive.data?.token.amount,
     receiveSymbol: stateToken?.[to?.id ?? 0]?.symbol,
+    formatted: receive.data?.token.formatted,
   };
 
   const title = match({
@@ -500,7 +501,7 @@ export const ConfirmationModalStartTab = () => {
 
           if (isRouteReceiveStep(x)) {
             return {
-              text: t("confirmationModal.receiveAmountOnChain", common),
+              text: t("confirmationModal.receiveAmount", common),
               chain: to,
             };
           }

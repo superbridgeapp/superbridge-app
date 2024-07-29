@@ -3,6 +3,7 @@ import { formatUnits } from "viem";
 import { currencySymbolMap } from "@/constants/currency-symbol-map";
 import { useSettingsState } from "@/state/settings";
 import { MultiChainToken } from "@/types/token";
+import { formatDecimals } from "@/utils/format-decimals";
 
 import { useTokenPrice } from "./use-prices";
 
@@ -23,9 +24,8 @@ export const useGetFormattedAmount = (
       ? `${currencySymbolMap[currency]}${fiat.toLocaleString("en")}`
       : null;
 
-    const tokenFormatted = `${amount.toLocaleString("en", {
-      maximumFractionDigits: 4,
-    })} ${token?.[chainId ?? 0]?.symbol}`;
+    const tokenFormatted = `${formatDecimals(amount)} ${token?.[chainId ?? 0]
+      ?.symbol}`;
 
     return {
       fiat: fiat ? { formatted: fiatFormatted, amount: fiat } : null,

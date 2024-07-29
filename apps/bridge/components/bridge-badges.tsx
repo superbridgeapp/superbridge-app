@@ -16,7 +16,7 @@ export const BridgeBadges = () => {
 
   const testnetBadge =
     (isSuperbridge && superbridgeTestnets) ||
-    (!isSuperbridge && deployments[0].type === DeploymentType.testnet) ? (
+    (!isSuperbridge && deployments[0]?.type === DeploymentType.testnet) ? (
       <TestnetBadge />
     ) : null;
 
