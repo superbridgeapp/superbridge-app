@@ -16,6 +16,7 @@ import { useAllChains } from "@/hooks/use-chains";
 import { useDeployment } from "@/hooks/use-deployment";
 import { useMetadata } from "@/hooks/use-metadata";
 import { getWagmiConfig } from "@/services/wagmi";
+import { useInjectedStore } from "@/state/injected";
 import { queryClient } from "@/utils/query-client";
 
 function Web3Provider({ children }: { children: React.ReactNode }) {
@@ -24,6 +25,7 @@ function Web3Provider({ children }: { children: React.ReactNode }) {
   // like it when wagmiConfig changes
   const chains = useAllChains();
   const deployment = useDeployment();
+  const deployments = useInjectedStore((s) => s.deployments);
   const [mounted, setMounted] = useState(false);
   const { i18n } = useTranslation();
   const metadata = useMetadata();
@@ -32,7 +34,10 @@ function Web3Provider({ children }: { children: React.ReactNode }) {
     setMounted(true);
   }, []);
 
-  const config = useMemo(() => getWagmiConfig(chains), [chains]);
+  const config = useMemo(
+    () => getWagmiConfig(chains, deployments),
+    [chains, deployments]
+  );
 
   return (
     <WagmiProvider config={config}>

@@ -14,7 +14,9 @@ export const SupportProviders = ({
 }) => {
   return (
     <QueryClientProvider client={queryClient}>
-      <WagmiProvider config={getWagmiConfig([deployment.l1, deployment.l2])}>
+      <WagmiProvider
+        config={getWagmiConfig([deployment.l1, deployment.l2], [deployment])}
+      >
         {children}
       </WagmiProvider>
     </QueryClientProvider>

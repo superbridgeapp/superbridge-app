@@ -4,14 +4,15 @@ import { okxWallet, safeWallet } from "@rainbow-me/rainbowkit/wallets";
 import { fallback, http } from "wagmi";
 import { Chain } from "wagmi/chains";
 
-import { ChainDto } from "@/codegen/model";
+import { ChainDto, DeploymentDto } from "@/codegen/model";
 import { isSuperbridge } from "@/config/app";
 import { chainIcons } from "@/config/chain-icon-overrides";
 import { getMetadata } from "@/hooks/use-metadata";
-import { useInjectedStore } from "@/state/injected";
 
-export function getWagmiConfig(chainDtos: ChainDto[]) {
-  const deployments = useInjectedStore((s) => s.deployments);
+export function getWagmiConfig(
+  chainDtos: ChainDto[],
+  deployments: DeploymentDto[]
+) {
   const metadata = getMetadata(deployments[0]);
 
   const chains: Chain[] = chainDtos.map((c) => {
