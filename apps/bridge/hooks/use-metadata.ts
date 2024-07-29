@@ -1,14 +1,14 @@
 import { DeploymentDto } from "@/codegen/model";
-import { isSuperbridge } from "@/config/app";
+import { app } from "@/config/app";
 
 import { useDeployment } from "./use-deployment";
 
 export const getMetadata = (deployment: DeploymentDto | null) => {
-  if (isSuperbridge) {
+  if (app) {
     return {
-      title: "Superbridge",
-      description: "Bridge ETH and ERC20 tokens into and out of the Superchain",
-      icon: "https://superbridge.app/img/superbridge-icon.png",
+      title: app.head.name,
+      description: app.head.description,
+      icon: app.head.favicon,
     };
   }
 

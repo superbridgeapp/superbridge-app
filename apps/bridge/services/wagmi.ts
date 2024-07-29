@@ -1,14 +1,18 @@
 import { getDefaultConfig, getDefaultWallets } from "@rainbow-me/rainbowkit";
 import "@rainbow-me/rainbowkit/styles.css";
-import { safeWallet } from "@rainbow-me/rainbowkit/wallets";
+import { okxWallet, safeWallet } from "@rainbow-me/rainbowkit/wallets";
 import { fallback, http } from "wagmi";
 import { Chain } from "wagmi/chains";
 
 import { ChainDto } from "@/codegen/model";
+import { isSuperbridge } from "@/config/app";
 import { chainIcons } from "@/config/chain-icon-overrides";
+import { getMetadata } from "@/hooks/use-metadata";
+import { useInjectedStore } from "@/state/injected";
 
 export function getWagmiConfig(chainDtos: ChainDto[]) {
-  // const metadata = getMetadata(deployments[0]);
+  const deployments = useInjectedStore((s) => s.deployments);
+  const metadata = getMetadata(deployments[0]);
 
   const chains: Chain[] = chainDtos.map((c) => {
     if (chainIcons[c.id]) {
@@ -16,14 +20,11 @@ export function getWagmiConfig(chainDtos: ChainDto[]) {
       c.iconUrl = chainIcons[c.id];
     }
 
-    // todo: don't lose these icons
-    // if (d.theme?.theme.imageNetwork) {
-    //   // @ts-expect-error
-    //   d.l2.iconUrl = d.theme?.theme.imageNetwork;
-    // } else if (chainIcons[d.l2.id]) {
-    //   // @ts-expect-error
-    //   d.l2.iconUrl = chainIcons[d.l2.id];
-    // }
+    const d = deployments.find((x) => x.l2.id === c.id);
+    if (d?.theme?.theme.imageNetwork) {
+      // @ts-expect-error
+      d.l2.iconUrl = d.theme.theme.imageNetwork;
+    }
 
     return c as unknown as Chain;
   });
@@ -38,20 +39,18 @@ export function getWagmiConfig(chainDtos: ChainDto[]) {
 
   const { wallets } = getDefaultWallets();
 
-  // todo
-  // if (
-  //   isSuperbridge ||
-  //   (deployments.length === 1 &&
-  //     deployments[0].name === "camp-network-4xje7wy105")
-  // ) {
-  //   wallets[0].wallets.push(okxWallet);
-  // }
+  if (
+    isSuperbridge ||
+    (deployments.length === 1 &&
+      deployments[0].name === "camp-network-4xje7wy105")
+  ) {
+    wallets[0].wallets.push(okxWallet);
+  }
 
   return getDefaultConfig({
-    // todo
-    // appName: metadata.title,
-    // appDescription: metadata.description,
-    // appIcon: metadata.icon,
+    appName: metadata.title,
+    appDescription: metadata.description,
+    appIcon: metadata.icon,
     projectId: "50c3481ab766b0e9c611c9356a42987b",
     // @ts-expect-error
     chains,
