@@ -1,4 +1,5 @@
 import { useTheme } from "next-themes";
+import Image from "next/image";
 import { useTranslation } from "react-i18next";
 
 import { useBridgeControllerFiatPrices } from "@/codegen/index";
@@ -12,10 +13,14 @@ import {
 } from "@/components/ui/select";
 import { isSuperbridge } from "@/config/app";
 import { flagSymbolMap } from "@/constants/currency-symbol-map";
+import { useDeployments } from "@/hooks/use-deployments";
+import { useIsContractAccount } from "@/hooks/use-is-contract-account";
 import { useDarkModeEnabled } from "@/hooks/use-theme";
 import { trackEvent } from "@/services/ga";
+import { useConfigState } from "@/state/config";
 import { useInjectedStore } from "@/state/injected";
 import { useSettingsState } from "@/state/settings";
+import { isOptimism } from "@/utils/is-mainnet";
 
 import { Dialog, DialogContent } from "../ui/dialog";
 import { Switch } from "../ui/switch";
@@ -39,9 +44,13 @@ export const SettingsModal = ({ open, setOpen }: SettingsModalProps) => {
   const setCurrency = useSettingsState.useSetCurrency();
   const preferredExplorer = useSettingsState.usePreferredExplorer();
   const setPreferredExplorer = useSettingsState.useSetPreferredExplorer();
+  const forceViaL1 = useConfigState.useForceViaL1();
+  const toggleForceViaL1 = useConfigState.useToggleForceViaL1();
 
+  const isContractAccount = useIsContractAccount();
   const darkModeEnabled = useDarkModeEnabled();
   const fiat = useBridgeControllerFiatPrices();
+  const deployments = useDeployments();
   const { setTheme, resolvedTheme } = useTheme();
 
   const onTestnetsChange = (checked: boolean) => {
@@ -62,6 +71,9 @@ export const SettingsModal = ({ open, setOpen }: SettingsModalProps) => {
       }
     }
   };
+
+  const forceViaL1Enabled =
+    isSuperbridge || (deployments.length === 1 && isOptimism(deployments[0]));
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -296,7 +308,7 @@ export const SettingsModal = ({ open, setOpen }: SettingsModalProps) => {
 
               {isSuperbridge && <TokenLists />}
 
-              {isSuperbridge && (
+              {darkModeEnabled && (
                 <div className="flex items-center justify-between p-4">
                   <div className="flex gap-2 items-center">
                     <svg
@@ -335,6 +347,31 @@ export const SettingsModal = ({ open, setOpen }: SettingsModalProps) => {
                       setTheme(resolvedTheme == "light" ? "dark" : "light")
                     }
                   />
+                </div>
+              )}
+
+              {forceViaL1Enabled && (
+                <div className="flex items-start p-4">
+                  <Image
+                    alt="Escape Hatch"
+                    src="/img/icon-escape-hatch.svg"
+                    height={32}
+                    width={32}
+                    className="mr-2"
+                  />
+                  <div>
+                    <h3 className="font-heading">Escape hatch</h3>
+                    <p className="text-muted-foreground text-xs">
+                      {t("settings.escapeHatchDescription")}
+                    </p>
+                  </div>
+                  <div className="pl-8">
+                    <Switch
+                      checked={forceViaL1}
+                      onCheckedChange={toggleForceViaL1}
+                      disabled={isContractAccount.data === true}
+                    />
+                  </div>
                 </div>
               )}
             </div>

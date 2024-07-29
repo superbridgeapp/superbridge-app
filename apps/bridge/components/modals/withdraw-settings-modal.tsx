@@ -8,7 +8,6 @@ import { useDeployment } from "@/hooks/use-deployment";
 import { useIsContractAccount } from "@/hooks/use-is-contract-account";
 import { useNetworkFee } from "@/hooks/use-network-fee";
 import { useConfigState } from "@/state/config";
-import { isOptimism } from "@/utils/is-mainnet";
 
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
 import { Skeleton } from "../ui/skeleton";
@@ -41,33 +40,6 @@ export const WithdrawSettingsModal = () => {
 
         <div className="space-y-6 p-6">
           <div className="space-y-2">
-            <div className="border  px-4 py-3 flex items-start rounded-lg">
-              <Image
-                alt="Escape Hatch"
-                src="/img/icon-escape-hatch.svg"
-                height={32}
-                width={32}
-                className="mr-2"
-              />
-              <div>
-                <h3 className="font-heading">Escape hatch</h3>
-                <p className="text-muted-foreground text-xs">
-                  {t("settings.escapeHatchDescription", { base: to?.name })}
-                </p>
-              </div>
-              <div className="pl-8">
-                <Switch
-                  checked={forceViaL1}
-                  onCheckedChange={toggleForceViaL1}
-                  disabled={
-                    !deployment ||
-                    !isOptimism(deployment) ||
-                    isContractAccount.data === true
-                  }
-                />
-              </div>
-            </div>
-
             {configurations[deployment?.name ?? ""] && (
               <div className="border  px-4 py-3 flex items-start rounded-lg">
                 <Image
