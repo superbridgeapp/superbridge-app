@@ -15,6 +15,8 @@ import {
 import { IconSimpleGas, IconSuperFast, IconTime } from "@/components/icons";
 import { NetworkIcon } from "@/components/network-icon";
 import { PoweredByAcross } from "@/components/powered-by-across";
+import { RouteProviderIcon } from "@/components/route-provider-icon";
+import { TokenIcon } from "@/components/token-icon";
 import { Button } from "@/components/ui/button";
 import {
   DialogDescription,
@@ -511,9 +513,15 @@ export const ConfirmationModalStartTab = () => {
   return (
     <div>
       <DialogHeader className="items-center">
-        <DialogTitle className="text-3xl">Start your bridge</DialogTitle>
+        <DialogTitle className="text-3xl">
+          <TokenIcon token={token} className="h-8 w-8" />
+          Bridge {rawAmount} {token?.symbol}
+        </DialogTitle>
         <DialogDescription>
-          Bridging {rawAmount} {token?.symbol} from {from?.name} to {to?.name}
+          <NetworkIcon chain={from} />
+          <NetworkIcon chain={to} />
+          via
+          <RouteProviderIcon provider={route.data?.id ?? null} />
         </DialogDescription>
       </DialogHeader>
 
