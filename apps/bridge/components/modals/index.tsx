@@ -10,7 +10,6 @@ import { RecipientAddressModal } from "./recipient-address-modal";
 import { RouteSelectorModal } from "./route-selector-modal";
 import { TransactionDetailsModal } from "./transaction-details-modal";
 import { TransferTimeInfoModal } from "./transfer-time-info-modal";
-import { WithdrawSettingsModal } from "./withdraw-settings-modal";
 import { WithdrawalReadyToFinalizeModal } from "./withdrawal-ready-to-finalize-modal";
 
 export const Modals = () => {
@@ -19,7 +18,6 @@ export const Modals = () => {
       <TransferTimeInfoModal />
       <FeeBreakdownModal />
       <RecipientAddressModal />
-      <WithdrawSettingsModal />
       <RouteSelectorModal />
       <FaultProofInfoModal />
       <WithdrawalReadyToFinalizeModal />
