@@ -43,20 +43,24 @@ import {
 
 import { isEth } from "./is-eth";
 
-export const isArbitrumTx = (tx: Transaction): tx is AbritrumTransaction => {
+export const isArbitrumTx = (
+  tx: Pick<Transaction, "type">
+): tx is AbritrumTransaction => {
   return Object.values(ArbitrumTransactionType).includes(
     tx.type as ArbitrumTransactionType
   );
 };
 
-export const isOptimismTx = (tx: Transaction): tx is OptimismTransaction => {
+export const isOptimismTx = (
+  tx: Pick<Transaction, "type">
+): tx is OptimismTransaction => {
   return Object.values(OptimismTransactionType).includes(
     tx.type as OptimismTransactionType
   );
 };
 
 export const isDeposit = (
-  tx: Transaction
+  tx: Pick<Transaction, "type">
 ): tx is
   | PortalDepositDto
   | ArbitrumDepositEthDto
@@ -68,7 +72,7 @@ export const isDeposit = (
   ].includes(tx.type as any);
 };
 export const isWithdrawal = (
-  tx: Transaction
+  tx: Pick<Transaction, "type">
 ): tx is BridgeWithdrawalDto | ArbitrumWithdrawalDto => {
   return [
     OptimismTransactionType.withdrawal,
@@ -77,7 +81,7 @@ export const isWithdrawal = (
 };
 
 export const isForcedWithdrawal = (
-  tx: Transaction
+  tx: Pick<Transaction, "type">
 ): tx is ForcedWithdrawalDto | ArbitrumForcedWithdrawalDto => {
   return [
     OptimismTransactionType["forced-withdrawal"],
@@ -86,7 +90,7 @@ export const isForcedWithdrawal = (
 };
 
 export const isArbitrumDeposit = (
-  tx: Transaction
+  tx: Pick<Transaction, "type">
 ): tx is ArbitrumDepositEthDto | ArbitrumDepositRetryableDto => {
   return [
     ArbitrumTransactionType["arbitrum-deposit-eth"],
@@ -95,43 +99,49 @@ export const isArbitrumDeposit = (
 };
 
 export const isArbitrumWithdrawal = (
-  tx: Transaction
+  tx: Pick<Transaction, "type">
 ): tx is ArbitrumWithdrawalDto => {
   return tx.type === ArbitrumTransactionType["arbitrum-withdrawal"];
 };
 
 export const isArbitrumForcedWithdrawal = (
-  tx: Transaction
+  tx: Pick<Transaction, "type">
 ): tx is ArbitrumForcedWithdrawalDto => {
   return tx.type === ArbitrumTransactionType["arbitrum-forced-withdrawal"];
 };
 
-export const isOptimismDeposit = (tx: Transaction): tx is PortalDepositDto => {
+export const isOptimismDeposit = (
+  tx: Pick<Transaction, "type">
+): tx is PortalDepositDto => {
   return tx.type === OptimismTransactionType.deposit;
 };
 
 export const isOptimismWithdrawal = (
-  tx: Transaction
+  tx: Pick<Transaction, "type">
 ): tx is BridgeWithdrawalDto => {
   return tx.type === OptimismTransactionType.withdrawal;
 };
 
 export const isOptimismForcedWithdrawal = (
-  tx: Transaction
+  tx: Pick<Transaction, "type">
 ): tx is ForcedWithdrawalDto => {
   return tx.type === OptimismTransactionType["forced-withdrawal"];
 };
 
-export const isCctpBridge = (tx: Transaction): tx is CctpBridgeDto => {
+export const isCctpBridge = (
+  tx: Pick<Transaction, "type">
+): tx is CctpBridgeDto => {
   return tx.type === CctpTransactionType["cctp-bridge"];
 };
 
-export const isAcrossBridge = (tx: Transaction): tx is AcrossBridgeDto => {
+export const isAcrossBridge = (
+  tx: Pick<Transaction, "type">
+): tx is AcrossBridgeDto => {
   return tx.type === AcrossTransactionType["across-bridge"];
 };
 
 export const isHyperlaneBridge = (
-  tx: Transaction
+  tx: Pick<Transaction, "type">
 ): tx is HyperlaneBridgeDto => {
   return tx.type === HyperlaneTransactionType["hyperlane-bridge"];
 };

@@ -1,4 +1,3 @@
-import clsx from "clsx";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
 import { isPresent } from "ts-is-present";
@@ -7,16 +6,16 @@ import { formatUnits } from "viem";
 import { useAccount, useEstimateFeesPerGas } from "wagmi";
 
 import {
-  ChainDto,
   DeploymentFamily,
   RouteProvider,
   RouteStepType,
 } from "@/codegen/model";
-import { IconSimpleGas, IconSuperFast, IconTime } from "@/components/icons";
+import { IconSuperFast } from "@/components/icons";
 import { NetworkIcon } from "@/components/network-icon";
 import { PoweredByAcross } from "@/components/powered-by-across";
 import { RouteProviderIcon } from "@/components/route-provider-icon";
 import { TokenIcon } from "@/components/token-icon";
+import { TransactionLineItem } from "@/components/transaction-line-item";
 import { Button } from "@/components/ui/button";
 import {
   DialogDescription,
@@ -34,7 +33,6 @@ import { useApprove } from "@/hooks/use-approve";
 import { useApproveGasToken, useGasToken } from "@/hooks/use-approve-gas-token";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
 import { useDeployment } from "@/hooks/use-deployment";
-import { getPeriod } from "@/hooks/use-finalization-period";
 import { useNativeToken, useToNativeToken } from "@/hooks/use-native-token";
 import { usePeriodText } from "@/hooks/use-period-text";
 import { useTokenPrice } from "@/hooks/use-prices";
@@ -57,61 +55,12 @@ import {
 } from "@/utils/guards";
 import { isNativeToken } from "@/utils/is-eth";
 import { isArbitrum } from "@/utils/is-mainnet";
-
-import { WaitIcon } from "./icons";
-
-function LineItem({
-  text,
-  fee,
-  className,
-  button,
-  chain,
-}: {
-  text: string;
-  fee?: string | null;
-  className?: string;
-  button?: any;
-  chain?: ChainDto | undefined | null;
-}) {
-  if (!chain) {
-    return (
-      <div className="flex gap-4 px-3 py-2 rounded-lg justify-start items-center">
-        <div className="flex items-center gap-2">
-          <IconTime className="w-8 h-8" />
-          <span className="text-xs font-heading leading-none text-muted-foreground">
-            {text}
-          </span>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div
-      className={clsx(
-        "flex gap-4 px-3 py-4 rounded-lg justify-between bg-muted",
-        className
-      )}
-    >
-      <div className={clsx("flex gap-2", fee ? "items-start" : "items-center")}>
-        <NetworkIcon chain={chain} className="w-8 h-8" />
-        <div className="flex flex-col gap-1">
-          <span className="text-sm font-heading leading-none">{text}</span>
-          {fee && (
-            <div className="flex gap-1">
-              <IconSimpleGas className="w-3.5 h-auto fill-muted-foreground opacity-80" />
-              <span className="text-xs text-muted-foreground leading-none">
-                <p className="text-xs">{fee}</p>
-              </span>
-            </div>
-          )}
-        </div>
-      </div>
-
-      {button}
-    </div>
-  );
-}
+import {
+  ActivityStep,
+  TransactionStep,
+  WaitStepNotStarted,
+  isWaitStep,
+} from "@/utils/progress-rows/common";
 
 export const ConfirmationModalStartTab = () => {
   const bridge = useBridge();
@@ -467,47 +416,63 @@ export const ConfirmationModalStartTab = () => {
     .with({ withdrawing: false }, () => "")
     .otherwise(() => null);
 
-  const lineItems =
+  const lineItems: ActivityStep[] =
     route.data?.result && isRouteQuote(route.data.result)
-      ? route.data.result.steps.map((x) => {
-          if (isRouteTransactionStep(x)) {
-            const text =
-              x.type === RouteStepType.Initiate
-                ? "Initiate bridge"
-                : x.type === RouteStepType.Prove
-                ? "Prove"
-                : x.type === RouteStepType.Finalize
-                ? "Claim"
-                : x.type === RouteStepType.Mint
-                ? "Claim"
-                : "";
+      ? route.data.result.steps
+          .map((x) => {
+            if (isRouteTransactionStep(x)) {
+              const label =
+                x.type === RouteStepType.Initiate
+                  ? "Initiate bridge"
+                  : x.type === RouteStepType.Prove
+                  ? "Prove"
+                  : x.type === RouteStepType.Finalize
+                  ? "Claim"
+                  : x.type === RouteStepType.Mint
+                  ? "Claim"
+                  : "";
+              const buttonComponent =
+                x.type === RouteStepType.Initiate ? (
+                  <Button
+                    onClick={initiateButton.onSubmit}
+                    disabled={initiateButton.disabled}
+                    size={"xs"}
+                  >
+                    {initiateButton.buttonText}
+                  </Button>
+                ) : x.type === RouteStepType.Prove ? undefined : x.type ===
+                  RouteStepType.Finalize ? undefined : x.type ===
+                  RouteStepType.Mint ? undefined : undefined;
+              const a: TransactionStep = {
+                label,
+                fee: fee(getGasCost(x.chainId, x.estimatedGasLimit), 4),
+                chain: x.chainId === from?.id.toString() ? from! : to!,
+                buttonComponent,
+                hash: undefined,
+                pendingHash: undefined,
+              };
+              return a;
+            }
 
-            return {
-              text: text,
-              fee: fee(getGasCost(x.chainId, x.estimatedGasLimit), 4),
-              chain: x.chainId === from?.id.toString() ? from : to,
-              initiate: x.type === RouteStepType.Initiate,
-            };
-          }
+            if (isRouteWaitStep(x)) {
+              const step: WaitStepNotStarted = {
+                duration: x.duration,
+              };
+              return step;
+            }
 
-          if (isRouteWaitStep(x)) {
-            return {
-              text: transformPeriodText(
-                "confirmationModal.wait",
-                {},
-                getPeriod(x.duration / 1000)
-              ),
-              icon: WaitIcon,
-            };
-          }
-
-          if (isRouteReceiveStep(x)) {
-            return {
-              text: t("confirmationModal.receiveAmount", common),
-              chain: to,
-            };
-          }
-        })
+            if (isRouteReceiveStep(x)) {
+              const step: TransactionStep = {
+                label: t("confirmationModal.receiveAmount", common),
+                chain: to!,
+                fee: undefined,
+                hash: undefined,
+                pendingHash: undefined,
+              };
+              return step;
+            }
+          })
+          .filter(isPresent)
       : [];
 
   return (
@@ -543,83 +508,80 @@ export const ConfirmationModalStartTab = () => {
 
         {approveGasTokenButton && from && (
           <>
-            <LineItem
-              text={t("confirmationModal.approveGasToken", {
-                symbol: token?.symbol,
-              })}
-              chain={from}
-              fee={fee(approveCost, 4)}
-              button={
-                <Button
-                  onClick={approveGasTokenButton.onSubmit}
-                  disabled={approveGasTokenButton.disabled}
-                  size="xs"
-                >
-                  {approveGasTokenButton.buttonText}
-                  {approvedGasToken && (
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="15"
-                      height="12"
-                      viewBox="0 0 15 12"
-                      className="fill-white dark:fill-zinc-950 ml-2 h-2.5 w-auto"
-                    >
-                      <path d="M6.80216 12C6.32268 12 5.94594 11.8716 5.67623 11.559L0.63306 6.02355C0.384755 5.7624 0.269165 5.41563 0.269165 5.07742C0.269165 4.31109 0.915614 3.67749 1.66909 3.67749C2.04583 3.67749 2.42257 3.83161 2.69228 4.13129L6.57955 8.38245L12.1921 0.56939C12.4661 0.192651 12.8899 0 13.3309 0C14.0715 0 14.7308 0.56939 14.7308 1.38709C14.7308 1.67392 14.6538 1.96932 14.4697 2.21762L7.84676 11.4306C7.61558 11.7688 7.21315 12 6.79788 12H6.80216Z" />
-                    </svg>
-                  )}
-                </Button>
-              }
+            <TransactionLineItem
+              step={{
+                label: t("confirmationModal.approveGasToken", {
+                  symbol: token?.symbol,
+                }),
+                chain: from,
+                fee: fee(approveCost, 4),
+                buttonComponent: (
+                  <Button
+                    onClick={approveGasTokenButton.onSubmit}
+                    disabled={approveGasTokenButton.disabled}
+                    size="xs"
+                  >
+                    {approveGasTokenButton.buttonText}
+                    {approvedGasToken && (
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="15"
+                        height="12"
+                        viewBox="0 0 15 12"
+                        className="fill-white dark:fill-zinc-950 ml-2 h-2.5 w-auto"
+                      >
+                        <path d="M6.80216 12C6.32268 12 5.94594 11.8716 5.67623 11.559L0.63306 6.02355C0.384755 5.7624 0.269165 5.41563 0.269165 5.07742C0.269165 4.31109 0.915614 3.67749 1.66909 3.67749C2.04583 3.67749 2.42257 3.83161 2.69228 4.13129L6.57955 8.38245L12.1921 0.56939C12.4661 0.192651 12.8899 0 13.3309 0C14.0715 0 14.7308 0.56939 14.7308 1.38709C14.7308 1.67392 14.6538 1.96932 14.4697 2.21762L7.84676 11.4306C7.61558 11.7688 7.21315 12 6.79788 12H6.80216Z" />
+                      </svg>
+                    )}
+                  </Button>
+                ),
+                pendingHash: undefined,
+                hash: undefined,
+              }}
             />
           </>
         )}
 
         {approveButton && from && (
           <>
-            <LineItem
-              text={t("confirmationModal.approve", { symbol: token?.symbol })}
-              chain={from}
-              fee={fee(approveCost, 4)}
-              button={
-                <Button
-                  onClick={approveButton.onSubmit}
-                  disabled={approveButton.disabled}
-                  size="xs"
-                >
-                  {approveButton.buttonText}
-                  {approved && (
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="15"
-                      height="12"
-                      viewBox="0 0 15 12"
-                      className="fill-white dark:fill-zinc-950 ml-2 h-2.5 w-auto"
-                    >
-                      <path d="M6.80216 12C6.32268 12 5.94594 11.8716 5.67623 11.559L0.63306 6.02355C0.384755 5.7624 0.269165 5.41563 0.269165 5.07742C0.269165 4.31109 0.915614 3.67749 1.66909 3.67749C2.04583 3.67749 2.42257 3.83161 2.69228 4.13129L6.57955 8.38245L12.1921 0.56939C12.4661 0.192651 12.8899 0 13.3309 0C14.0715 0 14.7308 0.56939 14.7308 1.38709C14.7308 1.67392 14.6538 1.96932 14.4697 2.21762L7.84676 11.4306C7.61558 11.7688 7.21315 12 6.79788 12H6.80216Z" />
-                    </svg>
-                  )}
-                </Button>
-              }
+            <TransactionLineItem
+              step={{
+                label: t("confirmationModal.approve", {
+                  symbol: token?.symbol,
+                }),
+                chain: from,
+                fee: fee(approveCost, 4),
+                buttonComponent: (
+                  <Button
+                    onClick={approveButton.onSubmit}
+                    disabled={approveButton.disabled}
+                    size="xs"
+                  >
+                    {approveButton.buttonText}
+                    {approved && (
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="15"
+                        height="12"
+                        viewBox="0 0 15 12"
+                        className="fill-white dark:fill-zinc-950 ml-2 h-2.5 w-auto"
+                      >
+                        <path d="M6.80216 12C6.32268 12 5.94594 11.8716 5.67623 11.559L0.63306 6.02355C0.384755 5.7624 0.269165 5.41563 0.269165 5.07742C0.269165 4.31109 0.915614 3.67749 1.66909 3.67749C2.04583 3.67749 2.42257 3.83161 2.69228 4.13129L6.57955 8.38245L12.1921 0.56939C12.4661 0.192651 12.8899 0 13.3309 0C14.0715 0 14.7308 0.56939 14.7308 1.38709C14.7308 1.67392 14.6538 1.96932 14.4697 2.21762L7.84676 11.4306C7.61558 11.7688 7.21315 12 6.79788 12H6.80216Z" />
+                      </svg>
+                    )}
+                  </Button>
+                ),
+                pendingHash: undefined,
+                hash: undefined,
+              }}
             />
           </>
         )}
 
-        {lineItems.filter(isPresent).map(({ text, fee, chain, initiate }) => (
-          <LineItem
-            key={text}
-            text={text}
-            fee={fee}
-            chain={chain}
-            button={
-              initiate ? (
-                <Button
-                  onClick={initiateButton.onSubmit}
-                  disabled={initiateButton.disabled}
-                  size={"xs"}
-                >
-                  {initiateButton.buttonText}
-                </Button>
-              ) : undefined
-            }
+        {lineItems.filter(isPresent).map((step) => (
+          <TransactionLineItem
+            key={isWaitStep(step) ? step.duration.toString() : step.label}
+            step={step}
           />
         ))}
       </div>

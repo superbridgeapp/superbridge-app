@@ -1,0 +1,127 @@
+import { FC } from "react";
+import { useTranslation } from "react-i18next";
+import { useChainId } from "wagmi";
+
+import {
+  ArbitrumDepositRetryableDto,
+  ArbitrumForcedWithdrawalDto,
+  ArbitrumWithdrawalDto,
+  BridgeWithdrawalDto,
+  CctpBridgeDto,
+  ForcedWithdrawalDto,
+} from "@/codegen/model";
+import { useTxDeployment } from "@/hooks/activity/use-tx-deployment";
+import { useFinaliseArbitrum } from "@/hooks/arbitrum/use-arbitrum-finalise";
+import { useRedeemArbitrum } from "@/hooks/arbitrum/use-arbitrum-redeem";
+import { useMintCctp } from "@/hooks/cctp/use-cctp-mint";
+import { useFinaliseOptimism } from "@/hooks/optimism/use-optimism-finalise";
+import { useProveOptimism } from "@/hooks/optimism/use-optimism-prove";
+import { useSwitchChain } from "@/hooks/use-switch-chain";
+import { isArbitrumWithdrawal, isWithdrawal } from "@/utils/guards";
+
+import { Button } from "./ui/button";
+
+export const Prove = ({
+  tx,
+  enabled,
+}: {
+  tx: BridgeWithdrawalDto | ForcedWithdrawalDto;
+  enabled: boolean;
+}) => {
+  const prove = useProveOptimism(isWithdrawal(tx) ? tx : tx.withdrawal!);
+  const { t } = useTranslation();
+  return (
+    <Button
+      onClick={prove.onProve}
+      size={"sm"}
+      disabled={prove.loading || !enabled}
+    >
+      {t("buttons.prove")}
+    </Button>
+  );
+};
+
+export const Finalise = ({
+  tx,
+  enabled,
+}: {
+  tx: BridgeWithdrawalDto | ForcedWithdrawalDto;
+  enabled: boolean;
+}) => {
+  const finalise = useFinaliseOptimism(isWithdrawal(tx) ? tx : tx.withdrawal!);
+  const { t } = useTranslation();
+  return (
+    <Button
+      onClick={finalise.onFinalise}
+      size={"sm"}
+      disabled={finalise.loading || !enabled}
+    >
+      {t("buttons.finalize")}
+    </Button>
+  );
+};
+
+export const FinaliseArbitrum: FC<{
+  tx: ArbitrumWithdrawalDto | ArbitrumForcedWithdrawalDto;
+  enabled: boolean;
+}> = ({ tx, enabled }) => {
+  const finalise = useFinaliseArbitrum(
+    isArbitrumWithdrawal(tx) ? tx : tx.withdrawal!
+  );
+  const { t } = useTranslation();
+  return (
+    <Button
+      onClick={finalise.onFinalise}
+      size={"sm"}
+      disabled={finalise.loading || !enabled}
+    >
+      {t("buttons.finalize")}
+    </Button>
+  );
+};
+
+export const RedeemArbitrum: FC<{
+  tx: ArbitrumDepositRetryableDto | ArbitrumForcedWithdrawalDto;
+  enabled: boolean;
+}> = ({ tx, enabled }) => {
+  const chainId = useChainId();
+  const redeem = useRedeemArbitrum(tx);
+  const { t } = useTranslation();
+  const switchChain = useSwitchChain();
+
+  const deployment = useTxDeployment(tx);
+  if (!deployment) {
+    return null;
+  }
+
+  if (chainId === deployment.l1.id) {
+    return (
+      <Button className="rounded-full" onClick={redeem.write} size={"sm"}>
+        {t("buttons.redeem")}
+      </Button>
+    );
+  }
+  return (
+    <Button
+      onClick={() => switchChain(deployment.l1)}
+      size={"sm"}
+      disabled={!enabled}
+    >
+      {t("buttons.switchChain")}
+    </Button>
+  );
+};
+
+export const MintCctp: FC<{
+  tx: CctpBridgeDto;
+  enabled: boolean;
+}> = ({ tx, enabled }) => {
+  const mint = useMintCctp(tx);
+  const { t } = useTranslation();
+
+  return (
+    <Button onClick={mint.write} size={"sm"} disabled={mint.loading}>
+      {t("buttons.mint")}
+    </Button>
+  );
+};

@@ -1,28 +1,22 @@
 import { useTranslation } from "react-i18next";
-import { P, match } from "ts-pattern";
 
 import { DeploymentDto } from "@/codegen/model";
-import { MessageStatus } from "@/constants/optimism-message-status";
-import {
-  addPeriods,
-  getFinalizationPeriod,
-  getPeriod,
-  getProvePeriod,
-} from "@/hooks/use-finalization-period";
 import { usePeriodText } from "@/hooks/use-period-text";
 import { usePendingTransactions } from "@/state/pending-txs";
 import { Transaction } from "@/types/transaction";
 
 import { isOptimismWithdrawal } from "../guards";
-import { isOptimism } from "../is-mainnet";
-import { transactionLink } from "../transaction-link";
-import { ButtonComponent, ExpandedItem, ProgressRowStatus } from "./common";
-import { getRemainingTimePeriod } from "./get-remaining-period";
+import {
+  ActivityStep,
+  ButtonComponent,
+  TransactionStep,
+  isButtonEnabled,
+} from "./common";
 
 export const useOptimismWithdrawalProgressRows = (
   w: Transaction | null,
   deployment: DeploymentDto | null
-): ExpandedItem[] | null => {
+): ActivityStep[] | null => {
   const pendingFinalises = usePendingTransactions.usePendingFinalises();
   const pendingProves = usePendingTransactions.usePendingProves();
   const transformPeriodText = usePeriodText();
@@ -32,188 +26,65 @@ export const useOptimismWithdrawalProgressRows = (
     return null;
   }
 
-  const finalizationPeriod = getFinalizationPeriod(deployment, false);
-  const provePeriod = getProvePeriod(deployment);
   const pendingProve = pendingProves[w?.id ?? ""];
   const pendingFinalise = pendingFinalises[w?.id ?? ""];
-  const prove = match({ w, pendingProve })
-    // Special case for saved client side transactions
-    .with(
-      {
-        w: { status: MessageStatus.READY_TO_PROVE },
-        pendingProve: P.not(undefined),
-      },
-      () => ({
-        label: t("activity.proving"),
-        status: ProgressRowStatus.InProgress,
-        buttonComponent: undefined,
-        link: transactionLink(pendingProve!, deployment?.l1),
-      })
-    )
-    .with({ w: { status: MessageStatus.READY_TO_PROVE } }, () => ({
-      label: t("activity.readyToProve"),
-      status: ProgressRowStatus.InProgress,
-      buttonComponent: ButtonComponent.Prove,
-      link: undefined,
-    }))
-    .with(
-      {
-        w: {
-          status: P.when((status) => status < MessageStatus.READY_TO_PROVE),
-        },
-      },
-      () => ({
-        label: t("activity.proved"),
-        status: ProgressRowStatus.NotDone,
-        buttonComponent: undefined,
-        link: undefined,
-      })
-    )
-    .with(
-      {
-        w: undefined,
-      },
-      () => ({
-        label: t("activity.proved"),
-        status: ProgressRowStatus.NotDone,
-        buttonComponent: undefined,
-        link: undefined,
-      })
-    )
-    // status > MessageStatus.READY_TO_PROVE
-    .otherwise(({ w }) => ({
-      label: t("activity.proved"),
-      status: ProgressRowStatus.Done,
-      buttonComponent: undefined,
-      link: w?.prove?.transactionHash
-        ? transactionLink(w.prove.transactionHash, deployment.l1)
-        : undefined,
-    }));
 
-  const finalise = match({ ...w, pendingFinalise })
-    // Special case for saved client side transactions
-    .with(
-      {
-        status: MessageStatus.READY_FOR_RELAY,
-        pendingFinalise: P.not(undefined),
-      },
-      () => ({
-        label: t("activity.finalizing"),
-        status: ProgressRowStatus.InProgress,
-        buttonComponent: undefined,
-        link: transactionLink(pendingFinalise!, deployment?.l1),
-      })
-    )
-    .with({ status: MessageStatus.READY_FOR_RELAY }, () => ({
-      label: t("activity.readyToFinalize"),
-      status: ProgressRowStatus.InProgress,
-      buttonComponent: ButtonComponent.Finalise,
-      link: undefined,
-    }))
-    .with({ status: MessageStatus.RELAYED }, (w) => ({
-      label: t("activity.finalized"),
-      status: ProgressRowStatus.Done,
-      buttonComponent: undefined,
-      link: transactionLink(w.finalise!.transactionHash, deployment?.l1),
-    }))
-    .otherwise(() => ({
-      label: t("activity.finalized"),
-      status: ProgressRowStatus.NotDone,
-      buttonComponent: undefined,
-      link: undefined,
-    }));
+  const withdraw: TransactionStep = {
+    label: t("buttons.bridge"),
+    hash: w.withdrawal.timestamp ? w.withdrawal.transactionHash : undefined,
+    pendingHash: w.withdrawal.timestamp
+      ? undefined
+      : w.withdrawal.transactionHash,
+    chain: deployment.l2,
+    button: undefined,
+    fee: undefined,
+  };
 
-  const waitingForStateRootText = (() => {
-    // weird case, not sure what it's for
-    if (!w?.status || w.status < MessageStatus.STATE_ROOT_NOT_PUBLISHED) {
-      return transformPeriodText("transferTime", {}, provePeriod);
-    }
+  const prove: TransactionStep = {
+    label: t("buttons.prove"),
+    pendingHash: pendingProve,
+    hash: w.prove?.transactionHash,
+    chain: deployment.l1,
+    button: {
+      type: ButtonComponent.Prove,
+      enabled: isButtonEnabled(w.withdrawal.timestamp, w.proveDuration),
+    },
+    fee: undefined,
+  };
 
-    if (w.status > MessageStatus.STATE_ROOT_NOT_PUBLISHED) {
-      return "";
-    }
+  console.log(prove, w.withdrawal.timestamp, w.proveDuration);
 
-    const remainingTimePeriod = getRemainingTimePeriod(
-      w.withdrawal.timestamp || Date.now(),
-      provePeriod
-    );
-    if (!remainingTimePeriod) return "";
-    return transformPeriodText("activity.remaining", {}, remainingTimePeriod);
-  })();
-
-  const challengePeriodText = (() => {
-    if (
-      !w?.prove ||
-      !w?.status ||
-      w.status < MessageStatus.IN_CHALLENGE_PERIOD
-    ) {
-      return transformPeriodText("transferTime", {}, finalizationPeriod);
-    }
-
-    if (w.status > MessageStatus.IN_CHALLENGE_PERIOD) {
-      return "";
-    }
-
-    let remainingTimePeriod = getRemainingTimePeriod(
-      w.prove.timestamp,
-      finalizationPeriod
-    );
-    if (
-      isOptimism(deployment) &&
-      deployment?.contractAddresses.disputeGameFactory &&
-      deployment?.config.disputeGameFinalityDelaySeconds &&
-      w.prove.game?.resolvedAt
-    ) {
-      remainingTimePeriod = addPeriods(
-        remainingTimePeriod,
-        getRemainingTimePeriod(
-          w.prove.game.resolvedAt,
-          getPeriod(deployment.config.disputeGameFinalityDelaySeconds)
-        )
-      );
-    }
-
-    if (!remainingTimePeriod) return "";
-    return transformPeriodText("activity.remaining", {}, remainingTimePeriod);
-  })();
+  const finalise: TransactionStep = {
+    label: t("buttons.finalize"),
+    pendingHash: pendingFinalise,
+    hash: w.finalise?.transactionHash,
+    chain: deployment.l1,
+    button: {
+      type: ButtonComponent.Finalise,
+      enabled: isButtonEnabled(w.prove?.timestamp, w.finalizeDuration),
+    },
+    fee: undefined,
+  };
 
   return [
-    {
-      label: t("activity.withdrawn"),
-      status: w ? ProgressRowStatus.Done : ProgressRowStatus.NotDone,
-      link: w
-        ? transactionLink(w.withdrawal.transactionHash, deployment.l2)
-        : undefined,
-    },
-    {
-      label:
-        w?.status === MessageStatus.STATE_ROOT_NOT_PUBLISHED
-          ? isOptimism(deployment) &&
-            deployment?.contractAddresses.disputeGameFactory
-            ? t("activity.waitingForDisputeGame")
-            : t("activity.waitingForStateRoot")
-          : t("activity.stateRootPublished"),
-      status: w
-        ? w?.status === MessageStatus.STATE_ROOT_NOT_PUBLISHED
-          ? ProgressRowStatus.InProgress
-          : ProgressRowStatus.Done
-        : ProgressRowStatus.NotDone,
-      time: waitingForStateRootText,
-    },
+    withdraw,
+    w.withdrawal.timestamp
+      ? {
+          startedAt: w.withdrawal.timestamp,
+          duration: w.proveDuration,
+        }
+      : {
+          duration: w.proveDuration,
+        },
     prove,
-    {
-      label:
-        w?.status === MessageStatus.IN_CHALLENGE_PERIOD
-          ? `${t("activity.challengePeriod")}…`
-          : t("activity.challengePeriod"),
-      status:
-        !w?.status || w.status < MessageStatus.IN_CHALLENGE_PERIOD
-          ? ProgressRowStatus.NotDone
-          : w.status === MessageStatus.IN_CHALLENGE_PERIOD
-          ? ProgressRowStatus.InProgress
-          : ProgressRowStatus.Done,
-      time: challengePeriodText,
-    },
+    w.prove?.timestamp
+      ? {
+          startedAt: w.prove.timestamp,
+          duration: w.finalizeDuration,
+        }
+      : {
+          duration: w.finalizeDuration,
+        },
     finalise,
   ];
 };

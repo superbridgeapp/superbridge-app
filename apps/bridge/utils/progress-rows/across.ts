@@ -1,77 +1,56 @@
 import { useTranslation } from "react-i18next";
 
 import { useAcrossDomains } from "@/hooks/across/use-across-domains";
-import { Period } from "@/hooks/use-finalization-period";
 import { usePeriodText } from "@/hooks/use-period-text";
-// import { useFastTransferPeriod } from "@/hooks/use-transfer-time";
 import { Transaction } from "@/types/transaction";
 
 import { isAcrossBridge } from "../guards";
-import { transactionLink } from "../transaction-link";
-import { ProgressRowStatus } from "./common";
-import { getRemainingTimePeriod } from "./get-remaining-period";
+import { ActivityStep } from "./common";
 
-export const useAcrossProgressRows = (tx: Transaction | null) => {
+export const useAcrossProgressRows = (
+  tx: Transaction | null
+): ActivityStep[] | null => {
   const { t } = useTranslation();
   const transformPeriodText = usePeriodText();
-  // todo: think about estimating time remaining for fast transfers
-  const transferPeriod: Period = { value: 1, period: "days" };
 
   const acrossDomains = useAcrossDomains();
+
   if (!tx || !isAcrossBridge(tx)) {
     return null;
   }
+
   const fromDomain = acrossDomains.find((x) => x.chain.id === tx.fromChainId);
   const toDomain = acrossDomains.find((x) => x.chain.id === tx.toChainId);
-
-  const l2ConfirmationText = (() => {
-    if (tx.fill) return "";
-    if (!tx.deposit.timestamp) {
-      return transformPeriodText("transferTime", {}, transferPeriod);
-    }
-
-    const remainingTimePeriod = getRemainingTimePeriod(
-      tx.deposit.timestamp,
-      transferPeriod
-    );
-
-    if (!remainingTimePeriod) return "";
-    return transformPeriodText("activity.remaining", {}, remainingTimePeriod);
-  })();
-
-  // assume immediate confirmation for rollups
-  const initiate =
-    tx.deposit.timestamp || tx.fromChainId !== 1
-      ? {
-          label: t("activity.bridged"),
-          status: ProgressRowStatus.Done,
-          link: transactionLink(tx.deposit.transactionHash, fromDomain?.chain),
-        }
-      : {
-          label: t("activity.bridging"),
-          status: ProgressRowStatus.InProgress,
-          link: transactionLink(tx.deposit.transactionHash, fromDomain?.chain),
-        };
+  if (!fromDomain?.chain || !toDomain?.chain) {
+    return null;
+  }
 
   return [
-    initiate,
-    tx.fill
+    {
+      label: "bridge",
+      hash: tx.deposit.timestamp ? tx.deposit.transactionHash : undefined,
+      pendingHash: tx.deposit.timestamp
+        ? undefined
+        : tx.deposit.transactionHash,
+      chain: fromDomain.chain,
+      button: undefined,
+      fee: undefined,
+    },
+    tx.deposit.timestamp
       ? {
-          label: "Filled",
-          status: ProgressRowStatus.Done,
-          link: transactionLink(tx.fill.transactionHash, toDomain?.chain),
-        }
-      : // assume immediate confirmation for rollups
-      tx.deposit.timestamp || tx.fromChainId
-      ? {
-          label: "Waiting",
-          status: ProgressRowStatus.InProgress,
-          time: l2ConfirmationText,
+          startedAt: tx.deposit.timestamp,
+          duration: tx.duration,
         }
       : {
-          label: "Fill",
-          status: ProgressRowStatus.NotDone,
-          time: l2ConfirmationText,
+          duration: tx.duration,
         },
+    {
+      label: "receive",
+      hash: tx.fill?.transactionHash,
+      pendingHash: undefined,
+      chain: toDomain.chain,
+      button: undefined,
+      fee: undefined,
+    },
   ];
 };

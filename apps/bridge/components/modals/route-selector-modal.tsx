@@ -33,6 +33,7 @@ export const RouteSelectorModal = () => {
             }
             return (
               <div
+                key={route.id}
                 className="hover:bg-zinc-50 transition"
                 onClick={() => onSelect(route.id)}
               >
