@@ -46,20 +46,31 @@ export const useAcrossProgressRows = (tx: Transaction | null) => {
           label: t("activity.bridged"),
           status: ProgressRowStatus.Done,
           link: transactionLink(tx.deposit.transactionHash, fromDomain?.chain),
+          chain: fromDomain?.chain,
         }
       : {
           label: t("activity.bridging"),
           status: ProgressRowStatus.InProgress,
           link: transactionLink(tx.deposit.transactionHash, fromDomain?.chain),
+          chain: fromDomain?.chain,
         };
 
   return [
     initiate,
+    tx.deposit.timestamp
+      ? {
+          startedAt: tx.deposit.timestamp,
+          duration: tx.duration,
+        }
+      : {
+          duration: tx.duration,
+        },
     tx.fill
       ? {
           label: "Filled",
           status: ProgressRowStatus.Done,
           link: transactionLink(tx.fill.transactionHash, toDomain?.chain),
+          chain: toDomain?.chain,
         }
       : // assume immediate confirmation for rollups
       tx.deposit.timestamp || tx.fromChainId
@@ -67,11 +78,13 @@ export const useAcrossProgressRows = (tx: Transaction | null) => {
           label: "Waiting",
           status: ProgressRowStatus.InProgress,
           time: l2ConfirmationText,
+          chain: toDomain?.chain,
         }
       : {
           label: "Fill",
           status: ProgressRowStatus.NotDone,
           time: l2ConfirmationText,
+          chain: toDomain?.chain,
         },
   ];
 };

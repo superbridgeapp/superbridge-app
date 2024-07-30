@@ -2,14 +2,14 @@ import { DeploymentDto } from "@/codegen/model";
 import { Transaction } from "@/types/transaction";
 
 import { isOptimismForcedWithdrawal } from "../guards";
-import { ExpandedItem, ProgressRowStatus } from "./common";
+import { ActivityStep, ProgressRowStatus } from "./common";
 import { useOptimismDepositProgressRows } from "./deposit";
 import { useOptimismWithdrawalProgressRows } from "./withdrawal";
 
 export const useOptimismForcedWithdrawalProgressRows = (
   fw: Transaction | null,
   deployment: DeploymentDto | null
-): ExpandedItem[] | null => {
+): ActivityStep[] | null => {
   let depositRows =
     useOptimismDepositProgressRows(
       fw && isOptimismForcedWithdrawal(fw) ? fw.deposit : null,

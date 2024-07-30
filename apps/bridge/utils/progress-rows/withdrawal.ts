@@ -16,13 +16,13 @@ import { Transaction } from "@/types/transaction";
 import { isOptimismWithdrawal } from "../guards";
 import { isOptimism } from "../is-mainnet";
 import { transactionLink } from "../transaction-link";
-import { ButtonComponent, ExpandedItem, ProgressRowStatus } from "./common";
+import { ActivityStep, ButtonComponent, ProgressRowStatus } from "./common";
 import { getRemainingTimePeriod } from "./get-remaining-period";
 
 export const useOptimismWithdrawalProgressRows = (
   w: Transaction | null,
   deployment: DeploymentDto | null
-): ExpandedItem[] | null => {
+): ActivityStep[] | null => {
   const pendingFinalises = usePendingTransactions.usePendingFinalises();
   const pendingProves = usePendingTransactions.usePendingProves();
   const transformPeriodText = usePeriodText();
@@ -180,11 +180,19 @@ export const useOptimismWithdrawalProgressRows = (
   return [
     {
       label: t("activity.withdrawn"),
-      status: w ? ProgressRowStatus.Done : ProgressRowStatus.NotDone,
+      // status: w ? ProgressRowStatus.Done : ProgressRowStatus.NotDone,
       link: w
         ? transactionLink(w.withdrawal.transactionHash, deployment.l2)
         : undefined,
     },
+    w.withdrawal.timestamp
+      ? {
+          startedAt: w.withdrawal.timestamp,
+          duration: w.proveDuration,
+        }
+      : {
+          duration: w.proveDuration,
+        },
     {
       label:
         w?.status === MessageStatus.STATE_ROOT_NOT_PUBLISHED
@@ -193,25 +201,33 @@ export const useOptimismWithdrawalProgressRows = (
             ? t("activity.waitingForDisputeGame")
             : t("activity.waitingForStateRoot")
           : t("activity.stateRootPublished"),
-      status: w
-        ? w?.status === MessageStatus.STATE_ROOT_NOT_PUBLISHED
-          ? ProgressRowStatus.InProgress
-          : ProgressRowStatus.Done
-        : ProgressRowStatus.NotDone,
+      // status: w
+      //   ? w?.status === MessageStatus.STATE_ROOT_NOT_PUBLISHED
+      //     ? ProgressRowStatus.InProgress
+      //     : ProgressRowStatus.Done
+      //   : ProgressRowStatus.NotDone,
       time: waitingForStateRootText,
     },
     prove,
+    w.withdrawal.timestamp
+      ? {
+          startedAt: w.withdrawal.timestamp,
+          duration: w.proveDuration,
+        }
+      : {
+          duration: w.proveDuration,
+        },
     {
       label:
         w?.status === MessageStatus.IN_CHALLENGE_PERIOD
           ? `${t("activity.challengePeriod")}…`
           : t("activity.challengePeriod"),
-      status:
-        !w?.status || w.status < MessageStatus.IN_CHALLENGE_PERIOD
-          ? ProgressRowStatus.NotDone
-          : w.status === MessageStatus.IN_CHALLENGE_PERIOD
-          ? ProgressRowStatus.InProgress
-          : ProgressRowStatus.Done,
+      // status:
+      //   !w?.status || w.status < MessageStatus.IN_CHALLENGE_PERIOD
+      //     ? ProgressRowStatus.NotDone
+      //     : w.status === MessageStatus.IN_CHALLENGE_PERIOD
+      //     ? ProgressRowStatus.InProgress
+      //     : ProgressRowStatus.Done,
       time: challengePeriodText,
     },
     finalise,

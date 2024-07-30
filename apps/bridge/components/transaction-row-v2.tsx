@@ -46,8 +46,8 @@ import {
 } from "@/utils/guards";
 import { isOptimism } from "@/utils/is-mainnet";
 import {
+  ActivityStep,
   ButtonComponent,
-  ExpandedItem,
   ProgressRowStatus,
 } from "@/utils/progress-rows/common";
 
@@ -251,7 +251,7 @@ const TransactionProgressRow = ({
   item,
   tx,
 }: {
-  item: ExpandedItem;
+  item: ActivityStep;
   tx: Transaction;
 }) => {
   const Wrapper = ({ children }: any) =>

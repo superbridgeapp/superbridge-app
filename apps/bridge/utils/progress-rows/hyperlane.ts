@@ -6,11 +6,11 @@ import { Transaction } from "@/types/transaction";
 
 import { isHyperlaneBridge } from "../guards";
 import { transactionLink } from "../transaction-link";
-import { ExpandedItem, ProgressRowStatus } from "./common";
+import { ActivityStep } from "./common";
 
 export const useHyperlaneProgressRows = (
   tx: Transaction | null
-): ExpandedItem[] | null => {
+): ActivityStep[] | null => {
   const { t } = useTranslation();
 
   const hyperlaneMailboxes = useInjectedStore((s) => s.hyperlaneMailboxes);
@@ -36,25 +36,31 @@ export const useHyperlaneProgressRows = (
       label: tx.send.blockNumber
         ? t("activity.bridged")
         : t("activity.bridging"),
-      status: tx.send.blockNumber
-        ? ProgressRowStatus.Done
-        : ProgressRowStatus.InProgress,
+      // status: tx.send.blockNumber
+      //   ? ProgressRowStatus.Done
+      //   : ProgressRowStatus.InProgress,
       link: transactionLink(tx.send.transactionHash, fromChain),
+      chain: fromChain,
     },
+    tx.send.timestamp
+      ? {
+          startedAt: tx.send.timestamp,
+          duration: tx.duration,
+        }
+      : {
+          duration: tx.duration,
+        },
     {
-      label: !tx.send.blockNumber
-        ? "Confirmed"
-        : tx.receive?.blockNumber
-        ? "Confirmed"
-        : "Confirming",
-      status: !tx.send.blockNumber
-        ? ProgressRowStatus.NotDone
-        : tx.receive?.blockNumber
-        ? ProgressRowStatus.Done
-        : ProgressRowStatus.InProgress,
+      label: "Received",
+      // status: !tx.send.blockNumber
+      //   ? ProgressRowStatus.NotDone
+      //   : tx.receive?.blockNumber
+      //   ? ProgressRowStatus.Done
+      //   : ProgressRowStatus.InProgress,
       link: tx.receive
         ? transactionLink(tx.receive?.transactionHash, toChain)
         : undefined,
+      chain: toChain,
     },
   ];
 };

@@ -10,7 +10,7 @@ import { Transaction } from "@/types/transaction";
 
 import { isArbitrumWithdrawal } from "../guards";
 import { transactionLink } from "../transaction-link";
-import { ButtonComponent, ExpandedItem, ProgressRowStatus } from "./common";
+import { ActivityStep, ButtonComponent, ProgressRowStatus } from "./common";
 import {
   getRemainingTimeMs,
   getRemainingTimePeriod,
@@ -19,7 +19,7 @@ import {
 export const useArbitrumWithdrawalProgressRows = (
   w: Transaction | null,
   deployment: DeploymentDto | null
-): ExpandedItem[] | null => {
+): ActivityStep[] | null => {
   const { t } = useTranslation();
   const pendingFinalises = usePendingTransactions.usePendingFinalises();
   const transformPeriodText = usePeriodText();

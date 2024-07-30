@@ -8,13 +8,13 @@ import { Transaction } from "@/types/transaction";
 
 import { isArbitrumDeposit } from "../guards";
 import { transactionLink } from "../transaction-link";
-import { ButtonComponent, ExpandedItem, ProgressRowStatus } from "./common";
+import { ActivityStep, ButtonComponent, ProgressRowStatus } from "./common";
 import { getRemainingTimePeriod } from "./get-remaining-period";
 
 export const useArbitrumDepositProgressRows = (
   tx: Transaction | null,
   deployment: DeploymentDto | null
-): ExpandedItem[] | null => {
+): ActivityStep[] | null => {
   const { t } = useTranslation();
   const transformPeriodText = usePeriodText();
 

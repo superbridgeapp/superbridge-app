@@ -8,13 +8,13 @@ import { Transaction } from "@/types/transaction";
 
 import { isOptimismDeposit } from "../guards";
 import { transactionLink } from "../transaction-link";
-import { ExpandedItem, ProgressRowStatus } from "./common";
+import { ActivityStep, ProgressRowStatus } from "./common";
 import { getRemainingTimePeriod } from "./get-remaining-period";
 
 export const useOptimismDepositProgressRows = (
   tx: Transaction | null,
   deployment: DeploymentDto | null
-): ExpandedItem[] | null => {
+): ActivityStep[] | null => {
   const { t } = useTranslation();
   const transformPeriodText = usePeriodText();
 
@@ -46,12 +46,15 @@ export const useOptimismDepositProgressRows = (
       },
       (d) => [
         {
-          label: t("activity.deposited"),
+          label: t("activity.bridged"),
           status: ProgressRowStatus.Done,
           link: transactionLink(d.deposit.transactionHash, deployment.l1),
         },
         {
-          label: t("activity.l2Confirmation"),
+          finishedAt: tx.deposit.timestamp + tx.duration,
+        },
+        {
+          label: t("activity.received"),
           status:
             d.relay.status === TransactionStatus.confirmed
               ? ProgressRowStatus.Done

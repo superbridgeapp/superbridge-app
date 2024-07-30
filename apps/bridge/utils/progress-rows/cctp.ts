@@ -9,13 +9,13 @@ import { Transaction } from "@/types/transaction";
 
 import { isCctpBridge } from "../guards";
 import { transactionLink } from "../transaction-link";
-import { ButtonComponent, ExpandedItem, ProgressRowStatus } from "./common";
+import { ActivityStep, ButtonComponent, ProgressRowStatus } from "./common";
 import { getRemainingTimePeriod } from "./get-remaining-period";
 
 export const useCctpProgressRows = (
   tx: Transaction | null,
   deployment: DeploymentDto | null
-): ExpandedItem[] | null => {
+): ActivityStep[] | null => {
   const { t } = useTranslation();
   const pendingFinalises = usePendingTransactions.usePendingFinalises();
   const transformPeriodText = usePeriodText();
@@ -45,9 +45,10 @@ export const useCctpProgressRows = (
       label: tx.bridge.blockNumber
         ? t("activity.bridged")
         : t("activity.bridging"),
-      status: tx.bridge.blockNumber
-        ? ProgressRowStatus.Done
-        : ProgressRowStatus.InProgress,
+      // status: tx.bridge.blockNumber
+      //   ? ProgressRowStatus.Done
+      //   : ProgressRowStatus.InProgress,
+      chain: tx.from,
       link: transactionLink(tx.bridge.transactionHash, tx.from),
     },
     match({ tx, pendingFinalise })
@@ -57,16 +58,19 @@ export const useCctpProgressRows = (
           label: t("activity.l2Confirmation"),
           status: ProgressRowStatus.NotDone,
           text: l2ConfirmationText,
+          chain: tx.to,
         })
       )
       .with({ tx: { relay: P.when((relay) => !!relay?.blockNumber) } }, () => ({
         label: t("activity.minted"),
         status: ProgressRowStatus.Done,
         link: transactionLink(tx.relay!.transactionHash, tx.to),
+        chain: tx.to,
       }))
       .with({ pendingFinalise: P.not(undefined) }, () => ({
         label: t("activity.minting"),
         status: ProgressRowStatus.InProgress,
+        chain: tx.to,
       }))
 
       .otherwise(({ tx }) => {
@@ -76,12 +80,14 @@ export const useCctpProgressRows = (
             label: t("activity.readyToMint"),
             status: ProgressRowStatus.InProgress,
             buttonComponent: ButtonComponent.Mint,
+            chain: tx.to,
           };
         }
         return {
           label: t("activity.waitingForAttestation"),
           status: ProgressRowStatus.InProgress,
           time: l2ConfirmationText,
+          chain: tx.to,
         };
       }),
   ];
