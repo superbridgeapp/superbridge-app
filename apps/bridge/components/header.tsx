@@ -8,6 +8,7 @@ import { useNavIcon } from "@/hooks/use-theme";
 
 import { TokenBanner } from "./banners/token-banner";
 import { HeaderLinks } from "./header/header-links";
+import { SBLockup, SBLockupSmall } from "./icons";
 
 export function Header() {
   const deployments = useDeployments();
@@ -19,8 +20,10 @@ export function Header() {
     <nav className="flex flex-row justify-between items-center p-3 md:p-6 fixed top-0 left-0 w-screen z-10">
       <div onClick={() => navigate("/")} className="cursor-pointer">
         {app ? (
-          <div className="bg-card rounded-full shadow-sm">
-            <Image
+          <>
+            <SBLockup className="hidden md:inline-flex h-8 w-auto" />
+            <SBLockupSmall className="md:hidden h-8 w-auto" />
+            {/* <Image
               src={app.images.logoLight}
               width={0}
               height={0}
@@ -55,8 +58,8 @@ export function Header() {
               alt={`${app.head.name} logo dark small`}
               draggable={false}
               className="rounded-full hidden dark:inline-flex dark:md:hidden h-10 w-auto"
-            />
-          </div>
+            /> */}
+          </>
         ) : (
           <img
             src={navIcon!}
@@ -72,17 +75,18 @@ export function Header() {
 
       <TokenBanner />
 
-      <ConnectButton
-        chainStatus="icon"
-        label="Connect"
-        showBalance={{ smallScreen: false, largeScreen: false }}
-        accountStatus={{
-          smallScreen: "avatar",
-          largeScreen: "avatar",
-        }}
-      />
-
-      <HeaderLinks />
+      <div className="flex gap-3">
+        <ConnectButton
+          chainStatus="icon"
+          label="Connect"
+          showBalance={{ smallScreen: false, largeScreen: false }}
+          accountStatus={{
+            smallScreen: "avatar",
+            largeScreen: "avatar",
+          }}
+        />
+        <HeaderLinks />
+      </div>
     </nav>
   );
 }
