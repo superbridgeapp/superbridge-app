@@ -7,6 +7,7 @@ import { trackEvent } from "@/services/ga";
 import { useConfigState } from "@/state/config";
 import { useInjectedStore } from "@/state/injected";
 
+import { IconCaretRight } from "./icons";
 import { NetworkIcon } from "./network-icon";
 
 export const FromTo = () => {
@@ -58,15 +59,7 @@ export const FromTo = () => {
       >
         <div className="before:backdrop-blur-sm before:absolute before:inset-0 before:-z-10">
           <div className="p-1 bg-muted backdrop-blur-sm">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 256 256"
-              className={`w-4 h-4 fill-muted-foreground`}
-            >
-              <path d="M224.49 136.49l-72 72a12 12 0 01-17-17L187 140H40a12 12 0 010-24h147l-51.49-51.52a12 12 0 0117-17l72 72a12 12 0 01-.02 17.01z"></path>
-            </svg>
+            <IconCaretRight className={`w-3.5 h-3.5 fill-muted-foreground`} />
           </div>
         </div>
       </button>

@@ -12,6 +12,7 @@ import { useConfigState } from "@/state/config";
 import { formatDecimals } from "@/utils/format-decimals";
 import { isEth } from "@/utils/is-eth";
 
+import { IconCaretDown } from "../icons";
 import { TokenIcon } from "../token-icon";
 import { Recipient } from "./recipient";
 
@@ -45,10 +46,10 @@ export const ERC20TokenInput = () => {
 
   return (
     <div
-      className={`relative rounded-[16px] px-4 py-3 border-2 border-transparent focus-within:border-border transition-colors bg-muted `}
+      className={`flex flex-col gap-1.5 relative rounded-[16px] px-4 py-3 border-2 border-transparent focus-within:border-border transition-colors bg-muted `}
     >
       <div className="flex items-center justify-between">
-        <span>Send</span>
+        <span className="text-xs text-muted-foreground font-heading">Send</span>
         <Recipient />
       </div>
       <div className="flex gap-1">
@@ -78,16 +79,7 @@ export const ERC20TokenInput = () => {
         >
           <TokenIcon token={token} className="h-[20px] w-[20px] shrink-0" />
           {token?.symbol}
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width={14}
-            height={14}
-            className={`w-3.5 h-3.5 fill-foreground shrink-0`}
-            viewBox="0 0 16 16"
-          >
-            <path d="M13.53 6.031l-5 5a.75.75 0 01-1.062 0l-5-5A.751.751 0 113.531 4.97L8 9.439l4.47-4.47a.751.751 0 011.062 1.062h-.001z"></path>
-          </svg>
-
+          <IconCaretDown className="w-3.5 h-3.5 fill-foreground" />
           {(isCustomToken || isCustomTokenFromList) && (
             <svg
               xmlns="http://www.w3.org/2000/svg"
