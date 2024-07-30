@@ -1,15 +1,12 @@
 import { useTranslation } from "react-i18next";
-import { P, match } from "ts-pattern";
 
-import { DeploymentDto, TransactionStatus } from "@/codegen/model";
-import { getDepositTime } from "@/hooks/use-finalization-period";
+import { DeploymentDto } from "@/codegen/model";
 import { usePeriodText } from "@/hooks/use-period-text";
+import { usePendingTransactions } from "@/state/pending-txs";
 import { Transaction } from "@/types/transaction";
 
 import { isArbitrumDeposit } from "../guards";
-import { transactionLink } from "../transaction-link";
-import { ActivityStep, ButtonComponent, ProgressRowStatus } from "./common";
-import { getRemainingTimePeriod } from "./get-remaining-period";
+import { ActivityStep, ButtonComponent } from "./common";
 
 export const useArbitrumDepositProgressRows = (
   tx: Transaction | null,
@@ -17,68 +14,61 @@ export const useArbitrumDepositProgressRows = (
 ): ActivityStep[] | null => {
   const { t } = useTranslation();
   const transformPeriodText = usePeriodText();
+  const pendingFinalises = usePendingTransactions.usePendingFinalises();
 
   if (!tx || !isArbitrumDeposit(tx) || !deployment) {
     return null;
   }
 
-  const depositTime = getDepositTime(deployment);
-  const l2ConfirmationText = (() => {
-    if (!tx.deposit.blockNumber) {
-      return transformPeriodText("transferTime", {}, depositTime);
-    }
-
-    if (tx.relay) {
-      return "";
-    }
-
-    const remainingTimePeriod = getRemainingTimePeriod(
-      tx.deposit.timestamp,
-      depositTime
-    );
-    if (!remainingTimePeriod) return "";
-    return transformPeriodText("activity.remaining", {}, remainingTimePeriod);
-  })();
+  const receive = tx.relay
+    ? {
+        label: t("Receive"),
+        button: undefined,
+        chain: deployment.l2,
+        hash: tx.relay.transactionHash,
+        pendingHash: undefined,
+        fee: undefined,
+      }
+    : tx.deposit.timestamp && tx.deposit.timestamp < Date.now() - 1000 * 60 * 60
+    ? {
+        label: "Manual relay required",
+        fee: undefined, // todo
+        button: {
+          type: ButtonComponent.Redeem,
+          enabled: true,
+        },
+        chain: deployment.l2,
+        hash: undefined,
+        pendingHash: pendingFinalises[tx.id],
+      }
+    : {
+        label: t("Receive"),
+        button: undefined,
+        chain: deployment.l2,
+        fee: undefined,
+        hash: undefined,
+        pendingHash: undefined,
+      };
 
   return [
     {
-      label: tx.deposit.blockNumber
-        ? t("activity.deposited")
-        : t("activity.depositing"),
-      status: tx.deposit.blockNumber
-        ? ProgressRowStatus.Done
-        : ProgressRowStatus.InProgress,
-      link: transactionLink(tx.deposit.transactionHash, deployment.l1),
+      label: "Bridge",
+      hash: tx.deposit.timestamp ? tx.deposit.transactionHash : undefined,
+      pendingHash: tx.deposit.timestamp
+        ? undefined
+        : tx.deposit.transactionHash,
+      button: undefined,
+      chain: deployment.l1,
+      fee: undefined,
     },
-    match(tx)
-      .with({ deposit: P.when(({ blockNumber }) => !blockNumber) }, (d) => ({
-        label: t("activity.l2Confirmation"),
-        status: ProgressRowStatus.NotDone,
-        time: l2ConfirmationText,
-      }))
-      .with({ relay: { status: TransactionStatus.confirmed } }, (tx) => ({
-        label: t("activity.l2Confirmation"),
-        status: ProgressRowStatus.Done,
-        link: transactionLink(tx.relay.transactionHash, deployment.l2),
-      }))
-      .with({ relay: { status: TransactionStatus.reverted } }, (tx) => ({
-        label: t("activity.l2Confirmation"),
-        status: ProgressRowStatus.Reverted,
-        link: transactionLink(tx.relay.transactionHash, deployment.l2),
-      }))
-      .otherwise((tx) => {
-        if (tx.deposit.timestamp < Date.now() - 1000 * 60 * 60) {
-          return {
-            label: "Manual relay required",
-            status: ProgressRowStatus.InProgress,
-            buttonComponent: ButtonComponent.Redeem,
-          };
+    tx.deposit.timestamp
+      ? {
+          startedAt: tx.deposit.timestamp,
+          duration: tx.duration,
         }
-        return {
-          label: t("activity.waitingForL2"),
-          status: ProgressRowStatus.InProgress,
-          time: l2ConfirmationText,
-        };
-      }),
+      : {
+          duration: tx.duration,
+        },
+    receive,
   ];
 };

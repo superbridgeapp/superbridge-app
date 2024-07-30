@@ -10,38 +10,46 @@ import {
   CctpBridgeDto,
   ForcedWithdrawalDto,
 } from "@/codegen/model";
+import { useTxDeployment } from "@/hooks/activity/use-tx-deployment";
 import { useFinaliseArbitrum } from "@/hooks/arbitrum/use-arbitrum-finalise";
 import { useRedeemArbitrum } from "@/hooks/arbitrum/use-arbitrum-redeem";
 import { useMintCctp } from "@/hooks/cctp/use-cctp-mint";
 import { useFinaliseOptimism } from "@/hooks/optimism/use-optimism-finalise";
 import { useProveOptimism } from "@/hooks/optimism/use-optimism-prove";
-import { useDeploymentById } from "@/hooks/use-deployment-by-id";
 import { useSwitchChain } from "@/hooks/use-switch-chain";
 import { Transaction } from "@/types/transaction";
-import {
-  isArbitrumForcedWithdrawal,
-  isArbitrumWithdrawal,
-  isWithdrawal,
-} from "@/utils/guards";
+import { isArbitrumWithdrawal, isWithdrawal } from "@/utils/guards";
 import { ActivityStep } from "@/utils/progress-rows/common";
 
 import { TransactionLineItem } from "./transaction-line-item";
 import { Button } from "./ui/button";
 
-const Prove = ({ tx }: { tx: BridgeWithdrawalDto | ForcedWithdrawalDto }) => {
+export const Prove = ({
+  tx,
+  enabled,
+}: {
+  tx: BridgeWithdrawalDto | ForcedWithdrawalDto;
+  enabled: boolean;
+}) => {
   const prove = useProveOptimism(isWithdrawal(tx) ? tx : tx.withdrawal!);
   const { t } = useTranslation();
   return (
-    <Button onClick={prove.onProve} size={"sm"} disabled={prove.loading}>
+    <Button
+      onClick={prove.onProve}
+      size={"sm"}
+      disabled={prove.loading || !enabled}
+    >
       {t("buttons.prove")}
     </Button>
   );
 };
 
-const Finalise = ({
+export const Finalise = ({
   tx,
+  enabled,
 }: {
   tx: BridgeWithdrawalDto | ForcedWithdrawalDto;
+  enabled: boolean;
 }) => {
   const finalise = useFinaliseOptimism(isWithdrawal(tx) ? tx : tx.withdrawal!);
   const { t } = useTranslation();
@@ -49,16 +57,17 @@ const Finalise = ({
     <Button
       onClick={finalise.onFinalise}
       size={"sm"}
-      disabled={finalise.loading}
+      disabled={finalise.loading || !enabled}
     >
       {t("buttons.finalize")}
     </Button>
   );
 };
 
-const FinaliseArbitrum: FC<{
+export const FinaliseArbitrum: FC<{
   tx: ArbitrumWithdrawalDto | ArbitrumForcedWithdrawalDto;
-}> = ({ tx }) => {
+  enabled: boolean;
+}> = ({ tx, enabled }) => {
   const finalise = useFinaliseArbitrum(
     isArbitrumWithdrawal(tx) ? tx : tx.withdrawal!
   );
@@ -67,24 +76,23 @@ const FinaliseArbitrum: FC<{
     <Button
       onClick={finalise.onFinalise}
       size={"sm"}
-      disabled={finalise.loading}
+      disabled={finalise.loading || !enabled}
     >
       {t("buttons.finalize")}
     </Button>
   );
 };
 
-const RedeemArbitrum: FC<{
+export const RedeemArbitrum: FC<{
   tx: ArbitrumDepositRetryableDto | ArbitrumForcedWithdrawalDto;
-}> = ({ tx }) => {
+  enabled: boolean;
+}> = ({ tx, enabled }) => {
   const chainId = useChainId();
   const redeem = useRedeemArbitrum(tx);
   const { t } = useTranslation();
   const switchChain = useSwitchChain();
 
-  const deployment = useDeploymentById(
-    isArbitrumForcedWithdrawal(tx) ? tx.deposit.deploymentId : tx.deploymentId
-  );
+  const deployment = useTxDeployment(tx);
   if (!deployment) {
     return null;
   }
@@ -97,15 +105,20 @@ const RedeemArbitrum: FC<{
     );
   }
   return (
-    <Button onClick={() => switchChain(deployment.l1)} size={"sm"}>
+    <Button
+      onClick={() => switchChain(deployment.l1)}
+      size={"sm"}
+      disabled={!enabled}
+    >
       {t("buttons.switchChain")}
     </Button>
   );
 };
 
-const MintCctp: FC<{
+export const MintCctp: FC<{
   tx: CctpBridgeDto;
-}> = ({ tx }) => {
+  enabled: boolean;
+}> = ({ tx, enabled }) => {
   const mint = useMintCctp(tx);
   const { t } = useTranslation();
 
@@ -125,7 +138,7 @@ export const TransactionProgressRow = ({
 }) => {
   return (
     <>
-      <TransactionLineItem step={item} />
+      <TransactionLineItem step={item} tx={tx} />
       {/* <div key={item.label} className="flex items-center justify-between">
         <Wrapper>
           <div

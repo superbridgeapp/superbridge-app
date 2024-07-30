@@ -1,15 +1,39 @@
 import clsx from "clsx";
 import { formatDistanceToNow } from "date-fns";
 
-import { IconSimpleGas, IconTime } from "@/components/icons";
+import { IconSimpleGas, IconSpinner, IconTime } from "@/components/icons";
 import { NetworkIcon } from "@/components/network-icon";
+import { Transaction } from "@/types/transaction";
+import {
+  isArbitrumDeposit,
+  isArbitrumWithdrawal,
+  isCctpBridge,
+  isOptimismForcedWithdrawal,
+  isOptimismWithdrawal,
+} from "@/utils/guards";
 import {
   ActivityStep,
+  ButtonComponent,
   isWaitStep,
   isWaitStepInProgress,
 } from "@/utils/progress-rows/common";
+import { transactionLink } from "@/utils/transaction-link";
 
-export function TransactionLineItem({ step }: { step: ActivityStep }) {
+import {
+  Finalise,
+  FinaliseArbitrum,
+  MintCctp,
+  Prove,
+  RedeemArbitrum,
+} from "./transaction-row";
+
+export function TransactionLineItem({
+  step,
+  tx,
+}: {
+  step: ActivityStep;
+  tx: Transaction;
+}) {
   if (isWaitStep(step)) {
     const duration = formatDistanceToNow(Date.now() - step.duration);
     return (
@@ -22,9 +46,7 @@ export function TransactionLineItem({ step }: { step: ActivityStep }) {
           {isWaitStepInProgress(step) && (
             <>
               {step.startedAt + step.duration < Date.now() ? (
-                <div className="flex items-center justify-between w-full">
-                  <span>✅</span>
-                </div>
+                <div className="ml-auto">✅</div>
               ) : (
                 <span>~{formatDistanceToNow(step.startedAt)} to go</span>
               )}
@@ -34,6 +56,13 @@ export function TransactionLineItem({ step }: { step: ActivityStep }) {
       </div>
     );
   }
+
+  // transaction steps have three basic states
+
+  // done, has a transaction hash
+  // submitting, has a pending transaction hash
+  // ready, has a button hash
+  // not done, ie no transaction hash
 
   return (
     <div
@@ -63,7 +92,44 @@ export function TransactionLineItem({ step }: { step: ActivityStep }) {
         </div>
       </div>
 
-      {step.buttonComponent}
+      {step.hash && (
+        <div>
+          <a href={transactionLink(step.hash, step.chain)} target="_blank">
+            Link
+          </a>
+        </div>
+      )}
+
+      {step.pendingHash && (
+        <div>
+          <a
+            href={transactionLink(step.pendingHash, step.chain)}
+            target="_blank"
+          >
+            <IconSpinner />
+          </a>
+        </div>
+      )}
+
+      {step.button?.type === ButtonComponent.Prove &&
+        (isOptimismWithdrawal(tx) || isOptimismForcedWithdrawal(tx)) && (
+          <Prove tx={tx} enabled={step.button.enabled} />
+        )}
+      {step.button?.type === ButtonComponent.Finalise &&
+        (isOptimismWithdrawal(tx) || isOptimismForcedWithdrawal(tx)) && (
+          <Finalise tx={tx} enabled={step.button.enabled} />
+        )}
+      {step.button?.type === ButtonComponent.Finalise &&
+        isArbitrumWithdrawal(tx) && (
+          <FinaliseArbitrum tx={tx} enabled={step.button.enabled} />
+        )}
+      {step.button?.type === ButtonComponent.Mint && isCctpBridge(tx) && (
+        <MintCctp tx={tx} enabled={step.button.enabled} />
+      )}
+      {step.button?.type === ButtonComponent.Redeem &&
+        isArbitrumDeposit(tx) && (
+          <RedeemArbitrum tx={tx} enabled={step.button.enabled} />
+        )}
     </div>
   );
 }

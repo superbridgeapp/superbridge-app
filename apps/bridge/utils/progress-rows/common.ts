@@ -14,14 +14,19 @@ export enum ButtonComponent {
   Mint = "mint",
 }
 
-export interface TransactionStep {
+export type TransactionStep = {
   label: string;
-  // status: ProgressRowStatus;
-  link?: string;
-  fee?: string;
-  chain: ChainDto | null;
-  buttonComponent?: JSX.Element;
-}
+  fee: string | undefined;
+  chain: ChainDto;
+  button:
+    | {
+        type: ButtonComponent;
+        enabled: boolean;
+      }
+    | undefined;
+  pendingHash: string | undefined;
+  hash: string | undefined;
+};
 
 export type WaitStepInProgress = {
   startedAt: number;
@@ -44,4 +49,15 @@ export const isWaitStep = (x: ActivityStep): x is WaitStep => {
 
 export const isWaitStepInProgress = (x: WaitStep): x is WaitStepInProgress => {
   return typeof (x as WaitStepInProgress).startedAt === "number";
+};
+
+/**
+ * Buttons are always dependent on some wait period elapsing.
+ */
+export const isButtonEnabled = (
+  timestamp: number | undefined,
+  duration: number
+) => {
+  if (!timestamp) return false;
+  return timestamp + duration < Date.now();
 };
