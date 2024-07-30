@@ -9,11 +9,12 @@ import { useTxToken } from "@/hooks/activity/use-tx-token";
 import { useTransactions } from "@/hooks/use-transactions";
 import { useModalsState } from "@/state/modals";
 import { useProgressRows } from "@/utils/progress-rows";
+import { isWaitStep } from "@/utils/progress-rows/common";
 
 import { NetworkIcon } from "../network-icon";
 import { RouteProviderIcon } from "../route-provider-icon";
 import { TokenIcon } from "../token-icon";
-import { TransactionProgressRow } from "../transaction-row";
+import { TransactionLineItem } from "../transaction-line-item";
 import { Dialog, DialogContent } from "../ui/dialog";
 
 const useTransactionById = (id: string | null) => {
@@ -65,7 +66,11 @@ const Content = () => {
 
       <div>
         {rows?.map((item) => (
-          <TransactionProgressRow key={item.label} item={item} tx={tx!} />
+          <TransactionLineItem
+            key={isWaitStep(item) ? item.duration.toString() : item.label}
+            step={item}
+            tx={tx!}
+          />
         ))}
       </div>
     </div>

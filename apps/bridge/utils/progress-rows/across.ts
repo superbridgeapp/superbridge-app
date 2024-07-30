@@ -5,17 +5,25 @@ import { usePeriodText } from "@/hooks/use-period-text";
 import { Transaction } from "@/types/transaction";
 
 import { isAcrossBridge } from "../guards";
+import { ActivityStep } from "./common";
 
-export const useAcrossProgressRows = (tx: Transaction | null) => {
+export const useAcrossProgressRows = (
+  tx: Transaction | null
+): ActivityStep[] | null => {
   const { t } = useTranslation();
   const transformPeriodText = usePeriodText();
 
   const acrossDomains = useAcrossDomains();
+
   if (!tx || !isAcrossBridge(tx)) {
     return null;
   }
+
   const fromDomain = acrossDomains.find((x) => x.chain.id === tx.fromChainId);
   const toDomain = acrossDomains.find((x) => x.chain.id === tx.toChainId);
+  if (!fromDomain?.chain || !toDomain?.chain) {
+    return null;
+  }
 
   return [
     {
@@ -24,7 +32,7 @@ export const useAcrossProgressRows = (tx: Transaction | null) => {
       pendingHash: tx.deposit.timestamp
         ? undefined
         : tx.deposit.transactionHash,
-      chain: fromDomain?.chain,
+      chain: fromDomain.chain,
       button: undefined,
       fee: undefined,
     },
@@ -40,7 +48,7 @@ export const useAcrossProgressRows = (tx: Transaction | null) => {
       label: "receive",
       hash: tx.fill?.transactionHash,
       pendingHash: undefined,
-      chain: toDomain?.chain,
+      chain: toDomain.chain,
       button: undefined,
       fee: undefined,
     },

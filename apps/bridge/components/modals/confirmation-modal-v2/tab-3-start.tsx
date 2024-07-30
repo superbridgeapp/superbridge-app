@@ -59,6 +59,7 @@ import {
   ActivityStep,
   TransactionStep,
   WaitStepNotStarted,
+  isWaitStep,
 } from "@/utils/progress-rows/common";
 
 export const ConfirmationModalStartTab = () => {
@@ -579,7 +580,7 @@ export const ConfirmationModalStartTab = () => {
 
         {lineItems.filter(isPresent).map((step) => (
           <TransactionLineItem
-            // key={step.}
+            key={isWaitStep(step) ? step.duration.toString() : step.label}
             step={step}
           />
         ))}

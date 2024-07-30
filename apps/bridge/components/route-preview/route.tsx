@@ -11,16 +11,9 @@ import { useDestinationToken } from "@/hooks/use-selected-token";
 import { useApproxTotalBridgeTimeTextForRoute } from "@/hooks/use-transfer-time";
 import { useConfigState } from "@/state/config";
 
-import {
-  IconFees,
-  IconSimpleFees,
-  IconSimpleGas,
-  IconSimpleTime,
-  IconTime,
-} from "../icons";
+import { IconSimpleFees, IconSimpleGas, IconSimpleTime } from "../icons";
 import { NetworkIcon } from "../network-icon";
-import { RouteProviderIcon } from "../route-provider-icon";
-import { RouteProviderName } from "../route-provider-icon";
+import { RouteProviderIcon, RouteProviderName } from "../route-provider-icon";
 import { TokenIcon } from "../token-icon";
 
 export const Route = ({
@@ -74,9 +67,11 @@ export const Route = ({
           <span className="text-2xl leading-none">
             {receive.token.formatted}
           </span>
-          <span className="text-xs leading-none text-muted-foreground">
-            {receive.fiat.formatted}
-          </span>
+          {receive.fiat && (
+            <span className="text-xs leading-none text-muted-foreground">
+              ({receive.fiat.formatted})
+            </span>
+          )}
         </div>
       </div>
 

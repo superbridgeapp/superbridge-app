@@ -25,7 +25,7 @@ import {
   MintCctp,
   Prove,
   RedeemArbitrum,
-} from "./transaction-row";
+} from "./transaction-buttons";
 
 export function TransactionLineItem({
   step,
