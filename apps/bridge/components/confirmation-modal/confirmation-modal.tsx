@@ -244,7 +244,7 @@ export const ConfirmationModal = ({
     if (isArbitrum(deployment)) {
       return (
         !!requiredCustomGasTokenBalance &&
-        gasTokenAllowance.data > requiredCustomGasTokenBalance
+        gasTokenAllowance.data >= requiredCustomGasTokenBalance
       );
     } else {
       return isNativeToken(stateToken) && gasTokenAllowance.data >= weiAmount;
