@@ -43,10 +43,10 @@ export const RoutePreview = () => {
 
       {hasMore && (
         <button
-          className="absolute right-0 top-0"
+          className="text-xs bg-muted text-muted-foreground font-heading rounded-full leading-none px-2 py-1.5 absolute right-4 top-4"
           onClick={() => openModal(ModalNames.RouteSelector)}
         >
-          More routes
+          More
         </button>
       )}
     </div>

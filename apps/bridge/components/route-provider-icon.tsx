@@ -25,6 +25,20 @@ const names = {
   [RouteProvider.Hyperlane]: "Hyperlane",
 };
 
+export const RouteProviderName = ({
+  provider,
+  className,
+}: {
+  provider: RouteProvider | null;
+  className?: string;
+}) => {
+  if (!provider) {
+    return null;
+  }
+
+  return <span>{names[provider]}</span>;
+};
+
 export const RouteProviderIcon = ({
   provider,
   className,
@@ -37,15 +51,12 @@ export const RouteProviderIcon = ({
   }
 
   return (
-    <div className="flex items-center text-xs gap-2">
-      <span>{names[provider]}</span>
-      <Image
-        alt={`${provider} icon`}
-        src={icons[provider]}
-        className={className}
-        height={24}
-        width={24}
-      />
-    </div>
+    <Image
+      alt={`${provider} icon`}
+      src={icons[provider]}
+      className={className}
+      height={16}
+      width={16}
+    />
   );
 };
