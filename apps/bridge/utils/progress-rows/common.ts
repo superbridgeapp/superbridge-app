@@ -18,12 +18,13 @@ export type TransactionStep = {
   label: string;
   fee: string | undefined;
   chain: ChainDto;
-  button:
+  button?:
     | {
         type: ButtonComponent;
         enabled: boolean;
       }
     | undefined;
+  buttonComponent?: JSX.Element;
   pendingHash: string | undefined;
   hash: string | undefined;
 };

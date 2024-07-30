@@ -445,8 +445,10 @@ export const ConfirmationModalStartTab = () => {
               const a: TransactionStep = {
                 label,
                 fee: fee(getGasCost(x.chainId, x.estimatedGasLimit), 4),
-                chain: x.chainId === from?.id.toString() ? from : to,
+                chain: x.chainId === from?.id.toString() ? from! : to!,
                 buttonComponent,
+                hash: undefined,
+                pendingHash: undefined,
               };
               return a;
             }
@@ -461,7 +463,10 @@ export const ConfirmationModalStartTab = () => {
             if (isRouteReceiveStep(x)) {
               const step: TransactionStep = {
                 label: t("confirmationModal.receiveAmount", common),
-                chain: to,
+                chain: to!,
+                fee: undefined,
+                hash: undefined,
+                pendingHash: undefined,
               };
               return step;
             }
@@ -529,6 +534,8 @@ export const ConfirmationModalStartTab = () => {
                     )}
                   </Button>
                 ),
+                pendingHash: undefined,
+                hash: undefined,
               }}
             />
           </>
@@ -563,6 +570,8 @@ export const ConfirmationModalStartTab = () => {
                     )}
                   </Button>
                 ),
+                pendingHash: undefined,
+                hash: undefined,
               }}
             />
           </>

@@ -1,6 +1,13 @@
 import Image from "next/image";
 
-import { RouteProvider } from "@/codegen/model";
+import {
+  AcrossTransactionType,
+  ArbitrumTransactionType,
+  CctpTransactionType,
+  HyperlaneTransactionType,
+  OptimismTransactionType,
+  RouteProvider,
+} from "@/codegen/model";
 
 const icons = {
   [RouteProvider.Across]: "/img/alt-bridges/Across-icon.png",
@@ -23,6 +30,20 @@ const names = {
   [RouteProvider.OptimismWithdrawal]: "Native bridge",
   [RouteProvider.OptimismForcedWithdrawal]: "Native bridge",
   [RouteProvider.Hyperlane]: "Hyperlane",
+};
+
+export const routeProviderToTransactionType = {
+  [RouteProvider.Across]: AcrossTransactionType["across-bridge"],
+  [RouteProvider.Cctp]: CctpTransactionType["cctp-bridge"],
+  [RouteProvider.ArbitrumDeposit]:
+    ArbitrumTransactionType["arbitrum-deposit-eth"],
+  [RouteProvider.ArbitrumWithdrawal]:
+    ArbitrumTransactionType["arbitrum-withdrawal"],
+  [RouteProvider.OptimismDeposit]: OptimismTransactionType.deposit,
+  [RouteProvider.OptimismWithdrawal]: OptimismTransactionType.withdrawal,
+  [RouteProvider.OptimismForcedWithdrawal]:
+    OptimismTransactionType["forced-withdrawal"],
+  [RouteProvider.Hyperlane]: HyperlaneTransactionType["hyperlane-bridge"],
 };
 
 export const RouteProviderName = ({

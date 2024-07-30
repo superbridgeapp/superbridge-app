@@ -32,7 +32,7 @@ export function TransactionLineItem({
   tx,
 }: {
   step: ActivityStep;
-  tx: Transaction;
+  tx?: Pick<Transaction, "type">;
 }) {
   if (isWaitStep(step)) {
     const duration = formatDistanceToNow(Date.now() - step.duration);
@@ -111,25 +111,31 @@ export function TransactionLineItem({
         </div>
       )}
 
-      {step.button?.type === ButtonComponent.Prove &&
+      {tx &&
+        step.button?.type === ButtonComponent.Prove &&
         (isOptimismWithdrawal(tx) || isOptimismForcedWithdrawal(tx)) && (
           <Prove tx={tx} enabled={step.button.enabled} />
         )}
-      {step.button?.type === ButtonComponent.Finalise &&
+      {tx &&
+        step.button?.type === ButtonComponent.Finalise &&
         (isOptimismWithdrawal(tx) || isOptimismForcedWithdrawal(tx)) && (
           <Finalise tx={tx} enabled={step.button.enabled} />
         )}
-      {step.button?.type === ButtonComponent.Finalise &&
+      {tx &&
+        step.button?.type === ButtonComponent.Finalise &&
         isArbitrumWithdrawal(tx) && (
           <FinaliseArbitrum tx={tx} enabled={step.button.enabled} />
         )}
-      {step.button?.type === ButtonComponent.Mint && isCctpBridge(tx) && (
+      {tx && step.button?.type === ButtonComponent.Mint && isCctpBridge(tx) && (
         <MintCctp tx={tx} enabled={step.button.enabled} />
       )}
-      {step.button?.type === ButtonComponent.Redeem &&
+      {tx &&
+        step.button?.type === ButtonComponent.Redeem &&
         isArbitrumDeposit(tx) && (
           <RedeemArbitrum tx={tx} enabled={step.button.enabled} />
         )}
+
+      {step.buttonComponent}
     </div>
   );
 }
