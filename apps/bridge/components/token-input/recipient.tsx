@@ -5,6 +5,8 @@ import { useAccount } from "wagmi";
 import { ModalNames } from "@/constants/modal-names";
 import { useConfigState } from "@/state/config";
 
+import { IconAddCircle, IconCheckCircle } from "../icons";
+
 export const Recipient = () => {
   const recipientName = useConfigState.useRecipientName();
   const recipientAddress = useConfigState.useRecipientAddress();
@@ -13,7 +15,7 @@ export const Recipient = () => {
 
   return (
     <div
-      className="flex items-center justify-between px-3 py-2 -mr-0.5"
+      className="flex items-center justify-between"
       onClick={
         !account.address
           ? () => {}
@@ -21,36 +23,26 @@ export const Recipient = () => {
       }
     >
       {!account.address ? (
-        <span className={"text-xs  text-muted-foreground"}>{/* empty */}</span>
+        <span className={"text-xs text-muted-foreground"}>{/* empty */}</span>
       ) : !recipientAddress ? (
-        <div className="flex justify-center gap-1 pl-2 pr-1 py-1 rounded-full cursor-pointer hover:scale-105 transition-all bg-muted">
-          <span className="text-xs  text-foreground">Add recipient</span>
-          <Image
-            alt="Address icon"
-            src={"/img/address-add.svg"}
-            height={14}
-            width={14}
-          />
+        <div className="flex justify-center items-center gap-1 pl-2 pr-1 py-1 rounded-full cursor-pointer hover:scale-105 transition-all bg-muted">
+          <span className="text-xs text-foreground">Add recipient</span>
+          <IconAddCircle className="w-3.5 h-3.5 fill-foreground" />
         </div>
       ) : (
         <div
           className={clsx(
-            `flex justify-center gap-1 pl-2 pr-1 py-1 -mr-0.5 rounded-full cursor-pointer hover:scale-105 transition-all bg-green-500/10`
+            `flex justify-center items-center gap-1 pl-1.5 pr-2 py-1 -mr-0.5 rounded-full cursor-pointer hover:scale-105 transition-all bg-card`
           )}
         >
-          <span className={clsx(`text-xs  `, "text-green-500")}>
+          <IconCheckCircle className="w-3.5 h-3.5 fill-muted-foreground" />
+          <span className="text-xs text-muted-foreground">
             {recipientName
               ? recipientName
               : `${recipientAddress.slice(0, 4)}...${recipientAddress.slice(
                   recipientAddress.length - 4
                 )}`}
           </span>
-          <Image
-            alt="Address icon"
-            src={"/img/address-ok.svg"}
-            height={14}
-            width={14}
-          />
         </div>
       )}
     </div>

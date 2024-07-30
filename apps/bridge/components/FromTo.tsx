@@ -7,6 +7,7 @@ import { trackEvent } from "@/services/ga";
 import { useConfigState } from "@/state/config";
 import { useInjectedStore } from "@/state/injected";
 
+import { IconCaretRight } from "./icons";
 import { NetworkIcon } from "./network-icon";
 
 export const FromTo = () => {
@@ -20,12 +21,10 @@ export const FromTo = () => {
 
   const networkSelectorEnabled = chains.length > 2;
   return (
-    <div
-      className={`relative flex items-start justify-between gap-1 select-none`}
-    >
+    <div className={`relative flex justify-between gap-1 select-none`}>
       <div
         className={clsx(
-          "flex gap-2 w-full items-start justify-start bg-muted px-3.5 pt-3 pb-2.5 rounded-lg transition-all origin-right",
+          "flex gap-2 w-full items-start justify-start bg-muted px-3.5 py-3.5 rounded-lg transition-all origin-right grow-1",
           networkSelectorEnabled && "cursor-pointer hover:scale-[1.02]"
         )}
         onClick={
@@ -38,13 +37,13 @@ export const FromTo = () => {
           height={32}
           className="pointer-events-none"
         />
-        <div>
+        <div className="flex flex-col gap-0.5">
           <span
             className={`text-muted-foreground text-xs leading-none block mt-0.5`}
           >
             {t("from")}
           </span>
-          <span>{from?.name}</span>
+          <span className="leading-none">{from?.name}</span>
         </div>
       </div>
       <button
@@ -60,34 +59,26 @@ export const FromTo = () => {
       >
         <div className="before:backdrop-blur-sm before:absolute before:inset-0 before:-z-10">
           <div className="p-1 bg-muted backdrop-blur-sm">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 256 256"
-              className={`w-4 h-4 fill-muted-foreground`}
-            >
-              <path d="M224.49 136.49l-72 72a12 12 0 01-17-17L187 140H40a12 12 0 010-24h147l-51.49-51.52a12 12 0 0117-17l72 72a12 12 0 01-.02 17.01z"></path>
-            </svg>
+            <IconCaretRight className={`w-3.5 h-3.5 fill-muted-foreground`} />
           </div>
         </div>
       </button>
       <div
         className={clsx(
-          "flex gap-2 w-full items-start justify-end bg-muted px-3.5 pt-3 pb-2.5 rounded-lg transition-all origin-left",
+          "flex gap-2 w-full items-start justify-end bg-muted px-3.5 py-3.5 rounded-lg transition-all origin-left",
           networkSelectorEnabled && "cursor-pointer hover:scale-[1.02]"
         )}
         onClick={
           networkSelectorEnabled ? () => setNetworkSelector("to") : undefined
         }
       >
-        <div className="text-right">
+        <div className="flex flex-col gap-0.5 text-right">
           <span
             className={`text-muted-foreground text-xs leading-none block mt-0.5`}
           >
             {t("to")}
           </span>
-          <span>{to?.name}</span>
+          <span className="leading-none">{to?.name}</span>
         </div>
 
         <NetworkIcon
