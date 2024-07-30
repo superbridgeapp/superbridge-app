@@ -113,16 +113,16 @@ export const ERC20TokenInput = () => {
           )}
         </button>
       </div>
-      <div className="pt-1 flex items-center justify-between">
+      <div className="flex items-center justify-between">
         <div>
           {amount.fiat && (
-            <span className="text-muted-foreground text-xs">
+            <span className="text-muted-foreground text-xs leading-0">
               {amount.fiat.formatted}
             </span>
           )}
         </div>
         <div className="flex items-center gap-1">
-          <span className={`text-muted-foreground text-xs`}>
+          <span className={`text-muted-foreground text-xs leading-0`}>
             {t("availableBalance", {
               amount: formatDecimals(parseFloat(formattedTokenBalance)),
               symbol: token?.symbol,
@@ -134,6 +134,7 @@ export const ERC20TokenInput = () => {
               onClick={() => {
                 setRawAmount(formattedTokenBalance);
               }}
+              className="text-[10px] font-button bg-card rounded-full px-1.5 py-1 leading-none text-muted-foreground transition-all hover:scale-105"
             >
               Max
             </button>
