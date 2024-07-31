@@ -94,12 +94,6 @@ export const BridgePlaceholder = ({
               {t("comingSoon")}
             </span>
           )}
-          {deployment.provider === "conduit" && (
-            <CardPoweredByConduit color={theme.card.title ?? "text-white"} />
-          )}
-          {deployment.provider === "alt-layer" && (
-            <CardPoweredByAltLayer color={theme.card.title ?? "text-white"} />
-          )}
           {deployment.name === "shape-testnet" && (
             <CardPoweredByAlchemy color={theme.card.title ?? "text-white"} />
           )}
