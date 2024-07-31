@@ -78,6 +78,20 @@ const useNextStateChangeTimestamp = (tx: Transaction) => {
   return null;
 };
 
+type ActionStatus = { description: string; button: string };
+type WaitStatus = { description: string; timestamp: number };
+type NoStatus = null;
+
+type Status = ActionStatus | WaitStatus | NoStatus;
+
+const isActionStatus = (x: Status): x is ActionStatus => {
+  return !!(x as ActionStatus | NoStatus)?.button;
+};
+
+const isWaitStatus = (x: Status): x is WaitStatus => {
+  return !!(x as WaitStatus | NoStatus)?.timestamp;
+};
+
 const useStatus = (
   tx: Transaction
 ):
@@ -118,6 +132,7 @@ const useStatus = (
 
 const ActionRow = ({ tx }: { tx: Transaction }) => {
   const status = useStatus(tx);
+  const setActivityId = useModalsState.useSetActivityId();
 
   if (!status) {
     return null;
@@ -127,11 +142,13 @@ const ActionRow = ({ tx }: { tx: Transaction }) => {
     <div className="w-full flex items-center justify-between">
       <span>{status.description}</span>
 
-      {(status as any).button && (
-        <button className="bg-blue-100"> Prove</button>
+      {isActionStatus(status) && (
+        <button className="bg-blue-100" onClick={() => setActivityId(tx.id)}>
+          {status.button}
+        </button>
       )}
 
-      {(status as any).timestamp && (status as any).timestamp > Date.now() && (
+      {isWaitStatus(status) && status.timestamp > Date.now() && (
         <span className="bg-blue-100">
           ~{formatDistanceToNow((status as any).timestamp)}
         </span>
@@ -142,12 +159,6 @@ const ActionRow = ({ tx }: { tx: Transaction }) => {
 
 type PendingConfirmationDto = {
   transactionHash: string;
-};
-
-const isPendingConfirmationDto = (
-  tx: PendingConfirmationDto | ConfirmationDto | ConfirmationDtoV2
-): tx is PendingConfirmationDto => {
-  return !(tx as ConfirmationDto).timestamp;
 };
 
 const isConfirmed = (
