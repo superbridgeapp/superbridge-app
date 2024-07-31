@@ -10,6 +10,7 @@ import {
   ActivityStep,
   ButtonComponent,
   TransactionStep,
+  buildWaitStep,
   isButtonEnabled,
 } from "./common";
 
@@ -64,23 +65,17 @@ export const useOptimismWithdrawalProgressRows = (
 
   return [
     withdraw,
-    w.withdrawal.timestamp
-      ? {
-          startedAt: w.withdrawal.timestamp,
-          duration: deployment.proveDuration!,
-        }
-      : {
-          duration: deployment.proveDuration!,
-        },
+    buildWaitStep(
+      w.withdrawal.timestamp,
+      w.prove?.timestamp,
+      deployment.proveDuration!
+    ),
     prove,
-    w.prove?.timestamp
-      ? {
-          startedAt: w.prove.timestamp,
-          duration: deployment.finalizeDuration,
-        }
-      : {
-          duration: deployment.finalizeDuration,
-        },
+    buildWaitStep(
+      w.prove?.timestamp,
+      w.finalise?.timestamp,
+      deployment.finalizeDuration
+    ),
     finalise,
   ];
 };
