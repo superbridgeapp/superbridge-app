@@ -14,6 +14,7 @@ import { isEth } from "@/utils/is-eth";
 
 import { IconAlert, IconCaretDown } from "../icons";
 import { TokenIcon } from "../token-icon";
+import { Skeleton } from "../ui/skeleton";
 import { Recipient } from "./recipient";
 
 export const ERC20TokenInput = () => {
@@ -34,7 +35,7 @@ export const ERC20TokenInput = () => {
   const isCustomTokenFromList = useIsCustomTokenFromList(stateToken);
 
   const formattedTokenBalance = formatUnits(
-    tokenBalance,
+    tokenBalance.data,
     token?.decimals ?? 18
   );
 
@@ -94,22 +95,26 @@ export const ERC20TokenInput = () => {
           )}
         </div>
         <div className="flex items-center gap-1">
-          <span className={`text-muted-foreground text-xs leading-none`}>
-            {t("availableBalance", {
-              amount: formatDecimals(parseFloat(formattedTokenBalance)),
-              symbol: token?.symbol,
-            })}
-          </span>
+          {tokenBalance.isLoading ? (
+            <Skeleton className="h-4 w-[88px] bg-muted-foreground" />
+          ) : (
+            <>
+              <span className={`text-muted-foreground text-xs leading-none`}>
+                {t("availableBalance", {
+                  amount: formatDecimals(parseFloat(formattedTokenBalance)),
+                  symbol: token?.symbol,
+                })}
+              </span>
 
-          {!isEth(token) && (
-            <button
-              onClick={() => {
-                setRawAmount(formattedTokenBalance);
-              }}
-              className="text-[10px] font-button bg-card rounded-full px-1.5 py-1 leading-none text-muted-foreground transition-all hover:scale-105"
-            >
-              Max
-            </button>
+              {!isEth(token) && (
+                <button
+                  onClick={() => setRawAmount(formattedTokenBalance)}
+                  className="text-[10px] font-button bg-card rounded-full px-1.5 py-1 leading-none text-muted-foreground transition-all hover:scale-105"
+                >
+                  Max
+                </button>
+              )}
+            </>
           )}
         </div>
       </div>

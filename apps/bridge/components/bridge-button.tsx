@@ -60,7 +60,7 @@ export const BridgeButton = () => {
 
   const networkFee = useNetworkFee();
 
-  const hasInsufficientBalance = weiAmount > tokenBalance;
+  const hasInsufficientBalance = weiAmount > tokenBalance.data;
   const hasInsufficientGas = (() => {
     if (!networkFee.data) return false;
 

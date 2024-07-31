@@ -83,17 +83,29 @@ export function useTokenBalance(token: Token | null) {
   const tokenBalances = useTokenBalances(token?.chainId);
 
   if (!token) {
-    return BigInt(0);
+    return {
+      isLoading: false,
+      data: 0n,
+    };
   }
 
-  return (
-    tokenBalances.data.find(
-      (x) =>
-        x.token[token.chainId]?.address &&
-        isAddressEqual(
-          x.token[token.chainId]!.address as Address,
-          token.address
-        )
-    )?.balance ?? BigInt(0)
-  );
+  if (tokenBalances.isLoading) {
+    return {
+      isLoading: true,
+      data: 0n,
+    };
+  }
+
+  return {
+    isLoading: false,
+    data:
+      tokenBalances.data.find(
+        (x) =>
+          x.token[token.chainId]?.address &&
+          isAddressEqual(
+            x.token[token.chainId]!.address as Address,
+            token.address
+          )
+      )?.balance ?? 0n,
+  };
 }
