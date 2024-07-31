@@ -47,6 +47,9 @@ export const useNetworkFeeForGasLimit = (
 
   const feeData = useEstimateFeesPerGas({
     chainId,
+    query: {
+      enabled: !!gasLimit,
+    },
   });
 
   if (feeData.isFetching) {

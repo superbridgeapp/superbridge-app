@@ -17,7 +17,7 @@ import { PoweredByAcross } from "@/components/powered-by-across";
 import { RouteProviderIcon } from "@/components/route-provider-icon";
 import { TokenIcon } from "@/components/token-icon";
 import { FinaliseButton, ProveButton } from "@/components/transaction-buttons";
-import { TransactionLineItem } from "@/components/transaction-line-item";
+import { LineItem } from "@/components/transaction-line-item";
 import { Button } from "@/components/ui/button";
 import {
   DialogDescription,
@@ -537,7 +537,7 @@ export const ConfirmationModalStartTab = () => {
 
         {approveGasTokenButton && from && (
           <>
-            <TransactionLineItem
+            <LineItem
               step={{
                 label: t("confirmationModal.approveGasToken", {
                   symbol: token?.symbol,
@@ -573,7 +573,7 @@ export const ConfirmationModalStartTab = () => {
 
         {approveButton && from && (
           <>
-            <TransactionLineItem
+            <LineItem
               step={{
                 label: t("confirmationModal.approve", {
                   symbol: token?.symbol,
@@ -608,7 +608,7 @@ export const ConfirmationModalStartTab = () => {
         )}
 
         {lineItems.filter(isPresent).map((step) => (
-          <TransactionLineItem
+          <LineItem
             key={isWaitStep(step) ? step.duration.toString() : step.label}
             step={step}
             tx={lastSubmittedTx}

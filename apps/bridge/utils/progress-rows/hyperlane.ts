@@ -37,7 +37,6 @@ export const useHyperlaneProgressRows = (
       pendingHash: tx.send.timestamp ? undefined : tx.send.transactionHash,
       chain: fromChain,
       button: undefined,
-      fee: undefined,
     },
     buildWaitStep(tx.send.timestamp, tx.receive?.timestamp, 1000 * 60 * 5),
     {
@@ -46,7 +45,6 @@ export const useHyperlaneProgressRows = (
       pendingHash: undefined,
       chain: toChain,
       button: undefined,
-      fee: undefined,
     },
   ];
 };

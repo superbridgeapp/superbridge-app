@@ -31,7 +31,6 @@ export const useCctpProgressRows = (
     pendingHash: tx.bridge.timestamp ? undefined : tx.bridge.transactionHash,
     chain: tx.from,
     button: undefined,
-    fee: undefined,
   };
 
   const mint: TransactionStep =
@@ -45,7 +44,7 @@ export const useCctpProgressRows = (
           pendingHash: pendingFinalise,
           hash: undefined,
           chain: tx.to,
-          fee: undefined,
+          gasLimit: BigInt(100_000),
         }
       : {
           label: "mint",
@@ -53,7 +52,7 @@ export const useCctpProgressRows = (
           pendingHash: pendingFinalise,
           chain: tx.to,
           button: undefined,
-          fee: undefined,
+          gasLimit: tx.relay ? undefined : BigInt(100_000),
         };
 
   return [

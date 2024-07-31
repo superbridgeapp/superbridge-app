@@ -14,7 +14,7 @@ import { isWaitStep } from "@/utils/progress-rows/common";
 import { NetworkIcon } from "../network-icon";
 import { RouteProviderIcon } from "../route-provider-icon";
 import { TokenIcon } from "../token-icon";
-import { TransactionLineItem } from "../transaction-line-item";
+import { LineItem } from "../transaction-line-item";
 import { Dialog, DialogContent } from "../ui/dialog";
 
 const useTransactionById = (id: string | null) => {
@@ -66,7 +66,7 @@ const Content = () => {
 
       <div>
         {rows?.map((item) => (
-          <TransactionLineItem
+          <LineItem
             key={isWaitStep(item) ? item.duration.toString() : item.label}
             step={item}
             tx={tx!}

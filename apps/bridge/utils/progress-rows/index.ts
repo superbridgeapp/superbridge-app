@@ -1,5 +1,3 @@
-import { useTranslation } from "react-i18next";
-
 import { useTxDeployment } from "@/hooks/activity/use-tx-deployment";
 import { Transaction } from "@/types/transaction";
 import { useArbitrumDepositProgressRows } from "@/utils/progress-rows/arbitrum-deposit";
@@ -9,42 +7,8 @@ import { useOptimismDepositProgressRows } from "@/utils/progress-rows/deposit";
 import { useOptimismForcedWithdrawalProgressRows } from "@/utils/progress-rows/forced-withdrawal";
 import { useOptimismWithdrawalProgressRows } from "@/utils/progress-rows/withdrawal";
 
-import {
-  isAcrossBridge,
-  isDeposit,
-  isForcedWithdrawal,
-  isHyperlaneBridge,
-  isWithdrawal,
-} from "../guards";
 import { useAcrossProgressRows } from "./across";
 import { useHyperlaneProgressRows } from "./hyperlane";
-
-export const useTxTitle = (tx: Transaction) => {
-  const { t } = useTranslation();
-
-  if (isDeposit(tx)) {
-    return t("deposit");
-  }
-
-  if (isWithdrawal(tx)) {
-    return t("withdraw");
-  }
-
-  if (isForcedWithdrawal(tx)) {
-    return `Forced exit`;
-  }
-
-  if (isAcrossBridge(tx)) {
-    return "Superfast bridge";
-  }
-
-  if (isHyperlaneBridge(tx)) {
-    return "Hyperlane bridge";
-  }
-
-  // CCTP
-  return "Bridge";
-};
 
 export const useProgressRows = (tx: Transaction | null) => {
   const deployment = useTxDeployment(tx);
@@ -57,7 +21,7 @@ export const useProgressRows = (tx: Transaction | null) => {
   );
   const arbitrumDeposit = useArbitrumDepositProgressRows(tx, deployment);
   const arbitrumWithdrawal = useArbitrumWithdrawalProgressRows(tx, deployment);
-  const cctp = useCctpProgressRows(tx, deployment);
+  const cctp = useCctpProgressRows(tx);
   const across = useAcrossProgressRows(tx);
   const hyperlaneProgressRows = useHyperlaneProgressRows(tx);
 

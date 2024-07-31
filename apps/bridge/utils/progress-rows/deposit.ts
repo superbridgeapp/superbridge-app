@@ -22,7 +22,6 @@ export const useOptimismDepositProgressRows = (
     {
       label: "Initiate bridge",
       chain: deployment.l1,
-      fee: undefined,
       hash: tx.deposit.timestamp ? tx.deposit.transactionHash : undefined,
       pendingHash: tx.deposit.timestamp
         ? undefined
@@ -39,7 +38,6 @@ export const useOptimismDepositProgressRows = (
       hash: tx.relay?.transactionHash,
       chain: deployment.l2,
       button: undefined,
-      fee: undefined,
       pendingHash: undefined,
     },
   ];

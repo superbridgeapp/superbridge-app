@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 
 import { DeploymentDto } from "@/codegen/model";
+import { FINALIZE_GAS, PROVE_GAS } from "@/constants/gas-limits";
 import { usePendingTransactions } from "@/state/pending-txs";
 import { Transaction } from "@/types/transaction";
 
@@ -35,7 +36,6 @@ export const useOptimismWithdrawalProgressRows = (
       : w.withdrawal.transactionHash,
     chain: deployment.l2,
     button: undefined,
-    fee: undefined,
   };
 
   const prove: TransactionStep = {
@@ -47,7 +47,7 @@ export const useOptimismWithdrawalProgressRows = (
       type: ButtonComponent.Prove,
       enabled: isButtonEnabled(w.withdrawal.timestamp, w.proveDuration),
     },
-    fee: undefined,
+    gasLimit: w.prove ? undefined : PROVE_GAS,
   };
 
   const finalise: TransactionStep = {
@@ -59,7 +59,7 @@ export const useOptimismWithdrawalProgressRows = (
       type: ButtonComponent.Finalise,
       enabled: isButtonEnabled(w.prove?.timestamp, w.finalizeDuration),
     },
-    fee: undefined,
+    gasLimit: w.finalise ? undefined : FINALIZE_GAS,
   };
 
   return [

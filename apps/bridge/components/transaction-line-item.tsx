@@ -3,6 +3,7 @@ import { formatDistanceToNow } from "date-fns";
 
 import { IconSimpleGas, IconSpinner, IconTime } from "@/components/icons";
 import { NetworkIcon } from "@/components/network-icon";
+import { useNetworkFeeForGasLimit } from "@/hooks/use-network-fee";
 import { Transaction } from "@/types/transaction";
 import {
   isArbitrumDeposit,
@@ -14,6 +15,7 @@ import {
 import {
   ActivityStep,
   ButtonComponent,
+  TransactionStep,
   isWaitStep,
   isWaitStepDone,
   isWaitStepInProgress,
@@ -27,8 +29,9 @@ import {
   Prove,
   RedeemArbitrum,
 } from "./transaction-buttons";
+import { Skeleton } from "./ui/skeleton";
 
-export function TransactionLineItem({
+export function LineItem({
   step,
   tx,
 }: {
@@ -57,14 +60,24 @@ export function TransactionLineItem({
     );
   }
 
+  return <TransactionLineItem tx={tx} step={step} />;
+}
+
+export function TransactionLineItem({
+  step,
+  tx,
+}: {
+  step: TransactionStep;
+  tx?: Pick<Transaction, "type">;
+}) {
+  const fee = useNetworkFeeForGasLimit(step.chain.id, step.gasLimit);
+
   // transaction steps have three basic states
 
   // done, has a transaction hash
   // submitting, has a pending transaction hash
   // ready, has a button hash
   // not done, ie no transaction hash
-
-  console.log(step, tx);
 
   return (
     <div
@@ -75,7 +88,7 @@ export function TransactionLineItem({
       <div
         className={clsx(
           "flex gap-2",
-          step.fee ? "items-start" : "items-center"
+          fee.data ? "items-start" : "items-center"
         )}
       >
         <NetworkIcon chain={step.chain} className="w-8 h-8" />
@@ -83,12 +96,19 @@ export function TransactionLineItem({
           <span className="text-sm font-heading leading-none">
             {step.label}
           </span>
-          {step.fee && (
+
+          {!!step.gasLimit && (
             <div className="flex gap-1">
               <IconSimpleGas className="w-3.5 h-auto fill-muted-foreground opacity-80" />
-              <span className="text-xs text-muted-foreground leading-none">
-                <p className="text-xs">{step.fee}</p>
-              </span>
+              {fee.isLoading ? (
+                <Skeleton className="h-4 w-[88px]" />
+              ) : (
+                <span className="text-xs text-muted-foreground leading-none">
+                  <p className="text-xs">
+                    {fee.data?.fiat?.formatted ?? fee.data?.token.formatted}
+                  </p>
+                </span>
+              )}
             </div>
           )}
         </div>

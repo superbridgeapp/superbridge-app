@@ -59,7 +59,6 @@ export const useArbitrumDepositProgressRows = (
         : tx.deposit.transactionHash,
       button: undefined,
       chain: deployment.l1,
-      fee: undefined,
     },
     buildWaitStep(
       tx.deposit.timestamp,

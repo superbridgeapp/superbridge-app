@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 
 import { DeploymentDto } from "@/codegen/model";
+import { FINALIZE_GAS } from "@/constants/gas-limits";
 import { usePendingTransactions } from "@/state/pending-txs";
 import { Transaction } from "@/types/transaction";
 
@@ -34,7 +35,6 @@ export const useArbitrumWithdrawalProgressRows = (
       : w.withdrawal.transactionHash,
     chain: deployment.l1,
     button: undefined,
-    fee: undefined,
   };
 
   const finalise: TransactionStep = {
@@ -49,7 +49,7 @@ export const useArbitrumWithdrawalProgressRows = (
         deployment.finalizeDuration
       ),
     },
-    fee: undefined,
+    gasLimit: w.finalise ? undefined : FINALIZE_GAS,
   };
 
   return [
