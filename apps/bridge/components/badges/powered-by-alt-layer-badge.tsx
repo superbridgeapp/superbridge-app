@@ -28,7 +28,7 @@ export const PoweredByAltLayer = () => (
         </clipPath>
       </defs>
     </svg>
-    <span>{t("poweredBy", { name: "Alt Layer" })}</span>
+    <span>{t("poweredBy", { name: "AltLayer" })}</span>
   </a>
 );
 
@@ -36,7 +36,10 @@ export const CardPoweredByAltLayer = ({ color }: any) => (
   <a
     href={`https://www.altlayer.io/`}
     target="_blank"
-    className={clsx(color, "text-[9px] flex items-center gap-1 leading-none")}
+    className={clsx(
+      color,
+      "text-[9px] flex items-center gap-1 leading-none opacity-60"
+    )}
   >
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -44,7 +47,7 @@ export const CardPoweredByAltLayer = ({ color }: any) => (
       height="16"
       viewBox="0 0 16 16"
       fill="none"
-      className="fill-current w-3.5 h-3.5 opacity-70"
+      className="fill-current w-3 h-3"
     >
       <g clip-path="url(#clip0_54_30)">
         <path
@@ -59,6 +62,6 @@ export const CardPoweredByAltLayer = ({ color }: any) => (
         </clipPath>
       </defs>
     </svg>
-    {/* <span>{t("poweredBy", { name: "Alt Layer" })}</span> */}
+    <span>AltLayer</span>
   </a>
 );

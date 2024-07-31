@@ -30,7 +30,10 @@ export const CardPoweredByConduit = ({ color }: any) => (
   <a
     href={`https://conduit.xyz/?utm_source=superbridge&utm_medium=affiliate&utm_campaign=poweredby`}
     target="_blank"
-    className={clsx(color, "text-[9px] flex items-center gap-1 leading-none")}
+    className={clsx(
+      color,
+      "text-[9px] flex items-center gap-1 leading-none opacity-60"
+    )}
   >
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -38,7 +41,7 @@ export const CardPoweredByConduit = ({ color }: any) => (
       height="81"
       viewBox="0 0 73 81"
       fill="none"
-      className="fill-current w-3.5 h-3.5  opacity-70"
+      className="fill-current w-3 h-3"
     >
       <path
         fillRule="evenodd"
@@ -47,6 +50,6 @@ export const CardPoweredByConduit = ({ color }: any) => (
       />
     </svg>
 
-    {/* <span>{t("poweredBy", { name: "Conduit" })}</span> */}
+    <span>Conduit</span>
   </a>
 );

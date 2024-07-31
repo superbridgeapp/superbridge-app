@@ -77,13 +77,13 @@ export const BridgePlaceholder = ({
             {deployment.displayName}
           </h2>
         </div>
-        <div className="absolute bottom-0 w-full flex justify-center items-center gap-1.5 pb-4">
+        <div className="absolute bottom-0 w-full flex justify-center items-center gap-2 pb-5">
           {/* coming soon */}
           {!comingSoon && deployment.type === DeploymentType.testnet && (
             <span
               className={clsx(
-                "text-[9px] flex items-center leading-none bg-white/10 rounded-full px-2 py-1",
-                theme.card.title ?? "text-white/80"
+                "text-[9px] flex items-center leading-none bg-black/10 rounded-full px-2 py-1 opacity-70",
+                theme.card.title ?? "text-white"
               )}
             >
               Testnet
@@ -94,7 +94,7 @@ export const BridgePlaceholder = ({
               {t("comingSoon")}
             </span>
           )}
-          {/* {deployment.provider === "conduit" && (
+          {deployment.provider === "conduit" && (
             <CardPoweredByConduit color={theme.card.title ?? "text-white"} />
           )}
           {deployment.provider === "alt-layer" && (
@@ -102,7 +102,7 @@ export const BridgePlaceholder = ({
           )}
           {deployment.name === "shape-testnet" && (
             <CardPoweredByAlchemy color={theme.card.title ?? "text-white"} />
-          )} */}
+          )}
         </div>
       </div>
       {newDeployment && (
