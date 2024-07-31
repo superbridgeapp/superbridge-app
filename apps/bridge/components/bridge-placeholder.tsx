@@ -24,7 +24,7 @@ export const BridgePlaceholder = ({
         className={`relative w-full h-full flex flex-col shrink-0 cursor-pointer overflow-hidden rounded-[21px] lg:rounded-[32px] shadow-sm ${theme.card.className}`}
       >
         {theme.card.overlay?.image ? (
-          <Image
+          <img
             src={theme.card.overlay.image}
             className={clsx(
               "inset-0 z-0 absolute",
@@ -44,7 +44,7 @@ export const BridgePlaceholder = ({
           />
         )}
         <div className="flex gap-4 flex-col capitalize items-center justify-center px-3 md:px-6 grow w-full relative z-10">
-          <Image
+          <img
             src={theme.iconSrc}
             width={96}
             height={96}

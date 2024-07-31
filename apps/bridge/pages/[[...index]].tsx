@@ -131,7 +131,9 @@ export const getServerSideProps = async ({
       }),
       SUPERCHAIN.includes(name) ? bridgeControllerGetCctpDomains() : null,
     ]);
-    return { props: { deployments: data, cctpDomains: cctpDomains?.data } };
+    return {
+      props: { deployments: data, cctpDomains: cctpDomains?.data ?? [] },
+    };
   }
 
   const { data } = await bridgeControllerGetDeploymentsByDomain(

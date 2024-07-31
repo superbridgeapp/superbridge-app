@@ -70,11 +70,11 @@ export const ConfirmationModalReviewTab = ({
               <span>
                 {rawAmount} {stateToken?.[from?.id ?? 0]?.symbol}
               </span>
-              <Image
+              <img
                 src={stateToken?.[from?.id ?? 0]?.logoURI ?? ""}
-                width={0}
-                height={0}
-                sizes="100vw"
+                // width={0}
+                // height={0}
+                // sizes="100vw"
                 className="h-5 w-5"
                 alt={stateToken?.[from?.id ?? 0]?.name ?? ""}
               />
@@ -99,11 +99,11 @@ export const ConfirmationModalReviewTab = ({
               <span>
                 {receive.data ? <>{receive.data.token.formatted}</> : "…"}
               </span>
-              <Image
+              <img
                 src={stateToken?.[to?.id ?? 0]?.logoURI ?? ""}
-                width={0}
-                height={0}
-                sizes="100vw"
+                // width={0}
+                // height={0}
+                // sizes="100vw"
                 className="h-5 w-5"
                 alt={stateToken?.[to?.id ?? 0]?.name ?? ""}
               />

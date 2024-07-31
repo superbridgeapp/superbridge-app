@@ -503,8 +503,8 @@ export const ConfirmationModalStartTab = () => {
           Bridge {rawAmount} {token?.symbol}
         </DialogTitle>
         <DialogDescription>
-          <NetworkIcon chain={from} />
-          <NetworkIcon chain={to} />
+          <NetworkIcon chain={from} className="w-7 h-7" />
+          <NetworkIcon chain={to} className="w-7 h-7" />
           via
           <RouteProviderIcon provider={route.data?.id ?? null} />
         </DialogDescription>

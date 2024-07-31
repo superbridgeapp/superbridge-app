@@ -47,7 +47,7 @@ export function TokenBanner() {
         onClick={onClick}
       >
         <div className="bg-card opacity-50 dark:opacity-70 absolute inset-0 -z-10" />
-        <Image
+        <img
           height={0}
           width={0}
           sizes="100vw"
