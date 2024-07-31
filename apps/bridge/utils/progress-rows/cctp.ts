@@ -22,7 +22,6 @@ export const useCctpProgressRows = (
   if (!tx || !isCctpBridge(tx) || !domains) {
     return null;
   }
-
   const pendingFinalise = pendingFinalises[tx?.id ?? ""];
 
   const burn: TransactionStep = {
@@ -34,9 +33,9 @@ export const useCctpProgressRows = (
   };
 
   const mint: TransactionStep =
-    tx.bridge.timestamp < Date.now() - 30 * 60 * 1000 && !tx.relay
+    tx.bridge.timestamp + domains.from.duration < Date.now() && !tx.relay
       ? {
-          label: t("activity.readyToMint"),
+          label: "claim",
           button: {
             type: ButtonComponent.Mint,
             enabled: true,
@@ -47,7 +46,7 @@ export const useCctpProgressRows = (
           gasLimit: BigInt(100_000),
         }
       : {
-          label: "mint",
+          label: "claim",
           hash: tx.relay?.transactionHash,
           pendingHash: pendingFinalise,
           chain: tx.to,

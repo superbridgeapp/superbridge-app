@@ -33,3 +33,5 @@ export const SUPERCHAIN_TESTNETS = [
   "xterio-eth-testnet",
   "celo-testnet",
 ];
+
+export const SUPERCHAIN = [...SUPERCHAIN_MAINNETS, ...SUPERCHAIN_TESTNETS];

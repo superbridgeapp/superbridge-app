@@ -4,6 +4,7 @@ import {
   isAcrossBridge,
   isArbitrumDeposit,
   isArbitrumWithdrawal,
+  isCctpBridge,
   isOptimismDeposit,
   isOptimismForcedWithdrawal,
   isOptimismWithdrawal,
@@ -18,5 +19,6 @@ export const useTxProvider = (tx: Transaction | undefined | null) => {
   if (isOptimismForcedWithdrawal(tx))
     return RouteProvider.OptimismForcedWithdrawal;
   if (isAcrossBridge(tx)) return RouteProvider.Across;
+  if (isCctpBridge(tx)) return RouteProvider.Cctp;
   return RouteProvider.Hyperlane;
 };
