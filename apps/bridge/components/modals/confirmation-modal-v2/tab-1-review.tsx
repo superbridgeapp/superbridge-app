@@ -11,7 +11,9 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { Skeleton } from "@/components/ui/skeleton";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
+import { useNetworkFee } from "@/hooks/use-network-fee";
 import { usePeriodText } from "@/hooks/use-period-text";
 import { useReceiveAmount } from "@/hooks/use-receive-amount";
 import { useSelectedBridgeRoute } from "@/hooks/use-selected-bridge-route";
@@ -28,6 +30,7 @@ export const ConfirmationModalReviewTab = ({
   const stateToken = useConfigState.useToken();
   const rawAmount = useConfigState.useRawAmount();
 
+  const networkFee = useNetworkFee();
   const route = useSelectedBridgeRoute();
 
   const receive = useReceiveAmount();
@@ -148,7 +151,14 @@ export const ConfirmationModalReviewTab = ({
               </div>
             </div>
             <div className="flex items-center justify-between">
-              <span>$5.62</span>
+              {networkFee.isLoading ? (
+                <Skeleton className="h-3 w-[60px]" />
+              ) : (
+                <span>
+                  {networkFee.data?.fiat?.formatted ??
+                    networkFee.data?.token.formatted}
+                </span>
+              )}
             </div>
           </div>
         </div>
