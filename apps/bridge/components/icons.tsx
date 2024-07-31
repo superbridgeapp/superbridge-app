@@ -320,7 +320,7 @@ export const IconArrowUpRight = ({ className }: any) => (
   </svg>
 );
 
-export const IconSpinner = ({ className }: any) => (
+export const IconSpinner = ({ className }: { className?: string }) => (
   <svg fill="none" viewBox="0 0 66 66" className={className}>
     <circle
       cx="33"

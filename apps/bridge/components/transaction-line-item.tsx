@@ -49,11 +49,18 @@ export function LineItem({
           <span className="text-xs">{duration}</span>
 
           <span className="ml-auto text-xs">
-            {isWaitStepDone(step)
-              ? "✅"
-              : isWaitStepInProgress(step)
-              ? ` ~${formatDistanceToNow(step.startedAt + step.duration)} to go`
-              : ""}
+            {isWaitStepDone(step) ? (
+              "✅"
+            ) : isWaitStepInProgress(step) ? (
+              <div className="flex items-center gap-1">
+                <span>
+                  ~{formatDistanceToNow(step.startedAt + step.duration)} to go
+                </span>
+                <IconSpinner className="h-3 w-3" />
+              </div>
+            ) : (
+              ""
+            )}
           </span>
         </div>
       </div>
