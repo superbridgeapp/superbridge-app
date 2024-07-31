@@ -17,6 +17,7 @@ import { useInitiatingChainId } from "@/hooks/use-initiating-chain-id";
 import { useNativeToken } from "@/hooks/use-native-token";
 import { useNetworkFee } from "@/hooks/use-network-fee";
 import { useRequiredCustomGasTokenBalance } from "@/hooks/use-required-custom-gas-token-balance";
+import { useSelectedBridgeRoute } from "@/hooks/use-selected-bridge-route";
 import { useSelectedToken } from "@/hooks/use-selected-token";
 import { useWeiAmount } from "@/hooks/use-wei-amount";
 import { useIsWithdrawal } from "@/hooks/use-withdrawing";
@@ -46,6 +47,7 @@ export const BridgeButton = () => {
   const bridgeMin = useBridgeMin();
   const paused = useBridgePaused();
   const disabled = useBridgeDisabled();
+  const route = useSelectedBridgeRoute();
 
   const initiatingChainId = useInitiatingChainId();
   const initiatingChain = useChain(initiatingChainId);
@@ -106,6 +108,7 @@ export const BridgeButton = () => {
     bridgeMax,
     bridgeMin,
     disabled,
+    routeLoading: route.isLoading,
   })
     .with({ disabled: true }, () => ({
       onSubmit: () => {},
@@ -186,10 +189,10 @@ export const BridgeButton = () => {
       buttonText: d.withdrawing ? t("withdrawing") : t("depositing"),
       disabled: true,
     }))
-    .otherwise(() => ({
+    .otherwise((d) => ({
       onSubmit: handleSubmitClick,
       buttonText: t("reviewBridge"),
-      disabled: false,
+      disabled: d.routeLoading ? true : false,
     }));
 
   return (

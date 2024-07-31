@@ -15,6 +15,7 @@ import { IconSimpleFees, IconSimpleGas, IconSimpleTime } from "../icons";
 import { NetworkIcon } from "../network-icon";
 import { RouteProviderIcon, RouteProviderName } from "../route-provider-icon";
 import { TokenIcon } from "../token-icon";
+import { Skeleton } from "../ui/skeleton";
 
 export const Route = ({
   provider,
@@ -78,15 +79,21 @@ export const Route = ({
       <div className="flex gap-4 justify-end mt-2">
         <div className="flex gap-1 items-center">
           <IconSimpleGas className="h-3 w-auto fill-muted-foreground" />{" "}
-          {!networkFee.data?.fiat && (
-            <span className="text-xs leading-none text-muted-foreground">
-              {networkFee.data?.token.formatted}
-            </span>
-          )}
-          {networkFee.data?.fiat && (
-            <span className="text-xs leading-none text-muted-foreground">
-              {networkFee.data.fiat.formatted}
-            </span>
+          {networkFee.isLoading ? (
+            <Skeleton className="h-3 w-[60px]" />
+          ) : (
+            <>
+              {!networkFee.data?.fiat && (
+                <span className="text-xs leading-none text-muted-foreground">
+                  {networkFee.data?.token.formatted}
+                </span>
+              )}
+              {networkFee.data?.fiat && (
+                <span className="text-xs leading-none text-muted-foreground">
+                  {networkFee.data.fiat.formatted}
+                </span>
+              )}
+            </>
           )}
         </div>
 

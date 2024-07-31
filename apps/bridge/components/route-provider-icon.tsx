@@ -15,9 +15,9 @@ const icons = {
   [RouteProvider.Cctp]: "/img/alt-bridges/Celer-icon.png",
   [RouteProvider.ArbitrumDeposit]: "/img/arbitrum-one/icon.svg",
   [RouteProvider.ArbitrumWithdrawal]: "/img/arbitrum-one/icon.svg",
-  [RouteProvider.OptimismDeposit]: "/img/optimism/icon.svg",
-  [RouteProvider.OptimismWithdrawal]: "/img/optimism/icon.svg",
-  [RouteProvider.OptimismForcedWithdrawal]: "/img/optimism/icon.svg",
+  [RouteProvider.OptimismDeposit]: "/img/optimism/logo.svg",
+  [RouteProvider.OptimismWithdrawal]: "/img/optimism/logo.svg",
+  [RouteProvider.OptimismForcedWithdrawal]: "/img/optimism/logo.svg",
   [RouteProvider.Hyperlane]: "/img/alt-bridges/hyperlane.svg",
 };
 
