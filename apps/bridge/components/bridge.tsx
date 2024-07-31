@@ -1,10 +1,10 @@
 import { DeploymentType } from "@/codegen/model";
-import { isSuperbridge } from "@/config/superbridge";
 import { useDeployment } from "@/hooks/use-deployment";
 import { useFaultProofUpgradeTime } from "@/hooks/use-fault-proof-upgrade-time";
 import { useHasWithdrawalReadyToFinalize } from "@/hooks/use-has-withdrawal-ready-to-finalize";
 import { useWithdrawalsPaused } from "@/hooks/use-withdrawals-paused";
 
+import { PoweredByAlchemy } from "./badges/powered-by-alchemy";
 import { PoweredByAltLayer } from "./badges/powered-by-alt-layer-badge";
 import { PoweredByConduit } from "./badges/powered-by-conduit-badge";
 import { TestnetBadge } from "./badges/testnet-badge";
@@ -52,17 +52,19 @@ export const Bridge = () => {
                 <BridgeBody />
 
                 {(deployment?.type === DeploymentType.testnet ||
-                  (deployment?.provider === "conduit" && isSuperbridge) ||
-                  (deployment?.provider === "alt-layer" && isSuperbridge)) && (
+                  deployment?.provider === "conduit" ||
+                  deployment?.provider === "alt-layer" ||
+                  deployment?.name === "shape-testnet") && (
                   <div className="flex gap-2 py-1 justify-center items-center -translate-y-2">
                     {deployment?.type === DeploymentType.testnet && (
                       <TestnetBadge />
                     )}
-                    {deployment?.provider === "conduit" && isSuperbridge && (
-                      <PoweredByConduit />
-                    )}
-                    {deployment?.provider === "alt-layer" && isSuperbridge && (
+                    {deployment?.provider === "conduit" && <PoweredByConduit />}
+                    {deployment?.provider === "alt-layer" && (
                       <PoweredByAltLayer />
+                    )}
+                    {deployment?.name === "shape-testnet" && (
+                      <PoweredByAlchemy />
                     )}
                   </div>
                 )}

@@ -6,13 +6,27 @@ import { DeploymentDto, DeploymentType } from "@/codegen/model";
 import { deploymentTheme } from "@/config/theme";
 
 import { BadgeNew } from "./badges/new-badge";
+import {
+  CardPoweredByAlchemy,
+  PoweredByAlchemy,
+} from "./badges/powered-by-alchemy";
+import {
+  CardPoweredByAltLayer,
+  PoweredByAltLayer,
+} from "./badges/powered-by-alt-layer-badge";
+import {
+  CardPoweredByConduit,
+  PoweredByConduit,
+} from "./badges/powered-by-conduit-badge";
 
 export const BridgePlaceholder = ({
   deployment,
   comingSoon,
   newDeployment,
 }: {
-  deployment: Pick<DeploymentDto, "name" | "displayName" | "type">;
+  deployment: Pick<DeploymentDto, "name" | "displayName" | "type"> & {
+    provider?: string | null;
+  };
   comingSoon?: boolean;
   newDeployment?: boolean;
 }) => {
@@ -63,17 +77,33 @@ export const BridgePlaceholder = ({
             {deployment.displayName}
           </h2>
         </div>
-        {/* coming soon */}
-        {comingSoon && (
-          <span className="text-[10px]  inline-flex leading-none bg-black/30 text-white  absolute bottom-6 left-1/2 -translate-x-1/2 rounded-full px-2 py-1">
-            {t("comingSoon")}
-          </span>
-        )}
-        {!comingSoon && deployment.type === DeploymentType.testnet && (
-          <span className="text-[10px]  inline-flex leading-none bg-black/30 text-white  absolute bottom-6 left-1/2 -translate-x-1/2 rounded-full px-2 py-1">
-            Testnet
-          </span>
-        )}
+        <div className="absolute bottom-0 w-full flex justify-center items-center gap-2 pb-5">
+          {/* coming soon */}
+          {!comingSoon && deployment.type === DeploymentType.testnet && (
+            <span
+              className={clsx(
+                "text-[9px] flex items-center leading-none bg-black/10 rounded-full px-2 py-1 opacity-70",
+                theme.card.title ?? "text-white"
+              )}
+            >
+              Testnet
+            </span>
+          )}
+          {comingSoon && (
+            <span className="text-[9px] inline-flex leading-none bg-black/10 text-white rounded-full px-2 py-1">
+              {t("comingSoon")}
+            </span>
+          )}
+          {deployment.provider === "conduit" && (
+            <CardPoweredByConduit color={theme.card.title ?? "text-white"} />
+          )}
+          {deployment.provider === "alt-layer" && (
+            <CardPoweredByAltLayer color={theme.card.title ?? "text-white"} />
+          )}
+          {deployment.name === "shape-testnet" && (
+            <CardPoweredByAlchemy color={theme.card.title ?? "text-white"} />
+          )}
+        </div>
       </div>
       {newDeployment && (
         <BadgeNew className="absolute -top-1 -right-1.5 w-8 h-8" />
