@@ -5,7 +5,6 @@ import {
   useSendTransaction,
 } from "wagmi";
 
-import { useConfigState } from "@/state/config";
 import { isRouteQuote } from "@/utils/guards";
 
 import { useInitiatingChainId } from "../use-initiating-chain-id";

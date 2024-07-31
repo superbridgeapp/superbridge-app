@@ -82,7 +82,7 @@ export function TransactionLineItem({
   return (
     <div
       className={clsx(
-        "flex gap-4 px-3 py-4 rounded-lg justify-between bg-muted"
+        "flex gap-4 px-3 py-4 rounded-lg justify-between bg-muted items-center"
       )}
     >
       <div

@@ -311,7 +311,6 @@ export const ConfirmationModalStartTab = () => {
       onSubmit: async () => {
         const hash = await onSubmitBridge();
         if (hash) {
-          console.log("Using", hash);
           setUseSubmittedHash(true);
         }
       },
@@ -431,7 +430,6 @@ export const ConfirmationModalStartTab = () => {
   const lastSubmittedTx = useLatestSubmittedTx();
   const submittedLineItems = useProgressRows(lastSubmittedTx) || [];
 
-  console.log(submittedLineItems);
   const preSubmissionLineItems: ActivityStep[] =
     route.data?.result && isRouteQuote(route.data.result)
       ? route.data.result.steps
@@ -496,13 +494,6 @@ export const ConfirmationModalStartTab = () => {
   const lineItems = useSubmittedHash
     ? submittedLineItems
     : preSubmissionLineItems;
-
-  console.log({
-    useSubmittedHash,
-    lastSubmittedTx,
-    submittedLineItems,
-    preSubmissionLineItems,
-  });
 
   return (
     <div>
