@@ -226,6 +226,7 @@ const useProgressBars = (
     ? tx.withdrawal?.prove
     : null;
   const pendingProves = usePendingTransactions.usePendingProves();
+  const pendingFinalises = usePendingTransactions.usePendingFinalises();
 
   const bars: {
     status: "done" | "in-progress" | "not-started";
@@ -240,14 +241,24 @@ const useProgressBars = (
   if (isOptimismWithdrawal(tx) || isOptimismForcedWithdrawal(tx)) {
     if (proveTx) {
       bars.push({ status: "done", name: "prove" });
-    } else if (pendingProves[tx.id]) {
+    } else if (!isConfirmed(initiatingTx)) {
+      bars.push({ status: "not-started", name: "prove" });
+    } else {
+      bars.push({ status: "in-progress", name: "prove" });
+    }
+
+    if (finalisingTx) {
+      bars.push({ status: "done", name: "prove" });
+    } else if (proveTx || pendingFinalises[tx.id]) {
       bars.push({ status: "in-progress", name: "prove" });
     } else {
       bars.push({ status: "not-started", name: "prove" });
     }
+
+    return bars;
   }
 
-  if (finalisingTx?.timestamp) {
+  if (finalisingTx) {
     bars.push({ status: "done", name: "finalise" });
   } else {
     bars.push({ status: "in-progress", name: "finalise" });
