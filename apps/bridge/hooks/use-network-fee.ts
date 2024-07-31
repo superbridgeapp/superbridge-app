@@ -10,7 +10,6 @@ import { isRouteQuote } from "@/utils/guards";
 
 import { useBridge } from "./bridge/use-bridge";
 import { useChain } from "./use-chain";
-import { useInitiatingChainId } from "./use-initiating-chain-id";
 import { useNativeToken } from "./use-native-token";
 import { useSelectedBridgeRoute } from "./use-selected-bridge-route";
 
@@ -39,8 +38,7 @@ export const useNetworkFeeForGasLimit = (
   chainId: number | undefined,
   gasLimit: bigint | undefined
 ) => {
-  const initiatingChainId = useInitiatingChainId();
-  const chain = useChain(initiatingChainId);
+  const chain = useChain(chainId);
   const currency = useSettingsState.useCurrency();
   const nativeToken = useNativeToken();
   const nativeTokenUsdPrice = useTokenPrice(nativeToken ?? null);

@@ -241,6 +241,7 @@ export const ConfirmationModalStartTab = () => {
         token.address.toLowerCase(),
   })
     .with({ isDepositingCustomGasToken: true }, () => null)
+    .with({ isNativeToken: true }, () => null)
     .with({ approving: true }, () => ({
       onSubmit: () => {},
       buttonText: t("approving"),
