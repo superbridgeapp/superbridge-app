@@ -293,7 +293,6 @@ export const TransactionRowV2 = ({ tx }: { tx: Transaction }) => {
   const bars = useProgressBars(tx);
   const provider = useTxProvider(tx);
 
-  console.log(isSuccessful);
   return (
     <div className="flex flex-col p-6 border-b relative" key={tx.id}>
       <button

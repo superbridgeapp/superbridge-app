@@ -111,6 +111,14 @@ export function TransactionLineItem({
               )}
             </div>
           )}
+          {!!step.fee && (
+            <div className="flex gap-1">
+              <IconSimpleGas className="w-3.5 h-auto fill-muted-foreground opacity-80" />
+              <span className="text-xs text-muted-foreground leading-none">
+                <p className="text-xs">{step.fee}</p>
+              </span>
+            </div>
+          )}
         </div>
       </div>
 

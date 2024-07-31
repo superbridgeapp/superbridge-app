@@ -23,7 +23,7 @@ export const useNetworkFee = () => {
     : undefined;
 
   let gasLimit: bigint | undefined = gas;
-  if (gasLimit) {
+  if (!gasLimit) {
     gasLimit =
       route.data?.result && isRouteQuote(route.data.result)
         ? BigInt(

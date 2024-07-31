@@ -70,7 +70,7 @@ export const Route = ({
           </span>
           {receive.fiat && (
             <span className="text-xs leading-none text-muted-foreground">
-              ({receive.fiat.formatted})
+              {receive.fiat.formatted}
             </span>
           )}
         </div>
