@@ -114,50 +114,45 @@ export function TransactionLineItem({
         </div>
       </div>
 
-      {step.hash && (
-        <div>
-          <a href={transactionLink(step.hash, step.chain)} target="_blank">
-            Link
-          </a>
-        </div>
-      )}
+      {step.hash ? (
+        <a href={transactionLink(step.hash, step.chain)} target="_blank">
+          Link
+        </a>
+      ) : step.pendingHash ? (
+        <a href={transactionLink(step.pendingHash, step.chain)} target="_blank">
+          <IconSpinner className="h-4 w-4" />
+        </a>
+      ) : (
+        <>
+          {tx &&
+            step.button?.type === ButtonComponent.Prove &&
+            (isOptimismWithdrawal(tx) || isOptimismForcedWithdrawal(tx)) && (
+              <Prove tx={tx} enabled={step.button.enabled} />
+            )}
+          {tx &&
+            step.button?.type === ButtonComponent.Finalise &&
+            (isOptimismWithdrawal(tx) || isOptimismForcedWithdrawal(tx)) && (
+              <Finalise tx={tx} enabled={step.button.enabled} />
+            )}
+          {tx &&
+            step.button?.type === ButtonComponent.Finalise &&
+            isArbitrumWithdrawal(tx) && (
+              <FinaliseArbitrum tx={tx} enabled={step.button.enabled} />
+            )}
+          {tx &&
+            step.button?.type === ButtonComponent.Mint &&
+            isCctpBridge(tx) && (
+              <MintCctp tx={tx} enabled={step.button.enabled} />
+            )}
+          {tx &&
+            step.button?.type === ButtonComponent.Redeem &&
+            isArbitrumDeposit(tx) && (
+              <RedeemArbitrum tx={tx} enabled={step.button.enabled} />
+            )}
 
-      {step.pendingHash && (
-        <div>
-          <a
-            href={transactionLink(step.pendingHash, step.chain)}
-            target="_blank"
-          >
-            <IconSpinner className="h-4 w-4" />
-          </a>
-        </div>
+          {step.buttonComponent}
+        </>
       )}
-
-      {tx &&
-        step.button?.type === ButtonComponent.Prove &&
-        (isOptimismWithdrawal(tx) || isOptimismForcedWithdrawal(tx)) && (
-          <Prove tx={tx} enabled={step.button.enabled} />
-        )}
-      {tx &&
-        step.button?.type === ButtonComponent.Finalise &&
-        (isOptimismWithdrawal(tx) || isOptimismForcedWithdrawal(tx)) && (
-          <Finalise tx={tx} enabled={step.button.enabled} />
-        )}
-      {tx &&
-        step.button?.type === ButtonComponent.Finalise &&
-        isArbitrumWithdrawal(tx) && (
-          <FinaliseArbitrum tx={tx} enabled={step.button.enabled} />
-        )}
-      {tx && step.button?.type === ButtonComponent.Mint && isCctpBridge(tx) && (
-        <MintCctp tx={tx} enabled={step.button.enabled} />
-      )}
-      {tx &&
-        step.button?.type === ButtonComponent.Redeem &&
-        isArbitrumDeposit(tx) && (
-          <RedeemArbitrum tx={tx} enabled={step.button.enabled} />
-        )}
-
-      {step.buttonComponent}
     </div>
   );
 }
