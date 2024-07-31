@@ -31,7 +31,7 @@ export const BridgePlaceholder = ({
               theme.card.overlay.className
             )}
             alt={deployment.displayName}
-            fill
+            // fill
             loading="eager"
             sizes="(max-width: 767px) 50vw, (max-width: 1023px) 33vw, 25vw"
           />
