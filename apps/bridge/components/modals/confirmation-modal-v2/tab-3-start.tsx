@@ -11,9 +11,7 @@ import {
   RouteProvider,
   RouteStepType,
 } from "@/codegen/model";
-import { IconSuperFast } from "@/components/icons";
 import { NetworkIcon } from "@/components/network-icon";
-import { PoweredByAcross } from "@/components/powered-by-across";
 import { RouteProviderIcon } from "@/components/route-provider-icon";
 import { TokenIcon } from "@/components/token-icon";
 import { FinaliseButton, ProveButton } from "@/components/transaction-buttons";
@@ -56,7 +54,7 @@ import {
   isRouteTransactionStep,
   isRouteWaitStep,
 } from "@/utils/guards";
-import { isNativeToken } from "@/utils/is-eth";
+import { isEth, isNativeToken } from "@/utils/is-eth";
 import { isArbitrum } from "@/utils/is-mainnet";
 import { useProgressRows } from "@/utils/progress-rows";
 import {
@@ -201,10 +199,7 @@ export const ConfirmationModalStartTab = () => {
     .with({ withdrawing: true }, () => null)
     .with({ gasToken: null }, () => null)
     .with({ family: undefined }, () => null)
-    .with(
-      { family: DeploymentFamily.optimism, isNativeToken: false },
-      () => null
-    )
+    .with({ family: DeploymentFamily.optimism }, () => null)
     .with({ approving: true }, () => ({
       onSubmit: () => {},
       buttonText: t("confirmationModal.approvingGasToken"),
@@ -237,9 +232,15 @@ export const ConfirmationModalStartTab = () => {
     approving: approve.isLoading,
     bridge,
     withdrawing,
-    isNativeToken: isNativeToken(stateToken),
+    isNativeToken: isEth(token),
+    isDepositingCustomGasToken:
+      deployment?.family === DeploymentFamily.arbitrum &&
+      !!deployment?.arbitrumNativeToken &&
+      !!token &&
+      deployment.arbitrumNativeToken.address.toLowerCase() ===
+        token.address.toLowerCase(),
   })
-    .with({ isNativeToken: true }, () => null)
+    .with({ isDepositingCustomGasToken: true }, () => null)
     .with({ approving: true }, () => ({
       onSubmit: () => {},
       buttonText: t("approving"),
@@ -270,21 +271,12 @@ export const ConfirmationModalStartTab = () => {
   const initiateButton = match({
     needsApprove: !isNativeToken(stateToken) && !approved,
     needsGasTokenApprove: (() => {
-      if (
-        !deployment ||
-        !deployment.arbitrumNativeToken ||
-        approvedGasToken ||
-        withdrawing
-      )
-        return false;
-
-      // always need to approve arbitrum gas token to pay additional gas
-      if (isArbitrum(deployment)) {
-        return !!deployment?.arbitrumNativeToken;
-      } else {
-        // only need to approve gas token if we're doing a native token deposit
-        return isNativeToken(stateToken);
-      }
+      return (
+        !!deployment &&
+        isArbitrum(deployment) &&
+        !withdrawing &&
+        !!deployment.arbitrumNativeToken
+      );
     })(),
     bridge,
     withdrawing,
@@ -331,101 +323,6 @@ export const ConfirmationModalStartTab = () => {
     receiveSymbol: stateToken?.[to?.id ?? 0]?.symbol,
     formatted: stateToken?.[to?.id ?? 0]?.symbol,
   };
-
-  const title = match({
-    isAcross,
-    isCctp,
-    withdrawing,
-    escapeHatch,
-    family: deployment?.family,
-  })
-    .with({ isAcross: true }, () => {
-      return "Superfast bridge";
-    })
-    .with({ isCctp: true, withdrawing: true, escapeHatch: true }, () =>
-      t("confirmationModal.cctpWithdrawalTitleEscapeHatch", {
-        mins: totalBridgeTime?.value,
-        symbol: token?.symbol,
-      })
-    )
-    .with({ isCctp: true, withdrawing: true }, () =>
-      t("confirmationModal.cctpWithdrawalTitle", {
-        mins: totalBridgeTime?.value,
-        symbol: token?.symbol,
-      })
-    )
-    .with({ isCctp: true, withdrawing: false }, () =>
-      t("confirmationModal.cctpDepositTitle", {
-        mins: totalBridgeTime?.value,
-        symbol: token?.symbol,
-      })
-    )
-    .with({ withdrawing: true, escapeHatch: true }, () =>
-      transformPeriodText(
-        "confirmationModal.withdrawalTitleEscapeHatch",
-        common,
-        totalBridgeTime
-      )
-    )
-    .with({ withdrawing: true }, () =>
-      transformPeriodText(
-        "confirmationModal.withdrawalTitle",
-        common,
-        totalBridgeTime
-      )
-    )
-    .with({ withdrawing: false }, () =>
-      t("confirmationModal.depositTitle", {
-        ...common,
-        mins: totalBridgeTime?.value,
-      })
-    )
-    .otherwise(() => "");
-
-  const description = match({
-    isAcross,
-    isCctp,
-    withdrawing,
-    escapeHatch,
-    family: deployment?.family,
-    isEth: isNativeToken(stateToken),
-  })
-    .with({ isAcross: true }, () =>
-      t("confirmationModal.acrossDescription", common)
-    )
-    .with({ isCctp: true, withdrawing: true, escapeHatch: true }, () =>
-      t("confirmationModal.cctpDescriptionEscapeHatch", common)
-    )
-    .with({ isCctp: true }, () =>
-      t("confirmationModal.cctpDescription", common)
-    )
-    .with(
-      { withdrawing: true, family: "optimism", isEth: true, escapeHatch: true },
-      () => t("confirmationModal.opDescriptionEscapeHatch", common)
-    )
-    .with({ withdrawing: true, family: "optimism", isEth: true }, () =>
-      t("confirmationModal.opDescription", common)
-    )
-    .with(
-      {
-        withdrawing: true,
-        family: "optimism",
-        escapeHatch: true,
-        isEth: false,
-      },
-      () => t("confirmationModal.opDescriptionTokenEscapeHatch", common)
-    )
-    .with({ withdrawing: true, family: "optimism", isEth: false }, () =>
-      t("confirmationModal.opDescriptionToken", common)
-    )
-    .with({ withdrawing: true, family: "arbitrum", isEth: false }, () =>
-      t("confirmationModal.arbDescriptionToken", common)
-    )
-    .with({ withdrawing: true, family: "arbitrum", isEth: true }, () =>
-      t("confirmationModal.arbDescription", common)
-    )
-    .with({ withdrawing: false }, () => "")
-    .otherwise(() => null);
 
   const lastSubmittedTx = useLatestSubmittedTx();
   const submittedLineItems = useProgressRows(lastSubmittedTx) || [];
@@ -511,21 +408,6 @@ export const ConfirmationModalStartTab = () => {
       </DialogHeader>
 
       <div className="flex flex-col p-6 pt-0 gap-1">
-        {isAcross && (
-          <div className="flex flex-col items-center gap-2 text-center mb-3">
-            <div className="animate-wiggle-waggle">
-              <IconSuperFast className="w-10 h-auto" />
-            </div>
-            <h1 className="font-heading tracking-tight text-2xl text-pretty leading-6">
-              {title}
-            </h1>
-            <PoweredByAcross />
-            <p className="text-xs md:text-sm text-pretty text-muted-foreground tracking-tight">
-              {description}
-            </p>
-          </div>
-        )}
-
         {approveGasTokenButton && from && (
           <>
             <LineItem
@@ -534,7 +416,7 @@ export const ConfirmationModalStartTab = () => {
                   symbol: token?.symbol,
                 }),
                 chain: from,
-                fee: fee(approveCost, 4),
+                fee: approvedGasToken ? undefined : fee(approveGasTokenCost, 4),
                 buttonComponent: (
                   <Button
                     onClick={approveGasTokenButton.onSubmit}
@@ -570,7 +452,7 @@ export const ConfirmationModalStartTab = () => {
                   symbol: token?.symbol,
                 }),
                 chain: from,
-                fee: fee(approveCost, 4),
+                fee: approved ? undefined : fee(approveCost, 4),
                 buttonComponent: (
                   <Button
                     onClick={approveButton.onSubmit}
