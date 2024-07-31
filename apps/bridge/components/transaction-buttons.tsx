@@ -21,6 +21,26 @@ import { isArbitrumWithdrawal, isWithdrawal } from "@/utils/guards";
 
 import { Button } from "./ui/button";
 
+type TxButtonProps = { onClick: () => void; disabled: boolean };
+
+export const ProveButton = (props: TxButtonProps) => {
+  const { t } = useTranslation();
+  return (
+    <Button onClick={props.onClick} size={"sm"} disabled={props.disabled}>
+      {t("buttons.prove")}
+    </Button>
+  );
+};
+
+export const FinaliseButton = (props: TxButtonProps) => {
+  const { t } = useTranslation();
+  return (
+    <Button onClick={props.onClick} size={"sm"} disabled={props.disabled}>
+      {t("buttons.finalize")}
+    </Button>
+  );
+};
+
 export const Prove = ({
   tx,
   enabled,
@@ -29,15 +49,8 @@ export const Prove = ({
   enabled: boolean;
 }) => {
   const prove = useProveOptimism(isWithdrawal(tx) ? tx : tx.withdrawal!);
-  const { t } = useTranslation();
   return (
-    <Button
-      onClick={prove.onProve}
-      size={"sm"}
-      disabled={prove.loading || !enabled}
-    >
-      {t("buttons.prove")}
-    </Button>
+    <ProveButton onClick={prove.onProve} disabled={prove.loading || !enabled} />
   );
 };
 
@@ -49,15 +62,11 @@ export const Finalise = ({
   enabled: boolean;
 }) => {
   const finalise = useFinaliseOptimism(isWithdrawal(tx) ? tx : tx.withdrawal!);
-  const { t } = useTranslation();
   return (
-    <Button
+    <FinaliseButton
       onClick={finalise.onFinalise}
-      size={"sm"}
       disabled={finalise.loading || !enabled}
-    >
-      {t("buttons.finalize")}
-    </Button>
+    />
   );
 };
 

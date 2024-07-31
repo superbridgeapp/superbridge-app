@@ -15,6 +15,7 @@ import {
   ActivityStep,
   ButtonComponent,
   isWaitStep,
+  isWaitStepDone,
   isWaitStepInProgress,
 } from "@/utils/progress-rows/common";
 import { transactionLink } from "@/utils/transaction-link";
@@ -36,22 +37,21 @@ export function TransactionLineItem({
 }) {
   if (isWaitStep(step)) {
     const duration = formatDistanceToNow(Date.now() - step.duration);
+
     return (
       <div className="flex gap-4 px-3 py-2 rounded-lg justify-start items-center w-full">
         <div className="flex items-center gap-2 w-full">
           <IconTime className="w-8 h-8" />
 
-          <span>{duration}</span>
+          <span className="text-xs">{duration}</span>
 
-          {isWaitStepInProgress(step) && (
-            <>
-              {step.startedAt + step.duration < Date.now() ? (
-                <div className="ml-auto">✅</div>
-              ) : (
-                <span>~{formatDistanceToNow(step.startedAt)} to go</span>
-              )}
-            </>
-          )}
+          <span className="ml-auto text-xs">
+            {isWaitStepDone(step)
+              ? "✅"
+              : isWaitStepInProgress(step)
+              ? ` ~${formatDistanceToNow(step.startedAt + step.duration)} to go`
+              : ""}
+          </span>
         </div>
       </div>
     );
@@ -63,6 +63,8 @@ export function TransactionLineItem({
   // submitting, has a pending transaction hash
   // ready, has a button hash
   // not done, ie no transaction hash
+
+  console.log(step, tx);
 
   return (
     <div
@@ -106,7 +108,7 @@ export function TransactionLineItem({
             href={transactionLink(step.pendingHash, step.chain)}
             target="_blank"
           >
-            <IconSpinner />
+            <IconSpinner className="h-4 w-4" />
           </a>
         </div>
       )}

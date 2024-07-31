@@ -7,7 +7,7 @@ import {
   isWithdrawal,
 } from "@/utils/guards";
 
-export const useTxTimestamp = (tx: Transaction): number => {
+export const useTxTimestamp = (tx: Transaction): number | undefined => {
   if (isDeposit(tx)) return tx.deposit.timestamp;
   if (isWithdrawal(tx)) return tx.withdrawal.timestamp;
   if (isForcedWithdrawal(tx)) return tx.deposit.deposit.timestamp;

@@ -5,7 +5,7 @@ import { useInjectedStore } from "@/state/injected";
 import { Transaction } from "@/types/transaction";
 
 import { isHyperlaneBridge } from "../guards";
-import { ActivityStep } from "./common";
+import { ActivityStep, buildWaitStep } from "./common";
 
 export const useHyperlaneProgressRows = (
   tx: Transaction | null
@@ -39,14 +39,7 @@ export const useHyperlaneProgressRows = (
       button: undefined,
       fee: undefined,
     },
-    tx.send.timestamp
-      ? {
-          startedAt: tx.send.timestamp,
-          duration: tx.duration,
-        }
-      : {
-          duration: tx.duration,
-        },
+    buildWaitStep(tx.send.timestamp, tx.receive?.timestamp, 1000 * 60 * 5),
     {
       label: "receive",
       hash: tx.receive?.transactionHash,

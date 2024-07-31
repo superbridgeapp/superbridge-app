@@ -1,7 +1,6 @@
 import { useTranslation } from "react-i18next";
 
 import { DeploymentDto } from "@/codegen/model";
-import { usePeriodText } from "@/hooks/use-period-text";
 import { usePendingTransactions } from "@/state/pending-txs";
 import { Transaction } from "@/types/transaction";
 
@@ -19,7 +18,6 @@ export const useOptimismWithdrawalProgressRows = (
 ): ActivityStep[] | null => {
   const pendingFinalises = usePendingTransactions.usePendingFinalises();
   const pendingProves = usePendingTransactions.usePendingProves();
-  const transformPeriodText = usePeriodText();
   const { t } = useTranslation();
 
   if (!w || !isOptimismWithdrawal(w) || !deployment) {
@@ -30,7 +28,7 @@ export const useOptimismWithdrawalProgressRows = (
   const pendingFinalise = pendingFinalises[w?.id ?? ""];
 
   const withdraw: TransactionStep = {
-    label: t("buttons.bridge"),
+    label: "Initiate bridge",
     hash: w.withdrawal.timestamp ? w.withdrawal.transactionHash : undefined,
     pendingHash: w.withdrawal.timestamp
       ? undefined
@@ -52,8 +50,6 @@ export const useOptimismWithdrawalProgressRows = (
     fee: undefined,
   };
 
-  console.log(prove, w.withdrawal.timestamp, w.proveDuration);
-
   const finalise: TransactionStep = {
     label: t("buttons.finalize"),
     pendingHash: pendingFinalise,
@@ -71,19 +67,19 @@ export const useOptimismWithdrawalProgressRows = (
     w.withdrawal.timestamp
       ? {
           startedAt: w.withdrawal.timestamp,
-          duration: w.proveDuration,
+          duration: deployment.proveDuration!,
         }
       : {
-          duration: w.proveDuration,
+          duration: deployment.proveDuration!,
         },
     prove,
     w.prove?.timestamp
       ? {
           startedAt: w.prove.timestamp,
-          duration: w.finalizeDuration,
+          duration: deployment.finalizeDuration,
         }
       : {
-          duration: w.finalizeDuration,
+          duration: deployment.finalizeDuration,
         },
     finalise,
   ];

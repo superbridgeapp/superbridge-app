@@ -14,5 +14,6 @@ export interface CctpDomainDto {
   contractAddresses: CctpContractAddressesDto;
   createdAt: string;
   domain: number;
+  duration: number;
   id: string;
 }

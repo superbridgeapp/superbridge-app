@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { isPresent } from "ts-is-present";
 import { match } from "ts-pattern";
@@ -15,6 +16,7 @@ import { NetworkIcon } from "@/components/network-icon";
 import { PoweredByAcross } from "@/components/powered-by-across";
 import { RouteProviderIcon } from "@/components/route-provider-icon";
 import { TokenIcon } from "@/components/token-icon";
+import { FinaliseButton, ProveButton } from "@/components/transaction-buttons";
 import { TransactionLineItem } from "@/components/transaction-line-item";
 import { Button } from "@/components/ui/button";
 import {
@@ -25,6 +27,7 @@ import {
 } from "@/components/ui/dialog";
 import { isSuperbridge } from "@/config/app";
 import { currencySymbolMap } from "@/constants/currency-symbol-map";
+import { useLatestSubmittedTx } from "@/hooks/activity/use-tx-by-hash";
 import { useBridge } from "@/hooks/bridge/use-bridge";
 import { useSubmitBridge } from "@/hooks/bridge/use-submit-bridge";
 import { useAllowance } from "@/hooks/use-allowance";
@@ -55,6 +58,7 @@ import {
 } from "@/utils/guards";
 import { isNativeToken } from "@/utils/is-eth";
 import { isArbitrum } from "@/utils/is-mainnet";
+import { useProgressRows } from "@/utils/progress-rows";
 import {
   ActivityStep,
   TransactionStep,
@@ -84,6 +88,8 @@ export const ConfirmationModalStartTab = () => {
   const route = useSelectedBridgeRoute();
 
   const onSubmitBridge = useSubmitBridge();
+
+  const [useSubmittedHash, setUseSubmittedHash] = useState(false);
 
   const gasTokenAllowance = useAllowanceGasToken();
   const deployment = useDeployment();
@@ -301,8 +307,14 @@ export const ConfirmationModalStartTab = () => {
         : t("confirmationModal.initiateDeposit"),
       disabled: true,
     }))
-    .otherwise((d) => ({
-      onSubmit: onSubmitBridge,
+    .otherwise(() => ({
+      onSubmit: async () => {
+        const hash = await onSubmitBridge();
+        if (hash) {
+          console.log("Using", hash);
+          setUseSubmittedHash(true);
+        }
+      },
       buttonText: t("confirmationModal.initiateBridge"),
       disabled: false,
     }));
@@ -318,7 +330,7 @@ export const ConfirmationModalStartTab = () => {
     symbol: token?.symbol,
     receiveAmount: receive.data?.token.amount,
     receiveSymbol: stateToken?.[to?.id ?? 0]?.symbol,
-    formatted: receive.data?.token.formatted,
+    formatted: stateToken?.[to?.id ?? 0]?.symbol,
   };
 
   const title = match({
@@ -416,7 +428,11 @@ export const ConfirmationModalStartTab = () => {
     .with({ withdrawing: false }, () => "")
     .otherwise(() => null);
 
-  const lineItems: ActivityStep[] =
+  const lastSubmittedTx = useLatestSubmittedTx();
+  const submittedLineItems = useProgressRows(lastSubmittedTx) || [];
+
+  console.log(submittedLineItems);
+  const preSubmissionLineItems: ActivityStep[] =
     route.data?.result && isRouteQuote(route.data.result)
       ? route.data.result.steps
           .map((x) => {
@@ -440,9 +456,11 @@ export const ConfirmationModalStartTab = () => {
                   >
                     {initiateButton.buttonText}
                   </Button>
-                ) : x.type === RouteStepType.Prove ? undefined : x.type ===
-                  RouteStepType.Finalize ? undefined : x.type ===
-                  RouteStepType.Mint ? undefined : undefined;
+                ) : x.type === RouteStepType.Prove ? (
+                  <ProveButton onClick={() => {}} disabled />
+                ) : x.type === RouteStepType.Finalize ? (
+                  <FinaliseButton onClick={() => {}} disabled />
+                ) : x.type === RouteStepType.Mint ? undefined : undefined;
               const a: TransactionStep = {
                 label,
                 fee: fee(getGasCost(x.chainId, x.estimatedGasLimit), 4),
@@ -474,6 +492,17 @@ export const ConfirmationModalStartTab = () => {
           })
           .filter(isPresent)
       : [];
+
+  const lineItems = useSubmittedHash
+    ? submittedLineItems
+    : preSubmissionLineItems;
+
+  console.log({
+    useSubmittedHash,
+    lastSubmittedTx,
+    submittedLineItems,
+    preSubmissionLineItems,
+  });
 
   return (
     <div>
@@ -582,6 +611,7 @@ export const ConfirmationModalStartTab = () => {
           <TransactionLineItem
             key={isWaitStep(step) ? step.duration.toString() : step.label}
             step={step}
+            tx={lastSubmittedTx}
           />
         ))}
       </div>

@@ -124,7 +124,7 @@ export const useInitiateBridge = () => {
         setToken(tokens.find((x) => isNativeToken(x))!);
       }
 
-      await waitForTransactionReceipt(wagmiConfig, {
+      waitForTransactionReceipt(wagmiConfig, {
         hash,
         chainId: initiatingChain.id,
         onReplaced: ({ replacedTransaction, transaction }) => {
@@ -134,6 +134,8 @@ export const useInitiateBridge = () => {
           );
         },
       });
+
+      return hash;
     } catch (e) {
       console.log(e);
     } finally {

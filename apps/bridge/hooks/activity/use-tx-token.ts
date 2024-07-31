@@ -57,7 +57,7 @@ const getNativeToken = (tokens: MultiChainToken[], chainId: number) => {
     return x[chainId] && isNativeToken(x);
   })?.[chainId];
 };
-export function useTxToken(tx: Transaction | undefined) {
+export function useTxToken(tx: Transaction | null | undefined) {
   const tokens = useAllTokens();
   const deployment = useTxDeployment(tx);
   const gasToken = useGasTokenForDeployment(deployment?.id);

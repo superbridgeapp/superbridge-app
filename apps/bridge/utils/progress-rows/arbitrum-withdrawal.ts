@@ -1,7 +1,6 @@
 import { useTranslation } from "react-i18next";
 
 import { DeploymentDto } from "@/codegen/model";
-import { usePeriodText } from "@/hooks/use-period-text";
 import { usePendingTransactions } from "@/state/pending-txs";
 import { Transaction } from "@/types/transaction";
 
@@ -10,6 +9,7 @@ import {
   ActivityStep,
   ButtonComponent,
   TransactionStep,
+  buildWaitStep,
   isButtonEnabled,
 } from "./common";
 
@@ -19,7 +19,6 @@ export const useArbitrumWithdrawalProgressRows = (
 ): ActivityStep[] | null => {
   const { t } = useTranslation();
   const pendingFinalises = usePendingTransactions.usePendingFinalises();
-  const transformPeriodText = usePeriodText();
 
   if (!w || !isArbitrumWithdrawal(w) || !deployment) {
     return null;
@@ -45,21 +44,21 @@ export const useArbitrumWithdrawalProgressRows = (
     chain: deployment.l1,
     button: {
       type: ButtonComponent.Finalise,
-      enabled: isButtonEnabled(w.withdrawal.timestamp, w.duration),
+      enabled: isButtonEnabled(
+        w.withdrawal.timestamp,
+        deployment.finalizeDuration
+      ),
     },
     fee: undefined,
   };
 
   return [
     withdraw,
-    w.withdrawal.timestamp
-      ? {
-          duration: w.duration,
-          startedAt: w.withdrawal.timestamp,
-        }
-      : {
-          duration: w.duration,
-        },
+    buildWaitStep(
+      w.withdrawal.timestamp,
+      w.finalise?.timestamp,
+      deployment.finalizeDuration
+    ),
     finalise,
   ];
 };

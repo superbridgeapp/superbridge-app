@@ -7,7 +7,7 @@ import {
   isWithdrawal,
 } from "@/utils/guards";
 
-export const useInitiatingTx = (tx: Transaction | undefined) => {
+export const getInitiatingTx = (tx: Transaction | undefined) => {
   if (!tx) return null;
   if (isAcrossBridge(tx)) return tx.deposit;
   if (isHyperlaneBridge(tx)) return tx.send;
@@ -16,3 +16,5 @@ export const useInitiatingTx = (tx: Transaction | undefined) => {
   if (isForcedWithdrawal(tx)) return tx.deposit.deposit;
   return tx.bridge;
 };
+
+export const useInitiatingTx = getInitiatingTx;

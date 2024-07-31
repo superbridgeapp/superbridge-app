@@ -1,22 +1,25 @@
 import { useTranslation } from "react-i18next";
 
-import { DeploymentDto } from "@/codegen/model";
-import { usePeriodText } from "@/hooks/use-period-text";
+import { useTxCctpDomains } from "@/hooks/activity/use-tx-cctp-domains";
 import { usePendingTransactions } from "@/state/pending-txs";
 import { Transaction } from "@/types/transaction";
 
 import { isCctpBridge } from "../guards";
-import { ActivityStep, ButtonComponent, TransactionStep } from "./common";
+import {
+  ActivityStep,
+  ButtonComponent,
+  TransactionStep,
+  buildWaitStep,
+} from "./common";
 
 export const useCctpProgressRows = (
-  tx: Transaction | null,
-  deployment: DeploymentDto | null
+  tx: Transaction | null
 ): ActivityStep[] | null => {
   const { t } = useTranslation();
   const pendingFinalises = usePendingTransactions.usePendingFinalises();
-  const transformPeriodText = usePeriodText();
+  const domains = useTxCctpDomains(tx);
 
-  if (!tx || !isCctpBridge(tx) || !deployment) {
+  if (!tx || !isCctpBridge(tx) || !domains) {
     return null;
   }
 
@@ -55,14 +58,11 @@ export const useCctpProgressRows = (
 
   return [
     burn,
-    tx.bridge.timestamp
-      ? {
-          startedAt: tx.bridge.timestamp,
-          duration: tx.duration,
-        }
-      : {
-          duration: tx.duration,
-        },
+    buildWaitStep(
+      tx.bridge.timestamp,
+      tx.relay?.timestamp,
+      domains.from.duration
+    ),
     mint,
   ];
 };

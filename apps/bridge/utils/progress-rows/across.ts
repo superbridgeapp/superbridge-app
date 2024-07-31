@@ -1,18 +1,12 @@
-import { useTranslation } from "react-i18next";
-
 import { useAcrossDomains } from "@/hooks/across/use-across-domains";
-import { usePeriodText } from "@/hooks/use-period-text";
 import { Transaction } from "@/types/transaction";
 
 import { isAcrossBridge } from "../guards";
-import { ActivityStep } from "./common";
+import { ActivityStep, buildWaitStep } from "./common";
 
 export const useAcrossProgressRows = (
   tx: Transaction | null
 ): ActivityStep[] | null => {
-  const { t } = useTranslation();
-  const transformPeriodText = usePeriodText();
-
   const acrossDomains = useAcrossDomains();
 
   if (!tx || !isAcrossBridge(tx)) {
@@ -36,14 +30,7 @@ export const useAcrossProgressRows = (
       button: undefined,
       fee: undefined,
     },
-    tx.deposit.timestamp
-      ? {
-          startedAt: tx.deposit.timestamp,
-          duration: tx.duration,
-        }
-      : {
-          duration: tx.duration,
-        },
+    buildWaitStep(tx.deposit.timestamp, tx.fill?.timestamp, 2 * 1000 * 60),
     {
       label: "receive",
       hash: tx.fill?.transactionHash,

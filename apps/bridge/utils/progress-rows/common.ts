@@ -33,23 +33,28 @@ export type WaitStepInProgress = {
   startedAt: number;
   duration: number;
 };
+export type WaitStepDone = {
+  duration: number;
+  done: true;
+};
 export type WaitStepNotStarted = {
   duration: number;
 };
 
-export type WaitStep = WaitStepInProgress | WaitStepNotStarted;
+export type WaitStep = WaitStepInProgress | WaitStepNotStarted | WaitStepDone;
 
 export type ActivityStep = WaitStep | TransactionStep;
 
 export const isWaitStep = (x: ActivityStep): x is WaitStep => {
-  return (
-    typeof (x as WaitStepInProgress).startedAt === "number" ||
-    typeof (x as WaitStepNotStarted).duration === "number"
-  );
+  return typeof (x as WaitStep).duration === "number";
 };
 
 export const isWaitStepInProgress = (x: WaitStep): x is WaitStepInProgress => {
   return typeof (x as WaitStepInProgress).startedAt === "number";
+};
+
+export const isWaitStepDone = (x: WaitStep): x is WaitStepDone => {
+  return (x as WaitStepDone).done === true;
 };
 
 /**
@@ -61,4 +66,28 @@ export const isButtonEnabled = (
 ) => {
   if (!timestamp) return false;
   return timestamp + duration < Date.now();
+};
+
+export const buildWaitStep = (
+  start: number | undefined,
+  end: number | undefined,
+  duration: number
+): WaitStep => {
+  if (!start) {
+    const a: WaitStepNotStarted = { duration };
+    return a;
+  }
+
+  if (start && end) {
+    const a: WaitStepDone = { duration, done: true };
+    return a;
+  }
+
+  if (start + duration < Date.now()) {
+    const a: WaitStepDone = { duration, done: true };
+    return a;
+  }
+
+  const a: WaitStepInProgress = { duration, startedAt: start };
+  return a;
 };

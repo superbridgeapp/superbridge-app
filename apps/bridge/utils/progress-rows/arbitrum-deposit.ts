@@ -6,7 +6,7 @@ import { usePendingTransactions } from "@/state/pending-txs";
 import { Transaction } from "@/types/transaction";
 
 import { isArbitrumDeposit } from "../guards";
-import { ActivityStep, ButtonComponent } from "./common";
+import { ActivityStep, ButtonComponent, buildWaitStep } from "./common";
 
 export const useArbitrumDepositProgressRows = (
   tx: Transaction | null,
@@ -61,14 +61,11 @@ export const useArbitrumDepositProgressRows = (
       chain: deployment.l1,
       fee: undefined,
     },
-    tx.deposit.timestamp
-      ? {
-          startedAt: tx.deposit.timestamp,
-          duration: tx.duration,
-        }
-      : {
-          duration: tx.duration,
-        },
+    buildWaitStep(
+      tx.deposit.timestamp,
+      tx.relay?.timestamp,
+      deployment.depositDuration
+    ),
     receive,
   ];
 };

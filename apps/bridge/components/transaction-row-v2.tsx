@@ -1,7 +1,11 @@
 import clsx from "clsx";
 import { formatDistanceToNow } from "date-fns";
 
-import { TransactionStatus } from "@/codegen/model";
+import {
+  ConfirmationDto,
+  ConfirmationDtoV2,
+  TransactionStatus,
+} from "@/codegen/model";
 import { ArbitrumMessageStatus } from "@/constants/arbitrum-message-status";
 import { useTxAmount } from "@/hooks/activity/use-tx-amount";
 import { useTxDeployment } from "@/hooks/activity/use-tx-deployment";
@@ -11,6 +15,7 @@ import { useTxTimestamp } from "@/hooks/activity/use-tx-timestamp";
 import { useTxToken } from "@/hooks/activity/use-tx-token";
 import { useConfigState } from "@/state/config";
 import { useModalsState } from "@/state/modals";
+import { usePendingTransactions } from "@/state/pending-txs";
 import { Transaction } from "@/types/transaction";
 import {
   isAcrossBridge,
@@ -63,10 +68,14 @@ const useNextStateChangeTimestamp = (tx: Transaction) => {
     return null;
   }
 
-  return {
-    timestamp: initiatingTx.timestamp + tx.duration,
-    description: "",
-  };
+  if (isConfirmed(initiatingTx)) {
+    return {
+      timestamp: initiatingTx.timestamp + tx.duration,
+      description: "",
+    };
+  }
+
+  return null;
 };
 
 const useStatus = (
@@ -131,7 +140,25 @@ const ActionRow = ({ tx }: { tx: Transaction }) => {
   );
 };
 
-const useInitiatingTx = (tx: Transaction) => {
+type PendingConfirmationDto = {
+  transactionHash: string;
+};
+
+const isPendingConfirmationDto = (
+  tx: PendingConfirmationDto | ConfirmationDto | ConfirmationDtoV2
+): tx is PendingConfirmationDto => {
+  return !(tx as ConfirmationDto).timestamp;
+};
+
+const isConfirmed = (
+  tx: PendingConfirmationDto | ConfirmationDto | ConfirmationDtoV2
+): tx is ConfirmationDto | ConfirmationDtoV2 => {
+  return !!(tx as ConfirmationDto).timestamp;
+};
+
+const useInitiatingTx = (
+  tx: Transaction
+): PendingConfirmationDto | ConfirmationDto | ConfirmationDtoV2 => {
   if (isAcrossBridge(tx)) return tx.deposit;
   if (isHyperlaneBridge(tx)) return tx.send;
   if (isDeposit(tx)) return tx.deposit;
@@ -198,22 +225,25 @@ const useProgressBars = (
     : isOptimismForcedWithdrawal(tx)
     ? tx.withdrawal?.prove
     : null;
+  const pendingProves = usePendingTransactions.usePendingProves();
 
   const bars: {
     status: "done" | "in-progress" | "not-started";
     name: string;
   }[] = [];
-  if (initiatingTx.timestamp) {
+  if (isConfirmed(initiatingTx)) {
     bars.push({ status: "done", name: "initiating" });
   } else {
     bars.push({ status: "in-progress", name: "initiating" });
   }
 
-  if (proveTx) {
-    if (proveTx.timestamp) {
+  if (isOptimismWithdrawal(tx) || isOptimismForcedWithdrawal(tx)) {
+    if (proveTx) {
       bars.push({ status: "done", name: "prove" });
-    } else {
+    } else if (pendingProves[tx.id]) {
       bars.push({ status: "in-progress", name: "prove" });
+    } else {
+      bars.push({ status: "not-started", name: "prove" });
     }
   }
 
@@ -241,6 +271,7 @@ export const TransactionRowV2 = ({ tx }: { tx: Transaction }) => {
   const bars = useProgressBars(tx);
   const provider = useTxProvider(tx);
 
+  console.log(isSuccessful);
   return (
     <div className="flex flex-col p-6 border-b relative" key={tx.id}>
       <button
@@ -253,7 +284,10 @@ export const TransactionRowV2 = ({ tx }: { tx: Transaction }) => {
         <span>Route:</span>
         <RouteProviderIcon provider={provider} />
       </div>
-      <div>Initiated: {formatDistanceToNow(timestamp)} ago</div>
+      <div>
+        Initiated:{" "}
+        {timestamp ? `${formatDistanceToNow(timestamp)} ago` : "just now"}
+      </div>
       <div className="flex items-center gap-3">
         <span>Token:</span>
         <TokenIcon token={token ?? null} className="h-6 w-6" />

@@ -66,7 +66,7 @@ export const useSubmitBridge = () => {
     }
 
     if (modals.length === 0) {
-      initiateBridge();
+      return initiateBridge();
     } else {
       setAlerts(modals);
     }

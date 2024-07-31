@@ -13,7 +13,6 @@ import { useModalsState } from "@/state/modals";
 import { ConfirmationModalReviewTab } from "./tab-1-review";
 import { ConfirmationModalTermsTab } from "./tab-2-terms";
 import { ConfirmationModalStartTab } from "./tab-3-start";
-import { TrackBridgeProgress } from "./track-progress";
 
 export const ConfirmationModalV2 = () => {
   const open = useConfigState.useDisplayConfirmationModal();
@@ -62,16 +61,6 @@ export const ConfirmationModalV2 = () => {
   useEffect(() => {
     setActiveIndex(0);
   }, [open]);
-
-  if (pendingBridgeTransactionHash) {
-    return (
-      <Dialog open={open} onOpenChange={cancel}>
-        <DialogContent hideCloseButton>
-          <TrackBridgeProgress />
-        </DialogContent>
-      </Dialog>
-    );
-  }
 
   return (
     <Dialog open={open} onOpenChange={cancel}>

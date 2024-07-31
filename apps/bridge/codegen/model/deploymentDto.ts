@@ -26,12 +26,16 @@ export interface DeploymentDto {
   createdAt: string;
   /** @nullable */
   deletedAt: string | null;
+  depositDuration: number;
   displayName: string;
   family: DeploymentDtoFamily;
+  finalizeDuration: number;
   id: string;
   l1: ChainDto;
   l2: ChainDto;
   name: string;
+  /** @nullable */
+  proveDuration: number | null;
   /** @nullable */
   provider: string | null;
   status: DeploymentDtoStatus;

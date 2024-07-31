@@ -11,7 +11,7 @@ import { useAcrossDomains } from "../across/use-across-domains";
 import { useHyperlaneMailboxes } from "../hyperlane/use-hyperlane-mailboxes";
 import { useDeployments } from "../use-deployments";
 
-export const useTxFromTo = (tx: Transaction | undefined) => {
+export const useTxFromTo = (tx: Transaction | undefined | null) => {
   const acrossDomains = useAcrossDomains();
   const deployments = useDeployments();
   const hyperlaneMailboxes = useHyperlaneMailboxes();
