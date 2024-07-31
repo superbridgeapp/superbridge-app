@@ -80,7 +80,6 @@ export function TransactionLineItem({
   const fee = useNetworkFeeForGasLimit(step.chain.id, step.gasLimit);
 
   // transaction steps have three basic states
-
   // done, has a transaction hash
   // submitting, has a pending transaction hash
   // ready, has a button hash

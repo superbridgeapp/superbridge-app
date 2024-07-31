@@ -16,3 +16,8 @@ export function useToNativeToken() {
 
   return tokens.find((x) => isEth(x[to?.id ?? 0]));
 }
+
+export function useNativeTokenForChainId(chainId: number | undefined) {
+  const tokens = useAllTokens();
+  return tokens.find((x) => isEth(x[chainId ?? 0]));
+}
