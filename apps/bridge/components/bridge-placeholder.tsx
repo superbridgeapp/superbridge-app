@@ -6,13 +6,18 @@ import { DeploymentDto, DeploymentType } from "@/codegen/model";
 import { deploymentTheme } from "@/config/theme";
 
 import { BadgeNew } from "./badges/new-badge";
+import { PoweredByAlchemy } from "./badges/powered-by-alchemy";
+import { PoweredByAltLayer } from "./badges/powered-by-alt-layer-badge";
+import { PoweredByConduit } from "./badges/powered-by-conduit-badge";
 
 export const BridgePlaceholder = ({
   deployment,
   comingSoon,
   newDeployment,
 }: {
-  deployment: Pick<DeploymentDto, "name" | "displayName" | "type">;
+  deployment: Pick<DeploymentDto, "name" | "displayName" | "type"> & {
+    provider?: string | null;
+  };
   comingSoon?: boolean;
   newDeployment?: boolean;
 }) => {
@@ -74,6 +79,10 @@ export const BridgePlaceholder = ({
             Testnet
           </span>
         )}
+
+        {deployment.provider === "conduit" && <PoweredByConduit />}
+        {deployment.provider === "alt-layer" && <PoweredByAltLayer />}
+        {deployment.name === "shape-testnet" && <PoweredByAlchemy />}
       </div>
       {newDeployment && (
         <BadgeNew className="absolute -top-1 -right-1.5 w-8 h-8" />
