@@ -66,7 +66,10 @@ export const renzoTheme: Partial<ThemeDto> = {
   border: "rgba(255, 255, 255, 0.1)",
   imageLogo: "/img/renzo/logo.svg",
   imageLogoDark: "/img/renzo/logo.svg",
-  fontBody: "/fonts/renzo/poppins-regular-webfont.woff2",
-  fontButton: "/fonts/renzo/poppins-regular-webfont.woff2",
-  fontHeading: "/fonts/renzo/poppins-regular-webfont.woff2",
+  fontBody:
+    "https://renzo.superbridge.app/fonts/renzo/poppins-regular-webfont.woff2",
+  fontButton:
+    "https://renzo.superbridge.app/fonts/renzo/poppins-regular-webfont.woff2",
+  fontHeading:
+    "https://renzo.superbridge.app/fonts/renzo/poppins-regular-webfont.woff2",
 };
