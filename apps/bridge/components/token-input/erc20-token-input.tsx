@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { formatUnits } from "viem";
 
+import { isRenzo } from "@/config/app";
 import { useTokenBalance } from "@/hooks/use-balances";
 import { useFromChain } from "@/hooks/use-chain";
 import { useGetFormattedAmount } from "@/hooks/use-get-formatted-amount";
@@ -74,17 +75,26 @@ export const ERC20TokenInput = () => {
           placeholder="0"
         />
 
-        <button
-          onClick={() => setTokensModal(true)}
-          className={`flex shrink-0 relative gap-1 rounded-full pl-3 pr-3 items-center font-button transition-all hover:scale-105 text-foreground bg-card`}
-        >
-          <TokenIcon token={token} className="h-[20px] w-[20px] shrink-0" />
-          {token?.symbol}
-          <IconCaretDown className="w-3.5 h-3.5 fill-foreground" />
-          {(isCustomToken || isCustomTokenFromList) && (
-            <IconAlert className="absolute top-4 left-6 w-3 h-3" />
-          )}
-        </button>
+        {isRenzo ? (
+          <div
+            className={`flex shrink-0 relative gap-1 rounded-full pl-3 pr-3 items-center font-button transition-all text-foreground bg-card`}
+          >
+            <TokenIcon token={token} className="h-[20px] w-[20px] shrink-0" />
+            {token?.symbol}
+          </div>
+        ) : (
+          <button
+            onClick={() => setTokensModal(true)}
+            className={`flex shrink-0 relative gap-1 rounded-full pl-3 pr-3 items-center font-button transition-all hover:scale-105 text-foreground bg-card`}
+          >
+            <TokenIcon token={token} className="h-[20px] w-[20px] shrink-0" />
+            {token?.symbol}
+            <IconCaretDown className="w-3.5 h-3.5 fill-foreground" />
+            {(isCustomToken || isCustomTokenFromList) && (
+              <IconAlert className="absolute top-4 left-6 w-3 h-3" />
+            )}
+          </button>
+        )}
       </div>
       <div className="flex items-center justify-between">
         <div>
