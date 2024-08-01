@@ -56,7 +56,7 @@ export const superbridgeTheme: Partial<ThemeDto> = {
 
 export const renzoTheme: Partial<ThemeDto> = {
   darkModeEnabled: false,
-  background: "#040512",
+  background: "#030411",
   muted: "rgba(255, 255, 255, 0.05)",
   foreground: "#ffffff",
   "muted-foreground": "rgba(141,142,175)",
@@ -69,15 +69,15 @@ export const renzoTheme: Partial<ThemeDto> = {
   fontBody:
     "https://renzo.superbridge.app/fonts/renzo/poppins-regular-webfont.woff2",
   fontButton:
-    "https://renzo.superbridge.app/fonts/renzo/poppins-regular-webfont.woff2",
+    "https://renzo.superbridge.app/fonts/renzo/poppins-bold-webfont.woff2",
   fontHeading:
-    "https://renzo.superbridge.app/fonts/renzo/poppins-regular-webfont.woff2",
+    "https://renzo.superbridge.app/fonts/renzo/poppins-bold-webfont.woff2",
 
-  imageBackground: "/img/lyra/og.png",
-  imageBackgroundDark: "",
-  backgroundImageBlendMode: "",
-  backgroundImagePosition: "",
-  backgroundImageSize: "",
-  backgroundImageRepeat: "",
-  backgroundImageOpacity: "",
+  imageBackground: "/img/renzo/bg.jpg",
+  imageBackgroundDark: "/img/renzo/bg.jpg",
+  backgroundImageBlendMode: "normal",
+  backgroundImagePosition: "bottom center",
+  backgroundImageSize: "auto",
+  backgroundImageRepeat: "no-repeat",
+  backgroundImageOpacity: "0.7",
 };

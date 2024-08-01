@@ -33,7 +33,7 @@ export function Header() {
               sizes="100vw"
               alt={`${app.head.name} logo light`}
               draggable={false}
-              className="rounded-full hidden md:inline-flex dark:md:hidden h-10 w-auto"
+              className="dark:hidden h-8 w-auto max-w-40"
             />
             <Image
               src={app.images.logoDark}
@@ -42,9 +42,9 @@ export function Header() {
               sizes="100vw"
               alt={`${app.head.name} logo dark`}
               draggable={false}
-              className="rounded-full hidden md:hidden dark:md:inline-flex h-10 w-auto"
+              className="dark:inline-flex hidden h-8 w-auto max-w-40"
             />
-            <Image
+            {/* <Image
               src={app.images.logoLightSmall}
               width={0}
               height={0}
@@ -61,7 +61,7 @@ export function Header() {
               alt={`${app.head.name} logo dark small`}
               draggable={false}
               className="rounded-full hidden dark:inline-flex dark:md:hidden h-10 w-auto"
-            />
+            /> */}
           </>
         ) : (
           <img
