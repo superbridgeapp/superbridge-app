@@ -49,7 +49,6 @@ const renzo: AppConfig = {
     og: "https://superbridge.app/og/superbridge-og-image.png",
     favicon: "/img/superbridge/favicon-32x32.png",
   },
-
   images: {
     logoLight: "/img/renzo/logo.svg",
     logoDark: "/img/renzo/logo.svg",

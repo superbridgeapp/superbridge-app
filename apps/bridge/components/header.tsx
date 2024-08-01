@@ -21,9 +21,9 @@ export function Header() {
       <div onClick={() => navigate("/")} className="cursor-pointer">
         {app ? (
           <>
-            <SBLockup className="hidden md:inline-flex h-8 w-auto" />
-            <SBLockupSmall className="md:hidden h-8 w-auto" />
-            {/* <Image
+            {/* <SBLockup className="hidden md:inline-flex h-8 w-auto" />
+            <SBLockupSmall className="md:hidden h-8 w-auto" /> */}
+            <Image
               src={app.images.logoLight}
               width={0}
               height={0}
@@ -58,7 +58,7 @@ export function Header() {
               alt={`${app.head.name} logo dark small`}
               draggable={false}
               className="rounded-full hidden dark:inline-flex dark:md:hidden h-10 w-auto"
-            /> */}
+            />
           </>
         ) : (
           <img

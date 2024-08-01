@@ -55,12 +55,18 @@ export const superbridgeTheme: Partial<ThemeDto> = {
 };
 
 export const renzoTheme: Partial<ThemeDto> = {
-  darkModeEnabled: true,
-
-  background: "green",
-  primary: "#C4FF61",
-
-  fontBody: defaultBodyFont,
-  fontButton: defaultButtonFont,
-  fontHeading: defaultHeadingFont,
+  darkModeEnabled: false,
+  background: "#040512",
+  muted: "rgba(255, 255, 255, 0.05)",
+  foreground: "#ffffff",
+  "muted-foreground": "rgba(141,142,175)",
+  primary: "#ACE730",
+  "primary-foreground": "#040512",
+  card: "rgba(19, 20, 43, .9)",
+  border: "rgba(255, 255, 255, 0.1)",
+  imageLogo: "/img/renzo/logo.svg",
+  imageLogoDark: "/img/renzo/logo.svg",
+  fontBody: "/fonts/renzo/poppins-regular-webfont.woff2",
+  fontButton: "/fonts/renzo/poppins-regular-webfont.woff2",
+  fontHeading: "/fonts/renzo/poppins-regular-webfont.woff2",
 };
