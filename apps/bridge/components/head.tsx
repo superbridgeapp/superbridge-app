@@ -45,15 +45,25 @@ export function StatelessHead({
   const fonts = `
 @font-face {
   font-family: sb-heading;
-  src: url(${deployment?.theme?.theme.fontHeading || defaultHeadingFont});
+  src: url(${
+    deployment?.theme?.theme.fontHeading ||
+    app?.theme.fontHeading ||
+    defaultHeadingFont
+  });
 }
 @font-face {
   font-family: sb-button;
-  src: url(${deployment?.theme?.theme.fontButton || defaultButtonFont});
+  src: url(${
+    deployment?.theme?.theme.fontButton ||
+    app?.theme.fontButton ||
+    defaultButtonFont
+  });
 }
 @font-face {
   font-family: sb-body;
-  src: url(${deployment?.theme?.theme.fontBody || defaultBodyFont});
+  src: url(${
+    deployment?.theme?.theme.fontBody || app?.theme.fontBody || defaultBodyFont
+  });
 }`;
 
   return (
