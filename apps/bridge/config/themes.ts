@@ -63,11 +63,11 @@ export const renzoTheme: Partial<ThemeDto> = {
   primary: "#C4FF61",
   "primary-foreground": "#040512",
   card: "rgba(19, 20, 35, .88)",
-  border: "rgba(255, 255, 255, 0.1)",
+  border: "rgba(187, 227, 219, 0.1)",
   imageLogo: "/img/renzo/logo.svg",
   imageLogoDark: "/img/renzo/logo.svg",
   fontBody:
-    "https://renzo.superbridge.app/fonts/renzo/SpaceGrotesk-Regular.woff2",
+    "https://renzo.superbridge.app/fonts/renzo/SpaceGrotesk-Medium.woff2",
   fontButton:
     "https://renzo.superbridge.app/fonts/renzo/SpaceGrotesk-Bold.woff2",
   fontHeading:
