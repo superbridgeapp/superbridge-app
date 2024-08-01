@@ -2,3 +2,5 @@
 **/codegen
 # shad
 apps/bridge/components/ui
+
+pnpm-lock.yaml
