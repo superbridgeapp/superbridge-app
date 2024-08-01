@@ -1,3 +1,4 @@
+import { useDebounce } from "use-debounce";
 import { isAddress } from "viem";
 import { useAccount } from "wagmi";
 
@@ -23,7 +24,8 @@ export const useBridgeRoutes = () => {
   const fromTokenAddress = fromToken?.address;
   const toTokenAddress = toToken?.address;
 
-  const weiAmount = useWeiAmount();
+  const [weiAmount] = useDebounce(useWeiAmount(), 300);
+
   const routes = useBridgeControllerGetRoutes(
     {
       amount: weiAmount.toString(),
