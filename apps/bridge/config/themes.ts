@@ -57,21 +57,21 @@ export const superbridgeTheme: Partial<ThemeDto> = {
 export const renzoTheme: Partial<ThemeDto> = {
   darkModeEnabled: false,
   background: "#030411",
-  muted: "rgba(255, 255, 255, 0.05)",
+  muted: "rgba(255, 255, 255, 0.03)",
   foreground: "#ffffff",
   "muted-foreground": "rgba(141,142,175)",
-  primary: "#ACE730",
+  primary: "#C4FF61",
   "primary-foreground": "#040512",
-  card: "rgba(19, 20, 43, .9)",
+  card: "rgba(19, 20, 35, .88)",
   border: "rgba(255, 255, 255, 0.1)",
   imageLogo: "/img/renzo/logo.svg",
   imageLogoDark: "/img/renzo/logo.svg",
   fontBody:
-    "https://renzo.superbridge.app/fonts/renzo/poppins-regular-webfont.woff2",
+    "https://renzo.superbridge.app/fonts/renzo/SpaceGrotesk-Regular.woff2",
   fontButton:
-    "https://renzo.superbridge.app/fonts/renzo/poppins-bold-webfont.woff2",
+    "https://renzo.superbridge.app/fonts/renzo/SpaceGrotesk-Bold.woff2",
   fontHeading:
-    "https://renzo.superbridge.app/fonts/renzo/poppins-bold-webfont.woff2",
+    "https://renzo.superbridge.app/fonts/renzo/SpaceGrotesk-Bold.woff2",
 
   imageBackground: "/img/renzo/bg.jpg",
   imageBackgroundDark: "/img/renzo/bg.jpg",
@@ -79,5 +79,5 @@ export const renzoTheme: Partial<ThemeDto> = {
   backgroundImagePosition: "bottom center",
   backgroundImageSize: "auto",
   backgroundImageRepeat: "no-repeat",
-  backgroundImageOpacity: "0.7",
+  backgroundImageOpacity: "70",
 };
