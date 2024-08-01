@@ -73,7 +73,7 @@ export function useTokenBalances(chainId: number | undefined) {
       );
     });
   return {
-    isLoading: reads.isLoading,
+    isLoading: reads.isFetching,
     isError: reads.isError,
     data,
   };
