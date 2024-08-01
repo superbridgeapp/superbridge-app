@@ -72,4 +72,12 @@ export const renzoTheme: Partial<ThemeDto> = {
     "https://renzo.superbridge.app/fonts/renzo/poppins-regular-webfont.woff2",
   fontHeading:
     "https://renzo.superbridge.app/fonts/renzo/poppins-regular-webfont.woff2",
+
+  imageBackground: "/img/lyra/og.png",
+  imageBackgroundDark: "",
+  backgroundImageBlendMode: "",
+  backgroundImagePosition: "",
+  backgroundImageSize: "",
+  backgroundImageRepeat: "",
+  backgroundImageOpacity: "",
 };

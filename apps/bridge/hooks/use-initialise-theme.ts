@@ -51,16 +51,20 @@ function updateTheme(theme: ThemeDto) {
 
 export const useInitialiseTheme = () => {
   const deployment = useDeployment();
-  const [themeValues, setThemeValues] = useState(null);
+  const [themeValues, setThemeValues] = useState<Partial<ThemeDto> | null>(
+    null
+  );
 
   useEffect(() => {
     if (isSuperbridge) {
       updateTheme(superbridgeTheme);
+      setThemeValues(superbridgeTheme);
       return;
     }
 
     if (isRenzo) {
       updateTheme(renzoTheme);
+      setThemeValues(renzoTheme);
       return;
     }
 
@@ -68,6 +72,7 @@ export const useInitialiseTheme = () => {
 
     if (theme) {
       updateTheme(theme);
+      setThemeValues(theme);
     }
   }, [deployment]);
 
