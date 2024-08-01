@@ -1,7 +1,7 @@
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Image from "next/image";
 
-import { app } from "@/config/app";
+import { app, isSuperbridge } from "@/config/app";
 import { useDeployments } from "@/hooks/use-deployments";
 import { useNavigate } from "@/hooks/use-navigate";
 import { useNavIcon } from "@/hooks/use-theme";
@@ -19,10 +19,13 @@ export function Header() {
   return (
     <nav className="flex flex-row justify-between items-center p-3 md:p-6 fixed top-0 left-0 w-screen z-10">
       <div onClick={() => navigate("/")} className="cursor-pointer">
-        {app ? (
+        {isSuperbridge ? (
           <>
-            {/* <SBLockup className="hidden md:inline-flex h-8 w-auto" />
-            <SBLockupSmall className="md:hidden h-8 w-auto" /> */}
+            <SBLockup className="hidden md:inline-flex h-8 w-auto" />
+            <SBLockupSmall className="md:hidden h-8 w-auto" />
+          </>
+        ) : app ? (
+          <>
             <Image
               src={app.images.logoLight}
               width={0}
