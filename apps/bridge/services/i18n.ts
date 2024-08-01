@@ -1,13 +1,25 @@
 import i18n from "i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
-import Backend from "i18next-http-backend";
 import { initReactI18next } from "react-i18next";
 
+import ar from "../public/locales/ar/translation.json";
+import de from "../public/locales/de/translation.json";
+import en from "../public/locales/en/translation.json";
+import es from "../public/locales/es/translation.json";
+import fr from "../public/locales/fr/translation.json";
+import hi from "../public/locales/hi/translation.json";
+import id from "../public/locales/id/translation.json";
+import ja from "../public/locales/ja/translation.json";
+import kr from "../public/locales/kr/translation.json";
+import pl from "../public/locales/pl/translation.json";
+import pt from "../public/locales/pt/translation.json";
+import th from "../public/locales/th/translation.json";
+import tr from "../public/locales/tr/translation.json";
+import vi from "../public/locales/vi/translation.json";
+import zhCN from "../public/locales/zh-CN/translation.json";
+import zhTW from "../public/locales/zh-TW/translation.json";
+
 i18n
-  // load translation using http -> see /public/locales (i.e. https://github.com/i18next/react-i18next/tree/master/example/react/public/locales)
-  // learn more: https://github.com/i18next/i18next-http-backend
-  // want your translations to be loaded from a professional CDN? => https://github.com/locize/react-tutorial#step-2---use-the-locize-cdn
-  .use(Backend)
   // https://github.com/i18next/i18next-browser-languageDetector
   .use(LanguageDetector)
   .use(initReactI18next)
@@ -15,6 +27,25 @@ i18n
   .init({
     fallbackLng: "en",
     debug: false,
+
+    resources: {
+      ar: { translation: ar },
+      de: { translation: de },
+      en: { translation: en },
+      es: { translation: es },
+      fr: { translation: fr },
+      hi: { translation: hi },
+      id: { translation: id },
+      ja: { translation: ja },
+      kr: { translation: kr },
+      pl: { translation: pl },
+      pt: { translation: pt },
+      th: { translation: th },
+      tr: { translation: tr },
+      vi: { translation: vi },
+      "zh-CN": { translation: zhCN },
+      "zh-TW": { translation: zhTW },
+    },
 
     interpolation: {
       escapeValue: false, // not needed for react as it escapes by default
