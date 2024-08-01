@@ -14,7 +14,7 @@ export const PoweredByAltLayer = () => (
       fill="none"
       className="fill-muted-foreground w-3 h-3"
     >
-      <g clip-path="url(#clip0_54_30)">
+      <g clipPath="url(#clip0_54_30)">
         <path
           fillRule="evenodd"
           clipRule="evenodd"

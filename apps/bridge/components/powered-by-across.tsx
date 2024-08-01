@@ -14,7 +14,7 @@ export const PoweredByAcross = () => (
       viewBox="0 0 16 16"
       fill="none"
     >
-      <g clip-path="url(#clip0_47_1238)">
+      <g clipPath="url(#clip0_47_1238)">
         <path
           d="M16 8C16 3.58172 12.4183 0 8 0C3.58172 0 0 3.58172 0 8C0 12.4183 3.58172 16 8 16C12.4183 16 16 12.4183 16 8Z"
           fill="#6CF9D8"

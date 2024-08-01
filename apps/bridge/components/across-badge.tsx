@@ -6,7 +6,7 @@ export const AcrossBadge = () => (
     viewBox="0 0 16 17"
     fill="none"
   >
-    <g clip-path="url(#clip0_47_2287)">
+    <g clipPath="url(#clip0_47_2287)">
       <path
         d="M16 8.5C16 4.08172 12.4183 0.5 8 0.5C3.58172 0.5 0 4.08172 0 8.5C0 12.9183 3.58172 16.5 8 16.5C12.4183 16.5 16 12.9183 16 8.5Z"
         fill="#6CF9D8"

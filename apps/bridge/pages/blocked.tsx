@@ -19,7 +19,7 @@ export default function Blocked() {
               fill="none"
               className="w-32 h-auto"
             >
-              <g clip-path="url(#clip0_79_170)">
+              <g clipPath="url(#clip0_79_170)">
                 <path
                   d="M115.11 251.23C176.751 251.23 226.72 201.26 226.72 139.62C226.72 77.9795 176.751 28.01 115.11 28.01C53.4695 28.01 3.5 77.9795 3.5 139.62C3.5 201.26 53.4695 251.23 115.11 251.23Z"
                   fill="#70A3FF"
