@@ -705,6 +705,15 @@ const shapeTheme: Theme = {
   },
 };
 
+const garnetTheme: Theme = {
+  ...defaultTheme,
+  iconSrc: "/img/garnet/icon.svg",
+  card: {
+    className: "bg-[#A91F2F]",
+    title: "text-white",
+  },
+};
+
 export const themes: { [name: string]: Theme | undefined } = {
   ["base"]: baseTheme,
   ["base-sepolia"]: baseTheme,
@@ -732,7 +741,7 @@ export const themes: { [name: string]: Theme | undefined } = {
   ["apechain-test-qbuapbatak"]: apeTheme,
   rollux: rolluxTheme,
   ["redstone-mainnet"]: redstoneTheme,
-  ["lattice-testnet"]: redstoneTheme,
+  ["lattice-testnet"]: garnetTheme,
   ["orb3-mainnet"]: orb3,
   parallel,
   ["parallel-chain-oqwzakghzt"]: parallel,
