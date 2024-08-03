@@ -57,7 +57,7 @@ export const NoGasModal = () => {
   const common = {
     from: from?.name,
     to: to?.name,
-    gas: toNativeToken?.[to?.id ?? 0]?.symbol,
+    gas: toNativeToken,
     symbol: token?.symbol,
     token: token?.name,
   };
@@ -85,7 +85,8 @@ export const NoGasModal = () => {
     .with({ withdrawing: false }, () => ({
       text: t("noGasModal.topup", common),
       onClick: () => {
-        setStateToken(nativeToken ?? null);
+        // todo: think about logic here, maybe check if we can bridge the native token
+        // setStateToken(nativeToken ?? null);
         onCancel();
       },
     }))

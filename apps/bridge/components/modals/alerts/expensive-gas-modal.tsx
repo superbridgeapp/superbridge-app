@@ -46,12 +46,12 @@ export const useEstimateTotalFeesInFiat = () => {
     toFeeData.data?.gasPrice ?? toFeeData.data?.maxFeePerGas ?? BigInt(0);
 
   const fromGas = {
-    token: fromNativeToken?.[from?.id ?? 0],
+    token: fromNativeToken,
     price: fromNativeTokenPrice,
     gasPrice: fromGasPrice,
   };
   const toGas = {
-    token: toNativeToken?.[to?.id ?? 0],
+    token: toNativeToken,
     price: toNativeTokenPrice,
     gasPrice: toGasPrice,
   };
@@ -96,11 +96,11 @@ export const ExpensiveGasModal = () => {
   const open = useModalsState.useAlerts().includes(AlertModals.GasExpensive);
 
   const { t } = useTranslation();
-  const stateToken = useConfigState.useToken();
   const token = useSelectedToken();
+
   const totalBridgeFees = useEstimateTotalFeesInFiat();
 
-  const usdPrice = useTokenPrice(stateToken);
+  const usdPrice = useTokenPrice(token);
 
   const rawAmount = parseFloat(useConfigState.useRawAmount()) || 0;
   const currency = useSettingsState.useCurrency();

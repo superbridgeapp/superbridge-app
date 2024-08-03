@@ -10,7 +10,6 @@ import { IconHelp } from "../icons";
 import { Skeleton } from "../ui/skeleton";
 
 export const FeeLineItem = () => {
-  const stateToken = useConfigState.useToken();
   const openModal = useConfigState.useAddModal();
 
   const route = useSelectedBridgeRoute();

@@ -3,7 +3,6 @@ import { formatUnits } from "viem";
 
 import { isRenzo } from "@/config/app";
 import { useTokenBalance } from "@/hooks/use-balances";
-import { useFromChain } from "@/hooks/use-chain";
 import { useGetFormattedAmount } from "@/hooks/use-get-formatted-amount";
 import { useIsCustomToken } from "@/hooks/use-is-custom-token";
 import { useIsCustomTokenFromList } from "@/hooks/use-is-custom-token-from-list";
@@ -22,7 +21,6 @@ export const ERC20TokenInput = () => {
   const token = useSelectedToken();
   const { t } = useTranslation();
 
-  const from = useFromChain();
   const rawAmount = useConfigState.useRawAmount();
   const stateToken = useConfigState.useToken();
   const setRawAmount = useConfigState.useSetRawAmount();
@@ -30,7 +28,7 @@ export const ERC20TokenInput = () => {
   const weiAmount = useWeiAmount();
 
   const tokenBalance = useTokenBalance(token);
-  const getFormattedAmount = useGetFormattedAmount(stateToken, from?.id);
+  const getFormattedAmount = useGetFormattedAmount(token);
 
   const isCustomToken = useIsCustomToken(stateToken);
   const isCustomTokenFromList = useIsCustomTokenFromList(stateToken);

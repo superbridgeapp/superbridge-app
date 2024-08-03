@@ -27,6 +27,7 @@ import {
 import { useInitialInjectedState } from "@/hooks/use-initial-injected-state";
 import { InjectedStoreProvider } from "@/state/injected";
 import { ThemeProvider } from "@/state/theme";
+import { MultiChainToken } from "@/types/token";
 
 export const getServerSideProps = async ({
   req,
@@ -73,17 +74,15 @@ export const getServerSideProps = async ({
   }
 
   if (isRenzo) {
-    console.log("wow");
     const [hyperlaneMailboxes, config] = await Promise.all([
       bridgeControllerGetHyperlaneMailboxes(),
       bridgeControllerGetBridgeConfigByDomain("renzo.superbridge.app"),
     ]);
-    console.log(">>>", config.data.tokens);
 
     return {
       props: {
         hyperlaneMailboxes: hyperlaneMailboxes.data,
-        tokens: config.data.tokens,
+        tokens: config.data.tokens as MultiChainToken[],
         chains: config.data.chains,
       },
     };

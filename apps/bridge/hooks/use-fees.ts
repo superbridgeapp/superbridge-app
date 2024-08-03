@@ -9,6 +9,9 @@ import { useConfigState } from "@/state/config";
 import { useSettingsState } from "@/state/settings";
 import { isRouteQuote } from "@/utils/guards";
 
+import { useFiatAmount } from "./use-fiat-amount";
+import { useSelectedToken } from "./use-selected-token";
+
 export const useFees = () => {
   const route = useSelectedBridgeRoute();
 
@@ -20,11 +23,14 @@ export const useFeesForRoute = (route: {
   data: RouteResponseDto | null;
 }) => {
   const stateToken = useConfigState.useToken();
+  const token = useSelectedToken();
   const currency = useSettingsState.useCurrency();
 
   const to = useToChain();
   const from = useFromChain();
-  const usdPrice = useTokenPrice(stateToken);
+  const usdPrice = useTokenPrice(token);
+
+  useFiatAmount();
 
   if (route.isLoading) {
     return {

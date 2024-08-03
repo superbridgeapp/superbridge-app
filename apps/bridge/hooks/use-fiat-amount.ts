@@ -3,10 +3,11 @@ import { useTokenPrice } from "@/hooks/use-prices";
 import { useConfigState } from "@/state/config";
 import { useSettingsState } from "@/state/settings";
 
-export const useFiatAmount = () => {
-  const stateToken = useConfigState.useToken();
+import { useSelectedToken } from "./use-selected-token";
 
-  const usdPrice = useTokenPrice(stateToken);
+export const useFiatAmount = () => {
+  const token = useSelectedToken();
+  const usdPrice = useTokenPrice(token);
 
   const rawAmount = parseFloat(useConfigState.useRawAmount()) || 0;
   const currency = useSettingsState.useCurrency();

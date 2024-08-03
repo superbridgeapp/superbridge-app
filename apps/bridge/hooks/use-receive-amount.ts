@@ -1,17 +1,13 @@
-import { useConfigState } from "@/state/config";
 import { isRouteQuote } from "@/utils/guards";
 
-import { useToChain } from "./use-chain";
 import { useGetFormattedAmount } from "./use-get-formatted-amount";
 import { useSelectedBridgeRoute } from "./use-selected-bridge-route";
-import { useSelectedToken } from "./use-selected-token";
+import { useDestinationToken } from "./use-selected-token";
 
 export const useReceiveAmount = () => {
   const route = useSelectedBridgeRoute();
-  const token = useSelectedToken();
-  const stateToken = useConfigState.useToken();
-  const to = useToChain();
-  const getFormattedAmount = useGetFormattedAmount(stateToken, to?.id);
+  const token = useDestinationToken();
+  const getFormattedAmount = useGetFormattedAmount(token);
 
   if (route.isLoading) {
     return {

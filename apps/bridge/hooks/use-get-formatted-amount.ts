@@ -2,21 +2,18 @@ import { formatUnits } from "viem";
 
 import { currencySymbolMap } from "@/constants/currency-symbol-map";
 import { useSettingsState } from "@/state/settings";
-import { MultiChainToken } from "@/types/token";
+import { Token } from "@/types/token";
 import { formatDecimals } from "@/utils/format-decimals";
 
 import { useTokenPrice } from "./use-prices";
 
-export const useGetFormattedAmount = (
-  token: MultiChainToken | null,
-  chainId: number | undefined
-) => {
+export const useGetFormattedAmount = (token: Token | null) => {
   const currency = useSettingsState.useCurrency();
   const usdPrice = useTokenPrice(token);
 
   return (raw: string | undefined) => {
     const amount = parseFloat(
-      formatUnits(BigInt(raw ?? "0"), token?.[chainId ?? 0]?.decimals ?? 18)
+      formatUnits(BigInt(raw ?? "0"), token?.decimals ?? 18)
     );
 
     const fiat = usdPrice ? amount * usdPrice : null;
@@ -24,8 +21,7 @@ export const useGetFormattedAmount = (
       ? `${currencySymbolMap[currency]}${fiat.toLocaleString("en")}`
       : null;
 
-    const tokenFormatted = `${formatDecimals(amount)} ${token?.[chainId ?? 0]
-      ?.symbol}`;
+    const tokenFormatted = `${formatDecimals(amount)} ${token?.symbol}`;
 
     return {
       fiat: fiat ? { formatted: fiatFormatted, amount: fiat } : null,

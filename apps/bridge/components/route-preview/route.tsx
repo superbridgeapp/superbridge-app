@@ -3,11 +3,14 @@ import {
   RouteQuoteDto,
   RouteStepTransactionDto,
 } from "@/codegen/model";
-import { useFromChain, useToChain } from "@/hooks/use-chain";
+import { useToChain } from "@/hooks/use-chain";
 import { useFeesForRoute } from "@/hooks/use-fees";
 import { useGetFormattedAmount } from "@/hooks/use-get-formatted-amount";
 import { useNetworkFeeForGasLimit } from "@/hooks/use-network-fee";
-import { useDestinationToken } from "@/hooks/use-selected-token";
+import {
+  useDestinationToken,
+  useSelectedToken,
+} from "@/hooks/use-selected-token";
 import { useApproxTotalBridgeTimeTextForRoute } from "@/hooks/use-transfer-time";
 import { useConfigState } from "@/state/config";
 
@@ -24,11 +27,11 @@ export const Route = ({
   provider: RouteProvider;
   quote: RouteQuoteDto;
 }) => {
+  const selectedToken = useSelectedToken();
   const token = useDestinationToken();
   const stateToken = useConfigState.useToken();
-  const from = useFromChain();
   const to = useToChain();
-  const getFormattedAmount = useGetFormattedAmount(stateToken, to?.id);
+  const getFormattedAmount = useGetFormattedAmount(selectedToken);
 
   const receive = getFormattedAmount(quote.receive);
 
