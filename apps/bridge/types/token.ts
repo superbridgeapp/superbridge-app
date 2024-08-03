@@ -19,7 +19,7 @@ export interface OptimismToken extends BaseToken {
 
 export interface HyperlaneToken extends BaseToken {
   hyperlane: {
-    router: Address;
+    router: string;
   };
 }
 

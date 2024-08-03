@@ -88,8 +88,7 @@ export const useNetworkFeeForGasLimit = (
         : null,
       token: {
         raw: gwei,
-        formatted: `${formatDecimals(gwei)} ${nativeToken?.[chain?.id ?? 0]
-          ?.symbol}`,
+        formatted: `${formatDecimals(gwei)} ${nativeToken?.symbol}`,
       },
     },
   };

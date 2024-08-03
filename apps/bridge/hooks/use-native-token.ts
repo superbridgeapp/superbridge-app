@@ -1,23 +1,16 @@
-import { isEth } from "@/utils/is-eth";
+import { useChain, useFromChain, useToChain } from "./use-chain";
 
-import { useAllTokens } from "./tokens/use-all-tokens";
-import { useFromChain, useToChain } from "./use-chain";
+export function useNativeTokenForChainId(chainId: number | undefined) {
+  return useChain(chainId)?.nativeCurrency;
+}
 
 export function useNativeToken() {
   const from = useFromChain();
-  const tokens = useAllTokens();
-
-  return tokens.find((x) => isEth(x[from?.id ?? 0]));
+  return useNativeTokenForChainId(from?.id);
 }
 
 export function useToNativeToken() {
   const to = useToChain();
-  const tokens = useAllTokens();
 
-  return tokens.find((x) => isEth(x[to?.id ?? 0]));
-}
-
-export function useNativeTokenForChainId(chainId: number | undefined) {
-  const tokens = useAllTokens();
-  return tokens.find((x) => isEth(x[chainId ?? 0]));
+  return useNativeTokenForChainId(to?.id);
 }

@@ -3,10 +3,12 @@ import { createStore } from "zustand";
 import {
   AcrossDomainDto,
   CctpDomainDto,
+  ChainDto,
   DeploymentDto,
   HyperlaneMailboxDto,
   SuperbridgeConfigDto,
 } from "@/codegen/model";
+import { MultiChainToken } from "@/types/token";
 
 export type InjectedState = {
   deployments: DeploymentDto[];
@@ -19,6 +21,10 @@ export type InjectedState = {
 
   fromChainId: number;
   toChainId: number;
+
+  tokens: MultiChainToken[];
+
+  chains: ChainDto[];
 };
 
 export type InjectedActions = {

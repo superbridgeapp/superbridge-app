@@ -64,5 +64,7 @@ export const useInitialInjectedState = (
     testnets: props.testnets ?? false,
     fromChainId,
     toChainId,
+    tokens: props.tokens ?? [],
+    chains: props.chains ?? [],
   };
 };

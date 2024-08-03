@@ -7,6 +7,7 @@ import { formatUnits } from "viem";
 import { useAccount, useEstimateFeesPerGas } from "wagmi";
 
 import {
+  ChainNativeCurrencyDto,
   DeploymentFamily,
   RouteProvider,
   RouteStepType,
@@ -35,19 +36,16 @@ import { useApproveGasToken, useGasToken } from "@/hooks/use-approve-gas-token";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
 import { useDeployment } from "@/hooks/use-deployment";
 import { useNativeToken, useToNativeToken } from "@/hooks/use-native-token";
-import { usePeriodText } from "@/hooks/use-period-text";
 import { useTokenPrice } from "@/hooks/use-prices";
 import { useReceiveAmount } from "@/hooks/use-receive-amount";
 import { useRequiredCustomGasTokenBalance } from "@/hooks/use-required-custom-gas-token-balance";
 import { useSelectedBridgeRoute } from "@/hooks/use-selected-bridge-route";
 import { useSelectedToken } from "@/hooks/use-selected-token";
 import { useSwitchChain } from "@/hooks/use-switch-chain";
-import { useApproxTotalBridgeTime } from "@/hooks/use-transfer-time";
 import { useWeiAmount } from "@/hooks/use-wei-amount";
 import { useIsWithdrawal } from "@/hooks/use-withdrawing";
 import { useConfigState } from "@/state/config";
 import { useSettingsState } from "@/state/settings";
-import { Token } from "@/types/token";
 import {
   isRouteQuote,
   isRouteReceiveStep,
@@ -96,16 +94,12 @@ export const ConfirmationModalStartTab = () => {
     bridge.refetch
   );
 
-  const totalBridgeTime = useApproxTotalBridgeTime().data;
-
   const fromFeeData = useEstimateFeesPerGas({ chainId: from?.id });
   const toFeeData = useEstimateFeesPerGas({ chainId: to?.id });
 
   const fromNativeToken = useNativeToken();
   const toNativeToken = useToNativeToken();
   const switchChain = useSwitchChain();
-
-  const transformPeriodText = usePeriodText();
 
   const fromNativeTokenPrice = useTokenPrice(fromNativeToken ?? null);
   const toNativeTokenPrice = useTokenPrice(toNativeToken ?? null);
@@ -116,12 +110,12 @@ export const ConfirmationModalStartTab = () => {
     toFeeData.data?.gasPrice ?? toFeeData.data?.maxFeePerGas ?? BigInt(0);
 
   const fromGas = {
-    token: fromNativeToken?.[from?.id ?? 0],
+    token: fromNativeToken,
     price: fromNativeTokenPrice,
     gasPrice: fromGasPrice,
   };
   const toGas = {
-    token: toNativeToken?.[to?.id ?? 0],
+    token: toNativeToken,
     price: toNativeTokenPrice,
     gasPrice: toGasPrice,
   };
@@ -146,7 +140,7 @@ export const ConfirmationModalStartTab = () => {
       gasToken,
     }: {
       gasToken: {
-        token: Token | undefined;
+        token: ChainNativeCurrencyDto | undefined;
         price: number | null;
         gasPrice: bigint;
       };
@@ -303,6 +297,7 @@ export const ConfirmationModalStartTab = () => {
     .otherwise(() => ({
       onSubmit: async () => {
         const hash = await onSubmitBridge();
+        console.log("Got back", hash);
         if (hash) {
           setUseSubmittedHash(true);
         }

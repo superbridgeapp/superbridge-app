@@ -6,6 +6,7 @@ import type {
 
 import {
   bridgeControllerGetAcrossDomains,
+  bridgeControllerGetBridgeConfigByDomain,
   bridgeControllerGetCctpDomains,
   bridgeControllerGetDeployments,
   bridgeControllerGetDeploymentsByDomain,
@@ -72,13 +73,18 @@ export const getServerSideProps = async ({
   }
 
   if (isRenzo) {
-    const [hyperlaneMailboxes] = await Promise.all([
+    console.log("wow");
+    const [hyperlaneMailboxes, config] = await Promise.all([
       bridgeControllerGetHyperlaneMailboxes(),
+      bridgeControllerGetBridgeConfigByDomain("renzo.superbridge.app"),
     ]);
+    console.log(">>>", config.data.tokens);
 
     return {
       props: {
         hyperlaneMailboxes: hyperlaneMailboxes.data,
+        tokens: config.data.tokens,
+        chains: config.data.chains,
       },
     };
   }
@@ -125,11 +131,13 @@ export const getServerSideProps = async ({
   })();
 
   if (name) {
-    const [{ data }, cctpDomains] = await Promise.all([
+    const [{ data }, cctpDomains, config] = await Promise.all([
       bridgeControllerGetDeployments({
         names: [name],
       }),
       SUPERCHAIN.includes(name) ? bridgeControllerGetCctpDomains() : null,
+
+      bridgeControllerGetBridgeConfigByDomain(""),
     ]);
     return {
       props: { deployments: data, cctpDomains: cctpDomains?.data ?? [] },

@@ -5,10 +5,15 @@
  * API docs
  * OpenAPI spec version: 1.0
  */
+import type { HyperlaneRouterDto } from './hyperlaneRouterDto';
 
-export interface ChainNativeCurrencyDto {
+export interface HyperlaneTokenDto {
+  address: string;
+  chainId: number;
   coinGeckoId?: string;
   decimals: number;
+  hyperlane: HyperlaneRouterDto;
+  logoURI: string;
   name: string;
   symbol: string;
 }

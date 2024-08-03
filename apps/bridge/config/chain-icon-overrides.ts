@@ -6,8 +6,10 @@ import {
   baseSepolia,
   bsc,
   bscTestnet,
+  fraxtal,
   holesky,
   kroma,
+  linea,
   mainnet,
   mode,
   modeTestnet,
@@ -44,4 +46,6 @@ export const chainIcons: { [chainId: number]: string | undefined } = {
   [optimismSepolia.id]: "/img/optimism/network.svg",
   [bsc.id]: "/img/bsc/network.png",
   [bscTestnet.id]: "/img/bsc/network.png",
+  [linea.id]: "/img/networks/linea.png",
+  [fraxtal.id]: "/img/networks/fraxtal.png",
 };

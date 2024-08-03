@@ -82,7 +82,7 @@ export const useInitiateBridge = () => {
 
     try {
       const hash = await bridge.write!();
-
+      console.log(hash);
       setPendingBridgeTransactionHash(hash);
 
       const type =
