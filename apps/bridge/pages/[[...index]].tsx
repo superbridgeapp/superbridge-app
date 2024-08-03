@@ -12,6 +12,7 @@ import {
   bridgeControllerGetDeploymentsByDomain,
   bridgeControllerGetSuperbridgeConfig,
 } from "@/codegen";
+import { AcrossDomainDto, CctpDomainDto, DeploymentDto } from "@/codegen/model";
 import { DeploymentsGrid } from "@/components/Deployments";
 import { ErrorComponent } from "@/components/Error";
 import { Layout } from "@/components/Layout";
@@ -53,23 +54,31 @@ export const getServerSideProps = async ({
       testnets = true;
     }
 
-    const [{ data }, cctpDomains, acrossDomains, superbridgeConfig] =
+    const [deployments, cctpDomains, acrossDomains, superbridgeConfig] =
       await Promise.all([
         bridgeControllerGetDeployments({
           names: [...SUPERCHAIN_MAINNETS, ...SUPERCHAIN_TESTNETS],
-        }),
-        bridgeControllerGetCctpDomains(),
-        bridgeControllerGetAcrossDomains(),
-        bridgeControllerGetSuperbridgeConfig(),
+        })
+          .then((x) => x.data)
+          .catch(() => [] as DeploymentDto[]),
+        bridgeControllerGetCctpDomains()
+          .then((x) => x.data)
+          .catch(() => [] as CctpDomainDto[]),
+        bridgeControllerGetAcrossDomains()
+          .then((x) => x.data)
+          .catch(() => [] as AcrossDomainDto[]),
+        bridgeControllerGetSuperbridgeConfig()
+          .then((x) => x.data)
+          .catch(() => undefined),
       ]);
 
     return {
       props: {
-        deployments: data,
-        acrossDomains: acrossDomains.data,
-        cctpDomains: cctpDomains.data,
+        deployments,
+        acrossDomains,
+        cctpDomains,
         testnets,
-        superbridgeConfig: superbridgeConfig.data,
+        superbridgeConfig,
       },
     };
   }
