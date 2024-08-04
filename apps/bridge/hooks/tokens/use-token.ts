@@ -6,7 +6,9 @@ import { useFromChain, useToChain } from "../use-chain";
 import { useActiveTokens } from "./use-active-tokens";
 
 export const getTokenId = (addr1: Address, addr2: Address) => {
-  return addr1 > addr2 ? `${addr1}-${addr2}` : `${addr2}-${addr1}`;
+  return addr1.toLowerCase() > addr2.toLowerCase()
+    ? `${addr1.toLowerCase()}-${addr2.toLowerCase()}`
+    : `${addr2.toLowerCase()}-${addr1.toLowerCase()}`;
 };
 
 export const useMultichainToken = () => {
@@ -15,14 +17,20 @@ export const useMultichainToken = () => {
   const to = useToChain();
   const from = useFromChain();
 
-  if (!tokenId || !to || !from) {
+  if (!tokenId) {
     return tokens[0];
   }
 
   return (
-    tokens.find(
-      (x) => getTokenId(x[from?.id]!.address, x[to?.id]!.address) === tokenId
-    ) ??
+    tokens.find((x) => {
+      const fromToken = x[from?.id ?? 0]?.address;
+      const toToken = x[to?.id ?? 0]?.address;
+      if (!fromToken || !toToken) {
+        return false;
+      }
+
+      return getTokenId(fromToken, toToken) === tokenId;
+    }) ??
     tokens[0] ??
     null
   );

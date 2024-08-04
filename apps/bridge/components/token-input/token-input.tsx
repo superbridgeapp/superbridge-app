@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { formatUnits } from "viem";
 
-import { useAllTokens } from "@/hooks/tokens/use-all-tokens";
+import { useActiveTokens } from "@/hooks/tokens";
 import { useMultichainToken, useSelectedToken } from "@/hooks/tokens/use-token";
 import { useTokenBalance } from "@/hooks/use-balances";
 import { useGetFormattedAmount } from "@/hooks/use-get-formatted-amount";
@@ -20,7 +20,7 @@ import { Recipient } from "./recipient";
 export const TokenInput = () => {
   const token = useSelectedToken();
   const { t } = useTranslation();
-  const tokens = useAllTokens();
+  const tokens = useActiveTokens();
   const stateToken = useMultichainToken();
 
   const rawAmount = useConfigState.useRawAmount();
