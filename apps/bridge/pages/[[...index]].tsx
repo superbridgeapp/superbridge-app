@@ -37,7 +37,9 @@ export const getServerSideProps = async ({
     requestHost = developmentHost;
   }
 
+  console.log(requestHost);
   const config = await bridgeControllerGetBridgeConfigByDomain(requestHost);
+  console.log(config.data);
 
   return {
     props: {

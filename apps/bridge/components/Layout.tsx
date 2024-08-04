@@ -15,21 +15,14 @@ import {
 import { useConfigState } from "@/state/config";
 
 import { Header } from "./header";
-import { LegalModal } from "./legal-modal";
-import { BlockProvingModal } from "./modals/fault-proofs/block-proving-modal";
+import { Modals } from "./modals";
 import { NetworkSelector } from "./modals/network-selector-modal";
-import { CustomTokenListModal } from "./settings/custom-token-list-modal";
-import { SettingsModal } from "./settings/settings-modal";
-import { TosModal } from "./tos-modal/tos-modal";
 
 export function Layout({ children }: { children: any }) {
   useInitialise();
 
   const displayTransactions = useConfigState.useDisplayTransactions();
-  const setSettingsModal = useConfigState.useSetSettingsModal();
-  const settingsModal = useConfigState.useSettingsModal();
   const networkSelector = useConfigState.useNetworkSelector();
-  const modals = useConfigState.useModals();
 
   const imageBackground = useBackgroundIcon();
   const backgroundImageBlendMode = useBackgroundImageBlendMode();
@@ -64,11 +57,6 @@ export function Layout({ children }: { children: any }) {
         }}
       />
 
-      <TosModal />
-      <LegalModal />
-      <CustomTokenListModal />
-      <BlockProvingModal />
-
       <Header />
 
       {/* bridge */}
@@ -93,7 +81,7 @@ export function Layout({ children }: { children: any }) {
         )}
       </AnimatePresence>
 
-      <SettingsModal open={settingsModal} setOpen={setSettingsModal} />
+      <Modals />
     </div>
   );
 }

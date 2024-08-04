@@ -1,11 +1,12 @@
+import { ModalNames } from "@/constants/modal-names";
 import { useTransactions } from "@/hooks/use-transactions";
 import { useConfigState } from "@/state/config";
 
-import { IconActivity, IconSettings, IconSpinner } from "./icons";
+import { IconSettings, IconSpinner } from "./icons";
 
 export const BridgeHeader = () => {
   const setDisplayTransactions = useConfigState.useSetDisplayTransactions();
-  const setSettingsModal = useConfigState.useSetSettingsModal();
+  const addModal = useConfigState.useAddModal();
 
   const { inProgressCount } = useTransactions();
 
@@ -34,7 +35,7 @@ export const BridgeHeader = () => {
           </button>
           <button
             className="group flex items-center justify-center"
-            onClick={() => setSettingsModal(true)}
+            onClick={() => addModal(ModalNames.Settings)}
           >
             <IconSettings className="fill-muted-foreground group-hover:fill-foreground transition-all group-hover:rotate-45 group-hover:scale-105 h-5 w-5" />
           </button>

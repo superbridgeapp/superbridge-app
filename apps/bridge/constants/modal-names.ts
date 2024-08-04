@@ -6,6 +6,7 @@ export enum ModalNames {
   RouteSelector = "RouteSelector",
   NetworkSelector = "NetworkSelector",
   TransactionDetails = "TransactionDetails",
+  Settings = "Settings",
 }
 
 export enum AlertModals {

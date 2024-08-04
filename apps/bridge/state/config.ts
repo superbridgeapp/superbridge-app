@@ -12,9 +12,6 @@ interface ConfigState {
   displayConfirmationModal: boolean;
   setDisplayConfirmationModal: (x: boolean) => void;
 
-  settingsModal: boolean;
-  setSettingsModal: (x: boolean) => void;
-
   tokensModal: boolean;
   setTokensModal: (x: boolean) => void;
 
@@ -115,9 +112,6 @@ const ConfigState = create<ConfigState>()((set, get) => ({
   tokensImportedFromLists: [],
   setTokensImportedFromLists: (tokensImportedFromLists) =>
     set({ tokensImportedFromLists }),
-
-  settingsModal: false,
-  setSettingsModal: (settingsModal) => set({ settingsModal }),
 
   tokensModal: false,
   setTokensModal: (tokensModal) => set({ tokensModal }),

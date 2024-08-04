@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/select";
 import { isSuperbridge } from "@/config/app";
 import { flagSymbolMap } from "@/constants/currency-symbol-map";
+import { ModalNames } from "@/constants/modal-names";
 import { useDeployments } from "@/hooks/deployments/use-deployments";
 import { useIsContractAccount } from "@/hooks/use-is-contract-account";
 import { useDarkModeEnabled } from "@/hooks/use-theme";
@@ -26,13 +27,11 @@ import { Dialog, DialogContent } from "../ui/dialog";
 import { Switch } from "../ui/switch";
 import { TokenLists } from "./token-lists";
 
-export interface SettingsModalProps {
-  open: boolean;
-  setOpen: (b: boolean) => void;
-}
-
-export const SettingsModal = ({ open, setOpen }: SettingsModalProps) => {
+export const SettingsModal = () => {
   const { t, i18n } = useTranslation();
+
+  const open = useConfigState.useModals()[ModalNames.Settings];
+  const removeModal = useConfigState.useRemoveModal();
 
   const testnets = useInjectedStore((store) => store.testnets);
   const setTestnets = useInjectedStore((store) => store.setTestnets);
@@ -76,7 +75,7 @@ export const SettingsModal = ({ open, setOpen }: SettingsModalProps) => {
     isSuperbridge || (deployments.length === 1 && isOptimism(deployments[0]));
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={() => removeModal(ModalNames.Settings)}>
       <DialogContent>
         <div className="">
           <h2 className="font-heading p-6 pb-0">{t("settings.settings")}</h2>

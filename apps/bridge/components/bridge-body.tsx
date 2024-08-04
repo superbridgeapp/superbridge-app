@@ -1,6 +1,5 @@
 import { FromTo } from "./FromTo";
 import { BridgeButton } from "./bridge-button";
-import { Modals } from "./modals";
 import { RoutePreview } from "./route-preview";
 import { TokenInput } from "./token-input";
 
@@ -17,8 +16,6 @@ export const BridgeBody = () => {
 
         <BridgeButton />
       </div>
-
-      <Modals />
     </>
   );
 };
