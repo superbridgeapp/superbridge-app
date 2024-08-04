@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { formatUnits } from "viem";
 
-import { isRenzo } from "@/config/app";
+import { useAllTokens } from "@/hooks/tokens/use-all-tokens";
 import { useTokenBalance } from "@/hooks/use-balances";
 import { useGetFormattedAmount } from "@/hooks/use-get-formatted-amount";
 import { useIsCustomToken } from "@/hooks/use-is-custom-token";
@@ -20,6 +20,7 @@ import { Recipient } from "./recipient";
 export const ERC20TokenInput = () => {
   const token = useSelectedToken();
   const { t } = useTranslation();
+  const tokens = useAllTokens();
 
   const rawAmount = useConfigState.useRawAmount();
   const stateToken = useConfigState.useToken();
@@ -73,7 +74,7 @@ export const ERC20TokenInput = () => {
           placeholder="0"
         />
 
-        {isRenzo ? (
+        {tokens.length === 1 ? (
           <div
             className={`flex shrink-0 relative gap-1 rounded-full pl-3 pr-3 items-center font-button transition-all text-foreground bg-card`}
           >

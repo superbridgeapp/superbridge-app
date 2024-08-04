@@ -1,41 +1,22 @@
 import { useMemo } from "react";
 
-import { ChainDto } from "@/codegen/model";
+import { isSuperbridge } from "@/config/app";
 import { useInjectedStore } from "@/state/injected";
-
-import { useAcrossDomains } from "./across/use-across-domains";
-import { useCctpDomains } from "./cctp/use-cctp-domains";
-import { useHyperlaneMailboxes } from "./hyperlane/use-hyperlane-mailboxes";
-import { useDeployments } from "./use-deployments";
 
 export const useAllChains = () => {
   return useInjectedStore((s) => s.chains);
 };
 
 export const useChains = () => {
-  const deployments = useDeployments();
-  const cctpDomains = useCctpDomains();
-  const acrossDomains = useAcrossDomains();
-  const hyperlaneMailboxes = useHyperlaneMailboxes();
+  const allChains = useAllChains();
+
+  const superbridgeTestnetsEnabled = useInjectedStore((s) => s.testnets);
 
   return useMemo(() => {
-    const byId: { [chainId: string]: ChainDto } = {};
-
-    for (const d of deployments) {
-      if (!byId[d.l1.id]) {
-        byId[d.l1.id] = d.l1;
-      }
-      if (!byId[d.l2.id]) {
-        byId[d.l2.id] = d.l2;
-      }
+    if (isSuperbridge) {
+      if (superbridgeTestnetsEnabled) return allChains.filter((c) => c.testnet);
+      else allChains.filter((c) => !c.testnet);
     }
-
-    [...cctpDomains, ...acrossDomains, ...hyperlaneMailboxes].forEach((d) => {
-      if (!byId[d.chain.id]) {
-        byId[d.chain.id] = d.chain;
-      }
-    });
-
-    return Object.values(byId);
-  }, [deployments, cctpDomains, acrossDomains, hyperlaneMailboxes]);
+    return allChains;
+  }, [allChains, superbridgeTestnetsEnabled]);
 };

@@ -44,15 +44,9 @@ export const useInitialInjectedState = (
     toChainId = props.deployments[0].l2.id;
   } else if (isSuperbridge) {
     // leave empty to use defaults
-  } else if (props.cctpDomains && props.cctpDomains.length >= 2) {
-    fromChainId = props.cctpDomains[0].chainId;
-    toChainId = props.cctpDomains[1].chainId;
-  } else if (props.acrossDomains && props.acrossDomains.length >= 2) {
-    fromChainId = props.acrossDomains[0].chain.id;
-    toChainId = props.acrossDomains[1].chain.id;
-  } else if (props.hyperlaneMailboxes && props.hyperlaneMailboxes.length >= 2) {
-    fromChainId = props.hyperlaneMailboxes[0].chain.id;
-    toChainId = props.hyperlaneMailboxes[1].chain.id;
+  } else if (props.chains && props.chains.length >= 2) {
+    fromChainId = props.chains[0].id;
+    toChainId = props.chains[1].id;
   }
 
   return {
@@ -60,7 +54,10 @@ export const useInitialInjectedState = (
     cctpDomains: props.cctpDomains ?? [],
     deployments: props.deployments ?? [],
     hyperlaneMailboxes: props.hyperlaneMailboxes ?? [],
-    superbridgeConfig: props.superbridgeConfig ?? null,
+    superbridgeConfig:
+      props.highlightedTokens && props.banner
+        ? { banner: props.banner, highlightedTokens: props.highlightedTokens }
+        : null,
     testnets: props.testnets ?? false,
     fromChainId,
     toChainId,

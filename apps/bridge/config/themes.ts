@@ -81,3 +81,31 @@ export const renzoTheme: Partial<ThemeDto> = {
   backgroundImageRepeat: "no-repeat",
   backgroundImageOpacity: "70",
 };
+
+export const hyperlaneTheme: Partial<ThemeDto> = {
+  darkModeEnabled: false,
+  background: "#2764c1",
+  muted: "rgba(255, 255, 255, 0.03)",
+  foreground: "#ffffff",
+  "muted-foreground": "rgba(141,142,175)",
+  primary: "#d631b9",
+  "primary-foreground": "#040512",
+  card: "rgba(19, 20, 35, .88)",
+  border: "rgba(187, 227, 219, 0.1)",
+  imageLogo: "/img/renzo/logo.svg",
+  imageLogoDark: "/img/renzo/logo.svg",
+  fontBody:
+    "https://renzo.superbridge.app/fonts/renzo/SpaceGrotesk-Medium.woff2",
+  fontButton:
+    "https://renzo.superbridge.app/fonts/renzo/SpaceGrotesk-Bold.woff2",
+  fontHeading:
+    "https://renzo.superbridge.app/fonts/renzo/SpaceGrotesk-Bold.woff2",
+
+  imageBackground: "/img/renzo/bg.jpg",
+  imageBackgroundDark: "/img/renzo/bg.jpg",
+  backgroundImageBlendMode: "normal",
+  backgroundImagePosition: "bottom center",
+  backgroundImageSize: "auto",
+  backgroundImageRepeat: "no-repeat",
+  backgroundImageOpacity: "70",
+};

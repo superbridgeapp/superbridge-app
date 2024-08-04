@@ -1,10 +1,10 @@
 import { ThemeDto } from "@/codegen/model";
 
+import { host } from "./host";
 import { renzoTheme, superbridgeTheme } from "./themes";
 
 export const isSuperbridge =
   process.env["NEXT_PUBLIC_APP_NAME"] === "superbridge";
-export const isRenzo = process.env["NEXT_PUBLIC_APP_NAME"] === "renzo";
 
 type AppConfig = {
   head: {
@@ -58,4 +58,27 @@ const renzo: AppConfig = {
   theme: renzoTheme,
 };
 
-export const app = isSuperbridge ? superbidge : isRenzo ? renzo : null;
+const hyperlane: AppConfig = {
+  head: {
+    name: "Hyperlane",
+    description: "Bridge tokens between supported Hyperlane chains",
+    og: "https://superbridge.app/og/superbridge-og-image.png",
+    favicon: "/img/superbridge/favicon-32x32.png",
+  },
+  images: {
+    logoLight: "/img/hyperlane/logo.jpg",
+    logoDark: "/img/hyperlane/logo.jpg",
+    logoLightSmall: "/img/hyperlane/logo.jpg",
+    logoDarkSmall: "/img/hyperlane/logo.jpg",
+  },
+  theme: renzoTheme,
+};
+
+const apps: { [x: string]: AppConfig | undefined } = {
+  ["superbridge.app"]: superbidge,
+  ["testnets.superbridge.app"]: superbidge,
+  ["renzo.superbridge.app"]: renzo,
+  ["hyperlane.superbridge.app"]: hyperlane,
+};
+
+export const app = apps[host] ?? null;

@@ -4,26 +4,13 @@ import type {
   InferGetServerSidePropsType,
 } from "next";
 
-import {
-  bridgeControllerGetAcrossDomains,
-  bridgeControllerGetBridgeConfigByDomain,
-  bridgeControllerGetCctpDomains,
-  bridgeControllerGetDeployments,
-  bridgeControllerGetDeploymentsByDomain,
-  bridgeControllerGetHyperlaneMailboxes,
-  bridgeControllerGetSuperbridgeConfig,
-} from "@/codegen";
+import { bridgeControllerGetBridgeConfigByDomain } from "@/codegen";
 import { Layout } from "@/components/Layout";
 import { PageTransition } from "@/components/PageTransition";
 import { Providers } from "@/components/Providers";
 import { Bridge } from "@/components/bridge";
 import { StatefulHead } from "@/components/head";
-import { isRenzo, isSuperbridge } from "@/config/app";
-import {
-  SUPERCHAIN,
-  SUPERCHAIN_MAINNETS,
-  SUPERCHAIN_TESTNETS,
-} from "@/constants/superbridge";
+import { developmentHost } from "@/config/host";
 import { useInitialInjectedState } from "@/hooks/use-initial-injected-state";
 import { InjectedStoreProvider } from "@/state/injected";
 import { ThemeProvider } from "@/state/theme";
@@ -41,113 +28,123 @@ export const getServerSideProps = async ({
     return { props: { deployments: [] } };
   }
 
-  if (isSuperbridge) {
-    const [name] = req.url.split(/[?\/]/).filter(Boolean);
+  let requestHost = req.headers.host;
 
-    let testnets = false;
-    if (
-      req.headers.host === "testnets.superbridge.app" ||
-      SUPERCHAIN_TESTNETS.includes(name)
-    ) {
-      testnets = true;
-    }
-
-    const [{ data }, cctpDomains, acrossDomains, superbridgeConfig] =
-      await Promise.all([
-        bridgeControllerGetDeployments({
-          names: [...SUPERCHAIN_MAINNETS, ...SUPERCHAIN_TESTNETS],
-        }),
-        bridgeControllerGetCctpDomains(),
-        bridgeControllerGetAcrossDomains(),
-        bridgeControllerGetSuperbridgeConfig(),
-      ]);
-
-    return {
-      props: {
-        deployments: data,
-        acrossDomains: acrossDomains.data,
-        cctpDomains: cctpDomains.data,
-        testnets,
-        superbridgeConfig: superbridgeConfig.data,
-      },
-    };
+  if (
+    req.headers.host?.includes("localhost") ||
+    req.headers.host?.includes("ngrok")
+  ) {
+    requestHost = developmentHost;
   }
 
-  if (isRenzo) {
-    const [hyperlaneMailboxes, config] = await Promise.all([
-      bridgeControllerGetHyperlaneMailboxes(),
-      bridgeControllerGetBridgeConfigByDomain("renzo.superbridge.app"),
-    ]);
+  const config = await bridgeControllerGetBridgeConfigByDomain(requestHost);
 
-    return {
-      props: {
-        hyperlaneMailboxes: hyperlaneMailboxes.data,
-        tokens: config.data.tokens as MultiChainToken[],
-        chains: config.data.chains,
-      },
-    };
-  }
+  return {
+    props: {
+      chains: config.data.chains,
+      deployments: config.data.deployments,
+      acrossDomains: config.data.acrossDomains,
+      cctpDomains: config.data.cctpDomains,
+      hyperlaneMailboxes: config.data.hyperlaneMailboxes,
+      banner: config.data.banner,
+      highlightedTokens: config.data.highlightedTokens,
+      tokens: config.data.tokens as MultiChainToken[],
+      testnets: false,
+    },
+  };
 
-  const name = (() => {
-    if (
-      req.headers.host?.includes("localhost") ||
-      req.headers.host?.includes("ngrok")
-    ) {
-      return "op-sepolia";
-    }
+  // if (isSuperbridge) {
+  //   const [name] = req.url.split(/[?\/]/).filter(Boolean);
 
-    // these need to go last so they don't clash with devnets. or testnets. subdomains
-    const [id] = req.headers.host?.split(".");
+  //   let testnets = false;
+  //   if (
+  //     req.headers.host === "testnets.superbridge.app" ||
+  //     SUPERCHAIN_TESTNETS.includes(name)
+  //   ) {
+  //     testnets = true;
+  //   }
 
-    // [id].devnets.superbridge|rollbridge.app
-    // [id].test.devnets.superbridge|rollbridge.app
-    if (
-      req.headers.host.includes("devnets.superbridge.app") ||
-      req.headers.host.includes("devnets.rollbridge.app")
-    ) {
-      return id;
-    }
+  //   const [{ data }, cctpDomains, acrossDomains, superbridgeConfig] =
+  //     await Promise.all([
+  //       bridgeControllerGetDeployments({
+  //         names: [...SUPERCHAIN_MAINNETS, ...SUPERCHAIN_TESTNETS],
+  //       }),
+  //       bridgeControllerGetCctpDomains(),
+  //       bridgeControllerGetAcrossDomains(),
+  //       bridgeControllerGetSuperbridgeConfig(),
+  //     ]);
 
-    // [id].testnets.superbridge|rollbridge.app
-    // [id].test.testnets.superbridge|rollbridge.app
-    if (
-      req.headers.host.includes("testnets.superbridge.app") ||
-      req.headers.host.includes("testnets.rollbridge.app")
-    ) {
-      return id;
-    }
+  //   return {
+  //     props: {
+  //       deployments: data,
+  //       acrossDomains: acrossDomains.data,
+  //       cctpDomains: cctpDomains.data,
+  //       testnets,
+  //       superbridgeConfig: superbridgeConfig.data,
+  //     },
+  //   };
+  // }
 
-    // [id].mainnets.superbridge|rollbridge.app
-    // [id].test.mainnets.superbridge|rollbridge.app
-    if (
-      req.headers.host.includes("mainnets.superbridge.app") ||
-      req.headers.host.includes("mainnets.rollbridge.app")
-    ) {
-      return id;
-    }
+  // const name = (() => {
+  //   if (
+  //     req.headers.host?.includes("localhost") ||
+  //     req.headers.host?.includes("ngrok")
+  //   ) {
+  //     return "op-sepolia";
+  //   }
 
-    return null;
-  })();
+  //   // these need to go last so they don't clash with devnets. or testnets. subdomains
+  //   const [id] = req.headers.host?.split(".");
 
-  if (name) {
-    const [{ data }, cctpDomains, config] = await Promise.all([
-      bridgeControllerGetDeployments({
-        names: [name],
-      }),
-      SUPERCHAIN.includes(name) ? bridgeControllerGetCctpDomains() : null,
+  //   // [id].devnets.superbridge|rollbridge.app
+  //   // [id].test.devnets.superbridge|rollbridge.app
+  //   if (
+  //     req.headers.host.includes("devnets.superbridge.app") ||
+  //     req.headers.host.includes("devnets.rollbridge.app")
+  //   ) {
+  //     return id;
+  //   }
 
-      bridgeControllerGetBridgeConfigByDomain(""),
-    ]);
-    return {
-      props: { deployments: data, cctpDomains: cctpDomains?.data ?? [] },
-    };
-  }
+  //   // [id].testnets.superbridge|rollbridge.app
+  //   // [id].test.testnets.superbridge|rollbridge.app
+  //   if (
+  //     req.headers.host.includes("testnets.superbridge.app") ||
+  //     req.headers.host.includes("testnets.rollbridge.app")
+  //   ) {
+  //     return id;
+  //   }
 
-  const { data } = await bridgeControllerGetDeploymentsByDomain(
-    req.headers.host
-  );
+  //   // [id].mainnets.superbridge|rollbridge.app
+  //   // [id].test.mainnets.superbridge|rollbridge.app
+  //   if (
+  //     req.headers.host.includes("mainnets.superbridge.app") ||
+  //     req.headers.host.includes("mainnets.rollbridge.app")
+  //   ) {
+  //     return id;
+  //   }
 
-  return { props: { deployments: data } };
+  //   return null;
+  // })();
+
+  // if (name) {
+  //   const [{ data }, cctpDomains, config] = await Promise.all([
+  //     bridgeControllerGetDeployments({
+  //       names: [name],
+  //     }),
+  //     SUPERCHAIN.includes(name) ? bridgeControllerGetCctpDomains() : null,
+
+  //     bridgeControllerGetBridgeConfigByDomain(""),
+  //   ]);
+  //   return {
+  //     props: { deployments: data, cctpDomains: cctpDomains?.data ?? [] },
+  //   };
+  // }
+
+  // const { data } = await bridgeControllerGetDeploymentsByDomain(
+  //   req.headers.host
+  // );
+
+  // return { props: { deployments: data } };
 };
 
 export default function IndexRoot(

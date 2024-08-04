@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
 
 import { ThemeDto } from "@/codegen/model";
-import { isRenzo, isSuperbridge } from "@/config/app";
+import { app } from "@/config/app";
 import {
   defaultBodyFont,
   defaultButtonFont,
   defaultHeadingFont,
 } from "@/config/fonts";
-import { renzoTheme, superbridgeTheme } from "@/config/themes";
 
 import { useDeployment } from "./use-deployment";
 
@@ -56,16 +55,9 @@ export const useInitialiseTheme = () => {
   );
 
   useEffect(() => {
-    if (isSuperbridge) {
-      updateTheme(superbridgeTheme);
-      setThemeValues(superbridgeTheme);
-      return;
-    }
-
-    if (isRenzo) {
-      updateTheme(renzoTheme);
-      setThemeValues(renzoTheme);
-      return;
+    if (app) {
+      updateTheme(app.theme);
+      setThemeValues(app.theme);
     }
 
     const theme = deployment?.theme?.theme;
