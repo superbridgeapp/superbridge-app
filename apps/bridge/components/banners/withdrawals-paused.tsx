@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { base, optimism } from "viem/chains";
 
-import { useDeployment } from "@/hooks/use-deployment";
+import { useDeployment } from "@/hooks/deployments/use-deployment";
 
 const links: { [x: number]: string | undefined } = {
   [base.id]: "https://status.base.org/",

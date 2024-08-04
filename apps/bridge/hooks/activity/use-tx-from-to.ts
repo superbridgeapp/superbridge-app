@@ -5,50 +5,63 @@ import {
   isDeposit,
   isForcedWithdrawal,
   isHyperlaneBridge,
+  isWithdrawal,
 } from "@/utils/guards";
 
-import { useAcrossDomains } from "../across/use-across-domains";
+import { useDeployments } from "../deployments/use-deployments";
 import { useHyperlaneMailboxes } from "../hyperlane/use-hyperlane-mailboxes";
-import { useDeployments } from "../use-deployments";
+import { useChain } from "../use-chain";
 
 export const useTxFromTo = (tx: Transaction | undefined | null) => {
-  const acrossDomains = useAcrossDomains();
   const deployments = useDeployments();
   const hyperlaneMailboxes = useHyperlaneMailboxes();
 
-  if (!tx) {
-    return null;
-  }
+  let fromChainId = 0;
+  let toChainId = 0;
 
-  if (isForcedWithdrawal(tx)) {
+  if (tx && isForcedWithdrawal(tx)) {
     const deployment = deployments.find(
       (d) => tx.deposit.deploymentId === d.id
     )!;
-    return { from: deployment.l2, to: deployment.l1 };
+    fromChainId = deployment.l2ChainId;
+    toChainId = deployment.l1ChainId;
   }
 
-  if (isCctpBridge(tx)) {
-    return { from: tx.from, to: tx.to };
+  if (tx && isCctpBridge(tx)) {
+    fromChainId = tx.fromChainId;
+    toChainId = tx.toChainId;
   }
 
-  if (isAcrossBridge(tx)) {
-    const from = acrossDomains.find(
-      (x) => x.chain.id === tx.fromChainId
-    )!.chain;
-    const to = acrossDomains.find((x) => x.chain.id === tx.toChainId)!.chain;
-    return { from, to };
+  if (tx && isAcrossBridge(tx)) {
+    fromChainId = tx.fromChainId;
+    toChainId = tx.toChainId;
   }
 
-  if (isHyperlaneBridge(tx)) {
-    const from = hyperlaneMailboxes.find(
-      (x) => x.domain === tx.fromDomain
-    )!.chain;
-    const to = hyperlaneMailboxes.find((x) => x.domain === tx.toDomain)!.chain;
-    return { from, to };
+  if (tx && isHyperlaneBridge(tx)) {
+    fromChainId =
+      hyperlaneMailboxes.find((x) => x.domain === tx.fromDomain)?.chainId ?? 0;
+    toChainId =
+      hyperlaneMailboxes.find((x) => x.domain === tx.toDomain)?.chainId ?? 0;
   }
 
-  const deployment = deployments.find((d) => tx?.deploymentId === d.id)!;
-  return isDeposit(tx)
-    ? { from: deployment.l1, to: deployment.l2 }
-    : { from: deployment.l2, to: deployment.l1 };
+  if (tx && isDeposit(tx)) {
+    const deployment = deployments.find((d) => tx?.deploymentId === d.id);
+    fromChainId = deployment?.l1ChainId ?? 0;
+    toChainId = deployment?.l2ChainId ?? 0;
+  }
+
+  if (tx && isWithdrawal(tx)) {
+    const deployment = deployments.find((d) => tx?.deploymentId === d.id);
+    fromChainId = deployment?.l2ChainId ?? 0;
+    toChainId = deployment?.l1ChainId ?? 0;
+  }
+
+  const from = useChain(fromChainId);
+  const to = useChain(toChainId);
+
+  if (!from || !to) {
+    return null;
+  }
+
+  return { from, to };
 };

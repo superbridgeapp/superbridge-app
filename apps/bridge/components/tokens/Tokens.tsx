@@ -6,11 +6,11 @@ import { Address, Chain, formatUnits, isAddress, isAddressEqual } from "viem";
 
 import { ChainDto } from "@/codegen/model";
 import { Input } from "@/components/ui/input";
+import { useDeployment } from "@/hooks/deployments/use-deployment";
 import { useSetToken } from "@/hooks/tokens/use-set-token";
 import { useSelectedToken } from "@/hooks/tokens/use-token";
 import { useTokenBalances } from "@/hooks/use-balances";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
-import { useDeployment } from "@/hooks/use-deployment";
 import { useIsCustomToken } from "@/hooks/use-is-custom-token";
 import { useIsCustomTokenFromList } from "@/hooks/use-is-custom-token-from-list";
 import { trackEvent } from "@/services/ga";
@@ -313,7 +313,7 @@ export const FungibleTokenPicker = ({
       highlightedTokens.find(
         (x) =>
           x.deploymentName === deployment?.name &&
-          t[deployment.l1.id ?? 0]?.address.toLowerCase() ===
+          t[deployment.l1ChainId]?.address.toLowerCase() ===
             x.address.toLowerCase()
       )
     ) {

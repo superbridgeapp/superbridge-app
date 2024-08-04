@@ -25,7 +25,7 @@ import { wsteth } from "@/utils/token-list/json/wsteth";
 import { transformArbitrumTokenList } from "@/utils/token-list/transform-arbitrum-token-list";
 import { transformIntoOptimismToken } from "@/utils/token-list/transform-optimism-token";
 
-import { useDeployments } from "./use-deployments";
+import { useDeployments } from "./deployments/use-deployments";
 
 export const useTokenLists = () => {
   const deployments = useDeployments();

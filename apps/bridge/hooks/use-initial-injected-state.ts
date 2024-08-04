@@ -31,17 +31,17 @@ export const useInitialInjectedState = (
     );
     if (deployment) {
       if (router.query.direction === "withdraw") {
-        fromChainId = deployment.l2.id;
-        toChainId = deployment.l1.id;
+        fromChainId = deployment.l2ChainId;
+        toChainId = deployment.l1ChainId;
       } else {
-        fromChainId = deployment.l1.id;
-        toChainId = deployment.l2.id;
+        fromChainId = deployment.l1ChainId;
+        toChainId = deployment.l2ChainId;
       }
     }
     // rollie
   } else if (props.deployments?.length === 1) {
-    fromChainId = props.deployments[0].l1.id;
-    toChainId = props.deployments[0].l2.id;
+    fromChainId = props.deployments[0].l1ChainId;
+    toChainId = props.deployments[0].l2ChainId;
   } else if (isSuperbridge) {
     // leave empty to use defaults
   } else if (props.chains && props.chains.length >= 2) {

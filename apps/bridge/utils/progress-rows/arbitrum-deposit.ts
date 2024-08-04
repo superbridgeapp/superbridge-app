@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 
 import { DeploymentDto } from "@/codegen/model";
-import { usePeriodText } from "@/hooks/use-period-text";
+import { useChain } from "@/hooks/use-chain";
 import { usePendingTransactions } from "@/state/pending-txs";
 import { Transaction } from "@/types/transaction";
 
@@ -13,10 +13,11 @@ export const useArbitrumDepositProgressRows = (
   deployment: DeploymentDto | null
 ): ActivityStep[] | null => {
   const { t } = useTranslation();
-  const transformPeriodText = usePeriodText();
+  const l1 = useChain(deployment?.l1ChainId);
+  const l2 = useChain(deployment?.l2ChainId);
   const pendingFinalises = usePendingTransactions.usePendingFinalises();
 
-  if (!tx || !isArbitrumDeposit(tx) || !deployment) {
+  if (!tx || !isArbitrumDeposit(tx) || !deployment || !l1 || !l2) {
     return null;
   }
 
@@ -24,7 +25,7 @@ export const useArbitrumDepositProgressRows = (
     ? {
         label: t("Receive"),
         button: undefined,
-        chain: deployment.l2,
+        chain: l2,
         hash: tx.relay.transactionHash,
         pendingHash: undefined,
         fee: undefined,
@@ -37,14 +38,14 @@ export const useArbitrumDepositProgressRows = (
           type: ButtonComponent.Redeem,
           enabled: true,
         },
-        chain: deployment.l2,
+        chain: l2,
         hash: undefined,
         pendingHash: pendingFinalises[tx.id],
       }
     : {
         label: t("Receive"),
         button: undefined,
-        chain: deployment.l2,
+        chain: l2,
         fee: undefined,
         hash: undefined,
         pendingHash: undefined,
@@ -58,7 +59,7 @@ export const useArbitrumDepositProgressRows = (
         ? undefined
         : tx.deposit.transactionHash,
       button: undefined,
-      chain: deployment.l1,
+      chain: l1,
     },
     buildWaitStep(
       tx.deposit.timestamp,

@@ -4,9 +4,9 @@ import { useEffect, useState } from "react";
 
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { useCancelBridge } from "@/hooks/bridge/use-cancel-bridge";
+import { useDeployment } from "@/hooks/deployments/use-deployment";
 import { useSelectedToken } from "@/hooks/tokens/use-token";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
-import { useDeployment } from "@/hooks/use-deployment";
 import { useConfigState } from "@/state/config";
 import { useModalsState } from "@/state/modals";
 

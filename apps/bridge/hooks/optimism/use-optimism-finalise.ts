@@ -3,7 +3,7 @@ import { BridgeWithdrawalDto } from "@/codegen/model";
 import { trackEvent } from "@/services/ga";
 import { usePendingTransactions } from "@/state/pending-txs";
 
-import { useDeploymentById } from "../use-deployment-by-id";
+import { useDeploymentById } from "../deployments/use-deployment-by-id";
 import { useSendTransactionDto } from "../use-send-transaction-dto";
 
 export function useFinaliseOptimism({

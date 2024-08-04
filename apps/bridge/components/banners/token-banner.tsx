@@ -1,5 +1,5 @@
+import { useDeployments } from "@/hooks/deployments/use-deployments";
 import { useSetToken } from "@/hooks/tokens/use-set-token";
-import { useDeployments } from "@/hooks/use-deployments";
 import { trackEvent } from "@/services/ga";
 import { useConfigState } from "@/state/config";
 import { useInjectedStore } from "@/state/injected";
@@ -22,16 +22,16 @@ export function TokenBanner() {
 
     trackEvent({ event: "token-banner-click", symbol });
 
-    setFromChainId(deployment.l1.id);
-    setToChainId(deployment.l2.id);
+    setFromChainId(deployment.l1ChainId);
+    setToChainId(deployment.l2ChainId);
 
     setTimeout(() => {
       const token = useConfigState
         .getState()
         .tokens.find((x) => x[1]?.symbol === symbol);
       if (token) {
-        const l1 = token[deployment.l1.id];
-        const l2 = token[deployment.l2.id];
+        const l1 = token[deployment.l1ChainId];
+        const l2 = token[deployment.l2ChainId];
         if (l1 && l2) {
           setToken(l1, l2);
         }

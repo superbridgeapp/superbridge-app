@@ -146,8 +146,8 @@ export const buildPendingTx = (
           id: Math.random().toString(),
           createdAt: new Date().toString(),
           updatedAt: new Date().toString(),
-          l1ChainId: deployment.l1.id,
-          l2ChainId: deployment.l2.id,
+          l1ChainId: deployment.l1ChainId,
+          l2ChainId: deployment.l2ChainId,
           metadata,
           l2TransactionHash: "", // not used on the frontend
           // @ts-expect-error
@@ -165,8 +165,8 @@ export const buildPendingTx = (
         id: Math.random().toString(),
         createdAt: new Date().toString(),
         updatedAt: new Date().toString(),
-        l1ChainId: deployment.l1.id,
-        l2ChainId: deployment.l2.id,
+        l1ChainId: deployment.l1ChainId,
+        l2ChainId: deployment.l2ChainId,
         from: account,
         to: account,
         // @ts-expect-error

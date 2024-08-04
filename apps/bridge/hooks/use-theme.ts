@@ -4,8 +4,8 @@ import { bsc, bscTestnet, holesky, mainnet, sepolia } from "viem/chains";
 
 import { ThemeContext } from "@/state/theme";
 
-import { useDeployment } from "./use-deployment";
-import { useDeployments } from "./use-deployments";
+import { useDeployment } from "./deployments/use-deployment";
+import { useDeployments } from "./deployments/use-deployments";
 
 export const defaultImages = {
   nav: "https://raw.githubusercontent.com/superbridgeapp/assets/f173992662b83e832b24e385da017ffdbd0138b8/rollies/sb-rollies-stamp.svg",

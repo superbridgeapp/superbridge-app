@@ -6,7 +6,7 @@ import {
   isHyperlaneBridge,
 } from "@/utils/guards";
 
-import { useDeploymentById } from "../use-deployment-by-id";
+import { useDeploymentById } from "../deployments/use-deployment-by-id";
 
 export const useTxDeployment = (tx: Transaction | undefined | null) => {
   return (

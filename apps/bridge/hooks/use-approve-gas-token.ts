@@ -5,11 +5,11 @@ import { useConfig, useWriteContract } from "wagmi";
 import { getNativeTokenForDeployment } from "@/utils/get-native-token";
 import { isArbitrum, isOptimism } from "@/utils/is-mainnet";
 
+import { useDeployment } from "./deployments/use-deployment";
+import { useDeploymentById } from "./deployments/use-deployment-by-id";
 import { useApprovalAddressGasToken } from "./use-approval-address-gas-token";
 import { APPROVE_ABI_WITHOUT_RETURN } from "./use-approve";
 import { useFromChain } from "./use-chain";
-import { useDeployment } from "./use-deployment";
-import { useDeploymentById } from "./use-deployment-by-id";
 import { useRequiredCustomGasTokenBalance } from "./use-required-custom-gas-token-balance";
 import { useWeiAmount } from "./use-wei-amount";
 

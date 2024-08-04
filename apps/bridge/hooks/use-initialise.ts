@@ -5,8 +5,8 @@ import { useConfigState } from "@/state/config";
 import { usePendingTransactions } from "@/state/pending-txs";
 import { isMainnet, isOptimism } from "@/utils/is-mainnet";
 
+import { useDeployment } from "./deployments/use-deployment";
 import { useActivityEffects } from "./use-activity-effects";
-import { useDeployment } from "./use-deployment";
 import { useInitialiseQueryParams } from "./use-initialise-query-params";
 import { useInitialiseRecipient } from "./use-initialise-recipient";
 import { useIsContractAccount } from "./use-is-contract-account";

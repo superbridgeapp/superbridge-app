@@ -7,7 +7,7 @@ import {
   defaultButtonFont,
   defaultHeadingFont,
 } from "@/config/fonts";
-import { useDeployment } from "@/hooks/use-deployment";
+import { useDeployment } from "@/hooks/deployments/use-deployment";
 
 function useMetadata(deployment: DeploymentDto | null | undefined) {
   if (app) {

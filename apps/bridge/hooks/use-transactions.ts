@@ -6,8 +6,8 @@ import { bridgeControllerGetActivityV3 } from "@/codegen";
 import { isSuperbridge } from "@/config/app";
 import { useInjectedStore } from "@/state/injected";
 
+import { useDeployments } from "./deployments/use-deployments";
 import { useHyperlaneMailboxes } from "./hyperlane/use-hyperlane-mailboxes";
-import { useDeployments } from "./use-deployments";
 
 export const useTransactions = () => {
   const account = useAccount();

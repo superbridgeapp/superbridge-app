@@ -9,7 +9,7 @@ import { optimismFaultProofsUpgrade } from "@/constants/links";
 import { AlertModals } from "@/constants/modal-names";
 import { useCancelBridge } from "@/hooks/bridge/use-cancel-bridge";
 import { useDismissAlert } from "@/hooks/bridge/use-dismiss-alert";
-import { useDeployment } from "@/hooks/use-deployment";
+import { useDeployment } from "@/hooks/deployments/use-deployment";
 import { useModalsState } from "@/state/modals";
 
 export const FaultProofsModal = () => {

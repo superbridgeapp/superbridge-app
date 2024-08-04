@@ -1,4 +1,4 @@
-import { useDeployment } from "@/hooks/use-deployment";
+import { useDeployment } from "@/hooks/deployments/use-deployment";
 
 import { Banners } from "./banners";
 import { BridgeBadges } from "./bridge-badges";

@@ -11,8 +11,8 @@ import { useModalsState } from "@/state/modals";
 import { isEth } from "@/utils/is-eth";
 
 import { useIsCctpRoute } from "../cctp/use-is-cctp-route";
+import { useDeployment } from "../deployments/use-deployment";
 import { useDestinationToken } from "../tokens/use-token";
-import { useDeployment } from "../use-deployment";
 import { useIsWithdrawal } from "../use-withdrawing";
 import { useInitiateBridge } from "./use-initiate-bridge";
 

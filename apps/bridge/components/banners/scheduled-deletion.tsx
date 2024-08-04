@@ -1,6 +1,6 @@
 import clsx from "clsx";
 
-import { useDeployment } from "@/hooks/use-deployment";
+import { useDeployment } from "@/hooks/deployments/use-deployment";
 
 import { IconAlert } from "../icons";
 

@@ -2,7 +2,7 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Image from "next/image";
 
 import { app, isSuperbridge } from "@/config/app";
-import { useDeployments } from "@/hooks/use-deployments";
+import { useDeployments } from "@/hooks/deployments/use-deployments";
 import { useNavigate } from "@/hooks/use-navigate";
 import { useNavIcon } from "@/hooks/use-theme";
 

@@ -18,9 +18,9 @@ import { usePendingTransactions } from "@/state/pending-txs";
 import { buildPendingTx } from "@/utils/build-pending-tx";
 import { isRouteQuote } from "@/utils/guards";
 
+import { useDeployment } from "../deployments/use-deployment";
 import { useHyperlaneMailboxes } from "../hyperlane/use-hyperlane-mailboxes";
 import { useAllowanceGasToken } from "../use-allowance-gas-token";
-import { useDeployment } from "../use-deployment";
 import { useInitiatingChainId } from "../use-initiating-chain-id";
 import { useSelectedBridgeRoute } from "../use-selected-bridge-route";
 import { useWeiAmount } from "../use-wei-amount";

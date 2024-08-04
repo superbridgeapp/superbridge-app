@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 
 import { DeploymentDto, DeploymentType } from "@/codegen/model";
 import { BridgePlaceholder } from "@/components/bridge-placeholder";
-import { useDeployments } from "@/hooks/use-deployments";
+import { useDeployments } from "@/hooks/deployments/use-deployments";
 import { useNavigate } from "@/hooks/use-navigate";
 
 const spring = {

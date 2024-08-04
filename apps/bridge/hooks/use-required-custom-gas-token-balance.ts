@@ -1,8 +1,8 @@
 import { Address, isAddressEqual } from "viem";
 
+import { useDeployment } from "@/hooks/deployments/use-deployment";
 import { useGasToken } from "@/hooks/use-approve-gas-token";
 import { useBaseNativeTokenBalance } from "@/hooks/use-base-native-token-balance";
-import { useDeployment } from "@/hooks/use-deployment";
 import { useWeiAmount } from "@/hooks/use-wei-amount";
 
 import { useArbitrumGasCostsInWei } from "./arbitrum/use-arbitrum-gas-costs";

@@ -4,7 +4,7 @@ import { trackEvent } from "@/services/ga";
 import { useConfigState } from "@/state/config";
 import { usePendingTransactions } from "@/state/pending-txs";
 
-import { useDeploymentById } from "../use-deployment-by-id";
+import { useDeploymentById } from "../deployments/use-deployment-by-id";
 import { useFaultProofUpgradeTime } from "../use-fault-proof-upgrade-time";
 import { useSendTransactionDto } from "../use-send-transaction-dto";
 

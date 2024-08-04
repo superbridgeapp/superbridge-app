@@ -2,6 +2,7 @@ import { useTranslation } from "react-i18next";
 
 import { DeploymentDto } from "@/codegen/model";
 import { FINALIZE_GAS } from "@/constants/gas-limits";
+import { useChain } from "@/hooks/use-chain";
 import { usePendingTransactions } from "@/state/pending-txs";
 import { Transaction } from "@/types/transaction";
 
@@ -20,8 +21,10 @@ export const useArbitrumWithdrawalProgressRows = (
 ): ActivityStep[] | null => {
   const { t } = useTranslation();
   const pendingFinalises = usePendingTransactions.usePendingFinalises();
+  const l1 = useChain(deployment?.l1ChainId);
+  const l2 = useChain(deployment?.l2ChainId);
 
-  if (!w || !isArbitrumWithdrawal(w) || !deployment) {
+  if (!w || !isArbitrumWithdrawal(w) || !deployment || !l1 || !l2) {
     return null;
   }
 
@@ -33,7 +36,7 @@ export const useArbitrumWithdrawalProgressRows = (
     pendingHash: w.withdrawal.timestamp
       ? undefined
       : w.withdrawal.transactionHash,
-    chain: deployment.l1,
+    chain: l2,
     button: undefined,
   };
 
@@ -41,7 +44,7 @@ export const useArbitrumWithdrawalProgressRows = (
     label: t("buttons.finalize"),
     pendingHash: pendingFinalise,
     hash: w.finalise?.transactionHash,
-    chain: deployment.l1,
+    chain: l1,
     button: {
       type: ButtonComponent.Finalise,
       enabled: isButtonEnabled(

@@ -5,7 +5,7 @@ import { mainnet, sepolia, syscoin } from "viem/chains";
 
 import { ChainDto } from "@/codegen/model";
 import { chainIcons } from "@/config/chain-icon-overrides";
-import { useDeployments } from "@/hooks/use-deployments";
+import { useDeployments } from "@/hooks/deployments/use-deployments";
 import { useNetworkIcon } from "@/hooks/use-theme";
 
 export const L1_BASE_CHAINS: number[] = [

@@ -11,7 +11,7 @@ import { Trans, useTranslation } from "react-i18next";
 import ReactMarkdown from "react-markdown";
 
 import { isSuperbridge } from "@/config/app";
-import { useDeployment } from "@/hooks/use-deployment";
+import { useDeployment } from "@/hooks/deployments/use-deployment";
 import { useMetadata } from "@/hooks/use-metadata";
 import { useConfigState } from "@/state/config";
 import { useSettingsState } from "@/state/settings";

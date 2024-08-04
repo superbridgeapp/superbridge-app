@@ -7,8 +7,10 @@ import {
 } from "@/constants/superbridge";
 import { useInjectedStore } from "@/state/injected";
 
+import { useAllDeployments } from "./use-all-deployments";
+
 export const useDeployments = () => {
-  const allDeployments = useInjectedStore((store) => store.deployments);
+  const allDeployments = useAllDeployments();
   const testnets = useInjectedStore((store) => store.testnets);
 
   return useMemo(() => {

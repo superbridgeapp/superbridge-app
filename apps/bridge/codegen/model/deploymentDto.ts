@@ -32,7 +32,9 @@ export interface DeploymentDto {
   finalizeDuration: number;
   id: string;
   l1: ChainDto;
+  l1ChainId: number;
   l2: ChainDto;
+  l2ChainId: number;
   name: string;
   /** @nullable */
   proveDuration: number | null;

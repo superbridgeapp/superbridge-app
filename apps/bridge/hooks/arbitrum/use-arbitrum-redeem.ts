@@ -8,7 +8,7 @@ import {
 } from "@/codegen/model";
 import { isArbitrumDeposit } from "@/utils/guards";
 
-import { useDeploymentById } from "../use-deployment-by-id";
+import { useDeploymentById } from "../deployments/use-deployment-by-id";
 
 export function useRedeemArbitrum(
   tx: ArbitrumDepositRetryableDto | ArbitrumForcedWithdrawalDto

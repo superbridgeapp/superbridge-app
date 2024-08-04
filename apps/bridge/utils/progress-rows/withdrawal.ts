@@ -2,6 +2,7 @@ import { useTranslation } from "react-i18next";
 
 import { DeploymentDto } from "@/codegen/model";
 import { FINALIZE_GAS, PROVE_GAS } from "@/constants/gas-limits";
+import { useChain } from "@/hooks/use-chain";
 import { usePendingTransactions } from "@/state/pending-txs";
 import { Transaction } from "@/types/transaction";
 
@@ -21,8 +22,10 @@ export const useOptimismWithdrawalProgressRows = (
   const pendingFinalises = usePendingTransactions.usePendingFinalises();
   const pendingProves = usePendingTransactions.usePendingProves();
   const { t } = useTranslation();
+  const l1 = useChain(deployment?.l1ChainId);
+  const l2 = useChain(deployment?.l2ChainId);
 
-  if (!w || !isOptimismWithdrawal(w) || !deployment) {
+  if (!w || !isOptimismWithdrawal(w) || !deployment || !l1 || !l2) {
     return null;
   }
 
@@ -35,7 +38,7 @@ export const useOptimismWithdrawalProgressRows = (
     pendingHash: w.withdrawal.timestamp
       ? undefined
       : w.withdrawal.transactionHash,
-    chain: deployment.l2,
+    chain: l2,
     button: undefined,
   };
 
@@ -43,7 +46,7 @@ export const useOptimismWithdrawalProgressRows = (
     label: t("buttons.prove"),
     pendingHash: pendingProve,
     hash: w.prove?.transactionHash,
-    chain: deployment.l1,
+    chain: l1,
     button: {
       type: ButtonComponent.Prove,
       enabled: isButtonEnabled(w.withdrawal.timestamp, w.proveDuration),
@@ -55,7 +58,7 @@ export const useOptimismWithdrawalProgressRows = (
     label: t("buttons.finalize"),
     pendingHash: pendingFinalise,
     hash: w.finalise?.transactionHash,
-    chain: deployment.l1,
+    chain: l1,
     button: {
       type: ButtonComponent.Finalise,
       enabled: isButtonEnabled(w.prove?.timestamp, w.finalizeDuration),

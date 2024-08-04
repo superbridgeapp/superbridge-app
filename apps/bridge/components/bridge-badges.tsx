@@ -2,8 +2,8 @@ import { isPresent } from "ts-is-present";
 
 import { DeploymentType } from "@/codegen/model";
 import { isSuperbridge } from "@/config/app";
-import { useDeployment } from "@/hooks/use-deployment";
-import { useDeployments } from "@/hooks/use-deployments";
+import { useDeployment } from "@/hooks/deployments/use-deployment";
+import { useDeployments } from "@/hooks/deployments/use-deployments";
 import { useInjectedStore } from "@/state/injected";
 
 import { PoweredByConduit } from "./badges/powered-by-conduit-badge";

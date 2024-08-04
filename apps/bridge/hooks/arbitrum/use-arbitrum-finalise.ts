@@ -6,7 +6,8 @@ import { useBridgeControllerGetArbitrumFinaliseTransactionV2 } from "@/codegen";
 import { ArbitrumWithdrawalDto } from "@/codegen/model";
 import { usePendingTransactions } from "@/state/pending-txs";
 
-import { useDeploymentById } from "../use-deployment-by-id";
+import { useDeploymentById } from "../deployments/use-deployment-by-id";
+import { useChain } from "../use-chain";
 import { useSwitchChain } from "../use-switch-chain";
 
 export function useFinaliseArbitrum({
@@ -21,16 +22,17 @@ export function useFinaliseArbitrum({
     useBridgeControllerGetArbitrumFinaliseTransactionV2();
   const switchChain = useSwitchChain();
   const deployment = useDeploymentById(deploymentId);
+  const l1 = useChain(deployment?.l1ChainId);
 
   const [loading, setLoading] = useState(false);
 
   const onFinalise = async () => {
-    if (!account.address || !wallet.data || !deployment) {
+    if (!account.address || !wallet.data || !deployment || !l1) {
       return;
     }
 
-    if (account.chainId !== deployment.l1.id) {
-      await switchChain(deployment.l1);
+    if (account.chainId !== l1.id) {
+      await switchChain(l1);
     }
 
     try {
@@ -40,7 +42,7 @@ export function useFinaliseArbitrum({
       const hash = await wallet.data.sendTransaction({
         to: data.data.to as Address,
         data: data.data.data as Address,
-        chain: deployment.l1 as unknown as Chain,
+        chain: l1 as unknown as Chain,
       });
       if (hash) {
         // rainbow just returns null if cancelled

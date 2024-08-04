@@ -1,7 +1,7 @@
 import { DeploymentDto } from "@/codegen/model";
 import { app } from "@/config/app";
 
-import { useDeployment } from "./use-deployment";
+import { useDeployment } from "./deployments/use-deployment";
 
 export const getMetadata = (deployment: DeploymentDto | null) => {
   if (app) {

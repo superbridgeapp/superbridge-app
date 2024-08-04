@@ -4,7 +4,7 @@ import { Address } from "viem";
 import { DeploymentFamily } from "@/codegen/model";
 import { MultiChainToken } from "@/types/token";
 
-import { useDeployments } from "../use-deployments";
+import { useDeployments } from "../deployments/use-deployments";
 
 export function useDeploymentTokens(): MultiChainToken[] {
   const deployments = useDeployments();

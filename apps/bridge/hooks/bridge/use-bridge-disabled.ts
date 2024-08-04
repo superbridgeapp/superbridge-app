@@ -1,4 +1,4 @@
-import { useDeployment } from "../use-deployment";
+import { useDeployment } from "../deployments/use-deployment";
 import { useIsArbitrumDeposit } from "../use-withdrawing";
 
 export const useBridgeDisabled = () => {

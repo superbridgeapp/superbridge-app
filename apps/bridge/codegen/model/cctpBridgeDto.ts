@@ -16,9 +16,11 @@ export interface CctpBridgeDto {
   deploymentId: string;
   duration: number;
   from: ChainDto;
+  fromChainId: number;
   id: string;
   relay?: ConfirmationDto;
   to: ChainDto;
+  toChainId: number;
   token: string;
   type: CctpTransactionType;
   updatedAt: string;

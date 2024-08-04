@@ -1,9 +1,8 @@
 import { useRouter } from "next/router";
 
 import { useConfigState } from "@/state/config";
-import { useInjectedStore } from "@/state/injected";
 
-import { useDeployments } from "./use-deployments";
+import { useDeployments } from "./deployments/use-deployments";
 
 export const useNavigate = () => {
   const setDisplayTransactions = useConfigState.useSetDisplayTransactions();

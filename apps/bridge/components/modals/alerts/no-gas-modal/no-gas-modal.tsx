@@ -11,9 +11,9 @@ import { AlertModals } from "@/constants/modal-names";
 import { useCancelBridge } from "@/hooks/bridge/use-cancel-bridge";
 import { useDismissAlert } from "@/hooks/bridge/use-dismiss-alert";
 import { useIsCctpRoute } from "@/hooks/cctp/use-is-cctp-route";
+import { useDeployment } from "@/hooks/deployments/use-deployment";
 import { useSelectedToken } from "@/hooks/tokens/use-token";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
-import { useDeployment } from "@/hooks/use-deployment";
 import { useToNativeToken } from "@/hooks/use-native-token";
 import { useIsWithdrawal } from "@/hooks/use-withdrawing";
 import { useModalsState } from "@/state/modals";
@@ -27,8 +27,8 @@ const ACROSS_NETWORKS: number[] = [
 ];
 const supportsAcross = (deployment: DeploymentDto) => {
   return (
-    !!ACROSS_NETWORKS.includes(deployment.l1.id) &&
-    !!ACROSS_NETWORKS.includes(deployment.l2.id)
+    !!ACROSS_NETWORKS.includes(deployment.l1ChainId) &&
+    !!ACROSS_NETWORKS.includes(deployment.l2ChainId)
   );
 };
 

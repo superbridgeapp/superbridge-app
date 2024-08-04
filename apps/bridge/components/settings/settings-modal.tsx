@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/select";
 import { isSuperbridge } from "@/config/app";
 import { flagSymbolMap } from "@/constants/currency-symbol-map";
-import { useDeployments } from "@/hooks/use-deployments";
+import { useDeployments } from "@/hooks/deployments/use-deployments";
 import { useIsContractAccount } from "@/hooks/use-is-contract-account";
 import { useDarkModeEnabled } from "@/hooks/use-theme";
 import { trackEvent } from "@/services/ga";

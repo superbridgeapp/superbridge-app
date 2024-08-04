@@ -1,17 +1,11 @@
 import { useMemo } from "react";
-import { isPresent } from "ts-is-present";
 import { bsc, bscTestnet, syscoin, syscoinTestnet } from "viem/chains";
 
-import { useConfigState } from "@/state/config";
-import { useSettingsState } from "@/state/settings";
 import { MultiChainToken } from "@/types/token";
 import { getNativeTokenForDeployment } from "@/utils/get-native-token";
-import { isNativeToken } from "@/utils/is-eth";
 
-import { useDeployment } from "../use-deployment";
-import { useDeployments } from "../use-deployments";
+import { useDeployments } from "../deployments/use-deployments";
 import { useConfigTokens } from "./use-config-tokens";
-import { useDeploymentTokens } from "./use-deployment-tokens";
 
 function useNativeTokens(): (MultiChainToken | null)[] {
   const deployments = useDeployments();

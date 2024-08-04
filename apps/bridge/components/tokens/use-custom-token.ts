@@ -5,7 +5,7 @@ import { L2StandardBridgeAbi } from "@/abis/L2StandardBridge";
 import { OptimismMintableERC20Abi } from "@/abis/OptimismMintableERC20";
 import { L2ERC20GatewayAbi } from "@/abis/arbitrum/L2ERC20Gateway";
 import { StandardArbERC20Abi } from "@/abis/arbitrum/StandardArbERC20";
-import { useDeployment } from "@/hooks/use-deployment";
+import { useDeployment } from "@/hooks/deployments/use-deployment";
 
 export const useCustomToken = (address: Address) => {
   const deployment = useDeployment();

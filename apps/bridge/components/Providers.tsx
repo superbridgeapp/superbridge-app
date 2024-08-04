@@ -12,8 +12,8 @@ import { useTranslation } from "react-i18next";
 import { WagmiProvider } from "wagmi";
 import { Chain } from "wagmi/chains";
 
+import { useDeployment } from "@/hooks/deployments/use-deployment";
 import { useAllChains } from "@/hooks/use-chains";
-import { useDeployment } from "@/hooks/use-deployment";
 import { useMetadata } from "@/hooks/use-metadata";
 import { getWagmiConfig } from "@/services/wagmi";
 import { useInjectedStore } from "@/state/injected";

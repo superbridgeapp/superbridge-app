@@ -8,7 +8,7 @@ import {
   defaultHeadingFont,
 } from "@/config/fonts";
 
-import { useDeployment } from "./use-deployment";
+import { useDeployment } from "./deployments/use-deployment";
 
 async function refreshFonts(theme: ThemeDto) {
   const heading = new FontFace(

@@ -16,6 +16,7 @@ import { useRedeemArbitrum } from "@/hooks/arbitrum/use-arbitrum-redeem";
 import { useMintCctp } from "@/hooks/cctp/use-cctp-mint";
 import { useFinaliseOptimism } from "@/hooks/optimism/use-optimism-finalise";
 import { useProveOptimism } from "@/hooks/optimism/use-optimism-prove";
+import { useChain } from "@/hooks/use-chain";
 import { useSwitchChain } from "@/hooks/use-switch-chain";
 import { isArbitrumWithdrawal, isWithdrawal } from "@/utils/guards";
 
@@ -90,7 +91,7 @@ export const FinaliseArbitrum: FC<{
 };
 
 export const RedeemArbitrum: FC<{
-  tx: ArbitrumDepositRetryableDto | ArbitrumForcedWithdrawalDto;
+  tx: ArbitrumDepositRetryableDto;
   enabled: boolean;
 }> = ({ tx, enabled }) => {
   const chainId = useChainId();
@@ -99,11 +100,12 @@ export const RedeemArbitrum: FC<{
   const switchChain = useSwitchChain();
 
   const deployment = useTxDeployment(tx);
-  if (!deployment) {
+  const l2 = useChain(deployment?.l2ChainId);
+  if (!deployment || !l2) {
     return null;
   }
 
-  if (chainId === deployment.l1.id) {
+  if (chainId === l2.id) {
     return (
       <Button className="rounded-full" onClick={redeem.write} size={"sm"}>
         {t("buttons.redeem")}
@@ -111,11 +113,7 @@ export const RedeemArbitrum: FC<{
     );
   }
   return (
-    <Button
-      onClick={() => switchChain(deployment.l1)}
-      size={"sm"}
-      disabled={!enabled}
-    >
+    <Button onClick={() => switchChain(l2)} size={"sm"} disabled={!enabled}>
       {t("buttons.switchChain")}
     </Button>
   );
