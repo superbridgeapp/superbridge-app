@@ -3,7 +3,7 @@ import { useTokenPrice } from "@/hooks/use-prices";
 import { useConfigState } from "@/state/config";
 import { useSettingsState } from "@/state/settings";
 
-import { useSelectedToken } from "./use-selected-token";
+import { useSelectedToken } from "./tokens/use-token";
 
 export const useFiatAmount = () => {
   const token = useSelectedToken();

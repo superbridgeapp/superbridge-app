@@ -1,12 +1,11 @@
-import Image from "next/image";
-
+import { useSetToken } from "@/hooks/tokens/use-set-token";
 import { useDeployments } from "@/hooks/use-deployments";
 import { trackEvent } from "@/services/ga";
 import { useConfigState } from "@/state/config";
 import { useInjectedStore } from "@/state/injected";
 
 export function TokenBanner() {
-  const setToken = useConfigState.useSetToken();
+  const setToken = useSetToken();
   const deployments = useDeployments();
   const superbridgeConfig = useInjectedStore(
     (store) => store.superbridgeConfig
@@ -31,7 +30,11 @@ export function TokenBanner() {
         .getState()
         .tokens.find((x) => x[1]?.symbol === symbol);
       if (token) {
-        setToken(token);
+        const l1 = token[deployment.l1.id];
+        const l2 = token[deployment.l2.id];
+        if (l1 && l2) {
+          setToken(l1, l2);
+        }
       }
     }, 500);
   };

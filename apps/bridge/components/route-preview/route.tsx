@@ -3,16 +3,15 @@ import {
   RouteQuoteDto,
   RouteStepTransactionDto,
 } from "@/codegen/model";
+import {
+  useDestinationToken,
+  useSelectedToken,
+} from "@/hooks/tokens/use-token";
 import { useToChain } from "@/hooks/use-chain";
 import { useFeesForRoute } from "@/hooks/use-fees";
 import { useGetFormattedAmount } from "@/hooks/use-get-formatted-amount";
 import { useNetworkFeeForGasLimit } from "@/hooks/use-network-fee";
-import {
-  useDestinationToken,
-  useSelectedToken,
-} from "@/hooks/use-selected-token";
 import { useApproxTotalBridgeTimeTextForRoute } from "@/hooks/use-transfer-time";
-import { useConfigState } from "@/state/config";
 
 import { IconSimpleFees, IconSimpleGas, IconSimpleTime } from "../icons";
 import { NetworkIcon } from "../network-icon";
@@ -29,7 +28,6 @@ export const Route = ({
 }) => {
   const selectedToken = useSelectedToken();
   const token = useDestinationToken();
-  const stateToken = useConfigState.useToken();
   const to = useToChain();
   const getFormattedAmount = useGetFormattedAmount(selectedToken);
 

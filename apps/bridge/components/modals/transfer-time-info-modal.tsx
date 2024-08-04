@@ -2,9 +2,9 @@ import { useTranslation } from "react-i18next";
 import Skeleton from "react-loading-skeleton";
 
 import { ModalNames } from "@/constants/modal-names";
+import { useSelectedToken } from "@/hooks/tokens/use-token";
 import { useToChain } from "@/hooks/use-chain";
 import { useFiatAmount } from "@/hooks/use-fiat-amount";
-import { useSelectedToken } from "@/hooks/use-selected-token";
 import { useApproxTotalBridgeTimeText } from "@/hooks/use-transfer-time";
 import { useConfigState } from "@/state/config";
 

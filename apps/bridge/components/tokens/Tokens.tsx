@@ -6,12 +6,13 @@ import { Address, Chain, formatUnits, isAddress, isAddressEqual } from "viem";
 
 import { ChainDto } from "@/codegen/model";
 import { Input } from "@/components/ui/input";
+import { useSetToken } from "@/hooks/tokens/use-set-token";
+import { useSelectedToken } from "@/hooks/tokens/use-token";
 import { useTokenBalances } from "@/hooks/use-balances";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
 import { useDeployment } from "@/hooks/use-deployment";
 import { useIsCustomToken } from "@/hooks/use-is-custom-token";
 import { useIsCustomTokenFromList } from "@/hooks/use-is-custom-token-from-list";
-import { useSelectedToken } from "@/hooks/use-selected-token";
 import { trackEvent } from "@/services/ga";
 import { useConfigState } from "@/state/config";
 import { useInjectedStore } from "@/state/injected";
@@ -273,7 +274,7 @@ export const FungibleTokenPicker = ({
   const from = useFromChain();
   const to = useToChain();
   const deployment = useDeployment();
-  const setToken = useConfigState.useSetToken();
+  const setToken = useSetToken();
   const tokens = useTokenBalances(from?.id);
   const { t } = useTranslation();
   const highlightedTokens =
@@ -298,7 +299,14 @@ export const FungibleTokenPicker = ({
   });
 
   const onClickToken = (t: MultiChainToken) => {
-    setToken(t);
+    const fromToken = t[from?.id ?? 0];
+    const toToken = t[to?.id ?? 0];
+
+    if (!fromToken || !toToken) {
+      return;
+    }
+
+    setToken(fromToken, toToken);
     setOpen(false);
 
     if (

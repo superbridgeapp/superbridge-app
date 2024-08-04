@@ -6,6 +6,7 @@ import { useConfigState } from "@/state/config";
 import { isHyperlaneToken } from "@/utils/guards";
 
 import { useBridgeControllerGetRoutes } from "../codegen";
+import { useDestinationToken, useSelectedToken } from "./tokens/use-token";
 import { useFromChain, useToChain } from "./use-chain";
 import { useGraffiti } from "./use-graffiti";
 import { useWeiAmount } from "./use-wei-amount";
@@ -15,12 +16,11 @@ export const useBridgeRoutes = () => {
   const to = useToChain();
   const account = useAccount();
 
-  const stateToken = useConfigState.useToken();
+  const fromToken = useSelectedToken();
+  const toToken = useDestinationToken();
   const recipientAddress = useConfigState.useRecipientAddress();
   const forceViaL1 = useConfigState.useForceViaL1();
 
-  const fromToken = stateToken?.[from?.id ?? 0];
-  const toToken = stateToken?.[to?.id ?? 0];
   const fromTokenAddress = fromToken?.address;
   const toTokenAddress = toToken?.address;
 

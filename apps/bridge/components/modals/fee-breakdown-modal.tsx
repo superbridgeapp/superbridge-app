@@ -1,8 +1,8 @@
 import { Trans, useTranslation } from "react-i18next";
 
 import { ModalNames } from "@/constants/modal-names";
+import { useSelectedToken } from "@/hooks/tokens/use-token";
 import { useFees } from "@/hooks/use-fees";
-import { useSelectedToken } from "@/hooks/use-selected-token";
 import { useConfigState } from "@/state/config";
 
 import { IconSuperFast } from "../icons";

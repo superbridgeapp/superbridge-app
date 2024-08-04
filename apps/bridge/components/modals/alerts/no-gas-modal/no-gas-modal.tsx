@@ -11,15 +11,12 @@ import { AlertModals } from "@/constants/modal-names";
 import { useCancelBridge } from "@/hooks/bridge/use-cancel-bridge";
 import { useDismissAlert } from "@/hooks/bridge/use-dismiss-alert";
 import { useIsCctpRoute } from "@/hooks/cctp/use-is-cctp-route";
+import { useSelectedToken } from "@/hooks/tokens/use-token";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
 import { useDeployment } from "@/hooks/use-deployment";
-import { useNativeToken, useToNativeToken } from "@/hooks/use-native-token";
-import { useNavigate } from "@/hooks/use-navigate";
-import { useSelectedToken } from "@/hooks/use-selected-token";
+import { useToNativeToken } from "@/hooks/use-native-token";
 import { useIsWithdrawal } from "@/hooks/use-withdrawing";
-import { useConfigState } from "@/state/config";
 import { useModalsState } from "@/state/modals";
-import { isNativeToken } from "@/utils/is-eth";
 
 const ACROSS_NETWORKS: number[] = [
   mainnet.id,
@@ -41,8 +38,6 @@ export const NoGasModal = () => {
   const open = useModalsState.useAlerts().includes(AlertModals.NoGas);
 
   const { t } = useTranslation();
-  const stateToken = useConfigState.useToken();
-  const setStateToken = useConfigState.useSetToken();
 
   const withdrawing = useIsWithdrawal();
   const isCctp = useIsCctpRoute();
@@ -51,8 +46,6 @@ export const NoGasModal = () => {
   const token = useSelectedToken();
   const deployment = useDeployment();
   const toNativeToken = useToNativeToken();
-  const nativeToken = useNativeToken();
-  const navigate = useNavigate();
 
   const common = {
     from: from?.name,
@@ -66,7 +59,6 @@ export const NoGasModal = () => {
     isCctp,
     withdrawing,
     family: deployment?.family,
-    isEth: isNativeToken(stateToken),
   })
     .with({ withdrawing: false }, () => t("noGasModal.depositing", common))
     .with({ isCctp: true }, () => t("noGasModal.cctp", common))

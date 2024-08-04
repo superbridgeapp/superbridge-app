@@ -6,13 +6,13 @@ import {
   hyperlaneAddresses,
   hyperlaneDomains,
 } from "@/constants/hyperlane";
-import { useConfigState } from "@/state/config";
 import { isCctp } from "@/utils/is-cctp";
 
+import { useMultichainToken } from "../tokens";
 import { useToChain } from "../use-chain";
 
 export const useHyperlaneGasQuote = () => {
-  const token = useConfigState.useToken();
+  const token = useMultichainToken();
   const to = useToChain();
 
   const destinationHyperlaneDomain = hyperlaneDomains[to?.id ?? 0];

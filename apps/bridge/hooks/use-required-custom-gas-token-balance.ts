@@ -2,12 +2,11 @@ import { Address, isAddressEqual } from "viem";
 
 import { useGasToken } from "@/hooks/use-approve-gas-token";
 import { useBaseNativeTokenBalance } from "@/hooks/use-base-native-token-balance";
-import { useFromChain } from "@/hooks/use-chain";
 import { useDeployment } from "@/hooks/use-deployment";
 import { useWeiAmount } from "@/hooks/use-wei-amount";
-import { useConfigState } from "@/state/config";
 
 import { useArbitrumGasCostsInWei } from "./arbitrum/use-arbitrum-gas-costs";
+import { useSelectedToken } from "./tokens/use-token";
 import {
   useIsArbitrumDeposit,
   useIsArbitrumWithdrawal,
@@ -25,9 +24,8 @@ import {
  */
 export const useRequiredCustomGasTokenBalance = () => {
   const withdrawing = useIsArbitrumWithdrawal();
-  const stateToken = useConfigState.useToken();
+  const token = useSelectedToken();
 
-  const from = useFromChain();
   const weiAmount = useWeiAmount();
   const arbitrumGasCosts = useArbitrumGasCostsInWei();
   const gasToken = useGasToken();
@@ -35,22 +33,20 @@ export const useRequiredCustomGasTokenBalance = () => {
   const baseNativeTokenBalance = useBaseNativeTokenBalance();
   const isArbitrumDeposit = useIsArbitrumDeposit();
 
-  const baseToken = stateToken?.[from?.id ?? 0];
   if (
     !isArbitrumDeposit ||
     !deployment?.arbitrumNativeToken ||
     !gasToken ||
     withdrawing ||
     typeof baseNativeTokenBalance.data === "undefined" ||
-    !stateToken ||
-    !baseToken
+    !token
   ) {
     return null;
   }
 
   if (
     isAddressEqual(
-      baseToken.address as Address,
+      token.address as Address,
       deployment.arbitrumNativeToken.address as Address
     )
   ) {

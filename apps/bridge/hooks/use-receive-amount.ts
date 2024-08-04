@@ -1,8 +1,8 @@
 import { isRouteQuote } from "@/utils/guards";
 
+import { useDestinationToken } from "./tokens/use-token";
 import { useGetFormattedAmount } from "./use-get-formatted-amount";
 import { useSelectedBridgeRoute } from "./use-selected-bridge-route";
-import { useDestinationToken } from "./use-selected-token";
 
 export const useReceiveAmount = () => {
   const route = useSelectedBridgeRoute();

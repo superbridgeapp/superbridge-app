@@ -3,8 +3,8 @@ import { useAccount, useReadContract } from "wagmi";
 
 import { isEth } from "@/utils/is-eth";
 
+import { useSelectedToken } from "./tokens/use-token";
 import { useApprovalAddress } from "./use-approval-address";
-import { useSelectedToken } from "./use-selected-token";
 
 export function useAllowance() {
   const token = useSelectedToken();

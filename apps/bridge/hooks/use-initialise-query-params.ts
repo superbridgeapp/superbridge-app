@@ -4,9 +4,9 @@ import { isAddress, isAddressEqual } from "viem";
 
 import { useConfigState } from "@/state/config";
 import { MultiChainToken } from "@/types/token";
-import { isNativeToken } from "@/utils/is-eth";
 
 import { useActiveTokens } from "./tokens/use-active-tokens";
+import { useSetToken } from "./tokens/use-set-token";
 import { useGasToken } from "./use-approve-gas-token";
 import { useFromChain, useToChain } from "./use-chain";
 import { useDeployment } from "./use-deployment";
@@ -29,7 +29,7 @@ import { useDeployment } from "./use-deployment";
 export const useInitialiseQueryParams = () => {
   const router = useRouter();
 
-  const setToken = useConfigState.useSetToken();
+  const setToken = useSetToken();
   const setRawAmount = useConfigState.useSetRawAmount();
   const deployment = useDeployment();
   const from = useFromChain();
@@ -87,11 +87,7 @@ export const useInitialiseQueryParams = () => {
       });
 
       if (token) {
-        setToken(token);
-      } else if (arbitrumGasToken) {
-        setToken(arbitrumGasToken);
-      } else {
-        setToken(tokens.find((x) => isNativeToken(x)) ?? null);
+        setToken(token[from.id]!, token[to.id]!);
       }
     } else {
       const tokenAddress = router.query.tokenAddress as string | undefined;
@@ -110,11 +106,7 @@ export const useInitialiseQueryParams = () => {
       }
 
       if (token) {
-        setToken(token);
-      } else if (arbitrumGasToken) {
-        setToken(arbitrumGasToken);
-      } else {
-        setToken(tokens.find((x) => isNativeToken(x)) ?? tokens[0]);
+        setToken(token[from.id]!, token[to.id]!);
       }
     }
   }, [router.asPath, deployment, tokens, arbitrumGasToken]);

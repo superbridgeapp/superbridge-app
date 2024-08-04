@@ -5,12 +5,11 @@ import { currencySymbolMap } from "@/constants/currency-symbol-map";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
 import { useTokenPrice } from "@/hooks/use-prices";
 import { useSelectedBridgeRoute } from "@/hooks/use-selected-bridge-route";
-import { useConfigState } from "@/state/config";
 import { useSettingsState } from "@/state/settings";
 import { isRouteQuote } from "@/utils/guards";
 
+import { useDestinationToken, useSelectedToken } from "./tokens/use-token";
 import { useFiatAmount } from "./use-fiat-amount";
-import { useSelectedToken } from "./use-selected-token";
 
 export const useFees = () => {
   const route = useSelectedBridgeRoute();
@@ -22,13 +21,13 @@ export const useFeesForRoute = (route: {
   isLoading: boolean;
   data: RouteResponseDto | null;
 }) => {
-  const stateToken = useConfigState.useToken();
-  const token = useSelectedToken();
+  const fromToken = useSelectedToken();
+  const toToken = useDestinationToken();
   const currency = useSettingsState.useCurrency();
 
   const to = useToChain();
   const from = useFromChain();
-  const usdPrice = useTokenPrice(token);
+  const usdPrice = useTokenPrice(fromToken);
 
   useFiatAmount();
 
@@ -42,10 +41,7 @@ export const useFeesForRoute = (route: {
   const fees = isRouteQuote(route.data?.result)
     ? route.data.result.fees.map((x) => {
         const amount = parseFloat(
-          formatUnits(
-            BigInt(x.amount),
-            stateToken?.[from?.id ?? 0]?.decimals ?? 18
-          )
+          formatUnits(BigInt(x.amount), fromToken?.decimals ?? 18)
         );
 
         const fiat = usdPrice ? amount * usdPrice : null;
@@ -55,7 +51,7 @@ export const useFeesForRoute = (route: {
 
         const tokenFormatted = `${amount.toLocaleString("en", {
           maximumFractionDigits: 4,
-        })} ${stateToken?.[to?.id ?? 0]?.symbol}`;
+        })} ${toToken?.symbol}`;
 
         return {
           name: x.name,
@@ -78,7 +74,7 @@ export const useFeesForRoute = (route: {
   const totalToken = fees.reduce((acc, f) => f.token.amount + acc, 0);
   const totalTokenFormatted = `${totalToken.toLocaleString("en", {
     maximumFractionDigits: 4,
-  })} ${stateToken?.[to?.id ?? 0]?.symbol}`;
+  })} ${toToken?.symbol}`;
 
   return {
     isLoading: false,

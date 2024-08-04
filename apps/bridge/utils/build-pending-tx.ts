@@ -3,7 +3,6 @@ import { Address, Hex } from "viem";
 import {
   ArbitrumDepositRetryableDto,
   ArbitrumWithdrawalDto,
-  BridgeNftDto,
   BridgeWithdrawalDto,
   CctpBridgeDto,
   ChainDto,
@@ -11,16 +10,14 @@ import {
   ForcedWithdrawalDto,
   HyperlaneBridgeDto,
   HyperlaneMailboxDto,
-  NftDepositDto,
   PortalDepositDto,
   RouteProvider,
-  RouteQuoteDto,
 } from "@/codegen/model";
 import { MessageStatus } from "@/constants";
 import { ArbitrumMessageStatus } from "@/constants/arbitrum-message-status";
 import { AcrossBridgeDto } from "@/types/across";
-import { MultiChainToken } from "@/types/token";
-import { isEth, isNativeToken } from "@/utils/is-eth";
+import { Token } from "@/types/token";
+import { isEth } from "@/utils/is-eth";
 import { isArbitrum, isOptimism } from "@/utils/is-mainnet";
 
 export const buildPendingTx = (
@@ -28,8 +25,8 @@ export const buildPendingTx = (
   account: Address,
   recipient: Address,
   weiAmount: bigint,
-  token: MultiChainToken | null,
-  nft: BridgeNftDto | null,
+  fromToken: Token | null,
+  toToken: Token | null,
   withdrawing: boolean,
   hash: Hex,
   force: boolean,
@@ -37,7 +34,7 @@ export const buildPendingTx = (
   hyperlaneMailboxes: HyperlaneMailboxDto[],
   { from, to }: { from: ChainDto; to: ChainDto }
 ) => {
-  if (!token) {
+  if (!fromToken || !toToken) {
     return null;
   }
 
@@ -57,11 +54,11 @@ export const buildPendingTx = (
         from: account,
         to: recipient,
         data: {
-          isEth: isNativeToken(token),
+          isEth: isEth(fromToken),
           inputAmount: weiAmount.toString(),
           outputAmount: weiAmount.toString(),
-          inputTokenAddress: token[from.id ?? 0]?.address ?? "",
-          outputTokenAddress: token[to.id ?? 0]?.address ?? "",
+          inputTokenAddress: fromToken?.address ?? "",
+          outputTokenAddress: toToken?.address ?? "",
         },
       },
       type: "across-bridge",
@@ -91,61 +88,13 @@ export const buildPendingTx = (
 
       fromDomain: fromMailbox.domain,
       toDomain: toMailbox.domain,
-      token: token[from.id ?? 0]?.address ?? "",
+      token: fromToken?.address ?? "",
     };
     return b;
   }
 
   if (!deployment) {
     return null;
-  }
-
-  if (nft) {
-    const metadata: NftDepositDto = {
-      type: "nft-deposit",
-      from: account,
-      to: recipient,
-      data: {
-        localTokenAddress: nft.localConfig.address,
-        remoteTokenAddress: nft.remoteConfig.address,
-        tokenId: nft.tokenId,
-      },
-    };
-    if (withdrawing) {
-      const w: BridgeWithdrawalDto = {
-        type: "withdrawal",
-        id: Math.random().toString(),
-        createdAt: new Date().toString(),
-        updatedAt: new Date().toString(),
-        l1ChainId: deployment.l1.id,
-        l2ChainId: deployment.l2.id,
-        from: account,
-        to: account,
-        // @ts-expect-error
-        withdrawal: {
-          transactionHash: hash,
-        },
-        metadata,
-        status: MessageStatus.STATE_ROOT_NOT_PUBLISHED,
-        deploymentId: deployment.id,
-      };
-      return w;
-    } else {
-      const a: PortalDepositDto = {
-        type: "deposit",
-        id: Math.random().toString(),
-        createdAt: new Date().toString(),
-        updatedAt: new Date().toString(),
-        // @ts-expect-error
-        deposit: {
-          transactionHash: hash,
-        },
-        metadata,
-        status: MessageStatus.UNCONFIRMED_L1_TO_L2_MESSAGE,
-        deploymentId: deployment.id,
-      };
-      return a;
-    }
   }
 
   if (provider === RouteProvider.Cctp) {
@@ -163,12 +112,12 @@ export const buildPendingTx = (
       to,
       type: "cctp-bridge",
       relay: undefined,
-      token: token[from.id]!.address,
+      token: fromToken!.address,
     };
     return b;
   }
 
-  const metadata = isEth(token[deployment.l1.id]!)
+  const metadata = isEth(fromToken)
     ? {
         type: "eth-deposit",
         from: account,
@@ -183,8 +132,8 @@ export const buildPendingTx = (
         to: recipient,
         data: {
           amount: weiAmount.toString(),
-          l1TokenAddress: token![deployment.l1.id]!.address,
-          l2TokenAddress: token![deployment.l2.id]!.address,
+          l1TokenAddress: withdrawing ? toToken.address : fromToken.address,
+          l2TokenAddress: withdrawing ? fromToken.address : toToken.address,
         },
       };
 

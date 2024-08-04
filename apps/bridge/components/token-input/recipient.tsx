@@ -1,5 +1,4 @@
 import clsx from "clsx";
-import Image from "next/image";
 import { useAccount } from "wagmi";
 
 import { ModalNames } from "@/constants/modal-names";

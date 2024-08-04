@@ -5,7 +5,6 @@ import { useDeployment } from "@/hooks/use-deployment";
 import { useConfigState } from "@/state/config";
 
 import { Dialog, DialogContent } from "../ui/dialog";
-import { NonFungibleTokenPicker } from "./NFTs";
 import { FungibleTokenPicker } from "./Tokens";
 
 export const TokenModal = () => {
@@ -76,11 +75,7 @@ export const TokenModal = () => {
           </div>
         )}
 
-        {nfts ? (
-          <NonFungibleTokenPicker setOpen={setOpen} />
-        ) : (
-          <FungibleTokenPicker setOpen={setOpen} />
-        )}
+        <FungibleTokenPicker setOpen={setOpen} />
       </DialogContent>
     </Dialog>
   );

@@ -7,11 +7,11 @@ import { SUPERCHAIN_MAINNETS } from "@/constants/superbridge";
 import { useToChain } from "@/hooks/use-chain";
 import { useFaultProofUpgradeTime } from "@/hooks/use-fault-proof-upgrade-time";
 import { useReceiveAmount } from "@/hooks/use-receive-amount";
-import { useConfigState } from "@/state/config";
 import { useModalsState } from "@/state/modals";
-import { isCctp } from "@/utils/is-cctp";
 import { isEth } from "@/utils/is-eth";
 
+import { useIsCctpRoute } from "../cctp/use-is-cctp-route";
+import { useDestinationToken } from "../tokens/use-token";
 import { useDeployment } from "../use-deployment";
 import { useIsWithdrawal } from "../use-withdrawing";
 import { useInitiateBridge } from "./use-initiate-bridge";
@@ -23,9 +23,10 @@ export const useSubmitBridge = () => {
   const initiateBridge = useInitiateBridge();
 
   const withdrawing = useIsWithdrawal();
-  const stateToken = useConfigState.useToken();
+  const destinationToken = useDestinationToken();
   const faultProofUpgradeTime = useFaultProofUpgradeTime(deployment);
   const setAlerts = useModalsState.useSetAlerts();
+  const isCctp = useIsCctpRoute();
 
   const toEthBalance = useBalance({
     address: account.address,
@@ -41,8 +42,8 @@ export const useSubmitBridge = () => {
 
     const needDestinationGasConditions = [
       withdrawing, // need to prove/finalize
-      isCctp(stateToken), // need to mint
-      !withdrawing && !isEth(stateToken?.[to?.id ?? 0]), // depositing an ERC20 with no gas on the destination (won't be able to do anything with it)
+      isCctp, // need to mint
+      !withdrawing && !isEth(destinationToken), // depositing an ERC20 with no gas on the destination (won't be able to do anything with it)
     ];
     if (
       needDestinationGasConditions.some((x) => x) &&

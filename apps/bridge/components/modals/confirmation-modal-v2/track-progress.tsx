@@ -8,8 +8,8 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useCancelBridge } from "@/hooks/bridge/use-cancel-bridge";
+import { useSelectedToken } from "@/hooks/tokens/use-token";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
-import { useSelectedToken } from "@/hooks/use-selected-token";
 import { useConfigState } from "@/state/config";
 import { useModalsState } from "@/state/modals";
 import { useExplorerLink } from "@/utils/transaction-link";

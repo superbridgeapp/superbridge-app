@@ -3,9 +3,9 @@ import { useState } from "react";
 import { useConfig, useWriteContract } from "wagmi";
 
 import { useBridge } from "./bridge/use-bridge";
+import { useSelectedToken } from "./tokens/use-token";
 import { useAllowance } from "./use-allowance";
 import { useApprovalAddress } from "./use-approval-address";
-import { useSelectedToken } from "./use-selected-token";
 import { useWeiAmount } from "./use-wei-amount";
 
 // Trying to approve USDT with the vanilla Wagmi ERC20 ABI

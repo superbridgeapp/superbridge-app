@@ -2,7 +2,7 @@ import { createSelectorHooks } from "auto-zustand-selectors-hook";
 import { Address } from "viem";
 import { create } from "zustand";
 
-import { BridgeNftDto, DeploymentDto } from "@/codegen/model";
+import { DeploymentDto } from "@/codegen/model";
 import { ModalNames } from "@/constants/modal-names";
 import { MultiChainToken } from "@/types/token";
 
@@ -29,11 +29,8 @@ interface ConfigState {
   toggleEasyMode: () => void;
   setEasyMode: (b: boolean) => void;
 
-  token: MultiChainToken | null;
-  setToken: (token: MultiChainToken | null) => void;
-
-  nft: BridgeNftDto | null;
-  setNft: (n: BridgeNftDto | null) => void;
+  tokenId: string | null;
+  setTokenId: (tokenId: string) => void;
 
   rawAmount: string;
   setRawAmount: (raw: string) => void;
@@ -95,13 +92,8 @@ const ConfigState = create<ConfigState>()((set, get) => ({
   toggleEasyMode: () => set((s) => ({ easyMode: !s.easyMode })),
   setEasyMode: (easyMode) => set({ easyMode }),
 
-  token: null,
-  setToken: (token) => set({ token, nft: null }),
-
-  nft: null,
-  setNft: (nft) => {
-    set({ nft, token: null });
-  },
+  tokenId: null,
+  setTokenId: (tokenId) => set({ tokenId }),
 
   rawAmount: "",
   setRawAmount: (rawAmount) => set({ rawAmount }),

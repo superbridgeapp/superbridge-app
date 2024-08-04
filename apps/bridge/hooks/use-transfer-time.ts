@@ -1,6 +1,6 @@
 import { isRouteQuote, isRouteWaitStep } from "@/utils/guards";
 
-import { Period, getPeriod } from "./use-finalization-period";
+import { Period, getPeriod } from "../utils/get-period";
 import { useSelectedBridgeRoute } from "./use-selected-bridge-route";
 import { useTransformPeriodText } from "./use-transform-period-text";
 

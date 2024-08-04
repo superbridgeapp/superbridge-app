@@ -3,9 +3,12 @@ import { useAccount, useConfig, useWalletClient } from "wagmi";
 
 import { RouteProvider } from "@/codegen/model";
 import { useActiveTokens } from "@/hooks/tokens/use-active-tokens";
+import {
+  useDestinationToken,
+  useSelectedToken,
+} from "@/hooks/tokens/use-token";
 import { useAllowance } from "@/hooks/use-allowance";
 import { useChain, useFromChain, useToChain } from "@/hooks/use-chain";
-import { useSelectedToken } from "@/hooks/use-selected-token";
 import { useStatusCheck } from "@/hooks/use-status-check";
 import { useSwitchChain } from "@/hooks/use-switch-chain";
 import { trackEvent } from "@/services/ga";
@@ -14,7 +17,6 @@ import { useModalsState } from "@/state/modals";
 import { usePendingTransactions } from "@/state/pending-txs";
 import { buildPendingTx } from "@/utils/build-pending-tx";
 import { isRouteQuote } from "@/utils/guards";
-import { isNativeToken } from "@/utils/is-eth";
 
 import { useHyperlaneMailboxes } from "../hyperlane/use-hyperlane-mailboxes";
 import { useAllowanceGasToken } from "../use-allowance-gas-token";
@@ -38,12 +40,11 @@ export const useInitiateBridge = () => {
   const weiAmount = useWeiAmount();
   const deployment = useDeployment();
   const withdrawing = useIsWithdrawal();
-  const stateToken = useConfigState.useToken();
+  const fromToken = useSelectedToken();
+  const toToken = useDestinationToken();
   const forceViaL1 = useConfigState.useForceViaL1();
   const rawAmount = useConfigState.useRawAmount();
-  const nft = useConfigState.useNft();
   const recipient = useConfigState.useRecipientAddress();
-  const setToken = useConfigState.useSetToken();
   const setPendingBridgeTransactionHash =
     useModalsState.useSetPendingBridgeTransactionHash();
   const addPendingTransaction = usePendingTransactions.useAddTransaction();
@@ -109,8 +110,8 @@ export const useInitiateBridge = () => {
         account.address,
         recipient,
         weiAmount,
-        stateToken,
-        nft,
+        fromToken,
+        toToken,
         withdrawing,
         hash,
         forceViaL1,
@@ -119,10 +120,6 @@ export const useInitiateBridge = () => {
         { from: from!, to: to! }
       );
       if (pending) addPendingTransaction(pending);
-
-      if (nft) {
-        setToken(tokens.find((x) => isNativeToken(x))!);
-      }
 
       waitForTransactionReceipt(wagmiConfig, {
         hash,

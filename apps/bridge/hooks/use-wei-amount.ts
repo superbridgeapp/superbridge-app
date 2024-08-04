@@ -2,7 +2,7 @@ import { parseUnits } from "viem";
 
 import { useConfigState } from "@/state/config";
 
-import { useSelectedToken } from "./use-selected-token";
+import { useSelectedToken } from "./tokens/use-token";
 
 export const useWeiAmount = () => {
   const rawAmount = useConfigState.useRawAmount();

@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 
 import { IconGas, IconSB, IconTime } from "@/components/icons";
@@ -12,6 +11,10 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Skeleton } from "@/components/ui/skeleton";
+import {
+  useDestinationToken,
+  useSelectedToken,
+} from "@/hooks/tokens/use-token";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
 import { useNetworkFee } from "@/hooks/use-network-fee";
 import { usePeriodText } from "@/hooks/use-period-text";
@@ -27,7 +30,8 @@ export const ConfirmationModalReviewTab = ({
 }) => {
   const from = useFromChain();
   const to = useToChain();
-  const stateToken = useConfigState.useToken();
+  const selectedToken = useSelectedToken();
+  const destinationToken = useDestinationToken();
   const rawAmount = useConfigState.useRawAmount();
 
   const networkFee = useNetworkFee();
@@ -68,15 +72,15 @@ export const ConfirmationModalReviewTab = ({
             </div>
             <div className="flex items-center gap-2">
               <span>
-                {rawAmount} {stateToken?.[from?.id ?? 0]?.symbol}
+                {rawAmount} {selectedToken?.symbol}
               </span>
               <img
-                src={stateToken?.[from?.id ?? 0]?.logoURI ?? ""}
+                src={selectedToken?.logoURI ?? ""}
                 // width={0}
                 // height={0}
                 // sizes="100vw"
                 className="h-5 w-5"
-                alt={stateToken?.[from?.id ?? 0]?.name ?? ""}
+                alt={selectedToken?.name ?? ""}
               />
             </div>
           </div>
@@ -100,12 +104,12 @@ export const ConfirmationModalReviewTab = ({
                 {receive.data ? <>{receive.data.token.formatted}</> : "…"}
               </span>
               <img
-                src={stateToken?.[to?.id ?? 0]?.logoURI ?? ""}
+                src={destinationToken?.logoURI ?? ""}
                 // width={0}
                 // height={0}
                 // sizes="100vw"
                 className="h-5 w-5"
-                alt={stateToken?.[to?.id ?? 0]?.name ?? ""}
+                alt={destinationToken?.name ?? ""}
               />
             </div>
           </div>

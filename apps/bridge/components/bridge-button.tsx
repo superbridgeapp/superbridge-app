@@ -10,6 +10,7 @@ import { useBridgeDisabled } from "@/hooks/bridge/use-bridge-disabled";
 import { useBridgeMax } from "@/hooks/bridge/use-bridge-max";
 import { useBridgeMin } from "@/hooks/bridge/use-bridge-min";
 import { useBridgePaused } from "@/hooks/bridge/use-bridge-paused";
+import { useSelectedToken } from "@/hooks/tokens/use-token";
 import { useTokenBalance } from "@/hooks/use-balances";
 import { useBaseNativeTokenBalance } from "@/hooks/use-base-native-token-balance";
 import { useChain, useFromChain, useToChain } from "@/hooks/use-chain";
@@ -18,7 +19,6 @@ import { useNativeToken } from "@/hooks/use-native-token";
 import { useNetworkFee } from "@/hooks/use-network-fee";
 import { useRequiredCustomGasTokenBalance } from "@/hooks/use-required-custom-gas-token-balance";
 import { useSelectedBridgeRoute } from "@/hooks/use-selected-bridge-route";
-import { useSelectedToken } from "@/hooks/use-selected-token";
 import { useWeiAmount } from "@/hooks/use-wei-amount";
 import { useIsWithdrawal } from "@/hooks/use-withdrawing";
 import { useConfigState } from "@/state/config";
@@ -40,7 +40,6 @@ export const BridgeButton = () => {
   const setConfirmationModal = useConfigState.useSetDisplayConfirmationModal();
   const withdrawing = useIsWithdrawal();
   const isAcross = useIsAcrossRoute();
-  const nft = useConfigState.useNft();
   const recipient = useConfigState.useRecipientAddress();
   const nativeToken = useNativeToken();
   const bridgeMax = useBridgeMax();
@@ -86,7 +85,7 @@ export const BridgeButton = () => {
     requiredCustomGasTokenBalance > baseNativeTokenBalance.data;
 
   const handleSubmitClick = () => {
-    if (!nft && weiAmount === BigInt(0)) {
+    if (weiAmount === BigInt(0)) {
       return;
     }
 
@@ -102,7 +101,6 @@ export const BridgeButton = () => {
     hasInsufficientBalance,
     hasInsufficientGas,
     hasInsufficientBaseNativeTokenBalance,
-    nft,
     recipient,
     weiAmount,
     bridgeMax,

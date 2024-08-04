@@ -1,4 +1,4 @@
-import { Period } from "@/hooks/use-finalization-period";
+import { Period } from "@/utils/get-period";
 
 const ONE_MINUTE = 60 * 1000;
 const ONE_HOUR = 60 * ONE_MINUTE;

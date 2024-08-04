@@ -13,7 +13,6 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useToChain } from "@/hooks/use-chain";
-import { useFinalizationPeriod } from "@/hooks/use-finalization-period";
 import { useSelectedBridgeRoute } from "@/hooks/use-selected-bridge-route";
 import { useApproxTotalBridgeTime } from "@/hooks/use-transfer-time";
 import { useTransformPeriodText } from "@/hooks/use-transform-period-text";
@@ -34,7 +33,6 @@ export const ConfirmationModalTermsTab = ({
   const [checkbox3, setCheckbox3] = useState(false);
 
   const totalBridgeTime = useApproxTotalBridgeTime();
-  const finalizationTime = useFinalizationPeriod();
   const to = useToChain();
   const transformPeriodText = useTransformPeriodText();
 
@@ -83,7 +81,7 @@ export const ConfirmationModalTermsTab = ({
       transformPeriodText(
         "confirmationModal.opCheckbox1Withdrawal",
         commonTranslationProps,
-        finalizationTime
+        totalBridgeTime.data
       )
     )
     .with({ withdrawing: true, family: "arbitrum" }, () =>

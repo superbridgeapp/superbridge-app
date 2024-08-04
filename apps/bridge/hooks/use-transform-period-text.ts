@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 
-import { Period } from "./use-finalization-period";
+import { Period } from "../utils/get-period";
 
 export const useTransformPeriodText = () => {
   const { t } = useTranslation();

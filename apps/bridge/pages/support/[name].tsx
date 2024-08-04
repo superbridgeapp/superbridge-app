@@ -35,7 +35,7 @@ import {
 } from "@/constants/superbridge";
 import { useSupportStatusChecks } from "@/hooks/support/use-support-status-checks";
 import { useFaultProofUpgradeTime } from "@/hooks/use-fault-proof-upgrade-time";
-import { getFinalizationPeriod } from "@/hooks/use-finalization-period";
+import { getPeriod } from "@/utils/get-period";
 import { isArbitrum, isOptimism } from "@/utils/is-mainnet";
 
 const FaultProofAlert = ({ deployment }: { deployment: DeploymentDto }) => {
@@ -288,7 +288,11 @@ function Support({
         }
       : null;
 
-  const finalizationPeriod = getFinalizationPeriod(deployment, false);
+  const finalizationPeriod = getPeriod(
+    isOptimism(deployment)
+      ? deployment.proveDuration! + deployment.finalizeDuration
+      : deployment.finalizeDuration
+  );
 
   const statusLoading = statusChecks.find(
     (x) => x.status === SupportCheckStatus.Loading

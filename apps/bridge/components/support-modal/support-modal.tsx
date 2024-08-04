@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 import { Checkbox } from "@/components/ui/checkbox";
 import { isSuperbridge } from "@/config/app";
-import { Period } from "@/hooks/use-finalization-period";
+import { Period } from "@/utils/get-period";
 
 import { Button } from "../ui/button";
 import { Dialog, DialogContent } from "../ui/dialog";

@@ -29,6 +29,10 @@ import { currencySymbolMap } from "@/constants/currency-symbol-map";
 import { useLatestSubmittedTx } from "@/hooks/activity/use-tx-by-hash";
 import { useBridge } from "@/hooks/bridge/use-bridge";
 import { useSubmitBridge } from "@/hooks/bridge/use-submit-bridge";
+import {
+  useDestinationToken,
+  useSelectedToken,
+} from "@/hooks/tokens/use-token";
 import { useAllowance } from "@/hooks/use-allowance";
 import { useAllowanceGasToken } from "@/hooks/use-allowance-gas-token";
 import { useApprove } from "@/hooks/use-approve";
@@ -40,7 +44,6 @@ import { useTokenPrice } from "@/hooks/use-prices";
 import { useReceiveAmount } from "@/hooks/use-receive-amount";
 import { useRequiredCustomGasTokenBalance } from "@/hooks/use-required-custom-gas-token-balance";
 import { useSelectedBridgeRoute } from "@/hooks/use-selected-bridge-route";
-import { useSelectedToken } from "@/hooks/use-selected-token";
 import { useSwitchChain } from "@/hooks/use-switch-chain";
 import { useWeiAmount } from "@/hooks/use-wei-amount";
 import { useIsWithdrawal } from "@/hooks/use-withdrawing";
@@ -52,7 +55,7 @@ import {
   isRouteTransactionStep,
   isRouteWaitStep,
 } from "@/utils/guards";
-import { isEth, isNativeToken } from "@/utils/is-eth";
+import { isEth } from "@/utils/is-eth";
 import { isArbitrum } from "@/utils/is-mainnet";
 import { useProgressRows } from "@/utils/progress-rows";
 import {
@@ -69,7 +72,8 @@ export const ConfirmationModalStartTab = () => {
   const { t } = useTranslation();
 
   const currency = useSettingsState.useCurrency();
-  const stateToken = useConfigState.useToken();
+  const fromToken = useSelectedToken();
+  const toToken = useDestinationToken();
   const withdrawing = useIsWithdrawal();
   const escapeHatch = useConfigState.useForceViaL1();
   const rawAmount = useConfigState.useRawAmount();
@@ -170,23 +174,21 @@ export const ConfirmationModalStartTab = () => {
 
   const requiredCustomGasTokenBalance = useRequiredCustomGasTokenBalance();
   const approvedGasToken = (() => {
-    if (typeof gasTokenAllowance.data === "undefined" || !deployment)
+    if (
+      typeof gasTokenAllowance.data === "undefined" ||
+      !deployment ||
+      !requiredCustomGasTokenBalance
+    ) {
       return false;
-    if (isArbitrum(deployment)) {
-      return (
-        !!requiredCustomGasTokenBalance &&
-        gasTokenAllowance.data > requiredCustomGasTokenBalance
-      );
-    } else {
-      return isNativeToken(stateToken) && gasTokenAllowance.data >= weiAmount;
     }
+
+    return gasTokenAllowance.data >= requiredCustomGasTokenBalance;
   })();
 
   const approveGasTokenButton = match({
     withdrawing,
     gasToken,
     family: deployment?.family,
-    isNativeToken: !!stateToken && isNativeToken(stateToken),
     approved: approvedGasToken,
     approving: approveGasToken.isLoading,
   })
@@ -264,7 +266,7 @@ export const ConfirmationModalStartTab = () => {
     .exhaustive();
 
   const initiateButton = match({
-    needsApprove: !isNativeToken(stateToken) && !approved,
+    needsApprove: !isEth(fromToken) && !approved,
     needsGasTokenApprove: (() => {
       return (
         !!deployment &&
@@ -275,7 +277,6 @@ export const ConfirmationModalStartTab = () => {
     })(),
     bridge,
     withdrawing,
-    isNativeToken: isNativeToken(stateToken),
   })
     .with({ bridge: { isLoading: true } }, (d) => ({
       onSubmit: () => {},
@@ -316,8 +317,8 @@ export const ConfirmationModalStartTab = () => {
     rollup: deployment?.l2.name,
     symbol: token?.symbol,
     receiveAmount: receive.data?.token.amount,
-    receiveSymbol: stateToken?.[to?.id ?? 0]?.symbol,
-    formatted: stateToken?.[to?.id ?? 0]?.symbol,
+    receiveSymbol: toToken?.symbol,
+    formatted: toToken?.symbol,
   };
 
   const lastSubmittedTx = useLatestSubmittedTx();
