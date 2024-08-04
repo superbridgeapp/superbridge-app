@@ -76,7 +76,7 @@ export const NetworkSelector = () => {
         animate={{ y: "0vh" }}
         exit={{ y: "100vh" }}
         transition={{ type: "spring", damping: 12, delay: 0.08 }}
-        className="bg-card border flex flex-col self-start  z-50 relative overflow-hidden rounded-[32px] h-[calc(76dvh)] max-h-[680px]  w-screen md:w-[50vw] md:max-w-[420px] aspect-[3/4] backdrop-blur shadow-sm"
+        className="bg-card border flex flex-col self-start  z-50 relative overflow-scroll rounded-[32px] h-[calc(76dvh)] max-h-[680px]  w-screen md:w-[50vw] md:max-w-[420px] aspect-[3/4] backdrop-blur shadow-sm"
       >
         <div className="p-4">Bridge {networkSelector}</div>
 

@@ -1,5 +1,5 @@
 // change this as needed
-export const developmentHost = "hyperlane.superbridge.app";
+export const developmentHost = "renzo.superbridge.app";
 
 export let host = "";
 if (typeof window === "undefined") {
