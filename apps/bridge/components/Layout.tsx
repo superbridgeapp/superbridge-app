@@ -68,7 +68,13 @@ export function Layout({ children }: { children: any }) {
           <>
             <OpenActivity key="transactionItemsContainer" />
             {/* fade background */}
-            <motion.div className="h-screen w-screen bg-black/40 z-10"></motion.div>
+            <motion.div
+              initial={{ opacity: 0 }}
+              exit={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ ease: "easeOut", duration: 1 }}
+              className="h-screen w-screen bg-black/40 z-10"
+            ></motion.div>
           </>
         )}
 
@@ -76,7 +82,13 @@ export function Layout({ children }: { children: any }) {
           <>
             <NetworkSelector key="networkSelector" />
             {/* fade background */}
-            <motion.div className="h-screen w-screen bg-black/40 z-10"></motion.div>
+            <motion.div
+              initial={{ opacity: 0 }}
+              exit={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ ease: "easeOut", duration: 1 }}
+              className="h-screen w-screen bg-black/40 z-10"
+            ></motion.div>
           </>
         )}
       </AnimatePresence>
