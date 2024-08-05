@@ -43,7 +43,7 @@ export const FromTo = () => {
           >
             {t("from")}
           </span>
-          <span className="leading-none">{from?.name}</span>
+          <span className="leading-none font-button">{from?.name}</span>
         </div>
       </div>
       <button
@@ -78,7 +78,7 @@ export const FromTo = () => {
           >
             {t("to")}
           </span>
-          <span className="leading-none">{to?.name}</span>
+          <span className="leading-none  font-button">{to?.name}</span>
         </div>
 
         <NetworkIcon
