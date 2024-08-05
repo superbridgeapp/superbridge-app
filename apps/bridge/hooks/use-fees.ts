@@ -2,14 +2,12 @@ import { formatUnits } from "viem";
 
 import { RouteResponseDto } from "@/codegen/model";
 import { currencySymbolMap } from "@/constants/currency-symbol-map";
-import { useFromChain, useToChain } from "@/hooks/use-chain";
 import { useTokenPrice } from "@/hooks/use-prices";
 import { useSelectedBridgeRoute } from "@/hooks/use-selected-bridge-route";
 import { useSettingsState } from "@/state/settings";
 import { isRouteQuote } from "@/utils/guards";
 
 import { useDestinationToken, useSelectedToken } from "./tokens/use-token";
-import { useFiatAmount } from "./use-fiat-amount";
 
 export const useFees = () => {
   const route = useSelectedBridgeRoute();
@@ -24,12 +22,7 @@ export const useFeesForRoute = (route: {
   const fromToken = useSelectedToken();
   const toToken = useDestinationToken();
   const currency = useSettingsState.useCurrency();
-
-  const to = useToChain();
-  const from = useFromChain();
   const usdPrice = useTokenPrice(fromToken);
-
-  useFiatAmount();
 
   if (route.isLoading) {
     return {
