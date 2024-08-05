@@ -23,9 +23,9 @@ export const NetworkIcon = ({
 } & Omit<ImageProps, "src" | "alt">) => {
   const deployment = useDeployments().find((x) => x.l2.id === chain?.id);
 
-  const isBase = chain?.id === deployment?.l1.id;
-  const isRollup = chain?.id === deployment?.l2.id;
-  const isL3 = !L1_BASE_CHAINS.includes(deployment?.l1.id ?? 0);
+  const isBase = !!deployment && chain?.id === deployment?.l1.id;
+  const isRollup = !!deployment && chain?.id === deployment?.l2.id;
+  const isL3 = !!deployment && !L1_BASE_CHAINS.includes(deployment?.l1.id ?? 0);
 
   const rollupIcon = useNetworkIcon(deployment?.id);
 

@@ -14,7 +14,7 @@ export const useChain = (chainId: number | undefined | null) => {
     }
 
     return null;
-  }, [chainId]);
+  }, [chainId, chains]);
 };
 
 export const useFromChain = () => {
