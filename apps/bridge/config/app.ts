@@ -1,7 +1,7 @@
 import { ThemeDto } from "@/codegen/model";
 
 import { host } from "./host";
-import { renzoTheme, superbridgeTheme } from "./themes";
+import { hyperlaneTheme, renzoTheme, superbridgeTheme } from "./themes";
 
 export const isSuperbridge =
   process.env["NEXT_PUBLIC_APP_NAME"] === "superbridge";
@@ -66,12 +66,12 @@ const hyperlane: AppConfig = {
     favicon: "/img/superbridge/favicon-32x32.png",
   },
   images: {
-    logoLight: "/img/hyperlane/logo.jpg",
-    logoDark: "/img/hyperlane/logo.jpg",
-    logoLightSmall: "/img/hyperlane/logo.jpg",
-    logoDarkSmall: "/img/hyperlane/logo.jpg",
+    logoLight: "/img/hyperlane/logo.svg",
+    logoDark: "/img/hyperlane/logo.svg",
+    logoLightSmall: "/img/hyperlane/logo.svg",
+    logoDarkSmall: "/img/hyperlane/logo.svg",
   },
-  theme: renzoTheme,
+  theme: hyperlaneTheme,
 };
 
 const apps: { [x: string]: AppConfig | undefined } = {

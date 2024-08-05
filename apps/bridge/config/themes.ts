@@ -84,28 +84,26 @@ export const renzoTheme: Partial<ThemeDto> = {
 
 export const hyperlaneTheme: Partial<ThemeDto> = {
   darkModeEnabled: false,
-  background: "#2764c1",
-  muted: "rgba(255, 255, 255, 0.03)",
+  background: "#1A012F",
+  muted: "rgba(208,158,249, 0.1)",
   foreground: "#ffffff",
-  "muted-foreground": "rgba(141,142,175)",
-  primary: "#d631b9",
-  "primary-foreground": "#040512",
-  card: "rgba(19, 20, 35, .88)",
-  border: "rgba(187, 227, 219, 0.1)",
-  imageLogo: "/img/renzo/logo.svg",
-  imageLogoDark: "/img/renzo/logo.svg",
+  "muted-foreground": "#D9B3FA",
+  primary: "#D09EF9",
+  "primary-foreground": "#310453",
+  card: "rgba(49, 4, 83, .88)",
+  border: "rgba(208,158,249, 0.3)",
   fontBody:
-    "https://renzo.superbridge.app/fonts/renzo/SpaceGrotesk-Medium.woff2",
+    "https://renzo.superbridge.app/fonts/hyperlane/GT-Flexa-Standard-Regular.woff2",
   fontButton:
-    "https://renzo.superbridge.app/fonts/renzo/SpaceGrotesk-Bold.woff2",
+    "https://renzo.superbridge.app/fonts/hyperlane/GT-Flexa-Expanded-Bold.woff2",
   fontHeading:
-    "https://renzo.superbridge.app/fonts/renzo/SpaceGrotesk-Bold.woff2",
-
-  imageBackground: "/img/renzo/bg.jpg",
-  imageBackgroundDark: "/img/renzo/bg.jpg",
-  backgroundImageBlendMode: "normal",
-  backgroundImagePosition: "bottom center",
-  backgroundImageSize: "auto",
-  backgroundImageRepeat: "no-repeat",
-  backgroundImageOpacity: "70",
+    "https://renzo.superbridge.app/fonts/hyperlane/GT-Flexa-Extended-Bold.woff2",
 };
+
+// imageBackground: "/img/renzo/bg.jpg",
+//   imageBackgroundDark: "/img/renzo/bg.jpg",
+//   backgroundImageBlendMode: "normal",
+//   backgroundImagePosition: "bottom center",
+//   backgroundImageSize: "auto",
+//   backgroundImageRepeat: "no-repeat",
+//   backgroundImageOpacity: "70",
