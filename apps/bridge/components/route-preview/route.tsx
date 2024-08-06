@@ -13,7 +13,12 @@ import { useGetFormattedAmount } from "@/hooks/use-get-formatted-amount";
 import { useNetworkFeeForGasLimit } from "@/hooks/use-network-fee";
 import { useApproxTotalBridgeTimeTextForRoute } from "@/hooks/use-transfer-time";
 
-import { IconSimpleFees, IconSimpleGas, IconSimpleTime } from "../icons";
+import {
+  IconCaretDown,
+  IconSimpleFees,
+  IconSimpleGas,
+  IconSimpleTime,
+} from "../icons";
 import { NetworkIcon } from "../network-icon";
 import { RouteProviderIcon, RouteProviderName } from "../route-provider-icon";
 import { TokenIcon } from "../token-icon";
@@ -46,15 +51,19 @@ export const Route = ({
   const time = useApproxTotalBridgeTimeTextForRoute(route);
 
   return (
-    <div className="flex flex-col gap-2 p-4 border rounded-xl">
-      <div className="flex items-center gap-1 text-xs font-heading">
-        <RouteProviderIcon provider={provider} className="rounded bg-muted" />
-        <h3>
-          Get on {to?.name}{" "}
-          <span className="text-muted-foreground">
-            via <RouteProviderName provider={provider} />
+    <div className="flex flex-col gap-3">
+      <div className="flex justify-between items-center gap-1">
+        <h3 className="text-xs font-heading">Get on {to?.name} </h3>
+        <div className="flex gap-1 items-center">
+          <span className="text-foreground text-xs font-body">
+            Via <RouteProviderName provider={provider} />
           </span>
-        </h3>
+          <RouteProviderIcon
+            provider={provider}
+            className="rounded-full bg-muted"
+          />
+          {/* <IconCaretDown className="w-3 w-3 fill-foreground" /> */}
+        </div>
       </div>
 
       <div className="flex items-center gap-2">
@@ -66,7 +75,7 @@ export const Route = ({
           />
         </div>
         <div className="flex flex-col gap-0">
-          <span className="text-2xl leading-none">
+          <span className="text-xl leading-none">
             {receive.token.formatted}
           </span>
           {receive.fiat && (
@@ -77,7 +86,22 @@ export const Route = ({
         </div>
       </div>
 
-      <div className="flex gap-4 justify-end mt-2">
+      <div className="flex gap-3 justify-start mt-2">
+        <div className="flex gap-1 items-center">
+          {/* TODO: Maybe if need another format option if zero if simply says 0 fees  */}
+          <IconSimpleFees className="h-3 w-auto fill-muted-foreground" />
+          {!fees.data?.totals.fiatFormatted && (
+            <span className="text-xs leading-none text-muted-foreground">
+              {fees.data?.totals.tokenFormatted} Fee
+            </span>
+          )}
+          {fees.data?.totals.fiatFormatted && (
+            <span className="text-xs leading-none text-muted-foreground">
+              {fees.data?.totals.fiatFormatted} Fee
+            </span>
+          )}
+        </div>
+
         <div className="flex gap-1 items-center">
           <IconSimpleGas className="h-3 w-auto fill-muted-foreground" />{" "}
           {networkFee.isLoading ? (
@@ -95,20 +119,6 @@ export const Route = ({
                 </span>
               )}
             </>
-          )}
-        </div>
-
-        <div className="flex gap-1 items-center">
-          <IconSimpleFees className="h-3 w-auto fill-muted-foreground" />
-          {!fees.data?.totals.fiatFormatted && (
-            <span className="text-xs leading-none text-muted-foreground">
-              {fees.data?.totals.tokenFormatted}
-            </span>
-          )}
-          {fees.data?.totals.fiatFormatted && (
-            <span className="text-xs leading-none text-muted-foreground">
-              {fees.data?.totals.fiatFormatted}
-            </span>
           )}
         </div>
 

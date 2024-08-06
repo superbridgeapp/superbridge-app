@@ -26,15 +26,15 @@ export const Recipient = () => {
       ) : !recipientAddress ? (
         <div className="flex justify-center items-center gap-1 pl-2 pr-1 py-1 rounded-full cursor-pointer hover:scale-105 transition-all bg-muted">
           <span className="text-xs text-foreground">Add recipient</span>
-          <IconAddCircle className="w-3.5 h-3.5 fill-foreground" />
+          <IconAddCircle className="w-3 h-3 fill-foreground" />
         </div>
       ) : (
         <div
           className={clsx(
-            `flex justify-center items-center gap-1 pl-1.5 pr-2 py-1 -mr-0.5 rounded-full cursor-pointer hover:scale-105 transition-all bg-card`
+            `flex justify-center items-center gap-1 px-2 py-1 -mr-0.5 rounded-full cursor-pointer hover:scale-105 transition-all bg-card`
           )}
         >
-          <IconCheckCircle className="w-3.5 h-3.5 fill-muted-foreground" />
+          {/* <IconCheckCircle className="w-3 h-3 fill-muted-foreground" /> */}
           <span className="text-xs text-muted-foreground">
             {recipientName
               ? recipientName

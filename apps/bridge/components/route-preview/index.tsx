@@ -4,6 +4,8 @@ import { useSelectedBridgeRoute } from "@/hooks/use-selected-bridge-route";
 import { useConfigState } from "@/state/config";
 import { isRouteQuote, isRouteQuoteError } from "@/utils/guards";
 
+import { IconCaretRight, IconSpinner } from "../icons";
+import { Button } from "../ui/button";
 import { Route } from "./route";
 
 export const RoutePreview = () => {
@@ -12,16 +14,29 @@ export const RoutePreview = () => {
 
   const openModal = useConfigState.useAddModal();
 
+  // TODO: Put animate apprearance here
   if (route.isLoading) {
-    return <div>Loading</div>;
+    return (
+      <div className="p-4 flex gap-2 justify-center">
+        <IconSpinner className="text-muted-foreground w-4 h-4" />
+        <span className="text-xs text-muted-foreground">Loading</span>
+      </div>
+    );
   }
 
   if (!route.data) {
-    return <div></div>;
+    return <></>;
   }
 
   if (isRouteQuoteError(route.data.result)) {
-    return <div>{JSON.stringify(route.data.result)}</div>;
+    return (
+      <div className="bg-muted rounded-xl p-4">
+        <span className="text-xs text-center leading-4 text-muted-foreground">
+          {/* TODO: Perhaps we can bring the error text that's currently output to the button and display it here? Leave button only with the action text, disabled if needed */}
+          {JSON.stringify(route.data.result)}
+        </span>
+      </div>
+    );
   }
 
   const hasMore =
@@ -30,15 +45,20 @@ export const RoutePreview = () => {
 
   return (
     <div className={`flex flex-col gap-2 pt-1 relative`}>
-      <Route provider={route.data.id} quote={route.data.result} />
-
+      <div className="p-4 border rounded-xl">
+        <Route provider={route.data.id} quote={route.data.result} />
+      </div>
       {hasMore && (
-        <button
-          className="text-xs bg-muted text-muted-foreground font-heading rounded-full leading-none px-2 py-1.5 absolute right-4 top-4"
+        <Button
           onClick={() => openModal(ModalNames.RouteSelector)}
+          size={"xs"}
+          variant={"secondary"}
+          className="mx-auto absolute bottom-2.5 right-2 text-xs h-6 pr-2 gap-1"
         >
-          More
-        </button>
+          {/* TODO: Add number for more */}
+          2 More
+          <IconCaretRight className="w-3 w-3 fill-foreground" />
+        </Button>
       )}
     </div>
   );

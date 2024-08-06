@@ -109,36 +109,36 @@ export const ConfirmationModalTermsTab = ({
       </DialogHeader>
 
       <div className="flex flex-col gap-4 px-6">
-        <div className="flex gap-3">
+        <div className="flex gap-3  items-center">
           <Checkbox
             id="timeframe"
             checked={checkbox1}
             onCheckedChange={(c) => setCheckbox1(c as boolean)}
             className="mt-0.5"
           />
-          <label htmlFor="timeframe" className="text-xs text-muted-foreground ">
+          <label htmlFor="timeframe" className="text-xs text-foreground ">
             {checkbox1Text}
           </label>
         </div>
-        <div className="flex gap-3">
+        <div className="flex gap-3  items-center">
           <Checkbox
             id="speed"
             checked={checkbox2}
             onCheckedChange={(c) => setCheckbox2(c as boolean)}
             className="mt-0.5"
           />
-          <label htmlFor="speed" className="text-xs text-muted-foreground ">
+          <label htmlFor="speed" className="text-xs text-foreground ">
             {t("confirmationModal.checkbox2")}
           </label>
         </div>
-        <div className="flex gap-3">
+        <div className="flex gap-3 items-center">
           <Checkbox
             id="fees"
             checked={checkbox3}
             onCheckedChange={(c) => setCheckbox3(c as boolean)}
             className="mt-0.5"
           />
-          <label htmlFor="fees" className="text-xs text-muted-foreground ">
+          <label htmlFor="fees" className="text-xs text-foreground ">
             {t("confirmationModal.checkbox3")}
           </label>
         </div>

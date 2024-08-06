@@ -26,7 +26,7 @@ export const RouteSelectorModal = () => {
         <DialogHeader>
           <DialogTitle>Choose route</DialogTitle>
         </DialogHeader>
-        <div className="flex flex-col">
+        <div className="flex flex-col px-4 pb-6">
           {routes.data?.map((route) => {
             if (isRouteQuoteError(route.result)) {
               return null;
@@ -34,8 +34,8 @@ export const RouteSelectorModal = () => {
             return (
               <div
                 key={route.id}
-                className="hover:bg-zinc-50 transition"
                 onClick={() => onSelect(route.id)}
+                className="p-4 bg-muted rounded-xl hover:scale-[1.015] transition-all cursor-pointer"
               >
                 <Route
                   key={route.id}
