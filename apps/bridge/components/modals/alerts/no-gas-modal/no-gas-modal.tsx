@@ -51,7 +51,7 @@ export const NoGasModal = () => {
   const common = {
     from: from?.name,
     to: to?.name,
-    gas: toNativeToken,
+    gas: toNativeToken?.symbol,
     symbol: token?.symbol,
     token: token?.name,
   };

@@ -7,13 +7,13 @@ import { useInjectedStore } from "@/state/injected";
 
 import { useIsSuperbridge } from "./apps/use-is-superbridge";
 import { useDeployments } from "./deployments/use-deployments";
-import { useHyperlaneMailboxes } from "./hyperlane/use-hyperlane-mailboxes";
+import { useHyperlaneActivityRequest } from "./hyperlane/use-hyperlane-activity-request";
 
 export const useTransactions = () => {
   const account = useAccount();
   const deployments = useDeployments();
-  const hyperlaneMailboxes = useHyperlaneMailboxes();
   const isSuperbridge = useIsSuperbridge();
+  const hyperlane = useHyperlaneActivityRequest();
 
   const superbridgeTestnetsEnabled = useInjectedStore(
     (s) => s.superbridgeTestnets
@@ -25,7 +25,8 @@ export const useTransactions = () => {
         "activity",
         account.address as string,
         deployments.map((x) => x.id),
-        hyperlaneMailboxes.map((x) => x.id),
+        hyperlane?.mailboxIds,
+        hyperlane?.routers,
         superbridgeTestnetsEnabled,
       ],
       queryFn: ({ pageParam }) => {
@@ -44,7 +45,7 @@ export const useTransactions = () => {
           includeAcross: isSuperbridge && !superbridgeTestnetsEnabled,
           deploymentIds: deployments.map((d) => d.id),
           cursor: pageParam ?? null,
-          hyperlaneMailboxes: hyperlaneMailboxes.map((x) => x.id),
+          hyperlane,
         }).then((x) => x.data);
       },
 

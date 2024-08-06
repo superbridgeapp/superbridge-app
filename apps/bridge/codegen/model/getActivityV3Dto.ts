@@ -5,12 +5,13 @@
  * API docs
  * OpenAPI spec version: 1.0
  */
+import type { GetHyperlaneActivityDto } from './getHyperlaneActivityDto';
 
 export interface GetActivityV3Dto {
   address: string;
   /** @nullable */
   cursor: string | null;
   deploymentIds: string[];
-  hyperlaneMailboxes?: string[];
+  hyperlane?: GetHyperlaneActivityDto;
   includeAcross: boolean;
 }

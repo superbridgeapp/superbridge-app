@@ -85,6 +85,7 @@ export * from './forcedWithdrawalDto';
 export * from './genericRouteErrorDto';
 export * from './getActivityDto';
 export * from './getActivityV3Dto';
+export * from './getHyperlaneActivityDto';
 export * from './highlightedTokens';
 export * from './hyperlaneBridgeDto';
 export * from './hyperlaneContractAddressesDto';

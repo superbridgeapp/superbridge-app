@@ -55,38 +55,6 @@ export const getServerSideProps = async ({
     }),
   };
 
-  // if (isSuperbridge) {
-  //   const [name] = req.url.split(/[?\/]/).filter(Boolean);
-
-  //   let testnets = false;
-  //   if (
-  //     req.headers.host === "testnets.superbridge.app" ||
-  //     SUPERCHAIN_TESTNETS.includes(name)
-  //   ) {
-  //     testnets = true;
-  //   }
-
-  //   const [{ data }, cctpDomains, acrossDomains, superbridgeConfig] =
-  //     await Promise.all([
-  //       bridgeControllerGetDeployments({
-  //         names: [...SUPERCHAIN_MAINNETS, ...SUPERCHAIN_TESTNETS],
-  //       }),
-  //       bridgeControllerGetCctpDomains(),
-  //       bridgeControllerGetAcrossDomains(),
-  //       bridgeControllerGetSuperbridgeConfig(),
-  //     ]);
-
-  //   return {
-  //     props: {
-  //       deployments: data,
-  //       acrossDomains: acrossDomains.data,
-  //       cctpDomains: cctpDomains.data,
-  //       testnets,
-  //       superbridgeConfig: superbridgeConfig.data,
-  //     },
-  //   };
-  // }
-
   // const name = (() => {
   //   if (
   //     req.headers.host?.includes("localhost") ||
