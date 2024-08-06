@@ -16,7 +16,7 @@ export const TokenIcon = ({
     setError(false);
   }, [token?.logoURI]);
 
-  if (error) {
+  if (error || !token?.logoURI) {
     return (
       <div
         className={clsx(
@@ -24,7 +24,7 @@ export const TokenIcon = ({
           "flex rounded-full bg-zinc-400 dark:bg-zinc-800 overflow-hidden font-heading border  p-1 text-xs items-center justify-center text-white"
         )}
       >
-        {token?.symbol.substring(0, 3)}
+        {(token?.symbol ?? "TOK").substring(0, 3)}
       </div>
     );
   }
