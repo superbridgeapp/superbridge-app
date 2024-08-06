@@ -4,13 +4,13 @@ import { ModalNames } from "@/constants/modal-names";
 import { useTransactions } from "@/hooks/use-transactions";
 import { useConfigState } from "@/state/config";
 
-import { IconActivity, IconSettings, IconSpinner } from "./icons";
+import { IconActivity, IconSettings } from "./icons";
 
 export const BridgeHeader = () => {
   const setDisplayTransactions = useConfigState.useSetDisplayTransactions();
   const addModal = useConfigState.useAddModal();
 
-  const { inProgressCount } = useTransactions();
+  const { inProgressCount, actionRequiredCount } = useTransactions();
 
   return (
     <>
@@ -26,11 +26,12 @@ export const BridgeHeader = () => {
             )}
             onClick={() => setDisplayTransactions(true)}
           >
-            {/* TODO: Put "action required" text here as needed */}
             {inProgressCount > 0 && (
               <div className="flex items-center gap-1">
                 <span className="text-xs font-body leading-none">
-                  {inProgressCount} Active
+                  {actionRequiredCount > 0
+                    ? "Action required"
+                    : `${inProgressCount} active`}
                 </span>
               </div>
             )}
