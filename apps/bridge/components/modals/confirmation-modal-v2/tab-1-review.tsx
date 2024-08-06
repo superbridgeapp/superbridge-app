@@ -1,8 +1,19 @@
 import Link from "next/link";
 
-import { IconGas, IconSB, IconTime } from "@/components/icons";
+import { RouteProvider } from "@/codegen/model";
+import {
+  IconGas,
+  IconSB,
+  IconSimpleGas,
+  IconSimpleTime,
+  IconTime,
+  IconVia,
+} from "@/components/icons";
 import { NetworkIcon } from "@/components/network-icon";
-import { RouteProviderIcon } from "@/components/route-provider-icon";
+import {
+  RouteProviderIcon,
+  RouteProviderName,
+} from "@/components/route-provider-icon";
 import { Button } from "@/components/ui/button";
 import {
   DialogDescription,
@@ -117,26 +128,27 @@ export const ConfirmationModalReviewTab = ({
 
         <div className="flex flex-col divide-y divide-border rounded-lg border py-0.5 text-xs">
           {/* Row 1 */}
-          <div className="flex items-start gap-4 p-2 justify-between">
+          <div className="flex items-start gap-4 p-3 justify-between">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <IconSB className="w-4 h-auto" />
+                <IconVia className="w-4 h-auto fill-muted-foreground" />
                 <span>Bridge via</span>
               </div>
             </div>
             <div className="flex gap-1.5 items-center justify-between ">
+              <RouteProviderName provider={route.data!.id} />
               <RouteProviderIcon
                 provider={route.data!.id}
-                className="h-4 w-4"
+                className="h-4 w-4 rounded-full"
               />
             </div>
           </div>
 
           {/* Row 2 */}
-          <div className="flex items-start gap-4 p-2 justify-between">
+          <div className="flex items-start gap-4 p-3 justify-between">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <IconTime className="w-4 h-auto" />
+                <IconSimpleTime className="w-4 h-auto fill-muted-foreground" />
                 <span>Approx bridge time</span>
               </div>
             </div>
@@ -147,10 +159,10 @@ export const ConfirmationModalReviewTab = ({
 
           {/* TODO: is this all fees or just to initiate */}
           {/* Row 3 */}
-          <div className="flex items-start gap-4 p-2 justify-between">
+          <div className="flex items-start gap-4 p-3 justify-between">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <IconGas className="w-4 h-auto" />
+                <IconSimpleGas className="w-4 h-auto fill-muted-foreground" />
                 <span>Network costs</span>
               </div>
             </div>
