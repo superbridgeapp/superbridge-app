@@ -1,6 +1,6 @@
 import { ModalNames } from "@/constants/modal-names";
-import { useBridgeRoutes } from "@/hooks/use-bridge-routes";
-import { useSelectedBridgeRoute } from "@/hooks/use-selected-bridge-route";
+import { useBridgeRoutes } from "@/hooks/routes/use-bridge-routes";
+import { useSelectedBridgeRoute } from "@/hooks/routes/use-selected-bridge-route";
 import { useConfigState } from "@/state/config";
 import { isRouteQuote, isRouteQuoteError } from "@/utils/guards";
 
@@ -41,7 +41,7 @@ export const RoutePreview = () => {
 
   const hasMore =
     !!routes.data &&
-    routes.data.filter((x) => isRouteQuote(x.result)).length > 1;
+    routes.data.results.filter((x) => isRouteQuote(x.result)).length > 1;
 
   return (
     <div className={`flex flex-col gap-2 pt-1 relative`}>

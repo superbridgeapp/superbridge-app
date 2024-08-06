@@ -1,7 +1,13 @@
 import { useConnectModal } from "@rainbow-me/rainbowkit";
 import { useTranslation } from "react-i18next";
 import { match } from "ts-pattern";
-import { formatUnits, parseUnits } from "viem";
+import {
+  Address,
+  formatUnits,
+  isAddressEqual,
+  parseUnits,
+  zeroAddress,
+} from "viem";
 import { useAccount, useBalance } from "wagmi";
 
 import { useIsAcrossRoute } from "@/hooks/across/use-is-across-route";
@@ -10,6 +16,8 @@ import { useBridgeDisabled } from "@/hooks/bridge/use-bridge-disabled";
 import { useBridgeMax } from "@/hooks/bridge/use-bridge-max";
 import { useBridgeMin } from "@/hooks/bridge/use-bridge-min";
 import { useBridgePaused } from "@/hooks/bridge/use-bridge-paused";
+import { useRouteRequest } from "@/hooks/routes/use-route-request";
+import { useSelectedBridgeRoute } from "@/hooks/routes/use-selected-bridge-route";
 import { useSelectedToken } from "@/hooks/tokens/use-token";
 import { useTokenBalance } from "@/hooks/use-balances";
 import { useBaseNativeTokenBalance } from "@/hooks/use-base-native-token-balance";
@@ -18,7 +26,6 @@ import { useInitiatingChainId } from "@/hooks/use-initiating-chain-id";
 import { useNativeToken } from "@/hooks/use-native-token";
 import { useNetworkFee } from "@/hooks/use-network-fee";
 import { useRequiredCustomGasTokenBalance } from "@/hooks/use-required-custom-gas-token-balance";
-import { useSelectedBridgeRoute } from "@/hooks/use-selected-bridge-route";
 import { useWeiAmount } from "@/hooks/use-wei-amount";
 import { useIsWithdrawal } from "@/hooks/use-withdrawing";
 import { useConfigState } from "@/state/config";
@@ -47,6 +54,7 @@ export const BridgeButton = () => {
   const paused = useBridgePaused();
   const disabled = useBridgeDisabled();
   const route = useSelectedBridgeRoute();
+  const routeRequest = useRouteRequest();
 
   const initiatingChainId = useInitiatingChainId();
   const initiatingChain = useChain(initiatingChainId);
@@ -107,6 +115,13 @@ export const BridgeButton = () => {
     bridgeMin,
     disabled,
     routeLoading: route.isLoading,
+    // we allow pulling quotes with no connected wallet, but
+    // don't want to allow sending said quote
+    zeroRouteAddress:
+      (!!routeRequest?.sender &&
+        isAddressEqual(routeRequest.sender as Address, zeroAddress)) ||
+      (!!routeRequest?.sender &&
+        isAddressEqual(routeRequest.recipient as Address, zeroAddress)),
   })
     .with({ disabled: true }, () => ({
       onSubmit: () => {},
@@ -190,7 +205,7 @@ export const BridgeButton = () => {
     .otherwise((d) => ({
       onSubmit: handleSubmitClick,
       buttonText: t("reviewBridge"),
-      disabled: d.routeLoading ? true : false,
+      disabled: d.routeLoading || d.zeroRouteAddress ? true : false,
     }));
 
   return (

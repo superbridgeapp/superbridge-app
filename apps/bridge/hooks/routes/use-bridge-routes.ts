@@ -1,15 +1,15 @@
 import { useDebounce } from "use-debounce";
-import { isAddress } from "viem";
+import { isAddress, zeroAddress } from "viem";
 import { useAccount } from "wagmi";
 
 import { useConfigState } from "@/state/config";
 import { isHyperlaneToken } from "@/utils/guards";
 
-import { useBridgeControllerGetRoutes } from "../codegen";
-import { useDestinationToken, useSelectedToken } from "./tokens/use-token";
-import { useFromChain, useToChain } from "./use-chain";
-import { useGraffiti } from "./use-graffiti";
-import { useWeiAmount } from "./use-wei-amount";
+import { useBridgeControllerGetRoutes } from "../../codegen";
+import { useDestinationToken, useSelectedToken } from "../tokens/use-token";
+import { useFromChain, useToChain } from "../use-chain";
+import { useGraffiti } from "../use-graffiti";
+import { useWeiAmount } from "../use-wei-amount";
 
 export const useBridgeRoutes = () => {
   const from = useFromChain();
@@ -34,8 +34,8 @@ export const useBridgeRoutes = () => {
       fromTokenAddress: fromTokenAddress ?? "",
       toTokenAddress: toTokenAddress ?? "",
       graffiti: useGraffiti(),
-      recipient: recipientAddress,
-      sender: account.address ?? "",
+      recipient: recipientAddress || zeroAddress,
+      sender: account.address ?? zeroAddress,
 
       forceViaL1,
 
@@ -56,9 +56,7 @@ export const useBridgeRoutes = () => {
           !!to &&
           !!fromTokenAddress &&
           !!toTokenAddress &&
-          !!recipientAddress &&
-          isAddress(recipientAddress) &&
-          !!account.address,
+          (recipientAddress ? isAddress(recipientAddress) : true),
       },
     }
   );

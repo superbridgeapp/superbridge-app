@@ -1,6 +1,6 @@
 import { isAmountTooLargeRouteError } from "@/utils/guards";
 
-import { useSelectedBridgeRoute } from "../use-selected-bridge-route";
+import { useSelectedBridgeRoute } from "../routes/use-selected-bridge-route";
 
 export const useBridgeMax = () => {
   const route = useSelectedBridgeRoute();

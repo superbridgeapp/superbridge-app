@@ -10,8 +10,8 @@ import { formatDecimals } from "@/utils/format-decimals";
 import { isRouteQuote } from "@/utils/guards";
 
 import { useBridge } from "./bridge/use-bridge";
+import { useSelectedBridgeRoute } from "./routes/use-selected-bridge-route";
 import { useNativeTokenForChainId } from "./use-native-token";
-import { useSelectedBridgeRoute } from "./use-selected-bridge-route";
 
 export const useNetworkFee = () => {
   const route = useSelectedBridgeRoute();

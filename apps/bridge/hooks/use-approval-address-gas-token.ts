@@ -2,7 +2,7 @@ import { Address } from "viem";
 
 import { isRouteQuote } from "@/utils/guards";
 
-import { useSelectedBridgeRoute } from "./use-selected-bridge-route";
+import { useSelectedBridgeRoute } from "./routes/use-selected-bridge-route";
 
 export function useApprovalAddressGasToken(): Address | undefined {
   const route = useSelectedBridgeRoute();

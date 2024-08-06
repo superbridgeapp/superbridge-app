@@ -1,9 +1,9 @@
 import { formatUnits } from "viem";
 
-import { RouteResponseDto } from "@/codegen/model";
+import { RouteResultDto } from "@/codegen/model";
 import { currencySymbolMap } from "@/constants/currency-symbol-map";
+import { useSelectedBridgeRoute } from "@/hooks/routes/use-selected-bridge-route";
 import { useTokenPrice } from "@/hooks/use-prices";
-import { useSelectedBridgeRoute } from "@/hooks/use-selected-bridge-route";
 import { useSettingsState } from "@/state/settings";
 import { isRouteQuote } from "@/utils/guards";
 
@@ -17,7 +17,7 @@ export const useFees = () => {
 
 export const useFeesForRoute = (route: {
   isLoading: boolean;
-  data: RouteResponseDto | null;
+  data: RouteResultDto | null;
 }) => {
   const fromToken = useSelectedToken();
   const toToken = useDestinationToken();
