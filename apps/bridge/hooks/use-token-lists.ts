@@ -9,7 +9,6 @@ import UniswapArbitrumTokenList from "@/utils/token-list/json/arbitrum-uniswap.j
 import ArbArbitrumTokenList from "@/utils/token-list/json/arbitrum.json";
 import * as usdc from "@/utils/token-list/json/cctp/usdc";
 import MockArbitrumTokenList from "@/utils/token-list/json/mock-arbitrum.json";
-import { wsteth } from "@/utils/token-list/json/wsteth";
 import { transformArbitrumTokenList } from "@/utils/token-list/transform-arbitrum-token-list";
 import { transformIntoOptimismToken } from "@/utils/token-list/transform-optimism-token";
 
@@ -129,9 +128,7 @@ export const useTokenLists = () => {
      * Local tokens
      */
 
-    // Fully qualified tokens, where we have all the StandardBridge mappings done.
-    // Kroma is a special case but we ensure we do the L2 token mappings below
-    [...usdc.bridged, ...usdc.native, ...wsteth].forEach((tok) => {
+    [...usdc.bridged, ...usdc.native].forEach((tok) => {
       if (multichainTokens[tok.opTokenId]) {
         multichainTokens[tok.opTokenId][tok.chainId] = tok;
       } else {
