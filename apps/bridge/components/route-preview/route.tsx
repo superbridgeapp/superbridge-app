@@ -13,12 +13,7 @@ import { useGetFormattedAmount } from "@/hooks/use-get-formatted-amount";
 import { useNetworkFeeForGasLimit } from "@/hooks/use-network-fee";
 import { useApproxTotalBridgeTimeTextForRoute } from "@/hooks/use-transfer-time";
 
-import {
-  IconCaretDown,
-  IconSimpleFees,
-  IconSimpleGas,
-  IconSimpleTime,
-} from "../icons";
+import { IconSimpleFees, IconSimpleGas, IconSimpleTime } from "../icons";
 import { NetworkIcon } from "../network-icon";
 import { RouteProviderIcon, RouteProviderName } from "../route-provider-icon";
 import { TokenIcon } from "../token-icon";
@@ -88,16 +83,14 @@ export const Route = ({
 
       <div className="flex gap-3 justify-start mt-2">
         <div className="flex gap-1 items-center">
-          {/* TODO: Maybe if need another format option if zero if simply says 0 fees  */}
           <IconSimpleFees className="h-3 w-auto fill-muted-foreground" />
-          {!fees.data?.totals.fiatFormatted && (
+          {fees.data?.totals.token === 0 ? (
+            <span>=== 0 fees ===</span>
+          ) : (
             <span className="text-xs leading-none text-muted-foreground">
-              {fees.data?.totals.tokenFormatted} Fee
-            </span>
-          )}
-          {fees.data?.totals.fiatFormatted && (
-            <span className="text-xs leading-none text-muted-foreground">
-              {fees.data?.totals.fiatFormatted} Fee
+              {fees.data?.totals.fiatFormatted ??
+                fees.data?.totals.tokenFormatted}{" "}
+              Fee
             </span>
           )}
         </div>
