@@ -84,13 +84,13 @@ export const renzoTheme: Partial<ThemeDto> = {
 
 export const hyperlaneTheme: Partial<ThemeDto> = {
   darkModeEnabled: false,
-  background: "#1A012F",
-  muted: "rgba(208,158,249, 0.1)",
+  background: "#11011E",
+  muted: "rgba(208,158,249, 0.088)",
   foreground: "#ffffff",
   "muted-foreground": "#D9B3FA",
   primary: "#D09EF9",
   "primary-foreground": "#1A012F",
-  card: "rgba(26, 1, 47, .88)",
+  card: "rgba(26, 1, 47, .80)",
   border: "rgba(208,158,249, 0.15)",
   fontBody:
     "https://hyperlane.superbridge.app/fonts/hyperlane/GT-Flexa-Standard-Regular.woff2",
@@ -101,8 +101,8 @@ export const hyperlaneTheme: Partial<ThemeDto> = {
   imageBackground: "/img/hyperlane/bg.svg",
   imageBackgroundDark: "/img/hyperlane/bg.svg",
   backgroundImageBlendMode: "normal",
-  backgroundImagePosition: "top center",
-  backgroundImageSize: "cover",
+  backgroundImagePosition: "top",
+  backgroundImageSize: "contain",
   backgroundImageRepeat: "no-repeat",
-  backgroundImageOpacity: "24",
+  backgroundImageOpacity: "100",
 };

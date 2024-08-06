@@ -393,7 +393,7 @@ export const ConfirmationModalStartTab = () => {
   return (
     <div>
       <DialogHeader className="items-center">
-        <TokenIcon token={token} className="h-11 w-11" />
+        <TokenIcon token={token} className="h-14 w-14 mb-2" />
         <DialogTitle className="text-3xl">
           Bridge {rawAmount} {token?.symbol}
         </DialogTitle>
@@ -458,7 +458,7 @@ export const ConfirmationModalStartTab = () => {
                 chain: from,
                 fee: approved ? undefined : fee(approveCost, 4),
                 buttonComponent: approved ? (
-                  <IconCheckCircle className="w-6 h-6 fill-primary" />
+                  <IconCheckCircle className="w-6 h-6 fill-muted-foreground" />
                 ) : (
                   <Button
                     onClick={approveButton.onSubmit}

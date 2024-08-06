@@ -1,7 +1,14 @@
 import clsx from "clsx";
 import { formatDistanceToNow } from "date-fns";
 
-import { IconSimpleGas, IconSpinner, IconTime } from "@/components/icons";
+import {
+  IconActivity,
+  IconCheckCircle,
+  IconSimpleGas,
+  IconSimpleTime,
+  IconSpinner,
+  IconTime,
+} from "@/components/icons";
 import { NetworkIcon } from "@/components/network-icon";
 import { useNetworkFeeForGasLimit } from "@/hooks/use-network-fee";
 import { Transaction } from "@/types/transaction";
@@ -44,19 +51,19 @@ export function LineItem({
     return (
       <div className="flex gap-4 px-3 py-2 rounded-lg justify-start items-center w-full">
         <div className="flex items-center gap-2 w-full">
-          <IconTime className="w-8 h-8" />
+          <IconSimpleTime className="w-8 h-8 fill-muted-foreground" />
 
-          <span className="text-xs">{duration}</span>
+          <span className="text-sm">Wait {duration}</span>
 
-          <span className="ml-auto text-xs">
+          <span className="ml-auto">
             {isWaitStepDone(step) ? (
-              "✅"
+              <IconCheckCircle className="w-6 h-6 fill-muted-foreground" />
             ) : isWaitStepInProgress(step) ? (
               <div className="flex items-center gap-1">
-                <span>
+                <span className="text-xs text-muted-foreground">
                   ~{formatDistanceToNow(step.startedAt + step.duration)} to go
                 </span>
-                <IconSpinner className="h-3 w-3" />
+                <IconSpinner className="h-6 w-6" />
               </div>
             ) : (
               ""
@@ -134,7 +141,7 @@ export function TransactionLineItem({
         </a>
       ) : step.pendingHash ? (
         <a href={transactionLink(step.pendingHash, step.chain)} target="_blank">
-          <IconSpinner className="h-4 w-4" />
+          <IconSpinner className="h-6 w-6" />
         </a>
       ) : (
         <>
