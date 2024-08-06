@@ -1,11 +1,13 @@
 import { useMemo } from "react";
 
-import { isSuperbridge } from "@/config/app";
 import { useInjectedStore } from "@/state/injected";
 
+import { useIsSuperbridge } from "../apps/use-is-superbridge";
+
 export const useCctpDomains = () => {
-  const superbridgeTestnets = useInjectedStore((s) => s.testnets);
+  const superbridgeTestnets = useInjectedStore((s) => s.superbridgeTestnets);
   const allCctpDomains = useInjectedStore((s) => s.cctpDomains);
+  const isSuperbridge = useIsSuperbridge();
 
   return useMemo(() => {
     if (isSuperbridge) {

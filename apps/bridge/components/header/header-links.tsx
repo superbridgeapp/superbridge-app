@@ -8,7 +8,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { isSuperbridge } from "@/config/app";
+import { useIsSuperbridge } from "@/hooks/apps/use-is-superbridge";
 import { useDeployment } from "@/hooks/deployments/use-deployment";
 import { useConfigState } from "@/state/config";
 
@@ -18,6 +18,7 @@ export function HeaderLinks() {
   const { t } = useTranslation();
   const setLegalModal = useConfigState.useSetLegalModal();
   const deployment = useDeployment();
+  const isSuperbridge = useIsSuperbridge();
 
   const defaultLinks = [
     {

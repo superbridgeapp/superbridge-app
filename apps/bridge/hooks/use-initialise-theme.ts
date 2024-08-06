@@ -1,14 +1,13 @@
 import { useEffect, useState } from "react";
 
 import { ThemeDto } from "@/codegen/model";
-import { app } from "@/config/app";
 import {
   defaultBodyFont,
   defaultButtonFont,
   defaultHeadingFont,
 } from "@/config/fonts";
 
-import { useDeployment } from "./deployments/use-deployment";
+import { useApp } from "./use-metadata";
 
 async function refreshFonts(theme: ThemeDto) {
   const heading = new FontFace(
@@ -49,7 +48,7 @@ function updateTheme(theme: ThemeDto) {
 }
 
 export const useInitialiseTheme = () => {
-  const deployment = useDeployment();
+  const app = useApp();
   const [themeValues, setThemeValues] = useState<Partial<ThemeDto> | null>(
     null
   );
@@ -59,14 +58,7 @@ export const useInitialiseTheme = () => {
       updateTheme(app.theme);
       setThemeValues(app.theme);
     }
-
-    const theme = deployment?.theme?.theme;
-
-    if (theme) {
-      updateTheme(theme);
-      setThemeValues(theme);
-    }
-  }, [deployment]);
+  }, [app]);
 
   useEffect(() => {
     const listener = (e: MessageEvent) => {

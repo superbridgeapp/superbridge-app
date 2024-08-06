@@ -6,7 +6,6 @@ import { useChains } from "./use-chains";
 
 export const useChain = (chainId: number | undefined | null) => {
   const chains = useChains();
-
   return useMemo(() => {
     const chain = chains.find((x) => x.id === chainId);
     if (chain) {

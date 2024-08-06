@@ -4,9 +4,9 @@ import { useTranslation } from "react-i18next";
 import { IconAlert } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { isSuperbridge } from "@/config/app";
 import { optimismFaultProofsUpgrade } from "@/constants/links";
 import { AlertModals } from "@/constants/modal-names";
+import { useIsSuperbridge } from "@/hooks/apps/use-is-superbridge";
 import { useCancelBridge } from "@/hooks/bridge/use-cancel-bridge";
 import { useDismissAlert } from "@/hooks/bridge/use-dismiss-alert";
 import { useDeployment } from "@/hooks/deployments/use-deployment";
@@ -16,6 +16,7 @@ export const FaultProofsModal = () => {
   const onProceed = useDismissAlert(AlertModals.FaultProofs);
   const onCancel = useCancelBridge();
   const open = useModalsState.useAlerts().includes(AlertModals.FaultProofs);
+  const isSuperbridge = useIsSuperbridge();
 
   const { t } = useTranslation();
   const deployment = useDeployment();

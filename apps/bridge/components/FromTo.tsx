@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 
 import { useFromChain, useToChain } from "@/hooks/use-chain";
 import { useChains } from "@/hooks/use-chains";
-import { trackEvent } from "@/services/ga";
+import { useTrackEvent } from "@/services/ga";
 import { useConfigState } from "@/state/config";
 import { useInjectedStore } from "@/state/injected";
 
@@ -18,6 +18,7 @@ export const FromTo = () => {
   const setToChainId = useInjectedStore((s) => s.setToChainId);
   const setNetworkSelector = useConfigState.useSetNetworkSelector();
   const { t } = useTranslation();
+  const trackEvent = useTrackEvent();
 
   const networkSelectorEnabled = chains.length > 2;
   return (

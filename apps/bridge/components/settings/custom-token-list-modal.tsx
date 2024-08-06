@@ -143,7 +143,7 @@ export const CustomTokenListModal = () => {
               htmlFor="tokenListAgree"
               className="text-[11px] text-muted-foreground "
             >
-              {t("customTokenLists.disclaimer", { app: metadata.title })}{" "}
+              {t("customTokenLists.disclaimer", { app: metadata.head.name })}{" "}
               <a
                 target="_blank"
                 href="https://docs.rollbridge.app/custom-tokens"

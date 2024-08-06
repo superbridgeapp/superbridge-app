@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 
 import { useHasPendingAction } from "@/hooks/use-has-pending-action";
 import { useInProgressTxCount } from "@/hooks/use-in-progress-tx-count";
-import { trackEvent } from "@/services/ga";
+import { useTrackEvent } from "@/services/ga";
 import { useConfigState } from "@/state/config";
 
 import { IconSpinner } from "../icons";
@@ -27,6 +27,7 @@ export const ClosedActivity = () => {
   const { t } = useTranslation();
   const hasPendingAction = useHasPendingAction();
   const inProgressCount = useInProgressTxCount();
+  const trackEvent = useTrackEvent();
 
   return (
     <div className="h-16 fixed bottom-0 w-[50%] z-[55] flex justify-center items-center">

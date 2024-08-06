@@ -2,7 +2,6 @@ import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import ReactMarkdown from "react-markdown";
 
 import { bridgeControllerGetDeploymentsByDomain } from "@/codegen/index";
-import { StatelessHead } from "@/components/head";
 import PageFooter from "@/components/page-footer";
 import PageNav from "@/components/page-nav";
 
@@ -11,7 +10,7 @@ export default function ClientTerms({
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
     <>
-      <StatelessHead deployment={deployment} />
+      {/* <StatelessHead deployment={deployment} /> */}
       <div className="w-screen h-screen overflow-y-auto bg-background">
         <PageNav />
         <main>
@@ -32,7 +31,7 @@ export const getServerSideProps = async ({
   req,
 }: GetServerSidePropsContext) => {
   if (!req.headers.host) {
-    return { props: { deployment: null } };
+    return { props: { deployment: null, host: "" } };
   }
 
   const { data } = await bridgeControllerGetDeploymentsByDomain(
@@ -42,5 +41,5 @@ export const getServerSideProps = async ({
   //   names: ["arbitrum-one"],
   // });
 
-  return { props: { deployment: data[0] ?? null } };
+  return { props: { deployment: data[0] ?? null, host: req.headers.host } };
 };

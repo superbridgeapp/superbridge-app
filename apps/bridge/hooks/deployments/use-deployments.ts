@@ -1,17 +1,18 @@
 import { useMemo } from "react";
 
-import { isSuperbridge } from "@/config/app";
 import {
   SUPERCHAIN_MAINNETS,
   SUPERCHAIN_TESTNETS,
 } from "@/constants/superbridge";
 import { useInjectedStore } from "@/state/injected";
 
+import { useIsSuperbridge } from "../apps/use-is-superbridge";
 import { useAllDeployments } from "./use-all-deployments";
 
 export const useDeployments = () => {
   const allDeployments = useAllDeployments();
-  const testnets = useInjectedStore((store) => store.testnets);
+  const testnets = useInjectedStore((store) => store.superbridgeTestnets);
+  const isSuperbridge = useIsSuperbridge();
 
   return useMemo(() => {
     if (isSuperbridge) {

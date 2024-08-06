@@ -4,7 +4,7 @@ import { Address } from "viem";
 
 import { useDeployment } from "@/hooks/deployments/use-deployment";
 import { useMetadata } from "@/hooks/use-metadata";
-import { trackEvent } from "@/services/ga";
+import { useTrackEvent } from "@/services/ga";
 import { useConfigState } from "@/state/config";
 import { useSettingsState } from "@/state/settings";
 import {
@@ -25,6 +25,7 @@ export const CustomTokenImportModal = () => {
   const deployment = useDeployment();
   const { t } = useTranslation();
   const metadata = useMetadata();
+  const trackEvent = useTrackEvent();
 
   const open = useConfigState.useShowCustomTokenImportModal();
   const setOpen = useConfigState.useSetShowCustomTokenImportModal();
@@ -238,7 +239,7 @@ export const CustomTokenImportModal = () => {
               htmlFor="importAgree"
               className="text-[11px] text-muted-foreground "
             >
-              {t("customTokenLists.disclaimer", { app: metadata.title })}
+              {t("customTokenLists.disclaimer", { app: metadata.head.name })}
             </label>
           </div>
 

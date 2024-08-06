@@ -8,7 +8,6 @@ import {
   bridgeControllerGetDeployments,
 } from "@/codegen/index";
 import { DeploymentDto, DeploymentFamily } from "@/codegen/model";
-import { StatelessHead } from "@/components/head";
 import { IconAlert } from "@/components/icons";
 import PageFooter from "@/components/page-footer";
 import PageNav from "@/components/page-nav";
@@ -24,7 +23,6 @@ import {
 } from "@/components/ui/accordion";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
-import { isSuperbridge } from "@/config/app";
 import {
   optimismFaultProofs,
   optimismFaultProofsUpgrade,
@@ -306,7 +304,7 @@ function Support({
 
   return (
     <>
-      <StatelessHead deployment={deployment} />
+      {/* <StatelessHead deployment={deployment} /> */}
       <div className="w-screen h-screen overflow-y-auto bg-background">
         <PageNav />
 
@@ -616,7 +614,7 @@ export const getServerSideProps = async ({
   req,
   params,
 }: GetServerSidePropsContext) => {
-  if (!req.url || !params?.name || !isSuperbridge) {
+  if (!req.url || !params?.name) {
     throw new Error("Invalid");
   }
 

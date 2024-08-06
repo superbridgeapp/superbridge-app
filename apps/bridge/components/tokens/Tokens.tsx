@@ -13,7 +13,7 @@ import { useTokenBalances } from "@/hooks/use-balances";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
 import { useIsCustomToken } from "@/hooks/use-is-custom-token";
 import { useIsCustomTokenFromList } from "@/hooks/use-is-custom-token-from-list";
-import { trackEvent } from "@/services/ga";
+import { useTrackEvent } from "@/services/ga";
 import { useConfigState } from "@/state/config";
 import { useInjectedStore } from "@/state/injected";
 import { MultiChainToken } from "@/types/token";
@@ -279,6 +279,7 @@ export const FungibleTokenPicker = ({
   const { t } = useTranslation();
   const highlightedTokens =
     useInjectedStore((s) => s.superbridgeConfig)?.highlightedTokens ?? [];
+  const trackEvent = useTrackEvent();
 
   const filteredTokens = tokens.data.filter(({ token }) => {
     if (!search) {

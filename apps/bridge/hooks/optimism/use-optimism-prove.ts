@@ -1,6 +1,6 @@
 import { useBridgeControllerGetProveTransaction } from "@/codegen";
 import { BridgeWithdrawalDto } from "@/codegen/model";
-import { trackEvent } from "@/services/ga";
+import { useTrackEvent } from "@/services/ga";
 import { useConfigState } from "@/state/config";
 import { usePendingTransactions } from "@/state/pending-txs";
 
@@ -23,6 +23,7 @@ export function useProveOptimism({
       data: { id },
     })
   );
+  const trackEvent = useTrackEvent();
 
   const onProve = async () => {
     if (faultProofUpgradeTime) {

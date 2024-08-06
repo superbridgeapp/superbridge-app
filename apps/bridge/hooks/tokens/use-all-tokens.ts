@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { bsc, bscTestnet, syscoin, syscoinTestnet } from "viem/chains";
 
+import { useConfigState } from "@/state/config";
 import { MultiChainToken } from "@/types/token";
 import { getNativeTokenForDeployment } from "@/utils/get-native-token";
 
@@ -22,8 +23,10 @@ const BNB_CHAINS: number[] = [...BNB_TESTNET_CHAINS, ...BNB_MAINNET_CHAINS];
 const SYS_CHAINS: number[] = [syscoinTestnet.id, syscoin.id];
 
 export function useAllTokens() {
-  const configTokens = useConfigTokens();
-  return configTokens;
+  const appTokens = useConfigTokens();
+  const tokens = useConfigState.useTokens();
+
+  return useMemo(() => [...appTokens, ...tokens], [tokens, appTokens]);
 
   // const deployment = useDeployment();
   // // const tokens = useConfigState.useTokens();

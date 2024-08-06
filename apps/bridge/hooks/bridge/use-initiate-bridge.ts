@@ -11,7 +11,7 @@ import { useAllowance } from "@/hooks/use-allowance";
 import { useChain, useFromChain, useToChain } from "@/hooks/use-chain";
 import { useStatusCheck } from "@/hooks/use-status-check";
 import { useSwitchChain } from "@/hooks/use-switch-chain";
-import { trackEvent } from "@/services/ga";
+import { useTrackEvent } from "@/services/ga";
 import { useConfigState } from "@/state/config";
 import { useModalsState } from "@/state/modals";
 import { usePendingTransactions } from "@/state/pending-txs";
@@ -36,6 +36,7 @@ export const useInitiateBridge = () => {
   const switchChain = useSwitchChain();
   const tokens = useActiveTokens();
   const token = useSelectedToken();
+  const trackEvent = useTrackEvent();
 
   const weiAmount = useWeiAmount();
   const deployment = useDeployment();
@@ -83,7 +84,6 @@ export const useInitiateBridge = () => {
 
     try {
       const hash = await bridge.write!();
-      console.log(hash);
       setPendingBridgeTransactionHash(hash);
 
       const type =

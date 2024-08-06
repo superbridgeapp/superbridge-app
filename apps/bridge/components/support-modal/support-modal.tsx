@@ -2,7 +2,6 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 import { Checkbox } from "@/components/ui/checkbox";
-import { isSuperbridge } from "@/config/app";
 import { Period } from "@/utils/get-period";
 
 import { Button } from "../ui/button";
@@ -38,9 +37,7 @@ export const SupportModal = ({
   const body = [
     "Hi there,",
     "",
-    `I'm having an issue with ${
-      isSuperbridge ? "Superbridge" : `${rollupChain} bridge`
-    }`,
+    `I'm having an issue with bridging`,
     "",
     "- The problem I'm having:",
     "- The address of my wallet:",
@@ -56,9 +53,9 @@ export const SupportModal = ({
   ];
 
   const email = "support@superbridge.app";
-  const mailLink = `mailto:${email}?subject=${
-    isSuperbridge ? "Superbridge" : `${rollupChain} bridge`
-  } support query&body=${body.join("%0D%0A")}`;
+  const mailLink = `mailto:${email}?subject=Bridge support query&body=${body.join(
+    "%0D%0A"
+  )}`;
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -115,11 +112,8 @@ export const SupportModal = ({
                 onCheckedChange={(c) => setCheckbox4(c as boolean)}
               />
               <label htmlFor="gas" className="text-sm  text-muted-foreground">
-                You need gas on{" "}
-                {isSuperbridge
-                  ? "the rollup and Ethereum Mainnet"
-                  : `${rollupChain} and ${settlementChain}`}{" "}
-                to complete a withdrawal
+                You need gas on {rollupChain} and {settlementChain} to complete
+                a withdrawal
               </label>
             </div>
           </div>

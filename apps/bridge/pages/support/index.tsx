@@ -2,27 +2,23 @@ import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import Link from "next/link";
 
 import { bridgeControllerGetDeployments } from "@/codegen/index";
-import { StatelessHead } from "@/components/head";
 import PageFooter from "@/components/page-footer";
 import PageNav from "@/components/page-nav";
-import { isSuperbridge } from "@/config/app";
 import {
   SUPERCHAIN_MAINNETS,
   SUPERCHAIN_TESTNETS,
 } from "@/constants/superbridge";
 
-import { getServerSideProps as getServerSidePropsFromDomain } from "../client-terms";
-
 export default function Support({
   deployments,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  if (!isSuperbridge) {
+  if (deployments.length > 1) {
     return <div>Not Found</div>;
   }
 
   return (
     <>
-      <StatelessHead deployment={deployments[0] ?? null} />
+      {/* <StatelessHead deployment={deployments[0] ?? null} /> */}
       <div className="w-screen h-screen overflow-y-auto bg-background">
         <PageNav />
         <main>
@@ -62,17 +58,6 @@ export default function Support({
 }
 
 export const getServerSideProps = async (args: GetServerSidePropsContext) => {
-  if (!isSuperbridge) {
-    const { props } = await getServerSidePropsFromDomain(args);
-    if (props.deployment) {
-      return {
-        redirect: {
-          destination: `https://superbridge.app/support/${props.deployment.name}`,
-          permanent: false,
-        },
-      };
-    }
-  }
   const { data } = await bridgeControllerGetDeployments({
     names: [...SUPERCHAIN_MAINNETS, ...SUPERCHAIN_TESTNETS],
   });

@@ -3,9 +3,9 @@ import { useMemo } from "react";
 import { useAccount } from "wagmi";
 
 import { bridgeControllerGetActivityV3 } from "@/codegen";
-import { isSuperbridge } from "@/config/app";
 import { useInjectedStore } from "@/state/injected";
 
+import { useIsSuperbridge } from "./apps/use-is-superbridge";
 import { useDeployments } from "./deployments/use-deployments";
 import { useHyperlaneMailboxes } from "./hyperlane/use-hyperlane-mailboxes";
 
@@ -13,8 +13,11 @@ export const useTransactions = () => {
   const account = useAccount();
   const deployments = useDeployments();
   const hyperlaneMailboxes = useHyperlaneMailboxes();
+  const isSuperbridge = useIsSuperbridge();
 
-  const superbridgeTestnetsEnabled = useInjectedStore((s) => s.testnets);
+  const superbridgeTestnetsEnabled = useInjectedStore(
+    (s) => s.superbridgeTestnets
+  );
 
   const { data, isLoading, isFetchingNextPage, isError, fetchNextPage } =
     useInfiniteQuery({

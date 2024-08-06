@@ -1,6 +1,6 @@
 import { useBridgeControllerGetCctpMintTransactionV2 } from "@/codegen";
 import { CctpBridgeDto } from "@/codegen/model";
-import { trackEvent } from "@/services/ga";
+import { useTrackEvent } from "@/services/ga";
 import { usePendingTransactions } from "@/state/pending-txs";
 
 import { useSendTransactionDto } from "../use-send-transaction-dto";
@@ -8,6 +8,7 @@ import { useSendTransactionDto } from "../use-send-transaction-dto";
 export function useMintCctp({ id, to, from, bridge }: CctpBridgeDto) {
   const setFinalising = usePendingTransactions.useSetFinalising();
   const finaliseTransaction = useBridgeControllerGetCctpMintTransactionV2();
+  const trackEvent = useTrackEvent();
 
   const { loading, onSubmit } = useSendTransactionDto(to, () =>
     finaliseTransaction.mutateAsync({ data: { id } })

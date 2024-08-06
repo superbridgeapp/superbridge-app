@@ -25,9 +25,9 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { isSuperbridge } from "@/config/app";
 import { currencySymbolMap } from "@/constants/currency-symbol-map";
 import { useLatestSubmittedTx } from "@/hooks/activity/use-tx-by-hash";
+import { useIsSuperbridge } from "@/hooks/apps/use-is-superbridge";
 import { useBridge } from "@/hooks/bridge/use-bridge";
 import { useSubmitBridge } from "@/hooks/bridge/use-submit-bridge";
 import { useDeployment } from "@/hooks/deployments/use-deployment";
@@ -71,6 +71,7 @@ export const ConfirmationModalStartTab = () => {
   const allowance = useAllowance();
   const approve = useApprove();
   const { t } = useTranslation();
+  const isSuperbridge = useIsSuperbridge();
 
   const currency = useSettingsState.useCurrency();
   const fromToken = useSelectedToken();
@@ -299,7 +300,6 @@ export const ConfirmationModalStartTab = () => {
     .otherwise(() => ({
       onSubmit: async () => {
         const hash = await onSubmitBridge();
-        console.log("Got back", hash);
         if (hash) {
           setUseSubmittedHash(true);
         }

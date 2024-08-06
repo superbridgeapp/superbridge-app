@@ -2,7 +2,6 @@ import { useCallback, useEffect } from "react";
 import { isPresent } from "ts-is-present";
 import { getAddress } from "viem";
 
-import { isSuperbridge } from "@/config/app";
 import { useConfigState } from "@/state/config";
 import { CustomTokenList, useSettingsState } from "@/state/settings";
 import { MultiChainToken, OptimismToken } from "@/types/token";
@@ -25,6 +24,7 @@ import { wsteth } from "@/utils/token-list/json/wsteth";
 import { transformArbitrumTokenList } from "@/utils/token-list/transform-arbitrum-token-list";
 import { transformIntoOptimismToken } from "@/utils/token-list/transform-optimism-token";
 
+import { useIsSuperbridge } from "./apps/use-is-superbridge";
 import { useDeployments } from "./deployments/use-deployments";
 
 export const useTokenLists = () => {
@@ -33,8 +33,15 @@ export const useTokenLists = () => {
   const setTokens = useConfigState.useSetTokens();
   const setTokensImportedFromLists =
     useConfigState.useSetTokensImportedFromLists();
+  const isSuperbridge = useIsSuperbridge();
 
   const updateTokens = useCallback(async () => {
+    // TODO: we need to backport all the below tokens to the respective bridges
+    //       on launch
+    if (!isSuperbridge) {
+      return;
+    }
+
     const multichainTokens: {
       [id: string]: MultiChainToken;
     } = {};

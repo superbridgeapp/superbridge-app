@@ -4,7 +4,7 @@ import { ChainDto } from "@/codegen/model";
 import { usePossibleFromChains } from "@/hooks/network-selector/use-possible-from-chains";
 import { useGetPossibleToChains } from "@/hooks/network-selector/use-possible-to-chains";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
-import { trackEvent } from "@/services/ga";
+import { useTrackEvent } from "@/services/ga";
 import { useConfigState } from "@/state/config";
 import { useInjectedStore } from "@/state/injected";
 
@@ -13,6 +13,7 @@ import { NetworkIcon } from "../network-icon";
 export const NetworkSelector = () => {
   const to = useToChain();
   const from = useFromChain();
+  const trackEvent = useTrackEvent();
 
   const networkSelector = useConfigState.useNetworkSelector();
   const setNetworkSelector = useConfigState.useSetNetworkSelector();

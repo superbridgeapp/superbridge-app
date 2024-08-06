@@ -6,8 +6,8 @@ import { DeploymentDto, DeploymentFamily } from "@/codegen/model";
 import { IconGas } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { isSuperbridge } from "@/config/app";
 import { AlertModals } from "@/constants/modal-names";
+import { useIsSuperbridge } from "@/hooks/apps/use-is-superbridge";
 import { useCancelBridge } from "@/hooks/bridge/use-cancel-bridge";
 import { useDismissAlert } from "@/hooks/bridge/use-dismiss-alert";
 import { useIsCctpRoute } from "@/hooks/cctp/use-is-cctp-route";
@@ -36,6 +36,7 @@ export const NoGasModal = () => {
   const onProceed = useDismissAlert(AlertModals.NoGas);
   const onCancel = useCancelBridge();
   const open = useModalsState.useAlerts().includes(AlertModals.NoGas);
+  const isSuperbridge = useIsSuperbridge();
 
   const { t } = useTranslation();
 
