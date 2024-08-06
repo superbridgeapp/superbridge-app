@@ -39,24 +39,22 @@ export const RoutePreview = () => {
     );
   }
 
-  const hasMore =
-    !!routes.data &&
-    routes.data.results.filter((x) => isRouteQuote(x.result)).length > 1;
+  const routeCount =
+    routes.data?.results.filter((x) => isRouteQuote(x.result)).length ?? 0;
 
   return (
     <div className={`flex flex-col gap-2 pt-1 relative`}>
       <div className="p-4 border rounded-xl">
         <Route provider={route.data.id} quote={route.data.result} />
       </div>
-      {hasMore && (
+      {routeCount > 1 && (
         <Button
           onClick={() => openModal(ModalNames.RouteSelector)}
           size={"xs"}
           variant={"secondary"}
           className="mx-auto absolute bottom-2.5 right-2 text-xs h-6 pr-2 gap-1"
         >
-          {/* TODO: Add number for more */}
-          2 More
+          <span>{routeCount} More</span>
           <IconCaretRight className="w-3 w-3 fill-foreground" />
         </Button>
       )}
