@@ -1,12 +1,7 @@
 import clsx from "clsx";
 import { formatDistanceToNow } from "date-fns";
 
-import {
-  IconCheckCircle,
-  IconSimpleGas,
-  IconSpinner,
-  IconTime,
-} from "@/components/icons";
+import { IconSimpleGas, IconSpinner, IconTime } from "@/components/icons";
 import { NetworkIcon } from "@/components/network-icon";
 import { useNetworkFeeForGasLimit } from "@/hooks/use-network-fee";
 import { Transaction } from "@/types/transaction";
@@ -172,11 +167,6 @@ export function TransactionLineItem({
           {step.buttonComponent}
         </>
       )}
-      {/* TODO: replace button with this when done */}
-      {/* TODO: Animate into arror icon when you hover the complete line item */}
-      <a href="#expolorer">
-        <IconCheckCircle className="w-6 h-6 fill-primary" />
-      </a>
     </div>
   );
 }

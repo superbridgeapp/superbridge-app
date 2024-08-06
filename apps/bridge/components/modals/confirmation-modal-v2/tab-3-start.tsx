@@ -14,10 +14,7 @@ import {
 } from "@/codegen/model";
 import { IconCheckCircle } from "@/components/icons";
 import { NetworkIcon } from "@/components/network-icon";
-import {
-  RouteProviderIcon,
-  RouteProviderName,
-} from "@/components/route-provider-icon";
+import { RouteProviderName } from "@/components/route-provider-icon";
 import { TokenIcon } from "@/components/token-icon";
 import { FinaliseButton, ProveButton } from "@/components/transaction-buttons";
 import { LineItem } from "@/components/transaction-line-item";
@@ -460,7 +457,9 @@ export const ConfirmationModalStartTab = () => {
                 }),
                 chain: from,
                 fee: approved ? undefined : fee(approveCost, 4),
-                buttonComponent: (
+                buttonComponent: approved ? (
+                  <IconCheckCircle className="w-6 h-6 fill-primary" />
+                ) : (
                   <Button
                     onClick={approveButton.onSubmit}
                     disabled={approveButton.disabled}
