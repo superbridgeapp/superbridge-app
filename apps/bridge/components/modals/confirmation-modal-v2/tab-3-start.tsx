@@ -12,6 +12,7 @@ import {
   RouteProvider,
   RouteStepType,
 } from "@/codegen/model";
+import { IconCheckCircle } from "@/components/icons";
 import { NetworkIcon } from "@/components/network-icon";
 import {
   RouteProviderIcon,
@@ -400,15 +401,15 @@ export const ConfirmationModalStartTab = () => {
           Bridge {rawAmount} {token?.symbol}
         </DialogTitle>
         <DialogDescription>
-          <div className="flex gap-1 items-center rounded-full border">
-            <div className="flex -gap-1">
-              <NetworkIcon chain={from} className="w-7 h-7" />
-              <NetworkIcon chain={to} className="w-7 h-7" />
+          <div className="flex gap-1 items-center rounded-full border pl-1.5 pr-2 py-1">
+            <div className="flex">
+              <NetworkIcon chain={from} className="w-4 h-4" />
+              <NetworkIcon chain={to} className="w-4 h-4 -ml-1" />
             </div>
-            <span>
+            <span className="text-xs text-muted-foreground">
               via <RouteProviderName provider={route.data?.id ?? null} />
             </span>
-            <RouteProviderIcon provider={route.data?.id ?? null} />
+            {/* <RouteProviderIcon provider={route.data?.id ?? null} /> */}
           </div>
         </DialogDescription>
       </DialogHeader>
