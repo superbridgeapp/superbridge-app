@@ -7,8 +7,8 @@ import {
 
 import { isRouteQuote } from "@/utils/guards";
 
+import { useSelectedBridgeRoute } from "../routes/use-selected-bridge-route";
 import { useInitiatingChainId } from "../use-initiating-chain-id";
-import { useSelectedBridgeRoute } from "../use-selected-bridge-route";
 
 export const useBridge = () => {
   const initiatingChainId = useInitiatingChainId();

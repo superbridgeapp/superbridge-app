@@ -1,6 +1,6 @@
 import { isAmountTooSmallRouteError } from "@/utils/guards";
 
-import { useSelectedBridgeRoute } from "../use-selected-bridge-route";
+import { useSelectedBridgeRoute } from "../routes/use-selected-bridge-route";
 
 export const useBridgeMin = () => {
   const route = useSelectedBridgeRoute();

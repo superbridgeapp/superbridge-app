@@ -39,10 +39,6 @@ export const TokenInput = () => {
     token?.decimals ?? 18
   );
 
-  if (!token) {
-    return null;
-  }
-
   const amount = getFormattedAmount(weiAmount.toString());
 
   return (

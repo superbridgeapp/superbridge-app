@@ -12,4 +12,4 @@ import type { AmountTooLargeRouteErrorDto } from './amountTooLargeRouteErrorDto'
 import type { PausedRouteErrorDto } from './pausedRouteErrorDto';
 import type { DisabledRouteErrorDto } from './disabledRouteErrorDto';
 
-export type RouteResponseDtoResult = RouteQuoteDto | GenericRouteErrorDto | AmountTooSmallRouteErrorDto | AmountTooLargeRouteErrorDto | PausedRouteErrorDto | DisabledRouteErrorDto;
+export type RouteResultDtoResult = RouteQuoteDto | GenericRouteErrorDto | AmountTooSmallRouteErrorDto | AmountTooLargeRouteErrorDto | PausedRouteErrorDto | DisabledRouteErrorDto;

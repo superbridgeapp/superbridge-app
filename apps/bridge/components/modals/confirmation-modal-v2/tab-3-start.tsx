@@ -33,6 +33,7 @@ import { useLatestSubmittedTx } from "@/hooks/activity/use-tx-by-hash";
 import { useBridge } from "@/hooks/bridge/use-bridge";
 import { useSubmitBridge } from "@/hooks/bridge/use-submit-bridge";
 import { useDeployment } from "@/hooks/deployments/use-deployment";
+import { useSelectedBridgeRoute } from "@/hooks/routes/use-selected-bridge-route";
 import {
   useDestinationToken,
   useSelectedToken,
@@ -46,7 +47,6 @@ import { useNativeToken, useToNativeToken } from "@/hooks/use-native-token";
 import { useTokenPrice } from "@/hooks/use-prices";
 import { useReceiveAmount } from "@/hooks/use-receive-amount";
 import { useRequiredCustomGasTokenBalance } from "@/hooks/use-required-custom-gas-token-balance";
-import { useSelectedBridgeRoute } from "@/hooks/use-selected-bridge-route";
 import { useSwitchChain } from "@/hooks/use-switch-chain";
 import { useWeiAmount } from "@/hooks/use-wei-amount";
 import { useIsWithdrawal } from "@/hooks/use-withdrawing";

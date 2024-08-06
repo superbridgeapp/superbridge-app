@@ -1680,7 +1680,7 @@ export const useBridgeControllerGetSuperbridgeConfig = <TData = Awaited<ReturnTy
 
 export const bridgeControllerGetRoutes = (
     params: BridgeControllerGetRoutesParams, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<RouteResponseDto[]>> => {
+ ): Promise<AxiosResponse<RouteResponseDto>> => {
     
     return axios.get(
       `/api/bridge/routes`,{

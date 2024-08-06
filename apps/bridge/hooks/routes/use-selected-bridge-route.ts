@@ -13,16 +13,18 @@ export const useSelectedBridgeRoute = () => {
 
   // take first successful otherwise take first
   if (!routeId) {
-    const successful = routes.data?.find((x) => !isRouteQuoteError(x.result));
+    const successful = routes.data?.results.find(
+      (x) => !isRouteQuoteError(x.result)
+    );
     return {
       isLoading: false,
-      data: successful ?? routes.data?.[0] ?? null,
+      data: successful ?? routes.data?.results[0] ?? null,
     };
   }
 
   // if we've explicitly chosen a route, keep taking that
   return {
     isLoading: false,
-    data: routes.data?.find((x) => x.id === routeId) ?? null,
+    data: routes.data?.results.find((x) => x.id === routeId) ?? null,
   };
 };

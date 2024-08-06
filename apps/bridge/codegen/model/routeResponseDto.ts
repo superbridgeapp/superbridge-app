@@ -5,10 +5,10 @@
  * API docs
  * OpenAPI spec version: 1.0
  */
-import type { RouteProvider } from './routeProvider';
-import type { RouteResponseDtoResult } from './routeResponseDtoResult';
+import type { RouteRequestDto } from './routeRequestDto';
+import type { RouteResultDto } from './routeResultDto';
 
 export interface RouteResponseDto {
-  id: RouteProvider;
-  result: RouteResponseDtoResult;
+  request: RouteRequestDto;
+  results: RouteResultDto[];
 }

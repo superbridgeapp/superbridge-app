@@ -3,8 +3,10 @@ import type {
   GetServerSidePropsContext,
   InferGetServerSidePropsType,
 } from "next";
+import { Chain, mainnet, optimism } from "viem/chains";
 
 import { bridgeControllerGetBridgeConfigByDomain } from "@/codegen";
+import { ChainDto } from "@/codegen/model";
 import { Layout } from "@/components/Layout";
 import { PageTransition } from "@/components/PageTransition";
 import { Providers } from "@/components/Providers";
@@ -15,6 +17,19 @@ import { useInitialInjectedState } from "@/hooks/use-initial-injected-state";
 import { InjectedStoreProvider } from "@/state/injected";
 import { ThemeProvider } from "@/state/theme";
 import { MultiChainToken } from "@/types/token";
+
+const getChainDto = (c: Chain): ChainDto => {
+  // @ts-expect-error
+  c.formatters = null;
+  // @ts-expect-error
+  c.serializers = null;
+  // @ts-expect-error
+  c.fees = null;
+  // @ts-expect-error
+  c.contracts = null;
+
+  return c as unknown as ChainDto;
+};
 
 export const getServerSideProps = async ({
   req,
@@ -37,20 +52,23 @@ export const getServerSideProps = async ({
     requestHost = developmentHost;
   }
 
-  console.log(requestHost);
-  const config = await bridgeControllerGetBridgeConfigByDomain(requestHost);
-  console.log(config.data);
+  const config = await bridgeControllerGetBridgeConfigByDomain(
+    requestHost
+  ).catch(() => null);
 
   return {
     props: {
-      chains: config.data.chains,
-      deployments: config.data.deployments,
-      acrossDomains: config.data.acrossDomains,
-      cctpDomains: config.data.cctpDomains,
-      hyperlaneMailboxes: config.data.hyperlaneMailboxes,
-      banner: config.data.banner,
-      highlightedTokens: config.data.highlightedTokens,
-      tokens: config.data.tokens as MultiChainToken[],
+      chains: config?.data.chains ?? [
+        getChainDto(mainnet),
+        getChainDto(optimism),
+      ],
+      deployments: config?.data.deployments ?? [],
+      acrossDomains: config?.data.acrossDomains ?? [],
+      cctpDomains: config?.data.cctpDomains ?? [],
+      hyperlaneMailboxes: config?.data.hyperlaneMailboxes ?? [],
+      banner: config?.data.banner ?? null,
+      highlightedTokens: config?.data.highlightedTokens ?? [],
+      tokens: (config?.data.tokens as MultiChainToken[]) ?? [],
       testnets: false,
     },
   };

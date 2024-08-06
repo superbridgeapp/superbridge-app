@@ -1,5 +1,5 @@
 import { ModalNames } from "@/constants/modal-names";
-import { useBridgeRoutes } from "@/hooks/use-bridge-routes";
+import { useBridgeRoutes } from "@/hooks/routes/use-bridge-routes";
 import { useConfigState } from "@/state/config";
 import { isRouteQuoteError } from "@/utils/guards";
 
@@ -27,7 +27,7 @@ export const RouteSelectorModal = () => {
           <DialogTitle>Choose route</DialogTitle>
         </DialogHeader>
         <div className="flex flex-col px-4 pb-6">
-          {routes.data?.map((route) => {
+          {routes.data?.results.map((route) => {
             if (isRouteQuoteError(route.result)) {
               return null;
             }

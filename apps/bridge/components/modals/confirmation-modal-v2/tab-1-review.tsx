@@ -22,6 +22,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useSelectedBridgeRoute } from "@/hooks/routes/use-selected-bridge-route";
 import {
   useDestinationToken,
   useSelectedToken,
@@ -30,7 +31,6 @@ import { useFromChain, useToChain } from "@/hooks/use-chain";
 import { useNetworkFee } from "@/hooks/use-network-fee";
 import { usePeriodText } from "@/hooks/use-period-text";
 import { useReceiveAmount } from "@/hooks/use-receive-amount";
-import { useSelectedBridgeRoute } from "@/hooks/use-selected-bridge-route";
 import { useApproxTotalBridgeTime } from "@/hooks/use-transfer-time";
 import { useConfigState } from "@/state/config";
 
