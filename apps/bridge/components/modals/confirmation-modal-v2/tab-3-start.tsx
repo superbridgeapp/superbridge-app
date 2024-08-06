@@ -13,7 +13,10 @@ import {
   RouteStepType,
 } from "@/codegen/model";
 import { NetworkIcon } from "@/components/network-icon";
-import { RouteProviderIcon } from "@/components/route-provider-icon";
+import {
+  RouteProviderIcon,
+  RouteProviderName,
+} from "@/components/route-provider-icon";
 import { TokenIcon } from "@/components/token-icon";
 import { FinaliseButton, ProveButton } from "@/components/transaction-buttons";
 import { LineItem } from "@/components/transaction-line-item";
@@ -392,15 +395,21 @@ export const ConfirmationModalStartTab = () => {
   return (
     <div>
       <DialogHeader className="items-center">
+        <TokenIcon token={token} className="h-11 w-11" />
         <DialogTitle className="text-3xl">
-          <TokenIcon token={token} className="h-8 w-8" />
           Bridge {rawAmount} {token?.symbol}
         </DialogTitle>
         <DialogDescription>
-          <NetworkIcon chain={from} className="w-7 h-7" />
-          <NetworkIcon chain={to} className="w-7 h-7" />
-          via
-          <RouteProviderIcon provider={route.data?.id ?? null} />
+          <div className="flex gap-1 items-center rounded-full border">
+            <div className="flex -gap-1">
+              <NetworkIcon chain={from} className="w-7 h-7" />
+              <NetworkIcon chain={to} className="w-7 h-7" />
+            </div>
+            <span>
+              via <RouteProviderName provider={route.data?.id ?? null} />
+            </span>
+            <RouteProviderIcon provider={route.data?.id ?? null} />
+          </div>
         </DialogDescription>
       </DialogHeader>
 
