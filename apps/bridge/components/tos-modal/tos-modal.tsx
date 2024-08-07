@@ -10,7 +10,7 @@ import { useRef, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import ReactMarkdown from "react-markdown";
 
-import { isSuperbridge } from "@/config/app";
+import { useIsSuperbridge } from "@/hooks/apps/use-is-superbridge";
 import { useDeployment } from "@/hooks/deployments/use-deployment";
 import { useMetadata } from "@/hooks/use-metadata";
 import { useConfigState } from "@/state/config";
@@ -27,6 +27,7 @@ export const TosModal = () => {
   const setLegalModal = useConfigState.useSetLegalModal();
   const metadata = useMetadata();
   const deployment = useDeployment();
+  const isSuperbridge = useIsSuperbridge();
 
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -67,7 +68,7 @@ export const TosModal = () => {
     <div className="flex flex-col gap-6 p-6">
       <div className="flex flex-col gap-2">
         <h1 className="font-heading text-3xl  text-center text-foreground">
-          {t("tos.welcome", { name: metadata.title })}
+          {t("tos.welcome", { name: metadata.head.name })}
         </h1>
 
         {!isSuperbridge && (

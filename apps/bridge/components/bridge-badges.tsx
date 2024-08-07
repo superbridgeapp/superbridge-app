@@ -1,7 +1,7 @@
 import { isPresent } from "ts-is-present";
 
 import { DeploymentType } from "@/codegen/model";
-import { isSuperbridge } from "@/config/app";
+import { useIsSuperbridge } from "@/hooks/apps/use-is-superbridge";
 import { useDeployment } from "@/hooks/deployments/use-deployment";
 import { useDeployments } from "@/hooks/deployments/use-deployments";
 import { useInjectedStore } from "@/state/injected";
@@ -12,7 +12,8 @@ import { TestnetBadge } from "./badges/testnet-badge";
 export const BridgeBadges = () => {
   const deployment = useDeployment();
   const deployments = useDeployments();
-  const superbridgeTestnets = useInjectedStore((s) => s.testnets);
+  const superbridgeTestnets = useInjectedStore((s) => s.superbridgeTestnets);
+  const isSuperbridge = useIsSuperbridge();
 
   const testnetBadge =
     (isSuperbridge && superbridgeTestnets) ||

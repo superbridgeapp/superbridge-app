@@ -1,6 +1,6 @@
 import { useDeployments } from "@/hooks/deployments/use-deployments";
 import { useSetToken } from "@/hooks/tokens/use-set-token";
-import { trackEvent } from "@/services/ga";
+import { useTrackEvent } from "@/services/ga";
 import { useConfigState } from "@/state/config";
 import { useInjectedStore } from "@/state/injected";
 
@@ -12,6 +12,7 @@ export function TokenBanner() {
   );
   const setFromChainId = useInjectedStore((store) => store.setFromChainId);
   const setToChainId = useInjectedStore((store) => store.setToChainId);
+  const trackEvent = useTrackEvent();
 
   const onClick = async () => {
     const { deploymentName, symbol } = superbridgeConfig!.banner!;

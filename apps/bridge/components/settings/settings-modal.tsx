@@ -11,13 +11,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { isSuperbridge } from "@/config/app";
 import { flagSymbolMap } from "@/constants/currency-symbol-map";
 import { ModalNames } from "@/constants/modal-names";
+import { useIsSuperbridge } from "@/hooks/apps/use-is-superbridge";
 import { useDeployments } from "@/hooks/deployments/use-deployments";
 import { useIsContractAccount } from "@/hooks/use-is-contract-account";
 import { useDarkModeEnabled } from "@/hooks/use-theme";
-import { trackEvent } from "@/services/ga";
+import { useTrackEvent } from "@/services/ga";
 import { useConfigState } from "@/state/config";
 import { useInjectedStore } from "@/state/injected";
 import { useSettingsState } from "@/state/settings";
@@ -29,12 +29,14 @@ import { TokenLists } from "./token-lists";
 
 export const SettingsModal = () => {
   const { t, i18n } = useTranslation();
+  const isSuperbridge = useIsSuperbridge();
+  const trackEvent = useTrackEvent();
 
   const open = useConfigState.useModals()[ModalNames.Settings];
   const removeModal = useConfigState.useRemoveModal();
 
-  const testnets = useInjectedStore((store) => store.testnets);
-  const setTestnets = useInjectedStore((store) => store.setTestnets);
+  const testnets = useInjectedStore((store) => store.superbridgeTestnets);
+  const setTestnets = useInjectedStore((store) => store.setSuperbridgeTestnets);
   const setFromChainId = useInjectedStore((store) => store.setFromChainId);
   const setToChainId = useInjectedStore((store) => store.setToChainId);
   const allDeployments = useInjectedStore((store) => store.deployments);

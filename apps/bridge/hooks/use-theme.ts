@@ -4,7 +4,6 @@ import { bsc, bscTestnet, holesky, mainnet, sepolia } from "viem/chains";
 
 import { ThemeContext } from "@/state/theme";
 
-import { useDeployment } from "./deployments/use-deployment";
 import { useDeployments } from "./deployments/use-deployments";
 
 export const defaultImages = {
@@ -22,23 +21,14 @@ const L1s: number[] = [
 ];
 
 export const useNavIcon = () => {
-  const deployments = useDeployments();
   const theme = useContext(ThemeContext);
   const { resolvedTheme } = useTheme();
 
   if (resolvedTheme === "light") {
-    return (
-      theme?.imageLogo ??
-      deployments[0]?.theme?.theme.imageLogo ??
-      defaultImages.nav
-    );
+    return theme?.imageLogo ?? defaultImages.nav;
   }
 
-  return (
-    theme?.imageLogoDark ??
-    deployments[0]?.theme?.theme.imageLogoDark ??
-    defaultImages.navDark
-  );
+  return theme?.imageLogoDark ?? defaultImages.navDark;
 };
 
 export const useNetworkIcon = (deploymentId?: string) => {
@@ -46,7 +36,7 @@ export const useNetworkIcon = (deploymentId?: string) => {
   const theme = useContext(ThemeContext);
 
   const deployment = deployments.find((d) => d.id === deploymentId);
-  const defaultIcon = L1s.includes(deployment?.l1.id ?? 0)
+  const defaultIcon = L1s.includes(deployment?.l1ChainId ?? 0)
     ? "https://raw.githubusercontent.com/superbridgeapp/assets/main/rollies/L2.png"
     : "https://raw.githubusercontent.com/superbridgeapp/assets/main/rollies/L3.png";
 
@@ -56,105 +46,50 @@ export const useNetworkIcon = (deploymentId?: string) => {
 };
 
 export const useBackgroundIcon = () => {
-  const deployment = useDeployment();
   const theme = useContext(ThemeContext);
   const { resolvedTheme } = useTheme();
 
-  const defaultIcon = null;
-
   if (resolvedTheme === "light") {
-    return (
-      theme?.imageBackground ??
-      deployment?.theme?.theme.imageBackground ??
-      defaultIcon
-    );
+    return theme?.imageBackground;
+  } else {
+    return theme?.imageBackgroundDark;
   }
-
-  return (
-    theme?.imageBackgroundDark ??
-    deployment?.theme?.theme.imageBackgroundDark ??
-    defaultIcon
-  );
 };
 
 export const useDarkModeEnabled = () => {
-  const deployments = useDeployments();
-
-  const theme = useContext(ThemeContext);
-
-  if (theme?.darkModeEnabled !== undefined) return theme?.darkModeEnabled;
-  if (deployments.length > 1) return true;
-  return deployments[0]?.theme?.theme.darkModeEnabled;
+  return !!useContext(ThemeContext)?.darkModeEnabled;
 };
 
 export const useBackgroundImageBlendMode = () => {
-  const deployment = useDeployment();
-
   const { resolvedTheme } = useTheme();
-
   const theme = useContext(ThemeContext);
 
   if (resolvedTheme === "light") {
-    if (theme?.backgroundImageBlendMode !== undefined) {
-      return theme.backgroundImageBlendMode;
-    }
-    return deployment?.theme?.theme.backgroundImageBlendMode;
+    return theme?.backgroundImageBlendMode;
+  } else {
+    return theme?.backgroundImageBlendModeDark;
   }
-  if (resolvedTheme === "dark")
-    if (theme?.backgroundImageBlendModeDark !== undefined) {
-      return theme.backgroundImageBlendModeDark;
-    }
-  return deployment?.theme?.theme.backgroundImageBlendModeDark;
 };
 
 export const useBackgroundImageOpacity = () => {
-  const deployment = useDeployment();
   const { resolvedTheme } = useTheme();
-
   const theme = useContext(ThemeContext);
 
   if (resolvedTheme === "light") {
-    if (theme?.backgroundImageOpacity !== undefined) {
-      return theme.backgroundImageOpacity;
-    }
-    return deployment?.theme?.theme.backgroundImageOpacity;
+    return theme?.backgroundImageOpacity;
+  } else {
+    return theme?.backgroundImageOpacityDark;
   }
-  if (resolvedTheme === "dark")
-    if (theme?.backgroundImageOpacityDark !== undefined) {
-      return theme.backgroundImageOpacityDark;
-    }
-  return deployment?.theme?.theme.backgroundImageOpacityDark;
 };
 
 export const useBackgroundImageSize = () => {
-  const deployment = useDeployment();
-
-  const theme = useContext(ThemeContext);
-
-  if (theme?.backgroundImageSize !== undefined) {
-    return theme.backgroundImageSize;
-  }
-  return deployment?.theme?.theme.backgroundImageSize;
+  return useContext(ThemeContext)?.backgroundImageSize;
 };
 
 export const useBackgroundImagePosition = () => {
-  const deployment = useDeployment();
-
-  const theme = useContext(ThemeContext);
-
-  if (theme?.backgroundImagePosition !== undefined) {
-    return theme.backgroundImagePosition;
-  }
-  return deployment?.theme?.theme.backgroundImagePosition;
+  return useContext(ThemeContext)?.backgroundImagePosition;
 };
 
 export const useBackgroundImageRepeat = () => {
-  const deployment = useDeployment();
-
-  const theme = useContext(ThemeContext);
-
-  if (theme?.backgroundImageRepeat !== undefined) {
-    return theme.backgroundImageRepeat;
-  }
-  return deployment?.theme?.theme.backgroundImageRepeat;
+  return useContext(ThemeContext)?.backgroundImageRepeat;
 };

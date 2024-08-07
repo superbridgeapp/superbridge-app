@@ -8,7 +8,7 @@ import { useAccount } from "wagmi";
 import { useInProgressTxCount } from "@/hooks/use-in-progress-tx-count";
 import { useStatusCheck } from "@/hooks/use-status-check";
 import { useTransactions } from "@/hooks/use-transactions";
-import { trackEvent } from "@/services/ga";
+import { useTrackEvent } from "@/services/ga";
 import { useConfigState } from "@/state/config";
 import { usePendingTransactions } from "@/state/pending-txs";
 
@@ -35,6 +35,7 @@ export const OpenActivity = ({}) => {
   const { t } = useTranslation();
   const statusCheck = useStatusCheck();
   const inProgressCount = useInProgressTxCount();
+  const trackEvent = useTrackEvent();
 
   useEffect(() => {
     if (inView && !isFetchingNextPage) {

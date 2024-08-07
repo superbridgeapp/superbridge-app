@@ -1,6 +1,6 @@
 import { sendGAEvent } from "@next/third-parties/google";
 
-import { isSuperbridge } from "@/config/app";
+import { useIsSuperbridge } from "@/hooks/apps/use-is-superbridge";
 
 type FromChainSelect = {
   event: "from-chain-select";
@@ -86,27 +86,31 @@ type CctpMint = {
   burnTransactionHash: string;
 };
 
-export const trackEvent = (
-  args:
-    | FromChainSelect
-    | ToChainSelect
-    | TokenSelect
-    | HighlightedTokenSelect
-    | TokenBannerClick
-    | Bridge
-    | OpenActivity
-    | CloseActivity
-    | ClickDeposit
-    | ClickWithdraw
-    | SelectLanguage
-    | SelectExplorer
-    | SelectCurrency
-    | ImportCustomToken
-    | ProveWithdrawal
-    | FinalizeWithdrawal
-    | CctpMint
-) => {
-  if (isSuperbridge) {
-    sendGAEvent("event", args.event, args);
-  }
+export const useTrackEvent = () => {
+  const isSuperbridge = useIsSuperbridge();
+
+  return (
+    args:
+      | FromChainSelect
+      | ToChainSelect
+      | TokenSelect
+      | HighlightedTokenSelect
+      | TokenBannerClick
+      | Bridge
+      | OpenActivity
+      | CloseActivity
+      | ClickDeposit
+      | ClickWithdraw
+      | SelectLanguage
+      | SelectExplorer
+      | SelectCurrency
+      | ImportCustomToken
+      | ProveWithdrawal
+      | FinalizeWithdrawal
+      | CctpMint
+  ) => {
+    if (isSuperbridge) {
+      sendGAEvent("event", args.event, args);
+    }
+  };
 };

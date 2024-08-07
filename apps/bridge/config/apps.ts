@@ -1,29 +1,7 @@
-import { ThemeDto } from "@/codegen/model";
+import { AppConfig } from "@/types/app-config";
 
-import { host } from "./host";
+import { SUPERBRIDGE_HOST, SUPERBRIDGE_TESTNET_HOST } from "../constants/hosts";
 import { hyperlaneTheme, renzoTheme, superbridgeTheme } from "./themes";
-
-export const isSuperbridge =
-  process.env["NEXT_PUBLIC_APP_NAME"] === "superbridge";
-
-type AppConfig = {
-  head: {
-    name: string;
-    description: string;
-    og: string;
-    favicon: string;
-  };
-
-  theme: Partial<ThemeDto>;
-
-  images: {
-    logoLight: string;
-    logoLightSmall: string;
-
-    logoDark: string;
-    logoDarkSmall: string;
-  };
-};
 
 const superbidge: AppConfig = {
   head: {
@@ -40,6 +18,8 @@ const superbidge: AppConfig = {
     logoDarkSmall: "/img/logo-small-dark.svg",
   },
   theme: superbridgeTheme,
+
+  links: [],
 };
 
 const renzo: AppConfig = {
@@ -56,6 +36,8 @@ const renzo: AppConfig = {
     logoDarkSmall: "/img/renzo/logo.svg",
   },
   theme: renzoTheme,
+
+  links: [],
 };
 
 const hyperlane: AppConfig = {
@@ -72,13 +54,13 @@ const hyperlane: AppConfig = {
     logoDarkSmall: "/img/hyperlane/logo.svg",
   },
   theme: hyperlaneTheme,
+
+  links: [],
 };
 
-const apps: { [x: string]: AppConfig | undefined } = {
-  ["superbridge.app"]: superbidge,
-  ["testnets.superbridge.app"]: superbidge,
+export const frontendApps: { [x: string]: AppConfig | undefined } = {
+  [SUPERBRIDGE_HOST]: superbidge,
+  [SUPERBRIDGE_TESTNET_HOST]: superbidge,
   ["renzo.superbridge.app"]: renzo,
   ["hyperlane.superbridge.app"]: hyperlane,
 };
-
-export const app = apps[host] ?? null;

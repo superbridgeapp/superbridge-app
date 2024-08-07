@@ -1,30 +1,19 @@
 import { useCallback, useEffect } from "react";
 import { isPresent } from "ts-is-present";
-import { getAddress } from "viem";
 
-import { isSuperbridge } from "@/config/app";
 import { useConfigState } from "@/state/config";
 import { CustomTokenList, useSettingsState } from "@/state/settings";
 import { MultiChainToken, OptimismToken } from "@/types/token";
 import { SuperbridgeTokenList, SuperchainTokenList } from "@/types/token-lists";
 import UniswapArbitrumTokenList from "@/utils/token-list/json/arbitrum-uniswap.json";
 import ArbArbitrumTokenList from "@/utils/token-list/json/arbitrum.json";
-import { baseTokens } from "@/utils/token-list/json/base";
 import * as usdc from "@/utils/token-list/json/cctp/usdc";
-import { dog } from "@/utils/token-list/json/dog";
 import { ebi } from "@/utils/token-list/json/ebi";
-import * as kroma from "@/utils/token-list/json/kroma";
-import * as lumio from "@/utils/token-list/json/lumio";
-import * as metal from "@/utils/token-list/json/metal";
-import * as mintTestnet from "@/utils/token-list/json/mint";
 import MockArbitrumTokenList from "@/utils/token-list/json/mock-arbitrum.json";
-import * as pgn from "@/utils/token-list/json/pgn";
-import { rollux } from "@/utils/token-list/json/rollux";
-import { seam } from "@/utils/token-list/json/seam";
-import { wsteth } from "@/utils/token-list/json/wsteth";
 import { transformArbitrumTokenList } from "@/utils/token-list/transform-arbitrum-token-list";
 import { transformIntoOptimismToken } from "@/utils/token-list/transform-optimism-token";
 
+import { useIsSuperbridge } from "./apps/use-is-superbridge";
 import { useDeployments } from "./deployments/use-deployments";
 
 export const useTokenLists = () => {
@@ -33,13 +22,19 @@ export const useTokenLists = () => {
   const setTokens = useConfigState.useSetTokens();
   const setTokensImportedFromLists =
     useConfigState.useSetTokensImportedFromLists();
+  const isSuperbridge = useIsSuperbridge();
 
   const updateTokens = useCallback(async () => {
+    if (!isSuperbridge) {
+      return;
+    }
+
     const multichainTokens: {
       [id: string]: MultiChainToken;
     } = {};
 
     /**
+     * todo: move fetching these to the backend
      * Only Superchain token lists for now
      */
 
@@ -152,78 +147,12 @@ export const useTokenLists = () => {
       setTokensImportedFromLists(customTokensFromLists);
     }
 
-    /**
-     * Local tokens
-     */
-
-    // Fully qualified tokens, where we have all the StandardBridge mappings done.
-    // Kroma is a special case but we ensure we do the L2 token mappings below
-    [
-      ...kroma.l1Tokens,
-      ...usdc.bridged,
-      ...wsteth,
-      ...dog,
-      ...rollux,
-      ...baseTokens,
-      ...seam,
-      ...lumio.FULLY_QUALIFIED_TOKENS,
-      ...metal.FULLY_QUALIFIED_TOKENS,
-      ...mintTestnet.tokens,
-    ].forEach((tok) => {
-      if (multichainTokens[tok.opTokenId]) {
-        multichainTokens[tok.opTokenId][tok.chainId] = tok;
-      } else {
-        multichainTokens[tok.opTokenId] = { [tok.chainId]: tok };
-      }
-    });
-
     usdc.native.forEach((tok) => {
       if (multichainTokens["native-usdc"]) {
         multichainTokens["native-usdc"][tok.chainId] = tok;
       } else {
         multichainTokens["native-usdc"] = { [tok.chainId]: tok };
       }
-    });
-
-    // Some token lists, like PGN, we only specify the L2 tokens. So we need to
-    // ensure we add the apppropriate standard bridge address to the corresponding
-    // L1 tokens
-    [
-      {
-        tokens: kroma.l2Tokens,
-        standardBridgeAddress: kroma.l1StandardBridgeAddress,
-      },
-      {
-        tokens: pgn.tokens,
-        standardBridgeAddress: pgn.l1StandardBridgeAddress,
-      },
-      {
-        tokens: lumio.tokens,
-        standardBridgeAddress: lumio.l1StandardBridgeAddress,
-      },
-    ].forEach(({ tokens, standardBridgeAddress }) => {
-      tokens.forEach((token) => {
-        if (!multichainTokens[token.opTokenId]) {
-          multichainTokens[token.opTokenId] = {
-            [token.chainId]: token,
-          };
-        } else {
-          multichainTokens[token.opTokenId][token.chainId] = token;
-        }
-
-        Object.keys(token.standardBridgeAddresses).forEach((_l1ChainId) => {
-          const l1ChainId = parseInt(_l1ChainId);
-          if (!multichainTokens[token.opTokenId][l1ChainId]) {
-            return;
-          }
-
-          (
-            multichainTokens[token.opTokenId]![l1ChainId] as OptimismToken
-          ).standardBridgeAddresses[token.chainId] = getAddress(
-            standardBridgeAddress
-          );
-        });
-      });
     });
 
     /**

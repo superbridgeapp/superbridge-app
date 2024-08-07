@@ -2,7 +2,7 @@ import clsx from "clsx";
 import { AnimatePresence, motion } from "framer-motion";
 
 import { OpenActivity } from "@/components/activity/open-activity";
-import { isSuperbridge } from "@/config/app";
+import { useIsSuperbridge } from "@/hooks/apps/use-is-superbridge";
 import { useInitialise } from "@/hooks/use-initialise";
 import {
   useBackgroundIcon,
@@ -30,6 +30,8 @@ export function Layout({ children }: { children: any }) {
   const backgroundImageSize = useBackgroundImageSize();
   const backgroundImageRepeat = useBackgroundImageRepeat();
   const backgroundImageOpacity = useBackgroundImageOpacity();
+
+  const isSuperbridge = useIsSuperbridge();
 
   return (
     <div className="bg-background w-screen h-screen overflow-hidden z-40 relative transition-colors duration-1000  flex justify-center">

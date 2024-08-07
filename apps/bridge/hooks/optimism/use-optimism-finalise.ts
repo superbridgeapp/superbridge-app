@@ -1,6 +1,6 @@
 import { useBridgeControllerGetFinaliseTransaction } from "@/codegen";
 import { BridgeWithdrawalDto } from "@/codegen/model";
-import { trackEvent } from "@/services/ga";
+import { useTrackEvent } from "@/services/ga";
 import { usePendingTransactions } from "@/state/pending-txs";
 
 import { useDeploymentById } from "../deployments/use-deployment-by-id";
@@ -14,6 +14,7 @@ export function useFinaliseOptimism({
   const deployment = useDeploymentById(deploymentId);
   const setFinalising = usePendingTransactions.useSetFinalising();
   const getFinaliseTransaction = useBridgeControllerGetFinaliseTransaction();
+  const trackEvent = useTrackEvent();
 
   const { loading, onSubmit } = useSendTransactionDto(deployment?.l1, () =>
     getFinaliseTransaction.mutateAsync({

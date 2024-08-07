@@ -1,7 +1,6 @@
 import { useAccount, useBalance } from "wagmi";
 
 import { useEstimateTotalFeesInFiat } from "@/components/modals/alerts/expensive-gas-modal";
-import { isSuperbridge } from "@/config/app";
 import { AlertModals } from "@/constants/modal-names";
 import { SUPERCHAIN_MAINNETS } from "@/constants/superbridge";
 import { useToChain } from "@/hooks/use-chain";
@@ -10,6 +9,7 @@ import { useReceiveAmount } from "@/hooks/use-receive-amount";
 import { useModalsState } from "@/state/modals";
 import { isEth } from "@/utils/is-eth";
 
+import { useIsSuperbridge } from "../apps/use-is-superbridge";
 import { useIsCctpRoute } from "../cctp/use-is-cctp-route";
 import { useDeployment } from "../deployments/use-deployment";
 import { useDestinationToken } from "../tokens/use-token";
@@ -21,6 +21,7 @@ export const useSubmitBridge = () => {
   const to = useToChain();
   const deployment = useDeployment();
   const initiateBridge = useInitiateBridge();
+  const isSuperbridge = useIsSuperbridge();
 
   const withdrawing = useIsWithdrawal();
   const destinationToken = useDestinationToken();

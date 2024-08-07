@@ -1,11 +1,10 @@
-import { StatelessHead } from "@/components/head";
 import PageFooter from "@/components/page-footer";
 import PageNav from "@/components/page-nav";
 
 export default function Blocked() {
   return (
     <>
-      <StatelessHead />
+      {/* <StatelessHead /> */}
       <div className="w-screen h-screen flex flex-col">
         <PageNav hideLaunchApp />
 

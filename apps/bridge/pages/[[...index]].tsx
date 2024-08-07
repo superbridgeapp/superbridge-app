@@ -3,44 +3,34 @@ import type {
   GetServerSidePropsContext,
   InferGetServerSidePropsType,
 } from "next";
-import { Chain, mainnet, optimism } from "viem/chains";
 
 import { bridgeControllerGetBridgeConfigByDomain } from "@/codegen";
-import { ChainDto } from "@/codegen/model";
 import { Layout } from "@/components/Layout";
 import { PageTransition } from "@/components/PageTransition";
 import { Providers } from "@/components/Providers";
 import { Bridge } from "@/components/bridge";
 import { StatefulHead } from "@/components/head";
-import { developmentHost } from "@/config/host";
-import { useInitialInjectedState } from "@/hooks/use-initial-injected-state";
 import { InjectedStoreProvider } from "@/state/injected";
 import { ThemeProvider } from "@/state/theme";
-import { MultiChainToken } from "@/types/token";
+import { createInjectedState } from "@/utils/injected-state/create-injected-state";
 
-const getChainDto = (c: Chain): ChainDto => {
-  // @ts-expect-error
-  c.formatters = null;
-  // @ts-expect-error
-  c.serializers = null;
-  // @ts-expect-error
-  c.fees = null;
-  // @ts-expect-error
-  c.contracts = null;
-
-  return c as unknown as ChainDto;
-};
+const ignored = ["favicon", "locales", "_vercel", "_next"];
 
 export const getServerSideProps = async ({
   req,
 }: GetServerSidePropsContext) => {
-  const ignored = ["favicon", "locales", "_vercel", "_next"];
   if (
     !req.url ||
     !req.headers.host ||
     ignored.find((x) => req.url?.includes(x))
   ) {
-    return { props: { deployments: [] } };
+    return {
+      props: createInjectedState({
+        dto: null,
+        host: "",
+        url: "",
+      }),
+    };
   }
 
   let requestHost = req.headers.host;
@@ -49,7 +39,8 @@ export const getServerSideProps = async ({
     req.headers.host?.includes("localhost") ||
     req.headers.host?.includes("ngrok")
   ) {
-    requestHost = developmentHost;
+    // change this to load different apps
+    requestHost = "renzo.superbridge.app";
   }
 
   const config = await bridgeControllerGetBridgeConfigByDomain(
@@ -57,53 +48,12 @@ export const getServerSideProps = async ({
   ).catch(() => null);
 
   return {
-    props: {
-      chains: config?.data.chains ?? [
-        getChainDto(mainnet),
-        getChainDto(optimism),
-      ],
-      deployments: config?.data.deployments ?? [],
-      acrossDomains: config?.data.acrossDomains ?? [],
-      cctpDomains: config?.data.cctpDomains ?? [],
-      hyperlaneMailboxes: config?.data.hyperlaneMailboxes ?? [],
-      banner: config?.data.banner ?? null,
-      highlightedTokens: config?.data.highlightedTokens ?? [],
-      tokens: (config?.data.tokens as MultiChainToken[]) ?? [],
-      testnets: false,
-    },
+    props: createInjectedState({
+      dto: config?.data ?? null,
+      host: requestHost,
+      url: req.url,
+    }),
   };
-
-  // if (isSuperbridge) {
-  //   const [name] = req.url.split(/[?\/]/).filter(Boolean);
-
-  //   let testnets = false;
-  //   if (
-  //     req.headers.host === "testnets.superbridge.app" ||
-  //     SUPERCHAIN_TESTNETS.includes(name)
-  //   ) {
-  //     testnets = true;
-  //   }
-
-  //   const [{ data }, cctpDomains, acrossDomains, superbridgeConfig] =
-  //     await Promise.all([
-  //       bridgeControllerGetDeployments({
-  //         names: [...SUPERCHAIN_MAINNETS, ...SUPERCHAIN_TESTNETS],
-  //       }),
-  //       bridgeControllerGetCctpDomains(),
-  //       bridgeControllerGetAcrossDomains(),
-  //       bridgeControllerGetSuperbridgeConfig(),
-  //     ]);
-
-  //   return {
-  //     props: {
-  //       deployments: data,
-  //       acrossDomains: acrossDomains.data,
-  //       cctpDomains: cctpDomains.data,
-  //       testnets,
-  //       superbridgeConfig: superbridgeConfig.data,
-  //     },
-  //   };
-  // }
 
   // const name = (() => {
   //   if (
@@ -170,10 +120,8 @@ export const getServerSideProps = async ({
 export default function IndexRoot(
   props: InferGetServerSidePropsType<typeof getServerSideProps>
 ) {
-  const initialValues = useInitialInjectedState(props);
-
   return (
-    <InjectedStoreProvider initialValues={initialValues}>
+    <InjectedStoreProvider initialValues={props}>
       <ThemeProvider>
         <Providers>
           <StatefulHead />
