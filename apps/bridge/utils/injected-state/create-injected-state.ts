@@ -19,8 +19,6 @@ export const createInjectedState = (props: {
     props
   );
 
-  console.log(props.dto?.chains, fromChainId, toChainId);
-
   return {
     acrossDomains: dto?.acrossDomains ?? [],
     cctpDomains: dto?.cctpDomains ?? [],
