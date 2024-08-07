@@ -1,14 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { isPresent } from "ts-is-present";
 import { useDebounce } from "use-debounce";
 
 import { Input } from "@/components/ui/input";
 import { useMetadata } from "@/hooks/use-metadata";
 import { useConfigState } from "@/state/config";
 import { useSettingsState } from "@/state/settings";
-import { transformIntoOptimismToken } from "@/utils/token-list/transform-optimism-token";
 
 import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
@@ -40,9 +38,11 @@ export const CustomTokenListModal = () => {
       const response = await fetch(debouncedUrl);
       const result = await response.json();
 
-      return result.tokens
-        .map((t: any) => transformIntoOptimismToken(t))
-        .filter(isPresent).length;
+      // todo: custom token lists
+      return [];
+      // return result.tokens
+      //   .map((t: any) => transformIntoOptimismToken(t))
+      //   .filter(isPresent).length;
     },
     { retry: false }
   );

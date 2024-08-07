@@ -1,6 +1,5 @@
 import { BridgeConfigDto } from "@/codegen/model";
 import { InjectedState } from "@/state/injected";
-import { MultiChainToken } from "@/types/token";
 
 import { parseApp } from "./parse-app";
 import { parseInjectedChainIds } from "./parse-injected-chain-ids";
@@ -20,6 +19,8 @@ export const createInjectedState = (props: {
     props
   );
 
+  console.log(props.dto?.chains, fromChainId, toChainId);
+
   return {
     acrossDomains: dto?.acrossDomains ?? [],
     cctpDomains: dto?.cctpDomains ?? [],
@@ -32,8 +33,6 @@ export const createInjectedState = (props: {
     superbridgeTestnets,
     fromChainId,
     toChainId,
-    // todo: this is only Hyperlane tokens for now
-    tokens: (dto?.tokens ?? []) as MultiChainToken[],
     app,
     chains: dto?.chains ?? [],
     host,

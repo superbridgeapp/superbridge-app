@@ -12,7 +12,6 @@ import type { ChainDto } from './chainDto';
 import type { DeploymentDto } from './deploymentDto';
 import type { HighlightedTokens } from './highlightedTokens';
 import type { HyperlaneMailboxDto } from './hyperlaneMailboxDto';
-import type { BridgeConfigDtoTokensItem } from './bridgeConfigDtoTokensItem';
 
 export interface BridgeConfigDto {
   acrossDomains: AcrossDomainDto[];
@@ -23,5 +22,4 @@ export interface BridgeConfigDto {
   deployments: DeploymentDto[];
   highlightedTokens: HighlightedTokens[];
   hyperlaneMailboxes: HyperlaneMailboxDto[];
-  tokens: BridgeConfigDtoTokensItem[];
 }

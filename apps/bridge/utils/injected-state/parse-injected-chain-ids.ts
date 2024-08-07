@@ -31,9 +31,7 @@ export const parseInjectedChainIds = ({
   let path = "";
   try {
     path = new URL(url).pathname;
-  } catch {
-    return defaults;
-  }
+  } catch {}
   console.log(">>> path", path);
 
   // legacy setup was to have superbridge.app/network/

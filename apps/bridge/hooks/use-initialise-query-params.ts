@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { isAddress, isAddressEqual } from "viem";
+import { Address, isAddress, isAddressEqual } from "viem";
 
 import { useConfigState } from "@/state/config";
 import { MultiChainToken } from "@/types/token";
@@ -8,7 +8,6 @@ import { MultiChainToken } from "@/types/token";
 import { useDeployment } from "./deployments/use-deployment";
 import { useActiveTokens } from "./tokens/use-active-tokens";
 import { useSetToken } from "./tokens/use-set-token";
-import { useGasToken } from "./use-approve-gas-token";
 import { useFromChain, useToChain } from "./use-chain";
 
 /**
@@ -35,10 +34,9 @@ export const useInitialiseQueryParams = () => {
   const from = useFromChain();
   const to = useToChain();
   const tokens = useActiveTokens();
-  const arbitrumGasToken = useGasToken();
 
   useEffect(() => {
-    if (!tokens.length || !from || !to) {
+    if (!tokens.data?.length || !from || !to) {
       return;
     }
 
@@ -56,7 +54,7 @@ export const useInitialiseQueryParams = () => {
 
     let token: MultiChainToken | undefined;
     if (isLegacyRouteParams) {
-      token = tokens.find((x) => {
+      token = tokens.data.find((x) => {
         const fromToken = x[from.id];
         const toToken = x[to.id];
         if (!fromToken || !toToken) {
@@ -65,7 +63,10 @@ export const useInitialiseQueryParams = () => {
 
         if (deploymentTokenUndefined) {
           if (isAddress(deploymentTokenUndefined)) {
-            return isAddressEqual(deploymentTokenUndefined, fromToken.address);
+            return isAddressEqual(
+              deploymentTokenUndefined,
+              fromToken.address as Address
+            );
           }
           if (
             deploymentTokenUndefined.toLowerCase() ===
@@ -77,7 +78,7 @@ export const useInitialiseQueryParams = () => {
 
         if (tokenUndefined) {
           if (isAddress(tokenUndefined)) {
-            return isAddressEqual(tokenUndefined, fromToken.address);
+            return isAddressEqual(tokenUndefined, fromToken.address as Address);
           }
 
           return (
@@ -92,7 +93,7 @@ export const useInitialiseQueryParams = () => {
     } else {
       const tokenAddress = router.query.tokenAddress as string | undefined;
       if (tokenAddress) {
-        token = tokens.find((x) => {
+        token = tokens.data.find((x) => {
           const fromToken = x[from.id];
           const toToken = x[to.id];
           if (!fromToken || !toToken) {
@@ -100,7 +101,7 @@ export const useInitialiseQueryParams = () => {
           }
 
           if (isAddress(tokenAddress)) {
-            return isAddressEqual(tokenAddress, fromToken.address);
+            return isAddressEqual(tokenAddress, fromToken.address as Address);
           }
         });
       }
@@ -109,5 +110,5 @@ export const useInitialiseQueryParams = () => {
         setToken(token[from.id]!, token[to.id]!);
       }
     }
-  }, [router.asPath, deployment, tokens, arbitrumGasToken]);
+  }, [router.asPath, deployment, tokens]);
 };

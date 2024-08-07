@@ -9,7 +9,6 @@ import {
   SuperbridgeConfigDto,
 } from "@/codegen/model";
 import { AppConfig } from "@/types/app-config";
-import { MultiChainToken } from "@/types/token";
 
 export type InjectedState = {
   /* superbridge  */
@@ -22,7 +21,6 @@ export type InjectedState = {
   hyperlaneMailboxes: HyperlaneMailboxDto[];
   fromChainId: number;
   toChainId: number;
-  tokens: MultiChainToken[];
   chains: ChainDto[];
 
   app: AppConfig;

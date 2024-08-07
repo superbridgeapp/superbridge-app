@@ -1,13 +1,13 @@
 import clsx from "clsx";
 import { useEffect, useState } from "react";
 
-import { BaseToken } from "@/types/token";
+import { BridgeableTokenDto } from "@/codegen/model";
 
 export const TokenIcon = ({
   token,
   className,
 }: {
-  token: BaseToken | null | undefined;
+  token: BridgeableTokenDto | null | undefined;
   className?: string;
 }) => {
   const [error, setError] = useState(false);

@@ -1,13 +1,13 @@
 import { formatUnits } from "viem";
 
+import { BridgeableTokenDto } from "@/codegen/model";
 import { currencySymbolMap } from "@/constants/currency-symbol-map";
 import { useSettingsState } from "@/state/settings";
-import { Token } from "@/types/token";
 import { formatDecimals } from "@/utils/format-decimals";
 
 import { useTokenPrice } from "./use-prices";
 
-export const useGetFormattedAmount = (token: Token | null) => {
+export const useGetFormattedAmount = (token: BridgeableTokenDto | null) => {
   const currency = useSettingsState.useCurrency();
   const usdPrice = useTokenPrice(token);
 

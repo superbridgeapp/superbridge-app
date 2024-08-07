@@ -30,6 +30,7 @@ import { useLatestSubmittedTx } from "@/hooks/activity/use-tx-by-hash";
 import { useIsSuperbridge } from "@/hooks/apps/use-is-superbridge";
 import { useBridge } from "@/hooks/bridge/use-bridge";
 import { useSubmitBridge } from "@/hooks/bridge/use-submit-bridge";
+import { useCustomGasTokenAddress } from "@/hooks/custom-gas-token/use-custom-gas-token-address";
 import { useDeployment } from "@/hooks/deployments/use-deployment";
 import { useSelectedBridgeRoute } from "@/hooks/routes/use-selected-bridge-route";
 import {
@@ -39,7 +40,7 @@ import {
 import { useAllowance } from "@/hooks/use-allowance";
 import { useAllowanceGasToken } from "@/hooks/use-allowance-gas-token";
 import { useApprove } from "@/hooks/use-approve";
-import { useApproveGasToken, useGasToken } from "@/hooks/use-approve-gas-token";
+import { useApproveGasToken } from "@/hooks/use-approve-gas-token";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
 import { useNativeToken, useToNativeToken } from "@/hooks/use-native-token";
 import { useTokenPrice } from "@/hooks/use-prices";
@@ -86,7 +87,8 @@ export const ConfirmationModalStartTab = () => {
   const account = useAccount();
   const receive = useReceiveAmount();
   const token = useSelectedToken();
-  const gasToken = useGasToken();
+  const deployment = useDeployment();
+  const customGasToken = useCustomGasTokenAddress(deployment?.id);
   const route = useSelectedBridgeRoute();
 
   const onSubmitBridge = useSubmitBridge();
@@ -94,7 +96,6 @@ export const ConfirmationModalStartTab = () => {
   const [useSubmittedHash, setUseSubmittedHash] = useState(false);
 
   const gasTokenAllowance = useAllowanceGasToken();
-  const deployment = useDeployment();
   const approveGasToken = useApproveGasToken(
     gasTokenAllowance.refetch,
     bridge.refetch
@@ -189,13 +190,13 @@ export const ConfirmationModalStartTab = () => {
 
   const approveGasTokenButton = match({
     withdrawing,
-    gasToken,
+    customGasToken,
     family: deployment?.family,
     approved: approvedGasToken,
     approving: approveGasToken.isLoading,
   })
     .with({ withdrawing: true }, () => null)
-    .with({ gasToken: null }, () => null)
+    .with({ customGasToken: null }, () => null)
     .with({ family: undefined }, () => null)
     .with({ family: DeploymentFamily.optimism }, () => null)
     .with({ approving: true }, () => ({

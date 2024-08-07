@@ -1,16 +1,17 @@
-import { isAddressEqual, zeroAddress } from "viem";
+import { Address, isAddressEqual, zeroAddress } from "viem";
 
-import { MultiChainToken, Token } from "@/types/token";
+import { BridgeableTokenDto } from "@/codegen/model";
+import { MultiChainToken } from "@/types/token";
 
 export const deadAddress = "0xDeadDeAddeAddEAddeadDEaDDEAdDeaDDeAD0000";
 
-export const isEth = (token?: Token | null) => {
+export const isEth = (token?: BridgeableTokenDto | null) => {
   if (!token) {
     return false;
   }
   return (
-    isAddressEqual(token.address, zeroAddress) ||
-    isAddressEqual(token.address, deadAddress)
+    isAddressEqual(token.address as Address, zeroAddress) ||
+    isAddressEqual(token.address as Address, deadAddress)
   );
 };
 
@@ -19,8 +20,8 @@ export const isNativeToken = (token: MultiChainToken | null) => {
 
   for (const chainId in token) {
     const address = token[chainId]?.address;
-    if (address && isAddressEqual(zeroAddress, address)) return true;
-    if (address && isAddressEqual(deadAddress, address)) return true;
+    if (address && isAddressEqual(zeroAddress, address as Address)) return true;
+    if (address && isAddressEqual(deadAddress, address as Address)) return true;
   }
 
   return false;

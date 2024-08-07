@@ -18,41 +18,50 @@ export function useActiveTokens() {
   // );
 
   return useMemo(() => {
-    return tokens.filter((t) => {
-      const from = t[fromChainId];
-      const to = t[toChainId];
+    if (tokens.isFetching) {
+      return {
+        isFetching: true,
+        data: null,
+      };
+    }
 
-      if (!from || !to) return false;
-      else return true;
+    return {
+      isFetching: false,
+      data: tokens.data.filter((t) => {
+        const from = t[fromChainId];
+        const to = t[toChainId];
 
-      // if (isNativeToken(t)) {
-      //   return true;
-      // }
+        return !!from && !!to;
 
-      // /**
-      //  * Manually disable depositing weETH until nobridge PR is merged
-      //  * https://github.com/ethereum-optimism/ethereum-optimism.github.io/pull/892
-      //  */
-      // if (
-      //   fromChainId === 1 &&
-      //   isAddressEqual(
-      //     getAddress(from.address),
-      //     "0xCd5fE23C85820F7B72D0926FC9b05b43E359b7ee"
-      //   )
-      // ) {
-      //   return false;
-      // }
+        // if (isNativeToken(t)) {
+        //   return true;
+        // }
 
-      // /**
-      //  * We want to disable selection of the bridged-USDC token
-      //  * when depositing if there exists a native USDC option
-      //  */
-      // if (fromChainId === 1 && hasNativeUsdc && isBridgedUsdc(t)) {
-      //   return false;
-      // }
+        // /**
+        //  * Manually disable depositing weETH until nobridge PR is merged
+        //  * https://github.com/ethereum-optimism/ethereum-optimism.github.io/pull/892
+        //  */
+        // if (
+        //   fromChainId === 1 &&
+        //   isAddressEqual(
+        //     getAddress(from.address),
+        //     "0xCd5fE23C85820F7B72D0926FC9b05b43E359b7ee"
+        //   )
+        // ) {
+        //   return false;
+        // }
 
-      // return true;
-      // return isBridgeable(from, to);
-    });
-  }, [tokens, fromChainId, toChainId]);
+        // /**
+        //  * We want to disable selection of the bridged-USDC token
+        //  * when depositing if there exists a native USDC option
+        //  */
+        // if (fromChainId === 1 && hasNativeUsdc && isBridgedUsdc(t)) {
+        //   return false;
+        // }
+
+        // return true;
+        // return isBridgeable(from, to);
+      }),
+    };
+  }, [tokens.data, tokens.isFetching, fromChainId, toChainId]);
 }

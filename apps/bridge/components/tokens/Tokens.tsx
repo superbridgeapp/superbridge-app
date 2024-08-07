@@ -281,7 +281,7 @@ export const FungibleTokenPicker = ({
     useInjectedStore((s) => s.superbridgeConfig)?.highlightedTokens ?? [];
   const trackEvent = useTrackEvent();
 
-  const filteredTokens = tokens.data.filter(({ token }) => {
+  const filteredTokens = tokens.data?.filter(({ token }) => {
     if (!search) {
       return true;
     }
@@ -361,7 +361,7 @@ export const FungibleTokenPicker = ({
           ]
             .filter(Boolean)
             .map((symbolOrAddress) => {
-              const token = tokens.data.find((t) => {
+              const token = tokens.data?.find((t) => {
                 const l1 = t.token[deployment?.l1.id ?? 0];
                 const l2 = t.token[deployment?.l2.id ?? 0];
 
@@ -369,7 +369,7 @@ export const FungibleTokenPicker = ({
                   l2?.symbol === symbolOrAddress ||
                   (!!l1?.address &&
                     isAddress(symbolOrAddress) &&
-                    isAddressEqual(l1.address, symbolOrAddress))
+                    isAddressEqual(l1.address as Address, symbolOrAddress))
                 );
               })?.token;
 
@@ -408,26 +408,28 @@ export const FungibleTokenPicker = ({
         {match({ filteredTokens, searchIsToken: isAddress(search) })
           .with(
             {
-              filteredTokens: P.when((x) => x.length === 0),
+              filteredTokens: P.when((x) => x?.length === 0),
               searchIsToken: true,
             },
             () => <TokenImport address={search as Address} />
           )
-          .with({ filteredTokens: P.when((x) => x.length === 0) }, () => (
+          .with({ filteredTokens: P.when((x) => x?.length === 0) }, () => (
             <div className="pt-8 pb-12 text-center font-heading text-sm">
               <span>{t("tokens.noneFound")}</span>
             </div>
           ))
-          .with({ filteredTokens: P.when((x) => x.length > 0) }, () =>
-            filteredTokens.map(({ token, balance }) => (
-              <TokenComponent
-                key={token[from?.id ?? 0]?.address}
-                token={token}
-                from={from}
-                balance={balance}
-                onClick={() => onClickToken(token)}
-              />
-            ))
+          .with(
+            { filteredTokens: P.when((x) => x?.length && x?.length > 0) },
+            () =>
+              filteredTokens?.map(({ token, balance }) => (
+                <TokenComponent
+                  key={token[from?.id ?? 0]?.address}
+                  token={token}
+                  from={from}
+                  balance={balance}
+                  onClick={() => onClickToken(token)}
+                />
+              ))
           )
           .otherwise(() => null)}
       </div>

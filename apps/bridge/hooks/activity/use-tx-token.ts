@@ -1,10 +1,9 @@
 import { match } from "ts-pattern";
 import { Address, isAddressEqual } from "viem";
 
-import { TokenDepositDto } from "@/codegen/model";
+import { BridgeableTokenDto, TokenDepositDto } from "@/codegen/model";
 import { useTxFromTo } from "@/hooks/activity/use-tx-from-to";
-import { useGasTokenForDeployment } from "@/hooks/use-approve-gas-token";
-import { MultiChainToken, Token } from "@/types/token";
+import { MultiChainToken } from "@/types/token";
 import { Transaction } from "@/types/transaction";
 import {
   isAcrossBridge,
@@ -12,12 +11,10 @@ import {
   isDeposit,
   isForcedWithdrawal,
   isHyperlaneBridge,
-  isHyperlaneToken,
 } from "@/utils/guards";
 import { isNativeToken } from "@/utils/is-eth";
 
 import { useAllTokens } from "../tokens/use-all-tokens";
-import { useTxDeployment } from "./use-tx-deployment";
 
 const getToken = (
   tokens: MultiChainToken[],
@@ -30,20 +27,20 @@ const getToken = (
   },
   destChainId?: number
 ) => {
-  let match: Token | null = null;
+  let match: BridgeableTokenDto | null = null;
   for (const t of tokens) {
     if (
       destChainId &&
       t[chainId]?.address &&
       t[destChainId]?.address &&
-      isAddressEqual(t[chainId]!.address, tokenAddress as Address)
+      isAddressEqual(t[chainId]!.address as Address, tokenAddress as Address)
     ) {
       return t[chainId]!;
     }
 
     if (
       t[chainId]?.address &&
-      isAddressEqual(t[chainId]!.address, tokenAddress as Address)
+      isAddressEqual(t[chainId]!.address as Address, tokenAddress as Address)
     ) {
       match = t[chainId]!;
     }
@@ -57,10 +54,9 @@ const getNativeToken = (tokens: MultiChainToken[], chainId: number) => {
     return x[chainId] && isNativeToken(x);
   })?.[chainId];
 };
+
 export function useTxToken(tx: Transaction | null | undefined) {
   const tokens = useAllTokens();
-  const deployment = useTxDeployment(tx);
-  const gasToken = useGasTokenForDeployment(deployment?.id);
 
   const chains = useTxFromTo(tx);
   if (!chains || !tx) {
@@ -70,7 +66,7 @@ export function useTxToken(tx: Transaction | null | undefined) {
   const { from, to } = chains;
 
   if (isCctpBridge(tx)) {
-    return getToken(tokens, {
+    return getToken(tokens.data, {
       chainId: tx.from.id,
       tokenAddress: tx.token,
     });
@@ -78,11 +74,11 @@ export function useTxToken(tx: Transaction | null | undefined) {
 
   if (isAcrossBridge(tx)) {
     if (tx.metadata.data.isEth) {
-      return getNativeToken(tokens, from.id);
+      return getNativeToken(tokens.data, from.id);
     }
 
     return getToken(
-      tokens,
+      tokens.data,
       {
         chainId: from.id,
         tokenAddress: tx.metadata.data.inputTokenAddress,
@@ -92,16 +88,16 @@ export function useTxToken(tx: Transaction | null | undefined) {
   }
 
   if (isHyperlaneBridge(tx)) {
-    const t = tokens.find((x) => {
+    const t = tokens.data.find((x) => {
       const src = x[from.id];
-      if (!src || !isHyperlaneToken(src)) {
+      if (!src) {
         return false;
       }
       return (
         // when they come from the backend
-        isAddressEqual(src.hyperlane.router as Address, tx.token as Address) ||
+        isAddressEqual(src.hyperlane?.router as Address, tx.token as Address) ||
         // when we add a pending tx
-        isAddressEqual(src.address, tx.token as Address)
+        isAddressEqual(src.address as Address, tx.token as Address)
       );
     });
 
@@ -117,12 +113,7 @@ export function useTxToken(tx: Transaction | null | undefined) {
 
   return match(metadata)
     .with({ type: "eth-deposit" }, () => {
-      if (gasToken) {
-        return isDeposit(tx)
-          ? gasToken[deployment?.l1.id ?? 0]
-          : gasToken[deployment?.l2.id ?? 0];
-      }
-      return getNativeToken(tokens, from.id);
+      return getNativeToken(tokens.data, from.id);
     })
     .with({ type: "token-deposit" }, (m) => {
       const dto = m as TokenDepositDto;
@@ -130,7 +121,7 @@ export function useTxToken(tx: Transaction | null | undefined) {
         ? dto.data.l1TokenAddress
         : dto.data.l2TokenAddress;
       return getToken(
-        tokens,
+        tokens.data,
         {
           chainId: from.id,
           tokenAddress,

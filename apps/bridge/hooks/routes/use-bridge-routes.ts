@@ -3,7 +3,6 @@ import { isAddress, zeroAddress } from "viem";
 import { useAccount } from "wagmi";
 
 import { useConfigState } from "@/state/config";
-import { isHyperlaneToken } from "@/utils/guards";
 
 import { useBridgeControllerGetRoutes } from "../../codegen";
 import { useDestinationToken, useSelectedToken } from "../tokens/use-token";
@@ -39,14 +38,8 @@ export const useBridgeRoutes = () => {
 
       forceViaL1,
 
-      hyperlaneFromTokenRouterAddress:
-        !!fromToken && isHyperlaneToken(fromToken)
-          ? fromToken.hyperlane.router
-          : undefined,
-      hyperlaneToTokenRouterAddress:
-        !!toToken && isHyperlaneToken(toToken)
-          ? toToken.hyperlane.router
-          : undefined,
+      hyperlaneFromTokenRouterAddress: fromToken?.hyperlane?.router,
+      hyperlaneToTokenRouterAddress: toToken?.hyperlane?.router,
     },
     {
       query: {

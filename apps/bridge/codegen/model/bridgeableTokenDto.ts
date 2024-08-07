@@ -7,12 +7,13 @@
  */
 import type { HyperlaneRouterDto } from './hyperlaneRouterDto';
 
-export interface HyperlaneTokenDto {
+export interface BridgeableTokenDto {
   address: string;
+  bridges: number[];
   chainId: number;
   coinGeckoId?: string;
   decimals: number;
-  hyperlane: HyperlaneRouterDto;
+  hyperlane?: HyperlaneRouterDto;
   logoURI: string;
   name: string;
   symbol: string;

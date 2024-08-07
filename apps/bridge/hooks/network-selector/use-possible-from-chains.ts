@@ -8,5 +8,5 @@ export const usePossibleFromChains = () => {
   const chains = useChains();
   const tokens = useAllTokens();
 
-  return chains.filter((chain) => !!tokens.find((t) => t[chain.id]));
+  return chains.filter((chain) => !!tokens?.data.find((t) => t[chain.id]));
 };

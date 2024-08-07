@@ -1,30 +1,17 @@
 import { waitForTransactionReceipt } from "@wagmi/core";
 import { useState } from "react";
+import { Address } from "viem";
 import { useConfig, useWriteContract } from "wagmi";
 
-import { getNativeTokenForDeployment } from "@/utils/get-native-token";
 import { isArbitrum, isOptimism } from "@/utils/is-mainnet";
 
+import { useCustomGasTokenAddress } from "./custom-gas-token/use-custom-gas-token-address";
 import { useDeployment } from "./deployments/use-deployment";
-import { useDeploymentById } from "./deployments/use-deployment-by-id";
 import { useApprovalAddressGasToken } from "./use-approval-address-gas-token";
 import { APPROVE_ABI_WITHOUT_RETURN } from "./use-approve";
 import { useFromChain } from "./use-chain";
 import { useRequiredCustomGasTokenBalance } from "./use-required-custom-gas-token-balance";
 import { useWeiAmount } from "./use-wei-amount";
-
-export const useGasTokenForDeployment = (deploymentId: string | undefined) => {
-  const deployment = useDeploymentById(deploymentId ?? "");
-  if (!deployment) {
-    return null;
-  }
-  return getNativeTokenForDeployment(deployment);
-};
-
-export const useGasToken = () => {
-  const deployment = useDeployment();
-  return useGasTokenForDeployment(deployment?.id);
-};
 
 const useGasTokenApprovalAmount = () => {
   const deployment = useDeployment();
@@ -49,22 +36,21 @@ export function useApproveGasToken(
   const { writeContractAsync } = useWriteContract();
   const config = useConfig();
   const [isLoading, setIsLoading] = useState(false);
-  const gasToken = useGasToken();
-  const from = useFromChain();
   const deployment = useDeployment();
+  const gasTokenAddress = useCustomGasTokenAddress(deployment?.id);
+  const from = useFromChain();
 
   const gasTokenApprovalAmount = useGasTokenApprovalAmount();
 
   const approvalAddress = useApprovalAddressGasToken();
   return {
     write: async () => {
-      const baseGasToken = gasToken?.[from?.id ?? 0];
-      if (!baseGasToken || !deployment || !approvalAddress) return;
+      if (!gasTokenAddress || !deployment || !approvalAddress) return;
       setIsLoading(true);
       try {
         const hash = await writeContractAsync({
           abi: APPROVE_ABI_WITHOUT_RETURN,
-          address: baseGasToken.address,
+          address: gasTokenAddress as Address,
           args: [approvalAddress, gasTokenApprovalAmount],
           functionName: "approve",
           chainId: from?.id,

@@ -1,11 +1,9 @@
-import { Address } from "viem";
-
 import { useConfigState } from "@/state/config";
 
 import { useFromChain, useToChain } from "../use-chain";
 import { useActiveTokens } from "./use-active-tokens";
 
-export const getTokenId = (addr1: Address, addr2: Address) => {
+export const getTokenId = (addr1: string, addr2: string) => {
   return addr1.toLowerCase() > addr2.toLowerCase()
     ? `${addr1.toLowerCase()}-${addr2.toLowerCase()}`
     : `${addr2.toLowerCase()}-${addr1.toLowerCase()}`;
@@ -18,11 +16,11 @@ export const useMultichainToken = () => {
   const from = useFromChain();
 
   if (!tokenId) {
-    return tokens[0];
+    return tokens.data?.[0] ?? null;
   }
 
   return (
-    tokens.find((x) => {
+    tokens.data?.find((x) => {
       const fromToken = x[from?.id ?? 0]?.address;
       const toToken = x[to?.id ?? 0]?.address;
       if (!fromToken || !toToken) {
@@ -31,7 +29,7 @@ export const useMultichainToken = () => {
 
       return getTokenId(fromToken, toToken) === tokenId;
     }) ??
-    tokens[0] ??
+    tokens.data?.[0] ??
     null
   );
 };

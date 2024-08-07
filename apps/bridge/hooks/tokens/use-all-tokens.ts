@@ -1,39 +1,40 @@
 import { useMemo } from "react";
 import { bsc, bscTestnet, syscoin, syscoinTestnet } from "viem/chains";
 
-import { useConfigState } from "@/state/config";
 import { MultiChainToken } from "@/types/token";
-import { getNativeTokenForDeployment } from "@/utils/get-native-token";
 
-import { useDeployments } from "../deployments/use-deployments";
-import { useConfigTokens } from "./use-config-tokens";
-
-function useNativeTokens(): (MultiChainToken | null)[] {
-  const deployments = useDeployments();
-
-  return useMemo(
-    () => deployments.map((d) => getNativeTokenForDeployment(d)),
-    [deployments]
-  );
-}
+import { useBackendTokens } from "./use-backend-tokens";
+import { useCustomTokenLists } from "./use-custom-token-lists";
 
 const BNB_TESTNET_CHAINS: number[] = [bscTestnet.id];
 const BNB_MAINNET_CHAINS: number[] = [bsc.id];
 const BNB_CHAINS: number[] = [...BNB_TESTNET_CHAINS, ...BNB_MAINNET_CHAINS];
 const SYS_CHAINS: number[] = [syscoinTestnet.id, syscoin.id];
 
-export function useAllTokens() {
-  const appTokens = useConfigTokens();
-  const tokens = useConfigState.useTokens();
+export function useAllTokens(): {
+  isFetching: boolean;
+  data: MultiChainToken[];
+} {
+  const backendTokens = useBackendTokens();
+  const customTokenLists = useCustomTokenLists();
 
-  return useMemo(() => [...appTokens, ...tokens], [tokens, appTokens]);
+  return useMemo(
+    () => ({
+      isFetching: backendTokens.isFetching || customTokenLists.isFetching,
+      data: [...(backendTokens.data ?? []), ...(customTokenLists.data ?? [])],
+    }),
+    [
+      backendTokens.isFetching,
+      backendTokens.data,
+      customTokenLists.isFetching,
+      customTokenLists.data,
+    ]
+  );
 
   // const deployment = useDeployment();
   // // const tokens = useConfigState.useTokens();
   // // const customTokens = useSettingsState.useCustomTokens();
-  // // const deploymentTokens = useDeploymentTokens();
   // // const nativeTokens = useNativeTokens();
-  // const configTokens = useConfigTokens();
 
   // const deployments = useDeployments();
 

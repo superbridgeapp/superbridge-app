@@ -1,5 +1,6 @@
 import { waitForTransactionReceipt } from "@wagmi/core";
 import { useState } from "react";
+import { Address } from "viem";
 import { useConfig, useWriteContract } from "wagmi";
 
 import { useBridge } from "./bridge/use-bridge";
@@ -51,7 +52,7 @@ export function useApprove() {
       try {
         const hash = await writeContractAsync({
           abi: APPROVE_ABI_WITHOUT_RETURN,
-          address: token?.address,
+          address: token.address as Address,
           args: [approvalAddress, weiAmount],
           functionName: "approve",
           chainId: token?.chainId,

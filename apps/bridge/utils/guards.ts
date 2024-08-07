@@ -29,19 +29,10 @@ import {
 } from "@/codegen/model";
 import { AcrossBridgeDto } from "@/types/across";
 import {
-  ArbitrumToken,
-  CctpToken,
-  HyperlaneToken,
-  OptimismToken,
-  Token,
-} from "@/types/token";
-import {
   AbritrumTransaction,
   OptimismTransaction,
   Transaction,
 } from "@/types/transaction";
-
-import { isEth } from "./is-eth";
 
 export const isArbitrumTx = (
   tx: Pick<Transaction, "type">
@@ -144,22 +135,6 @@ export const isHyperlaneBridge = (
   tx: Pick<Transaction, "type">
 ): tx is HyperlaneBridgeDto => {
   return tx.type === HyperlaneTransactionType["hyperlane-bridge"];
-};
-
-export const isOptimismToken = (t: Token): t is OptimismToken => {
-  return isEth(t) || !!(t as OptimismToken).standardBridgeAddresses;
-};
-
-export const isArbitrumToken = (t: Token): t is ArbitrumToken => {
-  return isEth(t) || !!(t as ArbitrumToken).arbitrumBridgeInfo;
-};
-
-export const isCctpToken = (t: Token): t is CctpToken => {
-  return !!(t as CctpToken).cctp;
-};
-
-export const isHyperlaneToken = (t: Token): t is HyperlaneToken => {
-  return !!(t as HyperlaneToken).hyperlane;
 };
 
 export const isActive = (

@@ -7,12 +7,7 @@ import { useMetadata } from "@/hooks/use-metadata";
 import { useTrackEvent } from "@/services/ga";
 import { useConfigState } from "@/state/config";
 import { useSettingsState } from "@/state/settings";
-import {
-  ArbitrumToken,
-  MultiChainToken,
-  OptimismToken,
-  Token,
-} from "@/types/token";
+import { MultiChainToken, Token } from "@/types/token";
 import { addressLink } from "@/utils/transaction-link";
 
 import { L1_BASE_CHAINS } from "../network-icon";
@@ -50,56 +45,46 @@ export const CustomTokenImportModal = () => {
     let l2Token: Token | undefined;
 
     if (OP_L1_BRIDGE && OP_L1_TOKEN && OP_L2_BRIDGE) {
-      const opL1Token: OptimismToken = {
+      const opL1Token: Token = {
         address: OP_L1_TOKEN!,
         chainId: deployment!.l1.id,
         decimals: decimals!,
         name: name!,
         symbol: symbol!,
-        opTokenId: `custom-${symbol}`,
         logoURI: "",
-        standardBridgeAddresses: {
-          [deployment!.l2.id]: OP_L1_BRIDGE as Address,
-        },
+        bridges: [deployment!.l2.id],
       };
-      const opL2Token: OptimismToken = {
+      const opL2Token: Token = {
         address: open as Address,
         chainId: deployment!.l2.id,
         decimals: decimals!,
         name: name!,
         symbol: symbol!,
-        opTokenId: `custom-${symbol}`,
         logoURI: "",
-        standardBridgeAddresses: {
-          [deployment!.l1.id]: OP_L2_BRIDGE,
-        },
+        bridges: [deployment!.l1.id],
       };
       l1Token = opL1Token;
       l2Token = opL2Token;
     }
 
     if (ARB_L1_TOKEN && ARB_L2_GATEWAY && ARB_L1_GATEWAY) {
-      const arbL1Token: ArbitrumToken = {
+      const arbL1Token: Token = {
         address: ARB_L1_TOKEN,
         chainId: deployment!.l1.id,
         decimals: decimals!,
         name: name!,
         symbol: symbol!,
         logoURI: "",
-        arbitrumBridgeInfo: {
-          [deployment!.l2.id]: ARB_L1_GATEWAY as Address,
-        },
+        bridges: [deployment!.l2.id],
       };
-      const arbL2Token: ArbitrumToken = {
+      const arbL2Token: Token = {
         address: open as Address,
         chainId: deployment!.l2.id,
         decimals: decimals!,
         name: name!,
         symbol: symbol!,
         logoURI: "",
-        arbitrumBridgeInfo: {
-          [deployment!.l1.id]: ARB_L2_GATEWAY,
-        },
+        bridges: [deployment!.l1.id],
       };
       l1Token = arbL1Token;
       l2Token = arbL2Token;

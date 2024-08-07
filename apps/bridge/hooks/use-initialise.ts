@@ -10,7 +10,6 @@ import { useActivityEffects } from "./use-activity-effects";
 import { useInitialiseQueryParams } from "./use-initialise-query-params";
 import { useInitialiseRecipient } from "./use-initialise-recipient";
 import { useIsContractAccount } from "./use-is-contract-account";
-import { useTokenLists } from "./use-token-lists";
 
 export const useInitialise = () => {
   const isContractAccount = useIsContractAccount();
@@ -21,7 +20,6 @@ export const useInitialise = () => {
   const clearPendingTransactionsStorage = usePendingTransactions.useLogout();
 
   useInitialiseRecipient();
-  useTokenLists();
   useActivityEffects();
   useInitialiseQueryParams();
 

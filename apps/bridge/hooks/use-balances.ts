@@ -2,7 +2,7 @@ import { Address, erc20Abi, formatUnits, isAddressEqual } from "viem";
 import { useAccount, useBalance, useReadContracts } from "wagmi";
 
 import { useBridgeControllerGetTokenPrices } from "@/codegen";
-import { Token } from "@/types/token";
+import { BridgeableTokenDto } from "@/codegen/model";
 import { isEth } from "@/utils/is-eth";
 import { scaleToNativeTokenDecimals } from "@/utils/native-token-scaling";
 
@@ -21,7 +21,7 @@ export function useTokenBalances(chainId: number | undefined) {
 
   const reads = useReadContracts({
     allowFailure: true,
-    contracts: tokens.map((t) => ({
+    contracts: tokens.data?.map((t) => ({
       abi: erc20Abi,
       functionName: "balanceOf",
       args: [account.address ?? "0x"],
@@ -33,8 +33,8 @@ export function useTokenBalances(chainId: number | undefined) {
     },
   });
 
-  const data = tokens
-    .map((token, index) => {
+  const data = tokens.data
+    ?.map((token, index) => {
       let balance = BigInt(0);
       if (chainId && token[chainId] && isEth(token[chainId])) {
         balance = scaleToNativeTokenDecimals({
@@ -79,7 +79,7 @@ export function useTokenBalances(chainId: number | undefined) {
   };
 }
 
-export function useTokenBalance(token: Token | null) {
+export function useTokenBalance(token: BridgeableTokenDto | null) {
   const tokenBalances = useTokenBalances(token?.chainId);
 
   if (!token) {
@@ -99,12 +99,12 @@ export function useTokenBalance(token: Token | null) {
   return {
     isLoading: false,
     data:
-      tokenBalances.data.find(
+      tokenBalances.data?.find(
         (x) =>
           x.token[token.chainId]?.address &&
           isAddressEqual(
             x.token[token.chainId]!.address as Address,
-            token.address
+            token.address as Address
           )
       )?.balance ?? 0n,
   };

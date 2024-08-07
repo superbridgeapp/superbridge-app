@@ -19,18 +19,19 @@ export const useTransactions = () => {
     (s) => s.superbridgeTestnets
   );
 
+  const address = account.address;
   const { data, isLoading, isFetchingNextPage, isError, fetchNextPage } =
     useInfiniteQuery({
       queryKey: [
         "activity",
-        account.address as string,
+        address,
         deployments.map((x) => x.id),
         hyperlane?.mailboxIds,
         hyperlane?.routers,
         superbridgeTestnetsEnabled,
       ],
       queryFn: ({ pageParam }) => {
-        if (!account.address) {
+        if (!address) {
           return {
             actionRequiredCount: 0,
             inProgressCount: 0,
@@ -41,7 +42,7 @@ export const useTransactions = () => {
         }
 
         return bridgeControllerGetActivityV3({
-          address: account.address,
+          address,
           includeAcross: isSuperbridge && !superbridgeTestnetsEnabled,
           deploymentIds: deployments.map((d) => d.id),
           cursor: pageParam ?? null,
@@ -51,7 +52,7 @@ export const useTransactions = () => {
 
       getNextPageParam: (lastPage) =>
         lastPage?.transactions?.[lastPage.transactions.length - 1]?.id,
-      enabled: !!account.address,
+      enabled: !!address,
       refetchInterval: 10_000,
     });
 

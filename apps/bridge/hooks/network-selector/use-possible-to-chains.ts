@@ -15,7 +15,7 @@ export const useGetPossibleToChains = () => {
       return [];
     }
 
-    for (const multiChainToken of allTokens) {
+    for (const multiChainToken of allTokens.data) {
       const a = multiChainToken[from.id];
       if (!a) {
         continue;
