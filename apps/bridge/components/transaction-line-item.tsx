@@ -3,6 +3,7 @@ import { formatDistanceToNow } from "date-fns";
 
 import {
   IconActivity,
+  IconArrowUpRightCircle,
   IconCheckCircle,
   IconSimpleGas,
   IconSimpleTime,
@@ -141,10 +142,8 @@ export function TransactionLineItem({
           target="_blank"
           className="flex gap-2 items-center justify-end absolute inset-0 p-3 group"
         >
-          <span className="text-xs text-muted-foreground opacity-0 group-hover:opacity-100 transition-all">
-            Open Tx
-          </span>
-          <IconCheckCircle className="w-6 h-6 fill-muted-foreground group-hover:fill-primary tranistion-all" />
+          <IconArrowUpRightCircle className="w-6 h-6 fill-muted-foreground opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 fill-primary transition-all ease-in-out delay-150 absolute right-3" />
+          <IconCheckCircle className="w-6 h-6 fill-muted-foreground opacity-100 scale-100 group-hover:opacity-0 group-hover:scale-95 transition-all ease-in-out absolute right-3" />
         </a>
       ) : step.pendingHash ? (
         <a href={transactionLink(step.pendingHash, step.chain)} target="_blank">
