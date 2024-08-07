@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 import { ChainDto } from "@/codegen/model";
 import { cardThemes } from "@/config/card-themes";
@@ -99,7 +100,16 @@ export const NetworkSelector = () => {
                   cardThemes[chain.id]?.card.className
                 )}
               >
-                <NetworkIcon chain={chain} width={96} height={96} />
+                {cardThemes[chain.id]?.icon ? (
+                  <Image
+                    alt=""
+                    src={cardThemes[chain.id]?.icon!}
+                    width={96}
+                    height={96}
+                  />
+                ) : (
+                  <NetworkIcon chain={chain} width={96} height={96} />
+                )}
                 <span
                   className={clsx(
                     `text-base text-center leading-none`,

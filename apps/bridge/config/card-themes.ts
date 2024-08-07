@@ -708,9 +708,14 @@ export const deploymentTheme = (
   };
 };
 
-export const cardThemes: { [chainId: string]: Theme | undefined } = {
-  [base.id]: baseTheme,
-  [baseSepolia.id]: baseTheme,
-  [optimism.id]: optimismTheme,
-  [optimismSepolia.id]: optimismTheme,
+export const cardThemes: {
+  [chainId: string]: { card: Theme["card"]; icon: string } | undefined;
+} = {
+  [base.id]: { card: baseTheme.card, icon: "/img/base/icon.svg" },
+  [baseSepolia.id]: { card: baseTheme.card, icon: "/img/base/icon.svg" },
+  [optimism.id]: { card: optimismTheme.card, icon: "/img/optimism/icon.svg" },
+  [optimismSepolia.id]: {
+    card: optimismTheme.card,
+    icon: "/img/optimism/icon.svg",
+  },
 };
