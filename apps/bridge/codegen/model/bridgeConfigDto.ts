@@ -22,4 +22,6 @@ export interface BridgeConfigDto {
   deployments: DeploymentDto[];
   highlightedTokens: HighlightedTokens[];
   hyperlaneMailboxes: HyperlaneMailboxDto[];
+  initialFromChainId: number;
+  initialToChainId: number;
 }
