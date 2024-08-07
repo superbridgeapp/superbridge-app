@@ -1,3 +1,5 @@
+import { base, baseSepolia, optimism, optimismSepolia } from "viem/chains";
+
 import { DeploymentDto } from "@/codegen/model";
 import { Theme } from "@/types/theme";
 
@@ -53,6 +55,7 @@ const optimismTheme: Theme = {
   screenBg: "bg-red-500 dark:bg-[#1B1E23] ",
   card: {
     className: "bg-red-500",
+    title: "text-black",
     overlay: {
       className:
         "bg-gradient-to-t from-[#EA3431]  to-[#EA3431]/0  mix-blend-multiply opacity-40",
@@ -703,4 +706,11 @@ export const deploymentTheme = (
     // @ts-expect-error
     ...deployment?.theme?.theme,
   };
+};
+
+export const cardThemes: { [chainId: string]: Theme | undefined } = {
+  [base.id]: baseTheme,
+  [baseSepolia.id]: baseTheme,
+  [optimism.id]: optimismTheme,
+  [optimismSepolia.id]: optimismTheme,
 };

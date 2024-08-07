@@ -1,6 +1,8 @@
+import clsx from "clsx";
 import { motion } from "framer-motion";
 
 import { ChainDto } from "@/codegen/model";
+import { cardThemes } from "@/config/card-themes";
 import { usePossibleFromChains } from "@/hooks/network-selector/use-possible-from-chains";
 import { useGetPossibleToChains } from "@/hooks/network-selector/use-possible-to-chains";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
@@ -87,18 +89,28 @@ export const NetworkSelector = () => {
         </div>
 
         <div className="grid grid-cols-4 gap-4">
-          {availableChains.map((chain) => (
-            <div
-              key={`chain-${chain.id}`}
-              onClick={() => onSelect(chain)}
-              className="flex flex-col items-center justify-center gap-4 px-6 py-8 aspect-[3/4] bg-pink-500 shadow-sm rounded-xl transition-all hover:scale-105 cursor-pointer"
-            >
-              <NetworkIcon chain={chain} width={96} height={96} />
-              <span className="text-base text-center leading-none">
-                {chain.name}
-              </span>
-            </div>
-          ))}
+          {availableChains.map((chain) => {
+            return (
+              <div
+                key={`chain-${chain.id}`}
+                onClick={() => onSelect(chain)}
+                className={clsx(
+                  "flex flex-col items-center justify-center gap-4 px-6 py-8 aspect-[3/4] shadow-sm rounded-xl transition-all hover:scale-105 cursor-pointer",
+                  cardThemes[chain.id]?.card.className
+                )}
+              >
+                <NetworkIcon chain={chain} width={96} height={96} />
+                <span
+                  className={clsx(
+                    `text-base text-center leading-none`,
+                    cardThemes[chain.id]?.card.title
+                  )}
+                >
+                  {chain.name}
+                </span>
+              </div>
+            );
+          })}
         </div>
       </motion.div>
     </main>

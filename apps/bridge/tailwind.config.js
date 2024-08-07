@@ -6,7 +6,8 @@ module.exports = {
     "./components/**/*.{ts,tsx}",
     "./app/**/*.{ts,tsx}",
     "./src/**/*.{ts,tsx}",
-    "./config/theme.ts",
+    "./config/themes.ts",
+    "./config/card-themes.ts",
   ],
   theme: {
     container: {
