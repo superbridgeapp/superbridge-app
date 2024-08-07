@@ -1,3 +1,5 @@
+import clsx from "clsx";
+
 import {
   RouteProvider,
   RouteQuoteDto,
@@ -82,10 +84,26 @@ export const Route = ({
       </div>
 
       <div className="flex gap-3 justify-start mt-2">
-        <div className="flex gap-1 items-center">
-          <IconSimpleFees className="h-3 w-auto fill-muted-foreground" />
+        <div
+          className={clsx(
+            fees.data?.totals.token === 0
+              ? "bg-primary rounded-full py-0.5 pl-0.5 pr-1.5"
+              : "bg-transparent",
+            "flex gap-1 items-center"
+          )}
+        >
+          <IconSimpleFees
+            className={clsx(
+              fees.data?.totals.token === 0
+                ? "fill-primary-foreground"
+                : "fill-muted-foreground",
+              "h-3 w-auto"
+            )}
+          />
           {fees.data?.totals.token === 0 ? (
-            <span>=== 0 fees ===</span>
+            <span className="text-xs leading-none text-primary-foreground">
+              0 fees
+            </span>
           ) : (
             <span className="text-xs leading-none text-muted-foreground">
               {fees.data?.totals.fiatFormatted ??
