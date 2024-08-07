@@ -95,7 +95,7 @@ export function TransactionLineItem({
   return (
     <div
       className={clsx(
-        "flex gap-4 px-3 py-4 rounded-lg justify-between bg-muted items-center"
+        "flex gap-4 px-3 py-4 rounded-lg justify-between bg-muted items-center relative"
       )}
     >
       <div
@@ -136,8 +136,15 @@ export function TransactionLineItem({
       </div>
 
       {step.hash ? (
-        <a href={transactionLink(step.hash, step.chain)} target="_blank">
-          Link
+        <a
+          href={transactionLink(step.hash, step.chain)}
+          target="_blank"
+          className="flex gap-2 items-center justify-end absolute inset-0 p-3 group"
+        >
+          <span className="text-xs text-muted-foreground opacity-0 group-hover:opacity-100 transition-all">
+            Open Tx
+          </span>
+          <IconCheckCircle className="w-6 h-6 fill-muted-foreground group-hover:fill-primary tranistion-all" />
         </a>
       ) : step.pendingHash ? (
         <a href={transactionLink(step.pendingHash, step.chain)} target="_blank">

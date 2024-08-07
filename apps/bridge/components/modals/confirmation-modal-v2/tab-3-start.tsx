@@ -394,7 +394,7 @@ export const ConfirmationModalStartTab = () => {
     <div>
       <DialogHeader className="items-center">
         <TokenIcon token={token} className="h-14 w-14 mb-2" />
-        <DialogTitle className="text-3xl">
+        <DialogTitle className="text-3xl text-center">
           Bridge {rawAmount} {token?.symbol}
         </DialogTitle>
         <DialogDescription>

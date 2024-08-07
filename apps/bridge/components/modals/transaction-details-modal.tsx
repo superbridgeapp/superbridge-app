@@ -12,10 +12,16 @@ import { useProgressRows } from "@/utils/progress-rows";
 import { isWaitStep } from "@/utils/progress-rows/common";
 
 import { NetworkIcon } from "../network-icon";
-import { RouteProviderIcon } from "../route-provider-icon";
+import { RouteProviderIcon, RouteProviderName } from "../route-provider-icon";
 import { TokenIcon } from "../token-icon";
 import { LineItem } from "../transaction-line-item";
-import { Dialog, DialogContent } from "../ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "../ui/dialog";
 
 const useTransactionById = (id: string | null) => {
   const { transactions } = useTransactions();
@@ -40,31 +46,27 @@ const Content = () => {
   const rows = useProgressRows(tx ?? null);
 
   return (
-    <div className="">
-      <h1 className="text-3xl">
-        {isSuccess ? `Bridged ${amount}` : `Bridging ${amount}`}
-      </h1>
+    <div>
+      <DialogHeader className="items-center pt-10">
+        <TokenIcon token={token} className="h-14 w-14 mb-2" />
+        <DialogTitle className="text-3xl text-center">
+          {isSuccess ? `Bridged ${amount}` : `Bridging ${amount}`}
+        </DialogTitle>
+        <DialogDescription>
+          <div className="flex gap-1 items-center rounded-full border pl-1.5 pr-2 py-1">
+            <div className="flex">
+              <NetworkIcon chain={chains?.from} className="w-4 h-4" />
+              <NetworkIcon chain={chains?.to} className="w-4 h-4 -ml-1" />
+            </div>
+            <span className="text-xs text-muted-foreground">
+              via <RouteProviderName provider={provider} />
+            </span>
+            {/* <RouteProviderIcon provider={provider} /> */}
+          </div>
+        </DialogDescription>
+      </DialogHeader>
 
-      <div>Amount: {amount}</div>
-      <div className="flex items-center gap-2">
-        <span>Token:</span>
-        <TokenIcon token={token} className="h-4 w-4" />
-      </div>
-      <div className="flex items-center gap-2">
-        <span>Route:</span>
-        <RouteProviderIcon provider={provider} />
-      </div>
-
-      <div className="flex items-center gap-2">
-        <span>From:</span>
-        <NetworkIcon chain={chains?.from} className="h-4 w-4" />
-      </div>
-      <div className="flex items-center gap-2">
-        <span>To:</span>
-        <NetworkIcon chain={chains?.to} className="h-4 w-4" />
-      </div>
-
-      <div>
+      <div className="flex flex-col p-6 pt-0 gap-1">
         {rows?.map((item) => (
           <LineItem
             key={isWaitStep(item) ? item.duration.toString() : item.label}
