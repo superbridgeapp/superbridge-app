@@ -73,9 +73,9 @@ export function Layout({ children }: { children: any }) {
             <motion.div
               initial={{ opacity: 0 }}
               exit={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
+              whileInView={{ opacity: 0.7 }}
               transition={{ ease: "easeOut", duration: 1 }}
-              className="h-screen w-screen bg-black/40 z-10"
+              className="h-screen w-screen bg-background z-10"
             ></motion.div>
           </>
         )}
@@ -87,9 +87,9 @@ export function Layout({ children }: { children: any }) {
             <motion.div
               initial={{ opacity: 0 }}
               exit={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
+              whileInView={{ opacity: 0.7 }}
               transition={{ ease: "easeOut", duration: 1 }}
-              className="h-screen w-screen bg-black/40 z-10"
+              className="h-screen w-screen bg-background z-10"
             ></motion.div>
           </>
         )}

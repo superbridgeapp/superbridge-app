@@ -8,6 +8,7 @@ import { useTrackEvent } from "@/services/ga";
 import { useConfigState } from "@/state/config";
 import { useInjectedStore } from "@/state/injected";
 
+import { IconArrowUpCircle } from "../icons";
 import { NetworkIcon } from "../network-icon";
 
 export const NetworkSelector = () => {
@@ -68,7 +69,7 @@ export const NetworkSelector = () => {
 
   return (
     <main
-      className="flex items-start justify-center w-screen h-screen fixed inset-0 px-2 md:px-0 py-16 pt-[108px] md:py-24 z-[25]"
+      className="flex items-start justify-center overflow-scroll w-screen h-screen fixed inset-0 px-2 md:px-0 py-16 pt-[108px] md:py-24 z-[25]"
       key="bridgeMain"
       onClick={() => setNetworkSelector(null)}
     >
@@ -77,19 +78,25 @@ export const NetworkSelector = () => {
         animate={{ y: "0vh" }}
         exit={{ y: "100vh" }}
         transition={{ type: "spring", damping: 12, delay: 0.08 }}
-        className="bg-card border flex flex-col self-start  z-50 relative overflow-scroll rounded-[32px] h-[calc(76dvh)] max-h-[680px]  w-screen md:w-[50vw] md:max-w-[420px] aspect-[3/4] backdrop-blur shadow-sm"
+        className="flex flex-col items-center gap-10"
+        // className="bg-card border flex flex-col self-start  z-50 relative overflow-scroll rounded-[32px] h-[calc(76dvh)] max-h-[680px]  w-screen md:w-[50vw] md:max-w-[420px] aspect-[3/4] backdrop-blur shadow-sm"
       >
-        <div className="p-4">Bridge {networkSelector}</div>
+        <div className="flex items-center gap-3 bg-card pl-6 pr-5 py-3 rounded-full">
+          <h1 className="text-3xl font-heading">Bridge {networkSelector}</h1>
+          <IconArrowUpCircle className="w-6 h-6 fill-muted-foreground" />
+        </div>
 
-        <div className="flex flex-col">
+        <div className="grid grid-cols-4 gap-4">
           {availableChains.map((chain) => (
             <div
               key={`chain-${chain.id}`}
               onClick={() => onSelect(chain)}
-              className="flex items-center gap-2 px-6 py-4 bg-transparent transition-all hover:bg-muted cursor-pointer"
+              className="flex flex-col items-center justify-center gap-4 px-6 py-8 aspect-[3/4] bg-pink-500 shadow-sm rounded-xl transition-all hover:scale-105 cursor-pointer"
             >
-              <NetworkIcon chain={chain} width={32} height={32} />
-              <span className="text-base leading-none">{chain.name}</span>
+              <NetworkIcon chain={chain} width={96} height={96} />
+              <span className="text-base text-center leading-none">
+                {chain.name}
+              </span>
             </div>
           ))}
         </div>

@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useDeployment } from "@/hooks/deployments/use-deployment";
 import { useConfigState } from "@/state/config";
 
-import { Dialog, DialogContent } from "../ui/dialog";
+import { Dialog, DialogContent, DialogHeader } from "../ui/dialog";
 import { FungibleTokenPicker } from "./Tokens";
 
 export const TokenModal = () => {
@@ -70,9 +70,9 @@ export const TokenModal = () => {
         )}
 
         {!deployment?.supportsNftBridging && (
-          <div className="flex flex-col space-y-1.5 text-left px-6 py-6">
+          <DialogHeader className="flex flex-col space-y-1.5 text-left px-6 py-6">
             <h1 className="text-lg font-heading">{t("tokens.selectToken")}</h1>
-          </div>
+          </DialogHeader>
         )}
 
         <FungibleTokenPicker setOpen={setOpen} />
