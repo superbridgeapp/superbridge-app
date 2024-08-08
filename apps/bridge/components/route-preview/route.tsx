@@ -63,7 +63,7 @@ export const Route = ({
         </div>
       </div>
 
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-3">
         <div className="relative">
           <TokenIcon token={token} className="h-8 w-8" />
           <NetworkIcon

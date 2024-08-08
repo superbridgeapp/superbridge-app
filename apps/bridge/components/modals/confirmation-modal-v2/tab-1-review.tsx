@@ -90,7 +90,7 @@ export const ConfirmationModalReviewTab = ({
                 // width={0}
                 // height={0}
                 // sizes="100vw"
-                className="h-5 w-5"
+                className="h-5 w-5 rounded-full"
                 alt={selectedToken?.name ?? ""}
               />
             </div>
@@ -119,7 +119,7 @@ export const ConfirmationModalReviewTab = ({
                 // width={0}
                 // height={0}
                 // sizes="100vw"
-                className="h-5 w-5"
+                className="h-5 w-5 rounded-full"
                 alt={destinationToken?.name ?? ""}
               />
             </div>
