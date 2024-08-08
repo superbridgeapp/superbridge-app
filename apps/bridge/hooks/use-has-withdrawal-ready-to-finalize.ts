@@ -1,4 +1,4 @@
-import { isOptimism } from "@/utils/is-mainnet";
+import { isOptimism } from "@/utils/deployments/is-mainnet";
 
 import { useDeployment } from "./deployments/use-deployment";
 import { useFaultProofUpgradeTime } from "./use-fault-proof-upgrade-time";

@@ -4,7 +4,7 @@ import { useReadContract } from "wagmi";
 
 import { OptimismPortalAbi } from "@/abis/OptimismPortal";
 import { SupportCheckStatus } from "@/components/status/types";
-import { OptimismDeploymentDto } from "@/utils/is-mainnet";
+import { OptimismDeploymentDto } from "@/utils/deployments/is-mainnet";
 
 export const usePaused = (deployment: OptimismDeploymentDto | undefined) => {
   const paused = useReadContract({

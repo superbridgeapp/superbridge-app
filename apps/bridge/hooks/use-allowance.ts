@@ -1,7 +1,7 @@
 import { Address, erc20Abi } from "viem";
 import { useAccount, useReadContract } from "wagmi";
 
-import { isEth } from "@/utils/is-eth";
+import { isEth } from "@/utils/tokens/is-eth";
 
 import { useSelectedToken } from "./tokens/use-token";
 import { useApprovalAddress } from "./use-approval-address";

@@ -30,7 +30,7 @@ import { useWeiAmount } from "@/hooks/use-wei-amount";
 import { useIsWithdrawal } from "@/hooks/use-withdrawing";
 import { useConfigState } from "@/state/config";
 import { formatDecimals } from "@/utils/format-decimals";
-import { isEth } from "@/utils/is-eth";
+import { isEth } from "@/utils/tokens/is-eth";
 
 import { Button } from "./ui/button";
 

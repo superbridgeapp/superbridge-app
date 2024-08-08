@@ -28,33 +28,46 @@ export const RoutePreview = () => {
     return <></>;
   }
 
+  const routesCount = routes.data?.results.length ?? 0;
+  const validRoutesCount =
+    routes.data?.results.filter((x) => isRouteQuote(x.result)).length ?? 0;
+
   if (isRouteQuoteError(route.data.result)) {
     return (
-      <div className="bg-muted rounded-xl p-4">
+      <div className="bg-muted rounded-xl p-4 flex flex-col gap-3">
         <span className="text-xs text-center leading-4 text-muted-foreground">
           {/* TODO: Perhaps we can bring the error text that's currently output to the button and display it here? Leave button only with the action text, disabled if needed */}
           {JSON.stringify(route.data.result)}
         </span>
+
+        {routesCount > 1 && (
+          <Button
+            onClick={() => openModal(ModalNames.RouteSelector)}
+            size={"xs"}
+            variant={"secondary"}
+            className="mx-auto text-xs h-6 gap-1"
+          >
+            <span>See other routes</span>
+            <IconCaretRight className="w-3 w-3 fill-foreground" />
+          </Button>
+        )}
       </div>
     );
   }
 
-  const routeCount =
-    routes.data?.results.filter((x) => isRouteQuote(x.result)).length ?? 0;
-
   return (
-    <div className={`flex flex-col gap-2 pt-1 relative`}>
+    <div className={`flex flex-col gap-2 relative`}>
       <div className="p-4 border rounded-xl">
         <Route provider={route.data.id} quote={route.data.result} />
       </div>
-      {routeCount > 1 && (
+      {validRoutesCount > 1 && (
         <Button
           onClick={() => openModal(ModalNames.RouteSelector)}
           size={"xs"}
           variant={"secondary"}
           className="mx-auto absolute bottom-2.5 right-2 text-xs h-6 pr-2 gap-1"
         >
-          <span>{routeCount} More</span>
+          <span>{validRoutesCount - 1} More</span>
           <IconCaretRight className="w-3 w-3 fill-foreground" />
         </Button>
       )}

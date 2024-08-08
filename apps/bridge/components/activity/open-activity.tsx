@@ -110,8 +110,6 @@ export const OpenActivity = ({}) => {
           <h1 className="text-3xl font-heading leading-none">
             {t("activity.activity")}
           </h1>
-          {/* TODO: should we put current wallet here? */}
-
           <span className="bg-muted rounded-full text-xs text-muted-foreground px-3 py-1 h-6">
             {account.address
               ? `${account.address.slice(0, 4)}...${account.address.slice(

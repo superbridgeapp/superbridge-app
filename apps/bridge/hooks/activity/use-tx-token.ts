@@ -12,7 +12,7 @@ import {
   isForcedWithdrawal,
   isHyperlaneBridge,
 } from "@/utils/guards";
-import { isNativeToken } from "@/utils/is-eth";
+import { isNativeToken } from "@/utils/tokens/is-eth";
 
 import { useAllTokens } from "../tokens/use-all-tokens";
 

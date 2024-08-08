@@ -7,7 +7,7 @@ import { useToChain } from "@/hooks/use-chain";
 import { useFaultProofUpgradeTime } from "@/hooks/use-fault-proof-upgrade-time";
 import { useReceiveAmount } from "@/hooks/use-receive-amount";
 import { useModalsState } from "@/state/modals";
-import { isEth } from "@/utils/is-eth";
+import { isEth } from "@/utils/tokens/is-eth";
 
 import { useIsSuperbridge } from "../apps/use-is-superbridge";
 import { useIsCctpRoute } from "../cctp/use-is-cctp-route";

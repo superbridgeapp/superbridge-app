@@ -11,7 +11,7 @@ import { useGetFormattedAmount } from "@/hooks/use-get-formatted-amount";
 import { useWeiAmount } from "@/hooks/use-wei-amount";
 import { useConfigState } from "@/state/config";
 import { formatDecimals } from "@/utils/format-decimals";
-import { isEth } from "@/utils/is-eth";
+import { isEth } from "@/utils/tokens/is-eth";
 
 import { IconAlert, IconCaretDown } from "../icons";
 import { TokenIcon } from "../token-icon";

@@ -21,7 +21,7 @@ import { useTrackEvent } from "@/services/ga";
 import { useConfigState } from "@/state/config";
 import { useInjectedStore } from "@/state/injected";
 import { useSettingsState } from "@/state/settings";
-import { isOptimism } from "@/utils/is-mainnet";
+import { isOptimism } from "@/utils/deployments/is-mainnet";
 
 import { Dialog, DialogContent } from "../ui/dialog";
 import { Switch } from "../ui/switch";

@@ -17,8 +17,8 @@ import { MessageStatus } from "@/constants";
 import { ArbitrumMessageStatus } from "@/constants/arbitrum-message-status";
 import { AcrossBridgeDto } from "@/types/across";
 import { Token } from "@/types/token";
-import { isEth } from "@/utils/is-eth";
-import { isArbitrum, isOptimism } from "@/utils/is-mainnet";
+import { isArbitrum, isOptimism } from "@/utils/deployments/is-mainnet";
+import { isEth } from "@/utils/tokens/is-eth";
 
 export const buildPendingTx = (
   deployment: DeploymentDto | null,

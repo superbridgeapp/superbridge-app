@@ -1,7 +1,7 @@
 import { isPresent } from "ts-is-present";
 
 import { DeploymentDto } from "@/codegen/model";
-import { isOptimism } from "@/utils/is-mainnet";
+import { isOptimism } from "@/utils/deployments/is-mainnet";
 
 import { useIndexingStatuses } from "./use-indexing-statuses";
 import { useLastObservedBlock } from "./use-last-observed-block";

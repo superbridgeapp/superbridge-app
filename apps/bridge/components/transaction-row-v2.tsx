@@ -17,6 +17,7 @@ import { useConfigState } from "@/state/config";
 import { useModalsState } from "@/state/modals";
 import { usePendingTransactions } from "@/state/pending-txs";
 import { Transaction } from "@/types/transaction";
+import { isOptimism } from "@/utils/deployments/is-mainnet";
 import {
   isAcrossBridge,
   isArbitrumWithdrawal,
@@ -28,7 +29,6 @@ import {
   isOptimismWithdrawal,
   isWithdrawal,
 } from "@/utils/guards";
-import { isOptimism } from "@/utils/is-mainnet";
 
 import { MessageStatus } from "../constants";
 import { IconCheckCircle, IconSimpleTime } from "./icons";
@@ -275,7 +275,9 @@ const useProgressBars = (
     return bars;
   }
 
-  if (finalisingTx) {
+  if (!isConfirmed(initiatingTx)) {
+    bars.push({ status: "not-started", name: "finalise" });
+  } else if (finalisingTx) {
     bars.push({ status: "done", name: "finalise" });
   } else {
     bars.push({ status: "in-progress", name: "finalise" });
