@@ -7,6 +7,9 @@ export enum ModalNames {
   NetworkSelector = "NetworkSelector",
   TransactionDetails = "TransactionDetails",
   Settings = "Settings",
+  FaultProofInfo = "FaultProofInfo",
+  WithdrawalReadyToFinalize = "WithdrawalReadyToFinalize",
+  TokenSelector = "TokenSelector",
 }
 
 export enum AlertModals {

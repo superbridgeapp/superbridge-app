@@ -6,6 +6,7 @@ import { Address, Chain, formatUnits, isAddress, isAddressEqual } from "viem";
 
 import { ChainDto } from "@/codegen/model";
 import { Input } from "@/components/ui/input";
+import { ModalNames } from "@/constants/modal-names";
 import { useDeployment } from "@/hooks/deployments/use-deployment";
 import { useSetToken } from "@/hooks/tokens/use-set-token";
 import { useSelectedToken } from "@/hooks/tokens/use-token";
@@ -264,11 +265,7 @@ const highlightedTokenStyles: { [symbol: string]: string | undefined } = {
     "bg-gradient-to-r from-sky-400/20 to-indigo-400/20 border-indigo-400/40",
 };
 
-export const FungibleTokenPicker = ({
-  setOpen,
-}: {
-  setOpen: (b: boolean) => void;
-}) => {
+export const FungibleTokenPicker = () => {
   const [search, setSearch] = useState("");
 
   const from = useFromChain();
@@ -277,6 +274,7 @@ export const FungibleTokenPicker = ({
   const setToken = useSetToken();
   const tokens = useTokenBalances(from?.id);
   const { t } = useTranslation();
+  const removeModal = useConfigState.useRemoveModal();
   const highlightedTokens =
     useInjectedStore((s) => s.superbridgeConfig)?.highlightedTokens ?? [];
   const trackEvent = useTrackEvent();
@@ -308,7 +306,7 @@ export const FungibleTokenPicker = ({
     }
 
     setToken(fromToken, toToken);
-    setOpen(false);
+    removeModal(ModalNames.TokenSelector);
 
     if (
       highlightedTokens.find(

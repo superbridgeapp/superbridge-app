@@ -12,9 +12,6 @@ interface ConfigState {
   displayConfirmationModal: boolean;
   setDisplayConfirmationModal: (x: boolean) => void;
 
-  tokensModal: boolean;
-  setTokensModal: (x: boolean) => void;
-
   legalModal: boolean;
   setLegalModal: (x: boolean) => void;
 
@@ -57,14 +54,6 @@ interface ConfigState {
 
   arbitrumCustomGasTokens: (MultiChainToken | null)[];
   setArbitrumCustomGasTokens: (b: (MultiChainToken | null)[]) => void;
-
-  faultProofInfoModal: boolean;
-  setFaultProofInfoModal: (faultProofInfoModal: boolean) => void;
-
-  hasWithdrawalReadyToFinalizeModal: boolean;
-  setHasWithdrawalReadyToFinalizeModal: (
-    hasWithdrawalReadyToFinalizeModal: boolean
-  ) => void;
 
   blockProvingModal: DeploymentDto | null;
   setBlockProvingModal: (blockProvingModal: DeploymentDto | null) => void;
@@ -116,9 +105,6 @@ const ConfigState = create<ConfigState>()((set, get) => ({
   setTokensImportedFromLists: (tokensImportedFromLists) =>
     set({ tokensImportedFromLists }),
 
-  tokensModal: false,
-  setTokensModal: (tokensModal) => set({ tokensModal }),
-
   legalModal: false,
   setLegalModal: (legalModal) => set({ legalModal }),
 
@@ -138,9 +124,6 @@ const ConfigState = create<ConfigState>()((set, get) => ({
   setArbitrumCustomGasTokens: (arbitrumCustomGasTokens) =>
     set({ arbitrumCustomGasTokens }),
 
-  faultProofInfoModal: false,
-  setFaultProofInfoModal: (faultProofInfoModal) => set({ faultProofInfoModal }),
-
   displayNetworkSelector: false,
   setDisplayNetworkSelector: (displayNetworkSelector) =>
     set({ displayNetworkSelector }),
@@ -148,10 +131,6 @@ const ConfigState = create<ConfigState>()((set, get) => ({
   networkSelectorDirection: "from",
   setNetworkSelectorDirection: (networkSelectorDirection) =>
     set({ networkSelectorDirection }),
-
-  hasWithdrawalReadyToFinalizeModal: false,
-  setHasWithdrawalReadyToFinalizeModal: (hasWithdrawalReadyToFinalizeModal) =>
-    set({ hasWithdrawalReadyToFinalizeModal }),
 
   blockProvingModal: null,
   setBlockProvingModal: (blockProvingModal) => set({ blockProvingModal }),

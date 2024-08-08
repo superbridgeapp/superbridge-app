@@ -1,11 +1,11 @@
+import { ModalNames } from "@/constants/modal-names";
 import { useConfigState } from "@/state/config";
 
 import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 import { Button } from "../ui/button";
 
 export const HasWithdrawalReadyToFinalizeBanner = () => {
-  const setReadyToFinalizeModal =
-    useConfigState.useSetHasWithdrawalReadyToFinalizeModal();
+  const addModal = useConfigState.useAddModal();
   return (
     <Alert variant={"horizontal"}>
       <svg
@@ -34,7 +34,7 @@ export const HasWithdrawalReadyToFinalizeBanner = () => {
         <Button
           variant={"secondary"}
           size={"xs"}
-          onClick={() => setReadyToFinalizeModal(true)}
+          onClick={() => addModal(ModalNames.WithdrawalReadyToFinalize)}
         >
           More
         </Button>

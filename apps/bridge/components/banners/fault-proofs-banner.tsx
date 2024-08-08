@@ -1,3 +1,4 @@
+import { ModalNames } from "@/constants/modal-names";
 import { useDeployment } from "@/hooks/deployments/use-deployment";
 import { useConfigState } from "@/state/config";
 
@@ -6,7 +7,7 @@ import { Button } from "../ui/button";
 
 export const FaultProofsBanner = () => {
   const deployment = useDeployment();
-  const setInfoModalOpen = useConfigState.useSetFaultProofInfoModal();
+  const removeModal = useConfigState.useRemoveModal();
 
   return (
     <Alert variant={"horizontal"}>
@@ -36,7 +37,7 @@ export const FaultProofsBanner = () => {
         <Button
           variant={"secondary"}
           size={"xs"}
-          onClick={() => setInfoModalOpen(true)}
+          onClick={() => removeModal(ModalNames.FaultProofInfo)}
         >
           More
         </Button>
