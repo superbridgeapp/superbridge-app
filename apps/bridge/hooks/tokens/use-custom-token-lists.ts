@@ -90,14 +90,4 @@ export const useCustomTokenLists = () => {
         .flat();
     },
   });
-
-  // /**
-  //  * Arbitrum
-  //  */
-
-  // const arbitrumMultichainTokens = transformArbitrumTokenList([
-  //   ...ArbArbitrumTokenList.tokens,
-  //   ...UniswapArbitrumTokenList.tokens,
-  //   ...MockArbitrumTokenList.tokens,
-  // ]);
 };
