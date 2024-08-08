@@ -54,7 +54,7 @@ export const RoutePreview = () => {
           variant={"secondary"}
           className="mx-auto absolute bottom-2.5 right-2 text-xs h-6 pr-2 gap-1"
         >
-          <span>{routeCount} More</span>
+          <span>{routeCount - 1} More</span>
           <IconCaretRight className="w-3 w-3 fill-foreground" />
         </Button>
       )}

@@ -59,9 +59,7 @@ export const useFeesForRoute = (route: {
     : null;
   const totalFiatFormatted =
     usdPrice && totalFiat !== null
-      ? `${currencySymbolMap[currency]}${(totalFiat * usdPrice).toLocaleString(
-          "en"
-        )}`
+      ? `${currencySymbolMap[currency]}${totalFiat.toLocaleString("en")}`
       : null;
 
   const totalToken = fees.reduce((acc, f) => f.token.amount + acc, 0);
