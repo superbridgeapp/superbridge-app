@@ -22,7 +22,7 @@ export function Layout({ children }: { children: any }) {
   useInitialise();
 
   const displayTransactions = useConfigState.useDisplayTransactions();
-  const networkSelector = useConfigState.useNetworkSelector();
+  const displayNetworkSelector = useConfigState.useDisplayNetworkSelector();
 
   const imageBackground = useBackgroundIcon();
   const backgroundImageBlendMode = useBackgroundImageBlendMode();
@@ -80,7 +80,7 @@ export function Layout({ children }: { children: any }) {
           </>
         )}
 
-        {networkSelector && (
+        {displayNetworkSelector && (
           <>
             <NetworkSelector key="networkSelector" />
             {/* fade background */}
