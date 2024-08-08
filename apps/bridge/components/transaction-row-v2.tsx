@@ -275,7 +275,9 @@ const useProgressBars = (
     return bars;
   }
 
-  if (finalisingTx) {
+  if (!isConfirmed(initiatingTx)) {
+    bars.push({ status: "not-started", name: "finalise" });
+  } else if (finalisingTx) {
     bars.push({ status: "done", name: "finalise" });
   } else {
     bars.push({ status: "in-progress", name: "finalise" });

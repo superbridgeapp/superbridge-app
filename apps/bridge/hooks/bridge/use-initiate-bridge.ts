@@ -2,7 +2,6 @@ import { waitForTransactionReceipt } from "@wagmi/core";
 import { useAccount, useConfig, useWalletClient } from "wagmi";
 
 import { RouteProvider } from "@/codegen/model";
-import { useActiveTokens } from "@/hooks/tokens/use-active-tokens";
 import {
   useDestinationToken,
   useSelectedToken,
@@ -34,7 +33,6 @@ export const useInitiateBridge = () => {
   const from = useFromChain();
   const to = useToChain();
   const switchChain = useSwitchChain();
-  const tokens = useActiveTokens();
   const token = useSelectedToken();
   const trackEvent = useTrackEvent();
 
@@ -87,7 +85,9 @@ export const useInitiateBridge = () => {
       setPendingBridgeTransactionHash(hash);
 
       const type =
-        route.data.id === RouteProvider.Across
+        route.data.id === RouteProvider.Hyperlane
+          ? "hyperlane"
+          : route.data.id === RouteProvider.Across
           ? "across"
           : route.data.id === RouteProvider.Cctp
           ? "cctp"

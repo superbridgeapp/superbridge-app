@@ -40,7 +40,7 @@ export const useHyperlaneProgressRows = (
       chain: fromChain,
       button: undefined,
     },
-    buildWaitStep(tx.send.timestamp, tx.receive?.timestamp, 1000 * 60 * 5),
+    buildWaitStep(tx.send.timestamp, tx.receive?.timestamp, 1000 * 60 * 1),
     {
       label: `Receive ${token?.symbol}`,
       hash: tx.receive?.transactionHash,

@@ -52,6 +52,7 @@ import { useIsWithdrawal } from "@/hooks/use-withdrawing";
 import { useConfigState } from "@/state/config";
 import { useSettingsState } from "@/state/settings";
 import { isArbitrum } from "@/utils/deployments/is-mainnet";
+import { formatDecimals } from "@/utils/format-decimals";
 import {
   isRouteQuote,
   isRouteReceiveStep,
@@ -141,20 +142,17 @@ export const ConfirmationModalStartTab = () => {
     return { gasToken, gasLimit: BigInt(gasLimit) };
   };
 
-  const fee = (
-    {
-      gasLimit,
-      gasToken,
-    }: {
-      gasToken: {
-        token: ChainNativeCurrencyDto | undefined;
-        price: number | null;
-        gasPrice: bigint;
-      };
-      gasLimit: bigint;
-    },
-    maximumFractionDigits: number
-  ) => {
+  const fee = ({
+    gasLimit,
+    gasToken,
+  }: {
+    gasToken: {
+      token: ChainNativeCurrencyDto | undefined;
+      price: number | null;
+      gasPrice: bigint;
+    };
+    gasLimit: bigint;
+  }) => {
     const nativeTokenAmount = gasLimit * gasToken.gasPrice;
 
     const formattedAmount = parseFloat(
@@ -162,14 +160,12 @@ export const ConfirmationModalStartTab = () => {
     );
 
     if (!gasToken.price) {
-      return `${formattedAmount} ${gasToken.token?.symbol}`;
+      return `${formatDecimals(formattedAmount)} ${gasToken.token?.symbol}`;
     }
 
-    const amount = (gasToken.price * formattedAmount).toLocaleString("en", {
-      maximumFractionDigits,
-    });
-
-    return `${currencySymbolMap[currency]}${amount}`;
+    return `${currencySymbolMap[currency]}${formatDecimals(
+      gasToken.price * formattedAmount
+    )}`;
   };
 
   const approved =
@@ -357,7 +353,7 @@ export const ConfirmationModalStartTab = () => {
                 ) : x.type === RouteStepType.Mint ? undefined : undefined;
               const a: TransactionStep = {
                 label,
-                fee: fee(getGasCost(x.chainId, x.estimatedGasLimit), 4),
+                fee: fee(getGasCost(x.chainId, x.estimatedGasLimit)),
                 chain: x.chainId === from?.id.toString() ? from! : to!,
                 buttonComponent,
                 hash: undefined,
@@ -421,7 +417,7 @@ export const ConfirmationModalStartTab = () => {
                   symbol: token?.symbol,
                 }),
                 chain: from,
-                fee: approvedGasToken ? undefined : fee(approveGasTokenCost, 4),
+                fee: approvedGasToken ? undefined : fee(approveGasTokenCost),
                 buttonComponent: (
                   <Button
                     onClick={approveGasTokenButton.onSubmit}
@@ -457,7 +453,7 @@ export const ConfirmationModalStartTab = () => {
                   symbol: token?.symbol,
                 }),
                 chain: from,
-                fee: approved ? undefined : fee(approveCost, 4),
+                fee: approved ? undefined : fee(approveCost),
                 buttonComponent: approved ? (
                   <IconCheckCircle className="w-6 h-6 fill-muted-foreground" />
                 ) : (
