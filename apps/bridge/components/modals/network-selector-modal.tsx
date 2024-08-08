@@ -121,9 +121,9 @@ export const NetworkSelector = () => {
         exit={"hidden"}
         className="flex flex-col items-center gap-10 w-full"
       >
-        <div className="flex items-center gap-3 bg-card pl-6 pr-5 py-3 rounded-full">
-          <h1 className="text-3xl font-heading">Choose network</h1>
-          <IconArrowUpCircle className="w-6 h-6 fill-muted-foreground" />
+        <div className="flex items-center gap-3 bg-card px-6 py-3 rounded-full">
+          <h1 className="text-2xl font-heading">Select a network</h1>
+          {/* <IconArrowUpCircle className="w-6 h-6 fill-muted-foreground" /> */}
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 w-full px-4 max-w-3xl">
