@@ -43,9 +43,6 @@ interface ConfigState {
   tokens: MultiChainToken[];
   setTokens: (tokens: MultiChainToken[]) => void;
 
-  tokensImportedFromLists: string[];
-  setTokensImportedFromLists: (s: string[]) => void;
-
   showCustomTokenListModal: true | CustomTokenList | false;
   setShowCustomTokenListModal: (b: true | CustomTokenList | false) => void;
 
@@ -100,10 +97,6 @@ const ConfigState = create<ConfigState>()((set, get) => ({
 
   tokens: [],
   setTokens: (tokens) => set({ tokens }),
-
-  tokensImportedFromLists: [],
-  setTokensImportedFromLists: (tokensImportedFromLists) =>
-    set({ tokensImportedFromLists }),
 
   legalModal: false,
   setLegalModal: (legalModal) => set({ legalModal }),

@@ -2,18 +2,17 @@ import clsx from "clsx";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { P, match } from "ts-pattern";
-import { Address, Chain, formatUnits, isAddress, isAddressEqual } from "viem";
+import { Address, formatUnits, isAddress, isAddressEqual } from "viem";
 
-import { ChainDto } from "@/codegen/model";
 import { Input } from "@/components/ui/input";
 import { ModalNames } from "@/constants/modal-names";
 import { useDeployment } from "@/hooks/deployments/use-deployment";
+import { useIsCustomToken } from "@/hooks/tokens/use-is-custom-token";
+import { useIsCustomTokenFromList } from "@/hooks/tokens/use-is-custom-token-from-list";
 import { useSetToken } from "@/hooks/tokens/use-set-token";
 import { useSelectedToken } from "@/hooks/tokens/use-token";
 import { useTokenBalances } from "@/hooks/use-balances";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
-import { useIsCustomToken } from "@/hooks/use-is-custom-token";
-import { useIsCustomTokenFromList } from "@/hooks/use-is-custom-token-from-list";
 import { useTrackEvent } from "@/services/ga";
 import { useConfigState } from "@/state/config";
 import { useInjectedStore } from "@/state/injected";
@@ -25,49 +24,41 @@ import { Button } from "../ui/button";
 import { useCustomToken } from "./use-custom-token";
 
 const TokenComponent = ({
-  token,
-  from,
   balance,
   onClick,
 }: {
-  token: MultiChainToken;
-  from: ChainDto | Chain | undefined | null;
   balance: bigint;
   onClick: () => void;
 }) => {
   const { t } = useTranslation();
   const selectedToken = useSelectedToken();
 
-  const isCustomToken = useIsCustomToken(token);
-  const isCustomTokenFromList = useIsCustomTokenFromList(token);
+  const isCustomToken = useIsCustomToken(selectedToken);
+  const isCustomTokenFromList = useIsCustomTokenFromList(selectedToken);
 
   return (
     <div
       className={clsx(
         "flex justify-between hover:bg-muted transition cursor-pointer p-4 relative",
-        token[from?.id ?? 0]?.address === selectedToken?.address && "bg-muted"
+        selectedToken?.address === selectedToken?.address && "bg-muted"
       )}
       onClick={onClick}
     >
       <div className="flex items-center space-x-4">
-        <TokenIcon token={token[from?.id ?? 0] ?? null} className="h-8 w-8" />
+        <TokenIcon token={selectedToken ?? null} className="h-8 w-8" />
         <div className="flex flex-col">
           <div className="flex items-center gap-1">
-            <span className="text-sm font-heading">
-              {token[from?.id ?? 0]?.name}
-            </span>
+            <span className="text-sm font-heading">{selectedToken?.name}</span>
           </div>
           <span className="text-xs  text-muted-foreground">
-            {token[from?.id ?? 0]?.symbol}
+            {selectedToken?.symbol}
           </span>
         </div>
       </div>
       <div className="ml-auto flex flex-col text-right gap-1">
         <span className="text-sm  text-muted-foreground">
           {formatDecimals(
-            parseFloat(
-              formatUnits(balance, token[from?.id ?? 0]?.decimals ?? 18)
-            )
+            parseFloat(formatUnits(balance, selectedToken?.decimals ?? 18))
           )}
         </span>
         {(isCustomToken || isCustomTokenFromList) && (
@@ -422,8 +413,6 @@ export const FungibleTokenPicker = () => {
               filteredTokens?.map(({ token, balance }) => (
                 <TokenComponent
                   key={token[from?.id ?? 0]?.address}
-                  token={token}
-                  from={from}
                   balance={balance}
                   onClick={() => onClickToken(token)}
                 />

@@ -3,11 +3,11 @@ import { formatUnits } from "viem";
 
 import { ModalNames } from "@/constants/modal-names";
 import { useActiveTokens } from "@/hooks/tokens";
+import { useIsCustomToken } from "@/hooks/tokens/use-is-custom-token";
+import { useIsCustomTokenFromList } from "@/hooks/tokens/use-is-custom-token-from-list";
 import { useMultichainToken, useSelectedToken } from "@/hooks/tokens/use-token";
 import { useTokenBalance } from "@/hooks/use-balances";
 import { useGetFormattedAmount } from "@/hooks/use-get-formatted-amount";
-import { useIsCustomToken } from "@/hooks/use-is-custom-token";
-import { useIsCustomTokenFromList } from "@/hooks/use-is-custom-token-from-list";
 import { useWeiAmount } from "@/hooks/use-wei-amount";
 import { useConfigState } from "@/state/config";
 import { formatDecimals } from "@/utils/format-decimals";
@@ -32,8 +32,8 @@ export const TokenInput = () => {
   const tokenBalance = useTokenBalance(token);
   const getFormattedAmount = useGetFormattedAmount(token);
 
-  const isCustomToken = useIsCustomToken(stateToken);
-  const isCustomTokenFromList = useIsCustomTokenFromList(stateToken);
+  const isCustomToken = useIsCustomToken(token);
+  const isCustomTokenFromList = useIsCustomTokenFromList(token);
 
   const formattedTokenBalance = formatUnits(
     tokenBalance.data,
