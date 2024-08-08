@@ -13,8 +13,45 @@ import { useConfigState } from "@/state/config";
 import { usePendingTransactions } from "@/state/pending-txs";
 
 import { Loading } from "../Loading";
-import { IconSpinner } from "../icons";
+import { IconClose, IconSpinner } from "../icons";
 import { TransactionRowV2 } from "../transaction-row-v2";
+
+// Animations
+const container = {
+  hidden: {
+    y: "5vh",
+    opacity: 0,
+    transition: {
+      type: "easeIn",
+      duration: 0.15,
+    },
+  },
+  show: {
+    opacity: 1,
+    y: "0vh",
+    transition: {
+      type: "spring",
+      stiffness: 300,
+      damping: 16,
+      staggerChildren: 0.05,
+      delayChildren: 0.1,
+      // staggerDirection: -1,
+    },
+  },
+};
+
+const item = {
+  hidden: { opacity: 0, y: 20 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      type: "spring",
+      stiffness: 300,
+      damping: 12,
+    },
+  },
+};
 
 export const OpenActivity = ({}) => {
   const { ref, inView } = useInView({
@@ -45,28 +82,35 @@ export const OpenActivity = ({}) => {
 
   return (
     <main
-      className="flex items-start justify-center w-screen h-screen fixed inset-0 px-2 md:px-0 py-16 pt-[108px] md:py-24 z-[25]"
+      className="flex items-start justify-center scroll-smooth overflow-y-scroll w-screen h-screen fixed inset-0 px-2 md:px-0 py-16 md:py-20 z-[25]"
       key="bridgeMain"
     >
-      <motion.div
-        initial={{ y: "100vh" }}
-        animate={{ y: "0vh" }}
-        exit={{ y: "100vh" }}
-        transition={{ type: "spring", damping: 12, delay: 0.08 }}
-        className="bg-card border flex flex-col self-start  z-50 relative overflow-hidden rounded-[32px] h-[calc(76dvh)] max-h-[680px]  w-screen md:w-[50vw] md:max-w-[420px] aspect-[3/4] backdrop-blur shadow-sm"
+      {/* Close btn */}
+      <button
+        className={`flex items-center transition-all cursor-pointer w-10 h-10 shrink-0 flex items-center justify-center rounded-full bg-card hover:scale-105 fixed top-6 right-6 z-10`}
+        onClick={() => {
+          setDisplayTransactions(!open);
+          trackEvent({ event: "close-activity" });
+        }}
       >
-        <div
-          className="flex items-center justify-between pl-6 pr-4 py-4 md:py-6 border-b cursor-pointer z-10"
-          onClick={() => {
-            setDisplayTransactions(!open);
-            trackEvent({ event: "close-activity" });
-          }}
-        >
-          <h2 className="font-heading text-sm md:text-base">
-            {t("activity.activity")}
-          </h2>
-          <div className="flex gap-2 items-center">
-            <div
+        <IconClose className="fill-foreground w-3.5 h-3.5" />
+      </button>
+
+      <motion.div
+        variants={container}
+        initial={"hidden"}
+        animate={"show"}
+        exit={"hidden"}
+        className="flex flex-col items-center gap-10 w-full"
+      >
+        <div className="flex items-center gap-3 bg-card pl-6 pr-5 py-3 rounded-full">
+          <h1 className="text-3xl font-heading">{t("activity.activity")}</h1>
+          <span className="bg-muted rounded-full text-xs text-muted-foreground px-3 py-1">
+            0xBE…73D4
+          </span>
+        </div>
+
+        {/* <div
               className={`bg-muted flex items-center justify-center w-6 h-6 text-center rounded-full ${
                 inProgressCount <= 0 ? "hidden" : "visible"
               }`}
@@ -74,24 +118,8 @@ export const OpenActivity = ({}) => {
               <span className="text-xs  text-foreground">
                 {inProgressCount}
               </span>
-            </div>
-            <div
-              className={`flex items-center transition-all cursor-pointer w-10 h-10 shrink-0 flex items-center justify-center rounded-full bg-muted hover:scale-105`}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="14"
-                height="14"
-                viewBox="0 0 14 14"
-                fill="none"
-                className="fill-foreground w-3.5 h-3.5"
-              >
-                <path d="M0.562404 13.4244C-0.205637 12.6425 -0.187241 11.8653 0.617592 11.0697L4.68315 7.00411L0.617592 2.95695C-0.178043 2.14752 -0.205637 1.37028 0.589998 0.574646C1.38563 -0.220989 2.13528 -0.193394 2.95851 0.616038L7.01027 4.6678L11.062 0.629835C11.8577 -0.179597 12.6349 -0.193394 13.4167 0.574646C14.2124 1.37028 14.1848 2.16132 13.3891 2.97075L9.33738 7.00871L13.3891 11.0329C14.1986 11.8561 14.1986 12.6196 13.4167 13.4152C12.6349 14.197 11.8577 14.1832 11.0482 13.3876L7.01027 9.33583L2.95851 13.4014C2.14907 14.197 1.35804 14.2108 0.562404 13.429V13.4244Z" />
-              </svg>
-              <span className="sr-only">Close</span>
-            </div>
-          </div>
-        </div>
+            </div> */}
+
         {match({
           statusCheck,
           isError,
@@ -143,9 +171,22 @@ export const OpenActivity = ({}) => {
               }
 
               return (
-                <div className="overflow-y-auto overflow-x-hidden -mb-[2px]">
+                <div className="flex flex-col gap-4 w-full px-4 max-w-3xl">
                   {[...pendingTransactions, ...transactions].map((t) => {
-                    return <TransactionRowV2 key={t.id} tx={t} />;
+                    return (
+                      <motion.div
+                        key={`activity-${t.id}`}
+                        variants={item}
+                        // hovers must not be a variant or stagger animation fails
+                        whileHover={{ scale: 1.03 }}
+                        whileTap={{ scale: 1 }}
+                        className={
+                          "relative w-full h-full flex flex-col shrink-0 cursor-pointer overflow-hidden rounded-2xl shadow-sm"
+                        }
+                      >
+                        <TransactionRowV2 key={t.id} tx={t} />
+                      </motion.div>
+                    );
                   })}
 
                   {transactions.length !== totalTransactions && (

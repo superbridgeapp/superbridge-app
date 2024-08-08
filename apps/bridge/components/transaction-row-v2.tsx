@@ -294,7 +294,10 @@ export const TransactionRowV2 = ({ tx }: { tx: Transaction }) => {
   const provider = useTxProvider(tx);
 
   return (
-    <div className="flex flex-col p-6 border-b relative" key={tx.id}>
+    <div
+      className="bg-yellow-500 w-full rounded-xl flex flex-col p-6 border-b relative"
+      key={tx.id}
+    >
       <button
         className="border border-1"
         onClick={() => openActivityModal(tx.id)}
