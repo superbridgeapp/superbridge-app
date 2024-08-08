@@ -17,6 +17,13 @@ import { resolveAddress, resolveName } from "@/services/ens";
 import { useConfigState } from "@/state/config";
 import { isDeposit, isWithdrawal } from "@/utils/guards";
 
+import {
+  IconAlert,
+  IconCheckCircle,
+  IconClose,
+  IconCloseCircle,
+  IconSpinner,
+} from "../icons";
 import { Button } from "../ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
 
@@ -172,7 +179,8 @@ export const RecipientAddressModal = () => {
                     account: account.address,
                   })
                     .with({ isLoading: true }, () => (
-                      <div className="inline-flex gap-1 px-2 py-1 rounded-full bg-zinc-100 dark:bg-zinc-900">
+                      <div className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-muted">
+                        <IconSpinner className="w-3.5 h-3.5 text-foreground" />
                         <span className="text-xs leading-none text-muted-foreground">
                           {t("recipient.checkingAddress")}
                         </span>
@@ -180,14 +188,9 @@ export const RecipientAddressModal = () => {
                     ))
                     .with({ debouncedInput: "" }, () => null)
                     .with({ isValidProfile: false }, () => (
-                      <div className="inline-flex gap-1 pr-2 pl-1 py-1 rounded-full bg-red-500/10">
-                        <Image
-                          alt="Address icon"
-                          src={"/img/address-error.svg"}
-                          height={14}
-                          width={14}
-                        />
-                        <span className="text-xs leading-none text-red-500">
+                      <div className="inline-flex items-center gap-1 pr-2 pl-1 py-1 rounded-full bg-muted">
+                        <IconCloseCircle className="w-3.5 h-3.5 fill-red-400" />
+                        <span className="text-xs leading-none text-red-400">
                           {t("recipient.invalidAddress")}
                         </span>
                       </div>
@@ -200,14 +203,9 @@ export const RecipientAddressModal = () => {
                         !!x.account &&
                         isAddressEqual(x.account, x.profile.address),
                       (x) => (
-                        <div className="inline-flex gap-1 pr-2 pl-1 py-1 rounded-full bg-green-500/10">
-                          <Image
-                            alt="Address icon"
-                            src={"/img/address-ok.svg"}
-                            height={14}
-                            width={14}
-                          />
-                          <span className="text-xs leading-none text-green-500">
+                        <div className="inline-flex items-center gap-1 pr-2 pl-1 py-1 rounded-full bg-muted">
+                          <IconCheckCircle className="w-3.5 h-3.5 fill-primary" />
+                          <span className="text-xs leading-none text-primary">
                             {t("recipient.yourChainAddress", {
                               chain: toChain?.name,
                             })}
@@ -260,13 +258,8 @@ export const RecipientAddressModal = () => {
 
                         if (count === 1) {
                           return (
-                            <div className="inline-flex gap-1 pr-2 pl-1 py-1 rounded-full bg-green-100 dark:bg-green-950">
-                              <Image
-                                alt="Address icon"
-                                src={"/img/address-ok.svg"}
-                                height={14}
-                                width={14}
-                              />
+                            <div className="inline-flex gap-1 pr-2 pl-1 py-1 rounded-full bg-muted">
+                              <IconCheckCircle className="w-3.5 h-3.5 fill-primary" />
                               <span className="text-xs leading-none text-green-500">
                                 {t("recipient.usedBefore")}
                               </span>
@@ -276,14 +269,9 @@ export const RecipientAddressModal = () => {
 
                         if (count > 1) {
                           return (
-                            <div className="inline-flex gap-1 pr-2 pl-1 py-1 rounded-full bg-green-100 dark:bg-green-950">
-                              <Image
-                                alt="Address icon"
-                                src={"/img/address-ok.svg"}
-                                height={14}
-                                width={14}
-                              />
-                              <span className="text-xs leading-none text-green-500">
+                            <div className="inline-flex gap-1 pr-2 pl-1 py-1 rounded-full bg-muted">
+                              <IconCheckCircle className="w-3.5 h-3.5 fill-primary" />
+                              <span className="text-xs leading-none text-primary">
                                 {t("recipient.usedBeforeMultiple", { count })}
                               </span>
                             </div>
@@ -291,13 +279,8 @@ export const RecipientAddressModal = () => {
                         }
 
                         return (
-                          <div className="inline-flex gap-1 pr-2 pl-1 py-1 rounded-full bg-orange-100 dark:bg-orange-950">
-                            <Image
-                              alt="Address icon"
-                              src={"/img/address-alert.svg"}
-                              height={14}
-                              width={14}
-                            />
+                          <div className="inline-flex gap-1 pr-2 pl-1 py-1 rounded-full bg-muted">
+                            <IconAlert className="w-3.5 h-3.5 fill-orange-500" />
                             <span className="text-xs leading-none text-orange-500">
                               {t("recipient.newAddress")}
                             </span>
