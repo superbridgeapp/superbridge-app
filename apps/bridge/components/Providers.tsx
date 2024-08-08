@@ -13,7 +13,7 @@ import { Chain } from "viem";
 import { WagmiProvider } from "wagmi";
 
 import { useChains } from "@/hooks/use-chains";
-import { useMetadata } from "@/hooks/use-metadata";
+import { useApp, useMetadata } from "@/hooks/use-metadata";
 import { useWagmiConfig } from "@/hooks/wagmi/use-wagmi-config";
 import { queryClient } from "@/utils/query-client";
 
@@ -26,6 +26,8 @@ function Web3Provider({ children }: { children: React.ReactNode }) {
   const { i18n } = useTranslation();
   const metadata = useMetadata();
   const wagmiConfig = useWagmiConfig();
+
+  const theme = useApp().theme;
 
   useEffect(() => {
     setMounted(true);
@@ -45,7 +47,7 @@ function Web3Provider({ children }: { children: React.ReactNode }) {
             ? resolvedTheme === "light"
               ? lightTheme({
                   borderRadius: "large",
-                  accentColor: "#242327",
+                  accentColor: theme.primary,
                   accentColorForeground: "#fff",
                 })
               : darkTheme({

@@ -1,7 +1,8 @@
 import { LegalModal } from "../legal-modal";
+import { CustomTokenListModal } from "../settings/custom-token-list-modal";
 import { SettingsModal } from "../settings/settings-modal";
-import { TokenModal } from "../tokens";
 import { CustomTokenImportModal } from "../tokens/custom-token-import-modal";
+import { TokensModal } from "../tokens/tokens-modal";
 import { TosModal } from "../tos-modal";
 import { ExpensiveGasModal } from "./alerts/expensive-gas-modal";
 import { FaultProofsModal } from "./alerts/fault-proofs-modal";
@@ -26,7 +27,7 @@ export const Modals = () => {
       <FaultProofInfoModal />
       <WithdrawalReadyToFinalizeModal />
       <CustomTokenImportModal />
-      <TokenModal />
+      <TokensModal />
       <ConfirmationModalV2 />
       <TransactionDetailsModal />
 
@@ -38,6 +39,7 @@ export const Modals = () => {
       <TosModal />
       <LegalModal />
       <CustomTokenImportModal />
+      <CustomTokenListModal />
       <BlockProvingModal />
 
       <SettingsModal />

@@ -84,6 +84,10 @@ export const OpenActivity = ({}) => {
     <main
       className="flex items-start justify-center scroll-smooth overflow-y-scroll w-screen h-screen fixed inset-0 px-2 md:px-0 py-16 md:py-20 z-[25]"
       key="bridgeMain"
+      onClick={() => {
+        setDisplayTransactions(false);
+        trackEvent({ event: "close-activity" });
+      }}
     >
       <motion.button
         initial={{ opacity: 0, scale: 0.1 }}
@@ -92,10 +96,6 @@ export const OpenActivity = ({}) => {
         whileHover={{ scale: 1.1 }}
         key="close-activity"
         className={`flex items-center transition-all cursor-pointer w-10 h-10 shrink-0 flex items-center justify-center rounded-full bg-card fixed top-6 right-6 z-10`}
-        onClick={() => {
-          setDisplayTransactions(!open);
-          trackEvent({ event: "close-activity" });
-        }}
       >
         <IconClose className="fill-foreground w-3.5 h-3.5" />
       </motion.button>
@@ -110,7 +110,11 @@ export const OpenActivity = ({}) => {
           <h1 className="text-3xl font-heading">{t("activity.activity")}</h1>
           {/* TODO: should we put current wallet here? */}
           <span className="bg-muted rounded-full text-xs text-muted-foreground px-3 py-1">
-            0xBE…73D4
+            {account.address
+              ? `${account.address.slice(0, 4)}...${account.address.slice(
+                  account.address.length - 4
+                )}`
+              : ""}
           </span>
         </div>
 
@@ -185,7 +189,7 @@ export const OpenActivity = ({}) => {
                         // whileHover={{ scale: 1.03 }}
                         // whileTap={{ scale: 1 }}
                         className={
-                          "relative w-full h-full flex flex-col shrink-0  overflow-hidden rounded-2xl shadow-sm"
+                          "relative w-full h-full flex flex-col shrink-0 overflow-hidden rounded-2xl shadow-sm"
                         }
                       >
                         <TransactionRowV2 key={t.id} tx={t} />

@@ -10,10 +10,10 @@ import { useMetadata } from "@/hooks/use-metadata";
 
 import { useIsSuperbridge } from "../apps/use-is-superbridge";
 import { useAllDeployments } from "../deployments/use-all-deployments";
-import { useChains } from "../use-chains";
+import { useAllChains } from "../use-chains";
 
 export function useWagmiConfig() {
-  const chains = useChains();
+  const chains = useAllChains();
   const allDeployments = useAllDeployments();
   const metadata = useMetadata();
   const isSuperbridge = useIsSuperbridge();

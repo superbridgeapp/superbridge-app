@@ -33,7 +33,6 @@ import { isOptimism } from "@/utils/is-mainnet";
 import { MessageStatus } from "../constants";
 import { IconCheckCircle, IconSimpleTime } from "./icons";
 import { NetworkIcon } from "./network-icon";
-import { RouteProviderIcon } from "./route-provider-icon";
 import { TokenIcon } from "./token-icon";
 import { Button } from "./ui/button";
 
@@ -266,11 +265,11 @@ const useProgressBars = (
     }
 
     if (finalisingTx) {
-      bars.push({ status: "done", name: "prove" });
+      bars.push({ status: "done", name: "finalise" });
     } else if (proveTx || pendingFinalises[tx.id]) {
-      bars.push({ status: "in-progress", name: "prove" });
+      bars.push({ status: "in-progress", name: "finalise" });
     } else {
-      bars.push({ status: "not-started", name: "prove" });
+      bars.push({ status: "not-started", name: "finalise" });
     }
 
     return bars;
@@ -304,6 +303,7 @@ export const TransactionRowV2 = ({ tx }: { tx: Transaction }) => {
     <div
       className="bg-card w-full rounded-xl flex gap-4 p-6 relative"
       key={tx.id}
+      onClick={(e) => e.stopPropagation()}
     >
       {/* <div className="flex items-center gap-3">
           <span>Route:</span>
@@ -329,7 +329,7 @@ export const TransactionRowV2 = ({ tx }: { tx: Transaction }) => {
             <div className="w-full flex items-center gap-2 py-3">
               {bars.map((bar) => (
                 <div
-                  key={bar.status}
+                  key={`${tx.id}-${bar.name}`}
                   className={clsx(
                     "w-full h-1 rounded-full",
                     bar.status === "done" && "bg-primary",
@@ -348,9 +348,6 @@ export const TransactionRowV2 = ({ tx }: { tx: Transaction }) => {
             <div className="flex gap-2 items-center rounded-full border pl-2 pr-3 py-1.5">
               <IconCheckCircle className="fill-primary w-4 h-4" />
               <span className="text-sm">Bridge successful</span>
-              {/* <span className="text-sm text-muted-foreground">
-                {formatDistanceToNow(finalizingTx?.timestamp ?? 0)} ago
-              </span> */}
             </div>
           )}
           {/* TODO: should this be different depending on  */}
