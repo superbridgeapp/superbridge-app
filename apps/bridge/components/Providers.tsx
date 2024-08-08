@@ -7,7 +7,7 @@ import {
 import "@rainbow-me/rainbowkit/styles.css";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Chain } from "viem";
 import { WagmiProvider } from "wagmi";
@@ -33,6 +33,35 @@ function Web3Provider({ children }: { children: React.ReactNode }) {
     setMounted(true);
   }, []);
 
+  const rainbowTheme = useMemo(() => {
+    if (!mounted) return null;
+
+    if (resolvedTheme === "light") {
+      const t = lightTheme({
+        borderRadius: "large",
+        accentColor: theme.primary,
+        accentColorForeground: theme["primary-foreground"],
+      });
+
+      // specific light overrides
+
+      if (theme.card) t.colors.modalBackground = theme.card;
+
+      return t;
+    }
+
+    const t = darkTheme({
+      borderRadius: "large",
+      accentColor: theme.primary,
+      accentColorForeground: theme["primary-foreground"],
+    });
+
+    // specific dark overrides
+    if (theme["card-dark"]) t.colors.modalBackground = theme["card-dark"];
+
+    return t;
+  }, [theme, mounted, resolvedTheme]);
+
   return (
     <WagmiProvider config={wagmiConfig}>
       <RainbowKitProvider
@@ -42,77 +71,7 @@ function Web3Provider({ children }: { children: React.ReactNode }) {
             ? "zh"
             : (i18n.resolvedLanguage as Locale)
         }
-        theme={
-          mounted
-            ? resolvedTheme === "light"
-              ? lightTheme({
-                  borderRadius: "large",
-                  accentColor: theme.primary,
-                  accentColorForeground: theme["primary-foreground"],
-                  // actionButtonBorder: "...",
-                  // actionButtonBorderMobile: "...",
-                  // actionButtonSecondaryBackground: "...",
-                  // closeButton: "...",
-                  // closeButtonBackground: "...",
-                  // connectButtonBackground: "...",
-                  // connectButtonBackgroundError: "...",
-                  // connectButtonInnerBackground: "...",
-                  // connectButtonText: "...",
-                  // connectButtonTextError: "...",
-                  // connectionIndicator: "...",
-                  // downloadBottomCardBackground: "...",
-                  // downloadTopCardBackground: "...",
-                  // error: "...",
-                  // generalBorder: "...",
-                  // generalBorderDim: "...",
-                  // menuItemBackground: "...",
-                  // modalBackdrop: "...",
-                  modalBackground: theme["card"],
-                  // modalBorder: "...",
-                  // modalText: "...",
-                  // modalTextDim: "...",
-                  // modalTextSecondary: "...",
-                  // profileAction: "...",
-                  // profileActionHover: "...",
-                  // profileForeground: "...",
-                  // selectedOptionBorder: "...",
-                  // standby: "...",
-                })
-              : darkTheme({
-                  borderRadius: "large",
-                  accentColor: theme.primary,
-                  accentColorForeground: theme["primary-foreground"],
-                  // actionButtonBorder: "...",
-                  // actionButtonBorderMobile: "...",
-                  // actionButtonSecondaryBackground: "...",
-                  // closeButton: "...",
-                  // closeButtonBackground: "...",
-                  // connectButtonBackground: "...",
-                  // connectButtonBackgroundError: "...",
-                  // connectButtonInnerBackground: "...",
-                  // connectButtonText: "...",
-                  // connectButtonTextError: "...",
-                  // connectionIndicator: "...",
-                  // downloadBottomCardBackground: "...",
-                  // downloadTopCardBackground: "...",
-                  // error: "...",
-                  // generalBorder: "...",
-                  // generalBorderDim: "...",
-                  // menuItemBackground: "...",
-                  // modalBackdrop: "...",
-                  modalBackground: theme["card-dark"],
-                  // modalBorder: "...",
-                  // modalText: "...",
-                  // modalTextDim: "...",
-                  // modalTextSecondary: "...",
-                  // profileAction: "...",
-                  // profileActionHover: "...",
-                  // profileForeground: "...",
-                  // selectedOptionBorder: "...",
-                  // standby: "...",
-                })
-            : null
-        }
+        theme={rainbowTheme}
         appInfo={{
           appName: metadata.head.name,
           learnMoreUrl: "https://docs.superbridge.app",
