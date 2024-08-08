@@ -94,8 +94,8 @@ export const OpenActivity = ({}) => {
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.1 }}
         whileHover={{ scale: 1.1 }}
-        key="close-activity"
-        className={`flex items-center transition-all cursor-pointer w-10 h-10 shrink-0 flex items-center justify-center rounded-full bg-card fixed top-6 right-6 z-10`}
+        key="close-activity-button"
+        className={`flex items-center cursor-pointer w-10 h-10 shrink-0 flex items-center justify-center rounded-full bg-card fixed top-6 right-6 z-10`}
       >
         <IconClose className="fill-foreground w-3.5 h-3.5" />
       </motion.button>
