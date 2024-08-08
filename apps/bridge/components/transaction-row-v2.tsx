@@ -343,9 +343,6 @@ export const TransactionRowV2 = ({ tx }: { tx: Transaction }) => {
             <div className="flex gap-2 items-center rounded-full border pl-2 pr-3 py-2">
               <IconCheckCircle className="fill-primary w-4 h-4" />
               <span className="text-sm">Bridge successful</span>
-              <span className="text-sm text-muted-foreground">
-                {formatDistanceToNow(finalizingTx?.timestamp ?? 0)} ago
-              </span>
             </div>
           )}
           {/* TODO: should this be different depending on  */}
