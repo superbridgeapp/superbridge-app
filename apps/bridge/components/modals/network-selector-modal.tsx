@@ -125,7 +125,7 @@ export const NetworkSelector = () => {
           <IconArrowUpCircle className="w-6 h-6 fill-muted-foreground" />
         </div>
 
-        <div className="grid grid-cols-3 lg:grid-cols-4 gap-2 md:gap-4 w-full px-4 max-w-3xl">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 w-full px-4 max-w-3xl">
           {availableChains.map((chain) => {
             return (
               <motion.div
@@ -188,6 +188,14 @@ export const NetworkSelector = () => {
                   </h3>
                 </div>
               </motion.div>
+            );
+          })}
+          {[...Array(4 - availableChains.length)].map((e, i) => {
+            return (
+              <div
+                className="bg-black/20 border border-black/10 relative w-full h-full aspect-[3.25/4] rounded-2xl shadow-sm mix-blend-multiply"
+                key={i}
+              ></div>
             );
           })}
         </div>
