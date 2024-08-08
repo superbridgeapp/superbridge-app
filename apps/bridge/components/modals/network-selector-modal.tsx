@@ -14,6 +14,43 @@ import { useInjectedStore } from "@/state/injected";
 import { IconArrowUpCircle } from "../icons";
 import { NetworkIcon } from "../network-icon";
 
+// Animations
+const container = {
+  hidden: {
+    y: "5vh",
+    opacity: 0,
+    transition: {
+      type: "easeIn",
+      duration: 0.15,
+    },
+  },
+  show: {
+    opacity: 1,
+    y: "0vh",
+    transition: {
+      type: "spring",
+      stiffness: 300,
+      damping: 16,
+      staggerChildren: 0.05,
+      delayChildren: 0.1,
+      // staggerDirection: -1,
+    },
+  },
+};
+
+const item = {
+  hidden: { opacity: 0, scale: 0.85 },
+  show: {
+    opacity: 1,
+    scale: 1,
+    transition: {
+      type: "spring",
+      stiffness: 300,
+      damping: 12,
+    },
+  },
+};
+
 export const NetworkSelector = () => {
   const to = useToChain();
   const from = useFromChain();
@@ -72,53 +109,85 @@ export const NetworkSelector = () => {
 
   return (
     <main
-      className="flex items-start justify-center overflow-scroll w-screen h-screen fixed inset-0 px-2 md:px-0 py-16 pt-[108px] md:py-24 z-[25]"
+      className="flex items-start justify-center scroll-smooth overflow-y-scroll w-screen h-screen fixed inset-0 px-2 md:px-0 py-16 md:py-20 z-[25]"
       key="bridgeMain"
       onClick={() => setNetworkSelector(null)}
     >
       <motion.div
-        initial={{ y: "100vh" }}
-        animate={{ y: "0vh" }}
-        exit={{ y: "100vh" }}
-        transition={{ type: "spring", damping: 12, delay: 0.08 }}
-        className="flex flex-col items-center gap-10"
-        // className="bg-card border flex flex-col self-start  z-50 relative overflow-scroll rounded-[32px] h-[calc(76dvh)] max-h-[680px]  w-screen md:w-[50vw] md:max-w-[420px] aspect-[3/4] backdrop-blur shadow-sm"
+        variants={container}
+        initial={"hidden"}
+        animate={"show"}
+        exit={"hidden"}
+        className="flex flex-col items-center gap-10 w-full"
       >
         <div className="flex items-center gap-3 bg-card pl-6 pr-5 py-3 rounded-full">
           <h1 className="text-3xl font-heading">Bridge {networkSelector}</h1>
           <IconArrowUpCircle className="w-6 h-6 fill-muted-foreground" />
         </div>
 
-        <div className="grid grid-cols-4 gap-4">
+        <div className="grid grid-cols-3 lg:grid-cols-4 gap-2 md:gap-4 w-full px-4 max-w-3xl">
           {availableChains.map((chain) => {
             return (
-              <div
+              <motion.div
                 key={`chain-${chain.id}`}
                 onClick={() => onSelect(chain)}
+                variants={item}
+                // hovers must not be a variant or stagger animation fails
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 1 }}
                 className={clsx(
-                  "flex flex-col items-center justify-center gap-4 px-6 py-8 aspect-[3/4] shadow-sm rounded-xl transition-all hover:scale-105 cursor-pointer",
+                  "relative w-full h-full aspect-[3.25/4] flex flex-col shrink-0 cursor-pointer overflow-hidden rounded-2xl shadow-sm",
                   cardThemes[chain.id]?.card.className
                 )}
               >
-                {cardThemes[chain.id]?.icon ? (
-                  <Image
-                    alt=""
-                    src={cardThemes[chain.id]?.icon!}
-                    width={96}
-                    height={96}
+                {/* overlay */}
+                {cardThemes[chain.id]?.card.overlay?.image ? (
+                  <img
+                    src={cardThemes[chain.id]?.card.overlay?.image}
+                    className={clsx(
+                      "inset-0 z-0 absolute",
+                      cardThemes[chain.id]?.card.overlay?.className
+                    )}
+                    alt={chain.name}
+                    // fill
+                    loading="eager"
+                    sizes="(max-width: 767px) 50vw, (max-width: 1023px) 33vw, 25vw"
                   />
                 ) : (
-                  <NetworkIcon chain={chain} width={96} height={96} />
+                  <div
+                    className={clsx(
+                      "inset-0 z-0 absolute",
+                      cardThemes[chain.id]?.card.overlay?.className
+                    )}
+                  />
                 )}
-                <span
-                  className={clsx(
-                    `text-base text-center leading-none`,
-                    cardThemes[chain.id]?.card.title
+                <div className="flex gap-4 flex-col capitalize items-center justify-center px-3 md:px-6 grow w-full relative z-10">
+                  {cardThemes[chain.id]?.icon ? (
+                    <Image
+                      alt={chain.name}
+                      src={cardThemes[chain.id]?.icon!}
+                      width={96}
+                      height={96}
+                      className="pointer-events-none w-16 h-16 md:w-20 md:h-20"
+                    />
+                  ) : (
+                    <NetworkIcon
+                      chain={chain}
+                      width={96}
+                      height={96}
+                      className="pointer-events-none w-16 h-16 md:w-24 md:h-24"
+                    />
                   )}
-                >
-                  {chain.name}
-                </span>
-              </div>
+                  <h3
+                    className={clsx(
+                      `text-xs md:text-sm text-center font-heading`,
+                      cardThemes[chain.id]?.card.title
+                    )}
+                  >
+                    {chain.name}
+                  </h3>
+                </div>
+              </motion.div>
             );
           })}
         </div>
