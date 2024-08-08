@@ -1,4 +1,5 @@
 import { LegalModal } from "../legal-modal";
+import { CustomTokenListModal } from "../settings/custom-token-list-modal";
 import { SettingsModal } from "../settings/settings-modal";
 import { CustomTokenImportModal } from "../tokens/custom-token-import-modal";
 import { TokensModal } from "../tokens/tokens-modal";
@@ -38,6 +39,7 @@ export const Modals = () => {
       <TosModal />
       <LegalModal />
       <CustomTokenImportModal />
+      <CustomTokenListModal />
       <BlockProvingModal />
 
       <SettingsModal />

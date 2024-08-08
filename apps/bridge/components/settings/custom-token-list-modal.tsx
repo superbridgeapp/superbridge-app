@@ -7,10 +7,12 @@ import { Input } from "@/components/ui/input";
 import { useMetadata } from "@/hooks/use-metadata";
 import { useConfigState } from "@/state/config";
 import { useSettingsState } from "@/state/settings";
+import { SuperchainTokenList } from "@/types/token-lists";
 
 import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
 import { Dialog, DialogContent } from "../ui/dialog";
+import { Skeleton } from "../ui/skeleton";
 
 export interface SettingsModalProps {
   open: boolean;
@@ -36,15 +38,14 @@ export const CustomTokenListModal = () => {
     ["custom tokens", debouncedUrl],
     async () => {
       const response = await fetch(debouncedUrl);
-      const result = await response.json();
+      if (response.status !== 200) {
+        throw new Error("Invalid response");
+      }
 
-      // todo: custom token lists
-      return [];
-      // return result.tokens
-      //   .map((t: any) => transformIntoOptimismToken(t))
-      //   .filter(isPresent).length;
+      const result: SuperchainTokenList | null = await response.json();
+      return result?.tokens.length ?? 0;
     },
-    { retry: false }
+    { retry: false, enabled: !!debouncedUrl }
   );
 
   useEffect(() => {
@@ -118,17 +119,25 @@ export const CustomTokenListModal = () => {
               // className="bg-muted block w-full rounded-lg border-0 py-3 px-4 pr-10 text-sm  outline-none focus:ring-2 ring-inset ring-zinc-900/5 dark:ring-zinc-50/5 placeholder:text-muted-foreground sm:leading-6"
               placeholder={t("customTokenLists.urlPlaceholder")}
             />
-            {debouncedUrl && tokensImported.isError && (
-              <span className="py-2 text-red-500 text-xs">
-                {t("customTokenLists.invalid")}
-              </span>
-            )}
-            {tokensImported.data && (
+
+            {tokensImported.isFetching ? (
+              <div className="py-2">
+                <Skeleton className="h-4 w-[88px]" />
+              </div>
+            ) : debouncedUrl && tokensImported.isError ? (
+              tokensImported.isError && (
+                <span className="py-2 text-red-500 text-xs">
+                  {t("customTokenLists.invalid")}
+                </span>
+              )
+            ) : debouncedUrl ? (
               <span className="py-2 text-green-500 text-xs">
                 {t("customTokenLists.loadedTokens", {
                   num: tokensImported.data,
                 })}
               </span>
+            ) : (
+              <></>
             )}
           </div>
         </div>
