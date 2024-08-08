@@ -31,9 +31,11 @@ import {
 import { isOptimism } from "@/utils/is-mainnet";
 
 import { MessageStatus } from "../constants";
+import { IconCheckCircle } from "./icons";
 import { NetworkIcon } from "./network-icon";
 import { RouteProviderIcon } from "./route-provider-icon";
 import { TokenIcon } from "./token-icon";
+import { Button } from "./ui/button";
 
 const useNextStateChangeTimestamp = (tx: Transaction) => {
   const initiatingTx = useInitiatingTx(tx);
@@ -295,63 +297,70 @@ export const TransactionRowV2 = ({ tx }: { tx: Transaction }) => {
 
   return (
     <div
-      className="bg-yellow-500 w-full rounded-xl flex flex-col p-6 border-b relative"
+      className="bg-card w-full rounded-xl flex gap-4 p-6 relative"
       key={tx.id}
     >
-      <button
-        className="border border-1"
-        onClick={() => openActivityModal(tx.id)}
-      >
-        Open details
-      </button>
-      <div className="flex items-center gap-3">
-        <span>Route:</span>
-        <RouteProviderIcon provider={provider} />
-      </div>
-      <div>
-        Initiated:{" "}
-        {timestamp ? `${formatDistanceToNow(timestamp)} ago` : "just now"}
-      </div>
-      <div className="flex items-center gap-3">
-        <span>Token:</span>
-        <TokenIcon token={token ?? null} className="h-6 w-6" />
-      </div>
-      <div className="flex items-center gap-3">
-        <span>From:</span>
-        <NetworkIcon chain={chains?.from} className="h-6 w-6" />
-      </div>
-      <div className="flex items-center gap-3">
-        <span>To:</span>
-        <NetworkIcon chain={chains?.to} className="h-6 w-6" />
-      </div>
-      <div>Amount: {amount}</div>
-
-      {isSuccessful ? (
-        <div>
-          Bridge successful :{" "}
-          {formatDistanceToNow(finalizingTx?.timestamp ?? 0)} ago
-        </div>
-      ) : isInProgress ? (
-        <div>
-          <div className="w-full flex items-center gap-2">
-            {bars.map((bar) => (
-              <div
-                key={bar.status}
-                className={clsx(
-                  "w-full h-1",
-                  bar.status === "done" && "bg-blue-500",
-                  bar.status === "in-progress" && "bg-blue-400 animate-pulse",
-                  bar.status === "not-started" && "bg-gray-500"
-                )}
-              ></div>
-            ))}
+      {/* <div className="flex items-center gap-3">
+          <span>Route:</span>
+          <RouteProviderIcon provider={provider} />
+        </div> */}
+      <TokenIcon token={token ?? null} className="h-12 w-12 shrink-0" />
+      <div className="flex flex-col w-full gap-2">
+        <div className="flex justify-between items-start">
+          <div className="flex flex-col gap-2">
+            <span className="text-sm text-muted-foreground leading-none">
+              Started{" "}
+              {timestamp ? `${formatDistanceToNow(timestamp)} ago` : "just now"}
+            </span>
+            <span className="text-3xl leading-none">{amount}</span>
           </div>
-
-          <ActionRow tx={tx} />
+          <div className="flex bg-muted rounded-full p-1 shrink-0">
+            <NetworkIcon chain={chains?.from} className="h-6 w-6" />
+            <NetworkIcon chain={chains?.to} className="h-6 w-6 -ml-1.5" />
+          </div>
         </div>
-      ) : (
-        <div></div>
-      )}
+        {isInProgress && (
+          <div>
+            <div className="w-full flex items-center gap-2">
+              {bars.map((bar) => (
+                <div
+                  key={bar.status}
+                  className={clsx(
+                    "w-full h-1 rounded-full",
+                    bar.status === "done" && "bg-primary",
+                    bar.status === "in-progress" && "bg-primary animate-pulse",
+                    bar.status === "not-started" && "bg-muted"
+                  )}
+                ></div>
+              ))}
+            </div>
+
+            <ActionRow tx={tx} />
+          </div>
+        )}
+        <div className="flex justify-between items-center">
+          {isSuccessful && (
+            <div className="flex gap-2 items-center rounded-full border pl-2 pr-3 py-2">
+              <IconCheckCircle className="fill-primary w-4 h-4" />
+              <span className="text-sm">Bridge successful</span>
+              <span className="text-sm text-muted-foreground">
+                {formatDistanceToNow(finalizingTx?.timestamp ?? 0)} ago
+              </span>
+            </div>
+          )}
+          {/* TODO: should this be different depending on  */}
+          {isSuccessful && (
+            <Button
+              className="border"
+              onClick={() => openActivityModal(tx.id)}
+              size={"sm"}
+              variant={"secondary"}
+            >
+              Info
+            </Button>
+          )}
+        </div>
+      </div>
     </div>
   );
 };

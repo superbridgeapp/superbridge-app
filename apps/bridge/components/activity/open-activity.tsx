@@ -85,8 +85,12 @@ export const OpenActivity = ({}) => {
       className="flex items-start justify-center scroll-smooth overflow-y-scroll w-screen h-screen fixed inset-0 px-2 md:px-0 py-16 md:py-20 z-[25]"
       key="bridgeMain"
     >
-      {/* Close btn */}
-      <button
+      <motion.button
+        variants={item}
+        initial={"hidden"}
+        animate={"show"}
+        exit={"hidden"}
+        key="close-activity"
         className={`flex items-center transition-all cursor-pointer w-10 h-10 shrink-0 flex items-center justify-center rounded-full bg-card hover:scale-105 fixed top-6 right-6 z-10`}
         onClick={() => {
           setDisplayTransactions(!open);
@@ -94,8 +98,7 @@ export const OpenActivity = ({}) => {
         }}
       >
         <IconClose className="fill-foreground w-3.5 h-3.5" />
-      </button>
-
+      </motion.button>
       <motion.div
         variants={container}
         initial={"hidden"}
@@ -178,8 +181,8 @@ export const OpenActivity = ({}) => {
                         key={`activity-${t.id}`}
                         variants={item}
                         // hovers must not be a variant or stagger animation fails
-                        whileHover={{ scale: 1.03 }}
-                        whileTap={{ scale: 1 }}
+                        // whileHover={{ scale: 1.03 }}
+                        // whileTap={{ scale: 1 }}
                         className={
                           "relative w-full h-full flex flex-col shrink-0 cursor-pointer overflow-hidden rounded-2xl shadow-sm"
                         }
