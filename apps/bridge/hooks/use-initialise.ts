@@ -3,7 +3,7 @@ import { useAccountEffect } from "wagmi";
 
 import { useConfigState } from "@/state/config";
 import { usePendingTransactions } from "@/state/pending-txs";
-import { isMainnet, isOptimism } from "@/utils/is-mainnet";
+import { isMainnet, isOptimism } from "@/utils/deployments/is-mainnet";
 
 import { useDeployment } from "./deployments/use-deployment";
 import { useActivityEffects } from "./use-activity-effects";

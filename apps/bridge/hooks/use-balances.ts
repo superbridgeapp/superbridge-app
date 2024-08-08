@@ -3,8 +3,8 @@ import { useAccount, useBalance, useReadContracts } from "wagmi";
 
 import { useBridgeControllerGetTokenPrices } from "@/codegen";
 import { BridgeableTokenDto } from "@/codegen/model";
-import { isEth } from "@/utils/is-eth";
 import { scaleToNativeTokenDecimals } from "@/utils/native-token-scaling";
+import { isEth } from "@/utils/tokens/is-eth";
 
 import { useActiveTokens } from "./tokens/use-active-tokens";
 import { useChain } from "./use-chain";

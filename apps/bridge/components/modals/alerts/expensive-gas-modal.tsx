@@ -21,7 +21,7 @@ import { useIsWithdrawal } from "@/hooks/use-withdrawing";
 import { useConfigState } from "@/state/config";
 import { useModalsState } from "@/state/modals";
 import { useSettingsState } from "@/state/settings";
-import { isOptimism } from "@/utils/is-mainnet";
+import { isOptimism } from "@/utils/deployments/is-mainnet";
 
 export const useEstimateTotalFeesInFiat = () => {
   const from = useFromChain();

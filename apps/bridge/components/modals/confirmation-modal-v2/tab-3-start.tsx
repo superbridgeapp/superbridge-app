@@ -51,14 +51,13 @@ import { useWeiAmount } from "@/hooks/use-wei-amount";
 import { useIsWithdrawal } from "@/hooks/use-withdrawing";
 import { useConfigState } from "@/state/config";
 import { useSettingsState } from "@/state/settings";
+import { isArbitrum } from "@/utils/deployments/is-mainnet";
 import {
   isRouteQuote,
   isRouteReceiveStep,
   isRouteTransactionStep,
   isRouteWaitStep,
 } from "@/utils/guards";
-import { isEth } from "@/utils/is-eth";
-import { isArbitrum } from "@/utils/is-mainnet";
 import { useProgressRows } from "@/utils/progress-rows";
 import {
   ActivityStep,
@@ -66,6 +65,7 @@ import {
   WaitStepNotStarted,
   isWaitStep,
 } from "@/utils/progress-rows/common";
+import { isEth } from "@/utils/tokens/is-eth";
 
 export const ConfirmationModalStartTab = () => {
   const bridge = useBridge();

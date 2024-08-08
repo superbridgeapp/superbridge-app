@@ -7,7 +7,7 @@ import {
   useBridgeControllerGetLatestStateRoot,
 } from "@/codegen/index";
 import { SupportCheckStatus } from "@/components/status/types";
-import { OptimismDeploymentDto } from "@/utils/is-mainnet";
+import { OptimismDeploymentDto } from "@/utils/deployments/is-mainnet";
 
 export const useLatestStateRoot = (
   deployment: OptimismDeploymentDto | undefined

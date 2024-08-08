@@ -8,9 +8,9 @@ import {
   PROVE_GAS,
 } from "@/constants/gas-limits";
 import { Token } from "@/types/token";
-import { isEth } from "@/utils/is-eth";
+import { isEth } from "@/utils/tokens/is-eth";
 
-import { isArbitrum, isOptimism } from "./is-mainnet";
+import { isArbitrum, isOptimism } from "./deployments/is-mainnet";
 
 export const withdrawValue = (
   wei: bigint,

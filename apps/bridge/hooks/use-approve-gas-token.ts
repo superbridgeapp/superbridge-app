@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Address } from "viem";
 import { useConfig, useWriteContract } from "wagmi";
 
-import { isArbitrum, isOptimism } from "@/utils/is-mainnet";
+import { isArbitrum, isOptimism } from "@/utils/deployments/is-mainnet";
 
 import { useCustomGasTokenAddress } from "./custom-gas-token/use-custom-gas-token-address";
 import { useDeployment } from "./deployments/use-deployment";

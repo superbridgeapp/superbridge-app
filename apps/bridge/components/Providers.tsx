@@ -15,7 +15,7 @@ import { WagmiProvider } from "wagmi";
 import { useChains } from "@/hooks/use-chains";
 import { useApp, useMetadata } from "@/hooks/use-metadata";
 import { useWagmiConfig } from "@/hooks/wagmi/use-wagmi-config";
-import { queryClient } from "@/utils/query-client";
+import { queryClient } from "@/services/query-client";
 
 function Web3Provider({ children }: { children: React.ReactNode }) {
   const { resolvedTheme } = useTheme();
