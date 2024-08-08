@@ -73,8 +73,7 @@ export const SettingsModal = () => {
     }
   };
 
-  const forceViaL1Enabled =
-    isSuperbridge || (deployments.length === 1 && isOptimism(deployments[0]));
+  const forceViaL1Enabled = !!deployments.find((x) => isOptimism(x));
 
   return (
     <Dialog open={open} onOpenChange={() => removeModal(ModalNames.Settings)}>
