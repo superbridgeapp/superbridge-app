@@ -190,15 +190,16 @@ export const NetworkSelector = () => {
               </motion.div>
             );
           })}
-          {[...Array(4 - availableChains.length)].map((e, i) => {
-            return (
-              <motion.div
-                variants={item}
-                className="bg-black/20 border border-black/10 relative w-full h-full aspect-[3.25/4] rounded-2xl shadow-sm mix-blend-multiply"
-                key={i}
-              ></motion.div>
-            );
-          })}
+          {availableChains.length < 4 &&
+            [...Array(4 - availableChains.length)].map((e, i) => {
+              return (
+                <motion.div
+                  variants={item}
+                  className="bg-black/20 border border-black/10 relative w-full h-full aspect-[3.25/4] rounded-2xl shadow-sm mix-blend-multiply"
+                  key={i}
+                ></motion.div>
+              );
+            })}
         </div>
       </motion.div>
     </main>
