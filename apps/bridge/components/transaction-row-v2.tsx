@@ -260,11 +260,11 @@ const useProgressBars = (
     }
 
     if (finalisingTx) {
-      bars.push({ status: "done", name: "prove" });
+      bars.push({ status: "done", name: "finalise" });
     } else if (proveTx || pendingFinalises[tx.id]) {
-      bars.push({ status: "in-progress", name: "prove" });
+      bars.push({ status: "in-progress", name: "finalise" });
     } else {
-      bars.push({ status: "not-started", name: "prove" });
+      bars.push({ status: "not-started", name: "finalise" });
     }
 
     return bars;
