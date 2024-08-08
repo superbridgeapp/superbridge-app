@@ -4,7 +4,6 @@ import { create } from "zustand";
 
 import { DeploymentDto } from "@/codegen/model";
 import { ModalNames } from "@/constants/modal-names";
-import { MultiChainToken } from "@/types/token";
 
 import { CustomTokenList } from "./settings";
 
@@ -39,9 +38,6 @@ interface ConfigState {
 
   showCustomTokenImportModal: Address | false;
   setShowCustomTokenImportModal: (b: Address | false) => void;
-
-  arbitrumCustomGasTokens: (MultiChainToken | null)[];
-  setArbitrumCustomGasTokens: (b: (MultiChainToken | null)[]) => void;
 
   blockProvingModal: DeploymentDto | null;
   setBlockProvingModal: (blockProvingModal: DeploymentDto | null) => void;
@@ -94,10 +90,6 @@ const ConfigState = create<ConfigState>()((set, get) => ({
   showCustomTokenImportModal: false,
   setShowCustomTokenImportModal: (showCustomTokenImportModal) =>
     set({ showCustomTokenImportModal }),
-
-  arbitrumCustomGasTokens: [],
-  setArbitrumCustomGasTokens: (arbitrumCustomGasTokens) =>
-    set({ arbitrumCustomGasTokens }),
 
   displayNetworkSelector: false,
   setDisplayNetworkSelector: (displayNetworkSelector) =>
