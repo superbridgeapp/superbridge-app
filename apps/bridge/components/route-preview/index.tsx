@@ -43,7 +43,7 @@ export const RoutePreview = () => {
     routes.data?.results.filter((x) => isRouteQuote(x.result)).length ?? 0;
 
   return (
-    <div className={`flex flex-col gap-2 pt-1 relative`}>
+    <div className={`flex flex-col gap-2 relative`}>
       <div className="p-4 border rounded-xl">
         <Route provider={route.data.id} quote={route.data.result} />
       </div>
