@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
 
+import { useTxToken } from "@/hooks/activity/use-tx-token";
 import { useChain } from "@/hooks/use-chain";
 import { useInjectedStore } from "@/state/injected";
 import { Transaction } from "@/types/transaction";
@@ -11,6 +12,7 @@ export const useHyperlaneProgressRows = (
   tx: Transaction | null
 ): ActivityStep[] | null => {
   const { t } = useTranslation();
+  const token = useTxToken(tx);
 
   const hyperlaneMailboxes = useInjectedStore((s) => s.hyperlaneMailboxes);
 
@@ -32,7 +34,7 @@ export const useHyperlaneProgressRows = (
 
   return [
     {
-      label: "bridge",
+      label: "Start bridge",
       hash: tx.send.timestamp ? tx.send.transactionHash : undefined,
       pendingHash: tx.send.timestamp ? undefined : tx.send.transactionHash,
       chain: fromChain,
@@ -40,7 +42,7 @@ export const useHyperlaneProgressRows = (
     },
     buildWaitStep(tx.send.timestamp, tx.receive?.timestamp, 1000 * 60 * 5),
     {
-      label: "receive",
+      label: `Receive ${token?.symbol}`,
       hash: tx.receive?.transactionHash,
       pendingHash: undefined,
       chain: toChain,

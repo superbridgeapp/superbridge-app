@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 
 import { DeploymentDto } from "@/codegen/model";
+import { useTxToken } from "@/hooks/activity/use-tx-token";
 import { useChain } from "@/hooks/use-chain";
 import { usePendingTransactions } from "@/state/pending-txs";
 import { Transaction } from "@/types/transaction";
@@ -16,6 +17,7 @@ export const useArbitrumDepositProgressRows = (
   const l1 = useChain(deployment?.l1ChainId);
   const l2 = useChain(deployment?.l2ChainId);
   const pendingFinalises = usePendingTransactions.usePendingFinalises();
+  const token = useTxToken(tx);
 
   if (!tx || !isArbitrumDeposit(tx) || !deployment || !l1 || !l2) {
     return null;
@@ -23,7 +25,7 @@ export const useArbitrumDepositProgressRows = (
 
   const receive = tx.relay
     ? {
-        label: t("Receive"),
+        label: `Receive ${token?.symbol}`,
         button: undefined,
         chain: l2,
         hash: tx.relay.transactionHash,
@@ -43,7 +45,7 @@ export const useArbitrumDepositProgressRows = (
         pendingHash: pendingFinalises[tx.id],
       }
     : {
-        label: t("Receive"),
+        label: `Receive ${token?.symbol}`,
         button: undefined,
         chain: l2,
         fee: undefined,
@@ -53,7 +55,7 @@ export const useArbitrumDepositProgressRows = (
 
   return [
     {
-      label: "Bridge",
+      label: "Start bridge",
       hash: tx.deposit.timestamp ? tx.deposit.transactionHash : undefined,
       pendingHash: tx.deposit.timestamp
         ? undefined

@@ -333,7 +333,7 @@ export const ConfirmationModalStartTab = () => {
             if (isRouteTransactionStep(x)) {
               const label =
                 x.type === RouteStepType.Initiate
-                  ? "Initiate bridge"
+                  ? "Start bridge"
                   : x.type === RouteStepType.Prove
                   ? "Prove"
                   : x.type === RouteStepType.Finalize

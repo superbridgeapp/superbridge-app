@@ -179,7 +179,7 @@
     "approxFees": "Approx. fees",
     "initiateDeposit": "Initiate deposit",
     "initiateWithdrawal": "Initiate withdrawal",
-    "initiateBridge": "Initiate bridge",
+    "initiateBridge": "Start bridge",
     "initiateBridgeEscapeHatch": "Initiate Escape Hatch on {{base}}",
     "waitMinutes_one": "Wait ~{{count}} min",
     "waitMinutes_other": "Wait ~{{count}} mins",
