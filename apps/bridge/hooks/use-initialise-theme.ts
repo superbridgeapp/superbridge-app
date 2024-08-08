@@ -55,11 +55,13 @@ export const useInitialiseTheme = () => {
 
   useEffect(() => {
     if (app) {
-      const theme: Partial<ThemeDto> = {
-        ...app.theme,
-        imageLogo: app.images.logoLight,
-        imageLogoDark: app.images.logoDark,
-      };
+      const theme = app.theme;
+      if (app.images.logoLight) {
+        theme.imageLogo = app.images.logoLight;
+      }
+      if (app.images.logoDark) {
+        theme.imageLogo = app.images.logoDark;
+      }
       updateTheme(theme);
       setThemeValues(theme);
     }
