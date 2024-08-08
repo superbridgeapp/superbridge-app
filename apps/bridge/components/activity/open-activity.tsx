@@ -84,6 +84,10 @@ export const OpenActivity = ({}) => {
     <main
       className="flex items-start justify-center scroll-smooth overflow-y-scroll w-screen h-screen fixed inset-0 px-2 md:px-0 py-16 md:py-20 z-[25]"
       key="bridgeMain"
+      onClick={() => {
+        setDisplayTransactions(false);
+        trackEvent({ event: "close-activity" });
+      }}
     >
       <motion.button
         variants={item}
@@ -92,10 +96,6 @@ export const OpenActivity = ({}) => {
         exit={"hidden"}
         key="close-activity"
         className={`flex items-center transition-all cursor-pointer w-10 h-10 shrink-0 flex items-center justify-center rounded-full bg-card hover:scale-105 fixed top-6 right-6 z-10`}
-        onClick={() => {
-          setDisplayTransactions(!open);
-          trackEvent({ event: "close-activity" });
-        }}
       >
         <IconClose className="fill-foreground w-3.5 h-3.5" />
       </motion.button>
@@ -188,7 +188,7 @@ export const OpenActivity = ({}) => {
                         // whileHover={{ scale: 1.03 }}
                         // whileTap={{ scale: 1 }}
                         className={
-                          "relative w-full h-full flex flex-col shrink-0 cursor-pointer overflow-hidden rounded-2xl shadow-sm"
+                          "relative w-full h-full flex flex-col shrink-0 overflow-hidden rounded-2xl shadow-sm"
                         }
                       >
                         <TransactionRowV2 key={t.id} tx={t} />

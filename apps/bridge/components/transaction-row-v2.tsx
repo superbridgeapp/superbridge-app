@@ -298,6 +298,7 @@ export const TransactionRowV2 = ({ tx }: { tx: Transaction }) => {
     <div
       className="bg-card w-full rounded-xl flex gap-4 p-6 relative"
       key={tx.id}
+      onClick={(e) => e.stopPropagation()}
     >
       {/* <div className="flex items-center gap-3">
           <span>Route:</span>
