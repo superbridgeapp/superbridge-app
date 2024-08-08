@@ -16,7 +16,10 @@ export const FromTo = () => {
   const to = useToChain();
   const setFromChainId = useInjectedStore((s) => s.setFromChainId);
   const setToChainId = useInjectedStore((s) => s.setToChainId);
-  const setNetworkSelector = useConfigState.useSetNetworkSelector();
+  const setDisplayNetworkSelector =
+    useConfigState.useSetDisplayNetworkSelector();
+  const setNetworkSelectorDirection =
+    useConfigState.useSetNetworkSelectorDirection();
   const { t } = useTranslation();
   const trackEvent = useTrackEvent();
 
@@ -29,7 +32,12 @@ export const FromTo = () => {
           networkSelectorEnabled && "cursor-pointer hover:scale-[1.02]"
         )}
         onClick={
-          networkSelectorEnabled ? () => setNetworkSelector("from") : undefined
+          networkSelectorEnabled
+            ? () => {
+                setNetworkSelectorDirection("from");
+                setDisplayNetworkSelector(true);
+              }
+            : undefined
         }
       >
         <NetworkIcon
@@ -70,7 +78,12 @@ export const FromTo = () => {
           networkSelectorEnabled && "cursor-pointer hover:scale-[1.02]"
         )}
         onClick={
-          networkSelectorEnabled ? () => setNetworkSelector("to") : undefined
+          networkSelectorEnabled
+            ? () => {
+                setNetworkSelectorDirection("to");
+                setDisplayNetworkSelector(true);
+              }
+            : undefined
         }
       >
         <div className="flex flex-col gap-0.5 text-right">

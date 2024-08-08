@@ -56,8 +56,9 @@ export const NetworkSelector = () => {
   const from = useFromChain();
   const trackEvent = useTrackEvent();
 
-  const networkSelector = useConfigState.useNetworkSelector();
-  const setNetworkSelector = useConfigState.useSetNetworkSelector();
+  const networkSelectorDirection = useConfigState.useNetworkSelectorDirection();
+  const setDisplayNetworkSelector =
+    useConfigState.useSetDisplayNetworkSelector();
   const setFromChainId = useInjectedStore((s) => s.setFromChainId);
   const toChainId = useInjectedStore((s) => s.toChainId);
   const setToChainId = useInjectedStore((s) => s.setToChainId);
@@ -66,10 +67,10 @@ export const NetworkSelector = () => {
   const getPossibleTo = useGetPossibleToChains();
 
   const availableChains =
-    networkSelector === "from" ? possibleFrom : getPossibleTo(from);
+    networkSelectorDirection === "from" ? possibleFrom : getPossibleTo(from);
 
   const onSelect = (chain: ChainDto) => {
-    if (networkSelector === "from") {
+    if (networkSelectorDirection === "from") {
       trackEvent({ event: "from-chain-select", name: chain.name });
 
       setFromChainId(chain.id);
@@ -92,7 +93,7 @@ export const NetworkSelector = () => {
       }
     }
 
-    if (networkSelector === "to") {
+    if (networkSelectorDirection === "to") {
       trackEvent({ event: "to-chain-select", name: chain.name });
 
       setToChainId(chain.id);
@@ -104,14 +105,14 @@ export const NetworkSelector = () => {
       }
     }
 
-    setNetworkSelector(null);
+    setDisplayNetworkSelector(false);
   };
 
   return (
     <main
       className="flex items-start justify-center scroll-smooth overflow-y-scroll w-screen h-screen fixed inset-0 px-2 md:px-0 py-16 md:py-20 z-[25]"
       key="bridgeMain"
-      onClick={() => setNetworkSelector(null)}
+      onClick={() => setDisplayNetworkSelector(false)}
     >
       <motion.div
         variants={container}
@@ -121,7 +122,7 @@ export const NetworkSelector = () => {
         className="flex flex-col items-center gap-10 w-full"
       >
         <div className="flex items-center gap-3 bg-card pl-6 pr-5 py-3 rounded-full">
-          <h1 className="text-3xl font-heading">Bridge {networkSelector}</h1>
+          <h1 className="text-3xl font-heading">Choose network</h1>
           <IconArrowUpCircle className="w-6 h-6 fill-muted-foreground" />
         </div>
 
