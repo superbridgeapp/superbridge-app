@@ -34,12 +34,6 @@ interface ConfigState {
   displayTransactions: boolean;
   setDisplayTransactions: (b: boolean) => void;
 
-  initialised: boolean;
-  setInitialised: () => void;
-
-  tokens: MultiChainToken[];
-  setTokens: (tokens: MultiChainToken[]) => void;
-
   showCustomTokenListModal: true | CustomTokenList | false;
   setShowCustomTokenListModal: (b: true | CustomTokenList | false) => void;
 
@@ -88,12 +82,6 @@ const ConfigState = create<ConfigState>()((set, get) => ({
 
   displayTransactions: false,
   setDisplayTransactions: (displayTransactions) => set({ displayTransactions }),
-
-  initialised: false,
-  setInitialised: () => set({ initialised: true }),
-
-  tokens: [],
-  setTokens: (tokens) => set({ tokens }),
 
   displayConfirmationModal: false,
   setDisplayConfirmationModal: (displayConfirmationModal) =>
