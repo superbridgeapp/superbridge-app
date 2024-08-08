@@ -31,7 +31,7 @@ import {
 import { isOptimism } from "@/utils/is-mainnet";
 
 import { MessageStatus } from "../constants";
-import { IconCheckCircle } from "./icons";
+import { IconCheckCircle, IconSimpleTime } from "./icons";
 import { NetworkIcon } from "./network-icon";
 import { RouteProviderIcon } from "./route-provider-icon";
 import { TokenIcon } from "./token-icon";
@@ -142,18 +142,23 @@ const ActionRow = ({ tx }: { tx: Transaction }) => {
 
   return (
     <div className="w-full flex items-center justify-between">
-      <span>{status.description}</span>
+      <span className="text-sm text-muted-foreground leading-none">
+        {status.description}
+      </span>
 
       {isActionStatus(status) && (
-        <button className="bg-blue-100" onClick={() => setActivityId(tx.id)}>
+        <Button size={"sm"} onClick={() => setActivityId(tx.id)}>
           {status.button}
-        </button>
+        </Button>
       )}
 
       {isWaitStatus(status) && status.timestamp > Date.now() && (
-        <span className="bg-blue-100">
-          ~{formatDistanceToNow((status as any).timestamp)}
-        </span>
+        <div className="bg-muted rounded-full flex items-center gap-2 p-2 pl-3">
+          <span className="text-sm text-muted-foreground">
+            ~{formatDistanceToNow((status as any).timestamp)}
+          </span>
+          <IconSimpleTime className="w-6 h-6 fill-foreground animate-wiggle-waggle" />
+        </div>
       )}
     </div>
   );
@@ -321,7 +326,7 @@ export const TransactionRowV2 = ({ tx }: { tx: Transaction }) => {
         </div>
         {isInProgress && (
           <div>
-            <div className="w-full flex items-center gap-2">
+            <div className="w-full flex items-center gap-2 py-3">
               {bars.map((bar) => (
                 <div
                   key={bar.status}
@@ -340,23 +345,22 @@ export const TransactionRowV2 = ({ tx }: { tx: Transaction }) => {
         )}
         <div className="flex justify-between items-center">
           {isSuccessful && (
-            <div className="flex gap-2 items-center rounded-full border pl-2 pr-3 py-2">
+            <div className="flex gap-2 items-center rounded-full border pl-2 pr-3 py-1.5">
               <IconCheckCircle className="fill-primary w-4 h-4" />
               <span className="text-sm">Bridge successful</span>
-              <span className="text-sm text-muted-foreground">
+              {/* <span className="text-sm text-muted-foreground">
                 {formatDistanceToNow(finalizingTx?.timestamp ?? 0)} ago
-              </span>
+              </span> */}
             </div>
           )}
           {/* TODO: should this be different depending on  */}
           {isSuccessful && (
             <Button
-              className="border"
               onClick={() => openActivityModal(tx.id)}
-              size={"sm"}
+              size={"xs"}
               variant={"secondary"}
             >
-              Info
+              View transactions
             </Button>
           )}
         </div>

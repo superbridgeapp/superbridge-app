@@ -86,12 +86,12 @@ export const OpenActivity = ({}) => {
       key="bridgeMain"
     >
       <motion.button
-        variants={item}
-        initial={"hidden"}
-        animate={"show"}
-        exit={"hidden"}
+        initial={{ opacity: 0, scale: 0.1 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.1 }}
+        whileHover={{ scale: 1.1 }}
         key="close-activity"
-        className={`flex items-center transition-all cursor-pointer w-10 h-10 shrink-0 flex items-center justify-center rounded-full bg-card hover:scale-105 fixed top-6 right-6 z-10`}
+        className={`flex items-center transition-all cursor-pointer w-10 h-10 shrink-0 flex items-center justify-center rounded-full bg-card fixed top-6 right-6 z-10`}
         onClick={() => {
           setDisplayTransactions(!open);
           trackEvent({ event: "close-activity" });
@@ -108,6 +108,7 @@ export const OpenActivity = ({}) => {
       >
         <div className="flex items-center gap-3 bg-card pl-6 pr-5 py-3 rounded-full">
           <h1 className="text-3xl font-heading">{t("activity.activity")}</h1>
+          {/* TODO: should we put current wallet here? */}
           <span className="bg-muted rounded-full text-xs text-muted-foreground px-3 py-1">
             0xBE…73D4
           </span>
@@ -165,8 +166,8 @@ export const OpenActivity = ({}) => {
                 pendingTransactions.length === 0
               ) {
                 return (
-                  <div className="flex grow justify-center items-center h-full">
-                    <span className="text-muted-foreground text-xs font-heading">
+                  <div className="flex px-4 py-3 rounded-full justify-center items-center h-full border">
+                    <span className="text-muted-foreground text-sm">
                       {t("activity.noTransactions")}
                     </span>
                   </div>
@@ -174,7 +175,7 @@ export const OpenActivity = ({}) => {
               }
 
               return (
-                <div className="flex flex-col gap-4 w-full px-4 max-w-3xl">
+                <div className="flex flex-col gap-4 w-full px-4 max-w-2xl">
                   {[...pendingTransactions, ...transactions].map((t) => {
                     return (
                       <motion.div
@@ -184,7 +185,7 @@ export const OpenActivity = ({}) => {
                         // whileHover={{ scale: 1.03 }}
                         // whileTap={{ scale: 1 }}
                         className={
-                          "relative w-full h-full flex flex-col shrink-0 cursor-pointer overflow-hidden rounded-2xl shadow-sm"
+                          "relative w-full h-full flex flex-col shrink-0  overflow-hidden rounded-2xl shadow-sm"
                         }
                       >
                         <TransactionRowV2 key={t.id} tx={t} />

@@ -381,11 +381,8 @@ const ethereumTheme: Theme = {
   ...defaultTheme,
   iconSrc: "/img/ethereum/icon.svg",
   card: {
-    className: "bg-[#88AAF1]",
+    className: "bg-gradient-to-b from-[#88AAF1] to-[#C9B3F5]",
     title: "text-white",
-    overlay: {
-      className: "gradient-to-b from-[#88AAF1] to-[#C9B3F5]",
-    },
   },
 };
 

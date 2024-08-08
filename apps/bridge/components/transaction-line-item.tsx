@@ -50,7 +50,7 @@ export function LineItem({
     return (
       <div className="flex gap-4 px-3 py-2 rounded-lg justify-start items-center w-full">
         <div className="flex items-center gap-2 w-full">
-          <IconSimpleTime className="w-8 h-8 fill-muted-foreground" />
+          <IconSimpleTime className="w-8 h-8 p-1 fill-foreground" />
 
           <span className="text-sm">Wait {duration}</span>
 
@@ -59,7 +59,7 @@ export function LineItem({
               <IconCheckCircle className="w-6 h-6 fill-muted-foreground" />
             ) : isWaitStepInProgress(step) ? (
               <div className="flex items-center gap-1">
-                <span className="text-xs text-muted-foreground">
+                <span className="text-xs text-foreground">
                   ~{formatDistanceToNow(step.startedAt + step.duration)} to go
                 </span>
                 <IconSpinner className="h-6 w-6" />
