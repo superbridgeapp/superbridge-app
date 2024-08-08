@@ -4,9 +4,9 @@ import { ModalNames } from "@/constants/modal-names";
 import { useConfigState } from "@/state/config";
 
 import { Dialog, DialogContent, DialogHeader } from "../ui/dialog";
-import { FungibleTokenPicker } from "./Tokens";
+import { TokenList } from "./token-list";
 
-export const TokenModal = () => {
+export const TokensModal = () => {
   const { t } = useTranslation();
 
   const open = useConfigState.useModals()[ModalNames.TokenSelector];
@@ -22,7 +22,7 @@ export const TokenModal = () => {
           <h1 className="text-lg font-heading">{t("tokens.selectToken")}</h1>
         </DialogHeader>
 
-        <FungibleTokenPicker />
+        <TokenList />
       </DialogContent>
     </Dialog>
   );
