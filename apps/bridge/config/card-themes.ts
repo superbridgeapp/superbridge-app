@@ -8,8 +8,8 @@ import {
   fraxtal,
   inEVM,
   linea,
+  mainnet,
   mode,
-  opBNB,
   optimism,
   optimismSepolia,
 } from "viem/chains";
@@ -539,8 +539,9 @@ export const cardThemes: {
     card: ancient8Theme.card,
     icon: ancient8Theme.iconSrc,
   },
-  // [ethereum.id]: {
-  //   card: ethereumTheme.card,
-  //   icon: ethereumTheme.iconSrc,
-  // },
+  [mainnet.id]: {
+    // ethereum
+    card: ethereumTheme.card,
+    icon: ethereumTheme.iconSrc,
+  },
 };
