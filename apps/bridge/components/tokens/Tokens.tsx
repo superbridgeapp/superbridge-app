@@ -10,13 +10,12 @@ import { useDeployment } from "@/hooks/deployments/use-deployment";
 import { useIsCustomToken } from "@/hooks/tokens/use-is-custom-token";
 import { useIsCustomTokenFromList } from "@/hooks/tokens/use-is-custom-token-from-list";
 import { useSetToken } from "@/hooks/tokens/use-set-token";
-import { useSelectedToken } from "@/hooks/tokens/use-token";
 import { useTokenBalances } from "@/hooks/use-balances";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
 import { useTrackEvent } from "@/services/ga";
 import { useConfigState } from "@/state/config";
 import { useInjectedStore } from "@/state/injected";
-import { MultiChainToken } from "@/types/token";
+import { MultiChainToken, Token } from "@/types/token";
 import { formatDecimals } from "@/utils/format-decimals";
 
 import { TokenIcon } from "../token-icon";
@@ -26,39 +25,40 @@ import { useCustomToken } from "./use-custom-token";
 const TokenComponent = ({
   balance,
   onClick,
+  token,
 }: {
+  token: Token;
   balance: bigint;
   onClick: () => void;
 }) => {
   const { t } = useTranslation();
-  const selectedToken = useSelectedToken();
 
-  const isCustomToken = useIsCustomToken(selectedToken);
-  const isCustomTokenFromList = useIsCustomTokenFromList(selectedToken);
+  const isCustomToken = useIsCustomToken(token);
+  const isCustomTokenFromList = useIsCustomTokenFromList(token);
 
   return (
     <div
       className={clsx(
         "flex justify-between hover:bg-muted transition cursor-pointer p-4 relative",
-        selectedToken?.address === selectedToken?.address && "bg-muted"
+        token?.address === token?.address && "bg-muted"
       )}
       onClick={onClick}
     >
       <div className="flex items-center space-x-4">
-        <TokenIcon token={selectedToken ?? null} className="h-8 w-8" />
+        <TokenIcon token={token ?? null} className="h-8 w-8" />
         <div className="flex flex-col">
           <div className="flex items-center gap-1">
-            <span className="text-sm font-heading">{selectedToken?.name}</span>
+            <span className="text-sm font-heading">{token?.name}</span>
           </div>
           <span className="text-xs  text-muted-foreground">
-            {selectedToken?.symbol}
+            {token?.symbol}
           </span>
         </div>
       </div>
       <div className="ml-auto flex flex-col text-right gap-1">
         <span className="text-sm  text-muted-foreground">
           {formatDecimals(
-            parseFloat(formatUnits(balance, selectedToken?.decimals ?? 18))
+            parseFloat(formatUnits(balance, token?.decimals ?? 18))
           )}
         </span>
         {(isCustomToken || isCustomTokenFromList) && (
@@ -408,11 +408,12 @@ export const FungibleTokenPicker = () => {
             </div>
           ))
           .with(
-            { filteredTokens: P.when((x) => x?.length && x?.length > 0) },
+            { filteredTokens: P.when((x) => x?.length && x.length > 0) },
             () =>
               filteredTokens?.map(({ token, balance }) => (
                 <TokenComponent
-                  key={token[from?.id ?? 0]?.address}
+                  key={token[from!.id]!.address}
+                  token={token[from!.id]!}
                   balance={balance}
                   onClick={() => onClickToken(token)}
                 />
