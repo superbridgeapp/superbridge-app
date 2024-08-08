@@ -4,6 +4,7 @@ import { Chain } from "viem";
 import { mainnet, sepolia, syscoin } from "viem/chains";
 
 import { ChainDto } from "@/codegen/model";
+import { cardThemes } from "@/config/card-themes";
 import { chainIcons } from "@/config/chain-icon-overrides";
 import { useDeployments } from "@/hooks/deployments/use-deployments";
 import { useNetworkIcon } from "@/hooks/use-theme";
@@ -28,6 +29,19 @@ export const NetworkIcon = ({
   const isL3 = !!deployment && !L1_BASE_CHAINS.includes(deployment?.l1.id ?? 0);
 
   const rollupIcon = useNetworkIcon(deployment?.id);
+
+  // TODO: Stack do we like this?
+  if (cardThemes[chain?.id ?? 0]) {
+    return (
+      <img
+        key={`${chain?.name}-network-icon`}
+        {...props}
+        className={clsx(props.className, "rounded-full")}
+        alt={`${chain?.name}-network-icon`}
+        src={cardThemes[chain?.id ?? 0]?.icon}
+      />
+    );
+  }
 
   let src = "";
 

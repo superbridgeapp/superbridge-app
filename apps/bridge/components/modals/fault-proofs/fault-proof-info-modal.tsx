@@ -1,5 +1,6 @@
 import { IconAlert } from "@/components/icons";
 import { optimismFaultProofsUpgrade } from "@/constants/links";
+import { ModalNames } from "@/constants/modal-names";
 import { useDeployment } from "@/hooks/deployments/use-deployment";
 import { useConfigState } from "@/state/config";
 
@@ -8,11 +9,14 @@ import { Dialog, DialogContent } from "../../ui/dialog";
 
 export const FaultProofInfoModal = () => {
   const deployment = useDeployment();
-  const open = useConfigState.useFaultProofInfoModal();
-  const setOpen = useConfigState.useSetFaultProofInfoModal();
+  const open = useConfigState.useModals()[ModalNames.FaultProofInfo];
+  const removeModal = useConfigState.useRemoveModal();
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog
+      open={open}
+      onOpenChange={() => removeModal(ModalNames.FaultProofInfo)}
+    >
       <DialogContent>
         <div className="flex flex-col gap-8 p-6">
           <div className="flex flex-col gap-4 pt-6">
@@ -62,7 +66,9 @@ export const FaultProofInfoModal = () => {
             </div>
           </div>
 
-          <Button onClick={() => setOpen(false)}>Ok</Button>
+          <Button onClick={() => removeModal(ModalNames.FaultProofInfo)}>
+            Ok
+          </Button>
         </div>
       </DialogContent>
     </Dialog>

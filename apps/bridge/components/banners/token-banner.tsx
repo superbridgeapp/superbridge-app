@@ -1,7 +1,7 @@
 import { useDeployments } from "@/hooks/deployments/use-deployments";
+import { useAllTokens } from "@/hooks/tokens";
 import { useSetToken } from "@/hooks/tokens/use-set-token";
 import { useTrackEvent } from "@/services/ga";
-import { useConfigState } from "@/state/config";
 import { useInjectedStore } from "@/state/injected";
 
 export function TokenBanner() {
@@ -13,6 +13,7 @@ export function TokenBanner() {
   const setFromChainId = useInjectedStore((store) => store.setFromChainId);
   const setToChainId = useInjectedStore((store) => store.setToChainId);
   const trackEvent = useTrackEvent();
+  const allTokens = useAllTokens();
 
   const onClick = async () => {
     const { deploymentName, symbol } = superbridgeConfig!.banner!;
@@ -27,9 +28,7 @@ export function TokenBanner() {
     setToChainId(deployment.l2ChainId);
 
     setTimeout(() => {
-      const token = useConfigState
-        .getState()
-        .tokens.find((x) => x[1]?.symbol === symbol);
+      const token = allTokens.data?.find((x) => x[1]?.symbol === symbol);
       if (token) {
         const l1 = token[deployment.l1ChainId];
         const l2 = token[deployment.l2ChainId];

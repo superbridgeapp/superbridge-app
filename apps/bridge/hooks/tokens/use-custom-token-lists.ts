@@ -91,13 +91,6 @@ export const useCustomTokenLists = () => {
     },
   });
 
-  //       );
-
-  //     // setTokensImportedFromLists(customTokensFromLists);
-  //   }
-  //   },
-  // });
-
   // /**
   //  * Arbitrum
   //  */

@@ -1,12 +1,13 @@
 import { useTranslation } from "react-i18next";
 import { formatUnits } from "viem";
 
+import { ModalNames } from "@/constants/modal-names";
 import { useActiveTokens } from "@/hooks/tokens";
+import { useIsCustomToken } from "@/hooks/tokens/use-is-custom-token";
+import { useIsCustomTokenFromList } from "@/hooks/tokens/use-is-custom-token-from-list";
 import { useMultichainToken, useSelectedToken } from "@/hooks/tokens/use-token";
 import { useTokenBalance } from "@/hooks/use-balances";
 import { useGetFormattedAmount } from "@/hooks/use-get-formatted-amount";
-import { useIsCustomToken } from "@/hooks/use-is-custom-token";
-import { useIsCustomTokenFromList } from "@/hooks/use-is-custom-token-from-list";
 import { useWeiAmount } from "@/hooks/use-wei-amount";
 import { useConfigState } from "@/state/config";
 import { formatDecimals } from "@/utils/format-decimals";
@@ -25,14 +26,14 @@ export const TokenInput = () => {
 
   const rawAmount = useConfigState.useRawAmount();
   const setRawAmount = useConfigState.useSetRawAmount();
-  const setTokensModal = useConfigState.useSetTokensModal();
+  const addModal = useConfigState.useAddModal();
   const weiAmount = useWeiAmount();
 
   const tokenBalance = useTokenBalance(token);
   const getFormattedAmount = useGetFormattedAmount(token);
 
-  const isCustomToken = useIsCustomToken(stateToken);
-  const isCustomTokenFromList = useIsCustomTokenFromList(stateToken);
+  const isCustomToken = useIsCustomToken(token);
+  const isCustomTokenFromList = useIsCustomTokenFromList(token);
 
   const formattedTokenBalance = formatUnits(
     tokenBalance.data,
@@ -86,7 +87,7 @@ export const TokenInput = () => {
           </div>
         ) : (
           <button
-            onClick={() => setTokensModal(true)}
+            onClick={() => addModal(ModalNames.TokenSelector)}
             className={`flex shrink-0 relative gap-1 rounded-full pl-3 pr-3 items-center font-button transition-all hover:scale-105 text-foreground bg-card`}
           >
             <TokenIcon token={token} className="h-[20px] w-[20px] shrink-0" />
