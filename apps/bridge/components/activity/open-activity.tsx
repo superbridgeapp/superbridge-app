@@ -107,14 +107,17 @@ export const OpenActivity = ({}) => {
         className="flex flex-col items-center gap-10 w-full"
       >
         <div className="flex items-center gap-3 bg-card pl-6 pr-5 py-3 rounded-full">
-          <h1 className="text-3xl font-heading">{t("activity.activity")}</h1>
+          <h1 className="text-3xl font-heading leading-none">
+            {t("activity.activity")}
+          </h1>
           {/* TODO: should we put current wallet here? */}
-          <span className="bg-muted rounded-full text-xs text-muted-foreground px-3 py-1">
+
+          <span className="bg-muted rounded-full text-xs text-muted-foreground px-3 py-1 h-6">
             {account.address
               ? `${account.address.slice(0, 4)}...${account.address.slice(
                   account.address.length - 4
                 )}`
-              : ""}
+              : " "}
           </span>
         </div>
 
@@ -137,8 +140,8 @@ export const OpenActivity = ({}) => {
           pendingTransactions,
         })
           .with({ account: { address: undefined } }, () => (
-            <div className="flex grow justify-center items-center h-full">
-              <span className="text-muted-foreground text-xs font-heading">
+            <div className="flex px-4 py-3 rounded-full justify-center items-center h-full border">
+              <span className="text-muted-foreground text-sm">
                 {t("activity.connectWallet")}
               </span>
             </div>
@@ -149,15 +152,15 @@ export const OpenActivity = ({}) => {
             </div>
           ))
           .with({ isError: true }, () => (
-            <div className="flex grow justify-center h-full px-8 py-8 text-center">
-              <span className="text-muted-foreground text-xs font-heading">
+            <div className="flex px-4 py-3 rounded-full justify-center items-center h-full border">
+              <span className="text-muted-foreground text-sm">
                 {t("activity.error")}…
               </span>
             </div>
           ))
           .with({ statusCheck: true }, () => (
-            <div className="flex grow justify-center h-full px-8 py-8 text-center">
-              <span className="text-zinc-400 text-xs font-heading">
+            <div className="flex px-4 py-3 rounded-full justify-center items-center h-full border">
+              <span className="text-muted-foreground text-sm">
                 {t("activity.error")}.
               </span>
             </div>
