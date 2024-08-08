@@ -33,8 +33,8 @@ import {
 } from "@/constants/superbridge";
 import { useSupportStatusChecks } from "@/hooks/support/use-support-status-checks";
 import { useFaultProofUpgradeTime } from "@/hooks/use-fault-proof-upgrade-time";
+import { isArbitrum, isOptimism } from "@/utils/deployments/is-mainnet";
 import { getPeriod } from "@/utils/get-period";
-import { isArbitrum, isOptimism } from "@/utils/is-mainnet";
 
 const FaultProofAlert = ({ deployment }: { deployment: DeploymentDto }) => {
   return (
