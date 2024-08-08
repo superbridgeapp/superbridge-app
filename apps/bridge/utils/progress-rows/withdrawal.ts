@@ -33,7 +33,7 @@ export const useOptimismWithdrawalProgressRows = (
   const pendingFinalise = pendingFinalises[w?.id ?? ""];
 
   const withdraw: TransactionStep = {
-    label: "Initiate bridge",
+    label: "Start bridge",
     hash: w.withdrawal.timestamp ? w.withdrawal.transactionHash : undefined,
     pendingHash: w.withdrawal.timestamp
       ? undefined

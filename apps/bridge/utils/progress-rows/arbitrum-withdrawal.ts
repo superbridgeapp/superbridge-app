@@ -2,6 +2,7 @@ import { useTranslation } from "react-i18next";
 
 import { DeploymentDto } from "@/codegen/model";
 import { FINALIZE_GAS } from "@/constants/gas-limits";
+import { useTxToken } from "@/hooks/activity/use-tx-token";
 import { useChain } from "@/hooks/use-chain";
 import { usePendingTransactions } from "@/state/pending-txs";
 import { Transaction } from "@/types/transaction";
@@ -31,7 +32,7 @@ export const useArbitrumWithdrawalProgressRows = (
   const pendingFinalise = pendingFinalises[w?.id ?? ""];
 
   const withdraw: TransactionStep = {
-    label: t("buttons.bridge"),
+    label: "Start bridge",
     hash: w.withdrawal.timestamp ? w.withdrawal.transactionHash : undefined,
     pendingHash: w.withdrawal.timestamp
       ? undefined

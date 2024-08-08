@@ -23,7 +23,7 @@ export const useOptimismDepositProgressRows = (
 
   return [
     {
-      label: "Initiate bridge",
+      label: "Start bridge",
       chain: l1,
       hash: tx.deposit.timestamp ? tx.deposit.transactionHash : undefined,
       pendingHash: tx.deposit.timestamp

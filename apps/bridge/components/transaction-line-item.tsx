@@ -2,13 +2,11 @@ import clsx from "clsx";
 import { formatDistanceToNow } from "date-fns";
 
 import {
-  IconActivity,
   IconArrowUpRightCircle,
   IconCheckCircle,
   IconSimpleGas,
   IconSimpleTime,
   IconSpinner,
-  IconTime,
 } from "@/components/icons";
 import { NetworkIcon } from "@/components/network-icon";
 import { useNetworkFeeForGasLimit } from "@/hooks/use-network-fee";

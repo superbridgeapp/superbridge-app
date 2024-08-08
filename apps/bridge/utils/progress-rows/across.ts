@@ -1,4 +1,5 @@
 import { useAcrossDomains } from "@/hooks/across/use-across-domains";
+import { useTxToken } from "@/hooks/activity/use-tx-token";
 import { Transaction } from "@/types/transaction";
 
 import { isAcrossBridge } from "../guards";
@@ -8,6 +9,7 @@ export const useAcrossProgressRows = (
   tx: Transaction | null
 ): ActivityStep[] | null => {
   const acrossDomains = useAcrossDomains();
+  const token = useTxToken(tx);
 
   if (!tx || !isAcrossBridge(tx)) {
     return null;
@@ -21,7 +23,7 @@ export const useAcrossProgressRows = (
 
   return [
     {
-      label: "bridge",
+      label: "Start bridge",
       hash: tx.deposit.timestamp ? tx.deposit.transactionHash : undefined,
       pendingHash: tx.deposit.timestamp
         ? undefined
@@ -32,7 +34,7 @@ export const useAcrossProgressRows = (
     },
     buildWaitStep(tx.deposit.timestamp, tx.fill?.timestamp, 2 * 1000 * 60),
     {
-      label: "receive",
+      label: `Receive ${token?.symbol}`,
       hash: tx.fill?.transactionHash,
       pendingHash: undefined,
       chain: toDomain.chain,
