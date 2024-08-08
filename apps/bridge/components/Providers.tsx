@@ -19,8 +19,6 @@ import { queryClient } from "@/utils/query-client";
 
 function Web3Provider({ children }: { children: React.ReactNode }) {
   const { resolvedTheme } = useTheme();
-  // use this instead of useDeployments because RainbowKit doesn't
-  // like it when wagmiConfig changes
   const chains = useChains();
   const [mounted, setMounted] = useState(false);
   const { i18n } = useTranslation();
@@ -44,7 +42,6 @@ function Web3Provider({ children }: { children: React.ReactNode }) {
       });
 
       // specific light overrides
-
       if (theme.card) t.colors.modalBackground = theme.card;
 
       return t;
