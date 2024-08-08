@@ -10,6 +10,7 @@ export enum ModalNames {
   FaultProofInfo = "FaultProofInfo",
   WithdrawalReadyToFinalize = "WithdrawalReadyToFinalize",
   TokenSelector = "TokenSelector",
+  Legal = "Legal",
 }
 
 export enum AlertModals {

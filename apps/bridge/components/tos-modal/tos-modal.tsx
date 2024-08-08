@@ -10,6 +10,7 @@ import { useRef, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import ReactMarkdown from "react-markdown";
 
+import { ModalNames } from "@/constants/modal-names";
 import { useIsSuperbridge } from "@/hooks/apps/use-is-superbridge";
 import { useDeployment } from "@/hooks/deployments/use-deployment";
 import { useMetadata } from "@/hooks/use-metadata";
@@ -24,7 +25,7 @@ export const TosModal = () => {
   const { t } = useTranslation();
   const dismiss = useSettingsState.useDismissTos();
   const hasViewedTos = useSettingsState.useHasViewedTos();
-  const setLegalModal = useConfigState.useSetLegalModal();
+  const addModal = useConfigState.useAddModal();
   const metadata = useMetadata();
   const deployment = useDeployment();
   const isSuperbridge = useIsSuperbridge();
@@ -122,7 +123,7 @@ export const TosModal = () => {
             i18nKey={"tos.superbridge4"}
             components={[
               <button
-                onClick={() => setLegalModal(true)}
+                onClick={() => addModal(ModalNames.Legal)}
                 key="name"
                 className="underline"
               />,
