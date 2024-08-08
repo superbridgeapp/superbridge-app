@@ -33,7 +33,6 @@ import { isOptimism } from "@/utils/is-mainnet";
 import { MessageStatus } from "../constants";
 import { IconCheckCircle } from "./icons";
 import { NetworkIcon } from "./network-icon";
-import { RouteProviderIcon } from "./route-provider-icon";
 import { TokenIcon } from "./token-icon";
 import { Button } from "./ui/button";
 
@@ -324,7 +323,7 @@ export const TransactionRowV2 = ({ tx }: { tx: Transaction }) => {
             <div className="w-full flex items-center gap-2">
               {bars.map((bar) => (
                 <div
-                  key={bar.status}
+                  key={`${tx.id}-${bar.name}`}
                   className={clsx(
                     "w-full h-1 rounded-full",
                     bar.status === "done" && "bg-primary",

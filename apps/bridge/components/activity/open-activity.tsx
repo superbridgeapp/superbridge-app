@@ -109,7 +109,11 @@ export const OpenActivity = ({}) => {
         <div className="flex items-center gap-3 bg-card pl-6 pr-5 py-3 rounded-full">
           <h1 className="text-3xl font-heading">{t("activity.activity")}</h1>
           <span className="bg-muted rounded-full text-xs text-muted-foreground px-3 py-1">
-            0xBE…73D4
+            {account.address
+              ? `${account.address.slice(0, 4)}...${account.address.slice(
+                  account.address.length - 4
+                )}`
+              : ""}
           </span>
         </div>
 
