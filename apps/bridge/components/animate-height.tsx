@@ -37,9 +37,9 @@ export const AnimateChangeInHeight: React.FC<AnimateChangeInHeightProps> = ({
       className={clsx(className, "overflow-hidden")}
       style={{ height }}
       animate={{ height }}
-      transition={{ duration: 0.5, ease: "easeInOut" }}
-      layout
       exit={{ opacity: 0 }}
+      transition={{ type: "spring", stiffness: 300, damping: 16, delay: 0.1 }}
+      layout
     >
       <div ref={containerRef}>{children}</div>
     </motion.div>
