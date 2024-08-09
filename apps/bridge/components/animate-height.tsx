@@ -38,7 +38,13 @@ export const AnimateChangeInHeight: React.FC<AnimateChangeInHeightProps> = ({
       style={{ height }}
       animate={{ height }}
       exit={{ opacity: 0 }}
-      transition={{ type: "spring", stiffness: 300, damping: 16, delay: 0.1 }}
+      transition={{
+        type: "spring",
+        stiffness: 300,
+        damping: 16,
+        delay: 0.1,
+        opacity: { delay: 0.05 },
+      }}
       layout
     >
       <div ref={containerRef}>{children}</div>
