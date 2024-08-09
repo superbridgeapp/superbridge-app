@@ -209,7 +209,7 @@ export const NetworkSelector = () => {
               return (
                 <motion.div
                   variants={PlacehoderItem}
-                  className="bg-card border relative w-full h-full aspect-[3.25/4] rounded-2xl shadow-sm"
+                  className="bg-card border relative w-full aspect-[3.25/4] rounded-2xl shadow-sm"
                   key={i}
                 ></motion.div>
               );
