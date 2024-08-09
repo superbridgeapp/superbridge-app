@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { formatUnits } from "viem";
+import { useAccount } from "wagmi";
 
 import { ModalNames } from "@/constants/modal-names";
 import { useActiveTokens } from "@/hooks/tokens";
@@ -34,6 +35,8 @@ export const TokenInput = () => {
 
   const isCustomToken = useIsCustomToken(token);
   const isCustomTokenFromList = useIsCustomTokenFromList(token);
+
+  const account = useAccount();
 
   const formattedTokenBalance = formatUnits(
     tokenBalance.data,
@@ -107,29 +110,32 @@ export const TokenInput = () => {
             </span>
           )}
         </div>
-        <div className="flex items-center gap-1">
-          {tokenBalance.isLoading ? (
-            <Skeleton className="h-4 w-[88px] bg-muted-foreground" />
-          ) : (
-            <>
-              <span className={`text-muted-foreground text-xs leading-none`}>
-                {t("availableBalance", {
-                  amount: formatDecimals(parseFloat(formattedTokenBalance)),
-                  symbol: token?.symbol,
-                })}
-              </span>
 
-              {!isEth(token) && (
-                <button
-                  onClick={() => setRawAmount(formattedTokenBalance)}
-                  className="text-[10px] font-button bg-card rounded-full px-1.5 py-1 leading-none text-muted-foreground transition-all hover:scale-105"
-                >
-                  Max
-                </button>
-              )}
-            </>
-          )}
-        </div>
+        {account.address && (
+          <div className="flex items-center gap-1">
+            {tokenBalance.isLoading ? (
+              <Skeleton className="h-4 w-[88px] bg-muted-foreground" />
+            ) : (
+              <>
+                <span className={`text-muted-foreground text-xs leading-none`}>
+                  {t("availableBalance", {
+                    amount: formatDecimals(parseFloat(formattedTokenBalance)),
+                    symbol: token?.symbol,
+                  })}
+                </span>
+
+                {!isEth(token) && (
+                  <button
+                    onClick={() => setRawAmount(formattedTokenBalance)}
+                    className="text-[10px] font-button bg-card rounded-full px-1.5 py-1 leading-none text-muted-foreground transition-all hover:scale-105"
+                  >
+                    Max
+                  </button>
+                )}
+              </>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );
