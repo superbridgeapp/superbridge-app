@@ -36,14 +36,11 @@ export const RoutePreview = () => {
       {!route.isLoading && !route.data && (
         <motion.div key={"empty route quote"} exit={{ opacity: 0 }} />
       )}
-      {route.data && isRouteQuoteError(route.data.result) && (
-        <div className="bg-muted rounded-xl p-4 flex flex-col gap-3">
-          <span className="text-xs text-center leading-4 text-muted-foreground">
-            {/* TODO: Perhaps we can bring the error text that's currently output to the button and display it here? Leave button only with the action text, disabled if needed */}
-            {JSON.stringify(route.data.result)}
-          </span>
 
-          {routesCount > 1 && (
+      {route.data &&
+        isRouteQuoteError(route.data.result) &&
+        routesCount > 1 && (
+          <div className="bg-muted rounded-xl p-4 flex flex-col gap-3">
             <Button
               onClick={() => openModal(ModalNames.RouteSelector)}
               size={"xs"}
@@ -53,9 +50,8 @@ export const RoutePreview = () => {
               <span>See other routes</span>
               <IconCaretRight className="w-3 w-3 fill-foreground" />
             </Button>
-          )}
-        </div>
-      )}
+          </div>
+        )}
 
       {route.data && !isRouteQuoteError(route.data.result) && (
         <motion.div
