@@ -31,7 +31,7 @@ import {
 } from "@/utils/guards";
 
 import { MessageStatus } from "../constants";
-import { IconCheckCircle, IconSimpleTime } from "./icons";
+import { IconCheckCircle, IconSimpleTime, IconTx } from "./icons";
 import { NetworkIcon } from "./network-icon";
 import { TokenIcon } from "./token-icon";
 import { Button } from "./ui/button";
@@ -140,8 +140,8 @@ const ActionRow = ({ tx }: { tx: Transaction }) => {
   }
 
   return (
-    <div className="w-full flex items-center justify-between">
-      <span className="text-sm text-muted-foreground leading-none">
+    <div className="w-full flex items-center justify-between gap-2">
+      <span className="text-xs lg:text-sm text-muted-foreground leading-none">
         {status.description}
       </span>
 
@@ -153,7 +153,7 @@ const ActionRow = ({ tx }: { tx: Transaction }) => {
 
       {isWaitStatus(status) && status.timestamp > Date.now() && (
         <div className="bg-muted rounded-full flex items-center gap-2 p-2 pl-3">
-          <span className="text-sm text-muted-foreground">
+          <span className="text-xs lg:text-sm text-muted-foreground">
             ~{formatDistanceToNow((status as any).timestamp)}
           </span>
           <IconSimpleTime className="w-6 h-6 fill-foreground animate-wiggle-waggle" />
@@ -303,7 +303,7 @@ export const TransactionRowV2 = ({ tx }: { tx: Transaction }) => {
 
   return (
     <div
-      className="bg-card w-full rounded-xl flex gap-4 p-6 relative"
+      className="bg-card w-full rounded-xl flex gap-2.5 lg:gap-4 p-5 md:p-6 relative"
       key={tx.id}
       onClick={(e) => e.stopPropagation()}
     >
@@ -311,24 +311,27 @@ export const TransactionRowV2 = ({ tx }: { tx: Transaction }) => {
           <span>Route:</span>
           <RouteProviderIcon provider={provider} />
         </div> */}
-      <TokenIcon token={token ?? null} className="h-12 w-12 shrink-0" />
+      <TokenIcon
+        token={token ?? null}
+        className="h-10 w-10 lg:h-12 lg:w-12 shrink-0"
+      />
       <div className="flex flex-col w-full gap-2">
         <div className="flex justify-between items-start">
-          <div className="flex flex-col gap-2">
-            <span className="text-sm text-muted-foreground leading-none">
+          <div className="flex flex-col gap-1 lg:gap-2">
+            <span className="text-xs lg:text-sm text-muted-foreground leading-none">
               Started{" "}
               {timestamp ? `${formatDistanceToNow(timestamp)} ago` : "just now"}
             </span>
-            <span className="text-3xl leading-none">{amount}</span>
+            <span className="text-2xl lg:text-3xl leading-none">{amount}</span>
           </div>
-          <div className="flex bg-muted rounded-full p-1 shrink-0">
+          <div className="flex bg-muted rounded-lg p-1 shrink-0">
             <NetworkIcon chain={chains?.from} className="h-6 w-6" />
             <NetworkIcon chain={chains?.to} className="h-6 w-6 -ml-1.5" />
           </div>
         </div>
         {isInProgress && (
           <div>
-            <div className="w-full flex items-center gap-2 py-3">
+            <div className="w-full flex items-center gap-1.5 py-3">
               {bars.map((bar) => (
                 <div
                   key={`${tx.id}-${bar.name}`}
@@ -349,7 +352,7 @@ export const TransactionRowV2 = ({ tx }: { tx: Transaction }) => {
           {isSuccessful && (
             <div className="flex gap-2 items-center rounded-full border pl-2 pr-3 py-1.5">
               <IconCheckCircle className="fill-primary w-4 h-4" />
-              <span className="text-sm">Bridge successful</span>
+              <span className="text-xs lg:text-sm">Bridge successful</span>
             </div>
           )}
           {/* TODO: should this be different depending on  */}
@@ -359,7 +362,8 @@ export const TransactionRowV2 = ({ tx }: { tx: Transaction }) => {
               size={"xs"}
               variant={"secondary"}
             >
-              View transactions
+              <IconTx className="fill-foreground w-3 h-3 md:w-4 md:h-4" />
+              <span className="sr-only">View Transactions</span>
             </Button>
           )}
         </div>

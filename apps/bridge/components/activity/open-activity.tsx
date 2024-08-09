@@ -95,7 +95,7 @@ export const OpenActivity = ({}) => {
         exit={{ opacity: 0, scale: 0.1 }}
         whileHover={{ scale: 1.1 }}
         key="close-activity-button"
-        className={`flex items-center cursor-pointer w-10 h-10 shrink-0 flex items-center justify-center rounded-full bg-card fixed top-6 right-6 z-10`}
+        className={`flex items-center cursor-pointer w-10 h-10 shrink-0 flex items-center justify-center rounded-full shadow-sm bg-card fixed top-6 right-6 z-10`}
       >
         <IconClose className="fill-foreground w-3.5 h-3.5" />
       </motion.button>
@@ -180,7 +180,7 @@ export const OpenActivity = ({}) => {
               }
 
               return (
-                <div className="flex flex-col gap-4 w-full px-4 max-w-2xl">
+                <div className="flex flex-col gap-3 lg:gap-4 w-full px-2 max-w-2xl">
                   {[...pendingTransactions, ...transactions].map((t) => {
                     return (
                       <motion.div
@@ -203,11 +203,11 @@ export const OpenActivity = ({}) => {
                       ref={ref}
                       className="flex justify-center items-center p-3"
                     >
-                      <div className="bg-muted pl-2 pr-3 py-2 flex gap-1 items-center rounded-full">
+                      <div className="bg-card px-5 py-3 flex gap-1 items-center rounded-full hover:scale-105 transition-all">
                         {isFetchingNextPage ? (
                           <>
-                            <IconSpinner className="w-3 h-3 block text-muted-foreground" />
-                            <span className="text-[10px] text-muted-foreground leading-none font-heading">
+                            <IconSpinner className="w-3 h-3 block text-foreground" />
+                            <span className="text-sm text-foreground leading-none font-heading">
                               Loading
                             </span>
                           </>
@@ -215,7 +215,7 @@ export const OpenActivity = ({}) => {
                           // just handling the case where the IntersectionObserver doesn't work
                           <button
                             onClick={() => fetchNextPage()}
-                            className="text-[10px] text-muted-foreground leading-none font-heading"
+                            className="text-sm text-foreground leading-none font-heading"
                           >
                             Load more
                           </button>
