@@ -22,12 +22,12 @@ export function HeaderLinks() {
   const isSuperbridge = useIsSuperbridge();
 
   const defaultLinks = [
-    {
-      url: isSuperbridge
-        ? "https://superbridge.app/support"
-        : `https://superbridge.app/support/${deployment?.name}`,
-      label: t("support"),
-    },
+    // {
+    //   url: isSuperbridge
+    //     ? "https://superbridge.app/support"
+    //     : `https://superbridge.app/support/${deployment?.name}`,
+    //   label: t("support"),
+    // },
     {
       onClick: () => addModal(ModalNames.Legal),
       label: t("legal.footerButton"),

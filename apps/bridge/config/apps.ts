@@ -24,7 +24,7 @@ const superbidge: AppConfig = {
 
 const renzo: AppConfig = {
   head: {
-    name: "Renzo",
+    name: "ezETH Bridge",
     description: "Bridge ezETH between Base, Blast, Ethereum and more",
     og: "https://superbridge.app/og/superbridge-og-image.png",
     favicon: "/img/superbridge/favicon-32x32.png",
@@ -42,7 +42,7 @@ const renzo: AppConfig = {
 
 const hyperlane: AppConfig = {
   head: {
-    name: "Hyperlane",
+    name: "Hyperlane Bridge",
     description: "Bridge tokens between supported Hyperlane chains",
     og: "https://superbridge.app/og/superbridge-og-image.png",
     favicon: "/img/superbridge/favicon-32x32.png",
