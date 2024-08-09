@@ -47,7 +47,7 @@ export const NetworkIcon = ({
     <img
       key={`${chain?.name}-network-icon`}
       {...props}
-      className={clsx(props.className, "rounded-[23%]")}
+      className={clsx(props.className, "rounded-sm")}
       alt={`${chain?.name}-network-icon`}
       src={src}
     />

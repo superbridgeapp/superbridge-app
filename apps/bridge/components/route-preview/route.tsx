@@ -50,7 +50,10 @@ export const Route = ({
   return (
     <div className="flex flex-col gap-3">
       <div className="flex justify-between items-center gap-1">
-        <h3 className="text-xs font-heading">Get on {to?.name} </h3>
+        <div className="flex gap-1.5">
+          <NetworkIcon chain={to} className="w-4 w-4 rounded-[3px]" />
+          <h3 className="text-xs font-heading">Get on {to?.name} </h3>
+        </div>
         <div className="flex gap-1 items-center">
           <span className="text-foreground text-xs font-body">
             Via <RouteProviderName provider={provider} />
@@ -63,16 +66,10 @@ export const Route = ({
         </div>
       </div>
 
-      <div className="flex items-center gap-3">
-        <div className="relative">
-          <TokenIcon token={token} className="h-8 w-8" />
-          <NetworkIcon
-            chain={to}
-            className="w-3.5 w-3.5 absolute bottom-0 -right-1"
-          />
-        </div>
-        <div className="flex flex-col gap-0">
-          <span className="text-xl leading-none">
+      <div className="flex items-center gap-2.5">
+        <TokenIcon token={token} className="h-10 w-10" />
+        <div className="flex flex-col gap-1">
+          <span className="text-2xl leading-none">
             {receive.token.formatted}
           </span>
           {receive.fiat && (
