@@ -34,7 +34,7 @@ function Web3Provider({ children }: { children: React.ReactNode }) {
   const rainbowTheme = useMemo(() => {
     if (!mounted) return null;
 
-    if (resolvedTheme === "light") {
+    if (theme.rainbowMode === "light") {
       const t = lightTheme({
         borderRadius: "large",
         accentColor: theme.primary,
@@ -47,13 +47,39 @@ function Web3Provider({ children }: { children: React.ReactNode }) {
       return t;
     }
 
+    if (theme.rainbowMode === "dark") {
+      const t = darkTheme({
+        borderRadius: "large",
+        accentColor: theme.primary,
+        accentColorForeground: theme["primary-foreground"],
+      });
+
+      // specific dark overrides
+      if (theme["card-dark"]) t.colors.modalBackground = theme["card-dark"];
+
+      return t;
+    }
+
+    if (resolvedTheme === "light") {
+      const t = lightTheme({
+        borderRadius: "large",
+        accentColor: theme.primary,
+        accentColorForeground: theme["primary-foreground"],
+      });
+
+      // specific light overrides, do we need these?
+      if (theme.card) t.colors.modalBackground = theme.card;
+
+      return t;
+    }
+
     const t = darkTheme({
       borderRadius: "large",
       accentColor: theme.primary,
       accentColorForeground: theme["primary-foreground"],
     });
 
-    // specific dark overrides
+    // specific dark overrides, do we need these?
     if (theme["card-dark"]) t.colors.modalBackground = theme["card-dark"];
 
     return t;

@@ -1,4 +1,6 @@
-import { LinkDto, ThemeDto } from "@/codegen/model";
+import { LinkDto } from "@/codegen/model";
+
+import { FrontendThemeDto } from "./theme";
 
 export type AppConfig = {
   head: {
@@ -8,7 +10,7 @@ export type AppConfig = {
     favicon: string;
   };
 
-  theme: Partial<ThemeDto>;
+  theme: FrontendThemeDto;
 
   images: {
     logoLight: string;

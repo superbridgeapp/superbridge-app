@@ -1,4 +1,4 @@
-import { ThemeDto } from "@/codegen/model";
+import { FrontendThemeDto } from "@/types/theme";
 
 import {
   defaultBodyFont,
@@ -6,7 +6,7 @@ import {
   defaultHeadingFont,
 } from "./fonts";
 
-export const superbridgeTheme: Partial<ThemeDto> = {
+export const superbridgeTheme: Partial<FrontendThemeDto> = {
   darkModeEnabled: true,
 
   background: "hsl(282 100% 85%)",
@@ -54,7 +54,7 @@ export const superbridgeTheme: Partial<ThemeDto> = {
   fontHeading: defaultHeadingFont,
 };
 
-export const renzoTheme: Partial<ThemeDto> = {
+export const renzoTheme: Partial<FrontendThemeDto> = {
   darkModeEnabled: false,
   background: "#030411",
   muted: "rgba(255, 255, 255, 0.03)",
@@ -80,9 +80,11 @@ export const renzoTheme: Partial<ThemeDto> = {
   backgroundImageSize: "auto",
   backgroundImageRepeat: "no-repeat",
   backgroundImageOpacity: "70",
+
+  rainbowMode: "dark",
 };
 
-export const hyperlaneTheme: Partial<ThemeDto> = {
+export const hyperlaneTheme: Partial<FrontendThemeDto> = {
   darkModeEnabled: false,
   background: "#11011E",
   muted: "rgba(208,158,249, 0.088)",

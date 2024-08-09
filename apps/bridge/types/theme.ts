@@ -1,3 +1,5 @@
+import { ThemeDto } from "@/codegen/model";
+
 export interface Theme {
   border: string;
   accentBg: string;
@@ -30,4 +32,8 @@ export interface Theme {
 
   standaloneLogo?: string;
   standaloneLogoDark?: string;
+}
+
+export interface FrontendThemeDto extends ThemeDto {
+  rainbowMode?: "light" | "dark";
 }
