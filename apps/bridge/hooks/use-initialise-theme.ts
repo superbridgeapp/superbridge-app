@@ -49,21 +49,15 @@ function updateTheme(theme: ThemeDto) {
 
 export const useInitialiseTheme = () => {
   const app = useApp();
-  const [themeValues, setThemeValues] = useState<Partial<ThemeDto> | null>(
-    null
-  );
+  const [themeValues, setThemeValues] = useState<Partial<ThemeDto> | null>({
+    ...app.theme,
+    imageLogo: app.images.logoLight ?? app.theme.imageLogo,
+    imageLogoDark: app.images.logoDark ?? app.theme.imageLogoDark,
+  });
 
   useEffect(() => {
     if (app) {
-      const theme = app.theme;
-      if (app.images.logoLight) {
-        theme.imageLogo = app.images.logoLight;
-      }
-      if (app.images.logoDark) {
-        theme.imageLogo = app.images.logoDark;
-      }
-      updateTheme(theme);
-      setThemeValues(theme);
+      updateTheme(app.theme);
     }
   }, [app]);
 
