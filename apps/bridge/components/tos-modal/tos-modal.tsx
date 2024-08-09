@@ -101,16 +101,20 @@ export const TosModal = () => {
           <Trans
             i18nKey={"tos.superbridge3"}
             components={[
-              isSuperbridge ? (
-                <Link href="/support" key="name" className="underline" />
-              ) : (
-                <a
-                  href={`https://superbridge.app/support/${deployment?.name}`}
-                  key="name"
-                  className="underline"
-                  target="_blank"
-                />
-              ),
+              <a
+                href="https://superbridge.app/support"
+                key="name"
+                className="underline"
+              />,
+              // isSuperbridge ? (
+              // ) : (
+              //   <a
+              //     href={`https://superbridge.app/support/${deployment?.name}`}
+              //     key="name"
+              //     className="underline"
+              //     target="_blank"
+              //   />
+              // ),
             ]}
             values={{ name: deployment?.l2.name }}
           />
