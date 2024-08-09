@@ -49,6 +49,7 @@ export const ConfirmationModalTermsTab = ({
   const checkbox1Text = match({
     isAcross: route.data?.id === RouteProvider.Across,
     isCctp: route.data?.id === RouteProvider.Cctp,
+    isHyperlane: route.data?.id === RouteProvider.Hyperlane,
     withdrawing: (
       [
         RouteProvider.ArbitrumWithdrawal,
@@ -68,6 +69,7 @@ export const ConfirmationModalTermsTab = ({
   })
     .with(
       { isAcross: true },
+      { isHyperlane: true },
       () =>
         `I understand it will take ~${totalBridgeTime.data?.value} mins until my funds are on ${to?.name}`
     )
