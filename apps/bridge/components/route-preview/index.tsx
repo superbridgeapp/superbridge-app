@@ -27,7 +27,7 @@ export const RoutePreview = () => {
           key={"loading route quote"}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.2, ease: "easeInOut" }}
-          className={`flex gap-2 justify-center w-full items-center`}
+          className={`flex gap-2 justify-center w-full items-center py-2`}
         >
           <IconSpinner className="text-muted-foreground w-4 h-4" />
           <span className="text-xs text-muted-foreground">Loading</span>
