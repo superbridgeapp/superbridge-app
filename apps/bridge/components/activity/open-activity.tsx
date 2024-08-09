@@ -214,7 +214,10 @@ export const OpenActivity = ({}) => {
                         ) : (
                           // just handling the case where the IntersectionObserver doesn't work
                           <button
-                            onClick={() => fetchNextPage()}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              fetchNextPage();
+                            }}
                             className="text-sm text-foreground leading-none font-heading"
                           >
                             Load more
