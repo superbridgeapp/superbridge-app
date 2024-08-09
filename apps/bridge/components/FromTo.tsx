@@ -25,7 +25,7 @@ export const FromTo = () => {
 
   const networkSelectorEnabled = chains.length > 2;
   return (
-    <div className={`relative flex justify-between gap-1 select-none`}>
+    <div className={`relative flex justify-between gap-1.5 select-none`}>
       <div
         className={clsx(
           "flex gap-2 w-full items-start justify-start bg-muted px-3.5 py-3.5 rounded-lg transition-all origin-right grow-1",
@@ -68,7 +68,7 @@ export const FromTo = () => {
       >
         <div className="before:backdrop-blur-sm before:absolute before:inset-0 before:-z-10">
           <div className="p-1 bg-muted backdrop-blur-sm">
-            <IconCaretRight className={`w-3.5 h-3.5 fill-muted-foreground`} />
+            <IconCaretRight className={`w-4 h-4 fill-muted-foreground`} />
           </div>
         </div>
       </button>

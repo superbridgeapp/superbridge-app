@@ -209,7 +209,11 @@ export const BridgeButton = () => {
     }));
 
   return (
-    <Button disabled={submitButton.disabled} onClick={submitButton.onSubmit}>
+    <Button
+      disabled={submitButton.disabled}
+      onClick={submitButton.onSubmit}
+      className="hover:scale-[1.02]"
+    >
       {submitButton.buttonText}
     </Button>
   );

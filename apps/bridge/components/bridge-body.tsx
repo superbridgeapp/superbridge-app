@@ -8,8 +8,8 @@ import { TokenInput } from "./token-input";
 
 export const BridgeBody = () => {
   return (
-    <div className="flex flex-col gap-3 px-4 pb-4">
-      <div className="flex flex-col gap-1">
+    <div className="flex flex-col gap-2.5 px-4 pb-4">
+      <div className="flex flex-col gap-1.5">
         <FromTo />
         <TokenInput />
       </div>
