@@ -150,7 +150,7 @@ export const NetworkSelector = () => {
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 1 }}
                 className={clsx(
-                  "relative w-full h-full aspect-[3.25/4] flex flex-col shrink-0 cursor-pointer overflow-hidden rounded-2xl shadow-sm",
+                  "relative w-full  aspect-[3.25/4] shrink-0 flex flex-col shrink-0 cursor-pointer overflow-hidden rounded-2xl shadow-sm",
                   cardThemes[chain.id]?.card.className
                 )}
               >
