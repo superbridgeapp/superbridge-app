@@ -86,6 +86,7 @@ export const renzoTheme: Partial<FrontendThemeDto> = {
 
 export const hyperlaneTheme: Partial<FrontendThemeDto> = {
   darkModeEnabled: false,
+  rainbowMode: "dark",
   background: "#11011E",
   muted: "rgba(208,158,249, 0.088)",
   foreground: "#ffffff",

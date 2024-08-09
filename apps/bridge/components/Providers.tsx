@@ -68,7 +68,7 @@ function Web3Provider({ children }: { children: React.ReactNode }) {
       });
 
       // specific light overrides, do we need these?
-      if (theme.card) t.colors.modalBackground = theme.card;
+      // if (theme.card) t.colors.modalBackground = theme.card;
 
       return t;
     }
@@ -80,7 +80,7 @@ function Web3Provider({ children }: { children: React.ReactNode }) {
     });
 
     // specific dark overrides, do we need these?
-    if (theme["card-dark"]) t.colors.modalBackground = theme["card-dark"];
+    // if (theme["card-dark"]) t.colors.modalBackground = theme["card-dark"];
 
     return t;
   }, [theme, mounted, resolvedTheme]);
