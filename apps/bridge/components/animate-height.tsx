@@ -19,7 +19,7 @@ export const AnimateChangeInHeight: React.FC<AnimateChangeInHeightProps> = ({
       const resizeObserver = new ResizeObserver((entries) => {
         // We only have one entry, so we can use entries[0].
         // TODO: I added 106 here which seems to make it work but i don't know why, maybe not getting the right height (innerHeight etc). Let's review...
-        const observedHeight = entries[0].contentRect.height + 106;
+        const observedHeight = entries[0].contentRect.height;
         setHeight(observedHeight);
       });
 
@@ -37,8 +37,9 @@ export const AnimateChangeInHeight: React.FC<AnimateChangeInHeightProps> = ({
       className={clsx(className, "overflow-hidden")}
       style={{ height }}
       animate={{ height }}
-      transition={{ duration: 0.2, ease: "easeInOut" }}
+      transition={{ duration: 0.5, ease: "easeInOut" }}
       layout
+      exit={{ opacity: 0 }}
     >
       <div ref={containerRef}>{children}</div>
     </motion.div>
