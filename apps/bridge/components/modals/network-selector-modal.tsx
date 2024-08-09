@@ -51,6 +51,19 @@ const item = {
   },
 };
 
+const PlacehoderItem = {
+  hidden: { opacity: 0, scale: 0.85 },
+  show: {
+    opacity: 0.2,
+    scale: 1,
+    transition: {
+      type: "spring",
+      stiffness: 300,
+      damping: 12,
+    },
+  },
+};
+
 export const NetworkSelector = () => {
   const to = useToChain();
   const from = useFromChain();
@@ -121,7 +134,7 @@ export const NetworkSelector = () => {
         exit={"hidden"}
         className="flex flex-col items-center gap-10 w-full"
       >
-        <div className="flex items-center gap-3 bg-card px-6 py-3 rounded-full">
+        <div className="flex items-center gap-3 bg-card px-6 py-3 rounded-full shadow-sm">
           <h1 className="text-2xl font-heading">Select a network</h1>
           {/* <IconArrowUpCircle className="w-6 h-6 fill-muted-foreground" /> */}
         </div>
@@ -195,8 +208,8 @@ export const NetworkSelector = () => {
             [...Array(4 - availableChains.length)].map((e, i) => {
               return (
                 <motion.div
-                  variants={item}
-                  className="bg-black/20 border border-black/10 relative w-full h-full aspect-[3.25/4] rounded-2xl shadow-sm mix-blend-multiply"
+                  variants={PlacehoderItem}
+                  className="bg-card border relative w-full h-full aspect-[3.25/4] rounded-2xl shadow-sm"
                   key={i}
                 ></motion.div>
               );

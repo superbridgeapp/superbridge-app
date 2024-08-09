@@ -106,7 +106,7 @@ export const OpenActivity = ({}) => {
         exit={"hidden"}
         className="flex flex-col items-center gap-10 w-full"
       >
-        <div className="flex items-center gap-3 bg-card pl-6 pr-5 py-3 rounded-full">
+        <div className="flex items-center gap-3 bg-card pl-6 pr-5 py-3 rounded-full shadow-sm">
           <h1 className="text-2xl font-heading leading-none">
             {t("activity.activity")}
           </h1>
@@ -138,7 +138,7 @@ export const OpenActivity = ({}) => {
           pendingTransactions,
         })
           .with({ account: { address: undefined } }, () => (
-            <div className="flex px-4 py-3 rounded-full justify-center items-center h-full border">
+            <div className="flex px-6 py-3 shadow-sm rounded-full justify-center items-center h-full bg-card">
               <span className="text-muted-foreground text-sm">
                 {t("activity.connectWallet")}
               </span>
@@ -150,14 +150,14 @@ export const OpenActivity = ({}) => {
             </div>
           ))
           .with({ isError: true }, () => (
-            <div className="flex px-4 py-3 rounded-full justify-center items-center h-full border">
+            <div className="flex px-6 py-3 shadow-sm rounded-full justify-center items-center h-full bg-card">
               <span className="text-muted-foreground text-sm">
                 {t("activity.error")}…
               </span>
             </div>
           ))
           .with({ statusCheck: true }, () => (
-            <div className="flex px-4 py-3 rounded-full justify-center items-center h-full border">
+            <div className="flex px-6 py-3 shadow-sm rounded-full justify-center items-center h-full bg-card">
               <span className="text-muted-foreground text-sm">
                 {t("activity.error")}.
               </span>
@@ -171,7 +171,7 @@ export const OpenActivity = ({}) => {
                 pendingTransactions.length === 0
               ) {
                 return (
-                  <div className="flex px-4 py-3 rounded-full justify-center items-center h-full border">
+                  <div className="flex px-6 py-3 shadow-sm rounded-full justify-center items-center h-full bg-card">
                     <span className="text-muted-foreground text-sm">
                       {t("activity.noTransactions")}
                     </span>
