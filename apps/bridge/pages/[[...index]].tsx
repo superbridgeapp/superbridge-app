@@ -14,7 +14,7 @@ import { InjectedStoreProvider } from "@/state/injected";
 import { ThemeProvider } from "@/state/theme";
 import { createInjectedState } from "@/utils/injected-state/create-injected-state";
 
-const ignored = ["favicon", "locales", "_vercel", "_next"];
+const ignored = ["favicon", "locales", "_vercel", "_next", "fonts"];
 
 export const getServerSideProps = async ({
   req,
