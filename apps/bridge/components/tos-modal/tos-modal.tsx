@@ -78,7 +78,8 @@ export const TosModal = () => {
           </p>
         )}
       </div>
-      <div className="flex gap-3">
+
+      {/* <div className="flex gap-3">
         <SparkleIcon />
         <p className="text-sm ">
           <Trans
@@ -87,12 +88,12 @@ export const TosModal = () => {
             values={{ name: deployment?.l2.name }}
           />
         </p>
-      </div>
+      </div> */}
 
-      <div className="flex gap-3">
+      {/* <div className="flex gap-3">
         <NoFundsIcon />
         <p className="text-sm ">{t("tos.superbridge2")}</p>
-      </div>
+      </div> */}
 
       <div className="flex gap-3">
         <QuestionMark />
