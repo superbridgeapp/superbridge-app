@@ -2,6 +2,7 @@ import clsx from "clsx";
 import { useTranslation } from "react-i18next";
 import { formatUnits } from "viem";
 
+import { useSelectedToken } from "@/hooks/tokens";
 import { useIsCustomToken } from "@/hooks/tokens/use-is-custom-token";
 import { useIsCustomTokenFromList } from "@/hooks/tokens/use-is-custom-token-from-list";
 import { Token } from "@/types/token";
@@ -18,6 +19,7 @@ export const TokenItem = ({
   balance: bigint;
   onClick: () => void;
 }) => {
+  const selectedToken = useSelectedToken();
   const { t } = useTranslation();
 
   const isCustomToken = useIsCustomToken(token);
@@ -27,7 +29,7 @@ export const TokenItem = ({
     <div
       className={clsx(
         "flex justify-between hover:bg-muted transition cursor-pointer p-4 relative",
-        token?.address === token?.address && "bg-muted"
+        selectedToken?.address === token?.address && "bg-muted"
       )}
       onClick={onClick}
     >
