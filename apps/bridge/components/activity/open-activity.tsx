@@ -12,7 +12,6 @@ import { useTrackEvent } from "@/services/ga";
 import { useConfigState } from "@/state/config";
 import { usePendingTransactions } from "@/state/pending-txs";
 
-import { Loading } from "../Loading";
 import { IconClose, IconSpinner } from "../icons";
 import { TransactionRowV2 } from "../transaction-row-v2";
 
