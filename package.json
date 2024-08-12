@@ -8,12 +8,12 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "dependencies": {
-    "turbo": "^1.13.4",
+    "turbo": "^2.0.12",
     "typescript": "^5.5.4"
   },
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
-    "@turbo/gen": "^1.13.4",
+    "@turbo/gen": "^2.0.12",
     "eslint": "^7.32.0",
     "eslint-config-custom": "workspace:*",
     "prettier": "^3.3.3"
