@@ -20,6 +20,7 @@ export const getServerSideProps = async ({
   req,
 }: GetServerSidePropsContext) => {
   const id = Math.random();
+  console.log(id, req.method, req.url);
   const start = Date.now();
   if (
     !req.url ||

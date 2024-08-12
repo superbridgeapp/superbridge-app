@@ -19,6 +19,7 @@ const config = {
   optimizeFonts: false,
   experimental: {
     optimizeCss: true,
+    bundlePagesExternals: true,
   },
 
   async redirects() {
