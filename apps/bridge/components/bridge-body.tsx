@@ -8,7 +8,7 @@ import { TokenInput } from "./token-input";
 
 export const BridgeBody = () => {
   return (
-    <div className="flex flex-col gap-2.5 px-4 pb-4">
+    <div className="flex flex-col gap-2.5 px-4 py-4">
       <div className="flex flex-col gap-1.5">
         <FromTo />
         <TokenInput />
@@ -17,8 +17,9 @@ export const BridgeBody = () => {
       <AnimateChangeInHeight>
         <RoutePreview key={"route-preview"} />
       </AnimateChangeInHeight>
-
-      <BridgeButton />
+      <div className="flex flex-col pb-0.5">
+        <BridgeButton />
+      </div>
     </div>
   );
 };
