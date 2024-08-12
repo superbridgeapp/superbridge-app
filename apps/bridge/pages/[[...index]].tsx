@@ -23,6 +23,7 @@ export const getServerSideProps = async ({
   const start = Date.now();
   if (
     !req.url ||
+    req.method !== "GET" ||
     !req.headers.host ||
     ignored.find((x) => req.url?.includes(x))
   ) {
