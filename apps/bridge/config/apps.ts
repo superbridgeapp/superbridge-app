@@ -1,6 +1,10 @@
 import { AppConfig } from "@/types/app-config";
 
-import { SUPERBRIDGE_HOST, SUPERBRIDGE_TESTNET_HOST } from "../constants/hosts";
+import {
+  SUPERBRIDGE_HOST,
+  SUPERBRIDGE_TESTNET_HOST,
+  V3_SUPERBRIDGE_HOST,
+} from "../constants/hosts";
 import { hyperlaneTheme, renzoTheme, superbridgeTheme } from "./themes";
 
 const superbidge: AppConfig = {
@@ -61,6 +65,7 @@ const hyperlane: AppConfig = {
 export const frontendApps: { [x: string]: AppConfig | undefined } = {
   [SUPERBRIDGE_HOST]: superbidge,
   [SUPERBRIDGE_TESTNET_HOST]: superbidge,
+  [V3_SUPERBRIDGE_HOST]: superbidge,
   ["renzo.superbridge.app"]: renzo,
   ["hyperlane.superbridge.app"]: hyperlane,
 };
