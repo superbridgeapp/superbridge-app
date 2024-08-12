@@ -3,6 +3,7 @@ import { useMemo } from "react";
 import { useAccount } from "wagmi";
 
 import { bridgeControllerGetActivityV3 } from "@/codegen";
+import { ActivityV3Dto } from "@/codegen/model";
 import { useInjectedStore } from "@/state/injected";
 
 import { useIsSuperbridge } from "./apps/use-is-superbridge";
@@ -30,26 +31,26 @@ export const useTransactions = () => {
         hyperlane?.routers,
         superbridgeTestnetsEnabled,
       ],
-      queryFn: ({ pageParam }) => {
+      queryFn: async ({ pageParam }) => {
         if (!address) {
           return {
             actionRequiredCount: 0,
             inProgressCount: 0,
             total: 0,
-            transactions: [],
+            transactions: [] as ActivityV3Dto["transactions"],
             hasWithdrawalReadyToFinalize: null,
           };
         }
 
-        return bridgeControllerGetActivityV3({
+        return await bridgeControllerGetActivityV3({
           address,
           includeAcross: isSuperbridge && !superbridgeTestnetsEnabled,
           deploymentIds: deployments.map((d) => d.id),
-          cursor: pageParam ?? null,
+          cursor: pageParam || null,
           hyperlane,
         }).then((x) => x.data);
       },
-
+      initialPageParam: "",
       getNextPageParam: (lastPage) =>
         lastPage?.transactions?.[lastPage.transactions.length - 1]?.id,
       enabled: !!address,

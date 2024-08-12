@@ -34,9 +34,9 @@ export const CustomTokenListModal = () => {
   const [debouncedUrl] = useDebounce(url, 400);
   const [disclaimerChecked, setDisclaimerChecked] = useState(false);
 
-  const tokensImported = useQuery(
-    ["custom tokens", debouncedUrl],
-    async () => {
+  const tokensImported = useQuery({
+    queryKey: ["custom tokens", debouncedUrl],
+    queryFn: async () => {
       const response = await fetch(debouncedUrl);
       if (response.status !== 200) {
         throw new Error("Invalid response");
@@ -45,8 +45,9 @@ export const CustomTokenListModal = () => {
       const result: SuperchainTokenList | null = await response.json();
       return result?.tokens.length ?? 0;
     },
-    { retry: false, enabled: !!debouncedUrl }
-  );
+    retry: false,
+    enabled: !!debouncedUrl,
+  });
 
   useEffect(() => {
     if (typeof tokenListOrOpen === "object") {

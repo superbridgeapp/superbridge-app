@@ -68,7 +68,7 @@ importers:
         version: 1.1.2(@types/react-dom@18.3.0)(@types/react@18.2.23)(react-dom@18.3.1)(react@18.3.1)
       '@rainbow-me/rainbowkit':
         specifier: ^2.1.3
-        version: 2.1.3(@tanstack/react-query@4.36.1)(@types/react@18.2.23)(react-dom@18.3.1)(react@18.3.1)(viem@2.18.7)(wagmi@2.12.2)
+        version: 2.1.3(@tanstack/react-query@5.51.23)(@types/react@18.2.23)(react-dom@18.3.1)(react@18.3.1)(viem@2.18.7)(wagmi@2.12.2)
       '@sentry/react':
         specifier: ^7.118.0
         version: 7.118.0(react@18.3.1)
@@ -76,8 +76,8 @@ importers:
         specifier: ^0.5.13
         version: 0.5.13(tailwindcss@3.4.7)
       '@tanstack/react-query':
-        specifier: ^4.36.1
-        version: 4.36.1(react-dom@18.3.1)(react-native@0.74.5)(react@18.3.1)
+        specifier: ^5.51.23
+        version: 5.51.23(react@18.3.1)
       '@vercel/analytics':
         specifier: ^1.3.1
         version: 1.3.1(next@14.2.5)(react@18.3.1)
@@ -160,8 +160,8 @@ importers:
         specifier: ^1.2.2
         version: 1.2.2
       ts-pattern:
-        specifier: ^5.2.0
-        version: 5.2.0
+        specifier: ^5.3.1
+        version: 5.3.1
       use-debounce:
         specifier: ^10.0.2
         version: 10.0.2(react@18.3.1)
@@ -170,7 +170,7 @@ importers:
         version: 2.18.7(typescript@5.5.4)
       wagmi:
         specifier: ^2.12.2
-        version: 2.12.2(@tanstack/react-query@4.36.1)(@types/react@18.2.23)(react-dom@18.3.1)(react-native@0.74.5)(react@18.3.1)(typescript@5.5.4)(viem@2.18.7)
+        version: 2.12.2(@tanstack/react-query@5.51.23)(@types/react@18.2.23)(react-dom@18.3.1)(react-native@0.74.5)(react@18.3.1)(typescript@5.5.4)(viem@2.18.7)
       zustand:
         specifier: ^4.5.4
         version: 4.5.4(@types/react@18.2.23)(react@18.3.1)
@@ -200,8 +200,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/eslint-config-custom
       orval:
-        specifier: 6.30.2
-        version: 6.30.2(openapi-types@12.1.3)(typescript@5.5.4)
+        specifier: 6.31.0
+        version: 6.31.0(openapi-types@12.1.3)(typescript@5.5.4)
       postcss:
         specifier: ^8.4.40
         version: 8.4.40
@@ -3183,36 +3183,36 @@ packages:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.15.0
 
-  /@orval/angular@6.30.2(openapi-types@12.1.3):
-    resolution: {integrity: sha512-EzIhuCEDJQIjiaBePI9CA8aU27diKZOb2xp1htX/81TAM9fDu1kKhLKA40i9z3ZcABgfGupm9f+ILIrmk7LDEg==}
+  /@orval/angular@6.31.0(openapi-types@12.1.3):
+    resolution: {integrity: sha512-cVV/vh6biGUe5FMR0kaOL+pYkD5lM/oHpyHVU19d2eY/hxKCG58/CagUNVDxbowcSalzGpt7NbZOqpauc2cNOA==}
     dependencies:
-      '@orval/core': 6.30.2(openapi-types@12.1.3)
+      '@orval/core': 6.31.0(openapi-types@12.1.3)
     transitivePeerDependencies:
       - encoding
       - openapi-types
       - supports-color
     dev: true
 
-  /@orval/axios@6.30.2(openapi-types@12.1.3):
-    resolution: {integrity: sha512-BGwxqpZembRoM77vd47k/b4LC/prPprK//nEiEvxW2WMmfIdA81UkLHk9IM3EqBjcWD8w5kawwGB13aNlID3Bw==}
+  /@orval/axios@6.31.0(openapi-types@12.1.3):
+    resolution: {integrity: sha512-OqWFJ6bDKftsSW3VI7Ouqcb3W4hDhkk8XzDkb/iisn3Dn1rkSE/wafdlHCm+62VQps4esYXaP1+7/HSk/2+Y8A==}
     dependencies:
-      '@orval/core': 6.30.2(openapi-types@12.1.3)
+      '@orval/core': 6.31.0(openapi-types@12.1.3)
     transitivePeerDependencies:
       - encoding
       - openapi-types
       - supports-color
     dev: true
 
-  /@orval/core@6.30.2(openapi-types@12.1.3):
-    resolution: {integrity: sha512-+OipnBdCHAKLNvMUAGo8yOrfB1yhk0vsUI44pinL9SlChL+2K48oSl1VZy++O31xFnjXTbtUQWEDlj6pNi4gqg==}
+  /@orval/core@6.31.0(openapi-types@12.1.3):
+    resolution: {integrity: sha512-ubOPpxzLgOCGbAQsq/dzfe/MIgB4LYWRyuwgnkV2GkL8Zq7cIWfmZU09GTJZQ6cO35OclFfbbyNve0cRMfSBeA==}
     dependencies:
       '@apidevtools/swagger-parser': 10.1.0(openapi-types@12.1.3)
       '@ibm-cloud/openapi-ruleset': 1.18.1
-      acorn: 8.12.0
+      acorn: 8.12.1
       ajv: 8.14.0
       chalk: 4.1.2
       compare-versions: 6.1.0
-      debug: 4.3.5
+      debug: 4.3.6
       esbuild: 0.19.12
       esutils: 2.0.3
       fs-extra: 11.2.0
@@ -3232,21 +3232,21 @@ packages:
       - supports-color
     dev: true
 
-  /@orval/fetch@6.30.2(openapi-types@12.1.3):
-    resolution: {integrity: sha512-YO7L+SRR9AfLvfMkuA4WXWAvXNWecQ+mlQe7S5wvQjZpobxaFAmNwMUEQ51quP3FEHOzzK2Can0Qrb1yY4XxfA==}
+  /@orval/fetch@6.31.0(openapi-types@12.1.3):
+    resolution: {integrity: sha512-K4pD0TqRX3n1QgsfdzcCLxZPj4WFr4xd51VS5PhtK7wewy+EwaTp5AZeeMT+o8dL4HQcwLsKaXA1HH1YiAuOrA==}
     dependencies:
-      '@orval/core': 6.30.2(openapi-types@12.1.3)
+      '@orval/core': 6.31.0(openapi-types@12.1.3)
     transitivePeerDependencies:
       - encoding
       - openapi-types
       - supports-color
     dev: true
 
-  /@orval/hono@6.30.2(openapi-types@12.1.3):
-    resolution: {integrity: sha512-9exEMziYJcgB8l43zpI2R/S9+xBd2G3oc71dGHP8qUossfqWf0l5m7eEbF1Eyy5UrEB2YIwNfKRaUCTSYFlD9Q==}
+  /@orval/hono@6.31.0(openapi-types@12.1.3):
+    resolution: {integrity: sha512-mM5WISLugu1quNkNUqYwp+StV/Z5/STm33VdPTWkoZyPJtV4NmEUZKPsowk0EN7sBF2kW+aYcp8lsNMXxXfHaw==}
     dependencies:
-      '@orval/core': 6.30.2(openapi-types@12.1.3)
-      '@orval/zod': 6.30.2(openapi-types@12.1.3)
+      '@orval/core': 6.31.0(openapi-types@12.1.3)
+      '@orval/zod': 6.31.0(openapi-types@12.1.3)
       lodash.uniq: 4.5.0
     transitivePeerDependencies:
       - encoding
@@ -3254,10 +3254,10 @@ packages:
       - supports-color
     dev: true
 
-  /@orval/mock@6.30.2(openapi-types@12.1.3):
-    resolution: {integrity: sha512-zWsoLTwNl2x5hto1yEUgdzweaFqpSJ/ZaLIYpkymt7k26oJzDW1UUnmxFAQSHOz26UzzsKFr9/+2bfJjLtQaHw==}
+  /@orval/mock@6.31.0(openapi-types@12.1.3):
+    resolution: {integrity: sha512-UBag0IyL0eDVdXWgIMS/YxDF57Q3XC4VRDqcuZ1lB77rfBZ4UiVqTJleczQoIqMGkdtJJlBABgWzRRts1K4img==}
     dependencies:
-      '@orval/core': 6.30.2(openapi-types@12.1.3)
+      '@orval/core': 6.31.0(openapi-types@12.1.3)
       lodash.get: 4.4.2
       lodash.omit: 4.5.0
       openapi3-ts: 4.2.2
@@ -3267,10 +3267,10 @@ packages:
       - supports-color
     dev: true
 
-  /@orval/query@6.30.2(openapi-types@12.1.3):
-    resolution: {integrity: sha512-tOHAhVsgkxw2Hy/tFu/VREsnsg+r0IWq6txI4wQac7uJz3AK1SDUD71eNx7tW56noiHT6NnGjODFZdb5s2Cgqg==}
+  /@orval/query@6.31.0(openapi-types@12.1.3):
+    resolution: {integrity: sha512-aVyvSU5IbpRQnVbhChNlLX2XDnmoT1cDJ59NEFS3byhiJf1EG5XlzVve98je/BHAsVROrUC8+o6XoIjCtYbW5Q==}
     dependencies:
-      '@orval/core': 6.30.2(openapi-types@12.1.3)
+      '@orval/core': 6.31.0(openapi-types@12.1.3)
       lodash.omitby: 4.6.0
     transitivePeerDependencies:
       - encoding
@@ -3278,20 +3278,20 @@ packages:
       - supports-color
     dev: true
 
-  /@orval/swr@6.30.2(openapi-types@12.1.3):
-    resolution: {integrity: sha512-GFouUCSVerVIKMM+EilNqlHfUyBkq3RhhGQf6fQHlDvUPoVEYRp8PYTKNCQGxyM0Ae0KhZ+g9Uy3faBaXFCxfg==}
+  /@orval/swr@6.31.0(openapi-types@12.1.3):
+    resolution: {integrity: sha512-J9W/kym9jc94GizbTozpuY76yaZRN98rf3ahj+2+eW8+NRW1dVFui32Gew1qj9rcCSA54BwRMONgEn3Xqx6W6A==}
     dependencies:
-      '@orval/core': 6.30.2(openapi-types@12.1.3)
+      '@orval/core': 6.31.0(openapi-types@12.1.3)
     transitivePeerDependencies:
       - encoding
       - openapi-types
       - supports-color
     dev: true
 
-  /@orval/zod@6.30.2(openapi-types@12.1.3):
-    resolution: {integrity: sha512-nLDjEcuVwIMVfIo6Ku4OYzYmML8ECPPfY1fJ7HV30mp8MGFOnSCVyLZGrVZw5InSwepO1wvh04nHRlAZYoykoA==}
+  /@orval/zod@6.31.0(openapi-types@12.1.3):
+    resolution: {integrity: sha512-v6wqGZf4s3tpWrnmMHlEBfhTLeebu5W3HmhP8vQ5BPkm8AB2asiZqzK3Ne9Y19Rvyx6X4FGnhnalKYkz+XxJ8Q==}
     dependencies:
-      '@orval/core': 6.30.2(openapi-types@12.1.3)
+      '@orval/core': 6.31.0(openapi-types@12.1.3)
       lodash.uniq: 4.5.0
     transitivePeerDependencies:
       - encoding
@@ -4174,7 +4174,7 @@ packages:
     resolution: {integrity: sha512-A9+lCBZoaMJlVKcRBz2YByCG+Cp2t6nAnMnNba+XiWxnj6r4JUFqfsgwocMBZU9LPtdxC6wB56ySYpc7LQIoJg==}
     dev: false
 
-  /@rainbow-me/rainbowkit@2.1.3(@tanstack/react-query@4.36.1)(@types/react@18.2.23)(react-dom@18.3.1)(react@18.3.1)(viem@2.18.7)(wagmi@2.12.2):
+  /@rainbow-me/rainbowkit@2.1.3(@tanstack/react-query@5.51.23)(@types/react@18.2.23)(react-dom@18.3.1)(react@18.3.1)(viem@2.18.7)(wagmi@2.12.2):
     resolution: {integrity: sha512-teeB0HVQR75xSOUqMWCI0m6JJ/TvYXmbDSMr252/oElkV2UF0m/FFKGW04MBtQOg6wo9WK3nD5HVNEola4p7yA==}
     engines: {node: '>=12.4'}
     peerDependencies:
@@ -4184,7 +4184,7 @@ packages:
       viem: 2.x
       wagmi: ^2.9.0
     dependencies:
-      '@tanstack/react-query': 4.36.1(react-dom@18.3.1)(react-native@0.74.5)(react@18.3.1)
+      '@tanstack/react-query': 5.51.23(react@18.3.1)
       '@vanilla-extract/css': 1.14.0
       '@vanilla-extract/dynamic': 2.1.0
       '@vanilla-extract/sprinkles': 1.6.1(@vanilla-extract/css@1.14.0)
@@ -4195,7 +4195,7 @@ packages:
       react-remove-scroll: 2.5.7(@types/react@18.2.23)(react@18.3.1)
       ua-parser-js: 1.0.37
       viem: 2.18.7(typescript@5.5.4)
-      wagmi: 2.12.2(@tanstack/react-query@4.36.1)(@types/react@18.2.23)(react-dom@18.3.1)(react-native@0.74.5)(react@18.3.1)(typescript@5.5.4)(viem@2.18.7)
+      wagmi: 2.12.2(@tanstack/react-query@5.51.23)(@types/react@18.2.23)(react-dom@18.3.1)(react-native@0.74.5)(react@18.3.1)(typescript@5.5.4)(viem@2.18.7)
     transitivePeerDependencies:
       - '@types/react'
     dev: false
@@ -5135,27 +5135,17 @@ packages:
       tailwindcss: 3.4.7
     dev: false
 
-  /@tanstack/query-core@4.36.1:
-    resolution: {integrity: sha512-DJSilV5+ytBP1FbFcEJovv4rnnm/CokuVvrBEtW/Va9DvuJ3HksbXUJEpI0aV1KtuL4ZoO9AVE6PyNLzF7tLeA==}
+  /@tanstack/query-core@5.51.21:
+    resolution: {integrity: sha512-POQxm42IUp6n89kKWF4IZi18v3fxQWFRolvBA6phNVmA8psdfB1MvDnGacCJdS+EOX12w/CyHM62z//rHmYmvw==}
     dev: false
 
-  /@tanstack/react-query@4.36.1(react-dom@18.3.1)(react-native@0.74.5)(react@18.3.1):
-    resolution: {integrity: sha512-y7ySVHFyyQblPl3J3eQBWpXZkliroki3ARnBKsdJchlgt7yJLRDUcf4B8soufgiYt3pEQIkBWBx1N9/ZPIeUWw==}
+  /@tanstack/react-query@5.51.23(react@18.3.1):
+    resolution: {integrity: sha512-CfJCfX45nnVIZjQBRYYtvVMIsGgWLKLYC4xcUiYEey671n1alvTZoCBaU9B85O8mF/tx9LPyrI04A6Bs2THv4A==}
     peerDependencies:
-      react: ^16.8.0 || ^17.0.0 || ^18.0.0
-      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-      react-native: '*'
-    peerDependenciesMeta:
-      react-dom:
-        optional: true
-      react-native:
-        optional: true
+      react: ^18.0.0
     dependencies:
-      '@tanstack/query-core': 4.36.1
+      '@tanstack/query-core': 5.51.21
       react: 18.3.1
-      react-dom: 18.3.1(react@18.3.1)
-      react-native: 0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.3)(@types/react@18.2.23)(react@18.3.1)
-      use-sync-external-store: 1.2.0(react@18.3.1)
     dev: false
 
   /@tootallnate/quickjs-emscripten@0.23.0:
@@ -6089,17 +6079,10 @@ packages:
     hasBin: true
     dev: true
 
-  /acorn@8.12.0:
-    resolution: {integrity: sha512-RTvkC4w+KNXrM39/lWCUaG0IbRkWdCv7W/IOW9oU6SawyxulvkQy5HQPVTKxEjczcUvapcrw3cFx/60VN/NRNw==}
-    engines: {node: '>=0.4.0'}
-    hasBin: true
-    dev: true
-
   /acorn@8.12.1:
     resolution: {integrity: sha512-tcpGyI9zbizT9JbV6oYE477V6mTlXvvi0T0G3SNIYE2apm/G5huBa1+K89VGeovbg+jycCrfhl3ADxErOuO6Jg==}
     engines: {node: '>=0.4.0'}
     hasBin: true
-    dev: false
 
   /agent-base@7.1.0:
     resolution: {integrity: sha512-o/zjMZRhJxny7OyEF+Op8X+efiELC7k7yOjMzgfzVqOzXqkBkWI79YoTdOtsuWd5BWhAGAuOY/Xa6xpiaWXiNg==}
@@ -7518,18 +7501,6 @@ packages:
         optional: true
     dependencies:
       ms: 2.1.2
-
-  /debug@4.3.5:
-    resolution: {integrity: sha512-pt0bNEmneDIvdL1Xsd9oDQ/wrQRkXDT4AUWlNZNPKvW5x/jyO9VFXkJUP07vQ2upmw5PlaITaPKc31jK13V+jg==}
-    engines: {node: '>=6.0'}
-    peerDependencies:
-      supports-color: '*'
-    peerDependenciesMeta:
-      supports-color:
-        optional: true
-    dependencies:
-      ms: 2.1.2
-    dev: true
 
   /debug@4.3.6:
     resolution: {integrity: sha512-O/09Bd4Z1fBrU4VzkhFqVgpPzaGbw6Sm9FEkBT1A/YBXQFGuuSxa1dN2nxgxS34JmKXqYx8CZAwEVoJFImUXIg==}
@@ -12134,7 +12105,7 @@ packages:
   /openapi3-ts@4.2.2:
     resolution: {integrity: sha512-+9g4actZKeb3czfi9gVQ4Br2Ju3KwhCAQJBNaKgye5KggqcBLIhFHH+nIkcm0BUX00TrAJl6dH4JWgM4G4JWrw==}
     dependencies:
-      yaml: 2.4.5
+      yaml: 2.5.0
     dev: true
 
   /opener@1.5.2:
@@ -12181,20 +12152,20 @@ packages:
       strip-ansi: 6.0.1
       wcwidth: 1.0.1
 
-  /orval@6.30.2(openapi-types@12.1.3)(typescript@5.5.4):
-    resolution: {integrity: sha512-bmMfFv9N2iPFAyHxKHVPz9VCJIG4nZI5JnandGCp+W8IqRdVE4M6+XxLS6XTQR0K6pRBhaZYnj/NmCO85qYdgQ==}
+  /orval@6.31.0(openapi-types@12.1.3)(typescript@5.5.4):
+    resolution: {integrity: sha512-515KTDQ4VRJCT+4DsMrK/QROWRq4PXrjgxAoEx3jmP7j+aQBGbx8WhidIF6aX1UgbTxw47Lq7QVp9mbnD0lnWA==}
     hasBin: true
     dependencies:
       '@apidevtools/swagger-parser': 10.1.0(openapi-types@12.1.3)
-      '@orval/angular': 6.30.2(openapi-types@12.1.3)
-      '@orval/axios': 6.30.2(openapi-types@12.1.3)
-      '@orval/core': 6.30.2(openapi-types@12.1.3)
-      '@orval/fetch': 6.30.2(openapi-types@12.1.3)
-      '@orval/hono': 6.30.2(openapi-types@12.1.3)
-      '@orval/mock': 6.30.2(openapi-types@12.1.3)
-      '@orval/query': 6.30.2(openapi-types@12.1.3)
-      '@orval/swr': 6.30.2(openapi-types@12.1.3)
-      '@orval/zod': 6.30.2(openapi-types@12.1.3)
+      '@orval/angular': 6.31.0(openapi-types@12.1.3)
+      '@orval/axios': 6.31.0(openapi-types@12.1.3)
+      '@orval/core': 6.31.0(openapi-types@12.1.3)
+      '@orval/fetch': 6.31.0(openapi-types@12.1.3)
+      '@orval/hono': 6.31.0(openapi-types@12.1.3)
+      '@orval/mock': 6.31.0(openapi-types@12.1.3)
+      '@orval/query': 6.31.0(openapi-types@12.1.3)
+      '@orval/swr': 6.31.0(openapi-types@12.1.3)
+      '@orval/zod': 6.31.0(openapi-types@12.1.3)
       ajv: 8.14.0
       cac: 6.7.14
       chalk: 4.1.2
@@ -14570,8 +14541,8 @@ packages:
       yn: 3.1.1
     dev: true
 
-  /ts-pattern@5.2.0:
-    resolution: {integrity: sha512-aGaSpOlDcns7ZoeG/OMftWyQG1KqPVhgplhJxNCvyIXqWrumM5uIoOSarw/hmmi/T1PnuQ/uD8NaFHvLpHicDg==}
+  /ts-pattern@5.3.1:
+    resolution: {integrity: sha512-1RUMKa8jYQdNfmnK4jyzBK3/PS/tnjcZ1CW0v1vWDeYe5RBklc/nquw03MEoB66hVBm4BnlCfmOqDVxHyT1DpA==}
     dev: false
 
   /ts-retry@4.2.5:
@@ -15454,7 +15425,7 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: false
 
-  /wagmi@2.12.2(@tanstack/react-query@4.36.1)(@types/react@18.2.23)(react-dom@18.3.1)(react-native@0.74.5)(react@18.3.1)(typescript@5.5.4)(viem@2.18.7):
+  /wagmi@2.12.2(@tanstack/react-query@5.51.23)(@types/react@18.2.23)(react-dom@18.3.1)(react-native@0.74.5)(react@18.3.1)(typescript@5.5.4)(viem@2.18.7):
     resolution: {integrity: sha512-gIZdAgmHJjENdOdkD/Zpu85NR16k/uMB3H/yGBz1q9bDAE8oguuBxRUEhuMt6jAC95RB96+7hMVfL9kBtHnu+g==}
     peerDependencies:
       '@tanstack/react-query': '>=5.0.0'
@@ -15465,7 +15436,7 @@ packages:
       typescript:
         optional: true
     dependencies:
-      '@tanstack/react-query': 4.36.1(react-dom@18.3.1)(react-native@0.74.5)(react@18.3.1)
+      '@tanstack/react-query': 5.51.23(react@18.3.1)
       '@wagmi/connectors': 5.1.2(@types/react@18.2.23)(@wagmi/core@2.13.1)(react-dom@18.3.1)(react-native@0.74.5)(react@18.3.1)(typescript@5.5.4)(viem@2.18.7)
       '@wagmi/core': 2.13.1(@types/react@18.2.23)(react@18.3.1)(typescript@5.5.4)(viem@2.18.7)
       react: 18.3.1
@@ -15743,17 +15714,10 @@ packages:
     resolution: {integrity: sha512-N/lyzTPaJasoDmfV7YTrYCI0G/3ivm/9wdG0aHuheKowWQwGTsK0Eoiw6utmzAnI6pkJa0DUVygvp3spqqEKXg==}
     engines: {node: '>= 14'}
 
-  /yaml@2.4.5:
-    resolution: {integrity: sha512-aBx2bnqDzVOyNKfsysjA2ms5ZlnjSAW2eG3/L5G/CSujfjLJTJsEw1bGw8kCf04KodQWk1pxlGnZ56CRxiawmg==}
-    engines: {node: '>= 14'}
-    hasBin: true
-    dev: true
-
   /yaml@2.5.0:
     resolution: {integrity: sha512-2wWLbGbYDiSqqIKoPjar3MPgB94ErzCtrNE1FdqGuaO0pi2JGjmE8aW8TDZwzU7vuxcGRdL/4gPQwQ7hD5AMSw==}
     engines: {node: '>= 14'}
     hasBin: true
-    dev: false
 
   /yargs-parser@18.1.3:
     resolution: {integrity: sha512-o50j0JeToy/4K6OZcaQmW6lyXXKhq7csREXcDwk2omFPJEwUNOVtJKvmDr9EI1fAJZUyZcRF7kxGBWmRXudrCQ==}

@@ -14,7 +14,7 @@ export const useBridge = () => {
   const initiatingChainId = useInitiatingChainId();
 
   const selectedRoute = useSelectedBridgeRoute();
-  const { sendTransactionAsync, isLoading } = useSendTransaction();
+  const { sendTransactionAsync, isPending } = useSendTransaction();
 
   const fromFeeData = useEstimateFeesPerGas({
     chainId: initiatingChainId || undefined,
@@ -60,7 +60,7 @@ export const useBridge = () => {
 
   return {
     write: !params.gas ? undefined : () => sendTransactionAsync(params),
-    isLoading,
+    isLoading: isPending,
     refetch,
     valid: !!tx && !!params.gas,
     gas,

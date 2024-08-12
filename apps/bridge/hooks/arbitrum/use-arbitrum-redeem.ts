@@ -15,7 +15,7 @@ export function useRedeemArbitrum(
 ) {
   const account = useAccount();
   const wallet = useWalletClient();
-  const { writeContract, isLoading } = useWriteContract();
+  const { writeContract, isPending } = useWriteContract();
 
   const deployment = useDeploymentById(
     isArbitrumDeposit(tx) ? tx.deploymentId : tx.deposit.deploymentId
@@ -38,5 +38,5 @@ export function useRedeemArbitrum(
     });
   };
 
-  return { write: onRedeem, isLoading };
+  return { write: onRedeem, isLoading: isPending };
 }

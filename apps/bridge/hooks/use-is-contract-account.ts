@@ -8,9 +8,11 @@ export const useIsContractAccount = () => {
   const account = useAccount();
   const client = usePublicClient({ chainId: from?.id });
 
-  return useQuery(
-    [`is-contract-${account.address}-${client?.chain.id}-${from?.id}`],
-    () => {
+  return useQuery({
+    queryKey: [
+      `is-contract-${account.address}-${client?.chain.id}-${from?.id}`,
+    ],
+    queryFn: () => {
       if (!from?.id) {
         throw new Error("From chain not initialised");
       }
@@ -21,6 +23,6 @@ export const useIsContractAccount = () => {
 
       return client?.getBytecode({ address: account.address }).then((x) => !!x);
     },
-    { enabled: !!account.address }
-  );
+    enabled: !!account.address,
+  });
 };

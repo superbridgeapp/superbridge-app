@@ -20,9 +20,11 @@ export const useTokenPrice = (
   let tokenPrice = null;
 
   if (t?.name === "Ether") {
+    // @ts-expect-error
     tokenPrice = prices.data?.data?.[`coingecko:ethereum`]?.price ?? null;
   } else if (t?.coinGeckoId) {
     tokenPrice =
+      // @ts-expect-error
       prices.data?.data?.[`coingecko:${t.coinGeckoId}`]?.price ?? null;
     // } else if (token?.[1]?.coinGeckoId) {
     //   tokenPrice =
@@ -34,6 +36,7 @@ export const useTokenPrice = (
   }
 
   if (fiatPriceInUsd && tokenPrice) {
+    // @ts-expect-error
     return fiatPriceInUsd * tokenPrice;
   }
 

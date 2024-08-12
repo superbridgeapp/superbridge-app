@@ -3,6 +3,7 @@ import {
   DeploymentDto,
   DeploymentFamily,
   DeploymentType,
+  OptimismConfigDto,
   OptimismContractAddressesDto,
 } from "@/codegen/model";
 
@@ -42,6 +43,7 @@ export const isArbitrum = (d: DeploymentDto): d is ArbitrumDeploymentDto => {
 
 export interface OptimismDeploymentDto extends DeploymentDto {
   contractAddresses: OptimismContractAddressesDto;
+  config: OptimismConfigDto;
 }
 
 export const isOptimism = (d: DeploymentDto): d is OptimismDeploymentDto => {

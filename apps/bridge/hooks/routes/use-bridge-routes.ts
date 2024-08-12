@@ -43,6 +43,7 @@ export const useBridgeRoutes = () => {
     },
     {
       query: {
+        // queryKey: [""],
         enabled:
           !!weiAmount &&
           !!from &&

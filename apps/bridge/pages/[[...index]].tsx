@@ -44,7 +44,7 @@ export const getServerSideProps = async ({
     req.headers.host?.includes("ngrok")
   ) {
     // change this to load different apps
-    requestHost = "renzo.superbridge.app";
+    requestHost = "superbridge.app";
   }
 
   console.log(id, "request", requestHost);

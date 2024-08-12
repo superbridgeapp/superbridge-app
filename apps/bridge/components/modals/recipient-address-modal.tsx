@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
 import clsx from "clsx";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { match } from "ts-pattern";
@@ -20,7 +19,6 @@ import { isDeposit, isWithdrawal } from "@/utils/guards";
 import {
   IconAlert,
   IconCheckCircle,
-  IconClose,
   IconCloseCircle,
   IconSpinner,
 } from "../icons";
@@ -91,9 +89,9 @@ export const RecipientAddressModal = () => {
   const transactions = useTransactions();
   const { t } = useTranslation();
 
-  const profile = useQuery(
-    [`profile-${debouncedInput}`],
-    async () => {
+  const profile = useQuery({
+    queryKey: [`profile-${debouncedInput}`],
+    queryFn: async () => {
       if (debouncedInput.endsWith(".eth")) {
         const profile = await resolveName(debouncedInput);
         if (!profile) {
@@ -122,10 +120,8 @@ export const RecipientAddressModal = () => {
         avatar: null,
       };
     },
-    {
-      enabled: isAddress(debouncedInput) || debouncedInput.endsWith(".eth"),
-    }
-  );
+    enabled: isAddress(debouncedInput) || debouncedInput.endsWith(".eth"),
+  });
 
   const onSave = async () => {
     if (profile.isLoading || !profile.data) {
