@@ -40,10 +40,9 @@ export const AnimateChangeInHeight: React.FC<AnimateChangeInHeightProps> = ({
       exit={{ opacity: 0 }}
       transition={{
         type: "spring",
-        stiffness: 300,
-        damping: 16,
+        stiffness: 420,
+        damping: 32,
         delay: 0.1,
-        opacity: { delay: 0.05 },
       }}
       layout
     >

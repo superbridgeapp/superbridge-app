@@ -14,15 +14,15 @@ export const BridgeHeader = () => {
 
   return (
     <>
-      <div className="flex items-center justify-end gap-8 py-2">
+      <div className="flex items-center justify-end gap-8 py-2 px-0.5">
         {/* <h2 className="font-heading leading-none text-sm px-2 py-1.5">
           Bridge
         </h2> */}
-        <div className="flex gap-1 items-center">
+        <div className="flex gap-1.5 items-center">
           <button
             className={clsx(
-              inProgressCount > 0 ? "bg-muted pl-2.5" : "bg-card",
-              "group flex items-center gap-2 text-foreground rounded-full transition-all rounded-full py-1.5 px-1.5 bg-card"
+              inProgressCount > 0 ? "bg-muted pl-3" : "bg-card",
+              "group hover:scale-105 transition-all flex items-center gap-1.5 text-foreground rounded-full transition-all rounded-full py-1.5 px-1.5 bg-card font-button"
             )}
             onClick={() => setDisplayTransactions(true)}
           >
@@ -46,10 +46,10 @@ export const BridgeHeader = () => {
             />
           </button>
           <button
-            className="group flex items-center justify-center p-1.5 rounded-full bg-card"
+            className="group hover:scale-105 transition-all flex items-center justify-center p-1.5 rounded-full bg-card"
             onClick={() => addModal(ModalNames.Settings)}
           >
-            <IconSettings className="fill-muted-foreground group-hover:fill-foreground transition-all group-hover:rotate-45 group-hover:scale-105 h-5 w-5 shrink-0" />
+            <IconSettings className="fill-muted-foreground group-hover:fill-foreground transition-all group-hover:rotate-[15deg] group-hover:scale-105 h-5 w-5 shrink-0" />
           </button>
         </div>
       </div>

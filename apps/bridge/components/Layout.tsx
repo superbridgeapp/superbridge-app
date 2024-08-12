@@ -34,7 +34,12 @@ export function Layout({ children }: { children: any }) {
   const isSuperbridge = useIsSuperbridge();
 
   return (
-    <div className="bg-background w-screen h-screen overflow-hidden z-40 relative transition-colors duration-1000  flex justify-center">
+    <div
+      className={clsx(
+        isSuperbridge && "tracking-tight",
+        "bg-background w-screen h-screen overflow-hidden z-40 relative transition-colors duration-1000  flex justify-center"
+      )}
+    >
       {isSuperbridge && (
         <motion.div
           initial={{ opacity: 0 }}

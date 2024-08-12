@@ -26,8 +26,10 @@ export const RoutePreview = () => {
         <motion.div
           key={"loading route quote"}
           exit={{ opacity: 0 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
           transition={{ duration: 0.2, ease: "easeInOut" }}
-          className={`flex gap-2 justify-center w-full items-center py-2`}
+          className={`flex gap-2 justify-center w-full items-center py-4`}
         >
           <IconSpinner className="text-muted-foreground w-4 h-4" />
           <span className="text-xs text-muted-foreground">Loading</span>
@@ -56,7 +58,9 @@ export const RoutePreview = () => {
       {route.data && !isRouteQuoteError(route.data.result) && (
         <motion.div
           key={"route quote"}
-          exit={{ opacity: 0 }}
+          exit={{ opacity: 0, scale: 0.98 }}
+          initial={{ opacity: 0, scale: 0.98 }}
+          animate={{ opacity: 1, scale: 1, transition: { delay: 0.2 } }}
           transition={{ duration: 0.2, ease: "easeInOut" }}
           className={`flex flex-col gap-2 relative`}
         >
