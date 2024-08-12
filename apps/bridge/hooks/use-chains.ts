@@ -19,7 +19,7 @@ export const useChains = () => {
   return useMemo(() => {
     if (isSuperbridge) {
       if (superbridgeTestnetsEnabled) return allChains.filter((c) => c.testnet);
-      else allChains.filter((c) => !c.testnet);
+      else return allChains.filter((c) => !c.testnet);
     }
     return allChains;
   }, [allChains, superbridgeTestnetsEnabled]);
