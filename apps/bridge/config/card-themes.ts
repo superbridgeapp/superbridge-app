@@ -1,6 +1,7 @@
 import {
   ancient8,
   arbitrum,
+  avalanche,
   base,
   baseSepolia,
   blast,
@@ -12,6 +13,8 @@ import {
   mode,
   optimism,
   optimismSepolia,
+  polygon,
+  scroll,
 } from "viem/chains";
 
 import { DeploymentDto } from "@/codegen/model";
@@ -538,6 +541,18 @@ export const cardThemes: {
   },
   // ethereum
   [mainnet.id]: {
+    card: ethereumTheme.card,
+    icon: ethereumTheme.iconSrc,
+  },
+  [polygon.id]: {
+    card: ethereumTheme.card,
+    icon: ethereumTheme.iconSrc,
+  },
+  [avalanche.id]: {
+    card: ethereumTheme.card,
+    icon: ethereumTheme.iconSrc,
+  },
+  [scroll.id]: {
     card: ethereumTheme.card,
     icon: ethereumTheme.iconSrc,
   },

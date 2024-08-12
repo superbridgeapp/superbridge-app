@@ -19,9 +19,6 @@ const ignored = ["favicon", "locales", "_vercel", "_next", "fonts"];
 export const getServerSideProps = async ({
   req,
 }: GetServerSidePropsContext) => {
-  const id = Math.random();
-  console.log(id, req.method, req.url);
-  const start = Date.now();
   if (
     !req.url ||
     req.method !== "GET" ||
@@ -44,16 +41,12 @@ export const getServerSideProps = async ({
     req.headers.host?.includes("ngrok")
   ) {
     // change this to load different apps
-    requestHost = "superbridge.app";
+    requestHost = "usdc.superbridge.app";
   }
-
-  console.log(id, "request", requestHost);
 
   const config = await bridgeControllerGetBridgeConfigByDomain(
     requestHost
   ).catch(() => null);
-
-  console.log(id, "request end", Date.now() - start);
 
   return {
     props: createInjectedState({

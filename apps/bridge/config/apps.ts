@@ -62,10 +62,29 @@ const hyperlane: AppConfig = {
   links: [],
 };
 
+const usdc: AppConfig = {
+  head: {
+    name: "USDC Bridge",
+    description: "Bridge USDC between supported chains",
+    og: "https://superbridge.app/og/superbridge-og-image.png",
+    favicon: "/img/superbridge/favicon-32x32.png",
+  },
+  images: {
+    logoLight: "/img/hyperlane/logo.svg",
+    logoDark: "/img/hyperlane/logo.svg",
+    logoLightSmall: "/img/hyperlane/logo.svg",
+    logoDarkSmall: "/img/hyperlane/logo.svg",
+  },
+  theme: hyperlaneTheme,
+
+  links: [],
+};
+
 export const frontendApps: { [x: string]: AppConfig | undefined } = {
   [SUPERBRIDGE_HOST]: superbidge,
   [SUPERBRIDGE_TESTNET_HOST]: superbidge,
   [V3_SUPERBRIDGE_HOST]: superbidge,
   ["renzo.superbridge.app"]: renzo,
   ["hyperlane.superbridge.app"]: hyperlane,
+  ["usdc.superbridge.app"]: usdc,
 };
