@@ -304,7 +304,6 @@ function Support({
 
   return (
     <>
-      {/* <StatelessHead deployment={deployment} /> */}
       <div className="w-screen h-screen overflow-y-auto bg-background">
         <PageNav />
 

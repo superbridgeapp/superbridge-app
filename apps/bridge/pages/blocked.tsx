@@ -4,7 +4,6 @@ import PageNav from "@/components/page-nav";
 export default function Blocked() {
   return (
     <>
-      {/* <StatelessHead /> */}
       <div className="w-screen h-screen flex flex-col">
         <PageNav hideLaunchApp />
 

@@ -1,6 +1,5 @@
 import NextHead from "next/head";
 
-import { DeploymentDto } from "@/codegen/model";
 import {
   defaultBodyFont,
   defaultButtonFont,
@@ -9,16 +8,7 @@ import {
 import { useDeployment } from "@/hooks/deployments/use-deployment";
 import { useMetadata } from "@/hooks/use-metadata";
 
-export function StatefulHead() {
-  const deployment = useDeployment();
-  return <StatelessHead deployment={deployment} />;
-}
-
-export function StatelessHead({
-  deployment,
-}: {
-  deployment?: DeploymentDto | null;
-}) {
+export function Head() {
   const metadata = useMetadata();
 
   const fonts = `

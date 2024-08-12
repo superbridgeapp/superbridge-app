@@ -18,7 +18,6 @@ export default function Support({
 
   return (
     <>
-      {/* <StatelessHead deployment={deployments[0] ?? null} /> */}
       <div className="w-screen h-screen overflow-y-auto bg-background">
         <PageNav />
         <main>

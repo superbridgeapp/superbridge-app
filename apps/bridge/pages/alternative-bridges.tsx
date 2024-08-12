@@ -40,7 +40,6 @@ const BridgeCard = ({
 const AlternativeBridges = () => {
   return (
     <>
-      {/* <StatelessHead /> */}
       <div className="w-screen h-screen overflow-y-auto">
         <PageNav />
         <div className="bg-background w-full">

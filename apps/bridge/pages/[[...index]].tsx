@@ -9,7 +9,7 @@ import { Layout } from "@/components/Layout";
 import { PageTransition } from "@/components/PageTransition";
 import { Providers } from "@/components/Providers";
 import { Bridge } from "@/components/bridge";
-import { StatefulHead } from "@/components/head";
+import { Head } from "@/components/head";
 import { InjectedStoreProvider } from "@/state/injected";
 import { ThemeProvider } from "@/state/theme";
 import { createInjectedState } from "@/utils/injected-state/create-injected-state";
@@ -19,6 +19,8 @@ const ignored = ["favicon", "locales", "_vercel", "_next", "fonts"];
 export const getServerSideProps = async ({
   req,
 }: GetServerSidePropsContext) => {
+  const id = Math.random();
+  const start = Date.now();
   if (
     !req.url ||
     !req.headers.host ||
@@ -43,9 +45,13 @@ export const getServerSideProps = async ({
     requestHost = "renzo.superbridge.app";
   }
 
+  console.log(id, "request", requestHost);
+
   const config = await bridgeControllerGetBridgeConfigByDomain(
     requestHost
   ).catch(() => null);
+
+  console.log(id, "request end", Date.now() - start);
 
   return {
     props: createInjectedState({
@@ -63,7 +69,7 @@ export default function IndexRoot(
     <InjectedStoreProvider initialValues={props}>
       <ThemeProvider>
         <Providers>
-          <StatefulHead />
+          <Head />
           <Layout>
             <Index />
           </Layout>
