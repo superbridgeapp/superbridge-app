@@ -1,13 +1,7 @@
 import { useConnectModal } from "@rainbow-me/rainbowkit";
 import { useTranslation } from "react-i18next";
 import { match } from "ts-pattern";
-import {
-  Address,
-  formatUnits,
-  isAddressEqual,
-  parseUnits,
-  zeroAddress,
-} from "viem";
+import { Address, formatUnits, isAddressEqual, parseUnits } from "viem";
 import { useAccount, useBalance } from "wagmi";
 
 import { useIsAcrossRoute } from "@/hooks/across/use-is-across-route";
@@ -30,7 +24,7 @@ import { useWeiAmount } from "@/hooks/use-wei-amount";
 import { useIsWithdrawal } from "@/hooks/use-withdrawing";
 import { useConfigState } from "@/state/config";
 import { formatDecimals } from "@/utils/format-decimals";
-import { isEth } from "@/utils/tokens/is-eth";
+import { deadAddress, isEth } from "@/utils/tokens/is-eth";
 
 import { Button } from "./ui/button";
 
@@ -119,9 +113,9 @@ export const BridgeButton = () => {
     // don't want to allow sending said quote
     zeroRouteAddress:
       (!!routeRequest?.sender &&
-        isAddressEqual(routeRequest.sender as Address, zeroAddress)) ||
+        isAddressEqual(routeRequest.sender as Address, deadAddress)) ||
       (!!routeRequest?.sender &&
-        isAddressEqual(routeRequest.recipient as Address, zeroAddress)),
+        isAddressEqual(routeRequest.recipient as Address, deadAddress)),
   })
     .with({ disabled: true }, () => ({
       onSubmit: () => {},

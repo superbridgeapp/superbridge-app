@@ -3,6 +3,7 @@ import { isAddress, zeroAddress } from "viem";
 import { useAccount } from "wagmi";
 
 import { useConfigState } from "@/state/config";
+import { deadAddress } from "@/utils/tokens/is-eth";
 
 import { useBridgeControllerGetRoutes } from "../../codegen";
 import { useDestinationToken, useSelectedToken } from "../tokens/use-token";
@@ -33,8 +34,8 @@ export const useBridgeRoutes = () => {
       fromTokenAddress: fromTokenAddress ?? "",
       toTokenAddress: toTokenAddress ?? "",
       graffiti: useGraffiti(),
-      recipient: recipientAddress || zeroAddress,
-      sender: account.address ?? zeroAddress,
+      recipient: recipientAddress || deadAddress,
+      sender: account.address ?? deadAddress,
 
       forceViaL1,
 
