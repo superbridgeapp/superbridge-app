@@ -156,11 +156,6 @@ export const BridgeButton = () => {
       buttonText: t("enterAnAmount"),
       disabled: true,
     }))
-    .with({ hasInsufficientBalance: true }, () => ({
-      onSubmit: () => {},
-      buttonText: t("insufficientFunds"),
-      disabled: true,
-    }))
     .when(
       ({ bridgeMin, weiAmount }) => bridgeMin !== null && weiAmount < bridgeMin,
       ({}) => ({
@@ -175,6 +170,11 @@ export const BridgeButton = () => {
         disabled: true,
       })
     )
+    .with({ hasInsufficientBalance: true }, () => ({
+      onSubmit: () => {},
+      buttonText: t("insufficientFunds"),
+      disabled: true,
+    }))
     .with({ hasInsufficientGas: true }, (d) => ({
       onSubmit: handleSubmitClick,
       buttonText: t("insufficientGas", {

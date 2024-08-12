@@ -493,6 +493,21 @@ export const deploymentTheme = (
   };
 };
 
+const avalancheTheme = {
+  card: ethereumTheme.card,
+  icon: "/img/networks/avalanche.png",
+};
+
+const scrollTheme = {
+  card: ethereumTheme.card,
+  icon: "/img/networks/scroll.jpeg",
+};
+
+const polygonTheme = {
+  card: ethereumTheme.card,
+  icon: "/img/networks/polygon.webp",
+};
+
 export const cardThemes: {
   [chainId: string]: { card: Theme["card"]; icon: string } | undefined;
 } = {
@@ -544,16 +559,7 @@ export const cardThemes: {
     card: ethereumTheme.card,
     icon: ethereumTheme.iconSrc,
   },
-  [polygon.id]: {
-    card: ethereumTheme.card,
-    icon: ethereumTheme.iconSrc,
-  },
-  [avalanche.id]: {
-    card: ethereumTheme.card,
-    icon: ethereumTheme.iconSrc,
-  },
-  [scroll.id]: {
-    card: ethereumTheme.card,
-    icon: ethereumTheme.iconSrc,
-  },
+  [polygon.id]: polygonTheme,
+  [avalanche.id]: avalancheTheme,
+  [scroll.id]: scrollTheme,
 };
