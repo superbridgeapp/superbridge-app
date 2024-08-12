@@ -145,8 +145,10 @@ export const OpenActivity = ({}) => {
             </div>
           ))
           .with({ isLoading: true }, () => (
-            <div>
-              <Loading />
+            <div className="flex px-6 py-3 shadow-sm rounded-full justify-center items-center h-full bg-card">
+              <span className="text-muted-foreground text-sm">
+                <IconSpinner className="h-6 w-6" />
+              </span>
             </div>
           ))
           .with({ isError: true }, () => (
