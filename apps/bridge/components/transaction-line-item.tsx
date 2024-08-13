@@ -103,7 +103,7 @@ export function TransactionLineItem({
           fee.data ? "items-start" : "items-center"
         )}
       >
-        <NetworkIcon chain={step.chain} className="w-8 h-8" />
+        <NetworkIcon chain={step.chain} className="w-8 h-8 rounded-sm" />
         <div className="flex flex-col gap-1">
           <span className="text-sm font-heading leading-none">
             {step.label}

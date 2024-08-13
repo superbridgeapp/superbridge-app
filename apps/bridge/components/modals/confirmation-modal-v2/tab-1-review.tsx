@@ -71,7 +71,7 @@ export const ConfirmationModalReviewTab = ({
           {/* Send */}
           <div className="flex gap-4 px-3 py-4 rounded-lg justify-between bg-muted">
             <div className="flex items-center gap-2">
-              <NetworkIcon chain={from} className="h-7 w-7" />
+              <NetworkIcon chain={from} className="h-7 w-7 rounded-xs" />
               <div className="flex flex-col gap-0.5">
                 <span className="text-xs text-muted-foreground leading-none">
                   Send from{" "}
@@ -99,7 +99,7 @@ export const ConfirmationModalReviewTab = ({
           {/* Receive 2 */}
           <div className="flex gap-4 px-3 py-4 rounded-lg justify-between bg-muted">
             <div className="flex items-center gap-2">
-              <NetworkIcon chain={to} className="h-7 w-7" />
+              <NetworkIcon chain={to} className="h-7 w-7 rounded-xs" />
               <div className="flex flex-col gap-0.5">
                 <span className="text-xs text-muted-foreground leading-none">
                   Receive on{" "}
@@ -139,7 +139,7 @@ export const ConfirmationModalReviewTab = ({
               <RouteProviderName provider={route.data!.id} />
               <RouteProviderIcon
                 provider={route.data!.id}
-                className="h-4 w-4 rounded-full"
+                className="h-4 w-4 rounded-2xs"
               />
             </div>
           </div>

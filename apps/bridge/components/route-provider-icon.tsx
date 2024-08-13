@@ -10,15 +10,14 @@ import {
 } from "@/codegen/model";
 
 const icons = {
-  [RouteProvider.Across]: "/img/alt-bridges/Across-icon.png",
-  // TODO: cctp icon
-  [RouteProvider.Cctp]: "/img/alt-bridges/Celer-icon.png",
-  [RouteProvider.ArbitrumDeposit]: "/img/arbitrum-one/icon.svg",
-  [RouteProvider.ArbitrumWithdrawal]: "/img/arbitrum-one/icon.svg",
-  [RouteProvider.OptimismDeposit]: "/img/optimism/logo.svg",
-  [RouteProvider.OptimismWithdrawal]: "/img/optimism/logo.svg",
-  [RouteProvider.OptimismForcedWithdrawal]: "/img/optimism/logo.svg",
-  [RouteProvider.Hyperlane]: "/img/alt-bridges/hyperlane.svg",
+  [RouteProvider.Across]: "/img/networks/across.svg",
+  [RouteProvider.Cctp]: "/img/networks/cctp.svg",
+  [RouteProvider.ArbitrumDeposit]: "/img/networks/arbitrum-one.svg",
+  [RouteProvider.ArbitrumWithdrawal]: "/img/networks/arbitrum-one.svg",
+  [RouteProvider.OptimismDeposit]: "/img/networks/optimism.svg",
+  [RouteProvider.OptimismWithdrawal]: "/img/networks/optimism.svg",
+  [RouteProvider.OptimismForcedWithdrawal]: "/img/networks/optimism.svg",
+  [RouteProvider.Hyperlane]: "/img/networks/hyperlane.svg",
 };
 
 const names = {

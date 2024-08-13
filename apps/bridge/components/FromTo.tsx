@@ -44,7 +44,7 @@ export const FromTo = () => {
           chain={from}
           width={32}
           height={32}
-          className="pointer-events-none"
+          className="pointer-events-none rounded-sm"
         />
         <div className="flex flex-col gap-0.5">
           <span
@@ -99,7 +99,7 @@ export const FromTo = () => {
           chain={to}
           width={32}
           height={32}
-          className="pointer-events-none"
+          className="pointer-events-none rounded-sm"
         />
       </div>
     </div>

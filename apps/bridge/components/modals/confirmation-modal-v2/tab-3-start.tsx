@@ -397,8 +397,8 @@ export const ConfirmationModalStartTab = () => {
         <DialogDescription>
           <div className="flex gap-1 items-center rounded-full border pl-1.5 pr-2 py-1">
             <div className="flex">
-              <NetworkIcon chain={from} className="w-4 h-4" />
-              <NetworkIcon chain={to} className="w-4 h-4 -ml-1" />
+              <NetworkIcon chain={from} className="w-4 h-4 rounded-2xs" />
+              <NetworkIcon chain={to} className="w-4 h-4 rounded-2xs -ml-1" />
             </div>
             <span className="text-xs text-muted-foreground">
               via <RouteProviderName provider={route.data?.id ?? null} />

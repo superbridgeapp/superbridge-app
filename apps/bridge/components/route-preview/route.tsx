@@ -51,7 +51,7 @@ export const Route = ({
     <div className="flex flex-col gap-3">
       <div className="flex justify-between items-center gap-1">
         <div className="flex gap-1.5">
-          <NetworkIcon chain={to} className="w-4 w-4 rounded-[3px]" />
+          <NetworkIcon chain={to} className="w-4 w-4 rounded-2xs" />
           <h3 className="text-xs font-heading">Get on {to?.name} </h3>
         </div>
         <div className="flex gap-1 items-center">
@@ -60,7 +60,7 @@ export const Route = ({
           </span>
           <RouteProviderIcon
             provider={provider}
-            className="rounded-full bg-muted"
+            className="rounded-2xs bg-muted"
           />
           {/* <IconCaretDown className="w-3 w-3 fill-foreground" /> */}
         </div>
