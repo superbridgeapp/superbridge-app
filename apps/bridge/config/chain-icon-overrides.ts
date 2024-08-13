@@ -60,7 +60,7 @@ export const chainIcons: { [chainId: number]: string | undefined } = {
   [blast.id]: "/img/networks/blast.svg",
   [88]: "/img/networks/viction.svg",
   [ancient8.id]: "/img/networks/ancient8.svg",
-  [avalanche.id]: "/img/networks/avalanche.png",
-  [scroll.id]: "/img/networks/scroll.jpeg",
-  [polygon.id]: "/img/networks/polygon.webp",
+  [avalanche.id]: "/img/networks/avalanche.svg",
+  [scroll.id]: "/img/networks/scroll.svg",
+  [polygon.id]: "/img/networks/polygon.svg",
 };
