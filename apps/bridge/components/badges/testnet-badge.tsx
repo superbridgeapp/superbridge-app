@@ -1,5 +1,5 @@
 export const TestnetBadge = () => (
-  <span className="text-[9px] inline-flex items-center leading-none bg-muted text-foreground tracking-tighter rounded-full px-3 h-5">
+  <span className="text-xs text-muted-foreground inline-flex items-center leading-none bg-card text-foreground tracking-tighter rounded-full px-3 py-2">
     Testnet
   </span>
 );

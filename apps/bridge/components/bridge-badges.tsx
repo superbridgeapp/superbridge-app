@@ -31,9 +31,7 @@ export const BridgeBadges = () => {
       <PoweredByConduit />
     ) : null;
 
-  const badges = [testnetBadge, poweredByConduit, poweredByAltLayer].filter(
-    isPresent
-  );
+  const badges = [poweredByConduit, poweredByAltLayer].filter(isPresent);
 
   if (!badges.length) {
     return null;
