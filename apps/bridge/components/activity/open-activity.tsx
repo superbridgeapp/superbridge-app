@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { motion } from "framer-motion";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
@@ -105,17 +106,22 @@ export const OpenActivity = ({}) => {
         exit={"hidden"}
         className="flex flex-col items-center gap-10 w-full"
       >
-        <div className="flex items-center gap-3 bg-card pl-6 pr-5 py-3 rounded-full shadow-sm">
+        <div
+          className={clsx(
+            account.address && "pl-6 pr-3.5",
+            "flex items-center gap-3 bg-card px-6 py-3 rounded-full shadow-sm"
+          )}
+        >
           <h1 className="text-2xl font-heading leading-none">
             {t("activity.activity")}
           </h1>
-          <span className="bg-muted rounded-full text-xs text-muted-foreground px-3 py-1 h-6">
-            {account.address
-              ? `${account.address.slice(0, 4)}...${account.address.slice(
-                  account.address.length - 4
-                )}`
-              : " "}
-          </span>
+
+          {account.address && (
+            <span className="bg-muted rounded-full text-xs text-muted-foreground px-3 py-1 h-6">
+              {account.address.slice(0, 4)}&hellip;
+              {account.address.slice(account.address.length - 4)}
+            </span>
+          )}
         </div>
 
         {/* <div
