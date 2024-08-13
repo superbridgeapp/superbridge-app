@@ -53,6 +53,7 @@ const baseTheme: Theme = {
   iconSrc: "/img/base/icon.svg",
   card: {
     className: "bg-blue-600",
+    title: "text-white",
   },
 };
 
@@ -61,7 +62,7 @@ const optimismTheme: Theme = {
   iconSrc: "/img/optimism/icon.svg",
   card: {
     className: "bg-red-500",
-    // title: "text-black",
+    title: "text-white",
     overlay: {
       className:
         "bg-gradient-to-t from-[#EA3431]  to-[#EA3431]/0  mix-blend-multiply opacity-50",
@@ -165,6 +166,7 @@ const arbitrumOneTheme: Theme = {
   iconSrc: "/img/arbitrum-one/icon.svg",
   card: {
     className: "bg-[#1C4ADD]",
+    title: "text-white",
     overlay: {
       image: "/img/arbitrum-one/bg.png",
       className: "h-full w-full mix-blend-overlay opacity-80",
@@ -420,6 +422,30 @@ const injectiveTheme: Theme = {
   },
 };
 
+const avalancheTheme = {
+  card: {
+    className: "bg-[#E84142]",
+    title: "text-[#ffffff]",
+  },
+  icon: "/img/avalanche/icon.svg",
+};
+
+const scrollTheme = {
+  card: {
+    className: "bg-[#FADFBA]",
+    title: "text-[#101010]",
+  },
+  icon: "/img/scroll/icon.svg",
+};
+
+const polygonTheme = {
+  card: {
+    className: "bg-gradient-to-b from-[#7F49F3] to-[#693CC8]",
+    title: "text-[#ffffff]",
+  },
+  icon: "/img/polygon/icon.svg",
+};
+
 export const themes: { [name: string]: Theme | undefined } = {
   ["base"]: baseTheme,
   ["base-sepolia"]: baseTheme,
@@ -491,21 +517,6 @@ export const deploymentTheme = (
     // @ts-expect-error
     ...deployment?.theme?.theme,
   };
-};
-
-const avalancheTheme = {
-  card: ethereumTheme.card,
-  icon: "/img/networks/avalanche.png",
-};
-
-const scrollTheme = {
-  card: ethereumTheme.card,
-  icon: "/img/networks/scroll.jpeg",
-};
-
-const polygonTheme = {
-  card: ethereumTheme.card,
-  icon: "/img/networks/polygon.webp",
 };
 
 export const cardThemes: {
