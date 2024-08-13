@@ -5,7 +5,12 @@ import {
   SUPERBRIDGE_TESTNET_HOST,
   V3_SUPERBRIDGE_HOST,
 } from "../constants/hosts";
-import { hyperlaneTheme, renzoTheme, superbridgeTheme } from "./themes";
+import {
+  hyperlaneTheme,
+  renzoTheme,
+  superbridgeTheme,
+  usdcTheme,
+} from "./themes";
 
 const superbidge: AppConfig = {
   head: {
@@ -70,12 +75,12 @@ const usdc: AppConfig = {
     favicon: "/img/superbridge/favicon-32x32.png",
   },
   images: {
-    logoLight: "/img/hyperlane/logo.svg",
-    logoDark: "/img/hyperlane/logo.svg",
-    logoLightSmall: "/img/hyperlane/logo.svg",
-    logoDarkSmall: "/img/hyperlane/logo.svg",
+    logoLight: "/img/usdc/logo.svg",
+    logoDark: "/img/usdc/logo.svg",
+    logoLightSmall: "/img/usdc/logo.svg",
+    logoDarkSmall: "/img/usdc/logo.svg",
   },
-  theme: hyperlaneTheme,
+  theme: usdcTheme,
 
   links: [],
 };
