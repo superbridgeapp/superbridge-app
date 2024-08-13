@@ -122,12 +122,9 @@ export const usdcTheme: Partial<FrontendThemeDto> = {
   // "primary-foreground": "#032245",
   // card: "rgba(26, 1, 47, .80)",
   // border: "rgba(208,158,249, 0.15)",
-  fontBody:
-    "https://usdc.superbridge.app/fontsusdc/NunitoSans_7pt-Regular.woff2",
-  fontButton:
-    "https://usdc.superbridge.app/fonts/usdc/NunitoSans_7pt-Medium.woff2",
-  fontHeading:
-    "https://usdc.superbridge.app/fonts/usdc/NunitoSans_7pt-Medium.woff2",
+  fontBody: "https://usdc.superbridge.app/fonts/usdc/Inter-Regular.woff2",
+  fontButton: "https://usdc.superbridge.app/fonts/usdc/Inter-Bold.woff2",
+  fontHeading: "https://usdc.superbridge.app/fonts/usdc/Inter-Bold.woff2",
   imageBackground: "/img/usdc/bg.svg",
   imageBackgroundDark: "/img/usdc/bg.svg",
   backgroundImageBlendMode: "normal",
