@@ -11,6 +11,7 @@ export enum ModalNames {
   WithdrawalReadyToFinalize = "WithdrawalReadyToFinalize",
   TokenSelector = "TokenSelector",
   Legal = "Legal",
+  GasInfo = "GasInfo",
 }
 
 export enum AlertModals {

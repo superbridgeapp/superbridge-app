@@ -5,6 +5,7 @@ import {
   RouteQuoteDto,
   RouteStepTransactionDto,
 } from "@/codegen/model";
+import { ModalNames } from "@/constants/modal-names";
 import {
   useDestinationToken,
   useSelectedToken,
@@ -14,6 +15,7 @@ import { useFeesForRoute } from "@/hooks/use-fees";
 import { useGetFormattedAmount } from "@/hooks/use-get-formatted-amount";
 import { useNetworkFeeForGasLimit } from "@/hooks/use-network-fee";
 import { useApproxTotalBridgeTimeTextForRoute } from "@/hooks/use-transfer-time";
+import { useConfigState } from "@/state/config";
 
 import { IconSimpleFees, IconSimpleGas, IconSimpleTime } from "../icons";
 import { NetworkIcon } from "../network-icon";
@@ -24,14 +26,19 @@ import { Skeleton } from "../ui/skeleton";
 export const Route = ({
   provider,
   quote,
+
+  allowDetailClicks,
 }: {
   provider: RouteProvider;
   quote: RouteQuoteDto;
+
+  allowDetailClicks?: boolean;
 }) => {
   const selectedToken = useSelectedToken();
   const token = useDestinationToken();
   const to = useToChain();
   const getFormattedAmount = useGetFormattedAmount(selectedToken);
+  const addModal = useConfigState.useAddModal();
 
   const receive = getFormattedAmount(quote.receive);
 
@@ -46,6 +53,8 @@ export const Route = ({
   };
   const fees = useFeesForRoute(route);
   const time = useApproxTotalBridgeTimeTextForRoute(route);
+
+  const allowFeeClicks = allowDetailClicks && fees.data?.totals.token !== 0;
 
   return (
     <div className="flex flex-col gap-3">
@@ -86,8 +95,12 @@ export const Route = ({
             fees.data?.totals.token === 0
               ? "bg-primary rounded-full py-0.5 pl-0.5 pr-1.5"
               : "bg-transparent",
-            "flex gap-1 items-center"
+            "flex gap-1 items-center",
+            allowFeeClicks && "cursor-pointer"
           )}
+          onClick={() =>
+            allowFeeClicks ? addModal(ModalNames.FeeBreakdown) : null
+          }
         >
           <IconSimpleFees
             className={clsx(
@@ -110,7 +123,15 @@ export const Route = ({
           )}
         </div>
 
-        <div className="flex gap-1 items-center">
+        <div
+          className={clsx(
+            "flex gap-1 items-center",
+            allowDetailClicks && "cursor-pointer"
+          )}
+          onClick={() =>
+            allowDetailClicks ? addModal(ModalNames.GasInfo) : null
+          }
+        >
           <IconSimpleGas className="h-3 w-auto fill-muted-foreground" />{" "}
           {networkFee.isLoading ? (
             <Skeleton className="h-3 w-[60px]" />

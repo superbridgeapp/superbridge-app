@@ -11,6 +11,7 @@ import { ConfirmationModalV2 } from "./confirmation-modal-v2";
 import { BlockProvingModal } from "./fault-proofs/block-proving-modal";
 import { FaultProofInfoModal } from "./fault-proofs/fault-proof-info-modal";
 import { FeeBreakdownModal } from "./fee-breakdown-modal";
+import { GasInfoModal } from "./gas-info-modal";
 import { RecipientAddressModal } from "./recipient-address-modal";
 import { RouteSelectorModal } from "./route-selector-modal";
 import { TransactionDetailsModal } from "./transaction-details-modal";
@@ -30,6 +31,7 @@ export const Modals = () => {
       <TokensModal />
       <ConfirmationModalV2 />
       <TransactionDetailsModal />
+      <GasInfoModal />
 
       {/* Alerts */}
       <NoGasModal />

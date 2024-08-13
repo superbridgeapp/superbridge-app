@@ -10,6 +10,10 @@ import { TokenIcon } from "../token-icon";
 import { Button } from "../ui/button";
 import { Dialog, DialogContent } from "../ui/dialog";
 
+/**
+ * This is Across specific atm because no other routes
+ * have fees
+ */
 export const FeeBreakdownModal = () => {
   const { t } = useTranslation();
   const token = useSelectedToken();
