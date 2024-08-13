@@ -1,5 +1,5 @@
 import { DeploymentDto } from "@/codegen/model";
-import { useSupportStatusChecks } from "@/hooks/support/use-support-status-checks";
+import { useDeploymentStatusChecks } from "@/hooks/status/use-deployment-status-checks";
 
 import { SupportCheckStatus } from "./types";
 
@@ -82,7 +82,7 @@ const StatusLineItem = ({
 };
 
 export const StatusChecks = ({ deployment }: { deployment: DeploymentDto }) => {
-  const statusChecks = useSupportStatusChecks(deployment);
+  const statusChecks = useDeploymentStatusChecks(deployment);
 
   return (
     <div className="sm:max-w-[425px]">

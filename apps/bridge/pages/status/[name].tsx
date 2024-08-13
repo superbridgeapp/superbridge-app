@@ -20,7 +20,7 @@ import {
   SUPERCHAIN_MAINNETS,
   SUPERCHAIN_TESTNETS,
 } from "@/constants/superbridge";
-import { useSupportStatusChecks } from "@/hooks/support/use-support-status-checks";
+import { useDeploymentStatusChecks } from "@/hooks/status/use-deployment-status-checks";
 import { useFaultProofUpgradeTime } from "@/hooks/use-fault-proof-upgrade-time";
 import { isOptimism } from "@/utils/deployments/is-mainnet";
 import { getPeriod } from "@/utils/get-period";
@@ -79,7 +79,7 @@ function Status({
   deployment,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const [contactModal, setContactModal] = useState(false);
-  const statusChecks = useSupportStatusChecks(deployment!);
+  const statusChecks = useDeploymentStatusChecks(deployment!);
 
   const faultProofUpgradeTime = useFaultProofUpgradeTime(deployment);
 

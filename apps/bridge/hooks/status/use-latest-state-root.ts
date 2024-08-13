@@ -95,7 +95,11 @@ export const useLatestStateRoot = (
     }
 
     const submissionIntervalHours =
-      deployment.config.submissionIntervalSeconds / 60 / 60;
+      // this is actually submissionIntervalBlocks
+      (deployment.config.submissionIntervalSeconds *
+        deployment.config.blockTimeSeconds) /
+      60 /
+      60;
 
     const now = Date.now();
     const lastBlockTimestamp = parseInt(block.data.timestamp.toString()) * 1000;

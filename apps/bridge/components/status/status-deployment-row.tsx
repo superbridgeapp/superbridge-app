@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 import { DeploymentDto } from "@/codegen/model";
-import { useSupportStatusChecks } from "@/hooks/support/use-support-status-checks";
+import { useDeploymentStatusChecks } from "@/hooks/status/use-deployment-status-checks";
 
 import { SupportCheckStatus } from "./types";
 
@@ -10,7 +10,7 @@ export function StatusDeploymentRow({
 }: {
   deployment: DeploymentDto;
 }) {
-  const statusChecks = useSupportStatusChecks(deployment);
+  const statusChecks = useDeploymentStatusChecks(deployment);
 
   const theme = deployment.theme?.theme;
 
