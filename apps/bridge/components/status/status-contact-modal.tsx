@@ -7,7 +7,7 @@ import { Period } from "@/utils/get-period";
 import { Button } from "../ui/button";
 import { Dialog, DialogContent } from "../ui/dialog";
 
-export const SupportModal = ({
+export const StatusContactModal = ({
   open,
   setOpen,
 

@@ -1,7 +1,6 @@
 import { DeploymentDto } from "@/codegen/model";
 import { useSupportStatusChecks } from "@/hooks/support/use-support-status-checks";
 
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
 import { SupportCheckStatus } from "./types";
 
 const StatusLineItem = ({
@@ -82,31 +81,16 @@ const StatusLineItem = ({
   );
 };
 
-export const SupportStatusModal = ({
-  deployment,
-  open,
-  setOpen,
-}: {
-  deployment: DeploymentDto;
-  open: boolean;
-  setOpen: (b: boolean) => void;
-}) => {
+export const StatusChecks = ({ deployment }: { deployment: DeploymentDto }) => {
   const statusChecks = useSupportStatusChecks(deployment);
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle className="text-2xl tracking-tight">
-            {deployment.l2.name} bridge status
-          </DialogTitle>
-        </DialogHeader>
-        <div className="p-6 pt-0 grid gap-2">
-          {statusChecks.map((check) => (
-            <StatusLineItem key={check.title} {...check} />
-          ))}
-        </div>
-      </DialogContent>
-    </Dialog>
+    <div className="sm:max-w-[425px]">
+      <div className="p-6 pt-0 grid gap-2">
+        {statusChecks.map((check) => (
+          <StatusLineItem key={check.title} {...check} />
+        ))}
+      </div>
+    </div>
   );
 };

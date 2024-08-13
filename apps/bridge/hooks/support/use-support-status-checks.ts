@@ -18,6 +18,8 @@ export const useSupportStatusChecks = (deployment: DeploymentDto) => {
     isOptimism(deployment) ? deployment : undefined
   );
 
+  console.log(lastObservedStateRoot);
+
   return [
     l1LastObservedBlock,
     l2LastObservedBlock,

@@ -16,7 +16,7 @@ export const useLatestStateRoot = (
     deployment?.id ?? "",
     {
       query: {
-        enabled: !deployment?.contractAddresses.disputeGameFactory,
+        enabled: !!deployment?.contractAddresses.disputeGameFactory,
       },
     }
   );
