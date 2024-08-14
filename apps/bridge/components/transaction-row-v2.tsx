@@ -226,7 +226,7 @@ const useAction = (tx: Transaction) => {
   }
 
   if (isCctpBridge(tx)) {
-    return tx.bridge.timestamp + tx.duration > Date.now() ? "mint" : null;
+    return tx.bridge.timestamp + tx.duration < Date.now() ? "mint" : null;
   }
 
   return null;
