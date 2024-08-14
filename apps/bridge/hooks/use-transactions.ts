@@ -6,6 +6,8 @@ import { bridgeControllerGetActivityV4 } from "@/codegen";
 import { ActivityV3Dto } from "@/codegen/model";
 import { useInjectedStore } from "@/state/injected";
 
+import { useAcrossDomains } from "./across/use-across-domains";
+import { useCctpDomains } from "./cctp/use-cctp-domains";
 import { useDeployments } from "./deployments/use-deployments";
 import { useHyperlaneActivityRequest } from "./hyperlane/use-hyperlane-activity-request";
 
@@ -16,8 +18,8 @@ export const useTransactions = () => {
   const superbridgeTestnetsEnabled = useInjectedStore(
     (s) => s.superbridgeTestnets
   );
-  const acrossDomains = useInjectedStore((s) => s.acrossDomains);
-  const cctpDomains = useInjectedStore((s) => s.cctpDomains);
+  const acrossDomains = useAcrossDomains();
+  const cctpDomains = useCctpDomains();
 
   const address = account.address;
   const { data, isLoading, isFetchingNextPage, isError, fetchNextPage } =
