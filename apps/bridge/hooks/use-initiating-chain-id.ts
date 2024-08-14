@@ -1,12 +1,9 @@
 import { isRouteQuote, isRouteTransactionStep } from "@/utils/guards";
 
 import { useSelectedBridgeRoute } from "./routes/use-selected-bridge-route";
+import { useChain } from "./use-chain";
 
 export const useInitiatingChainId = () => {
-  // const from = useFromChain();
-  // const isOptimismForcedWithdrawal = useIsOptimismForcedWithdrawal()
-  // const deployment = useDeployment()
-
   const route = useSelectedBridgeRoute();
 
   return route.data?.result &&
@@ -15,4 +12,9 @@ export const useInitiatingChainId = () => {
     isRouteTransactionStep(route.data.result.steps[0])
     ? parseInt(route.data.result.steps[0].chainId)
     : null;
+};
+
+export const useInitiatingChain = () => {
+  const chainId = useInitiatingChainId();
+  return useChain(chainId);
 };

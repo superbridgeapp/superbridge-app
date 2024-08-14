@@ -93,10 +93,6 @@ export const buildPendingTx = (
     return b;
   }
 
-  if (!deployment) {
-    return null;
-  }
-
   if (provider === RouteProvider.Cctp) {
     const b: CctpBridgeDto = {
       id: Math.random().toString(),
@@ -107,14 +103,19 @@ export const buildPendingTx = (
       createdAt: new Date().toString(),
       updatedAt: new Date().toString(),
       amount: weiAmount.toString(),
-      deploymentId: deployment.id,
       from,
       to,
+      fromChainId: from.id,
+      toChainId: to.id,
       type: "cctp-bridge",
       relay: undefined,
-      token: fromToken!.address,
+      token: fromToken.address,
     };
     return b;
+  }
+
+  if (!deployment) {
+    return null;
   }
 
   const metadata = isEth(fromToken)

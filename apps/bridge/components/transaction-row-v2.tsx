@@ -7,6 +7,8 @@ import {
   TransactionStatus,
 } from "@/codegen/model";
 import { ArbitrumMessageStatus } from "@/constants/arbitrum-message-status";
+import { useFinalisingTx } from "@/hooks/activity/use-finalising-tx";
+import { useInitiatingTx } from "@/hooks/activity/use-initiating-tx";
 import { useTxAmount } from "@/hooks/activity/use-tx-amount";
 import { useTxDeployment } from "@/hooks/activity/use-tx-deployment";
 import { useTxFromTo } from "@/hooks/activity/use-tx-from-to";
@@ -23,11 +25,9 @@ import {
   isArbitrumWithdrawal,
   isCctpBridge,
   isDeposit,
-  isForcedWithdrawal,
   isHyperlaneBridge,
   isOptimismForcedWithdrawal,
   isOptimismWithdrawal,
-  isWithdrawal,
 } from "@/utils/guards";
 
 import { MessageStatus } from "../constants";
@@ -69,7 +69,7 @@ const useNextStateChangeTimestamp = (tx: Transaction) => {
     return null;
   }
 
-  if (isConfirmed(initiatingTx)) {
+  if (initiatingTx && isConfirmed(initiatingTx)) {
     return {
       timestamp: initiatingTx.timestamp + tx.duration,
       description: "",
@@ -173,26 +173,6 @@ const isConfirmed = (
   return !!(tx as ConfirmationDto).timestamp;
 };
 
-const useInitiatingTx = (
-  tx: Transaction
-): PendingConfirmationDto | ConfirmationDto | ConfirmationDtoV2 => {
-  if (isAcrossBridge(tx)) return tx.deposit;
-  if (isHyperlaneBridge(tx)) return tx.send;
-  if (isDeposit(tx)) return tx.deposit;
-  if (isWithdrawal(tx)) return tx.withdrawal;
-  if (isForcedWithdrawal(tx)) return tx.deposit.deposit;
-  return tx.bridge;
-};
-
-const useFinalisingTx = (tx: Transaction) => {
-  if (isAcrossBridge(tx)) return tx.fill;
-  if (isHyperlaneBridge(tx)) return tx.receive;
-  if (isDeposit(tx)) return tx.relay;
-  if (isWithdrawal(tx)) return tx.finalise;
-  if (isForcedWithdrawal(tx)) return tx.withdrawal?.finalise;
-  return tx.relay;
-};
-
 const useIsSuccessfulBridge = (tx: Transaction) => {
   const finalTx = useFinalisingTx(tx);
   return finalTx?.status === TransactionStatus.confirmed;
@@ -217,8 +197,8 @@ const useAction = (tx: Transaction) => {
     return status === MessageStatus.READY_TO_PROVE
       ? "prove"
       : status === MessageStatus.READY_FOR_RELAY
-      ? "finalize"
-      : null;
+        ? "finalize"
+        : null;
   }
 
   if (isArbitrumWithdrawal(tx)) {
@@ -240,8 +220,8 @@ const useProgressBars = (
   const proveTx = isOptimismWithdrawal(tx)
     ? tx.prove
     : isOptimismForcedWithdrawal(tx)
-    ? tx.withdrawal?.prove
-    : null;
+      ? tx.withdrawal?.prove
+      : null;
   const pendingProves = usePendingTransactions.usePendingProves();
   const pendingFinalises = usePendingTransactions.usePendingFinalises();
 
@@ -249,7 +229,7 @@ const useProgressBars = (
     status: "done" | "in-progress" | "not-started";
     name: string;
   }[] = [];
-  if (isConfirmed(initiatingTx)) {
+  if (initiatingTx && isConfirmed(initiatingTx)) {
     bars.push({ status: "done", name: "initiating" });
   } else {
     bars.push({ status: "in-progress", name: "initiating" });
@@ -258,7 +238,7 @@ const useProgressBars = (
   if (isOptimismWithdrawal(tx) || isOptimismForcedWithdrawal(tx)) {
     if (proveTx) {
       bars.push({ status: "done", name: "prove" });
-    } else if (!isConfirmed(initiatingTx)) {
+    } else if (initiatingTx && !isConfirmed(initiatingTx)) {
       bars.push({ status: "not-started", name: "prove" });
     } else {
       bars.push({ status: "in-progress", name: "prove" });
@@ -275,7 +255,7 @@ const useProgressBars = (
     return bars;
   }
 
-  if (!isConfirmed(initiatingTx)) {
+  if (initiatingTx && !isConfirmed(initiatingTx)) {
     bars.push({ status: "not-started", name: "finalise" });
   } else if (finalisingTx) {
     bars.push({ status: "done", name: "finalise" });
