@@ -6,9 +6,7 @@ import { GetHyperlaneActivityDto } from "@/codegen/model";
 import { useAllTokens } from "../tokens";
 import { useHyperlaneMailboxes } from "./use-hyperlane-mailboxes";
 
-export const useHyperlaneActivityRequest = ():
-  | GetHyperlaneActivityDto
-  | undefined => {
+export const useHyperlaneActivityRequest = (): GetHyperlaneActivityDto => {
   const mailboxes = useHyperlaneMailboxes();
   const tokens = useAllTokens();
 

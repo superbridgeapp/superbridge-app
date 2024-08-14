@@ -2,23 +2,22 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { useAccount } from "wagmi";
 
-import { bridgeControllerGetActivityV3 } from "@/codegen";
+import { bridgeControllerGetActivityV4 } from "@/codegen";
 import { ActivityV3Dto } from "@/codegen/model";
 import { useInjectedStore } from "@/state/injected";
 
-import { useIsSuperbridge } from "./apps/use-is-superbridge";
 import { useDeployments } from "./deployments/use-deployments";
 import { useHyperlaneActivityRequest } from "./hyperlane/use-hyperlane-activity-request";
 
 export const useTransactions = () => {
   const account = useAccount();
   const deployments = useDeployments();
-  const isSuperbridge = useIsSuperbridge();
   const hyperlane = useHyperlaneActivityRequest();
-
   const superbridgeTestnetsEnabled = useInjectedStore(
     (s) => s.superbridgeTestnets
   );
+  const acrossDomains = useInjectedStore((s) => s.acrossDomains);
+  const cctpDomains = useInjectedStore((s) => s.cctpDomains);
 
   const address = account.address;
   const { data, isLoading, isFetchingNextPage, isError, fetchNextPage } =
@@ -27,8 +26,10 @@ export const useTransactions = () => {
         "activity",
         address,
         deployments.map((x) => x.id),
-        hyperlane?.mailboxIds,
-        hyperlane?.routers,
+        acrossDomains.map((x) => x.id),
+        cctpDomains.map((x) => x.id),
+        hyperlane.mailboxIds,
+        hyperlane.routers,
         superbridgeTestnetsEnabled,
       ],
       queryFn: async ({ pageParam }) => {
@@ -42,9 +43,10 @@ export const useTransactions = () => {
           };
         }
 
-        return await bridgeControllerGetActivityV3({
+        return await bridgeControllerGetActivityV4({
           address,
-          includeAcross: isSuperbridge && !superbridgeTestnetsEnabled,
+          acrossDomains: acrossDomains.map((x) => x.id),
+          cctpDomains: cctpDomains.map((x) => x.id),
           deploymentIds: deployments.map((d) => d.id),
           cursor: pageParam || null,
           hyperlane,
