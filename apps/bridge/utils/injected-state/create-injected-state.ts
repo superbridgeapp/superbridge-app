@@ -12,18 +12,12 @@ export const createInjectedState = (props: {
 }): InjectedState => {
   const { dto, host } = props;
 
-  console.time("parseApp");
   const app = parseApp(props);
-  console.timeEnd("parseApp");
-  console.time("parseInjectedChainIds");
   const { fromChainId, toChainId } = parseInjectedChainIds(props);
-  console.timeEnd("parseInjectedChainIds");
-  console.time("parseSuperbridgeTestnets");
   const superbridgeTestnets = parseSuperbridgeTestnets(
     { fromChainId, toChainId },
     props
   );
-  console.timeEnd("parseSuperbridgeTestnets");
 
   return {
     acrossDomains: dto?.acrossDomains ?? [],

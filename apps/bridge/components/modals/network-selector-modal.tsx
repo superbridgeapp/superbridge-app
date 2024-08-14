@@ -4,6 +4,7 @@ import Image from "next/image";
 
 import { ChainDto } from "@/codegen/model";
 import { cardThemes } from "@/config/card-themes";
+import { useSortedChains } from "@/hooks/network-selector/sort";
 import { usePossibleFromChains } from "@/hooks/network-selector/use-possible-from-chains";
 import { useGetPossibleToChains } from "@/hooks/network-selector/use-possible-to-chains";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
@@ -11,7 +12,7 @@ import { useTrackEvent } from "@/services/ga";
 import { useConfigState } from "@/state/config";
 import { useInjectedStore } from "@/state/injected";
 
-import { IconArrowUpCircle, IconClose } from "../icons";
+import { IconClose } from "../icons";
 import { NetworkIcon } from "../network-icon";
 
 // Animations
@@ -79,8 +80,9 @@ export const NetworkSelector = () => {
   const possibleFrom = usePossibleFromChains();
   const getPossibleTo = useGetPossibleToChains();
 
-  const availableChains =
-    networkSelectorDirection === "from" ? possibleFrom : getPossibleTo(from);
+  const availableChains = useSortedChains(
+    networkSelectorDirection === "from" ? possibleFrom : getPossibleTo(from)
+  );
 
   const onSelect = (chain: ChainDto) => {
     if (networkSelectorDirection === "from") {
