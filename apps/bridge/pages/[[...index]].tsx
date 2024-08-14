@@ -34,7 +34,7 @@ import { ThemeProvider } from "@/state/theme";
 export const getServerSideProps = async ({
   req,
 }: GetServerSidePropsContext) => {
-  const ignored = ["favicon", "locales", "_vercel", "_next"];
+  const ignored = ["favicon", "locales", "_vercel", "_next", ".png"];
   if (
     !req.url ||
     !req.headers.host ||
