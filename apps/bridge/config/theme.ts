@@ -714,6 +714,15 @@ const garnetTheme: Theme = {
   },
 };
 
+const snaxTheme: Theme = {
+  ...defaultTheme,
+  iconSrc: "/img/garnet/icon.svg",
+  card: {
+    className: "bg-[#A91F2F]",
+    title: "text-white",
+  },
+};
+
 export const themes: { [name: string]: Theme | undefined } = {
   ["base"]: baseTheme,
   ["base-sepolia"]: baseTheme,
@@ -773,6 +782,8 @@ export const themes: { [name: string]: Theme | undefined } = {
   ["celo-testnet"]: celoTheme,
   ["swan-chain"]: swanTheme,
   ["shape-testnet"]: shapeTheme,
+  ["snaxchain-mainnet"]: snaxTheme,
+  ["snaxchain-testnet"]: snaxTheme,
 };
 
 export const deploymentTheme = (
