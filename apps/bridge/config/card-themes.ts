@@ -1,4 +1,3 @@
-import { title } from "process";
 import {
   ancient8,
   arbitrum,
@@ -7,6 +6,7 @@ import {
   baseSepolia,
   blast,
   bsc,
+  celo,
   cyber,
   fraxtal,
   fraxtalTestnet,
@@ -22,39 +22,11 @@ import {
   polygon,
   redstone,
   scroll,
+  sepolia,
   zora,
 } from "viem/chains";
 
-// import { DeploymentDto } from "@/codegen/model";
 import { Theme } from "@/types/theme";
-
-// const defaultTheme = {
-//   bg: "bg-zinc-50 dark:bg-black/70",
-//   bgMuted: "bg-zinc-100 dark:bg-white/10",
-//   border: "border-zinc-100 dark:border-white/10",
-//   accentBg:
-//     "bg-zinc-900 hover:bg-zinc-950 dark:bg-zinc-50 dark:hover:bg-zinc-100",
-//   accentText: "text-zinc-50 dark:text-zinc-900",
-//   screenBg: "bg-zinc-100 dark:bg-zinc-900 ",
-//   card: {
-//     className: "bg-violet-500",
-//     overlay: {
-//       className:
-//         "bg-gradient-to-t from-zinc-950 via-zinc-950/0 to-zinc-950/0 mix-blend-multiply opacity-10",
-//     },
-//   },
-//   screenBgImg:
-//     "bg-gradient-to-t from-violet-500 via-violet-500/0 to-violet-500/0 mix-blend-lighter opacity-50",
-//   fill: "fill-zinc-300 dark:fill-white/20",
-//   textColor: "text-zinc-900 dark:text-zinc-50",
-//   textColorMuted: "text-zinc-400",
-//   logoSrc: "/img/icon-placeholder.svg",
-//   logoSrcDark: "/img/icon-placeholder.svg",
-//   logoWidth: 42,
-//   logoHeight: 42,
-//   icon: "/img/icon-placeholder.svg",
-//   navicon: "/img/icon.svg",
-// };
 
 const baseTheme = {
   icon: "/img/base/icon.svg",
@@ -172,62 +144,11 @@ const arbitrumOneTheme = {
   },
 };
 
-const arbitrumNovaTheme = {
-  icon: "/img/arbitrum-nova/icon.svg",
-  card: {
-    className: "bg-[#E57410]",
-    overlay: {
-      image: "/img/arbitrum-nova/bg.png",
-      className: "bg-cover bg-center mix-blend-overlay opacity-30",
-    },
-  },
-};
-
-const frameTheme = {
-  icon: "/img/frame/icon.svg",
-  bg: "bg-zinc-50 dark:bg-black/80",
-  card: {
-    className: "bg-gradient-to-t from-[#FE7822] to-[#FCB72A]",
-  },
-};
-
-const apeTheme = {
-  icon: "/img/icon-apechain.svg",
-  card: {
-    className: "bg-[#0250E8]",
-  },
-};
-
-const rolluxTheme = {
-  icon: "/img/rollux/network.svg",
-  card: {
-    className: "bg-[#DBEF88]",
-    overlay: {
-      className:
-        "bg-gradient-to-b from-[#DBEF88] via-[#DBEF88]  to-[#EACF5E]  opacity-100",
-    },
-  },
-};
-
 const redstoneTheme = {
   icon: "/img/redstone-mainnet/icon.svg",
   card: {
     className: "bg-[#F34242]",
     title: "text-white",
-  },
-};
-
-const orb3 = {
-  icon: "/img/orb3-mainnet/icon.svg",
-  card: {
-    className: "bg-zinc-950",
-  },
-};
-
-const parallel = {
-  icon: "/img/parallel/icon.svg",
-  card: {
-    className: "bg-black",
   },
 };
 
@@ -247,13 +168,6 @@ const lumioTheme = {
   },
 };
 
-const stackTheme = {
-  icon: "/img/stack-mainnet/icon.svg",
-  card: {
-    className: "bg-gradient-to-b from-[#13151A] to-[#000000] ",
-  },
-};
-
 const metalTheme = {
   icon: "/img/metal-mainnet/icon.svg",
   card: {
@@ -266,20 +180,6 @@ const metalTheme = {
   },
 };
 
-const campTheme = {
-  icon: "/img/camp-mainnet/icon.svg",
-  card: {
-    className: "bg-[#111111]",
-  },
-};
-
-const cliqueTheme = {
-  icon: "/img/clique-mainnet/icon.svg",
-  card: {
-    className: "bg-gradient-to-b from-[#23B2EF] to-[#0049C6] ",
-  },
-};
-
 const fraxTheme = {
   icon: "/img/frax-mainnet/icon.svg",
   card: {
@@ -288,25 +188,11 @@ const fraxTheme = {
   },
 };
 
-const ebiTheme = {
-  icon: "/img/ebi-mainnet/icon.svg",
-  card: {
-    className: "bg-gradient-to-b from-[#FF8000] to-[#FF0079]",
-  },
-};
-
 const mintTheme = {
   icon: "/img/mint-mainnet/icon.svg",
   card: {
     className: "bg-[#30BF54]",
     title: "text-white",
-  },
-};
-
-const superseedTheme = {
-  icon: "/img/superseed-mainnet/icon.svg",
-  card: {
-    className: "bg-[#0B0B0A]",
   },
 };
 
@@ -433,78 +319,6 @@ const shapeTheme = {
   },
 };
 
-// export const themes: { [name: string]| undefined } = {
-//   ["base"]: baseTheme,
-//   ["base-sepolia"]: baseTheme,
-//   ["optimism"]: optimismTheme,
-//   ["optimism-testnet"]: optimismTheme,
-//   ["op-sepolia"]: optimismTheme,
-//   ["arbitrum-goerli"]: arbitrumOneTheme,
-//   ["arbitrum-one"]: arbitrumOneTheme,
-//   ["arbitrum-nova"]: arbitrumNovaTheme,
-//   ["frame-testnet"]: frameTheme,
-//   ["frame"]: frameTheme,
-//   ["zora"]: zoraTheme,
-//   ["zora-sepolia-0thyhxtf5e"]: zoraTheme,
-//   ["aevo"]: aevoTheme,
-//   ["kroma"]: kromaTheme,
-//   pgn: pgnTheme,
-//   "pgn-sepolia-i4td3ji6i0": pgnTheme,
-//   mode: modeTheme,
-//   "mode-sepolia-vtnhnpim72": modeTheme,
-//   lyra: lyraTheme,
-//   orderly: orderlyTheme,
-//   "orderly-l2-4460-sepolia-8tc3sd7dvy": orderlyTheme,
-//   ancient8: ancient8Theme,
-//   ["uniswap-v4-hook-sandbox-6tl5qq8i4d"]: uniswapTheme,
-//   ["apechain-test-qbuapbatak"]: apeTheme,
-//   rollux: rolluxTheme,
-//   ["redstone-mainnet"]: redstoneTheme,
-//   ["lattice-testnet"]: redstoneTheme,
-//   ["orb3-mainnet"]: orb3,
-//   parallel,
-//   ["parallel-chain-oqwzakghzt"]: parallel,
-//   ["surprised-harlequin-bonobo-fvcy2k9oqh"]: parallel,
-//   ["accused-coffee-koala-b9fn1dik76"]: parallel,
-//   ["lisk-mainnet"]: liskTheme,
-//   ["lisk-sepolia"]: liskTheme,
-//   ["lumio-mainnet"]: lumioTheme,
-//   ["stack-mainnet"]: stackTheme,
-//   ["stack-testnet-p776aut4wc"]: stackTheme,
-//   ["metal-mainnet"]: metalTheme,
-//   ["metal-mainnet-0"]: metalTheme,
-//   ["metal-l2-testnet-3bbzi9kufn"]: metalTheme,
-//   ["camp-network-4xje7wy105"]: campTheme,
-//   ["clique-mainnet"]: cliqueTheme,
-//   ["fraxtal-mainnet-l2"]: fraxTheme,
-//   ["fraxtal-testnet-l2"]: fraxTheme,
-//   ["test-figaro-cuqjfe7wkd"]: ebiTheme,
-//   ["grubby-red-rodent-a6u9rz8x70"]: ebiTheme,
-//   ["ebi-mainnet"]: ebiTheme,
-//   ["mint-sepolia-testnet-ijtsrc4ffq"]: mintTheme,
-//   ["mint-mainnet-0"]: mintTheme,
-//   ["worldchain-mainnet"]: worldchainTheme,
-//   ["sepolia-superseed-826s35710w"]: superseedTheme,
-//   ["cyber-mainnet"]: cyberTheme,
-//   ["cyber-testnet"]: cyberTheme,
-//   ["xterio-chain-eth"]: xterioTheme,
-//   ["xterio-eth-testnet"]: xterioTheme,
-//   ["celo-testnet"]: celoTheme,
-// };
-
-// export const deploymentTheme = (
-//   deployment: DeploymentDto | Pick<DeploymentDto, "name"> | null
-// ) => {
-//   if (deployment && themes[deployment.name]) {
-//     return themes[deployment.name];
-//   }
-
-//   return {
-//     // @ts-expect-error
-//     ...deployment?.theme?.theme,
-//   };
-// };
-
 export const cardThemes: {
   [chainId: string]: { card: Theme["card"]; icon: string } | undefined;
 } = {
@@ -512,7 +326,6 @@ export const cardThemes: {
   [baseSepolia.id]: baseTheme,
   [optimism.id]: optimismTheme,
   [optimismSepolia.id]: optimismTheme,
-
   [arbitrum.id]: arbitrumOneTheme,
   [mode.id]: modeTheme,
   [fraxtal.id]: fraxTheme,
@@ -525,6 +338,7 @@ export const cardThemes: {
   [ancient8.id]: ancient8Theme,
   // ethereum
   [mainnet.id]: ethereumTheme,
+  [sepolia.id]: ethereumTheme,
   [polygon.id]: polygonTheme,
   [avalanche.id]: avalancheTheme,
   [scroll.id]: scrollTheme,
@@ -542,4 +356,5 @@ export const cardThemes: {
   [291]: orderlyTheme,
   [4460]: orderlyTheme,
   [cyber.id]: cyberTheme,
+  [celo.id]: celoTheme,
 };
