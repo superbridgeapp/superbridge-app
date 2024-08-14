@@ -1,12 +1,11 @@
+import clsx from "clsx";
 import Link from "next/link";
 
-import { RouteProvider } from "@/codegen/model";
 import {
-  IconGas,
-  IconSB,
+  IconFees,
+  IconSimpleFees,
   IconSimpleGas,
   IconSimpleTime,
-  IconTime,
   IconVia,
 } from "@/components/icons";
 import { NetworkIcon } from "@/components/network-icon";
@@ -22,12 +21,14 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Skeleton } from "@/components/ui/skeleton";
+import { ModalNames } from "@/constants/modal-names";
 import { useSelectedBridgeRoute } from "@/hooks/routes/use-selected-bridge-route";
 import {
   useDestinationToken,
   useSelectedToken,
 } from "@/hooks/tokens/use-token";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
+import { useFeesForRoute } from "@/hooks/use-fees";
 import { useNetworkFee } from "@/hooks/use-network-fee";
 import { usePeriodText } from "@/hooks/use-period-text";
 import { useReceiveAmount } from "@/hooks/use-receive-amount";
@@ -44,9 +45,11 @@ export const ConfirmationModalReviewTab = ({
   const selectedToken = useSelectedToken();
   const destinationToken = useDestinationToken();
   const rawAmount = useConfigState.useRawAmount();
+  const addModal = useConfigState.useAddModal();
 
   const networkFee = useNetworkFee();
   const route = useSelectedBridgeRoute();
+  const fees = useFeesForRoute(route);
 
   const receive = useReceiveAmount();
 
@@ -157,7 +160,6 @@ export const ConfirmationModalReviewTab = ({
             </div>
           </div>
 
-          {/* TODO: is this all fees or just to initiate */}
           {/* Row 3 */}
           <div className="flex items-start gap-4 p-3 justify-between">
             <div className="flex items-center justify-between">
@@ -175,6 +177,52 @@ export const ConfirmationModalReviewTab = ({
                     networkFee.data?.token.formatted}
                 </span>
               )}
+            </div>
+          </div>
+
+          {/* Row 4 */}
+          <div className="flex items-start gap-4 p-3 justify-between">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <IconFees className="w-4 h-auto fill-muted-foreground" />
+                <span>Fees</span>
+              </div>
+            </div>
+            <div className="flex items-center justify-between">
+              <div
+                className={clsx(
+                  fees.data?.totals.token === 0
+                    ? "bg-primary rounded-full py-0.5 pl-0.5 pr-1.5"
+                    : "bg-transparent",
+                  "flex gap-1 items-center",
+                  fees.data?.totals.token !== 0 && "cursor-pointer"
+                )}
+                onClick={() =>
+                  fees.data?.totals.token !== 0
+                    ? addModal(ModalNames.FeeBreakdown)
+                    : null
+                }
+              >
+                <IconSimpleFees
+                  className={clsx(
+                    fees.data?.totals.token === 0
+                      ? "fill-primary-foreground"
+                      : "fill-muted-foreground",
+                    "h-3 w-auto"
+                  )}
+                />
+                {fees.data?.totals.token === 0 ? (
+                  <span className="text-xs leading-none text-primary-foreground">
+                    0 fees
+                  </span>
+                ) : (
+                  <span className="text-xs leading-none text-muted-foreground">
+                    {fees.data?.totals.fiatFormatted ??
+                      fees.data?.totals.tokenFormatted}{" "}
+                    Fee
+                  </span>
+                )}
+              </div>
             </div>
           </div>
         </div>
