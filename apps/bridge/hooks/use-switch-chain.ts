@@ -9,6 +9,7 @@ export const useSwitchChain = () => {
   return async (chain: Chain | ChainDto) => {
     try {
       await wallet.data?.switchChain(chain);
+      await new Promise((resolve) => setTimeout(resolve, 500));
     } catch (e: any) {
       if (e.message.includes("Unrecognized chain ID")) {
         const nativeCurrency = { ...chain.nativeCurrency };
@@ -22,6 +23,7 @@ export const useSwitchChain = () => {
         const chain_ = { ...chain, nativeCurrency } as Chain;
 
         await wallet.data?.addChain({ chain: chain_ });
+        await new Promise((resolve) => setTimeout(resolve, 1000));
       }
     }
   };

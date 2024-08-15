@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { formatDistanceToNow } from "date-fns";
+import { formatDistanceToNowStrict } from "date-fns";
 
 import {
   ConfirmationDto,
@@ -70,9 +70,15 @@ const useNextStateChangeTimestamp = (tx: Transaction) => {
   }
 
   if (initiatingTx && isConfirmed(initiatingTx)) {
+    let description = "";
+
+    if (isArbitrumWithdrawal(tx)) {
+      description = "In challenge period";
+    }
+
     return {
       timestamp: initiatingTx.timestamp + tx.duration,
-      description: "",
+      description,
     };
   }
 
@@ -152,9 +158,12 @@ const ActionRow = ({ tx }: { tx: Transaction }) => {
       )}
 
       {isWaitStatus(status) && status.timestamp > Date.now() && (
-        <div className="bg-muted rounded-full flex items-center gap-2 p-2 pl-3">
+        <div
+          className="bg-muted rounded-full flex items-center gap-2 p-2 pl-3 cursor-pointer"
+          onClick={() => setActivityId(tx.id)}
+        >
           <span className="text-xs lg:text-sm text-muted-foreground">
-            ~{formatDistanceToNow((status as any).timestamp)}
+            ~{formatDistanceToNowStrict((status as any).timestamp)} to go
           </span>
           <IconSimpleTime className="w-6 h-6 fill-foreground animate-wiggle-waggle" />
         </div>
@@ -287,10 +296,6 @@ export const TransactionRowV2 = ({ tx }: { tx: Transaction }) => {
       key={tx.id}
       onClick={(e) => e.stopPropagation()}
     >
-      {/* <div className="flex items-center gap-3">
-          <span>Route:</span>
-          <RouteProviderIcon provider={provider} />
-        </div> */}
       <TokenIcon
         token={token ?? null}
         className="h-10 w-10 lg:h-12 lg:w-12 shrink-0"
@@ -300,7 +305,9 @@ export const TransactionRowV2 = ({ tx }: { tx: Transaction }) => {
           <div className="flex flex-col gap-1 lg:gap-2">
             <span className="text-xs lg:text-sm text-muted-foreground leading-none">
               Started{" "}
-              {timestamp ? `${formatDistanceToNow(timestamp)} ago` : "just now"}
+              {timestamp
+                ? `~${formatDistanceToNowStrict(timestamp)} ago`
+                : "just now"}
             </span>
             <span className="text-2xl lg:text-3xl leading-none">{amount}</span>
           </div>
