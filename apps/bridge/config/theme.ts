@@ -15,6 +15,7 @@ import {
   optimism,
   optimismSepolia,
   pgn,
+  redstone,
   rollux,
   sepolia,
   syscoin,
@@ -49,6 +50,7 @@ export const chainIcons: { [chainId: number]: string | undefined } = {
   [bsc.id]: "/img/bsc/network.png",
   [bscTestnet.id]: "/img/bsc/network.png",
   [lisk.id]: "/img/lisk-mainnet/network.png",
+  [redstone.id]: "/img/redstone-mainnet/network.svg",
 };
 
 const defaultTheme: Theme = {
