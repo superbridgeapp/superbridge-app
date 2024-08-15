@@ -156,7 +156,7 @@ export const CustomTokenListModal = () => {
               {t("customTokenLists.disclaimer", { app: metadata.head.name })}{" "}
               <a
                 target="_blank"
-                href="https://docs.rollbridge.app/custom-tokens"
+                href="https://docs.superbridge.app/custom-tokens"
               >
                 {t("customTokenLists.learnMore")}
               </a>
