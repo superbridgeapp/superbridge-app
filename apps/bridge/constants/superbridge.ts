@@ -35,5 +35,5 @@ export const SUPERCHAIN_TESTNETS = [
   "xterio-eth-testnet",
   "celo-testnet",
   "shape-testnet",
-  "snaxchain-testnet",
+  // "snaxchain-testnet",
 ];
