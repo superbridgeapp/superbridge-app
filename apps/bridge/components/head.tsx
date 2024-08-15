@@ -61,6 +61,7 @@ export function Head({ deployment }: { deployment?: DeploymentDto | null }) {
   return (
     <NextHead>
       <title>{metadata.title}</title>
+
       <meta name="title" content={metadata.title} />
       <meta property="og:title" content={metadata.title} />
       <meta name="description" content={metadata.description} />
@@ -76,7 +77,10 @@ export function Head({ deployment }: { deployment?: DeploymentDto | null }) {
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={metadata.title} />
       <meta name="twitter:description" content={metadata.description} />
-
+      <meta
+        name="viewport"
+        content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"
+      />
       <link rel="shortcut icon" href={icon} />
       <link rel="icon" href={icon} />
       <link rel="apple-touch-icon" href={icon} />
