@@ -24,6 +24,7 @@ import { useWeiAmount } from "@/hooks/use-wei-amount";
 import { useIsWithdrawal } from "@/hooks/use-withdrawing";
 import { useConfigState } from "@/state/config";
 import { formatDecimals } from "@/utils/format-decimals";
+import { isRouteQuote } from "@/utils/guards";
 import { deadAddress, isEth } from "@/utils/tokens/is-eth";
 
 import { Button } from "./ui/button";
@@ -109,6 +110,7 @@ export const BridgeButton = () => {
     bridgeMin,
     disabled,
     routeLoading: route.isLoading,
+    validRoute: route.data && isRouteQuote(route.data.result),
     // we allow pulling quotes with no connected wallet, but
     // don't want to allow sending said quote
     zeroRouteAddress:
@@ -146,9 +148,9 @@ export const BridgeButton = () => {
       buttonText: t("connectWallet"),
       disabled: false,
     }))
-    .with({ recipient: "" }, ({ withdrawing }) => ({
+    .with({ recipient: "" }, () => ({
       onSubmit: () => {},
-      buttonText: withdrawing ? t("withdraw") : t("deposit"),
+      buttonText: t("reviewBridge"),
       disabled: true,
     }))
     .with({ weiAmount: BigInt("0") }, () => ({
@@ -199,7 +201,7 @@ export const BridgeButton = () => {
     .otherwise((d) => ({
       onSubmit: handleSubmitClick,
       buttonText: t("reviewBridge"),
-      disabled: d.routeLoading || d.zeroRouteAddress ? true : false,
+      disabled: d.routeLoading || d.zeroRouteAddress || !d.validRoute,
     }));
 
   return (
