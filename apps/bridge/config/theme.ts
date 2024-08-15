@@ -716,9 +716,9 @@ const garnetTheme: Theme = {
 
 const snaxTheme: Theme = {
   ...defaultTheme,
-  iconSrc: "/img/garnet/icon.svg",
+  iconSrc: "/img/snax/icon.svg",
   card: {
-    className: "bg-[#A91F2F]",
+    className: "bg-gradient-to-b from-[#06061B] to-[#170C34]",
     title: "text-white",
   },
 };
