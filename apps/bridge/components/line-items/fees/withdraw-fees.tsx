@@ -82,7 +82,7 @@ export const WithdrawFees = () => {
               <span
                 className={clsx(
                   "text-[11px] md:text-xs",
-                  forceViaL1 ? "text-white" : "text-zinc-400"
+                  forceViaL1 ? "text-white" : "text-muted-foreground"
                 )}
               >
                 Escape Hatch
@@ -91,8 +91,8 @@ export const WithdrawFees = () => {
                 className={clsx(
                   "text-[10px] leading-4 mt-0.5 uppercase",
                   forceViaL1
-                    ? "text-white/60"
-                    : "text-zinc-900/30 dark:text-white/30 uppercase"
+                    ? "text-white/70"
+                    : "text-muted-foreground opacity-50 uppercase"
                 )}
               >
                 {forceViaL1 ? t("on") : t("off")}

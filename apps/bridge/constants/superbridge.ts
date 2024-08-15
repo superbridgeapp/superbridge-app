@@ -16,6 +16,7 @@ export const SUPERCHAIN_MAINNETS = [
   // "kroma",
   "xterio-chain-eth",
   "swan-chain",
+  "snaxchain-mainnet",
 ];
 
 export const SUPERCHAIN_TESTNETS = [
@@ -34,4 +35,5 @@ export const SUPERCHAIN_TESTNETS = [
   "xterio-eth-testnet",
   "celo-testnet",
   "shape-testnet",
+  // "snaxchain-testnet",
 ];

@@ -11,7 +11,7 @@ import { useInjectedStore } from "@/state/injected";
 
 import { BadgeNew } from "./badges/new-badge";
 import { TokenBanner } from "./banners/token-banner";
-import { IconSuperFastSimple } from "./icons";
+import { IconSuperFastSimple, LogoSB, LogoSBsmall } from "./icons";
 
 export function Header() {
   const deployments = useDeployments();
@@ -38,42 +38,8 @@ export function Header() {
           />
         ) : (
           <div className="bg-card rounded-full shadow-sm">
-            <Image
-              src={"/img/logo.svg"}
-              width={0}
-              height={0}
-              sizes="100vw"
-              alt={"Superbridge"}
-              draggable={false}
-              className="rounded-full hidden md:inline-flex dark:md:hidden h-10 w-auto"
-            />
-            <Image
-              src={"/img/logo-dark.svg"}
-              width={0}
-              height={0}
-              sizes="100vw"
-              alt={"Superbridge"}
-              draggable={false}
-              className="rounded-full  hidden md:hidden dark:md:inline-flex h-10 w-auto"
-            />
-            <Image
-              src={"/img/logo-small.svg"}
-              width={0}
-              height={0}
-              sizes="100vw"
-              alt={"Superbridge"}
-              draggable={false}
-              className="rounded-full  md:hidden dark:hidden h-10 w-auto"
-            />
-            <Image
-              src={"/img/logo-small-dark.svg"}
-              width={0}
-              height={0}
-              sizes="100vw"
-              alt={"Superbridge"}
-              draggable={false}
-              className="rounded-full  hidden dark:inline-flex dark:md:hidden h-10 w-auto"
-            />
+            <LogoSB className="rounded-full hidden md:inline-flex h-10 w-auto fill-primary" />
+            <LogoSBsmall className="md:hidden h-10 w-auto fill-primary" />
           </div>
         )}
       </div>
