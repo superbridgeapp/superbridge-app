@@ -21,7 +21,10 @@ export const TokenModal = (props: {
 
   return (
     <Dialog open={props.open} onOpenChange={props.setOpen}>
-      <DialogContent>
+      <DialogContent
+        onOpenAutoFocus={(event: Event) => event.preventDefault()}
+        className="min-h-[96dvh] max-h-[96dvh] md:min-h-[680px] md:max-h-[680px]"
+      >
         {deployment?.supportsNftBridging && (
           <div className="flex justify-between items-center px-4 pt-14 pb-0">
             {/* {nfts ? (
