@@ -11,6 +11,9 @@ interface ConfigState {
   displayConfirmationModal: boolean;
   setDisplayConfirmationModal: (x: boolean) => void;
 
+  submittingBridge: boolean;
+  setSubmittingBridge: (x: boolean) => void;
+
   forceViaL1: boolean;
   toggleForceViaL1: () => void;
   setForceViaL1: (b: boolean) => void;
@@ -78,6 +81,9 @@ const ConfigState = create<ConfigState>()((set, get) => ({
 
   displayTransactions: false,
   setDisplayTransactions: (displayTransactions) => set({ displayTransactions }),
+
+  submittingBridge: false,
+  setSubmittingBridge: (submittingBridge) => set({ submittingBridge }),
 
   displayConfirmationModal: false,
   setDisplayConfirmationModal: (displayConfirmationModal) =>

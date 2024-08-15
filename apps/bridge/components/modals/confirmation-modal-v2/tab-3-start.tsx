@@ -76,6 +76,7 @@ export const ConfirmationModalStartTab = () => {
   const isSuperbridge = useIsSuperbridge();
 
   const currency = useSettingsState.useCurrency();
+  const submitting = useConfigState.useSubmittingBridge();
   const fromToken = useSelectedToken();
   const toToken = useDestinationToken();
   const withdrawing = useIsWithdrawal();
@@ -271,27 +272,21 @@ export const ConfirmationModalStartTab = () => {
         !!deployment &&
         isArbitrum(deployment) &&
         !withdrawing &&
-        !!deployment.arbitrumNativeToken
+        !!deployment.arbitrumNativeToken &&
+        !approvedGasToken
       );
     })(),
-    bridge,
     withdrawing,
+    submitting,
   })
-    .with({ bridge: { isLoading: true } }, (d) => ({
+    .with({ submitting: true }, () => ({
       onSubmit: () => {},
       buttonText: t("bridging"),
       disabled: true,
     }))
-    .with({ needsApprove: true }, (d) => ({
+    .with({ needsApprove: true }, { needsGasTokenApprove: true }, () => ({
       onSubmit: () => {},
       buttonText: t("confirmationModal.initiateBridge"),
-      disabled: true,
-    }))
-    .with({ needsGasTokenApprove: true }, (d) => ({
-      onSubmit: () => {},
-      buttonText: d.withdrawing
-        ? t("confirmationModal.initiateWithdrawal")
-        : t("confirmationModal.initiateDeposit"),
       disabled: true,
     }))
     .otherwise(() => ({
@@ -331,12 +326,12 @@ export const ConfirmationModalStartTab = () => {
                 x.type === RouteStepType.Initiate
                   ? "Start bridge"
                   : x.type === RouteStepType.Prove
-                  ? "Prove"
-                  : x.type === RouteStepType.Finalize
-                  ? "Claim"
-                  : x.type === RouteStepType.Mint
-                  ? "Claim"
-                  : "";
+                    ? "Prove"
+                    : x.type === RouteStepType.Finalize
+                      ? "Claim"
+                      : x.type === RouteStepType.Mint
+                        ? "Claim"
+                        : "";
               const buttonComponent =
                 x.type === RouteStepType.Initiate ? (
                   <Button

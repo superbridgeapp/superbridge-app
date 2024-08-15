@@ -44,6 +44,7 @@ export const useInitiateBridge = () => {
   const forceViaL1 = useConfigState.useForceViaL1();
   const rawAmount = useConfigState.useRawAmount();
   const recipient = useConfigState.useRecipientAddress();
+  const setSubmittingBridge = useConfigState.useSetSubmittingBridge();
   const setPendingBridgeTransactionHash =
     useModalsState.useSetPendingBridgeTransactionHash();
   const addPendingTransaction = usePendingTransactions.useAddTransaction();
@@ -73,14 +74,15 @@ export const useInitiateBridge = () => {
       return;
     }
 
-    if (
-      initiatingChain.id !== account.chainId ||
-      initiatingChain.id !== wallet.data.chain.id
-    ) {
-      await switchChain(initiatingChain);
-    }
-
     try {
+      setSubmittingBridge(true);
+
+      if (
+        initiatingChain.id !== account.chainId ||
+        initiatingChain.id !== wallet.data.chain.id
+      ) {
+        await switchChain(initiatingChain);
+      }
       const hash = await bridge.write!();
       setPendingBridgeTransactionHash(hash);
 
@@ -133,11 +135,16 @@ export const useInitiateBridge = () => {
       });
 
       return hash;
-    } catch (e) {
-      console.log(e);
+    } catch (e: any) {
+      // todo: when something goes wrong we should toast an error
+      if (e.message.includes("rejected")) {
+        return;
+      }
     } finally {
       allowance.refetch();
       gasTokenAllowance.refetch();
+
+      setSubmittingBridge(false);
     }
   };
 };
