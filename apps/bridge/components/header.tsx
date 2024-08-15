@@ -1,9 +1,7 @@
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import Image from "next/image";
 
 import { useIsSuperbridge } from "@/hooks/apps/use-is-superbridge";
 import { useDeployments } from "@/hooks/deployments/use-deployments";
-import { useApp } from "@/hooks/use-metadata";
 import { useNavigate } from "@/hooks/use-navigate";
 import { useNavIcon } from "@/hooks/use-theme";
 
@@ -15,8 +13,6 @@ export function Header() {
   const deployments = useDeployments();
   const navigate = useNavigate();
   const isSuperbridge = useIsSuperbridge();
-  const app = useApp();
-
   const navIcon = useNavIcon();
 
   return (
@@ -27,9 +23,9 @@ export function Header() {
             <SBLockup className="hidden md:inline-flex h-8 w-auto" />
             <SBLockupSmall className="md:hidden h-8 w-auto" />
           </>
-        ) : navIcon ? (
+        ) : (
           <img
-            src={navIcon!}
+            src={navIcon}
             width="0"
             height="0"
             sizes="100vw"
@@ -37,45 +33,6 @@ export function Header() {
             draggable={false}
             className="inline-flex w-auto max-w-40 h-8"
           />
-        ) : (
-          <>
-            <Image
-              src={app.images.logoLight}
-              width={0}
-              height={0}
-              sizes="100vw"
-              alt={`${app.head.name} logo light`}
-              draggable={false}
-              className="dark:hidden h-8 w-auto max-w-40"
-            />
-            <Image
-              src={app.images.logoDark}
-              width={0}
-              height={0}
-              sizes="100vw"
-              alt={`${app.head.name} logo dark`}
-              draggable={false}
-              className="dark:inline-flex hidden h-8 w-auto max-w-40"
-            />
-            {/* <Image
-              src={app.images.logoLightSmall}
-              width={0}
-              height={0}
-              sizes="100vw"
-              alt={`${app.head.name} logo light small`}
-              draggable={false}
-              className="rounded-full  md:hidden dark:hidden h-10 w-auto"
-            />
-            <Image
-              src={app.images.logoDarkSmall}
-              width={0}
-              height={0}
-              sizes="100vw"
-              alt={`${app.head.name} logo dark small`}
-              draggable={false}
-              className="rounded-full hidden dark:inline-flex dark:md:hidden h-10 w-auto"
-            /> */}
-          </>
         )}
       </div>
 
