@@ -61,7 +61,7 @@ const useNextStateChangeTimestamp = (tx: Transaction) => {
 
     if (withdrawal.prove && status === MessageStatus.IN_CHALLENGE_PERIOD) {
       return {
-        description: "challenge period",
+        description: "Challenge period",
         timestamp: withdrawal.prove.timestamp + withdrawal.finalizeDuration,
       };
     }

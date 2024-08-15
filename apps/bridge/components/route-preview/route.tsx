@@ -6,6 +6,8 @@ import {
   RouteStepTransactionDto,
 } from "@/codegen/model";
 import { ModalNames } from "@/constants/modal-names";
+import { useBridge } from "@/hooks/bridge/use-bridge";
+import { useSelectedBridgeRoute } from "@/hooks/routes/use-selected-bridge-route";
 import {
   useDestinationToken,
   useSelectedToken,
@@ -40,11 +42,21 @@ export const Route = ({
   const getFormattedAmount = useGetFormattedAmount(selectedToken);
   const addModal = useConfigState.useAddModal();
 
+  const bridge = useBridge();
+  const selected = useSelectedBridgeRoute();
+
   const receive = getFormattedAmount(quote.receive);
 
+  const estimate = BigInt(
+    (quote.steps[0] as RouteStepTransactionDto).estimatedGasLimit
+  );
+  let gasLimit = estimate;
+  if (selected.data?.id === provider && bridge.gas) {
+    gasLimit = bridge.gas;
+  }
   const networkFee = useNetworkFeeForGasLimit(
     parseInt((quote.steps[0] as RouteStepTransactionDto).chainId),
-    BigInt((quote.steps[0] as RouteStepTransactionDto).estimatedGasLimit)
+    gasLimit
   );
 
   const route = {

@@ -6,7 +6,7 @@ import { ModalNames } from "@/constants/modal-names";
 import { useActiveTokens } from "@/hooks/tokens";
 import { useIsCustomToken } from "@/hooks/tokens/use-is-custom-token";
 import { useIsCustomTokenFromList } from "@/hooks/tokens/use-is-custom-token-from-list";
-import { useMultichainToken, useSelectedToken } from "@/hooks/tokens/use-token";
+import { useSelectedToken } from "@/hooks/tokens/use-token";
 import { useTokenBalance } from "@/hooks/use-balances";
 import { useGetFormattedAmount } from "@/hooks/use-get-formatted-amount";
 import { useWeiAmount } from "@/hooks/use-wei-amount";
