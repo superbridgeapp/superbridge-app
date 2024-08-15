@@ -11,6 +11,7 @@ const ONE_HOUR = 60 * 60;
 const ONE_DAY = 60 * 60 * 24;
 
 export type Period =
+  | { period: "secs"; value: number }
   | { period: "days"; value: number }
   | { period: "hours"; value: number }
   | { period: "mins"; value: number }
@@ -124,6 +125,8 @@ export const addPeriods = (a: Period, b: Period) => {
   if (b.period === "days") return b;
   if (a.period === "hours") return a;
   if (b.period === "hours") return a;
+  if (a.period === "mins") return a;
+  if (b.period === "mins") return a;
   return a;
 };
 

@@ -70,7 +70,7 @@ export const TransferTimeInfoModal = () => {
                 </span>
               </div>
               <span className="text-xs md:text-sm">
-                15 secs - {transferTime.slice(1)}
+                ~{transferTime.slice(1)}
               </span>
             </div>
           </div>

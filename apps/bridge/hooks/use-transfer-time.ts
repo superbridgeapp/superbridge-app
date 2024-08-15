@@ -12,11 +12,11 @@ export const useFastTransferPeriod = (): Period => {
   const limits = useAcrossLimits();
 
   if (!limits.data) {
-    return { period: "mins", value: 1.5 };
+    return { period: "secs", value: 10 };
   }
 
   if (weiAmount < BigInt(limits.data.maxDepositInstant)) {
-    return { period: "mins", value: 1.5 };
+    return { period: "secs", value: 10 };
   }
 
   if (weiAmount < BigInt(limits.data.maxDepositShortDelay)) {
@@ -37,6 +37,10 @@ export const useTransferTime = () => {
 
   if (!time) {
     return "";
+  }
+
+  if (time?.period === "secs") {
+    return t("transferTimeSeconds", { count: time.value });
   }
 
   if (time?.period === "mins") {
