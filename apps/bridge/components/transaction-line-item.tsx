@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { formatDistanceToNow } from "date-fns";
+import { formatDistanceToNowStrict } from "date-fns";
 
 import {
   IconArrowUpRightCircle,
@@ -45,7 +45,7 @@ export function LineItem({
   tx?: Pick<Transaction, "type">;
 }) {
   if (isWaitStep(step)) {
-    const duration = formatDistanceToNow(Date.now() - step.duration);
+    const duration = formatDistanceToNowStrict(Date.now() - step.duration);
 
     return (
       <div className="flex gap-4 px-3 py-2 rounded-lg justify-start items-center w-full">
@@ -60,7 +60,8 @@ export function LineItem({
             ) : isWaitStepInProgress(step) ? (
               <div className="flex items-center gap-1">
                 <span className="text-xs text-foreground">
-                  ~{formatDistanceToNow(step.startedAt + step.duration)} to go
+                  ~{formatDistanceToNowStrict(step.startedAt + step.duration)}{" "}
+                  to go
                 </span>
                 <IconSpinner className="h-6 w-6" />
               </div>
