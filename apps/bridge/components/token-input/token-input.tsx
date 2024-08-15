@@ -23,7 +23,6 @@ export const TokenInput = () => {
   const token = useSelectedToken();
   const { t } = useTranslation();
   const tokens = useActiveTokens();
-  const stateToken = useMultichainToken();
 
   const rawAmount = useConfigState.useRawAmount();
   const setRawAmount = useConfigState.useSetRawAmount();

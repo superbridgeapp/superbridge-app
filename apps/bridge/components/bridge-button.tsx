@@ -15,8 +15,8 @@ import { useSelectedBridgeRoute } from "@/hooks/routes/use-selected-bridge-route
 import { useSelectedToken } from "@/hooks/tokens/use-token";
 import { useTokenBalance } from "@/hooks/use-balances";
 import { useBaseNativeTokenBalance } from "@/hooks/use-base-native-token-balance";
-import { useChain, useFromChain, useToChain } from "@/hooks/use-chain";
-import { useInitiatingChainId } from "@/hooks/use-initiating-chain-id";
+import { useFromChain, useToChain } from "@/hooks/use-chain";
+import { useInitiatingChain } from "@/hooks/use-initiating-chain-id";
 import { useNativeToken } from "@/hooks/use-native-token";
 import { useNetworkFee } from "@/hooks/use-network-fee";
 import { useRequiredCustomGasTokenBalance } from "@/hooks/use-required-custom-gas-token-balance";
@@ -51,11 +51,10 @@ export const BridgeButton = () => {
   const route = useSelectedBridgeRoute();
   const routeRequest = useRouteRequest();
 
-  const initiatingChainId = useInitiatingChainId();
-  const initiatingChain = useChain(initiatingChainId);
+  const initiatingChain = useInitiatingChain();
   const fromEthBalance = useBalance({
     address: account.address,
-    chainId: initiatingChain?.id,
+    chainId: initiatingChain?.id || from?.id,
   });
   const baseNativeTokenBalance = useBaseNativeTokenBalance();
   const tokenBalance = useTokenBalance(token);
@@ -64,9 +63,9 @@ export const BridgeButton = () => {
 
   const hasInsufficientBalance = weiAmount > tokenBalance.data;
   const hasInsufficientGas = (() => {
-    if (!networkFee.data) return false;
+    if (!networkFee.data || !fromEthBalance.data) return false;
 
-    let availableGasBalance = fromEthBalance.data?.value ?? BigInt(0);
+    let availableGasBalance = fromEthBalance.data.value;
     if (isEth(token)) {
       availableGasBalance = availableGasBalance - weiAmount;
     }

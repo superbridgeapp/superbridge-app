@@ -5,7 +5,7 @@ export const formatDecimals = (x: number | undefined | null) => {
 
   let maximumFractionDigits = 0;
   if (x > 1) {
-    maximumFractionDigits = 2;
+    maximumFractionDigits = 4;
   } else {
     let leadingZeroDecimals = Math.floor(Math.abs(Math.log10(x)));
     if (leadingZeroDecimals === Infinity) {

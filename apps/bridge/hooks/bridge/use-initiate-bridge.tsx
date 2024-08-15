@@ -82,7 +82,9 @@ export const useInitiateBridge = () => {
         initiatingChain.id !== wallet.data.chain.id
       ) {
         await switchChain(initiatingChain);
+        await new Promise((resolve) => setTimeout(resolve, 500));
       }
+
       const hash = await bridge.write!();
       setPendingBridgeTransactionHash(hash);
 
