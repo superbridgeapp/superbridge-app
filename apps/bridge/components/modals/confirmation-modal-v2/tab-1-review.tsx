@@ -13,6 +13,7 @@ import {
   RouteProviderIcon,
   RouteProviderName,
 } from "@/components/route-provider-icon";
+import { TokenIcon } from "@/components/token-icon";
 import { Button } from "@/components/ui/button";
 import {
   DialogDescription,
@@ -88,13 +89,9 @@ export const ConfirmationModalReviewTab = ({
               <span>
                 {rawAmount} {selectedToken?.symbol}
               </span>
-              <img
-                src={selectedToken?.logoURI ?? ""}
-                // width={0}
-                // height={0}
-                // sizes="100vw"
+              <TokenIcon
+                token={selectedToken}
                 className="h-5 w-5 rounded-full"
-                alt={selectedToken?.name ?? ""}
               />
             </div>
           </div>
@@ -117,13 +114,9 @@ export const ConfirmationModalReviewTab = ({
               <span>
                 {receive.data ? <>{receive.data.token.formatted}</> : "…"}
               </span>
-              <img
-                src={destinationToken?.logoURI ?? ""}
-                // width={0}
-                // height={0}
-                // sizes="100vw"
+              <TokenIcon
+                token={destinationToken}
                 className="h-5 w-5 rounded-full"
-                alt={destinationToken?.name ?? ""}
               />
             </div>
           </div>

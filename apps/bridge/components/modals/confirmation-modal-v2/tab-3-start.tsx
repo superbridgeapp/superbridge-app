@@ -201,21 +201,17 @@ export const ConfirmationModalStartTab = () => {
       buttonText: t("confirmationModal.approvingGasToken"),
       disabled: true,
     }))
-    .with({ approved: false }, () => {
-      // this kind of sucks for forced withdrawals, but we do approvals on the from chain for now
-      if (from && account.chainId !== from.id) {
-        return {
-          onSubmit: () => switchChain(from),
-          buttonText: t("confirmationModal.switchToApproveGasToken"),
-          disabled: false,
-        };
-      }
-      return {
-        onSubmit: () => approveGasToken.write(),
-        buttonText: t("confirmationModal.approveGasToken"),
-        disabled: false,
-      };
-    })
+    .with({ approved: false }, () => ({
+      onSubmit: async () => {
+        if (account.chainId !== from?.id) {
+          await switchChain(from!);
+        }
+
+        approveGasToken.write();
+      },
+      buttonText: t("confirmationModal.approveGasToken"),
+      disabled: false,
+    }))
     .with({ approved: true }, () => ({
       onSubmit: () => {},
       buttonText: t("confirmationModal.approvedGasToken"),
@@ -266,7 +262,7 @@ export const ConfirmationModalStartTab = () => {
     .exhaustive();
 
   const initiateButton = match({
-    needsApprove: !isEth(fromToken) && !approved,
+    needsApprove: !isEth(toToken) && !approved,
     needsGasTokenApprove: (() => {
       return (
         !!deployment &&
