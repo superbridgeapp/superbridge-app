@@ -40,6 +40,12 @@ const useNextStateChangeTimestamp = (tx: Transaction) => {
   const initiatingTx = useInitiatingTx(tx);
   const deployment = useTxDeployment(tx);
 
+  if (initiatingTx && !isConfirmed(initiatingTx)) {
+    return {
+      description: "Submitting bridge",
+    };
+  }
+
   if (isOptimismWithdrawal(tx) || isOptimismForcedWithdrawal(tx)) {
     const withdrawal = isOptimismWithdrawal(tx) ? tx : tx.withdrawal;
     const status = isOptimismWithdrawal(tx) ? tx.status : tx.withdrawal?.status;
@@ -87,9 +93,10 @@ const useNextStateChangeTimestamp = (tx: Transaction) => {
 
 type ActionStatus = { description: string; button: string };
 type WaitStatus = { description: string; timestamp: number };
+type GeneralStatus = { description: string };
 type NoStatus = null;
 
-type Status = ActionStatus | WaitStatus | NoStatus;
+type Status = ActionStatus | WaitStatus | NoStatus | GeneralStatus;
 
 const isActionStatus = (x: Status): x is ActionStatus => {
   return !!(x as ActionStatus | NoStatus)?.button;
@@ -99,12 +106,11 @@ const isWaitStatus = (x: Status): x is WaitStatus => {
   return !!(x as WaitStatus | NoStatus)?.timestamp;
 };
 
-const useStatus = (
-  tx: Transaction
-):
-  | { description: string; button: string }
-  | { description: string; timestamp: number }
-  | null => {
+const isGeneralStatus = (x: Status): x is GeneralStatus => {
+  return !!(x as GeneralStatus)?.description;
+};
+
+const useStatus = (tx: Transaction): Status => {
   const action = useAction(tx);
   const chains = useTxFromTo(tx);
   const nextStateChangeTimestamp = useNextStateChangeTimestamp(tx);
@@ -151,13 +157,11 @@ const ActionRow = ({ tx }: { tx: Transaction }) => {
         {status.description}
       </span>
 
-      {isActionStatus(status) && (
+      {isActionStatus(status) ? (
         <Button size={"sm"} onClick={() => setActivityId(tx.id)}>
           {status.button}
         </Button>
-      )}
-
-      {isWaitStatus(status) && status.timestamp > Date.now() && (
+      ) : isWaitStatus(status) && status.timestamp > Date.now() ? (
         <div
           className="bg-muted rounded-full flex items-center gap-2 p-2 pl-3 cursor-pointer"
           onClick={() => setActivityId(tx.id)}
@@ -167,6 +171,16 @@ const ActionRow = ({ tx }: { tx: Transaction }) => {
           </span>
           <IconSimpleTime className="w-6 h-6 fill-foreground animate-wiggle-waggle" />
         </div>
+      ) : (
+        isGeneralStatus(status) && (
+          <Button
+            onClick={() => setActivityId(tx.id)}
+            size={"xs"}
+            variant={"secondary"}
+          >
+            <IconTx className="fill-foreground w-3 h-3 md:w-4 md:h-4" />
+          </Button>
+        )
       )}
     </div>
   );
@@ -342,7 +356,6 @@ export const TransactionRowV2 = ({ tx }: { tx: Transaction }) => {
               <span className="text-xs lg:text-sm">Bridge successful</span>
             </div>
           )}
-          {/* TODO: should this be different depending on  */}
           {isSuccessful && (
             <Button
               onClick={() => openActivityModal(tx.id)}
@@ -350,7 +363,6 @@ export const TransactionRowV2 = ({ tx }: { tx: Transaction }) => {
               variant={"secondary"}
             >
               <IconTx className="fill-foreground w-3 h-3 md:w-4 md:h-4" />
-              <span className="sr-only">View Transactions</span>
             </Button>
           )}
         </div>

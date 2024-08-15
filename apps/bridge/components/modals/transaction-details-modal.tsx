@@ -8,11 +8,12 @@ import { useTxProvider } from "@/hooks/activity/use-tx-provider";
 import { useTxToken } from "@/hooks/activity/use-tx-token";
 import { useTransactions } from "@/hooks/use-transactions";
 import { useModalsState } from "@/state/modals";
+import { usePendingTransactions } from "@/state/pending-txs";
 import { useProgressRows } from "@/utils/progress-rows";
 import { isWaitStep } from "@/utils/progress-rows/common";
 
 import { NetworkIcon } from "../network-icon";
-import { RouteProviderIcon, RouteProviderName } from "../route-provider-icon";
+import { RouteProviderName } from "../route-provider-icon";
 import { TokenIcon } from "../token-icon";
 import { LineItem } from "../transaction-line-item";
 import {
@@ -25,7 +26,11 @@ import {
 
 const useTransactionById = (id: string | null) => {
   const { transactions } = useTransactions();
-  return transactions.find((x) => x.id === id);
+  const pendingTransactions = usePendingTransactions.useTransactions();
+  return (
+    transactions.find((x) => x.id === id) ||
+    pendingTransactions.find((x) => x.id === id)
+  );
 };
 
 const Content = () => {
