@@ -48,10 +48,9 @@ import { useReceiveAmount } from "@/hooks/use-receive-amount";
 import { useRequiredCustomGasTokenBalance } from "@/hooks/use-required-custom-gas-token-balance";
 import { useSwitchChain } from "@/hooks/use-switch-chain";
 import { useWeiAmount } from "@/hooks/use-wei-amount";
-import { useIsWithdrawal } from "@/hooks/use-withdrawing";
+import { useIsArbitrumDeposit, useIsWithdrawal } from "@/hooks/use-withdrawing";
 import { useConfigState } from "@/state/config";
 import { useSettingsState } from "@/state/settings";
-import { isArbitrum } from "@/utils/deployments/is-mainnet";
 import { formatDecimals } from "@/utils/format-decimals";
 import {
   isRouteQuote,
@@ -92,6 +91,7 @@ export const ConfirmationModalStartTab = () => {
   const deployment = useDeployment();
   const customGasToken = useCustomGasTokenAddress(deployment?.id);
   const route = useSelectedBridgeRoute();
+  const isArbitrumDeposit = useIsArbitrumDeposit();
 
   const onSubmitBridge = useSubmitBridge();
 
@@ -185,6 +185,26 @@ export const ConfirmationModalStartTab = () => {
     return gasTokenAllowance.data >= requiredCustomGasTokenBalance;
   })();
 
+  const needsApprove = (() => {
+    if (isEth(fromToken)) return false;
+    if (
+      isArbitrumDeposit &&
+      deployment?.arbitrumNativeToken &&
+      !isEth(toToken)
+    ) {
+      // gets handled by gasTokenApproval
+      return false;
+    }
+    return approved;
+  })();
+  const needsGasTokenApprove = (() => {
+    return (
+      isArbitrumDeposit &&
+      !!deployment?.arbitrumNativeToken &&
+      !approvedGasToken
+    );
+  })();
+
   const approveGasTokenButton = match({
     withdrawing,
     customGasToken,
@@ -262,16 +282,8 @@ export const ConfirmationModalStartTab = () => {
     .exhaustive();
 
   const initiateButton = match({
-    needsApprove: !isEth(toToken) && !approved,
-    needsGasTokenApprove: (() => {
-      return (
-        !!deployment &&
-        isArbitrum(deployment) &&
-        !withdrawing &&
-        !!deployment.arbitrumNativeToken &&
-        !approvedGasToken
-      );
-    })(),
+    needsApprove,
+    needsGasTokenApprove,
     withdrawing,
     submitting,
   })

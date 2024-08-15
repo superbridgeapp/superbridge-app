@@ -38,7 +38,6 @@ export const useSortedChains = (chains: ChainDto[]) => {
         bPriority = 100;
       }
 
-      console.log(a.name, b.name, aPriority, bPriority, bPriority - aPriority);
       return aPriority < bPriority ? -1 : 1;
     });
   }, [chains]);
