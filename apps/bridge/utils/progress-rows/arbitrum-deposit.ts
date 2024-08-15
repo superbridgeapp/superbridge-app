@@ -33,25 +33,25 @@ export const useArbitrumDepositProgressRows = (
         fee: undefined,
       }
     : tx.deposit.timestamp && tx.deposit.timestamp < Date.now() - 1000 * 60 * 60
-    ? {
-        label: "Manual relay required",
-        fee: undefined, // todo
-        button: {
-          type: ButtonComponent.Redeem,
-          enabled: true,
-        },
-        chain: l2,
-        hash: undefined,
-        pendingHash: pendingFinalises[tx.id],
-      }
-    : {
-        label: `Receive ${token?.symbol}`,
-        button: undefined,
-        chain: l2,
-        fee: undefined,
-        hash: undefined,
-        pendingHash: undefined,
-      };
+      ? {
+          label: "Manual relay required",
+          fee: undefined, // todo
+          button: {
+            type: ButtonComponent.Redeem,
+            enabled: true,
+          },
+          chain: l2,
+          hash: undefined,
+          pendingHash: pendingFinalises[tx.id],
+        }
+      : {
+          label: `Receive ${token?.symbol}`,
+          button: undefined,
+          chain: l2,
+          fee: undefined,
+          hash: undefined,
+          pendingHash: undefined,
+        };
 
   return [
     {
