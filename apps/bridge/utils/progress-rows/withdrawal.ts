@@ -2,6 +2,7 @@ import { useTranslation } from "react-i18next";
 
 import { DeploymentDto } from "@/codegen/model";
 import { FINALIZE_GAS, PROVE_GAS } from "@/constants/gas-limits";
+import { MessageStatus } from "@/constants/optimism-message-status";
 import { useChain } from "@/hooks/use-chain";
 import { usePendingTransactions } from "@/state/pending-txs";
 import { Transaction } from "@/types/transaction";
@@ -12,7 +13,6 @@ import {
   ButtonComponent,
   TransactionStep,
   buildWaitStep,
-  isButtonEnabled,
 } from "./common";
 
 export const useOptimismWithdrawalProgressRows = (
@@ -42,6 +42,9 @@ export const useOptimismWithdrawalProgressRows = (
     button: undefined,
   };
 
+  const readyToProve = w.status === MessageStatus.READY_TO_PROVE;
+  const readyToFinalize = w.status === MessageStatus.READY_FOR_RELAY;
+
   const prove: TransactionStep = {
     label: t("buttons.prove"),
     pendingHash: pendingProve,
@@ -49,7 +52,7 @@ export const useOptimismWithdrawalProgressRows = (
     chain: l1,
     button: {
       type: ButtonComponent.Prove,
-      enabled: isButtonEnabled(w.withdrawal.timestamp, w.proveDuration),
+      enabled: readyToProve,
     },
     gasLimit: w.prove ? undefined : PROVE_GAS,
   };
@@ -61,7 +64,7 @@ export const useOptimismWithdrawalProgressRows = (
     chain: l1,
     button: {
       type: ButtonComponent.Finalise,
-      enabled: isButtonEnabled(w.prove?.timestamp, w.finalizeDuration),
+      enabled: readyToFinalize,
     },
     gasLimit: w.finalise ? undefined : FINALIZE_GAS,
   };
@@ -71,13 +74,15 @@ export const useOptimismWithdrawalProgressRows = (
     buildWaitStep(
       w.withdrawal.timestamp,
       w.prove?.timestamp,
-      deployment.proveDuration!
+      deployment.proveDuration!,
+      readyToProve
     ),
     prove,
     buildWaitStep(
       w.prove?.timestamp,
       w.finalise?.timestamp,
-      deployment.finalizeDuration
+      deployment.finalizeDuration,
+      readyToFinalize
     ),
     finalise,
   ];

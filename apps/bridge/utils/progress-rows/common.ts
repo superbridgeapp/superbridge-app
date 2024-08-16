@@ -72,8 +72,14 @@ export const isButtonEnabled = (
 export const buildWaitStep = (
   start: number | undefined,
   end: number | undefined,
-  duration: number
+  duration: number,
+  done?: boolean
 ): WaitStep => {
+  if (done) {
+    const a: WaitStepDone = { duration, done: true };
+    return a;
+  }
+
   if (!start) {
     const a: WaitStepNotStarted = { duration };
     return a;

@@ -1,8 +1,8 @@
 import { useTranslation } from "react-i18next";
 
 import { DeploymentDto } from "@/codegen/model";
+import { ArbitrumMessageStatus } from "@/constants/arbitrum-message-status";
 import { FINALIZE_GAS } from "@/constants/gas-limits";
-import { useTxToken } from "@/hooks/activity/use-tx-token";
 import { useChain } from "@/hooks/use-chain";
 import { usePendingTransactions } from "@/state/pending-txs";
 import { Transaction } from "@/types/transaction";
@@ -13,7 +13,6 @@ import {
   ButtonComponent,
   TransactionStep,
   buildWaitStep,
-  isButtonEnabled,
 } from "./common";
 
 export const useArbitrumWithdrawalProgressRows = (
@@ -41,6 +40,8 @@ export const useArbitrumWithdrawalProgressRows = (
     button: undefined,
   };
 
+  const readyToFinalize = w.status === ArbitrumMessageStatus.CONFIRMED;
+
   const finalise: TransactionStep = {
     label: t("buttons.finalize"),
     pendingHash: pendingFinalise,
@@ -48,10 +49,7 @@ export const useArbitrumWithdrawalProgressRows = (
     chain: l1,
     button: {
       type: ButtonComponent.Finalise,
-      enabled: isButtonEnabled(
-        w.withdrawal.timestamp,
-        deployment.finalizeDuration
-      ),
+      enabled: readyToFinalize,
     },
     gasLimit: w.finalise ? undefined : FINALIZE_GAS,
   };
@@ -61,7 +59,8 @@ export const useArbitrumWithdrawalProgressRows = (
     buildWaitStep(
       w.withdrawal.timestamp,
       w.finalise?.timestamp,
-      deployment.finalizeDuration
+      deployment.finalizeDuration,
+      readyToFinalize
     ),
     finalise,
   ];
