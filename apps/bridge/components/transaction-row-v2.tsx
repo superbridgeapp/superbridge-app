@@ -220,8 +220,8 @@ const useAction = (tx: Transaction) => {
     return status === MessageStatus.READY_TO_PROVE
       ? "prove"
       : status === MessageStatus.READY_FOR_RELAY
-        ? "finalize"
-        : null;
+      ? "finalize"
+      : null;
   }
 
   if (isArbitrumWithdrawal(tx)) {
@@ -243,8 +243,8 @@ const useProgressBars = (
   const proveTx = isOptimismWithdrawal(tx)
     ? tx.prove
     : isOptimismForcedWithdrawal(tx)
-      ? tx.withdrawal?.prove
-      : null;
+    ? tx.withdrawal?.prove
+    : null;
   const pendingProves = usePendingTransactions.usePendingProves();
   const pendingFinalises = usePendingTransactions.usePendingFinalises();
 
@@ -326,8 +326,11 @@ export const TransactionRowV2 = ({ tx }: { tx: Transaction }) => {
             <span className="text-2xl lg:text-3xl leading-none">{amount}</span>
           </div>
           <div className="flex bg-muted rounded-lg p-1 shrink-0">
-            <NetworkIcon chain={chains?.from} className="h-6 w-6" />
-            <NetworkIcon chain={chains?.to} className="h-6 w-6 -ml-1.5" />
+            <NetworkIcon chain={chains?.from} className="h-6 w-6 rounded-xs" />
+            <NetworkIcon
+              chain={chains?.to}
+              className="h-6 w-6 -ml-1 rounded-xs"
+            />
           </div>
         </div>
         {isInProgress && (
