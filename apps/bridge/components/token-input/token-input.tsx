@@ -52,7 +52,7 @@ export const TokenInput = () => {
         <span className="text-xs text-muted-foreground font-heading">Send</span>
         <Recipient />
       </div>
-      <div className="flex gap-1">
+      <div className="flex gap-1 items-center">
         <input
           value={rawAmount}
           onChange={(e) => {
@@ -69,7 +69,7 @@ export const TokenInput = () => {
           pattern="^[0-9]*[.,]?[0-9]*$"
           name="amount"
           id="amount"
-          className={`block w-full shadow-none bg-transparent focus:outline-none text-3xl md:text-4xl leading-none placeholder:text-muted-foreground text-foreground`}
+          className={`block w-full shadow-none bg-transparent focus:outline-none text-4xl leading-none placeholder:text-muted-foreground text-foreground`}
           placeholder="0"
         />
 
@@ -82,7 +82,7 @@ export const TokenInput = () => {
           </div>
         ) : tokens.data?.length === 1 ? (
           <div
-            className={`flex shrink-0 relative gap-1 rounded-full pl-3 pr-3 items-center font-button transition-all text-foreground bg-card`}
+            className={`flex shrink-0 relative gap-1 rounded-full py-2 pl-3 pr-4 items-center font-button transition-all text-foreground bg-card`}
           >
             <TokenIcon token={token} className="h-[20px] w-[20px] shrink-0" />
             {token?.symbol}
@@ -90,7 +90,7 @@ export const TokenInput = () => {
         ) : (
           <button
             onClick={() => tokenSelectorModal.open()}
-            className={`flex shrink-0 relative gap-1 rounded-full pl-3 pr-3 items-center font-button transition-all hover:scale-105 text-foreground bg-card`}
+            className={`flex shrink-0 relative gap-1 rounded-full py-2 pl-3 pr-3 items-center font-button transition-all hover:scale-105 text-foreground bg-card`}
           >
             <TokenIcon token={token} className="h-[20px] w-[20px] shrink-0" />
             {token?.symbol}
