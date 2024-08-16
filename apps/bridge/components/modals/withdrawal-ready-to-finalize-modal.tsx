@@ -1,7 +1,7 @@
 import { IconAlert } from "@/components/icons";
 import { optimismFaultProofsUpgrade } from "@/constants/links";
-import { ModalNames } from "@/constants/modal-names";
 import { useDeployment } from "@/hooks/deployments/use-deployment";
+import { useModal } from "@/hooks/use-modal";
 import { useConfigState } from "@/state/config";
 
 import { Button } from "../ui/button";
@@ -9,15 +9,11 @@ import { Dialog, DialogContent } from "../ui/dialog";
 
 export const WithdrawalReadyToFinalizeModal = () => {
   const deployment = useDeployment();
-  const open = useConfigState.useModals()[ModalNames.WithdrawalReadyToFinalize];
-  const removeModal = useConfigState.useRemoveModal();
+  const modal = useModal("WithdrawalReadyToFinalize");
   const setDisplayTransactions = useConfigState.useSetDisplayTransactions();
 
   return (
-    <Dialog
-      open={open}
-      onOpenChange={() => removeModal(ModalNames.WithdrawalReadyToFinalize)}
-    >
+    <Dialog open={modal.isOpen} onOpenChange={modal.close}>
       <DialogContent>
         <div className="flex flex-col gap-8 p-6">
           <div className="flex flex-col gap-4 pt-6">
@@ -61,7 +57,7 @@ export const WithdrawalReadyToFinalizeModal = () => {
           </div>
           <Button
             onClick={() => {
-              removeModal(ModalNames.WithdrawalReadyToFinalize);
+              modal.close();
               setDisplayTransactions(true);
             }}
           >

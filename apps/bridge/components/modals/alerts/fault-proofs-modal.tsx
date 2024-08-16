@@ -5,7 +5,6 @@ import { IconAlert } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { optimismFaultProofsUpgrade } from "@/constants/links";
-import { AlertModals } from "@/constants/modal-names";
 import { useIsSuperbridge } from "@/hooks/apps/use-is-superbridge";
 import { useCancelBridge } from "@/hooks/bridge/use-cancel-bridge";
 import { useDismissAlert } from "@/hooks/bridge/use-dismiss-alert";
@@ -13,9 +12,9 @@ import { useDeployment } from "@/hooks/deployments/use-deployment";
 import { useModalsState } from "@/state/modals";
 
 export const FaultProofsModal = () => {
-  const onProceed = useDismissAlert(AlertModals.FaultProofs);
+  const onProceed = useDismissAlert("FaultProofs");
   const onCancel = useCancelBridge();
-  const open = useModalsState.useAlerts().includes(AlertModals.FaultProofs);
+  const open = useModalsState.useAlerts().includes("FaultProofs");
   const isSuperbridge = useIsSuperbridge();
 
   const { t } = useTranslation();

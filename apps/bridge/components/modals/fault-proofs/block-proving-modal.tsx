@@ -1,6 +1,5 @@
 import { IconAlert } from "@/components/icons";
 import { optimismFaultProofsUpgrade } from "@/constants/links";
-import { ModalNames } from "@/constants/modal-names";
 import { useDeploymentById } from "@/hooks/deployments/use-deployment-by-id";
 import { useModal } from "@/hooks/use-modal";
 
@@ -8,7 +7,7 @@ import { Button } from "../../ui/button";
 import { Dialog, DialogContent } from "../../ui/dialog";
 
 export const BlockProvingModal = () => {
-  const modal = useModal(ModalNames.BlockProving);
+  const modal = useModal("BlockProving");
   const deployment = useDeploymentById(modal.data || undefined);
 
   return (

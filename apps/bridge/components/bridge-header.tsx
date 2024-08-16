@@ -1,9 +1,9 @@
 import clsx from "clsx";
 
 import { DeploymentType } from "@/codegen/model";
-import { ModalNames } from "@/constants/modal-names";
 import { useIsSuperbridge } from "@/hooks/apps/use-is-superbridge";
 import { useDeployments } from "@/hooks/deployments/use-deployments";
+import { useModal } from "@/hooks/use-modal";
 import { useTransactions } from "@/hooks/use-transactions";
 import { useConfigState } from "@/state/config";
 import { useInjectedStore } from "@/state/injected";
@@ -13,7 +13,7 @@ import { IconActivity, IconSettings } from "./icons";
 
 export const BridgeHeader = () => {
   const setDisplayTransactions = useConfigState.useSetDisplayTransactions();
-  const addModal = useConfigState.useAddModal();
+  const settingsModal = useModal("Settings");
 
   const { inProgressCount, actionRequiredCount } = useTransactions();
 
@@ -59,7 +59,7 @@ export const BridgeHeader = () => {
           </button>
           <button
             className="group hover:scale-105 transition-all flex items-center justify-center p-1.5 rounded-full bg-card"
-            onClick={() => addModal(ModalNames.Settings)}
+            onClick={() => settingsModal.open()}
           >
             <IconSettings className="fill-muted-foreground group-hover:fill-foreground transition-all group-hover:rotate-[15deg] group-hover:scale-105 h-5 w-5 shrink-0" />
           </button>

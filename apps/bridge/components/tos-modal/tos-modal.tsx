@@ -5,27 +5,25 @@ import {
   useScroll,
   useSpring,
 } from "framer-motion";
-import Link from "next/link";
 import { useRef, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import ReactMarkdown from "react-markdown";
 
-import { ModalNames } from "@/constants/modal-names";
 import { useIsSuperbridge } from "@/hooks/apps/use-is-superbridge";
 import { useDeployment } from "@/hooks/deployments/use-deployment";
 import { useMetadata } from "@/hooks/use-metadata";
-import { useConfigState } from "@/state/config";
+import { useModal } from "@/hooks/use-modal";
 import { useSettingsState } from "@/state/settings";
 
 import { Button } from "../ui/button";
 import { Dialog, DialogContent } from "../ui/dialog";
-import { DocumentIcon, NoFundsIcon, QuestionMark, SparkleIcon } from "./icons";
+import { DocumentIcon, QuestionMark } from "./icons";
 
 export const TosModal = () => {
   const { t } = useTranslation();
   const dismiss = useSettingsState.useDismissTos();
   const hasViewedTos = useSettingsState.useHasViewedTos();
-  const addModal = useConfigState.useAddModal();
+  const legalModal = useModal("Legal");
   const metadata = useMetadata();
   const deployment = useDeployment();
   const isSuperbridge = useIsSuperbridge();
@@ -128,7 +126,7 @@ export const TosModal = () => {
             i18nKey={"tos.superbridge4"}
             components={[
               <button
-                onClick={() => addModal(ModalNames.Legal)}
+                onClick={() => legalModal.open()}
                 key="name"
                 className="underline"
               />,

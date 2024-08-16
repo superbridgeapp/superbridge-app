@@ -8,9 +8,9 @@ import { Address, isAddress, isAddressEqual } from "viem";
 import { useAccount } from "wagmi";
 
 import { Input } from "@/components/ui/input";
-import { ModalNames } from "@/constants/modal-names";
 import { useToChain } from "@/hooks/use-chain";
 import { useIsContractAccount } from "@/hooks/use-is-contract-account";
+import { useModal } from "@/hooks/use-modal";
 import { useTransactions } from "@/hooks/use-transactions";
 import { resolveAddress, resolveName } from "@/services/ens";
 import { useConfigState } from "@/state/config";
@@ -73,19 +73,18 @@ export const RecipientAddressModal = () => {
   const recipientAddress = useConfigState.useRecipientAddress();
   const isContractAccount = useIsContractAccount();
   const account = useAccount();
-  const modals = useConfigState.useModals();
+  const modal = useModal("RecipientAddress");
 
   const [input, setInput] = useState("");
 
   useEffect(() => {
     setInput(recipientName || recipientAddress || "");
-  }, [recipientName, recipientAddress, modals.RecipientAddress]);
+  }, [recipientName, recipientAddress, modal.isOpen]);
 
   const [debouncedInput] = useDebounce(input, 750);
 
   const setRecipientName = useConfigState.useSetRecipientName();
   const setRecipientAddress = useConfigState.useSetRecipientAddress();
-  const removeModal = useConfigState.useRemoveModal();
   const transactions = useTransactions();
   const { t } = useTranslation();
 
@@ -131,15 +130,12 @@ export const RecipientAddressModal = () => {
     setRecipientName(profile.data.name || "");
     setRecipientAddress(profile.data.address);
 
-    removeModal(ModalNames.RecipientAddress);
+    modal.close();
   };
 
   return (
     <>
-      <Dialog
-        open={modals.RecipientAddress}
-        onOpenChange={() => removeModal(ModalNames.RecipientAddress)}
-      >
+      <Dialog open={modal.isOpen} onOpenChange={modal.close}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>{t("recipient.bridgeDestination")}</DialogTitle>

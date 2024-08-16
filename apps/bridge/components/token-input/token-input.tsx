@@ -2,13 +2,13 @@ import { useTranslation } from "react-i18next";
 import { formatUnits } from "viem";
 import { useAccount } from "wagmi";
 
-import { ModalNames } from "@/constants/modal-names";
 import { useActiveTokens } from "@/hooks/tokens";
 import { useIsCustomToken } from "@/hooks/tokens/use-is-custom-token";
 import { useIsCustomTokenFromList } from "@/hooks/tokens/use-is-custom-token-from-list";
 import { useSelectedToken } from "@/hooks/tokens/use-token";
 import { useTokenBalance } from "@/hooks/use-balances";
 import { useGetFormattedAmount } from "@/hooks/use-get-formatted-amount";
+import { useModal } from "@/hooks/use-modal";
 import { useWeiAmount } from "@/hooks/use-wei-amount";
 import { useConfigState } from "@/state/config";
 import { formatDecimals } from "@/utils/format-decimals";
@@ -26,7 +26,7 @@ export const TokenInput = () => {
 
   const rawAmount = useConfigState.useRawAmount();
   const setRawAmount = useConfigState.useSetRawAmount();
-  const addModal = useConfigState.useAddModal();
+  const tokenSelectorModal = useModal("TokenSelector");
   const weiAmount = useWeiAmount();
 
   const tokenBalance = useTokenBalance(token);
@@ -89,7 +89,7 @@ export const TokenInput = () => {
           </div>
         ) : (
           <button
-            onClick={() => addModal(ModalNames.TokenSelector)}
+            onClick={() => tokenSelectorModal.open()}
             className={`flex shrink-0 relative gap-1 rounded-full pl-3 pr-3 items-center font-button transition-all hover:scale-105 text-foreground bg-card`}
           >
             <TokenIcon token={token} className="h-[20px] w-[20px] shrink-0" />

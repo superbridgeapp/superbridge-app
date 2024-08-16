@@ -1,11 +1,9 @@
-import { ModalNames } from "@/constants/modal-names";
-import { useConfigState } from "@/state/config";
-import { useModalsState } from "@/state/modals";
+import { ModalName, useModalsState } from "@/state/modals";
 
-export const useModal = (name: ModalNames) => {
-  const addModal = useConfigState.useAddModal();
-  const removeModal = useConfigState.useRemoveModal();
-  const modals = useConfigState.useModals();
+export const useModal = (name: ModalName) => {
+  const addModal = useModalsState.useAddModal();
+  const removeModal = useModalsState.useRemoveModal();
+  const modals = useModalsState.useModals();
   const setActiveId = useModalsState.useSetActiveId();
   const activeId = useModalsState.useActiveId();
 

@@ -1,5 +1,4 @@
 import { TransactionStatus } from "@/codegen/model";
-import { ModalNames } from "@/constants/modal-names";
 import { useFinalisingTx } from "@/hooks/activity/use-finalising-tx";
 import { useInitiatingTx } from "@/hooks/activity/use-initiating-tx";
 import { useProveTx } from "@/hooks/activity/use-prove-tx";
@@ -35,7 +34,7 @@ const useTransactionById = (id: string | null) => {
 };
 
 const Content = () => {
-  const modal = useModal(ModalNames.TransactionDetails);
+  const modal = useModal("TransactionDetails");
   const tx = useTransactionById(modal.data);
 
   const token = useTxToken(tx);
@@ -86,7 +85,7 @@ const Content = () => {
 };
 
 export const TransactionDetailsModal = () => {
-  const modal = useModal(ModalNames.TransactionDetails);
+  const modal = useModal("TransactionDetails");
 
   return (
     <Dialog open={modal.isOpen} onOpenChange={modal.close}>

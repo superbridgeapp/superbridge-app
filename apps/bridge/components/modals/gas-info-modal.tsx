@@ -1,8 +1,7 @@
 import { useTranslation } from "react-i18next";
 
-import { ModalNames } from "@/constants/modal-names";
 import { useFromChain } from "@/hooks/use-chain";
-import { useConfigState } from "@/state/config";
+import { useModal } from "@/hooks/use-modal";
 
 import { IconGas } from "../icons";
 import { Button } from "../ui/button";
@@ -12,13 +11,10 @@ export const GasInfoModal = () => {
   const { t } = useTranslation();
   const from = useFromChain();
 
-  const modals = useConfigState.useModals();
-  const removeModal = useConfigState.useRemoveModal();
-
-  const onClose = () => removeModal(ModalNames.GasInfo);
+  const modal = useModal("GasInfo");
 
   return (
-    <Dialog open={modals.GasInfo} onOpenChange={onClose}>
+    <Dialog open={modal.isOpen} onOpenChange={modal.close}>
       <DialogContent>
         <div className="flex flex-col gap-8 p-6">
           <div className="flex flex-col gap-2 items-center text-center pt-10">
@@ -34,7 +30,7 @@ export const GasInfoModal = () => {
             </p>
           </div>
 
-          <Button onClick={onClose}>{t("ok")}</Button>
+          <Button onClick={modal.close}>{t("ok")}</Button>
         </div>
       </DialogContent>
     </Dialog>

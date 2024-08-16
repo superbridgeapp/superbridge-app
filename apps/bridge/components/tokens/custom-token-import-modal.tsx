@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Address } from "viem";
 
-import { ModalNames } from "@/constants/modal-names";
 import { useDeployment } from "@/hooks/deployments/use-deployment";
 import { useMetadata } from "@/hooks/use-metadata";
 import { useModal } from "@/hooks/use-modal";
@@ -23,7 +22,7 @@ const CustomTokenImport = () => {
   const metadata = useMetadata();
   const trackEvent = useTrackEvent();
 
-  const modal = useModal(ModalNames.CustomTokenImport);
+  const modal = useModal("CustomTokenImport");
   const customTokens = useSettingsState.useCustomTokens();
   const setCustomTokens = useSettingsState.useSetCustomTokens();
 
@@ -238,7 +237,7 @@ const CustomTokenImport = () => {
 };
 
 export const CustomTokenImportModal = () => {
-  const modal = useModal(ModalNames.CustomTokenImport);
+  const modal = useModal("CustomTokenImport");
 
   return (
     <Dialog open={modal.isOpen} onOpenChange={modal.close}>

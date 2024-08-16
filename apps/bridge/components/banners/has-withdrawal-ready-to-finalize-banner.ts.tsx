@@ -1,11 +1,10 @@
-import { ModalNames } from "@/constants/modal-names";
-import { useConfigState } from "@/state/config";
+import { useModal } from "@/hooks/use-modal";
 
 import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 import { Button } from "../ui/button";
 
 export const HasWithdrawalReadyToFinalizeBanner = () => {
-  const addModal = useConfigState.useAddModal();
+  const modal = useModal("WithdrawalReadyToFinalize");
   return (
     <Alert variant={"horizontal"}>
       <svg
@@ -31,11 +30,7 @@ export const HasWithdrawalReadyToFinalizeBanner = () => {
       </svg>
       <AlertTitle>Finalize your withdrawals</AlertTitle>
       <AlertDescription>
-        <Button
-          variant={"secondary"}
-          size={"xs"}
-          onClick={() => addModal(ModalNames.WithdrawalReadyToFinalize)}
-        >
+        <Button variant={"secondary"} size={"xs"} onClick={() => modal.open()}>
           More
         </Button>
       </AlertDescription>

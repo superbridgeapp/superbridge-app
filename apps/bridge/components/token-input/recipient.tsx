@@ -1,25 +1,21 @@
 import clsx from "clsx";
 import { useAccount } from "wagmi";
 
-import { ModalNames } from "@/constants/modal-names";
+import { useModal } from "@/hooks/use-modal";
 import { useConfigState } from "@/state/config";
 
-import { IconAddCircle, IconCheckCircle } from "../icons";
+import { IconAddCircle } from "../icons";
 
 export const Recipient = () => {
   const recipientName = useConfigState.useRecipientName();
   const recipientAddress = useConfigState.useRecipientAddress();
   const account = useAccount();
-  const openModal = useConfigState.useAddModal();
+  const recipientAddressModal = useModal("RecipientAddress");
 
   return (
     <div
       className="flex items-center justify-between"
-      onClick={
-        !account.address
-          ? () => {}
-          : () => openModal(ModalNames.RecipientAddress)
-      }
+      onClick={!account.address ? () => {} : () => recipientAddressModal.open()}
     >
       {!account.address ? (
         <span className={"text-xs text-muted-foreground"}>{/* empty */}</span>

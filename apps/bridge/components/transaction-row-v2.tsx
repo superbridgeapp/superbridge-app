@@ -7,7 +7,6 @@ import {
   TransactionStatus,
 } from "@/codegen/model";
 import { ArbitrumMessageStatus } from "@/constants/arbitrum-message-status";
-import { ModalNames } from "@/constants/modal-names";
 import { useFinalisingTx } from "@/hooks/activity/use-finalising-tx";
 import { useInitiatingTx } from "@/hooks/activity/use-initiating-tx";
 import { useTxAmount } from "@/hooks/activity/use-tx-amount";
@@ -17,7 +16,6 @@ import { useTxProvider } from "@/hooks/activity/use-tx-provider";
 import { useTxTimestamp } from "@/hooks/activity/use-tx-timestamp";
 import { useTxToken } from "@/hooks/activity/use-tx-token";
 import { useModal } from "@/hooks/use-modal";
-import { useConfigState } from "@/state/config";
 import { usePendingTransactions } from "@/state/pending-txs";
 import { Transaction } from "@/types/transaction";
 import { isOptimism } from "@/utils/deployments/is-mainnet";
@@ -151,7 +149,7 @@ const useStatus = (tx: Transaction): Status => {
 
 const ActionRow = ({ tx }: { tx: Transaction }) => {
   const status = useStatus(tx);
-  const modal = useModal(ModalNames.TransactionDetails);
+  const modal = useModal("TransactionDetails");
 
   if (!status) {
     return null;
@@ -298,8 +296,7 @@ export const TransactionRowV2 = ({ tx }: { tx: Transaction }) => {
   const token = useTxToken(tx);
 
   const chains = useTxFromTo(tx);
-  const openModal = useConfigState.useAddModal();
-  const modal = useModal(ModalNames.TransactionDetails);
+  const modal = useModal("TransactionDetails");
   const timestamp = useTxTimestamp(tx);
   const amount = useTxAmount(tx, token);
 

@@ -1,9 +1,8 @@
 import { Trans, useTranslation } from "react-i18next";
 
-import { ModalNames } from "@/constants/modal-names";
 import { useSelectedToken } from "@/hooks/tokens/use-token";
 import { useFees } from "@/hooks/use-fees";
-import { useConfigState } from "@/state/config";
+import { useModal } from "@/hooks/use-modal";
 
 import { IconSuperFast } from "../icons";
 import { TokenIcon } from "../token-icon";
@@ -18,15 +17,12 @@ export const FeeBreakdownModal = () => {
   const { t } = useTranslation();
   const token = useSelectedToken();
 
-  const modals = useConfigState.useModals();
-  const removeModal = useConfigState.useRemoveModal();
-
-  const onClose = () => removeModal(ModalNames.FeeBreakdown);
+  const modal = useModal("FeeBreakdown");
 
   const fees = useFees();
 
   return (
-    <Dialog open={modals.FeeBreakdown} onOpenChange={onClose}>
+    <Dialog open={modal.isOpen} onOpenChange={modal.close}>
       <DialogContent>
         <div className="flex flex-col gap-8 p-6">
           <div className="flex flex-col gap-2 items-center text-center pt-10">
@@ -86,7 +82,7 @@ export const FeeBreakdownModal = () => {
             )}
           </div>
 
-          <Button onClick={onClose}>{t("ok")}</Button>
+          <Button onClick={modal.close}>{t("ok")}</Button>
         </div>
       </DialogContent>
     </Dialog>

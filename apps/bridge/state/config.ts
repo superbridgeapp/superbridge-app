@@ -2,9 +2,6 @@ import { createSelectorHooks } from "auto-zustand-selectors-hook";
 import { Address } from "viem";
 import { create } from "zustand";
 
-import { DeploymentDto } from "@/codegen/model";
-import { ModalNames } from "@/constants/modal-names";
-
 interface ConfigState {
   displayConfirmationModal: boolean;
   setDisplayConfirmationModal: (x: boolean) => void;
@@ -33,10 +30,6 @@ interface ConfigState {
 
   displayTransactions: boolean;
   setDisplayTransactions: (b: boolean) => void;
-
-  modals: { [x in ModalNames]: boolean };
-  addModal: (x: ModalNames) => void;
-  removeModal: (x: ModalNames) => void;
 
   displayNetworkSelector: boolean;
   setDisplayNetworkSelector: (x: boolean) => void;
@@ -85,25 +78,6 @@ const ConfigState = create<ConfigState>()((set, get) => ({
   networkSelectorDirection: "from",
   setNetworkSelectorDirection: (networkSelectorDirection) =>
     set({ networkSelectorDirection }),
-
-  modals: Object.keys(ModalNames).reduce(
-    (accum, name) => ({ ...accum, [name]: false }),
-    {} as Record<ModalNames, boolean>
-  ),
-  addModal: (name) =>
-    set({
-      modals: {
-        ...get().modals,
-        [name]: true,
-      },
-    }),
-  removeModal: (name) =>
-    set({
-      modals: {
-        ...get().modals,
-        [name]: false,
-      },
-    }),
 
   routeId: null,
   setRouteId: (routeId) => set({ routeId }),

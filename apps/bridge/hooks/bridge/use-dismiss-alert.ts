@@ -1,9 +1,8 @@
-import { AlertModals } from "@/constants/modal-names";
-import { useModalsState } from "@/state/modals";
+import { AlertName, useModalsState } from "@/state/modals";
 
 import { useInitiateBridge } from "./use-initiate-bridge";
 
-export const useDismissAlert = (id: AlertModals) => {
+export const useDismissAlert = (id: AlertName) => {
   const alerts = useModalsState.useAlerts();
   const setAlerts = useModalsState.useSetAlerts();
   const initiateBridge = useInitiateBridge();

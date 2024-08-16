@@ -1,9 +1,7 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import { ModalNames } from "@/constants/modal-names";
 import { useModal } from "@/hooks/use-modal";
-import { useConfigState } from "@/state/config";
 import { CustomTokenList, useSettingsState } from "@/state/settings";
 
 import { Checkbox } from "../ui/checkbox";
@@ -19,7 +17,7 @@ export const TokenLists = () => {
   const customTokenLists = useSettingsState.useCustomTokenLists();
   const setCustomTokenLists = useSettingsState.useSetCustomTokenLists();
 
-  const customTokenListModal = useModal(ModalNames.CustomTokenListImport);
+  const customTokenListModal = useModal("CustomTokenListImport");
 
   const { t, i18n } = useTranslation();
 

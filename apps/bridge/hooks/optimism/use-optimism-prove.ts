@@ -1,6 +1,5 @@
 import { useBridgeControllerGetProveTransaction } from "@/codegen";
 import { BridgeWithdrawalDto } from "@/codegen/model";
-import { ModalNames } from "@/constants/modal-names";
 import { useTrackEvent } from "@/services/ga";
 import { usePendingTransactions } from "@/state/pending-txs";
 
@@ -16,7 +15,7 @@ export function useProveOptimism({
 }: BridgeWithdrawalDto) {
   const deployment = useDeploymentById(deploymentId);
   const setProving = usePendingTransactions.useSetProving();
-  const blockProvingModal = useModal(ModalNames.BlockProving);
+  const blockProvingModal = useModal("BlockProving");
   const getProveTransaction = useBridgeControllerGetProveTransaction();
   const faultProofUpgradeTime = useFaultProofUpgradeTime(deployment);
   const { loading, onSubmit } = useSendTransactionDto(deployment?.l1, () =>

@@ -1,9 +1,8 @@
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
 
-import { ModalNames } from "@/constants/modal-names";
 import { useDeployment } from "@/hooks/deployments/use-deployment";
-import { useConfigState } from "@/state/config";
+import { useModal } from "@/hooks/use-modal";
 
 import { Dialog, DialogContent } from "./ui/dialog";
 
@@ -24,12 +23,11 @@ const ArrowIcon = () => (
 
 export const LegalModal = () => {
   const { t } = useTranslation();
-  const open = useConfigState.useModals()[ModalNames.Legal];
-  const removeModal = useConfigState.useRemoveModal();
+  const modal = useModal("Legal");
   const deployment = useDeployment();
 
   return (
-    <Dialog open={open} onOpenChange={() => removeModal(ModalNames.Legal)}>
+    <Dialog open={modal.isOpen} onOpenChange={modal.close}>
       <DialogContent>
         <div className="flex flex-col gap-6 p-6 pt-8">
           <div className="flex flex-col gap-2">

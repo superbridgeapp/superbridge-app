@@ -5,13 +5,12 @@ import { P, match } from "ts-pattern";
 import { Address, isAddress, isAddressEqual } from "viem";
 
 import { Input } from "@/components/ui/input";
-import { ModalNames } from "@/constants/modal-names";
 import { useDeployment } from "@/hooks/deployments/use-deployment";
 import { useSetToken } from "@/hooks/tokens/use-set-token";
 import { useTokenBalances } from "@/hooks/use-balances";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
+import { useModal } from "@/hooks/use-modal";
 import { useTrackEvent } from "@/services/ga";
-import { useConfigState } from "@/state/config";
 import { useInjectedStore } from "@/state/injected";
 import { MultiChainToken } from "@/types/token";
 
@@ -33,7 +32,7 @@ export const TokenList = () => {
   const setToken = useSetToken();
   const tokens = useTokenBalances(from?.id);
   const { t } = useTranslation();
-  const removeModal = useConfigState.useRemoveModal();
+  const modal = useModal("TokenSelector");
   const highlightedTokens =
     useInjectedStore((s) => s.superbridgeConfig)?.highlightedTokens ?? [];
   const trackEvent = useTrackEvent();
@@ -65,7 +64,7 @@ export const TokenList = () => {
     }
 
     setToken(fromToken, toToken);
-    removeModal(ModalNames.TokenSelector);
+    modal.close();
 
     if (
       highlightedTokens.find(

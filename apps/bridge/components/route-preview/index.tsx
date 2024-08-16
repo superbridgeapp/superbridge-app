@@ -1,9 +1,8 @@
 import { AnimatePresence, motion } from "framer-motion";
 
-import { ModalNames } from "@/constants/modal-names";
 import { useBridgeRoutes } from "@/hooks/routes/use-bridge-routes";
 import { useSelectedBridgeRoute } from "@/hooks/routes/use-selected-bridge-route";
-import { useConfigState } from "@/state/config";
+import { useModal } from "@/hooks/use-modal";
 import { isRouteQuote, isRouteQuoteError } from "@/utils/guards";
 
 import { IconCaretRight, IconSpinner } from "../icons";
@@ -14,7 +13,7 @@ export const RoutePreview = () => {
   const routes = useBridgeRoutes();
   const route = useSelectedBridgeRoute();
 
-  const openModal = useConfigState.useAddModal();
+  const routeSelectorModal = useModal("RouteSelector");
 
   const routesCount = routes.data?.results.length ?? 0;
   const validRoutesCount =
@@ -44,7 +43,7 @@ export const RoutePreview = () => {
         routesCount > 1 && (
           <div className="bg-muted rounded-xl p-4 flex flex-col gap-3">
             <Button
-              onClick={() => openModal(ModalNames.RouteSelector)}
+              onClick={() => routeSelectorModal.open()}
               size={"xs"}
               variant={"secondary"}
               className="mx-auto text-xs h-6 gap-1"
@@ -73,7 +72,7 @@ export const RoutePreview = () => {
           </div>
           {validRoutesCount > 1 && (
             <Button
-              onClick={() => openModal(ModalNames.RouteSelector)}
+              onClick={() => routeSelectorModal.open()}
               size={"xs"}
               variant={"secondary"}
               className="mx-auto absolute bottom-2.5 right-2 text-xs h-6 pr-2 gap-1"

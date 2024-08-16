@@ -5,7 +5,6 @@ import {
   RouteQuoteDto,
   RouteStepTransactionDto,
 } from "@/codegen/model";
-import { ModalNames } from "@/constants/modal-names";
 import { useBridge } from "@/hooks/bridge/use-bridge";
 import { useSelectedBridgeRoute } from "@/hooks/routes/use-selected-bridge-route";
 import {
@@ -15,9 +14,9 @@ import {
 import { useToChain } from "@/hooks/use-chain";
 import { useFeesForRoute } from "@/hooks/use-fees";
 import { useGetFormattedAmount } from "@/hooks/use-get-formatted-amount";
+import { useModal } from "@/hooks/use-modal";
 import { useNetworkFeeForGasLimit } from "@/hooks/use-network-fee";
 import { useApproxTotalBridgeTimeTextForRoute } from "@/hooks/use-transfer-time";
-import { useConfigState } from "@/state/config";
 
 import { IconSimpleFees, IconSimpleGas, IconSimpleTime } from "../icons";
 import { NetworkIcon } from "../network-icon";
@@ -40,7 +39,8 @@ export const Route = ({
   const token = useDestinationToken();
   const to = useToChain();
   const getFormattedAmount = useGetFormattedAmount(selectedToken);
-  const addModal = useConfigState.useAddModal();
+  const feeBreakdownModal = useModal("FeeBreakdown");
+  const gasInfoModal = useModal("GasInfo");
 
   const bridge = useBridge();
   const selected = useSelectedBridgeRoute();
@@ -110,9 +110,7 @@ export const Route = ({
             "flex gap-1 items-center",
             allowFeeClicks && "cursor-pointer"
           )}
-          onClick={() =>
-            allowFeeClicks ? addModal(ModalNames.FeeBreakdown) : null
-          }
+          onClick={() => (allowFeeClicks ? feeBreakdownModal.open() : null)}
         >
           <IconSimpleFees
             className={clsx(
@@ -140,9 +138,7 @@ export const Route = ({
             "flex gap-1 items-center",
             allowDetailClicks && "cursor-pointer"
           )}
-          onClick={() =>
-            allowDetailClicks ? addModal(ModalNames.GasInfo) : null
-          }
+          onClick={() => (allowDetailClicks ? gasInfoModal.open() : null)}
         >
           <IconSimpleGas className="h-3 w-auto fill-muted-foreground" />{" "}
           {networkFee.isLoading ? (

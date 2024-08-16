@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { currencySymbolMap } from "@/constants/currency-symbol-map";
 import { FINALIZE_GAS, PROVE_GAS } from "@/constants/gas-limits";
-import { AlertModals } from "@/constants/modal-names";
 import { useBridge } from "@/hooks/bridge/use-bridge";
 import { useCancelBridge } from "@/hooks/bridge/use-cancel-bridge";
 import { useDismissAlert } from "@/hooks/bridge/use-dismiss-alert";
@@ -91,9 +90,9 @@ export const useEstimateTotalFeesInFiat = () => {
 };
 
 export const ExpensiveGasModal = () => {
-  const onProceed = useDismissAlert(AlertModals.GasExpensive);
+  const onProceed = useDismissAlert("GasExpensive");
   const onCancel = useCancelBridge();
-  const open = useModalsState.useAlerts().includes(AlertModals.GasExpensive);
+  const open = useModalsState.useAlerts().includes("GasExpensive");
 
   const { t } = useTranslation();
   const token = useSelectedToken();

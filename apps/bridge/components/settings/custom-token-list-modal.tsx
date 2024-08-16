@@ -4,7 +4,6 @@ import { useTranslation } from "react-i18next";
 import { useDebounce } from "use-debounce";
 
 import { Input } from "@/components/ui/input";
-import { ModalNames } from "@/constants/modal-names";
 import { useMetadata } from "@/hooks/use-metadata";
 import { useModal } from "@/hooks/use-modal";
 import { useSettingsState } from "@/state/settings";
@@ -24,7 +23,7 @@ export const CustomTokenListModal = () => {
   const { t } = useTranslation();
   const metadata = useMetadata();
 
-  const modal = useModal(ModalNames.CustomTokenListImport);
+  const modal = useModal("CustomTokenListImport");
 
   const customTokenLists = useSettingsState.useCustomTokenLists();
   const setCustomTokenLists = useSettingsState.useSetCustomTokenLists();

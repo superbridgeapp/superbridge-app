@@ -8,16 +8,15 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ModalNames } from "@/constants/modal-names";
 import { useIsSuperbridge } from "@/hooks/apps/use-is-superbridge";
 import { useDeployment } from "@/hooks/deployments/use-deployment";
-import { useConfigState } from "@/state/config";
+import { useModal } from "@/hooks/use-modal";
 
 import { IconArrowUpRight, IconSB } from "../icons";
 
 export function HeaderLinks() {
   const { t } = useTranslation();
-  const addModal = useConfigState.useAddModal();
+  const legalModal = useModal("Legal");
   const deployment = useDeployment();
   const isSuperbridge = useIsSuperbridge();
 
@@ -29,7 +28,7 @@ export function HeaderLinks() {
     //   label: t("support"),
     // },
     {
-      onClick: () => addModal(ModalNames.Legal),
+      onClick: () => legalModal.open(),
       label: t("legal.footerButton"),
     },
     { url: "https://twitter.com/superbridgeapp", label: "x.com" },
@@ -38,8 +37,8 @@ export function HeaderLinks() {
     isSuperbridge
       ? defaultLinks
       : deployment?.theme?.links.length
-      ? deployment.theme.links
-      : defaultLinks;
+        ? deployment.theme.links
+        : defaultLinks;
 
   return (
     <div className="flex gap-3 items-center">
@@ -104,7 +103,7 @@ export function HeaderLinks() {
                   </Link>
                   <button
                     className=" text-xs  leading-none w-full flex gap-2 items-center"
-                    onClick={() => addModal(ModalNames.Legal)}
+                    onClick={() => legalModal.open()}
                   >
                     <IconArrowUpRight className="h-4 mx-1 w-auto fill-muted-foreground" />
                     <span>Legal</span>

@@ -1,12 +1,11 @@
 import { useTranslation } from "react-i18next";
 import Skeleton from "react-loading-skeleton";
 
-import { ModalNames } from "@/constants/modal-names";
 import { useSelectedToken } from "@/hooks/tokens/use-token";
 import { useToChain } from "@/hooks/use-chain";
 import { useFiatAmount } from "@/hooks/use-fiat-amount";
+import { useModal } from "@/hooks/use-modal";
 import { useApproxTotalBridgeTimeText } from "@/hooks/use-transfer-time";
-import { useConfigState } from "@/state/config";
 
 import { IconTime } from "../icons";
 import { TokenIcon } from "../token-icon";
@@ -18,8 +17,7 @@ const Content = () => {
   const to = useToChain();
   const token = useSelectedToken();
 
-  const removeModal = useConfigState.useRemoveModal();
-  const onClose = () => removeModal(ModalNames.TransferTime);
+  const modal = useModal("TransferTime");
 
   const transferTime = useApproxTotalBridgeTimeText();
 
@@ -78,19 +76,16 @@ const Content = () => {
         </div>
       </div>
 
-      <Button onClick={onClose}>{t("ok")}</Button>
+      <Button onClick={modal.close}>{t("ok")}</Button>
     </div>
   );
 };
 
 export const TransferTimeInfoModal = () => {
-  const modals = useConfigState.useModals();
-  const removeModal = useConfigState.useRemoveModal();
-
-  const onClose = () => removeModal(ModalNames.TransferTime);
+  const modal = useModal("TransferTime");
 
   return (
-    <Dialog open={modals.TransferTime} onOpenChange={onClose}>
+    <Dialog open={modal.isOpen} onOpenChange={modal.close}>
       <DialogContent>
         <Content />
       </DialogContent>

@@ -1,10 +1,8 @@
 import { useTranslation } from "react-i18next";
 import { Address, formatUnits } from "viem";
 
-import { ModalNames } from "@/constants/modal-names";
 import { useDeployment } from "@/hooks/deployments/use-deployment";
 import { useModal } from "@/hooks/use-modal";
-import { useConfigState } from "@/state/config";
 import { formatDecimals } from "@/utils/format-decimals";
 
 import { Button } from "../ui/button";
@@ -12,7 +10,7 @@ import { useCustomToken } from "./use-custom-token";
 
 export const TokenImport = ({ address }: { address: Address }) => {
   const { t } = useTranslation();
-  const customTokenImportModal = useModal(ModalNames.CustomTokenImport);
+  const customTokenImportModal = useModal("CustomTokenImport");
 
   const deployment = useDeployment();
   const {

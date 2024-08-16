@@ -22,7 +22,6 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Skeleton } from "@/components/ui/skeleton";
-import { ModalNames } from "@/constants/modal-names";
 import { useSelectedBridgeRoute } from "@/hooks/routes/use-selected-bridge-route";
 import {
   useDestinationToken,
@@ -30,6 +29,7 @@ import {
 } from "@/hooks/tokens/use-token";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
 import { useFeesForRoute } from "@/hooks/use-fees";
+import { useModal } from "@/hooks/use-modal";
 import { useNetworkFee } from "@/hooks/use-network-fee";
 import { usePeriodText } from "@/hooks/use-period-text";
 import { useReceiveAmount } from "@/hooks/use-receive-amount";
@@ -46,7 +46,7 @@ export const ConfirmationModalReviewTab = ({
   const selectedToken = useSelectedToken();
   const destinationToken = useDestinationToken();
   const rawAmount = useConfigState.useRawAmount();
-  const addModal = useConfigState.useAddModal();
+  const feeBreakdownModal = useModal("FeeBreakdown");
 
   const networkFee = useNetworkFee();
   const route = useSelectedBridgeRoute();
@@ -192,7 +192,7 @@ export const ConfirmationModalReviewTab = ({
                 )}
                 onClick={() =>
                   fees.data?.totals.token !== 0
-                    ? addModal(ModalNames.FeeBreakdown)
+                    ? feeBreakdownModal.open()
                     : null
                 }
               >

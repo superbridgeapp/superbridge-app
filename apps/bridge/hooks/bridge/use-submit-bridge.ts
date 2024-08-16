@@ -1,12 +1,11 @@
 import { useAccount, useBalance } from "wagmi";
 
 import { useEstimateTotalFeesInFiat } from "@/components/modals/alerts/expensive-gas-modal";
-import { AlertModals } from "@/constants/modal-names";
 import { SUPERCHAIN_MAINNETS } from "@/constants/superbridge";
 import { useToChain } from "@/hooks/use-chain";
 import { useFaultProofUpgradeTime } from "@/hooks/use-fault-proof-upgrade-time";
 import { useReceiveAmount } from "@/hooks/use-receive-amount";
-import { useModalsState } from "@/state/modals";
+import { AlertName, useModalsState } from "@/state/modals";
 import { isEth } from "@/utils/tokens/is-eth";
 
 import { useIsSuperbridge } from "../apps/use-is-superbridge";
@@ -39,7 +38,7 @@ export const useSubmitBridge = () => {
   const fiatValueBeingBridged = receive.data?.fiat?.amount ?? null;
 
   return () => {
-    const modals: AlertModals[] = [];
+    const modals: AlertName[] = [];
 
     const needDestinationGasConditions = [
       withdrawing, // need to prove/finalize
@@ -50,7 +49,7 @@ export const useSubmitBridge = () => {
       needDestinationGasConditions.some((x) => x) &&
       toEthBalance.data?.value === BigInt(0)
     ) {
-      modals.push(AlertModals.NoGas);
+      modals.push("NoGas");
     }
 
     if (
@@ -60,11 +59,11 @@ export const useSubmitBridge = () => {
       isSuperbridge &&
       SUPERCHAIN_MAINNETS.includes(deployment?.name ?? "")
     ) {
-      modals.push(AlertModals.GasExpensive);
+      modals.push("GasExpensive");
     }
 
     if (faultProofUpgradeTime && withdrawing) {
-      modals.push(AlertModals.FaultProofs);
+      modals.push("FaultProofs");
     }
 
     if (modals.length === 0) {

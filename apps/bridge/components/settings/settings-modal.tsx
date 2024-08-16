@@ -12,10 +12,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { flagSymbolMap } from "@/constants/currency-symbol-map";
-import { ModalNames } from "@/constants/modal-names";
 import { useIsSuperbridge } from "@/hooks/apps/use-is-superbridge";
 import { useDeployments } from "@/hooks/deployments/use-deployments";
 import { useIsContractAccount } from "@/hooks/use-is-contract-account";
+import { useModal } from "@/hooks/use-modal";
 import { useDarkModeEnabled } from "@/hooks/use-theme";
 import { useTrackEvent } from "@/services/ga";
 import { useConfigState } from "@/state/config";
@@ -32,8 +32,7 @@ export const SettingsModal = () => {
   const isSuperbridge = useIsSuperbridge();
   const trackEvent = useTrackEvent();
 
-  const open = useConfigState.useModals()[ModalNames.Settings];
-  const removeModal = useConfigState.useRemoveModal();
+  const modal = useModal("Settings");
 
   const testnets = useInjectedStore((store) => store.superbridgeTestnets);
   const setTestnets = useInjectedStore((store) => store.setSuperbridgeTestnets);
@@ -76,7 +75,7 @@ export const SettingsModal = () => {
   const forceViaL1Enabled = !!deployments.find((x) => isOptimism(x));
 
   return (
-    <Dialog open={open} onOpenChange={() => removeModal(ModalNames.Settings)}>
+    <Dialog open={modal.isOpen} onOpenChange={modal.close}>
       <DialogContent>
         <div className="">
           <h2 className="font-heading p-6 pb-0">{t("settings.settings")}</h2>

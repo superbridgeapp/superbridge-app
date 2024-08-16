@@ -1,5 +1,5 @@
-import { ModalNames } from "@/constants/modal-names";
 import { useBridgeRoutes } from "@/hooks/routes/use-bridge-routes";
+import { useModal } from "@/hooks/use-modal";
 import { useConfigState } from "@/state/config";
 import { isRouteQuoteError } from "@/utils/guards";
 
@@ -8,20 +8,16 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
 
 export const RouteSelectorModal = () => {
   const routes = useBridgeRoutes();
-  const open = useConfigState.useModals().RouteSelector === true;
-  const removeModal = useConfigState.useRemoveModal();
+  const modal = useModal("RouteSelector");
   const setRouteId = useConfigState.useSetRouteId();
 
   const onSelect = (id: string) => {
     setRouteId(id);
-    removeModal(ModalNames.RouteSelector);
+    modal.close();
   };
 
   return (
-    <Dialog
-      open={open}
-      onOpenChange={() => removeModal(ModalNames.RouteSelector)}
-    >
+    <Dialog open={modal.isOpen} onOpenChange={modal.close}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Choose route</DialogTitle>
