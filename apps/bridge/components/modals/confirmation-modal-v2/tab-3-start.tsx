@@ -195,7 +195,7 @@ export const ConfirmationModalStartTab = () => {
       // gets handled by gasTokenApproval
       return false;
     }
-    return approved;
+    return !approved;
   })();
   const needsGasTokenApprove = (() => {
     return (
