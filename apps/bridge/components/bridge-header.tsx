@@ -34,11 +34,19 @@ export const BridgeHeader = () => {
         <div className="flex gap-1.5 items-center">
           <button
             className={clsx(
-              inProgressCount > 0 ? "bg-card pl-3" : "bg-card",
-              "group hover:scale-105 transition-all flex items-center gap-1.5 text-foreground rounded-full transition-all rounded-full py-1.5 px-1.5 bg-card font-button"
+              inProgressCount > 0 ? "bg-card pr-3 pl-2" : "bg-card",
+              "group hover:scale-105 transition-all flex items-center gap-1.5 text-foreground rounded-full transition-all rounded-full py-1.5 px-2 bg-card font-button"
             )}
             onClick={() => setDisplayTransactions(true)}
           >
+            <IconActivity
+              className={clsx(
+                inProgressCount > 0
+                  ? "fill-foreground animate-wiggle-waggle"
+                  : "fill-muted-foreground",
+                "group-hover:fill-foreground group-hover:animate-wiggle-waggle transition-all h-5 w-5 shrink-0"
+              )}
+            />
             {inProgressCount > 0 && (
               <div className="flex items-center gap-1">
                 <span className="text-xs font-body leading-none">
@@ -48,17 +56,9 @@ export const BridgeHeader = () => {
                 </span>
               </div>
             )}
-            <IconActivity
-              className={clsx(
-                inProgressCount > 0
-                  ? "fill-foreground animate-wiggle-waggle"
-                  : "fill-muted-foreground",
-                "group-hover:fill-foreground group-hover:animate-wiggle-waggle transition-all h-5 w-5 shrink-0"
-              )}
-            />
           </button>
           <button
-            className="group hover:scale-105 transition-all flex items-center justify-center p-1.5 rounded-full bg-card"
+            className="group hover:scale-105 transition-all flex items-center justify-center py-1.5 px-2  rounded-full bg-card"
             onClick={() => settingsModal.open()}
           >
             <IconSettings className="fill-muted-foreground group-hover:fill-foreground transition-all group-hover:rotate-[15deg] group-hover:scale-105 h-5 w-5 shrink-0" />
