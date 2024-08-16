@@ -75,7 +75,7 @@ export const TokenInput = () => {
 
         {tokens.isFetching || !token ? (
           <div
-            className={`flex shrink-0 relative gap-1 rounded-full pl-3 pr-3 items-center font-button transition-all text-foreground bg-card`}
+            className={`flex shrink-0 relative gap-1 rounded-full py-2 pl-3 pr-3 items-center font-button transition-all text-foreground bg-card`}
           >
             <Skeleton className="h-[25px] w-[25px] rounded-full" />
             <Skeleton className="h-[14px] w-[50px]" />
