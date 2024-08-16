@@ -16,7 +16,10 @@ export const useFromTo = (tx: Transaction) => {
   if (isForcedWithdrawal(tx)) {
     const deployment = deployments.find(
       (d) => tx.deposit.deploymentId === d.id
-    )!;
+    );
+    if (!deployment) {
+      return null;
+    }
     return [deployment.l2, deployment.l1];
   }
 
@@ -27,12 +30,18 @@ export const useFromTo = (tx: Transaction) => {
   if (isAcrossBridge(tx)) {
     const from = acrossDomains.find(
       (x) => x.chain.id === tx.fromChainId
-    )!.chain;
-    const to = acrossDomains.find((x) => x.chain.id === tx.toChainId)!.chain;
+    )?.chain;
+    const to = acrossDomains.find((x) => x.chain.id === tx.toChainId)?.chain;
+    if (!from || !to) {
+      return null;
+    }
     return [from, to];
   }
 
-  const deployment = deployments.find((d) => tx.deploymentId === d.id)!;
+  const deployment = deployments.find((d) => tx.deploymentId === d.id);
+  if (!deployment) {
+    return null;
+  }
   return isDeposit(tx)
     ? [deployment.l1, deployment.l2]
     : [deployment.l2, deployment.l1];

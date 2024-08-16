@@ -343,12 +343,17 @@ function useToken(tx: Transaction, tokens: MultiChainToken[]) {
     isAcrossBridge(tx) || isCctpBridge(tx)
       ? ""
       : isForcedWithdrawal(tx)
-      ? tx.deposit.deploymentId
-      : tx.deploymentId
+        ? tx.deposit.deploymentId
+        : tx.deploymentId
   );
   const gasToken = useGasTokenForDeployment(deployment?.id);
 
-  const [from, to] = useFromTo(tx);
+  const chains = useFromTo(tx);
+  if (!chains) {
+    return null;
+  }
+
+  const [from, to] = chains;
 
   if (isCctpBridge(tx)) {
     return getToken(tokens, {
@@ -376,8 +381,8 @@ function useToken(tx: Transaction, tokens: MultiChainToken[]) {
     isForcedWithdrawal(tx) && tx.withdrawal
       ? tx.withdrawal.metadata
       : isForcedWithdrawal(tx)
-      ? tx.deposit.metadata
-      : tx.metadata;
+        ? tx.deposit.metadata
+        : tx.metadata;
 
   return match(metadata)
     .with({ type: "eth-deposit" }, () => {
@@ -414,8 +419,8 @@ function useNft(tx: Transaction) {
     isForcedWithdrawal(tx) && tx.withdrawal
       ? tx.withdrawal.metadata
       : isForcedWithdrawal(tx)
-      ? tx.deposit.metadata
-      : tx.metadata;
+        ? tx.deposit.metadata
+        : tx.metadata;
 
   if (metadata.type === "nft-deposit") {
     return metadata as NftDepositDto;
@@ -442,8 +447,8 @@ function getDepositAmount(tx: Transaction, token: Token | null | undefined) {
       isForcedWithdrawal(tx) && tx.withdrawal
         ? tx.withdrawal.metadata
         : isForcedWithdrawal(tx)
-        ? tx.deposit.metadata
-        : tx.metadata;
+          ? tx.deposit.metadata
+          : tx.metadata;
 
     if (metadata.type === "eth-deposit") {
       amount = (metadata as EthDepositDto).data.amount;
@@ -483,14 +488,19 @@ export const TransactionRow = ({ tx }: { tx: Transaction }) => {
     (x) => x.status === ProgressRowStatus.Reverted
   );
 
-  const [from, to] = useFromTo(tx);
   const deployment = useDeploymentById(
     isAcrossBridge(tx)
       ? ""
       : isForcedWithdrawal(tx)
-      ? tx.deposit.deploymentId
-      : tx.deploymentId
+        ? tx.deposit.deploymentId
+        : tx.deploymentId
   );
+  const chains = useFromTo(tx);
+  if (!chains) {
+    return null;
+  }
+
+  const [from, to] = chains;
 
   const indicatorStyles = clsx(
     `w-4 h-4 outline outline-2 outline-zinc-50 dark:outline-zinc-900 absolute -right-1 bottom-0 rounded-full bg-card fill-green-400`,
