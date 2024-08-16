@@ -34,7 +34,7 @@ export const BridgeHeader = () => {
         <div className="flex gap-1.5 items-center">
           <button
             className={clsx(
-              inProgressCount > 0 ? "bg-muted pl-3" : "bg-card",
+              inProgressCount > 0 ? "bg-card pl-3" : "bg-card",
               "group hover:scale-105 transition-all flex items-center gap-1.5 text-foreground rounded-full transition-all rounded-full py-1.5 px-1.5 bg-card font-button"
             )}
             onClick={() => setDisplayTransactions(true)}
