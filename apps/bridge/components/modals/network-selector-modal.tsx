@@ -125,7 +125,7 @@ export const NetworkSelector = () => {
 
   return (
     <main
-      className="flex items-start justify-center scroll-smooth overflow-y-scroll w-vw h-dvh fixed inset-0 px-2 md:px-0 py-16 md:py-20 z-[25]"
+      className="flex items-start justify-center scroll-smooth overflow-y-scroll w-screen h-dvh fixed inset-0 px-2 md:px-0 py-16 md:py-20 z-[25]"
       key="bridgeMain"
       onClick={() => setDisplayNetworkSelector(false)}
     >
