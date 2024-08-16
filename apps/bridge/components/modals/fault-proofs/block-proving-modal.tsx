@@ -1,16 +1,18 @@
 import { IconAlert } from "@/components/icons";
 import { optimismFaultProofsUpgrade } from "@/constants/links";
-import { useConfigState } from "@/state/config";
+import { ModalNames } from "@/constants/modal-names";
+import { useDeploymentById } from "@/hooks/deployments/use-deployment-by-id";
+import { useModal } from "@/hooks/use-modal";
 
 import { Button } from "../../ui/button";
 import { Dialog, DialogContent } from "../../ui/dialog";
 
 export const BlockProvingModal = () => {
-  const deployment = useConfigState.useBlockProvingModal();
-  const setOpen = useConfigState.useSetBlockProvingModal();
+  const modal = useModal(ModalNames.BlockProving);
+  const deployment = useDeploymentById(modal.data || undefined);
 
   return (
-    <Dialog open={!!deployment} onOpenChange={() => setOpen(null)}>
+    <Dialog open={modal.isOpen} onOpenChange={modal.close}>
       <DialogContent>
         <div className="flex flex-col gap-8 p-6">
           <div className="flex flex-col gap-4 pt-6">
@@ -51,7 +53,7 @@ export const BlockProvingModal = () => {
             </div>
           </div>
 
-          <Button onClick={() => setOpen(null)}>Ok</Button>
+          <Button onClick={modal.close}>Ok</Button>
         </div>
       </DialogContent>
     </Dialog>

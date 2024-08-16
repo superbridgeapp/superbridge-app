@@ -1,11 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDebounce } from "use-debounce";
 
 import { Input } from "@/components/ui/input";
+import { ModalNames } from "@/constants/modal-names";
 import { useMetadata } from "@/hooks/use-metadata";
-import { useConfigState } from "@/state/config";
+import { useModal } from "@/hooks/use-modal";
 import { useSettingsState } from "@/state/settings";
 import { SuperchainTokenList } from "@/types/token-lists";
 
@@ -23,8 +24,7 @@ export const CustomTokenListModal = () => {
   const { t } = useTranslation();
   const metadata = useMetadata();
 
-  const tokenListOrOpen = useConfigState.useShowCustomTokenListModal();
-  const setOpen = useConfigState.useSetShowCustomTokenListModal();
+  const modal = useModal(ModalNames.CustomTokenListImport);
 
   const customTokenLists = useSettingsState.useCustomTokenLists();
   const setCustomTokenLists = useSettingsState.useSetCustomTokenLists();
@@ -49,49 +49,53 @@ export const CustomTokenListModal = () => {
     enabled: !!debouncedUrl,
   });
 
+  const list = useMemo(
+    () => customTokenLists.find((x) => x.id === modal.data),
+    [customTokenLists, modal.data]
+  );
+
   useEffect(() => {
-    if (typeof tokenListOrOpen === "object") {
-      setName(tokenListOrOpen.name);
-      setUrl(tokenListOrOpen.url);
+    if (list) {
+      setName(list.name);
+      setUrl(list.url);
       setDisclaimerChecked(true);
     } else {
       setName("");
       setUrl("");
       setDisclaimerChecked(false);
     }
-  }, [tokenListOrOpen]);
+  }, [list]);
 
   const onSubmit = () => {
-    if (typeof tokenListOrOpen === "boolean") {
+    if (list) {
+      // editing
+      setCustomTokenLists(
+        customTokenLists.map((x) =>
+          x.id === list.id ? { ...x, name, url } : x
+        )
+      );
+    } else {
       // adding
       setCustomTokenLists([
         ...customTokenLists,
         { id: Math.random().toString(), name, url, enabled: true },
       ]);
-    } else {
-      // editing
-      setCustomTokenLists(
-        customTokenLists.map((x) =>
-          x.id === tokenListOrOpen.id ? { ...x, name, url } : x
-        )
-      );
     }
-    setOpen(false);
+    modal.close();
   };
 
   const onDelete = () => {
-    if (typeof tokenListOrOpen === "boolean") {
+    if (!list) {
       // can't delete new tokenList
       return;
     }
-    setCustomTokenLists(
-      customTokenLists.filter((x) => x.name !== tokenListOrOpen.name)
-    );
-    setOpen(false);
+
+    setCustomTokenLists(customTokenLists.filter((x) => x.id !== list.id));
+    modal.close();
   };
 
   return (
-    <Dialog open={!!tokenListOrOpen} onOpenChange={setOpen}>
+    <Dialog open={modal.isOpen} onOpenChange={modal.close}>
       <DialogContent>
         <div className="p-6 pb-0">
           <h2 className="font-heading">{"Custom token list"}</h2>
@@ -176,7 +180,7 @@ export const CustomTokenListModal = () => {
             {t("customTokenLists.save")}
           </Button>
 
-          {typeof tokenListOrOpen === "object" && (
+          {!!list && (
             <Button
               onClick={onDelete}
               disabled={!name || !url || !disclaimerChecked}

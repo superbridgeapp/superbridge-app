@@ -7,7 +7,7 @@ import { L2ERC20GatewayAbi } from "@/abis/arbitrum/L2ERC20Gateway";
 import { StandardArbERC20Abi } from "@/abis/arbitrum/StandardArbERC20";
 import { useDeployment } from "@/hooks/deployments/use-deployment";
 
-export const useCustomToken = (address: Address) => {
+export const useCustomToken = (address: string | null) => {
   const deployment = useDeployment();
   const account = useAccount();
 
@@ -15,25 +15,25 @@ export const useCustomToken = (address: Address) => {
     allowFailure: true,
     contracts: [
       {
-        address,
+        address: address as Address,
         abi: erc20Abi,
         chainId: deployment?.l2.id,
         functionName: "name",
       },
       {
-        address,
+        address: address as Address,
         abi: erc20Abi,
         chainId: deployment?.l2.id,
         functionName: "symbol",
       },
       {
-        address,
+        address: address as Address,
         abi: erc20Abi,
         chainId: deployment?.l2.id,
         functionName: "decimals",
       },
       {
-        address,
+        address: address as Address,
         abi: erc20Abi,
         chainId: deployment?.l2.id,
         functionName: "balanceOf",
@@ -42,13 +42,13 @@ export const useCustomToken = (address: Address) => {
 
       // Optimism
       {
-        address,
+        address: address as Address,
         abi: OptimismMintableERC20Abi,
         chainId: deployment?.l2.id,
         functionName: "BRIDGE",
       },
       {
-        address,
+        address: address as Address,
         abi: OptimismMintableERC20Abi,
         chainId: deployment?.l2.id,
         functionName: "REMOTE_TOKEN",
@@ -56,13 +56,13 @@ export const useCustomToken = (address: Address) => {
 
       // Arbitrum
       {
-        address,
+        address: address as Address,
         abi: StandardArbERC20Abi,
         chainId: deployment?.l2.id,
         functionName: "l1Address",
       },
       {
-        address,
+        address: address as Address,
         abi: StandardArbERC20Abi,
         chainId: deployment?.l2.id,
         functionName: "l2Gateway",
@@ -70,7 +70,7 @@ export const useCustomToken = (address: Address) => {
 
       // L1
       {
-        address,
+        address: address as Address,
         abi: erc20Abi,
         chainId: deployment?.l1.id,
         functionName: "name",

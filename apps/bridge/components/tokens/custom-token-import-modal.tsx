@@ -2,10 +2,11 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Address } from "viem";
 
+import { ModalNames } from "@/constants/modal-names";
 import { useDeployment } from "@/hooks/deployments/use-deployment";
 import { useMetadata } from "@/hooks/use-metadata";
+import { useModal } from "@/hooks/use-modal";
 import { useTrackEvent } from "@/services/ga";
-import { useConfigState } from "@/state/config";
 import { useSettingsState } from "@/state/settings";
 import { MultiChainToken, Token } from "@/types/token";
 import { addressLink } from "@/utils/transaction-link";
@@ -16,14 +17,13 @@ import { Checkbox } from "../ui/checkbox";
 import { Dialog, DialogContent } from "../ui/dialog";
 import { useCustomToken } from "./use-custom-token";
 
-export const CustomTokenImportModal = () => {
+const CustomTokenImport = () => {
   const deployment = useDeployment();
   const { t } = useTranslation();
   const metadata = useMetadata();
   const trackEvent = useTrackEvent();
 
-  const open = useConfigState.useShowCustomTokenImportModal();
-  const setOpen = useConfigState.useSetShowCustomTokenImportModal();
+  const modal = useModal(ModalNames.CustomTokenImport);
   const customTokens = useSettingsState.useCustomTokens();
   const setCustomTokens = useSettingsState.useSetCustomTokens();
 
@@ -37,7 +37,7 @@ export const CustomTokenImportModal = () => {
     ARB_L1_TOKEN,
     ARB_L2_GATEWAY,
     ARB_L1_GATEWAY,
-  } = useCustomToken(open as Address);
+  } = useCustomToken(modal.data);
   const [disclaimerChecked, setDisclaimerChecked] = useState(false);
 
   const onSubmit = () => {
@@ -55,7 +55,7 @@ export const CustomTokenImportModal = () => {
         bridges: [deployment!.l2.id],
       };
       const opL2Token: Token = {
-        address: open as Address,
+        address: modal.data as Address,
         chainId: deployment!.l2.id,
         decimals: decimals!,
         name: name!,
@@ -78,7 +78,7 @@ export const CustomTokenImportModal = () => {
         bridges: [deployment!.l2.id],
       };
       const arbL2Token: Token = {
-        address: open as Address,
+        address: modal.data as Address,
         chainId: deployment!.l2.id,
         decimals: decimals!,
         name: name!,
@@ -109,19 +109,19 @@ export const CustomTokenImportModal = () => {
     });
 
     setCustomTokens([...customTokens, token]);
-    setOpen(false);
+    modal.close();
   };
 
   const l1Link = addressLink(
     OP_L1_TOKEN ?? ARB_L1_TOKEN ?? "0x",
     deployment?.l1
   );
-  const l2Link = addressLink(open as Address, deployment?.l2);
+  const l2Link = addressLink(modal.data as Address, deployment?.l2);
 
   const isL3 = !L1_BASE_CHAINS.includes(deployment?.l1.id ?? 0);
 
   return (
-    <Dialog open={!!open} onOpenChange={() => setOpen(false)}>
+    <Dialog open={modal.isOpen} onOpenChange={modal.close}>
       <DialogContent>
         <div className="p-6 pb-0">
           <h2 className="font-heading">{"Import token"}</h2>
@@ -210,7 +210,7 @@ export const CustomTokenImportModal = () => {
                 </a>
               </div>
               <span className=" text-xs text-muted-foreground break-words leading-3">
-                {open}
+                {modal.data}
               </span>
             </div>
           </div>
@@ -232,6 +232,18 @@ export const CustomTokenImportModal = () => {
             {t("tokens.import")}
           </Button>
         </div>
+      </DialogContent>
+    </Dialog>
+  );
+};
+
+export const CustomTokenImportModal = () => {
+  const modal = useModal(ModalNames.CustomTokenImport);
+
+  return (
+    <Dialog open={modal.isOpen} onOpenChange={modal.close}>
+      <DialogContent>
+        <CustomTokenImport />
       </DialogContent>
     </Dialog>
   );

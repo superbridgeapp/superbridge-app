@@ -12,6 +12,9 @@ export enum ModalNames {
   TokenSelector = "TokenSelector",
   Legal = "Legal",
   GasInfo = "GasInfo",
+  CustomTokenImport = "CustomTokenImport",
+  CustomTokenListImport = "CustomTokenListImport",
+  BlockProving = "BlockProving",
 }
 
 export enum AlertModals {

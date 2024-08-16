@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
+import { ModalNames } from "@/constants/modal-names";
+import { useModal } from "@/hooks/use-modal";
 import { useConfigState } from "@/state/config";
 import { CustomTokenList, useSettingsState } from "@/state/settings";
 
@@ -16,8 +18,8 @@ export const TokenLists = () => {
 
   const customTokenLists = useSettingsState.useCustomTokenLists();
   const setCustomTokenLists = useSettingsState.useSetCustomTokenLists();
-  const setShowCustomTokenListModal =
-    useConfigState.useSetShowCustomTokenListModal();
+
+  const customTokenListModal = useModal(ModalNames.CustomTokenListImport);
 
   const { t, i18n } = useTranslation();
 
@@ -106,7 +108,7 @@ export const TokenLists = () => {
               </div>
 
               <button
-                onClick={() => setShowCustomTokenListModal(tokenList)}
+                onClick={() => customTokenListModal.open(tokenList.id)}
                 className={`text-xs  hover:opacity-50 text-muted-foreground`}
               >
                 {t("manage")}
@@ -115,7 +117,7 @@ export const TokenLists = () => {
           ))}
 
           <button
-            onClick={() => setShowCustomTokenListModal(true)}
+            onClick={() => customTokenListModal.open()}
             className={`mt-2 mr-auto text-xs   leading-3 rounded-full px-2 py-1 hover:scale-105 transition-all`}
           >
             {t("customTokenLists.add")}

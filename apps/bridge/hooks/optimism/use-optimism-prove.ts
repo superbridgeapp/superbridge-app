@@ -1,11 +1,12 @@
 import { useBridgeControllerGetProveTransaction } from "@/codegen";
 import { BridgeWithdrawalDto } from "@/codegen/model";
+import { ModalNames } from "@/constants/modal-names";
 import { useTrackEvent } from "@/services/ga";
-import { useConfigState } from "@/state/config";
 import { usePendingTransactions } from "@/state/pending-txs";
 
 import { useDeploymentById } from "../deployments/use-deployment-by-id";
 import { useFaultProofUpgradeTime } from "../use-fault-proof-upgrade-time";
+import { useModal } from "../use-modal";
 import { useSendTransactionDto } from "../use-send-transaction-dto";
 
 export function useProveOptimism({
@@ -15,7 +16,7 @@ export function useProveOptimism({
 }: BridgeWithdrawalDto) {
   const deployment = useDeploymentById(deploymentId);
   const setProving = usePendingTransactions.useSetProving();
-  const setBlockProvingModal = useConfigState.useSetBlockProvingModal();
+  const blockProvingModal = useModal(ModalNames.BlockProving);
   const getProveTransaction = useBridgeControllerGetProveTransaction();
   const faultProofUpgradeTime = useFaultProofUpgradeTime(deployment);
   const { loading, onSubmit } = useSendTransactionDto(deployment?.l1, () =>
@@ -27,7 +28,7 @@ export function useProveOptimism({
 
   const onProve = async () => {
     if (faultProofUpgradeTime) {
-      setBlockProvingModal(deployment);
+      blockProvingModal.open(deployment?.id);
       return;
     }
 

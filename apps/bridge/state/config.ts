@@ -5,8 +5,6 @@ import { create } from "zustand";
 import { DeploymentDto } from "@/codegen/model";
 import { ModalNames } from "@/constants/modal-names";
 
-import { CustomTokenList } from "./settings";
-
 interface ConfigState {
   displayConfirmationModal: boolean;
   setDisplayConfirmationModal: (x: boolean) => void;
@@ -35,15 +33,6 @@ interface ConfigState {
 
   displayTransactions: boolean;
   setDisplayTransactions: (b: boolean) => void;
-
-  showCustomTokenListModal: true | CustomTokenList | false;
-  setShowCustomTokenListModal: (b: true | CustomTokenList | false) => void;
-
-  showCustomTokenImportModal: Address | false;
-  setShowCustomTokenImportModal: (b: Address | false) => void;
-
-  blockProvingModal: DeploymentDto | null;
-  setBlockProvingModal: (blockProvingModal: DeploymentDto | null) => void;
 
   modals: { [x in ModalNames]: boolean };
   addModal: (x: ModalNames) => void;
@@ -89,14 +78,6 @@ const ConfigState = create<ConfigState>()((set, get) => ({
   setDisplayConfirmationModal: (displayConfirmationModal) =>
     set({ displayConfirmationModal }),
 
-  showCustomTokenListModal: false,
-  setShowCustomTokenListModal: (showCustomTokenListModal) =>
-    set({ showCustomTokenListModal }),
-
-  showCustomTokenImportModal: false,
-  setShowCustomTokenImportModal: (showCustomTokenImportModal) =>
-    set({ showCustomTokenImportModal }),
-
   displayNetworkSelector: false,
   setDisplayNetworkSelector: (displayNetworkSelector) =>
     set({ displayNetworkSelector }),
@@ -104,9 +85,6 @@ const ConfigState = create<ConfigState>()((set, get) => ({
   networkSelectorDirection: "from",
   setNetworkSelectorDirection: (networkSelectorDirection) =>
     set({ networkSelectorDirection }),
-
-  blockProvingModal: null,
-  setBlockProvingModal: (blockProvingModal) => set({ blockProvingModal }),
 
   modals: Object.keys(ModalNames).reduce(
     (accum, name) => ({ ...accum, [name]: false }),
