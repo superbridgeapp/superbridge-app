@@ -45,8 +45,6 @@ export const useInitiateBridge = () => {
   const rawAmount = useConfigState.useRawAmount();
   const recipient = useConfigState.useRecipientAddress();
   const setSubmittingBridge = useConfigState.useSetSubmittingBridge();
-  const setPendingBridgeTransactionHash =
-    useModalsState.useSetPendingBridgeTransactionHash();
   const addPendingTransaction = usePendingTransactions.useAddTransaction();
   const updatePendingTransactionHash =
     usePendingTransactions.useUpdateTransactionByHash();
@@ -85,7 +83,6 @@ export const useInitiateBridge = () => {
       }
 
       const hash = await bridge.write!();
-      setPendingBridgeTransactionHash(hash);
 
       const type =
         route.data.id === RouteProvider.Hyperlane

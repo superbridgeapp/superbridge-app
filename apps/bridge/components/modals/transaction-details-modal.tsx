@@ -1,4 +1,5 @@
 import { TransactionStatus } from "@/codegen/model";
+import { ModalNames } from "@/constants/modal-names";
 import { useFinalisingTx } from "@/hooks/activity/use-finalising-tx";
 import { useInitiatingTx } from "@/hooks/activity/use-initiating-tx";
 import { useProveTx } from "@/hooks/activity/use-prove-tx";
@@ -6,8 +7,8 @@ import { useTxAmount } from "@/hooks/activity/use-tx-amount";
 import { useTxFromTo } from "@/hooks/activity/use-tx-from-to";
 import { useTxProvider } from "@/hooks/activity/use-tx-provider";
 import { useTxToken } from "@/hooks/activity/use-tx-token";
+import { useModal } from "@/hooks/use-modal";
 import { useTransactions } from "@/hooks/use-transactions";
-import { useModalsState } from "@/state/modals";
 import { usePendingTransactions } from "@/state/pending-txs";
 import { useProgressRows } from "@/utils/progress-rows";
 import { isWaitStep } from "@/utils/progress-rows/common";
@@ -34,8 +35,8 @@ const useTransactionById = (id: string | null) => {
 };
 
 const Content = () => {
-  const activityId = useModalsState.useActivityId();
-  const tx = useTransactionById(activityId);
+  const modal = useModal(ModalNames.TransactionDetails);
+  const tx = useTransactionById(modal.data);
 
   const token = useTxToken(tx);
 
@@ -85,13 +86,10 @@ const Content = () => {
 };
 
 export const TransactionDetailsModal = () => {
-  const setActivityId = useModalsState.useSetActivityId();
-  const activityId = useModalsState.useActivityId();
-
-  const onClose = () => setActivityId(null);
+  const modal = useModal(ModalNames.TransactionDetails);
 
   return (
-    <Dialog open={!!activityId} onOpenChange={onClose}>
+    <Dialog open={modal.isOpen} onOpenChange={modal.close}>
       <DialogContent>
         <Content />
       </DialogContent>

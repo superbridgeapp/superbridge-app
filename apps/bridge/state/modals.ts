@@ -7,23 +7,16 @@ interface ModalsState {
   alerts: AlertModals[];
   setAlerts: (a: AlertModals[]) => void;
 
-  pendingBridgeTransactionHash: string | null;
-  setPendingBridgeTransactionHash: (x: string | null) => void;
-
-  activityId: string | null;
-  setActivityId: (x: string | null) => void;
+  activeId: string | null;
+  setActiveId: (x: string | null) => void;
 }
 
 const ModalsState = create<ModalsState>()((set, get) => ({
   alerts: [],
   setAlerts: (alerts) => set({ alerts }),
 
-  pendingBridgeTransactionHash: null,
-  setPendingBridgeTransactionHash: (pendingBridgeTransactionHash) =>
-    set({ pendingBridgeTransactionHash }),
-
-  activityId: null,
-  setActivityId: (activityId) => set({ activityId }),
+  activeId: null,
+  setActiveId: (activeId) => set({ activeId }),
 }));
 
 export const useModalsState = createSelectorHooks(ModalsState);

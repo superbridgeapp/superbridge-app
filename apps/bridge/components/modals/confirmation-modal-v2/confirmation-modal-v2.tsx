@@ -20,8 +20,6 @@ export const ConfirmationModalV2 = () => {
   const from = useFromChain();
   const to = useToChain();
   const token = useSelectedToken();
-  const pendingBridgeTransactionHash =
-    useModalsState.usePendingBridgeTransactionHash();
 
   const deployment = useDeployment();
 

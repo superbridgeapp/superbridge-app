@@ -7,6 +7,7 @@ import {
   TransactionStatus,
 } from "@/codegen/model";
 import { ArbitrumMessageStatus } from "@/constants/arbitrum-message-status";
+import { ModalNames } from "@/constants/modal-names";
 import { useFinalisingTx } from "@/hooks/activity/use-finalising-tx";
 import { useInitiatingTx } from "@/hooks/activity/use-initiating-tx";
 import { useTxAmount } from "@/hooks/activity/use-tx-amount";
@@ -15,8 +16,8 @@ import { useTxFromTo } from "@/hooks/activity/use-tx-from-to";
 import { useTxProvider } from "@/hooks/activity/use-tx-provider";
 import { useTxTimestamp } from "@/hooks/activity/use-tx-timestamp";
 import { useTxToken } from "@/hooks/activity/use-tx-token";
+import { useModal } from "@/hooks/use-modal";
 import { useConfigState } from "@/state/config";
-import { useModalsState } from "@/state/modals";
 import { usePendingTransactions } from "@/state/pending-txs";
 import { Transaction } from "@/types/transaction";
 import { isOptimism } from "@/utils/deployments/is-mainnet";
@@ -150,7 +151,7 @@ const useStatus = (tx: Transaction): Status => {
 
 const ActionRow = ({ tx }: { tx: Transaction }) => {
   const status = useStatus(tx);
-  const setActivityId = useModalsState.useSetActivityId();
+  const modal = useModal(ModalNames.TransactionDetails);
 
   if (!status) {
     return null;
@@ -163,13 +164,13 @@ const ActionRow = ({ tx }: { tx: Transaction }) => {
       </span>
 
       {isActionStatus(status) ? (
-        <Button size={"sm"} onClick={() => setActivityId(tx.id)}>
+        <Button size={"sm"} onClick={() => modal.open(tx.id)}>
           {status.button}
         </Button>
       ) : isWaitStatus(status) && status.timestamp > Date.now() ? (
         <div
           className="bg-muted rounded-full flex items-center gap-2 p-2 pl-3 cursor-pointer"
-          onClick={() => setActivityId(tx.id)}
+          onClick={() => modal.open(tx.id)}
         >
           <span className="text-xs lg:text-sm text-muted-foreground">
             ~{formatDistanceToNowStrict((status as any).timestamp)} to go
@@ -179,7 +180,7 @@ const ActionRow = ({ tx }: { tx: Transaction }) => {
       ) : (
         isGeneralStatus(status) && (
           <Button
-            onClick={() => setActivityId(tx.id)}
+            onClick={() => modal.open(tx.id)}
             size={"xs"}
             variant={"secondary"}
           >
@@ -225,8 +226,8 @@ const useAction = (tx: Transaction) => {
     return status === MessageStatus.READY_TO_PROVE
       ? "prove"
       : status === MessageStatus.READY_FOR_RELAY
-      ? "finalize"
-      : null;
+        ? "finalize"
+        : null;
   }
 
   if (isArbitrumWithdrawal(tx)) {
@@ -248,9 +249,8 @@ const useProgressBars = (
   const proveTx = isOptimismWithdrawal(tx)
     ? tx.prove
     : isOptimismForcedWithdrawal(tx)
-    ? tx.withdrawal?.prove
-    : null;
-  const pendingProves = usePendingTransactions.usePendingProves();
+      ? tx.withdrawal?.prove
+      : null;
   const pendingFinalises = usePendingTransactions.usePendingFinalises();
 
   const bars: {
@@ -299,7 +299,7 @@ export const TransactionRowV2 = ({ tx }: { tx: Transaction }) => {
 
   const chains = useTxFromTo(tx);
   const openModal = useConfigState.useAddModal();
-  const openActivityModal = useModalsState.useSetActivityId();
+  const modal = useModal(ModalNames.TransactionDetails);
   const timestamp = useTxTimestamp(tx);
   const amount = useTxAmount(tx, token);
 
@@ -366,7 +366,7 @@ export const TransactionRowV2 = ({ tx }: { tx: Transaction }) => {
           )}
           {isSuccessful && (
             <Button
-              onClick={() => openActivityModal(tx.id)}
+              onClick={() => modal.open(tx.id)}
               size={"xs"}
               variant={"secondary"}
             >
