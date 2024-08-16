@@ -62,7 +62,10 @@ export const SuperbridgeHead = ({
       <link rel="icon" href={icon} />
       <link rel="apple-touch-icon" href={icon} />
       <link rel="apple-touch-icon-precomposed" href={icon} />
-
+      <meta
+        name="viewport"
+        content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"
+      />
       <style>{fonts}</style>
     </NextHead>
   );
