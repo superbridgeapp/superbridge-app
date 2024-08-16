@@ -39,8 +39,13 @@ import { Button } from "./ui/button";
 const useNextStateChangeTimestamp = (tx: Transaction) => {
   const initiatingTx = useInitiatingTx(tx);
   const deployment = useTxDeployment(tx);
+  const chains = useTxFromTo(tx);
 
-  if (initiatingTx && !isConfirmed(initiatingTx)) {
+  if (!initiatingTx) {
+    return null;
+  }
+
+  if (!isConfirmed(initiatingTx)) {
     return {
       description: "Submitting bridge",
     };
@@ -75,20 +80,20 @@ const useNextStateChangeTimestamp = (tx: Transaction) => {
     return null;
   }
 
-  if (initiatingTx && isConfirmed(initiatingTx)) {
-    let description = "";
+  let description = "";
 
-    if (isArbitrumWithdrawal(tx)) {
-      description = "In challenge period";
-    }
-
-    return {
-      timestamp: initiatingTx.timestamp + tx.duration,
-      description,
-    };
+  if (isArbitrumWithdrawal(tx)) {
+    description = "In challenge period";
+  } else if (isCctpBridge(tx)) {
+    description = "Waiting for Circle attestation";
+  } else {
+    description = `Waiting for confirmation on ${chains?.to.name}`;
   }
 
-  return null;
+  return {
+    timestamp: initiatingTx.timestamp + tx.duration,
+    description,
+  };
 };
 
 type ActionStatus = { description: string; button: string };

@@ -12,6 +12,7 @@ import { useTransactions } from "@/hooks/use-transactions";
 import { useTrackEvent } from "@/services/ga";
 import { useConfigState } from "@/state/config";
 import { usePendingTransactions } from "@/state/pending-txs";
+import { getInitiatingHash } from "@/utils/initiating-tx-hash";
 
 import { IconClose, IconSpinner } from "../icons";
 import { TransactionRowV2 } from "../transaction-row-v2";
@@ -191,7 +192,7 @@ export const OpenActivity = ({}) => {
                   {[...pendingTransactions, ...transactions].map((t) => {
                     return (
                       <motion.div
-                        key={`activity-${t.id}`}
+                        key={`activity-${getInitiatingHash(t)}`}
                         variants={item}
                         // hovers must not be a variant or stagger animation fails
                         // whileHover={{ scale: 1.03 }}
