@@ -334,12 +334,12 @@ export const ConfirmationModalStartTab = () => {
                 x.type === RouteStepType.Initiate
                   ? "Start bridge"
                   : x.type === RouteStepType.Prove
-                    ? "Prove"
-                    : x.type === RouteStepType.Finalize
-                      ? "Claim"
-                      : x.type === RouteStepType.Mint
-                        ? "Claim"
-                        : "";
+                  ? "Prove"
+                  : x.type === RouteStepType.Finalize
+                  ? "Claim"
+                  : x.type === RouteStepType.Mint
+                  ? "Claim"
+                  : "";
               const buttonComponent =
                 x.type === RouteStepType.Initiate ? (
                   <Button
@@ -398,7 +398,7 @@ export const ConfirmationModalStartTab = () => {
           Bridge {rawAmount} {token?.symbol}
         </DialogTitle>
         <DialogDescription>
-          <div className="flex gap-1 items-center rounded-full border pl-1.5 pr-2 py-1">
+          <div className="flex gap-1 items-center rounded-sm border pl-1 pr-2 py-1">
             <div className="flex">
               <NetworkIcon chain={from} className="w-4 h-4 rounded-2xs" />
               <NetworkIcon chain={to} className="w-4 h-4 rounded-2xs -ml-1" />
