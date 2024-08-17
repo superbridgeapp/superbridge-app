@@ -14,7 +14,7 @@ export const Bridge = () => {
       className="flex items-start justify-center w-screen h-screen fixed inset-0 overflow-y-auto overflow-x-hidden"
       key="bridgeMain"
     >
-      <div className="w-full px-2 md:px-0  md:w-[468px] relative mb-24 mt-28 md:mt-24 2xl:mt-32">
+      <div className="w-full px-2 md:px-0  md:w-[468px] relative mb-24 mt-24 2xl:mt-32">
         <div className="flex flex-col gap-2 items-center">
           <Banners />
           <div>
