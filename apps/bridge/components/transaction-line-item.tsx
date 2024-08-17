@@ -56,7 +56,7 @@ export function LineItem({
 
           <span className="ml-auto">
             {isWaitStepDone(step) ? (
-              <IconCheckCircle className="w-6 h-6 fill-muted-foreground" />
+              <IconCheckCircle className="w-6 h-6 fill-primary" />
             ) : isWaitStepInProgress(step) ? (
               <div className="flex items-center gap-1">
                 <span className="text-xs text-foreground">
@@ -142,7 +142,7 @@ export function TransactionLineItem({
           className="flex gap-2 items-center justify-end absolute inset-0 p-3 group"
         >
           <IconArrowUpRightCircle className="w-6 h-6 fill-muted-foreground opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 fill-primary transition-all ease-in-out delay-150 absolute right-3" />
-          <IconCheckCircle className="w-6 h-6 fill-muted-foreground opacity-100 scale-100 group-hover:opacity-0 group-hover:scale-95 transition-all ease-in-out absolute right-3" />
+          <IconCheckCircle className="w-6 h-6 fill-primary opacity-100 scale-100 group-hover:opacity-0 group-hover:scale-95 transition-all ease-in-out absolute right-3" />
         </a>
       ) : step.pendingHash ? (
         <a href={transactionLink(step.pendingHash, step.chain)} target="_blank">
