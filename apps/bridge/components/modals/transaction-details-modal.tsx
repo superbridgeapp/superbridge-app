@@ -58,10 +58,16 @@ const Content = () => {
           {isSuccess ? `Bridged ${amount}` : `Bridging ${amount}`}
         </DialogTitle>
         <DialogDescription>
-          <div className="flex gap-1 items-center rounded-full border pl-1.5 pr-2 py-1">
+          <div className="flex gap-1 items-center rounded-sm border pl-1 pr-2 py-1">
             <div className="flex">
-              <NetworkIcon chain={chains?.from} className="w-4 h-4" />
-              <NetworkIcon chain={chains?.to} className="w-4 h-4 -ml-1" />
+              <NetworkIcon
+                chain={chains?.from}
+                className="w-4 h-4 rounded-2xs"
+              />
+              <NetworkIcon
+                chain={chains?.to}
+                className="w-4 h-4 -ml-1 rounded-2xs"
+              />
             </div>
             <span className="text-xs text-muted-foreground">
               via <RouteProviderName provider={provider} />
