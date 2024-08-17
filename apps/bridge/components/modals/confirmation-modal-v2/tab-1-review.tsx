@@ -177,7 +177,7 @@ export const ConfirmationModalReviewTab = ({
           <div className="flex items-start gap-4 p-3 justify-between">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <IconFees className="w-4 h-auto fill-muted-foreground" />
+                <IconSimpleFees className="w-4 h-auto fill-muted-foreground" />
                 <span>Fees</span>
               </div>
             </div>
