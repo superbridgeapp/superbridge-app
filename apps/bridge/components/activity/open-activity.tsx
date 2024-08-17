@@ -13,6 +13,7 @@ import { useConfigState } from "@/state/config";
 import { usePendingTransactions } from "@/state/pending-txs";
 
 import { Loading } from "../Loading";
+import { OpMainnetWithdrawalsResetBanner } from "../banners/op-mainnet-withdrawals-reset-banner";
 import { IconSpinner } from "../icons";
 import { TransactionRow } from "../transaction-row";
 
@@ -91,6 +92,7 @@ export const OpenActivity = ({}) => {
             </div>
           </div>
         </div>
+
         {match({
           statusCheck,
           isError,
@@ -143,6 +145,8 @@ export const OpenActivity = ({}) => {
 
               return (
                 <div className="overflow-y-auto overflow-x-hidden -mb-[2px]">
+                  {/* TODO: Show if have optimism tsns or are on op deplyment currently maybe? */}
+                  <OpMainnetWithdrawalsResetBanner className="bg-muted !rounded-none !shadow-none" />
                   {[...pendingTransactions, ...transactions].map((t) => {
                     return <TransactionRow key={t.id} tx={t} />;
                   })}

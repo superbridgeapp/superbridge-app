@@ -1,17 +1,23 @@
+import clsx from "clsx";
+
 import { useDeployment } from "@/hooks/use-deployment";
 
 import { IconAlert } from "../icons";
 import { Alert } from "../ui/alert";
 
-export const OpMainnetWithdrawalsResetBanner = () => {
+export const OpMainnetWithdrawalsResetBanner = ({ className }: any) => {
   const deployment = useDeployment();
 
+  // TODO: can this be show if you have OP txns? Rather than current deployment?
   if (deployment?.name !== "optimism") {
     return null;
   }
 
   return (
-    <Alert variant={"horizontal"} className="flex items-start gap-4">
+    <Alert
+      variant={"horizontal"}
+      className={clsx("flex items-start gap-4", className)}
+    >
       <div className="animate-wiggle-waggle drop-shadow-lg">
         <IconAlert className="h-8 w-8 shrink-0" />
       </div>
