@@ -74,7 +74,7 @@ export const ConfirmationModalReviewTab = ({
         <div className="flex flex-col gap-1">
           {/* Send */}
           <div className="flex gap-4 px-3 py-4 rounded-lg justify-between bg-muted">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 shrink-0">
               <NetworkIcon chain={from} className="h-7 w-7 rounded-xs" />
               <div className="flex flex-col gap-0.5">
                 <span className="text-xs text-muted-foreground leading-none">
@@ -85,7 +85,7 @@ export const ConfirmationModalReviewTab = ({
                 </span>
               </div>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 leading-none text-right">
               <span>
                 {rawAmount} {selectedToken?.symbol}
               </span>
@@ -98,7 +98,7 @@ export const ConfirmationModalReviewTab = ({
 
           {/* Receive 2 */}
           <div className="flex gap-4 px-3 py-4 rounded-lg justify-between bg-muted">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 shrink-0">
               <NetworkIcon chain={to} className="h-7 w-7 rounded-xs" />
               <div className="flex flex-col gap-0.5">
                 <span className="text-xs text-muted-foreground leading-none">
@@ -110,7 +110,7 @@ export const ConfirmationModalReviewTab = ({
               </div>
             </div>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 leading-none text-right">
               <span>
                 {receive.data ? <>{receive.data.token.formatted}</> : "…"}
               </span>
