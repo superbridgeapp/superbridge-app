@@ -136,7 +136,9 @@ export const RecipientAddressModal = () => {
   return (
     <>
       <Dialog open={modal.isOpen} onOpenChange={modal.close}>
-        <DialogContent>
+        <DialogContent
+          onOpenAutoFocus={(event: Event) => event.preventDefault()}
+        >
           <DialogHeader>
             <DialogTitle>{t("recipient.bridgeDestination")}</DialogTitle>
           </DialogHeader>
