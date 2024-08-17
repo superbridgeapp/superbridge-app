@@ -173,7 +173,7 @@ const ActionRow = ({ tx }: { tx: Transaction }) => {
           <span className="text-xs lg:text-sm text-muted-foreground">
             ~{formatDistanceToNowStrict((status as any).timestamp)} to go
           </span>
-          <IconSimpleTime className="w-6 h-6 fill-foreground animate-wiggle-waggle" />
+          <IconSimpleTime className="w-6 h-6 fill-muted-foreground animate-wiggle-waggle" />
         </div>
       ) : (
         isGeneralStatus(status) && (
@@ -224,8 +224,8 @@ const useAction = (tx: Transaction) => {
     return status === MessageStatus.READY_TO_PROVE
       ? "prove"
       : status === MessageStatus.READY_FOR_RELAY
-        ? "finalize"
-        : null;
+      ? "finalize"
+      : null;
   }
 
   if (isArbitrumWithdrawal(tx)) {
@@ -247,8 +247,8 @@ const useProgressBars = (
   const proveTx = isOptimismWithdrawal(tx)
     ? tx.prove
     : isOptimismForcedWithdrawal(tx)
-      ? tx.withdrawal?.prove
-      : null;
+    ? tx.withdrawal?.prove
+    : null;
   const pendingFinalises = usePendingTransactions.usePendingFinalises();
 
   const bars: {
@@ -327,7 +327,7 @@ export const TransactionRowV2 = ({ tx }: { tx: Transaction }) => {
             </span>
             <span className="text-2xl lg:text-3xl leading-none">{amount}</span>
           </div>
-          <div className="flex bg-muted rounded-lg p-1 shrink-0">
+          <div className="flex bg-muted rounded-md p-1 shrink-0">
             <NetworkIcon chain={chains?.from} className="h-6 w-6 rounded-xs" />
             <NetworkIcon
               chain={chains?.to}
