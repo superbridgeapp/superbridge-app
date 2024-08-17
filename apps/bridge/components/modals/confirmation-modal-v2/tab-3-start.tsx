@@ -218,7 +218,7 @@ export const ConfirmationModalStartTab = () => {
     .with({ family: DeploymentFamily.optimism }, () => null)
     .with({ approving: true }, () => ({
       onSubmit: () => {},
-      buttonText: t("confirmationModal.approvingGasToken"),
+      buttonText: "Approving",
       disabled: true,
     }))
     .with({ approved: false }, () => ({
@@ -229,12 +229,12 @@ export const ConfirmationModalStartTab = () => {
 
         approveGasToken.write();
       },
-      buttonText: t("confirmationModal.approveGasToken"),
+      buttonText: "Approve",
       disabled: false,
     }))
     .with({ approved: true }, () => ({
       onSubmit: () => {},
-      buttonText: t("confirmationModal.approvedGasToken"),
+      buttonText: "Approved",
       disabled: true,
     }))
     .exhaustive();
@@ -256,7 +256,7 @@ export const ConfirmationModalStartTab = () => {
     .with({ isNativeToken: true }, () => null)
     .with({ approving: true }, () => ({
       onSubmit: () => {},
-      buttonText: t("approving"),
+      buttonText: "Approving",
       disabled: true,
     }))
     .with({ approved: false }, () => {
@@ -270,13 +270,13 @@ export const ConfirmationModalStartTab = () => {
       }
       return {
         onSubmit: () => approve.write(),
-        buttonText: t("approve"),
+        buttonText: "Approve",
         disabled: false,
       };
     })
     .with({ approved: true }, () => ({
       onSubmit: () => {},
-      buttonText: t("confirmationModal.approved"),
+      buttonText: "Approved",
       disabled: true,
     }))
     .exhaustive();
@@ -334,12 +334,12 @@ export const ConfirmationModalStartTab = () => {
                 x.type === RouteStepType.Initiate
                   ? "Start bridge"
                   : x.type === RouteStepType.Prove
-                  ? "Prove"
-                  : x.type === RouteStepType.Finalize
-                  ? "Claim"
-                  : x.type === RouteStepType.Mint
-                  ? "Claim"
-                  : "";
+                    ? "Prove"
+                    : x.type === RouteStepType.Finalize
+                      ? "Claim"
+                      : x.type === RouteStepType.Mint
+                        ? "Claim"
+                        : "";
               const buttonComponent =
                 x.type === RouteStepType.Initiate ? (
                   <Button
