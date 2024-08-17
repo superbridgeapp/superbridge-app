@@ -91,7 +91,7 @@ export const ConfirmationModalReviewTab = ({
               </span>
               <TokenIcon
                 token={selectedToken}
-                className="h-5 w-5 rounded-full"
+                className="h-5 w-5 rounded-full text-[6px]"
               />
             </div>
           </div>
@@ -116,7 +116,7 @@ export const ConfirmationModalReviewTab = ({
               </span>
               <TokenIcon
                 token={destinationToken}
-                className="h-5 w-5 rounded-full"
+                className="h-5 w-5 rounded-full text-[6px]"
               />
             </div>
           </div>

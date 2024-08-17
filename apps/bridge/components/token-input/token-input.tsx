@@ -92,7 +92,10 @@ export const TokenInput = () => {
             onClick={() => tokenSelectorModal.open()}
             className={`flex shrink-0 relative gap-1 rounded-full py-2 pl-3 pr-3 items-center font-button transition-all hover:scale-105 text-foreground bg-card`}
           >
-            <TokenIcon token={token} className="h-[20px] w-[20px] shrink-0" />
+            <TokenIcon
+              token={token}
+              className="h-[20px] w-[20px] shrink-0 text-[6px]"
+            />
             {token?.symbol}
             <IconCaretDown className="w-3.5 h-3.5 fill-foreground" />
             {(isCustomToken || isCustomTokenFromList) && (
