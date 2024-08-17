@@ -11,6 +11,7 @@ import { useFinalisingTx } from "@/hooks/activity/use-finalising-tx";
 import { useInitiatingTx } from "@/hooks/activity/use-initiating-tx";
 import { useTxAmount } from "@/hooks/activity/use-tx-amount";
 import { useTxDeployment } from "@/hooks/activity/use-tx-deployment";
+import { useTxDuration } from "@/hooks/activity/use-tx-duration";
 import { useTxFromTo } from "@/hooks/activity/use-tx-from-to";
 import { useTxProvider } from "@/hooks/activity/use-tx-provider";
 import { useTxTimestamp } from "@/hooks/activity/use-tx-timestamp";
@@ -39,6 +40,7 @@ const useNextStateChangeTimestamp = (tx: Transaction) => {
   const initiatingTx = useInitiatingTx(tx);
   const deployment = useTxDeployment(tx);
   const chains = useTxFromTo(tx);
+  const duration = useTxDuration(tx);
 
   if (!initiatingTx) {
     return null;
@@ -65,14 +67,16 @@ const useNextStateChangeTimestamp = (tx: Transaction) => {
           deployment?.contractAddresses.disputeGameFactory
             ? "Waiting for dispute game"
             : "Waiting for state root",
-        timestamp: withdrawal.withdrawal.timestamp + withdrawal.proveDuration,
+        timestamp:
+          withdrawal.withdrawal.timestamp + (deployment?.proveDuration ?? 0),
       };
     }
 
     if (withdrawal.prove && status === MessageStatus.IN_CHALLENGE_PERIOD) {
       return {
         description: "Challenge period",
-        timestamp: withdrawal.prove.timestamp + withdrawal.finalizeDuration,
+        timestamp:
+          withdrawal.prove.timestamp + (deployment?.finalizeDuration ?? 0),
       };
     }
 
@@ -90,7 +94,7 @@ const useNextStateChangeTimestamp = (tx: Transaction) => {
   }
 
   return {
-    timestamp: initiatingTx.timestamp + tx.duration,
+    timestamp: initiatingTx.timestamp + (duration ?? 0),
     description,
   };
 };
@@ -224,8 +228,8 @@ const useAction = (tx: Transaction) => {
     return status === MessageStatus.READY_TO_PROVE
       ? "prove"
       : status === MessageStatus.READY_FOR_RELAY
-      ? "finalize"
-      : null;
+        ? "finalize"
+        : null;
   }
 
   if (isArbitrumWithdrawal(tx)) {
@@ -247,8 +251,8 @@ const useProgressBars = (
   const proveTx = isOptimismWithdrawal(tx)
     ? tx.prove
     : isOptimismForcedWithdrawal(tx)
-    ? tx.withdrawal?.prove
-    : null;
+      ? tx.withdrawal?.prove
+      : null;
   const pendingFinalises = usePendingTransactions.usePendingFinalises();
 
   const bars: {
@@ -306,12 +310,20 @@ export const TransactionRowV2 = ({ tx }: { tx: Transaction }) => {
   const bars = useProgressBars(tx);
   const provider = useTxProvider(tx);
 
+  if (tx.mock) {
+    console.log(isInProgress);
+  }
   return (
     <div
       className="bg-card w-full rounded-xl flex gap-2.5 lg:gap-4 p-5 md:p-6 relative"
       key={tx.id}
       onClick={(e) => e.stopPropagation()}
     >
+      {tx.mock && (
+        <div className="absolute left-2 bottom-2 text-purple-500 text-xs">
+          MOCK
+        </div>
+      )}
       <TokenIcon
         token={token ?? null}
         className="h-10 w-10 lg:h-12 lg:w-12 shrink-0"

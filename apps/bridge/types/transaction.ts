@@ -22,9 +22,11 @@ export type OptimismTransaction =
   | BridgeWithdrawalDto
   | ForcedWithdrawalDto;
 
-export type Transaction =
+type All =
   | AbritrumTransaction
   | OptimismTransaction
   | CctpBridgeDto
   | AcrossBridgeDto
   | HyperlaneBridgeDto;
+
+export type Transaction = All & { mock?: true };

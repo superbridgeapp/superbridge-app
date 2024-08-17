@@ -4,6 +4,7 @@ import { useAccount } from "wagmi";
 
 import { bridgeControllerGetActivityV4 } from "@/codegen";
 import { ActivityV3Dto } from "@/codegen/model";
+import { MOCK_TRANSACTIONS } from "@/constants/test-transactions";
 import { useInjectedStore } from "@/state/injected";
 
 import { useAcrossDomains } from "./across/use-across-domains";
@@ -62,10 +63,13 @@ export const useTransactions = () => {
     });
 
   return {
-    transactions: useMemo(
-      () => data?.pages.flatMap((p) => p.transactions) ?? [],
-      [data?.pages]
-    ),
+    transactions: useMemo(() => {
+      const txs = [
+        ...(process.env.NODE_ENV === "development" ? MOCK_TRANSACTIONS : []),
+        ...(data?.pages.flatMap((p) => p.transactions) ?? []),
+      ];
+      return txs;
+    }, [data?.pages]),
     isLoading,
     isFetchingNextPage,
     isError,

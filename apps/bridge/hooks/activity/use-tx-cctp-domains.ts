@@ -11,7 +11,7 @@ export const useTxCctpDomains = (tx: Transaction | undefined | null) => {
   }
 
   const from = cctpDomains.find((x) => x.chainId === tx.from.id);
-  const to = cctpDomains.find((x) => x.chainId === tx.from.id);
+  const to = cctpDomains.find((x) => x.chainId === tx.to.id);
 
   if (!from || !to) {
     return null;
