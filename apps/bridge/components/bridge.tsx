@@ -10,7 +10,6 @@ import { PoweredByConduit } from "./badges/powered-by-conduit-badge";
 import { TestnetBadge } from "./badges/testnet-badge";
 import { FaultProofsBanner } from "./banners/fault-proofs-banner";
 import { HasWithdrawalReadyToFinalizeBanner } from "./banners/has-withdrawal-ready-to-finalize-banner.ts";
-import { OpMainnetWithdrawalsResetBanner } from "./banners/op-mainnet-withdrawals-reset-banner";
 import { ScheduledDeletion } from "./banners/scheduled-deletion";
 import { WithdrawalsPaused } from "./banners/withdrawals-paused";
 import { BridgeBody } from "./bridge-body";
@@ -40,7 +39,6 @@ export const Bridge = () => {
           {hasWithdrawalReadyToFinalize && (
             <HasWithdrawalReadyToFinalizeBanner />
           )}
-          <OpMainnetWithdrawalsResetBanner />
 
           <div
             className={`bg-card mx-auto rounded-[24px] md:rounded-[32px] shadow-sm w-full shrink-0 backdrop-blur-sm`}

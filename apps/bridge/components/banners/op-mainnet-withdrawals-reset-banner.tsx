@@ -1,15 +1,16 @@
 import clsx from "clsx";
 
-import { useDeployment } from "@/hooks/use-deployment";
+import { useDeployments } from "@/hooks/use-deployments";
 
 import { IconAlert } from "../icons";
 import { Alert } from "../ui/alert";
 
 export const OpMainnetWithdrawalsResetBanner = ({ className }: any) => {
-  const deployment = useDeployment();
+  const deployments = useDeployments();
 
-  // TODO: can this be show if you have OP txns? Rather than current deployment?
-  if (deployment?.name !== "optimism") {
+  const hasOptimism = !!deployments.find((x) => x.name === "optimism");
+
+  if (!hasOptimism) {
     return null;
   }
 
