@@ -1,17 +1,24 @@
-import { useDeployment } from "@/hooks/use-deployment";
+import clsx from "clsx";
+
+import { useDeployments } from "@/hooks/use-deployments";
 
 import { IconAlert } from "../icons";
 import { Alert } from "../ui/alert";
 
-export const OpMainnetWithdrawalsResetBanner = () => {
-  const deployment = useDeployment();
+export const OpMainnetWithdrawalsResetBanner = ({ className }: any) => {
+  const deployments = useDeployments();
 
-  if (deployment?.name !== "optimism") {
+  const hasOptimism = !!deployments.find((x) => x.name === "optimism");
+
+  if (!hasOptimism) {
     return null;
   }
 
   return (
-    <Alert variant={"horizontal"} className="flex items-start gap-4">
+    <Alert
+      variant={"horizontal"}
+      className={clsx("flex items-start gap-4", className)}
+    >
       <div className="animate-wiggle-waggle drop-shadow-lg">
         <IconAlert className="h-8 w-8 shrink-0" />
       </div>
