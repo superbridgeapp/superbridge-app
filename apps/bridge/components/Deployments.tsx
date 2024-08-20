@@ -28,7 +28,7 @@ export const DeploymentsGrid = () => {
   };
 
   return (
-    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-3 px-3 md:px-16 pt-[108px] md:pt-24 xl:pt-32 w-full h-auto w-screen max-w-[1334px]">
+    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-3 px-3 md:px-16 pb-24 pt-[108px] md:pt-24 xl:pt-32 w-full h-auto w-screen max-w-[1334px]">
       {deployments.map((n) => (
         <motion.div
           key={"grid" + n.displayName}
