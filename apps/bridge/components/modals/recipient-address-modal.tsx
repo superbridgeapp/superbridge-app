@@ -196,7 +196,7 @@ export const RecipientAddressModal = () => {
                         !!x.profile?.address &&
                         !!x.account &&
                         isAddressEqual(x.account, x.profile.address),
-                      (x) => (
+                      () => (
                         <div className="inline-flex items-center gap-1 pr-2 pl-1 py-1 rounded-full bg-muted">
                           <IconCheckCircle className="w-3.5 h-3.5 fill-primary" />
                           <span className="text-xs leading-none text-primary">
