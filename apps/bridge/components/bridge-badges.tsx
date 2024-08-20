@@ -1,8 +1,8 @@
 import { isPresent } from "ts-is-present";
 
 import { DeploymentType } from "@/codegen/model";
+import { useIsSpecialApp } from "@/hooks/apps/use-is-special-app";
 import { useIsSuperbridge } from "@/hooks/apps/use-is-superbridge";
-import { useIsSpecialApp } from "@/hooks/apps/use-is-superbridge copy";
 import { useDeployments } from "@/hooks/deployments/use-deployments";
 import { useInjectedStore } from "@/state/injected";
 
