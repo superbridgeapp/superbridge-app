@@ -1,6 +1,7 @@
 import { isPresent } from "ts-is-present";
 
 import { DeploymentType } from "@/codegen/model";
+import { useIsSpecialApp } from "@/hooks/apps/use-is-special-app";
 import { useIsSuperbridge } from "@/hooks/apps/use-is-superbridge";
 import { useDeployments } from "@/hooks/deployments/use-deployments";
 import { useInjectedStore } from "@/state/injected";
@@ -14,26 +15,34 @@ export const BridgeBadges = () => {
   const deployments = useDeployments();
   const superbridgeTestnets = useInjectedStore((s) => s.superbridgeTestnets);
   const isSuperbridge = useIsSuperbridge();
+  const isSpecialApp = useIsSpecialApp();
 
   const testnetBadge =
     (isSuperbridge && superbridgeTestnets) ||
-    (deployments.length === 1 &&
+    (!isSpecialApp &&
+      deployments.length === 1 &&
       deployments[0]?.type === DeploymentType.testnet) ? (
       <TestnetBadge />
     ) : null;
 
   const poweredByConduit =
-    deployments.length === 1 && deployments[0]?.provider === "conduit" ? (
+    !isSpecialApp &&
+    deployments.length === 1 &&
+    deployments[0]?.provider === "conduit" ? (
       <PoweredByConduit />
     ) : null;
 
   const poweredByAltLayer =
-    deployments.length === 1 && deployments[0]?.provider === "alt-layer" ? (
+    !isSpecialApp &&
+    deployments.length === 1 &&
+    deployments[0]?.provider === "alt-layer" ? (
       <PoweredByAltLayer />
     ) : null;
 
   const poweredByAlchemy =
-    deployments.length === 1 && deployments[0]?.name === "shape-testnet" ? (
+    !isSpecialApp &&
+    deployments.length === 1 &&
+    deployments[0]?.name === "shape-testnet" ? (
       <PoweredByAlchemy />
     ) : null;
 

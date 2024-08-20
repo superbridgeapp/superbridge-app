@@ -59,7 +59,9 @@ export function useActiveTokens() {
           return false;
         }
 
-        return true;
+        return (
+          from.bridges.includes(to.chainId) && to.bridges.includes(from.chainId)
+        );
       }),
     };
   }, [tokens.data, tokens.isFetching, fromChainId, toChainId, hasNativeUsdc]);
