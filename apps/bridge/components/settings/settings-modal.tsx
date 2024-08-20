@@ -361,7 +361,9 @@ export const SettingsModal = () => {
                   <div>
                     <h3 className="font-heading">Escape hatch</h3>
                     <p className="text-muted-foreground text-xs">
-                      {t("settings.escapeHatchDescription")}
+                      Force withdrawals (rollup to settlement chain native
+                      bridges) via censorship resistant transactions on the
+                      settlement chain.
                     </p>
                   </div>
                   <div className="pl-8">
