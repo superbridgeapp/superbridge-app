@@ -7,7 +7,7 @@ import {
 
 export const useTxRecipient = (tx: Transaction) => {
   if (isHyperlaneBridge(tx)) return tx.to;
-  if (isCctpBridge(tx)) return tx.to;
+  if (isCctpBridge(tx)) return tx.recipient;
   if (isForcedWithdrawal(tx)) return tx.deposit.metadata.to;
   return tx.metadata.to;
 };

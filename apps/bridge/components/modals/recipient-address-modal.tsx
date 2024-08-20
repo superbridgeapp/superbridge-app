@@ -212,11 +212,16 @@ export const RecipientAddressModal = () => {
                       ({ transactions, profile }) => {
                         const count = transactions.transactions.reduce(
                           (accum, tx) => {
+                            const recipient = getTxRecipient(tx);
+                            if (!isAddress(recipient)) {
+                              return accum;
+                            }
+
                             if (
                               profile?.address &&
                               isAddressEqual(
-                                getTxRecipient(tx) as Address,
-                                profile.address as Address
+                                profile.address as Address,
+                                recipient
                               )
                             ) {
                               return accum + 1;
