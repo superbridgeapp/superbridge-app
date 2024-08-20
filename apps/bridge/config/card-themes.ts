@@ -23,6 +23,7 @@ import {
   redstone,
   scroll,
   sepolia,
+  zircuitTestnet,
   zora,
 } from "viem/chains";
 
@@ -319,6 +320,14 @@ const shapeTheme = {
   },
 };
 
+const zircuitTheme = {
+  icon: "/img/zircuit/icon.svg",
+  card: {
+    className: "bg-[#F6F3E9]",
+    title: "text-black",
+  },
+};
+
 export const cardThemes: {
   [chainId: string]: { card: Theme["card"]; icon: string } | undefined;
 } = {
@@ -357,4 +366,6 @@ export const cardThemes: {
   [4460]: orderlyTheme,
   [cyber.id]: cyberTheme,
   [celo.id]: celoTheme,
+  [48900]: zircuitTheme,
+  [zircuitTestnet.id]: zircuitTheme,
 };
