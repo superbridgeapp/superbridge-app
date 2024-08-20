@@ -8,13 +8,13 @@ import { Address, isAddress, isAddressEqual } from "viem";
 import { useAccount } from "wagmi";
 
 import { Input } from "@/components/ui/input";
+import { getTxRecipient } from "@/hooks/activity/use-tx-recipient";
 import { useToChain } from "@/hooks/use-chain";
 import { useIsContractAccount } from "@/hooks/use-is-contract-account";
 import { useModal } from "@/hooks/use-modal";
 import { useTransactions } from "@/hooks/use-transactions";
 import { resolveAddress, resolveName } from "@/services/ens";
 import { useConfigState } from "@/state/config";
-import { isDeposit, isWithdrawal } from "@/utils/guards";
 
 import {
   IconAlert,
@@ -213,38 +213,14 @@ export const RecipientAddressModal = () => {
                         const count = transactions.transactions.reduce(
                           (accum, tx) => {
                             if (
-                              isDeposit(tx) &&
-                              !!profile?.address &&
+                              profile?.address &&
                               isAddressEqual(
-                                tx.metadata.to as Address,
+                                getTxRecipient(tx) as Address,
                                 profile.address as Address
                               )
                             ) {
-                              return isAddressEqual(
-                                tx.metadata.to as Address,
-                                profile.address as Address
-                              ) ||
-                                isAddressEqual(
-                                  tx.metadata.from as Address,
-                                  profile.address as Address
-                                )
-                                ? accum + 1
-                                : accum;
+                              return accum + 1;
                             }
-
-                            if (isWithdrawal(tx) && !!profile?.address) {
-                              return isAddressEqual(
-                                tx.metadata.to as Address,
-                                profile.address as Address
-                              ) ||
-                                isAddressEqual(
-                                  tx.metadata.from as Address,
-                                  profile.address as Address
-                                )
-                                ? accum + 1
-                                : accum;
-                            }
-
                             return accum;
                           },
                           0

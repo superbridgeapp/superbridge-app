@@ -310,9 +310,6 @@ export const TransactionRowV2 = ({ tx }: { tx: Transaction }) => {
   const bars = useProgressBars(tx);
   const provider = useTxProvider(tx);
 
-  if (tx.mock) {
-    console.log(isInProgress);
-  }
   return (
     <div
       className="bg-card w-full rounded-xl flex gap-2.5 lg:gap-4 p-5 md:p-6 relative"

@@ -1,3 +1,5 @@
+import { zeroAddress } from "viem";
+
 import {
   BridgeWithdrawalDto,
   OptimismTransactionType,
@@ -21,8 +23,8 @@ const ethDepositMetadata = {
   data: {
     amount: "1000000000000000000",
   },
-  from: "0x",
-  to: "0x",
+  from: zeroAddress,
+  to: zeroAddress,
   type: "eth-deposit",
 };
 
