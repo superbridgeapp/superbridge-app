@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { Address, isAddressEqual } from "viem";
 
 import { useInjectedStore } from "@/state/injected";
+import { isBridgeable } from "@/utils/is-bridgeable";
 import { isBridgedUsdc, nativeUSDC } from "@/utils/tokens/usdc";
 
 import { useAllTokens } from "./use-all-tokens";
@@ -59,9 +60,7 @@ export function useActiveTokens() {
           return false;
         }
 
-        return (
-          from.bridges.includes(to.chainId) && to.bridges.includes(from.chainId)
-        );
+        return isBridgeable(from, to);
       }),
     };
   }, [tokens.data, tokens.isFetching, fromChainId, toChainId, hasNativeUsdc]);
