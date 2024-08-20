@@ -12,14 +12,12 @@ const spring = {
   stiffness: 1000,
 };
 
-const SUPERCHAIN_COMING_SOON = [
-  {
-    name: "worldchain-mainnet",
-    displayName: "World Chain",
-    type: DeploymentType.mainnet,
-  },
-];
-const NEW_DEPLOYMENTS = ["celo-testnet"];
+const SUPERCHAIN_COMING_SOON: {
+  name: string;
+  displayName: string;
+  type: DeploymentType;
+}[] = [];
+const NEW_DEPLOYMENTS = ["world-chain"];
 
 export const DeploymentsGrid = () => {
   const deployments = useDeployments();

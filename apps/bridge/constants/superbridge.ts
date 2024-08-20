@@ -17,6 +17,7 @@ export const SUPERCHAIN_MAINNETS = [
   "xterio-chain-eth",
   "swan-chain",
   "snaxchain-mainnet",
+  "world-chain",
 ];
 
 export const SUPERCHAIN_TESTNETS = [
