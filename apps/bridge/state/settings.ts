@@ -26,6 +26,9 @@ interface SettingsState {
 
   setCustomTokens: (t: MultiChainToken[]) => void;
   customTokens: MultiChainToken[];
+
+  customWarpRoutes: string;
+  setCustomWarpRoutes: (s: string) => void;
 }
 
 const SettingsState = create<SettingsState>()(
@@ -42,6 +45,9 @@ const SettingsState = create<SettingsState>()(
 
       hasViewedTos: false,
       dismissTos: () => set({ hasViewedTos: true }),
+
+      customWarpRoutes: "",
+      setCustomWarpRoutes: (customWarpRoutes) => set({ customWarpRoutes }),
 
       customTokens: [] as MultiChainToken[],
       setCustomTokens: (customTokens) => set({ customTokens }),

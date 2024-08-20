@@ -4,6 +4,7 @@ import { MultiChainToken } from "@/types/token";
 
 import { useBackendTokens } from "./use-backend-tokens";
 import { useCustomTokenLists } from "./use-custom-token-lists";
+import { useCustomWarpRoutes } from "./use-custom-warp-routes";
 
 export function useAllTokens(): {
   isFetching: boolean;
@@ -11,6 +12,7 @@ export function useAllTokens(): {
 } {
   const backendTokens = useBackendTokens();
   const customTokenLists = useCustomTokenLists();
+  const a = useCustomWarpRoutes();
 
   return useMemo(
     () => ({

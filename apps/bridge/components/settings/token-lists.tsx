@@ -6,11 +6,6 @@ import { CustomTokenList, useSettingsState } from "@/state/settings";
 
 import { Checkbox } from "../ui/checkbox";
 
-export interface SettingsModalProps {
-  open: boolean;
-  setOpen: (b: boolean) => void;
-}
-
 export const TokenLists = () => {
   const [expanded, setExpanded] = useState(false);
 

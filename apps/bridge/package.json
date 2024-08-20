@@ -54,6 +54,7 @@
     "use-debounce": "^10.0.2",
     "viem": "^2.19.4",
     "wagmi": "^2.12.5",
+    "yaml": "^2.5.0",
     "zustand": "^4.5.4"
   },
   "devDependencies": {
