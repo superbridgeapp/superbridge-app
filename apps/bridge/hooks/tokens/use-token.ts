@@ -1,14 +1,10 @@
+import { Address, isAddressEqual } from "viem";
+
 import { useConfigState } from "@/state/config";
 import { isEth } from "@/utils/tokens/is-eth";
 
 import { useFromChain, useToChain } from "../use-chain";
 import { useActiveTokens } from "./use-active-tokens";
-
-export const getTokenId = (addr1: string, addr2: string) => {
-  return addr1.toLowerCase() > addr2.toLowerCase()
-    ? `${addr1.toLowerCase()}-${addr2.toLowerCase()}`
-    : `${addr2.toLowerCase()}-${addr1.toLowerCase()}`;
-};
 
 export const useMultichainToken = () => {
   const tokens = useActiveTokens();
@@ -28,13 +24,11 @@ export const useMultichainToken = () => {
 
   return (
     tokens.data?.find((x) => {
-      const fromToken = x[from?.id ?? 0]?.address;
-      const toToken = x[to?.id ?? 0]?.address;
-      if (!fromToken || !toToken) {
-        return false;
+      for (const { address } of Object.values(x)) {
+        if (isAddressEqual(address, tokenId as Address)) {
+          return x;
+        }
       }
-
-      return getTokenId(fromToken, toToken) === tokenId;
     }) ??
     tokens.data?.[0] ??
     null

@@ -63,7 +63,7 @@ export const TokenList = () => {
       return;
     }
 
-    setToken(fromToken, toToken);
+    setToken(fromToken);
     modal.close();
 
     if (
