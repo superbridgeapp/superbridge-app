@@ -165,6 +165,9 @@ importers:
       wagmi:
         specifier: ^2.12.5
         version: 2.12.5(@tanstack/react-query@5.51.23)(@types/react@18.2.23)(react-dom@18.3.1)(react-native@0.74.5)(react@18.3.1)(typescript@5.5.4)(viem@2.19.4)
+      yaml:
+        specifier: ^2.5.0
+        version: 2.5.0
       zustand:
         specifier: ^4.5.4
         version: 4.5.4(@types/react@18.2.23)(react@18.3.1)
@@ -12433,7 +12436,7 @@ packages:
     dependencies:
       lilconfig: 2.1.0
       postcss: 8.4.41
-      yaml: 2.3.2
+      yaml: 2.5.0
 
   /postcss-nested@6.0.1(postcss@8.4.41):
     resolution: {integrity: sha512-mEp4xPMi5bSWiMbsgoPfcP74lsWLHkQbZc3sY+jWYd65CUwXrUaTp0fmNpa01ZcETKlIgUdFN/MpS2xZtqL9dQ==}
@@ -15577,10 +15580,6 @@ packages:
     resolution: {integrity: sha512-r3vXyErRCYJ7wg28yvBY5VSoAF8ZvlcW9/BwUzEtUsjvX/DKs24dIkuwjtuprwJJHsbyUbLApepYTR1BN4uHrg==}
     engines: {node: '>= 6'}
     dev: true
-
-  /yaml@2.3.2:
-    resolution: {integrity: sha512-N/lyzTPaJasoDmfV7YTrYCI0G/3ivm/9wdG0aHuheKowWQwGTsK0Eoiw6utmzAnI6pkJa0DUVygvp3spqqEKXg==}
-    engines: {node: '>= 14'}
 
   /yaml@2.5.0:
     resolution: {integrity: sha512-2wWLbGbYDiSqqIKoPjar3MPgB94ErzCtrNE1FdqGuaO0pi2JGjmE8aW8TDZwzU7vuxcGRdL/4gPQwQ7hD5AMSw==}
