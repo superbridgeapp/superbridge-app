@@ -35,7 +35,7 @@ const renzo: AppConfig = {
   head: {
     name: "ezETH Bridge",
     description: "Bridge ezETH between Base, Blast, Ethereum and more",
-    og: "https://superbridge.app/og/superbridge-og-image.png",
+    og: "https://renzo.superbridge.app/img/renzo/og.png",
     favicon: "/img/superbridge/favicon-32x32.png",
   },
   images: {
@@ -71,7 +71,7 @@ const usdc: AppConfig = {
   head: {
     name: "USDC Bridge",
     description: "Bridge USDC between supported chains",
-    og: "https://superbridge.app/og/superbridge-og-image.png",
+    og: "https://usdc.superbridge.app/img/usdc/og.png",
     favicon: "/img/superbridge/favicon-32x32.png",
   },
   images: {
