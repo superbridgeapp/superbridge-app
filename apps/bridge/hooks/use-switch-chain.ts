@@ -12,10 +12,7 @@ export const useSwitchChain = () => {
     } catch (e: any) {
       if (e.message.includes("Unrecognized chain ID")) {
         const nativeCurrency = { ...chain.nativeCurrency };
-        // MetaMask doesn't like native currency symbols of length 1
-        if (nativeCurrency.symbol.length === 1) {
-          nativeCurrency.symbol = `${nativeCurrency.symbol}.`;
-        }
+
         // MetaMask doesn't like non 18 decimal
         nativeCurrency.decimals = 18;
 
