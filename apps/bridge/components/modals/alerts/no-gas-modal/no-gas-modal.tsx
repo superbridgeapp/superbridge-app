@@ -106,7 +106,7 @@ export const NoGasModal = () => {
 
           <div className="flex flex-col gap-2">
             <a
-              href={`https://superbridge.app/support/${deployment?.name}`}
+              href="https://help.superbridge.app"
               target="_blank"
               className="text-xs text-center font-heading text-foreground hover:underline mb-2"
             >

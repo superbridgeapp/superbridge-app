@@ -21,12 +21,10 @@ export function HeaderLinks() {
   const isSuperbridge = useIsSuperbridge();
 
   const defaultLinks = [
-    // {
-    //   url: isSuperbridge
-    //     ? "https://superbridge.app/support"
-    //     : `https://superbridge.app/support/${deployment?.name}`,
-    //   label: t("support"),
-    // },
+    {
+      url: "https://help.superbridge.app",
+      label: t("support"),
+    },
     {
       onClick: () => legalModal.open(),
       label: t("legal.footerButton"),
@@ -95,7 +93,7 @@ export function HeaderLinks() {
                     <span>Powered by Superbridge</span>
                   </a>
                   <Link
-                    href={`https://superbridge.app/support/${deployment.name}`}
+                    href="https://help.superbridge.app"
                     className=" text-xs  leading-none w-full flex gap-2 items-center"
                   >
                     <IconArrowUpRight className="h-4 mx-1 w-auto fill-muted-foreground" />

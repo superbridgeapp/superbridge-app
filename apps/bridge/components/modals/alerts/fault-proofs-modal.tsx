@@ -51,7 +51,7 @@ export const FaultProofsModal = () => {
                 </a>{" "}
                 or check the{" "}
                 <a
-                  href="https://superbridge.app/support/optimism"
+                  href="https://help.superbridge.app/en/articles/9759328-fault-proof-upgrade"
                   target="_blank"
                   className="text-foreground underline"
                 >

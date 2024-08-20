@@ -37,7 +37,7 @@ const config = {
       },
       {
         source: "/register",
-        destination: "https://r9vkbxvmyui.typeform.com/to/kvTnybhJ",
+        destination: "https://about.superbridge.app/rollies",
         permanent: true,
       },
       {
