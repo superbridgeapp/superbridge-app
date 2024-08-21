@@ -12,7 +12,6 @@ import { useStatusCheck } from "@/hooks/use-status-check";
 import { useSwitchChain } from "@/hooks/use-switch-chain";
 import { useTrackEvent } from "@/services/ga";
 import { useConfigState } from "@/state/config";
-import { useModalsState } from "@/state/modals";
 import { usePendingTransactions } from "@/state/pending-txs";
 import { buildPendingTx } from "@/utils/build-pending-tx";
 import { isRouteQuote } from "@/utils/guards";
@@ -121,7 +120,7 @@ export const useInitiateBridge = () => {
       );
       if (pending) addPendingTransaction(pending);
 
-      waitForTransactionReceipt(wagmiConfig, {
+      await waitForTransactionReceipt(wagmiConfig, {
         hash,
         chainId: initiatingChain.id,
         onReplaced: ({ replacedTransaction, transaction }) => {
