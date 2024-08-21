@@ -120,15 +120,20 @@ const RedeemArbitrum: FC<{
     return null;
   }
 
-  if (chainId === deployment.l1.id) {
+  if (chainId === deployment.l2.id) {
     return (
-      <Button className="rounded-full" onClick={redeem.write} size={"sm"}>
+      <Button
+        className="rounded-full"
+        onClick={redeem.write}
+        disabled={redeem.loading}
+        size={"sm"}
+      >
         {t("buttons.redeem")}
       </Button>
     );
   }
   return (
-    <Button onClick={() => switchChain(deployment.l1)} size={"sm"}>
+    <Button onClick={() => switchChain(deployment.l2)} size={"sm"}>
       {t("buttons.switchChain")}
     </Button>
   );
@@ -343,8 +348,8 @@ function useToken(tx: Transaction, tokens: MultiChainToken[]) {
     isAcrossBridge(tx) || isCctpBridge(tx)
       ? ""
       : isForcedWithdrawal(tx)
-        ? tx.deposit.deploymentId
-        : tx.deploymentId
+      ? tx.deposit.deploymentId
+      : tx.deploymentId
   );
   const gasToken = useGasTokenForDeployment(deployment?.id);
 
@@ -381,8 +386,8 @@ function useToken(tx: Transaction, tokens: MultiChainToken[]) {
     isForcedWithdrawal(tx) && tx.withdrawal
       ? tx.withdrawal.metadata
       : isForcedWithdrawal(tx)
-        ? tx.deposit.metadata
-        : tx.metadata;
+      ? tx.deposit.metadata
+      : tx.metadata;
 
   return match(metadata)
     .with({ type: "eth-deposit" }, () => {
@@ -419,8 +424,8 @@ function useNft(tx: Transaction) {
     isForcedWithdrawal(tx) && tx.withdrawal
       ? tx.withdrawal.metadata
       : isForcedWithdrawal(tx)
-        ? tx.deposit.metadata
-        : tx.metadata;
+      ? tx.deposit.metadata
+      : tx.metadata;
 
   if (metadata.type === "nft-deposit") {
     return metadata as NftDepositDto;
@@ -447,8 +452,8 @@ function getDepositAmount(tx: Transaction, token: Token | null | undefined) {
       isForcedWithdrawal(tx) && tx.withdrawal
         ? tx.withdrawal.metadata
         : isForcedWithdrawal(tx)
-          ? tx.deposit.metadata
-          : tx.metadata;
+        ? tx.deposit.metadata
+        : tx.metadata;
 
     if (metadata.type === "eth-deposit") {
       amount = (metadata as EthDepositDto).data.amount;
@@ -492,8 +497,8 @@ export const TransactionRow = ({ tx }: { tx: Transaction }) => {
     isAcrossBridge(tx)
       ? ""
       : isForcedWithdrawal(tx)
-        ? tx.deposit.deploymentId
-        : tx.deploymentId
+      ? tx.deposit.deploymentId
+      : tx.deploymentId
   );
   const chains = useFromTo(tx);
   if (!chains) {
