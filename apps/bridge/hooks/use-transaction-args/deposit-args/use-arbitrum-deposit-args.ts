@@ -41,9 +41,7 @@ export const useArbitrumGasCostsInWei = () => {
   const l1GasCost =
     (l1FeeData.data?.maxFeePerGas ?? BigInt(0)) +
     (l1FeeData.data?.maxFeePerGas ?? BigInt(0)) / BigInt(10);
-  const l2GasCost =
-    (l2FeeData.data?.maxFeePerGas ?? BigInt(0)) +
-    (l2FeeData.data?.maxFeePerGas ?? BigInt(0)) / BigInt(10);
+  const l2GasCost = (l2FeeData.data?.maxFeePerGas ?? BigInt(0)) * BigInt(2);
   const maxSubmissionCost = l1GasCost * l1GasLimit;
 
   return {
