@@ -9,6 +9,7 @@ import { PoweredByAltLayer } from "./badges/powered-by-alt-layer-badge";
 import { PoweredByConduit } from "./badges/powered-by-conduit-badge";
 import { TestnetBadge } from "./badges/testnet-badge";
 import { FaultProofsBanner } from "./banners/fault-proofs-banner";
+import { GravityBanner } from "./banners/gravity-banner";
 import { HasWithdrawalReadyToFinalizeBanner } from "./banners/has-withdrawal-ready-to-finalize-banner.ts";
 import { ScheduledDeletion } from "./banners/scheduled-deletion";
 import { WithdrawalsPaused } from "./banners/withdrawals-paused";
@@ -30,6 +31,7 @@ export const Bridge = () => {
     >
       <div className="w-full px-2 md:px-0  md:w-[420px] aspect-[3/4] relative mb-24 mt-20 md:mt-24 2xl:mt-32">
         <div className="flex flex-col gap-2 items-center">
+          {deployment?.name == "gravity-mainnet" && <GravityBanner />}
           {deployment?.deletedAt &&
             new Date(deployment.deletedAt) > new Date() && (
               <ScheduledDeletion />
