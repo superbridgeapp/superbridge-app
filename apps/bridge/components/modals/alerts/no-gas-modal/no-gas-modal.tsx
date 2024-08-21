@@ -74,14 +74,14 @@ export const NoGasModal = () => {
     withdrawing,
     supportsAcross: isSuperbridge && !!deployment && supportsAcross(deployment),
   })
-    .with({ withdrawing: false }, () => ({
-      text: t("noGasModal.topup", common),
-      onClick: () => {
-        // todo: think about logic here, maybe check if we can bridge the native token
-        // setStateToken(nativeToken ?? null);
-        onCancel();
-      },
-    }))
+    // .with({ withdrawing: false }, () => ({
+    //   text: t("noGasModal.topup", common),
+    //   onClick: () => {
+    //     // todo: think about logic here, maybe check if we can bridge the native token
+    //     // setStateToken(nativeToken ?? null);
+    //     onCancel();
+    //   },
+    // }))
     .otherwise(() => ({
       text: t("noGasModal.goBack", common),
       onClick: onCancel,
