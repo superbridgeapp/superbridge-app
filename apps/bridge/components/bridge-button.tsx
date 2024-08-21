@@ -63,9 +63,16 @@ export const BridgeButton = () => {
 
   const hasInsufficientBalance = weiAmount > tokenBalance.data;
   const hasInsufficientGas = (() => {
-    if (!networkFee.data || !fromEthBalance.data) return false;
+    if (
+      !networkFee.data ||
+      !fromEthBalance.data ||
+      !isRouteQuote(route.data?.result)
+    )
+      return false;
 
-    let availableGasBalance = fromEthBalance.data.value;
+    let availableGasBalance =
+      fromEthBalance.data.value -
+      BigInt(route.data.result.initiatingTransaction.value);
     if (isEth(token)) {
       availableGasBalance = availableGasBalance - weiAmount;
     }
