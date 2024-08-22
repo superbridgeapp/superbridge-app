@@ -1,17 +1,20 @@
-import { formatUnits } from "viem";
+import { isPresent } from "ts-is-present";
+import { Address, formatUnits, isAddressEqual, zeroAddress } from "viem";
 
 import { RouteResultDto } from "@/codegen/model";
+import { chainIcons } from "@/config/chain-icon-overrides";
 import { currencySymbolMap } from "@/constants/currency-symbol-map";
 import { useSelectedBridgeRoute } from "@/hooks/routes/use-selected-bridge-route";
 import { useGetTokenPrice } from "@/hooks/use-prices";
 import { useSettingsState } from "@/state/settings";
+import { formatDecimals } from "@/utils/format-decimals";
 import { isRouteQuote } from "@/utils/guards";
 
 import { useDestinationToken, useSelectedToken } from "./tokens/use-token";
+import { useFromChain } from "./use-chain";
 
 export const useFees = () => {
   const route = useSelectedBridgeRoute();
-
   return useFeesForRoute(route);
 };
 
@@ -23,6 +26,7 @@ export const useFeesForRoute = (route: {
   const toToken = useDestinationToken();
   const currency = useSettingsState.useCurrency();
   const getTokenPrice = useGetTokenPrice();
+  const chain = useFromChain();
 
   if (route.isLoading) {
     return {
@@ -32,27 +36,47 @@ export const useFeesForRoute = (route: {
   }
 
   const fees = isRouteQuote(route.data?.result)
-    ? route.data.result.fees.map((x) => {
-        const amount = parseFloat(
-          formatUnits(BigInt(x.amount), fromToken?.decimals ?? 18)
-        );
+    ? route.data.result.fees
+        .map((x) => {
+          if (!chain) {
+            return null;
+          }
+          const feeToken = isAddressEqual(
+            x.tokenAddress as Address,
+            zeroAddress
+          )
+            ? {
+                ...chain.nativeCurrency,
+                logoURI: chainIcons[chain?.id ?? 0] ?? "",
+              }
+            : fromToken;
 
-        const price = getTokenPrice({ address: x.tokenAddress });
-        const fiat = price ? amount * price : null;
-        const fiatFormatted = fiat
-          ? `${currencySymbolMap[currency]}${fiat.toLocaleString("en")}`
-          : null;
+          const amount = parseFloat(
+            formatUnits(BigInt(x.amount), feeToken?.decimals ?? 18)
+          );
 
-        const tokenFormatted = `${amount.toLocaleString("en", {
-          maximumFractionDigits: 4,
-        })} ${toToken?.symbol}`;
+          const price = getTokenPrice({ address: x.tokenAddress });
 
-        return {
-          name: x.name,
-          fiat: fiat ? { formatted: fiatFormatted, amount: fiat } : null,
-          token: { formatted: tokenFormatted, amount },
-        };
-      })
+          const fiat = price ? amount * price : null;
+          const fiatFormatted = fiat
+            ? `${currencySymbolMap[currency]}${fiat.toLocaleString("en")}`
+            : null;
+
+          const tokenFormatted = `${formatDecimals(
+            amount
+          )} ${feeToken?.symbol}`;
+
+          return {
+            name: x.name,
+            fiat: fiat ? { formatted: fiatFormatted, amount: fiat } : null,
+            token: {
+              formatted: tokenFormatted,
+              amount,
+              token: feeToken,
+            },
+          };
+        })
+        .filter(isPresent)
     : [];
 
   const feeAccumulator = (acc: number | null, f: (typeof fees)[number]) => {
@@ -70,9 +94,8 @@ export const useFeesForRoute = (route: {
       : null;
 
   const totalToken = fees.reduce((acc, f) => f.token.amount + acc, 0);
-  const totalTokenFormatted = `${totalToken.toLocaleString("en", {
-    maximumFractionDigits: 4,
-  })} ${toToken?.symbol}`;
+  const totalTokenFormatted = `${formatDecimals(totalToken)} ${fees[0]?.token
+    .token?.symbol}`;
 
   return {
     isLoading: false,
