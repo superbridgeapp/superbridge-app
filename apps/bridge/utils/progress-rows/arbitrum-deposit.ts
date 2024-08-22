@@ -18,7 +18,6 @@ import { getRemainingTimePeriod } from "./get-remaining-period";
 export const useArbitrumDepositProgressRows = () => {
   const { t } = useTranslation();
   const transformPeriodText = usePeriodText();
-  const deployments = useDeployments();
 
   return (
     tx: Pick<
@@ -76,7 +75,7 @@ export const useArbitrumDepositProgressRows = () => {
           link: transactionLink(tx.relay.transactionHash, deployment.l2),
         }))
         .otherwise((tx) => {
-          if (tx.deposit.timestamp < Date.now() - 1000 * 60 * 60) {
+          if (tx.deposit.timestamp < Date.now() - 1000 * 60 * 25) {
             return {
               label: "Manual relay required",
               status: ProgressRowStatus.InProgress,
