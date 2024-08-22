@@ -8,7 +8,6 @@ import { useDeployment } from "@/hooks/deployments/use-deployment";
 import { useSelectedToken } from "@/hooks/tokens/use-token";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
 import { useConfigState } from "@/state/config";
-import { useModalsState } from "@/state/modals";
 
 import { ConfirmationModalReviewTab } from "./tab-1-review";
 import { ConfirmationModalTermsTab } from "./tab-2-terms";
@@ -20,6 +19,8 @@ export const ConfirmationModalV2 = () => {
   const from = useFromChain();
   const to = useToChain();
   const token = useSelectedToken();
+  const submitting = useConfigState.useSubmittingBridge();
+  const submitted = useConfigState.useSubmittedHash();
 
   const deployment = useDeployment();
 
@@ -66,7 +67,7 @@ export const ConfirmationModalV2 = () => {
         <div className="flex justify-between items center p-4 border-b border-muted">
           <div className="w-10 h-10 shrink-0">
             {/* back button */}
-            {activeIndex !== 0 && (
+            {activeIndex === 0 || submitted || submitting ? null : (
               <button
                 onClick={() => setActiveIndex((a) => a - 1)}
                 className="w-10 h-10 shrink-0 flex items-center justify-center bg-muted rounded-full hover:scale-105 transition-all"
