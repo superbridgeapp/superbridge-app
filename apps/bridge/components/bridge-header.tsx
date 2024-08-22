@@ -1,6 +1,7 @@
 import clsx from "clsx";
 
 import { DeploymentType } from "@/codegen/model";
+import { useIsSpecialApp } from "@/hooks/apps/use-is-special-app";
 import { useIsSuperbridge } from "@/hooks/apps/use-is-superbridge";
 import { useDeployments } from "@/hooks/deployments/use-deployments";
 import { useModal } from "@/hooks/use-modal";
@@ -20,12 +21,15 @@ export const BridgeHeader = () => {
   const deployments = useDeployments();
   const superbridgeTestnets = useInjectedStore((s) => s.superbridgeTestnets);
   const isSuperbridge = useIsSuperbridge();
+  const isSpecialApp = useIsSpecialApp();
 
   return (
     <>
       <div className="flex items-center justify-end gap-8 py-2 px-0.5">
         {(isSuperbridge && superbridgeTestnets) ||
-        (!isSuperbridge && deployments[0]?.type === DeploymentType.testnet) ? (
+        (!isSpecialApp &&
+          deployments.length === 1 &&
+          deployments[0]?.type === DeploymentType.testnet) ? (
           <div className="pl-0.5 mr-auto">
             <TestnetBadge />
           </div>

@@ -1,29 +1,15 @@
 import { isPresent } from "ts-is-present";
 
-import { DeploymentType } from "@/codegen/model";
 import { useIsSpecialApp } from "@/hooks/apps/use-is-special-app";
-import { useIsSuperbridge } from "@/hooks/apps/use-is-superbridge";
 import { useDeployments } from "@/hooks/deployments/use-deployments";
-import { useInjectedStore } from "@/state/injected";
 
 import { PoweredByAlchemy } from "./badges/powered-by-alchemy";
 import { PoweredByAltLayer } from "./badges/powered-by-alt-layer-badge";
 import { PoweredByConduit } from "./badges/powered-by-conduit-badge";
-import { TestnetBadge } from "./badges/testnet-badge";
 
 export const BridgeBadges = () => {
   const deployments = useDeployments();
-  const superbridgeTestnets = useInjectedStore((s) => s.superbridgeTestnets);
-  const isSuperbridge = useIsSuperbridge();
   const isSpecialApp = useIsSpecialApp();
-
-  const testnetBadge =
-    (isSuperbridge && superbridgeTestnets) ||
-    (!isSpecialApp &&
-      deployments.length === 1 &&
-      deployments[0]?.type === DeploymentType.testnet) ? (
-      <TestnetBadge />
-    ) : null;
 
   const poweredByConduit =
     !isSpecialApp &&
@@ -46,12 +32,9 @@ export const BridgeBadges = () => {
       <PoweredByAlchemy />
     ) : null;
 
-  const badges = [
-    testnetBadge,
-    poweredByConduit,
-    poweredByAltLayer,
-    poweredByAlchemy,
-  ].filter(isPresent);
+  const badges = [poweredByConduit, poweredByAltLayer, poweredByAlchemy].filter(
+    isPresent
+  );
 
   if (!badges.length) {
     return null;
