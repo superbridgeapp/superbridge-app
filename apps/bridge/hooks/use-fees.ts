@@ -3,7 +3,7 @@ import { formatUnits } from "viem";
 import { RouteResultDto } from "@/codegen/model";
 import { currencySymbolMap } from "@/constants/currency-symbol-map";
 import { useSelectedBridgeRoute } from "@/hooks/routes/use-selected-bridge-route";
-import { useTokenPrice } from "@/hooks/use-prices";
+import { useGetTokenPrice } from "@/hooks/use-prices";
 import { useSettingsState } from "@/state/settings";
 import { isRouteQuote } from "@/utils/guards";
 
@@ -22,7 +22,7 @@ export const useFeesForRoute = (route: {
   const fromToken = useSelectedToken();
   const toToken = useDestinationToken();
   const currency = useSettingsState.useCurrency();
-  const usdPrice = useTokenPrice(fromToken);
+  const getTokenPrice = useGetTokenPrice();
 
   if (route.isLoading) {
     return {
@@ -37,7 +37,8 @@ export const useFeesForRoute = (route: {
           formatUnits(BigInt(x.amount), fromToken?.decimals ?? 18)
         );
 
-        const fiat = usdPrice ? amount * usdPrice : null;
+        const price = getTokenPrice({ address: x.tokenAddress });
+        const fiat = price ? amount * price : null;
         const fiatFormatted = fiat
           ? `${currencySymbolMap[currency]}${fiat.toLocaleString("en")}`
           : null;
@@ -54,11 +55,17 @@ export const useFeesForRoute = (route: {
       })
     : [];
 
-  const totalFiat = usdPrice
-    ? fees.reduce((acc, f) => (f.fiat?.amount ?? 0) + acc, 0)
-    : null;
+  const feeAccumulator = (acc: number | null, f: (typeof fees)[number]) => {
+    if (typeof acc === "number") {
+      if (f.fiat) return f.fiat.amount + acc;
+      else return null;
+    }
+    return null;
+  };
+  const totalFiat = fees.reduce(feeAccumulator, 0);
+
   const totalFiatFormatted =
-    usdPrice && totalFiat !== null
+    totalFiat !== null
       ? `${currencySymbolMap[currency]}${totalFiat.toLocaleString("en")}`
       : null;
 

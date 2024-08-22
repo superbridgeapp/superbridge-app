@@ -65,7 +65,7 @@ export const useTransactions = () => {
   return {
     transactions: useMemo(() => {
       const txs = [
-        ...(process.env.NODE_ENV === "development" ? MOCK_TRANSACTIONS : []),
+        // ...(process.env.NODE_ENV === "development" ? MOCK_TRANSACTIONS : []),
         ...(data?.pages.flatMap((p) => p.transactions) ?? []),
       ];
       return txs;
