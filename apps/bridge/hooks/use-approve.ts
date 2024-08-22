@@ -50,6 +50,7 @@ export function useApprove() {
       if (!token?.address) return;
       setIsLoading(true);
       try {
+        console.log(weiAmount);
         const hash = await writeContractAsync({
           abi: APPROVE_ABI_WITHOUT_RETURN,
           address: token.address as Address,
