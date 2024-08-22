@@ -1,25 +1,22 @@
 import { Trans, useTranslation } from "react-i18next";
 
-import { useSelectedToken } from "@/hooks/tokens/use-token";
+import { useIsAcrossRoute } from "@/hooks/across/use-is-across-route";
 import { useFees } from "@/hooks/use-fees";
 import { useModal } from "@/hooks/use-modal";
 
-import { IconFees, IconSimpleFees, IconSpinner, IconSuperFast } from "../icons";
+import { IconSimpleFees, IconSpinner } from "../icons";
 import { TokenIcon } from "../token-icon";
 import { Button } from "../ui/button";
 import { Dialog, DialogContent } from "../ui/dialog";
 
-/**
- * This is Across specific atm because no other routes
- * have fees
- */
 export const FeeBreakdownModal = () => {
   const { t } = useTranslation();
-  const token = useSelectedToken();
 
   const modal = useModal("FeeBreakdown");
 
   const fees = useFees();
+
+  const isAcross = useIsAcrossRoute();
 
   return (
     <Dialog open={modal.isOpen} onOpenChange={modal.close}>
@@ -30,20 +27,24 @@ export const FeeBreakdownModal = () => {
               <IconSimpleFees className="w-16 h-auto mb-4 fill-primary drop-shadow" />
             </div>
             <h1 className="font-heading text-2xl text-pretty">
-              {t("across.feeBreakdownTitle")}
+              {isAcross ? t("across.feeBreakdownTitle") : "Hyperlane fees"}
             </h1>
             <p className="text-xs md:text-sm prose-sm text-muted-foreground text-pretty text-center">
-              <Trans
-                i18nKey={"across.feeBreakdownDescription"}
-                components={[
-                  <a
-                    key="name"
-                    className="underline"
-                    href="https://across.to"
-                    target="_blank"
-                  />,
-                ]}
-              />
+              {isAcross ? (
+                <Trans
+                  i18nKey={"across.feeBreakdownDescription"}
+                  components={[
+                    <a
+                      key="name"
+                      className="underline"
+                      href="https://across.to"
+                      target="_blank"
+                    />,
+                  ]}
+                />
+              ) : (
+                "Fees paid to Hyperlane relayer for message delivery"
+              )}
             </p>
           </div>
 
@@ -61,9 +62,8 @@ export const FeeBreakdownModal = () => {
                       className="flex items-center justify-between p-3 w-full"
                     >
                       <div className="flex items-center gap-2">
-                        <TokenIcon token={token} className="h-6 w-6" />
+                        <TokenIcon token={f.token.token} className="h-6 w-6" />
                         <span className="capitalize text-xs md:text-sm ">
-                          {/* {t("across.acrossFee")} */}
                           {t(f.name)}
                         </span>
                       </div>
