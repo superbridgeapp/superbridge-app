@@ -55,8 +55,7 @@ export const useFeesForRoute = (route: {
             formatUnits(BigInt(x.amount), feeToken?.decimals ?? 18)
           );
 
-          const price = getTokenPrice({ address: x.tokenAddress });
-
+          const price = getTokenPrice(feeToken);
           const fiat = price ? amount * price : null;
           const fiatFormatted = fiat
             ? `${currencySymbolMap[currency]}${fiat.toLocaleString("en")}`
@@ -68,7 +67,8 @@ export const useFeesForRoute = (route: {
 
           return {
             name: x.name,
-            fiat: fiat ? { formatted: fiatFormatted, amount: fiat } : null,
+            fiat:
+              fiat !== null ? { formatted: fiatFormatted, amount: fiat } : null,
             token: {
               formatted: tokenFormatted,
               amount,
