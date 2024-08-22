@@ -426,7 +426,9 @@ export const ConfirmationModalStartTab = () => {
                 }),
                 chain: from,
                 fee: approvedGasToken ? undefined : fee(approveGasTokenCost),
-                buttonComponent: (
+                buttonComponent: approveGasToken ? (
+                  <IconCheckCircle className="w-6 h-6 fill-primary" />
+                ) : (
                   <Button
                     onClick={approveGasTokenButton.onSubmit}
                     disabled={approveGasTokenButton.disabled}
@@ -463,7 +465,7 @@ export const ConfirmationModalStartTab = () => {
                 chain: from,
                 fee: approved ? undefined : fee(approveCost),
                 buttonComponent: approved ? (
-                  <IconCheckCircle className="w-6 h-6 fill-muted-foreground" />
+                  <IconCheckCircle className="w-6 h-6 fill-primary" />
                 ) : (
                   <Button
                     onClick={approveButton.onSubmit}
