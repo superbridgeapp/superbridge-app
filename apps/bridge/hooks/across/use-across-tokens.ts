@@ -1,5 +1,13 @@
 import { Address, zeroAddress } from "viem";
-import { base, lisk, mainnet, mode, optimism, redstone } from "viem/chains";
+import {
+  base,
+  lisk,
+  mainnet,
+  mode,
+  optimism,
+  redstone,
+  zora,
+} from "viem/chains";
 
 import { MultiChainToken, OptimismToken } from "@/types/token";
 import { deadAddress } from "@/utils/is-eth";
@@ -15,11 +23,15 @@ const nativeUsdc = (address: Address, chainId: number): OptimismToken => ({
   opTokenId: "native-usdc",
 });
 
-const bridgedUsdc = (address: Address, chainId: number): OptimismToken => ({
+const bridgedUsdc = (
+  address: Address,
+  chainId: number,
+  symbol?: string
+): OptimismToken => ({
   chainId,
   address,
   name: "Bridged USDC (from Ethereum)",
-  symbol: "USDC.e",
+  symbol: symbol ?? "USDC.e",
   decimals: 6,
   logoURI: "https://ethereum-optimism.github.io/data/BridgedUSDC/logo.png",
   standardBridgeAddresses: {},
@@ -67,6 +79,11 @@ export const useAcrossTokens = (): MultiChainToken[] => {
         "0xd988097fb8612cc24eeC14542bC03424c656005f",
         mode.id
       ),
+      [zora.id]: bridgedUsdc(
+        "0xCccCCccc7021b32EBb4e8C08314bD62F7c653EC4",
+        zora.id,
+        "USDzC"
+      ),
     },
     {
       [mainnet.id]: eth(zeroAddress, mainnet.id),
@@ -75,6 +92,7 @@ export const useAcrossTokens = (): MultiChainToken[] => {
       [mode.id]: eth(deadAddress, mode.id),
       [lisk.id]: eth(deadAddress, lisk.id),
       [redstone.id]: eth(deadAddress, redstone.id),
+      [zora.id]: eth(deadAddress, zora.id),
     },
     {
       [mainnet.id]: usdt(
