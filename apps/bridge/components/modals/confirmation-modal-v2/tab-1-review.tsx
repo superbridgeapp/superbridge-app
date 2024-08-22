@@ -2,7 +2,6 @@ import clsx from "clsx";
 import Link from "next/link";
 
 import {
-  IconFees,
   IconHelp,
   IconSimpleFees,
   IconSimpleGas,
@@ -48,6 +47,7 @@ export const ConfirmationModalReviewTab = ({
   const destinationToken = useDestinationToken();
   const rawAmount = useConfigState.useRawAmount();
   const feeBreakdownModal = useModal("FeeBreakdown");
+  const gasInfoModal = useModal("GasInfo");
 
   const networkFee = useNetworkFee();
   const route = useSelectedBridgeRoute();
@@ -166,19 +166,15 @@ export const ConfirmationModalReviewTab = ({
               {networkFee.isLoading ? (
                 <Skeleton className="h-3 w-[60px]" />
               ) : (
-                <div className="flex gap-1 items-center cursor-pointer">
+                <div
+                  className="flex gap-1 items-center cursor-pointer"
+                  onClick={() => gasInfoModal.open()}
+                >
                   <span>
                     {networkFee.data?.fiat?.formatted ??
                       networkFee.data?.token.formatted}
                   </span>
-                  <IconHelp
-                    className={clsx(
-                      fees.data?.totals.token === 0
-                        ? "fill-primary-foreground"
-                        : "fill-muted-foreground",
-                      "h-3 w-auto"
-                    )}
-                  />
+                  <IconHelp className="fill-muted-foreground h-3 w-auto" />
                 </div>
               )}
             </div>
