@@ -1,5 +1,5 @@
 import { createSelectorHooks } from "auto-zustand-selectors-hook";
-import { Address } from "viem";
+import { Address, Hex } from "viem";
 import { create } from "zustand";
 
 interface ConfigState {
@@ -8,6 +8,9 @@ interface ConfigState {
 
   submittingBridge: boolean;
   setSubmittingBridge: (x: boolean) => void;
+
+  submittedHash: Hex | null;
+  setSubmittedHash: (x: Hex | null) => void;
 
   forceViaL1: boolean;
   toggleForceViaL1: () => void;
@@ -66,6 +69,9 @@ const ConfigState = create<ConfigState>()((set, get) => ({
 
   submittingBridge: false,
   setSubmittingBridge: (submittingBridge) => set({ submittingBridge }),
+
+  submittedHash: false,
+  setSubmittedHash: (submittedHash) => set({ submittedHash }),
 
   displayConfirmationModal: false,
   setDisplayConfirmationModal: (displayConfirmationModal) =>

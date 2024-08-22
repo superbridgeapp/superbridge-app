@@ -66,11 +66,10 @@ export const useSubmitBridge = () => {
       modals.push("FaultProofs");
     }
 
-    return initiateBridge();
-    // todo: re enable
-    // if (modals.length === 0) {
-    // } else {
-    //   setAlerts(modals);
-    // }
+    if (modals.length === 0) {
+      initiateBridge();
+    } else {
+      setAlerts(modals);
+    }
   };
 };

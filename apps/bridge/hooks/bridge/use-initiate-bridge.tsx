@@ -44,6 +44,7 @@ export const useInitiateBridge = () => {
   const rawAmount = useConfigState.useRawAmount();
   const recipient = useConfigState.useRecipientAddress();
   const setSubmittingBridge = useConfigState.useSetSubmittingBridge();
+  const setSubmittedHash = useConfigState.useSetSubmittedHash();
   const addPendingTransaction = usePendingTransactions.useAddTransaction();
   const updatePendingTransactionHash =
     usePendingTransactions.useUpdateTransactionByHash();
@@ -120,6 +121,8 @@ export const useInitiateBridge = () => {
       );
       if (pending) addPendingTransaction(pending);
 
+      setSubmittedHash(hash);
+
       await waitForTransactionReceipt(wagmiConfig, {
         hash,
         chainId: initiatingChain.id,
@@ -128,10 +131,9 @@ export const useInitiateBridge = () => {
             replacedTransaction.hash,
             transaction.hash
           );
+          setSubmittedHash(transaction.hash);
         },
       });
-
-      return hash;
     } catch (e: any) {
       // todo: when something goes wrong we should toast an error
       if (e.message.includes("rejected")) {
