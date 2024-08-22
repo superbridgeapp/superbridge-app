@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import {
   IconFees,
+  IconHelp,
   IconSimpleFees,
   IconSimpleGas,
   IconSimpleTime,
@@ -165,10 +166,20 @@ export const ConfirmationModalReviewTab = ({
               {networkFee.isLoading ? (
                 <Skeleton className="h-3 w-[60px]" />
               ) : (
-                <span>
-                  {networkFee.data?.fiat?.formatted ??
-                    networkFee.data?.token.formatted}
-                </span>
+                <div className="flex gap-1 items-center cursor-pointer">
+                  <span>
+                    {networkFee.data?.fiat?.formatted ??
+                      networkFee.data?.token.formatted}
+                  </span>
+                  <IconHelp
+                    className={clsx(
+                      fees.data?.totals.token === 0
+                        ? "fill-primary-foreground"
+                        : "fill-muted-foreground",
+                      "h-3 w-auto"
+                    )}
+                  />
+                </div>
               )}
             </div>
           </div>
@@ -184,9 +195,6 @@ export const ConfirmationModalReviewTab = ({
             <div className="flex items-center justify-between">
               <div
                 className={clsx(
-                  fees.data?.totals.token === 0
-                    ? "bg-primary rounded-full py-0.5 pl-0.5 pr-1.5"
-                    : "bg-transparent",
                   "flex gap-1 items-center",
                   fees.data?.totals.token !== 0 && "cursor-pointer"
                 )}
@@ -196,24 +204,24 @@ export const ConfirmationModalReviewTab = ({
                     : null
                 }
               >
-                <IconSimpleFees
-                  className={clsx(
-                    fees.data?.totals.token === 0
-                      ? "fill-primary-foreground"
-                      : "fill-muted-foreground",
-                    "h-3 w-auto"
-                  )}
-                />
                 {fees.data?.totals.token === 0 ? (
-                  <span className="text-xs leading-none text-primary-foreground">
-                    0 fees
-                  </span>
+                  <span className="text-xs leading-none">0 fees</span>
                 ) : (
-                  <span className="text-xs leading-none text-muted-foreground">
-                    {fees.data?.totals.fiatFormatted ??
-                      fees.data?.totals.tokenFormatted}{" "}
-                    Fee
-                  </span>
+                  <>
+                    <span className="text-xs leading-none text-foreground">
+                      {fees.data?.totals.fiatFormatted ??
+                        fees.data?.totals.tokenFormatted}{" "}
+                      Fee
+                    </span>
+                    <IconHelp
+                      className={clsx(
+                        fees.data?.totals.token === 0
+                          ? "fill-primary-foreground"
+                          : "fill-muted-foreground",
+                        "h-3 w-auto"
+                      )}
+                    />
+                  </>
                 )}
               </div>
             </div>

@@ -4,7 +4,7 @@ import { useSelectedToken } from "@/hooks/tokens/use-token";
 import { useFees } from "@/hooks/use-fees";
 import { useModal } from "@/hooks/use-modal";
 
-import { IconSuperFast } from "../icons";
+import { IconFees, IconSimpleFees, IconSpinner, IconSuperFast } from "../icons";
 import { TokenIcon } from "../token-icon";
 import { Button } from "../ui/button";
 import { Dialog, DialogContent } from "../ui/dialog";
@@ -27,7 +27,7 @@ export const FeeBreakdownModal = () => {
         <div className="flex flex-col gap-8 p-6">
           <div className="flex flex-col gap-2 items-center text-center pt-10">
             <div className="animate-wiggle-waggle">
-              <IconSuperFast className="w-16 h-auto mb-4" />
+              <IconSimpleFees className="w-16 h-auto mb-4 fill-primary drop-shadow" />
             </div>
             <h1 className="font-heading text-2xl text-pretty">
               {t("across.feeBreakdownTitle")}
@@ -47,20 +47,22 @@ export const FeeBreakdownModal = () => {
             </p>
           </div>
 
-          <div className="flex flex-col rounded-lg border py-1">
+          <div className="flex flex-col rounded-lg border py-0.5 justify-center items-center divide-y">
             {fees.isLoading ? (
-              <>Loading</>
+              <div className="p-4">
+                <IconSpinner className="text-muted-foreground w-6 h-6" />
+              </div>
             ) : (
               <>
                 {fees.data!.fees.map((f) => {
                   return (
                     <div
                       key={f.name}
-                      className="flex items-center justify-between px-3 py-2"
+                      className="flex items-center justify-between p-3 w-full"
                     >
                       <div className="flex items-center gap-2">
                         <TokenIcon token={token} className="h-6 w-6" />
-                        <span className="font-heading text-xs md:text-sm ">
+                        <span className="capitalize text-xs md:text-sm ">
                           {/* {t("across.acrossFee")} */}
                           {t(f.name)}
                         </span>
