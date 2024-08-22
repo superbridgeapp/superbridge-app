@@ -70,7 +70,7 @@ const ConfigState = create<ConfigState>()((set, get) => ({
   submittingBridge: false,
   setSubmittingBridge: (submittingBridge) => set({ submittingBridge }),
 
-  submittedHash: false,
+  submittedHash: null,
   setSubmittedHash: (submittedHash) => set({ submittedHash }),
 
   displayConfirmationModal: false,
