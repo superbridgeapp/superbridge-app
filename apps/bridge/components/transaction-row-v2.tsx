@@ -229,8 +229,8 @@ const useAction = (tx: Transaction) => {
     return status === MessageStatus.READY_TO_PROVE
       ? "prove"
       : status === MessageStatus.READY_FOR_RELAY
-        ? "finalize"
-        : null;
+      ? "finalize"
+      : null;
   }
 
   if (isArbitrumWithdrawal(tx)) {
@@ -252,8 +252,8 @@ const useProgressBars = (
   const proveTx = isOptimismWithdrawal(tx)
     ? tx.prove
     : isOptimismForcedWithdrawal(tx)
-      ? tx.withdrawal?.prove
-      : null;
+    ? tx.withdrawal?.prove
+    : null;
   const pendingFinalises = usePendingTransactions.usePendingFinalises();
 
   const bars: {

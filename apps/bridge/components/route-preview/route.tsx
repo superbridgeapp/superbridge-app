@@ -92,7 +92,7 @@ export const Route = ({
                 className="rounded-full bg-muted"
               />
               <span>
-                Via <RouteProviderName provider={provider} />
+                <RouteProviderName provider={provider} />
               </span>
             </div>
 
@@ -109,7 +109,7 @@ export const Route = ({
                 className="rounded-full bg-muted"
               />
               <span>
-                Via <RouteProviderName provider={provider} />
+                <RouteProviderName provider={provider} />
               </span>
             </div>
           </div>
