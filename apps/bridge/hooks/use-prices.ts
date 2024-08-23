@@ -36,7 +36,8 @@ export const useGetTokenPrice = () => {
       } else {
         tokenPrice =
           // @ts-expect-error
-          prices.data?.data?.[`ethereum:${t?.address}`]?.price ?? null;
+          prices.data?.data?.[`ethereum:${t?.address?.toLowerCase()}`]?.price ??
+          null;
       }
 
       if (fiatPriceInUsd && tokenPrice) {
