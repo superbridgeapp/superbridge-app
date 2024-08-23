@@ -53,7 +53,7 @@ const hyperlane: AppConfig = {
   head: {
     name: "Hyperlane Bridge",
     description: "Bridge tokens between supported Hyperlane chains",
-    og: "https://superbridge.app/og/superbridge-og-image.png",
+    og: "https://hyperlane.superbridge.app/img/hyperlane/og.png",
     favicon: "/img/superbridge/favicon-32x32.png",
   },
   images: {
