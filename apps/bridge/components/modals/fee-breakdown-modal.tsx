@@ -23,9 +23,8 @@ export const FeeBreakdownModal = () => {
       <DialogContent>
         <div className="flex flex-col gap-8 p-6">
           <div className="flex flex-col gap-2 items-center text-center pt-10">
-            <div className="animate-wiggle-waggle">
-              <IconSimpleFees className="w-16 h-auto mb-4 fill-primary drop-shadow" />
-            </div>
+            <IconSimpleFees className="w-16 h-auto mb-4 fill-primary drop-shadow" />
+
             <h1 className="font-heading text-2xl text-pretty">
               {isAcross ? t("across.feeBreakdownTitle") : "Hyperlane fees"}
             </h1>
@@ -59,21 +58,19 @@ export const FeeBreakdownModal = () => {
                   return (
                     <div
                       key={f.name}
-                      className="flex items-center justify-between p-3 w-full"
+                      className="flex items-center justify-between gap-3 p-3 w-full"
                     >
-                      <div className="flex items-center gap-2">
-                        <TokenIcon token={f.token.token} className="h-6 w-6" />
-                        <span className="capitalize text-xs md:text-sm ">
-                          {t(f.name)}
-                        </span>
+                      <div className="flex items-center gap-1.5">
+                        <TokenIcon token={f.token.token} className="h-5 w-5" />
+                        <span className="capitalize text-xs">{t(f.name)}</span>
                       </div>
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-1.5">
                         {f.fiat?.formatted && (
-                          <span className="text-xs md:text-sm text-muted-foreground">
+                          <span className="text-xs text-muted-foreground">
                             {f.fiat.formatted}
                           </span>
                         )}
-                        <span className="text-xs md:text-sm text-foreground">
+                        <span className="text-xs text-foreground">
                           {f.token.formatted}
                         </span>
                       </div>

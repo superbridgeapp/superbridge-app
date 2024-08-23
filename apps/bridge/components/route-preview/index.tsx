@@ -68,9 +68,10 @@ export const RoutePreview = () => {
               provider={route.data.id}
               quote={route.data.result}
               allowDetailClicks
+              onClick={() => routeSelectorModal.open()}
             />
           </div>
-          {validRoutesCount > 1 && (
+          {/* {validRoutesCount > 1 && (
             <Button
               onClick={() => routeSelectorModal.open()}
               size={"xs"}
@@ -80,7 +81,7 @@ export const RoutePreview = () => {
               <span>{validRoutesCount - 1} More</span>
               <IconCaretRight className="w-3 w-3 fill-foreground" />
             </Button>
-          )}
+          )} */}
         </motion.div>
       )}
     </AnimatePresence>
