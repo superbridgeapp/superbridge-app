@@ -7,7 +7,10 @@ import {
   HyperlaneTransactionType,
   OptimismTransactionType,
   RouteProvider,
+  RouteResultDto,
 } from "@/codegen/model";
+import { chainIcons } from "@/config/chain-icon-overrides";
+import { isRouteQuote, isRouteWaitStep } from "@/utils/guards";
 
 const icons = {
   [RouteProvider.Across]: "/img/networks/across.svg",
@@ -47,7 +50,6 @@ export const routeProviderToTransactionType = {
 
 export const RouteProviderName = ({
   provider,
-  className,
 }: {
   provider: RouteProvider | null;
   className?: string;
@@ -59,21 +61,40 @@ export const RouteProviderName = ({
   return <span>{names[provider]}</span>;
 };
 
+const nativeRoutes: RouteProvider[] = [
+  RouteProvider.ArbitrumDeposit,
+  RouteProvider.ArbitrumWithdrawal,
+  RouteProvider.OptimismDeposit,
+  RouteProvider.OptimismWithdrawal,
+  RouteProvider.OptimismForcedWithdrawal,
+];
+
 export const RouteProviderIcon = ({
-  provider,
+  route,
   className,
 }: {
-  provider: RouteProvider | null;
+  route: RouteResultDto | null;
   className?: string;
 }) => {
-  if (!provider) {
+  if (!route) {
     return null;
+  }
+
+  let icon = icons[route.id];
+  if (nativeRoutes.includes(route.id) && isRouteQuote(route.result)) {
+    const lastStep = route.result.steps[route.result.steps.length - 1];
+    if (!isRouteWaitStep(lastStep)) {
+      const chainIcon = chainIcons[parseInt(lastStep.chainId)];
+      if (chainIcon) {
+        icon = chainIcon;
+      }
+    }
   }
 
   return (
     <Image
-      alt={`${provider} icon`}
-      src={icons[provider]}
+      alt={`${route.id} icon`}
+      src={icon}
       className={className}
       height={16}
       width={16}

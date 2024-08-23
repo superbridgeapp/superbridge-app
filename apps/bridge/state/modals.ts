@@ -33,7 +33,7 @@ const modalNames = [
   "CustomTokenListImport",
   "BlockProving",
   "FaultProof",
-];
+] as const;
 export type ModalName = (typeof modalNames)[number];
 
 const alerts = ["no-gas", "gas-expensive", "fault-proofs"];
