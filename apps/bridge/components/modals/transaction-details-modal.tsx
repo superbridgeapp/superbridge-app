@@ -73,7 +73,6 @@ const Content = () => {
             <span className="text-xs text-muted-foreground">
               via <RouteProviderName provider={provider} />
             </span>
-            {/* <RouteProviderIcon provider={provider} /> */}
           </div>
         </DialogDescription>
       </DialogHeader>

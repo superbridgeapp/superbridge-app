@@ -135,7 +135,7 @@ export const ConfirmationModalReviewTab = ({
             <div className="flex gap-1.5 items-center justify-between ">
               <RouteProviderName provider={route.data!.id} />
               <RouteProviderIcon
-                provider={route.data!.id}
+                route={route.data}
                 className="h-4 w-4 rounded-2xs"
               />
             </div>

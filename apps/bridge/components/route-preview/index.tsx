@@ -75,17 +75,6 @@ export const RoutePreview = () => {
               }
             />
           </div>
-          {/* {validRoutesCount > 1 && (
-            <Button
-              onClick={() => routeSelectorModal.open()}
-              size={"xs"}
-              variant={"secondary"}
-              className="mx-auto absolute bottom-2.5 right-2 text-xs h-6 pr-2 gap-1"
-            >
-              <span>{validRoutesCount - 1} More</span>
-              <IconCaretRight className="w-3 w-3 fill-foreground" />
-            </Button>
-          )} */}
         </motion.div>
       )}
     </AnimatePresence>
