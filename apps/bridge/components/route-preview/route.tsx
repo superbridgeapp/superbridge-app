@@ -98,17 +98,17 @@ export const Route = ({
           </button>
         ) : (
           <div
-            className="flex gap-1.5 items-center rounded-full bg-muted px-1.5 py-1.5"
+            className="flex gap-1.5 items-center rounded-full bg-muted pl-2 pr-1.5 py-1.5"
             onClick={() => (allowDetailClicks ? onClick : null)}
           >
             <div className="flex gap-1 items-center text-foreground text-xs font-body">
+              <span>
+                Via <RouteProviderName provider={provider} />
+              </span>
               <RouteProviderIcon
                 provider={provider}
                 className="rounded-full bg-muted"
               />
-              <span>
-                Via <RouteProviderName provider={provider} />
-              </span>
             </div>
           </div>
         )}
