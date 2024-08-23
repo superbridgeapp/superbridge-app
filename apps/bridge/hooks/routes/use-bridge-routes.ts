@@ -1,5 +1,5 @@
 import { useDebounce } from "use-debounce";
-import { isAddress, zeroAddress } from "viem";
+import { isAddress } from "viem";
 import { useAccount } from "wagmi";
 
 import { useConfigState } from "@/state/config";
