@@ -68,8 +68,11 @@ export const RoutePreview = () => {
               provider={route.data.id}
               quote={route.data.result}
               allowDetailClicks
-              onClick={() => routeSelectorModal.open()}
-              hasMultiRoutes={validRoutesCount > 1}
+              onRoutesClick={
+                validRoutesCount > 1
+                  ? () => routeSelectorModal.open()
+                  : undefined
+              }
             />
           </div>
           {/* {validRoutesCount > 1 && (

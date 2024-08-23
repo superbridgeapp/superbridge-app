@@ -37,8 +37,6 @@ export const RouteSelectorModal = () => {
                   key={route.id}
                   provider={route.id}
                   quote={route.result}
-                  hasMultiRoutes={false}
-                  onClick={null}
                 />
               </div>
             );

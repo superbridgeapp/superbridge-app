@@ -32,14 +32,12 @@ import { Skeleton } from "../ui/skeleton";
 export const Route = ({
   provider,
   quote,
-  onClick,
-  hasMultiRoutes,
+  onRoutesClick,
   allowDetailClicks,
 }: {
   provider: RouteProvider;
   quote: RouteQuoteDto;
-  onClick: any;
-  hasMultiRoutes: boolean;
+  onRoutesClick?: () => void;
   allowDetailClicks?: boolean;
 }) => {
   const selectedToken = useSelectedToken();
@@ -81,10 +79,10 @@ export const Route = ({
         <h3 className="text-xs font-heading leading-none">
           Get on {to?.name}{" "}
         </h3>
-        {allowDetailClicks && hasMultiRoutes ? (
+        {allowDetailClicks && onRoutesClick ? (
           <button
             className="flex gap-1.5 items-center rounded-full bg-muted pl-1.5 pr-2.5 py-1.5 hover:scale-105 transition-all"
-            onClick={onClick}
+            onClick={onRoutesClick}
           >
             <div className="flex gap-1 items-center text-foreground text-xs font-body leading-none">
               <RouteProviderIcon
@@ -99,10 +97,7 @@ export const Route = ({
             <IconCaretDown className="w-4 w-4 fill-foreground" />
           </button>
         ) : (
-          <div
-            className="flex gap-1.5 items-center rounded-full bg-muted pl-1.5 pr-2 py-1.5"
-            onClick={() => (allowDetailClicks ? onClick : null)}
-          >
+          <div className="flex gap-1.5 items-center rounded-full bg-muted pl-1.5 pr-2 py-1.5">
             <div className="flex gap-1 items-center text-foreground text-xs font-body leading-none">
               <RouteProviderIcon
                 provider={provider}
