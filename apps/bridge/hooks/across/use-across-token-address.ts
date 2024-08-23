@@ -1,5 +1,13 @@
 import { Address, isAddress, isAddressEqual, zeroAddress } from "viem";
-import { base, lisk, mainnet, mode, optimism, redstone } from "viem/chains";
+import {
+  base,
+  lisk,
+  mainnet,
+  mode,
+  optimism,
+  redstone,
+  zora,
+} from "viem/chains";
 
 import { deadAddress } from "@/utils/is-eth";
 
@@ -10,6 +18,7 @@ const WETH: { [chainId: number]: Address | undefined } = {
   [mode.id]: "0x4200000000000000000000000000000000000006",
   [lisk.id]: "0x4200000000000000000000000000000000000006",
   [redstone.id]: "0x4200000000000000000000000000000000000006",
+  [zora.id]: "0x4200000000000000000000000000000000000006",
 };
 
 /**
