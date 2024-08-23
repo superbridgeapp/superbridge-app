@@ -33,11 +33,13 @@ export const Route = ({
   provider,
   quote,
   onClick,
+  hasMultiRoutes,
   allowDetailClicks,
 }: {
   provider: RouteProvider;
   quote: RouteQuoteDto;
   onClick: any;
+  hasMultiRoutes: boolean;
   allowDetailClicks?: boolean;
 }) => {
   const selectedToken = useSelectedToken();
@@ -79,12 +81,12 @@ export const Route = ({
         <h3 className="text-xs font-heading leading-none">
           Get on {to?.name}{" "}
         </h3>
-        {allowDetailClicks ? (
+        {allowDetailClicks && hasMultiRoutes ? (
           <button
             className="flex gap-1.5 items-center rounded-full bg-muted pl-1.5 pr-2.5 py-1.5 hover:scale-105 transition-all"
             onClick={onClick}
           >
-            <div className="flex gap-1 items-center text-foreground text-xs font-body">
+            <div className="flex gap-1 items-center text-foreground text-xs font-body leading-none">
               <RouteProviderIcon
                 provider={provider}
                 className="rounded-full bg-muted"
@@ -98,17 +100,17 @@ export const Route = ({
           </button>
         ) : (
           <div
-            className="flex gap-1.5 items-center rounded-full bg-muted pl-2 pr-1.5 py-1.5"
+            className="flex gap-1.5 items-center rounded-full bg-muted pl-1.5 pr-2 py-1.5"
             onClick={() => (allowDetailClicks ? onClick : null)}
           >
-            <div className="flex gap-1 items-center text-foreground text-xs font-body">
-              <span>
-                Via <RouteProviderName provider={provider} />
-              </span>
+            <div className="flex gap-1 items-center text-foreground text-xs font-body leading-none">
               <RouteProviderIcon
                 provider={provider}
                 className="rounded-full bg-muted"
               />
+              <span>
+                Via <RouteProviderName provider={provider} />
+              </span>
             </div>
           </div>
         )}

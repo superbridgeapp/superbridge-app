@@ -22,7 +22,7 @@ export const RouteSelectorModal = () => {
         <DialogHeader>
           <DialogTitle>Choose route</DialogTitle>
         </DialogHeader>
-        <div className="flex flex-col px-4 pb-6 gap-2">
+        <div className="flex flex-col px-4 pb-6 gap-3">
           {routes.data?.results.map((route) => {
             if (isRouteQuoteError(route.result)) {
               return null;
@@ -31,12 +31,14 @@ export const RouteSelectorModal = () => {
               <div
                 key={route.id}
                 onClick={() => onSelect(route.id)}
-                className="p-4 bg-muted rounded-xl hover:scale-[1.015] transition-all cursor-pointer"
+                className="p-4 border border-muted rounded-xl hover:scale-[1.015] transition-all cursor-pointer"
               >
                 <Route
                   key={route.id}
                   provider={route.id}
                   quote={route.result}
+                  hasMultiRoutes={false}
+                  onClick={null}
                 />
               </div>
             );
