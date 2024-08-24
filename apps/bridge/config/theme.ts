@@ -725,6 +725,15 @@ const snaxTheme: Theme = {
   },
 };
 
+const soneiumTheme: Theme = {
+  ...defaultTheme,
+  iconSrc: "/img/soneium/icon.png",
+  card: {
+    className: "bg-black",
+    title: "text-white",
+  },
+};
+
 export const themes: { [name: string]: Theme | undefined } = {
   ["base"]: baseTheme,
   ["base-sepolia"]: baseTheme,
@@ -786,6 +795,8 @@ export const themes: { [name: string]: Theme | undefined } = {
   ["shape-testnet"]: shapeTheme,
   ["snaxchain-mainnet"]: snaxTheme,
   ["snaxchain-testnet"]: snaxTheme,
+  ["soneium-mainnet"]: soneiumTheme,
+  ["soneium-testnet"]: soneiumTheme,
 };
 
 export const deploymentTheme = (
