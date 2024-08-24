@@ -16,7 +16,13 @@ const SUPERCHAIN_COMING_SOON: {
   name: string;
   displayName: string;
   type: DeploymentType;
-}[] = [];
+}[] = [
+  {
+    name: "soneium-mainnet",
+    displayName: "Soneium Mainnet",
+    type: DeploymentType.mainnet,
+  },
+];
 const NEW_DEPLOYMENTS = ["world-chain"];
 
 export const DeploymentsGrid = () => {

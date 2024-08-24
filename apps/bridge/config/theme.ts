@@ -795,6 +795,8 @@ export const themes: { [name: string]: Theme | undefined } = {
   ["shape-testnet"]: shapeTheme,
   ["snaxchain-mainnet"]: snaxTheme,
   ["snaxchain-testnet"]: snaxTheme,
+  ["soneium-mainnet"]: soneiumTheme,
+  ["soneium-testnet"]: soneiumTheme,
 };
 
 export const deploymentTheme = (
