@@ -2,7 +2,7 @@
 
 <g id="bg" clip-path="url(#clip0_3_1030)">
 <rect width="1512" height="1512" fill="#162A4A" />
-<rect width="1512" height="1512" fill="#162A4A" opacity="0.4" filter="url(#displacementFilter)"/>
+<rect width="1512" height="1512" fill="#162A4A" opacity="0.2" filter="url(#displacementFilter)"/>
 <g id="glow vector" style="mix-blend-mode:color-dodge" filter="url(#filter0_ddddf_3_1030)">
 <path d="M756.56 1016C415.27 1016 122.66 1224.38 -1 1520.85L1512.2 1516.27C1387.44 1222.24 1096.09 1016 756.56 1016Z" fill="#162B4D" fill-opacity="0.01" shape-rendering="crispEdges"/>
 </g>
@@ -24,7 +24,7 @@
 </g>
 <defs>
   <filter id="displacementFilter" x="-20%" y="-20%" width="140%" height="140%" filterUnits="objectBoundingBox" primitiveUnits="userSpaceOnUse" color-interpolation-filters="linearRGB">
-	<feTurbulence type="turbulence" baseFrequency="2.17" numOctaves="2" seed="2" stitchTiles="stitch" result="turbulence"/>
+	<feTurbulence type="turbulence" baseFrequency="32" numOctaves="8"  stitchTiles="stitch" x="0%" y="0%" width="100%" height="100%" result="turbulence"/>
 	<feColorMatrix type="matrix"
     values="0   1   0   0   0
             0   1   0   0   0
