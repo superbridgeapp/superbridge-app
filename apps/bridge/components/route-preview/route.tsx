@@ -74,7 +74,7 @@ export const Route = ({
   const allowFeeClicks = allowDetailClicks && fees.data?.totals.token !== 0;
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-2">
       <div className="flex justify-between items-center gap-1">
         <h3 className="text-xs font-heading leading-none">
           Get on {to?.name}{" "}
@@ -131,7 +131,7 @@ export const Route = ({
         </div>
       </div>
 
-      <div className="flex gap-3 justify-start mt-2">
+      <div className="flex gap-3 justify-start mt-4">
         <div className="flex gap-1 items-center mr-auto">
           <IconSimpleTime className="h-4 w-4 fill-muted-foreground" />{" "}
           <span className="text-xs leading-none text-muted-foreground">
