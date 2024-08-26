@@ -6,6 +6,6 @@
  * OpenAPI spec version: 1.0
  */
 
-export interface CcipReadResponseDto {
-  data: string;
+export interface HyperlaneCustomWarpRouteFileRequestDto {
+  file: string;
 }

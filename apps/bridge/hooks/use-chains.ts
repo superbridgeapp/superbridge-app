@@ -1,11 +1,27 @@
 import { useMemo } from "react";
 
+import { ChainDto } from "@/codegen/model";
 import { useInjectedStore } from "@/state/injected";
 
 import { useIsSuperbridge } from "./apps/use-is-superbridge";
+import { useHyperlaneMailboxes } from "./hyperlane/use-hyperlane-mailboxes";
 
 export const useAllChains = () => {
-  return useInjectedStore((s) => s.chains);
+  const hyperlaneMailboxes = useHyperlaneMailboxes();
+  const injectedChains = useInjectedStore((s) => s.chains);
+
+  return useMemo(() => {
+    const cache: { [chainId: number]: ChainDto } = {};
+
+    for (const chain of [
+      ...injectedChains,
+      ...hyperlaneMailboxes.map((x) => x.chain),
+    ]) {
+      cache[chain.id] = chain;
+    }
+
+    return Object.values(cache);
+  }, [injectedChains, hyperlaneMailboxes]);
 };
 
 export const useChains = () => {

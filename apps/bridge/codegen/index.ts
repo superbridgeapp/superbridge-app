@@ -37,8 +37,6 @@ import type {
   BridgeControllerGetRoutesParams,
   BridgeControllerGetTokens200Item,
   BridgeNftDto,
-  CcipReadDto,
-  CcipReadResponseDto,
   CctpDomainDto,
   ConduitDeploymentConfigDto,
   CreateConduitDeploymentDto,
@@ -48,6 +46,8 @@ import type {
   GetActivityDto,
   GetActivityV3Dto,
   GetActivityV4Dto,
+  HyperlaneCustomWarpRouteFileRequestDto,
+  HyperlaneCustomWarpRouteFileResponseDto,
   HyperlaneMailboxDto,
   IdDto,
   NumberDto,
@@ -1150,55 +1150,6 @@ export const useBridgeControllerGetAcrossAvailableRoutes = <TData = Awaited<Retu
 
 
 
-export const bridgeControllerHandleCctpHyperlane = (
-    ccipReadDto: CcipReadDto, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<CcipReadResponseDto[]>> => {
-    
-    return axios.post(
-      `/api/bridge/cctp`,
-      ccipReadDto,options
-    );
-  }
-
-
-
-export const getBridgeControllerHandleCctpHyperlaneMutationOptions = <TError = AxiosError<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerHandleCctpHyperlane>>, TError,{data: CcipReadDto}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerHandleCctpHyperlane>>, TError,{data: CcipReadDto}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
-
-      
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof bridgeControllerHandleCctpHyperlane>>, {data: CcipReadDto}> = (props) => {
-          const {data} = props ?? {};
-
-          return  bridgeControllerHandleCctpHyperlane(data,axiosOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type BridgeControllerHandleCctpHyperlaneMutationResult = NonNullable<Awaited<ReturnType<typeof bridgeControllerHandleCctpHyperlane>>>
-    export type BridgeControllerHandleCctpHyperlaneMutationBody = CcipReadDto
-    export type BridgeControllerHandleCctpHyperlaneMutationError = AxiosError<unknown>
-
-    export const useBridgeControllerHandleCctpHyperlane = <TError = AxiosError<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerHandleCctpHyperlane>>, TError,{data: CcipReadDto}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationResult<
-        Awaited<ReturnType<typeof bridgeControllerHandleCctpHyperlane>>,
-        TError,
-        {data: CcipReadDto},
-        TContext
-      > => {
-
-      const mutationOptions = getBridgeControllerHandleCctpHyperlaneMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    
 export const bridgeControllerCreateConduitDeployment = (
     createConduitDeploymentDto: CreateConduitDeploymentDto, options?: AxiosRequestConfig
  ): Promise<AxiosResponse<ConduitDeploymentConfigDto>> => {
@@ -1837,3 +1788,52 @@ export const useBridgeControllerGetDeploymentSyncStatus = <TData = Awaited<Retur
 
 
 
+export const hyperlaneControllerResolveWarpRouteYamlFile = (
+    hyperlaneCustomWarpRouteFileRequestDto: HyperlaneCustomWarpRouteFileRequestDto, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<HyperlaneCustomWarpRouteFileResponseDto>> => {
+    
+    return axios.post(
+      `/api/hyperlane/resolve_warp_route_yaml_file`,
+      hyperlaneCustomWarpRouteFileRequestDto,options
+    );
+  }
+
+
+
+export const getHyperlaneControllerResolveWarpRouteYamlFileMutationOptions = <TError = AxiosError<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof hyperlaneControllerResolveWarpRouteYamlFile>>, TError,{data: HyperlaneCustomWarpRouteFileRequestDto}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof hyperlaneControllerResolveWarpRouteYamlFile>>, TError,{data: HyperlaneCustomWarpRouteFileRequestDto}, TContext> => {
+const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof hyperlaneControllerResolveWarpRouteYamlFile>>, {data: HyperlaneCustomWarpRouteFileRequestDto}> = (props) => {
+          const {data} = props ?? {};
+
+          return  hyperlaneControllerResolveWarpRouteYamlFile(data,axiosOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type HyperlaneControllerResolveWarpRouteYamlFileMutationResult = NonNullable<Awaited<ReturnType<typeof hyperlaneControllerResolveWarpRouteYamlFile>>>
+    export type HyperlaneControllerResolveWarpRouteYamlFileMutationBody = HyperlaneCustomWarpRouteFileRequestDto
+    export type HyperlaneControllerResolveWarpRouteYamlFileMutationError = AxiosError<unknown>
+
+    export const useHyperlaneControllerResolveWarpRouteYamlFile = <TError = AxiosError<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof hyperlaneControllerResolveWarpRouteYamlFile>>, TError,{data: HyperlaneCustomWarpRouteFileRequestDto}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationResult<
+        Awaited<ReturnType<typeof hyperlaneControllerResolveWarpRouteYamlFile>>,
+        TError,
+        {data: HyperlaneCustomWarpRouteFileRequestDto},
+        TContext
+      > => {
+
+      const mutationOptions = getHyperlaneControllerResolveWarpRouteYamlFileMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
