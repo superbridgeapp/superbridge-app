@@ -12,10 +12,12 @@ export interface HyperlaneBridgeDto {
   amount: string;
   createdAt: string;
   duration: number;
+  from: string;
   fromDomain: number;
   id: string;
   receive?: ConfirmationDto;
   send: ConfirmationDto;
+  to: string;
   toDomain: number;
   token: string;
   type: HyperlaneTransactionType;

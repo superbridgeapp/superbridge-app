@@ -9,6 +9,7 @@ import { useTxToken } from "@/hooks/activity/use-tx-token";
 import { useModal } from "@/hooks/use-modal";
 import { useTransactions } from "@/hooks/use-transactions";
 import { usePendingTransactions } from "@/state/pending-txs";
+import { getInitiatingHash } from "@/utils/initiating-tx-hash";
 import { useProgressRows } from "@/utils/progress-rows";
 import { isWaitStep } from "@/utils/progress-rows/common";
 
@@ -24,18 +25,18 @@ import {
   DialogTitle,
 } from "../ui/dialog";
 
-const useTransactionById = (id: string | null) => {
+const useTransactionByInitiatingHash = (hash: string | null) => {
   const { transactions } = useTransactions();
   const pendingTransactions = usePendingTransactions.useTransactions();
   return (
-    transactions.find((x) => x.id === id) ||
-    pendingTransactions.find((x) => x.id === id)
+    transactions.find((x) => getInitiatingHash(x) === hash) ||
+    pendingTransactions.find((x) => getInitiatingHash(x) === hash)
   );
 };
 
 const Content = () => {
   const modal = useModal("TransactionDetails");
-  const tx = useTransactionById(modal.data);
+  const tx = useTransactionByInitiatingHash(modal.data);
 
   const token = useTxToken(tx);
 
@@ -72,7 +73,6 @@ const Content = () => {
             <span className="text-xs text-muted-foreground">
               via <RouteProviderName provider={provider} />
             </span>
-            {/* <RouteProviderIcon provider={provider} /> */}
           </div>
         </DialogDescription>
       </DialogHeader>

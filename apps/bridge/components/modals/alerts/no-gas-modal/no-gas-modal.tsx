@@ -74,14 +74,14 @@ export const NoGasModal = () => {
     withdrawing,
     supportsAcross: isSuperbridge && !!deployment && supportsAcross(deployment),
   })
-    .with({ withdrawing: false }, () => ({
-      text: t("noGasModal.topup", common),
-      onClick: () => {
-        // todo: think about logic here, maybe check if we can bridge the native token
-        // setStateToken(nativeToken ?? null);
-        onCancel();
-      },
-    }))
+    // .with({ withdrawing: false }, () => ({
+    //   text: t("noGasModal.topup", common),
+    //   onClick: () => {
+    //     // todo: think about logic here, maybe check if we can bridge the native token
+    //     // setStateToken(nativeToken ?? null);
+    //     onCancel();
+    //   },
+    // }))
     .otherwise(() => ({
       text: t("noGasModal.goBack", common),
       onClick: onCancel,
@@ -106,7 +106,7 @@ export const NoGasModal = () => {
 
           <div className="flex flex-col gap-2">
             <a
-              href={`https://superbridge.app/support/${deployment?.name}`}
+              href="https://help.superbridge.app"
               target="_blank"
               className="text-xs text-center font-heading text-foreground hover:underline mb-2"
             >

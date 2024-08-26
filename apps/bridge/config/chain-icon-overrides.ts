@@ -63,4 +63,5 @@ export const chainIcons: { [chainId: number]: string | undefined } = {
   [avalanche.id]: "/img/networks/avalanche.svg",
   [scroll.id]: "/img/networks/scroll.svg",
   [polygon.id]: "/img/networks/polygon.svg",
+  [48900]: "/img/networks/zircuit.svg",
 };

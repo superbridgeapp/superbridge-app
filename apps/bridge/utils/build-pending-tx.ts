@@ -85,10 +85,11 @@ export const buildPendingTx = (
       amount: weiAmount.toString(),
       type: "hyperlane-bridge",
       receive: undefined,
+      duration: 1000 * 60 * 2,
 
       fromDomain: fromMailbox.domain,
       toDomain: toMailbox.domain,
-      token: fromToken?.address ?? "",
+      token: fromToken.hyperlane?.router ?? "",
     };
     return b;
   }

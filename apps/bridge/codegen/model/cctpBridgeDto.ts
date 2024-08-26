@@ -18,7 +18,9 @@ export interface CctpBridgeDto {
   from: ChainDto;
   fromChainId: number;
   id: string;
+  recipient: string;
   relay?: ConfirmationDto;
+  sender: string;
   to: ChainDto;
   toChainId: number;
   token: string;

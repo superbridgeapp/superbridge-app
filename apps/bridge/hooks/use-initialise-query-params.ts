@@ -88,7 +88,7 @@ export const useInitialiseQueryParams = () => {
       });
 
       if (token) {
-        setToken(token[from.id]!, token[to.id]!);
+        setToken(token[from.id]!);
       }
     } else {
       const tokenAddress = router.query.tokenAddress as string | undefined;
@@ -107,7 +107,7 @@ export const useInitialiseQueryParams = () => {
       }
 
       if (token) {
-        setToken(token[from.id]!, token[to.id]!);
+        setToken(token[from.id]!);
       }
     }
   }, [router.asPath, deployment, tokens]);

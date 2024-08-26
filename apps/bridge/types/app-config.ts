@@ -21,4 +21,8 @@ export type AppConfig = {
   };
 
   links: LinkDto[];
+
+  metadata: {
+    gId?: string;
+  };
 };

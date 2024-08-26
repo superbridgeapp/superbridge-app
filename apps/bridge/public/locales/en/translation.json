@@ -269,7 +269,7 @@
     "transferTimeTitle": "Superfast transfer time",
     "transferTimeDescription": "Depending on the size of the bridge, Superfast transfer times can vary. Times are estimates only.",
     "timeTo": "Time to {{to}}",
-    "feeBreakdownTitle": "Superfast fees",
+    "feeBreakdownTitle": "Across fees",
     "feeBreakdownDescription": "Fees paid to <0>Across</0> and their liquidity providers and relayers",
     "acrossFee": "Across fee"
   }

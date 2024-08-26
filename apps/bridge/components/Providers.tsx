@@ -97,7 +97,7 @@ function Web3Provider({ children }: { children: React.ReactNode }) {
         theme={rainbowTheme}
         appInfo={{
           appName: metadata.head.name,
-          learnMoreUrl: "https://docs.superbridge.app",
+          learnMoreUrl: "https://help.superbridge.app",
         }}
       >
         {children}

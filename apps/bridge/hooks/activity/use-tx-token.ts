@@ -93,11 +93,9 @@ export function useTxToken(tx: Transaction | null | undefined) {
       if (!src) {
         return false;
       }
-      return (
-        // when they come from the backend
-        isAddressEqual(src.hyperlane?.router as Address, tx.token as Address) ||
-        // when we add a pending tx
-        isAddressEqual(src.address as Address, tx.token as Address)
+      return isAddressEqual(
+        src.hyperlane?.router as Address,
+        tx.token as Address
       );
     });
 

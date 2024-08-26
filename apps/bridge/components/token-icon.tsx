@@ -7,7 +7,7 @@ export const TokenIcon = ({
   token,
   className,
 }: {
-  token: BridgeableTokenDto | null | undefined;
+  token: Pick<BridgeableTokenDto, "logoURI" | "symbol"> | null | undefined;
   className?: string;
 }) => {
   const [error, setError] = useState(false);

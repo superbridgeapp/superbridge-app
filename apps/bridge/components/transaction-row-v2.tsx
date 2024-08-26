@@ -29,6 +29,7 @@ import {
   isOptimismForcedWithdrawal,
   isOptimismWithdrawal,
 } from "@/utils/guards";
+import { getInitiatingHash } from "@/utils/initiating-tx-hash";
 
 import { MessageStatus } from "../constants";
 import { IconCheckCircle, IconSimpleTime, IconTx } from "./icons";
@@ -166,13 +167,13 @@ const ActionRow = ({ tx }: { tx: Transaction }) => {
       </span>
 
       {isActionStatus(status) ? (
-        <Button size={"sm"} onClick={() => modal.open(tx.id)}>
+        <Button size={"sm"} onClick={() => modal.open(getInitiatingHash(tx))}>
           {status.button}
         </Button>
       ) : isWaitStatus(status) && status.timestamp > Date.now() ? (
         <div
           className="bg-muted rounded-full flex items-center gap-2 p-2 pl-3 cursor-pointer"
-          onClick={() => modal.open(tx.id)}
+          onClick={() => modal.open(getInitiatingHash(tx))}
         >
           <span className="text-xs lg:text-sm text-muted-foreground">
             ~{formatDistanceToNowStrict((status as any).timestamp)} to go
@@ -182,7 +183,7 @@ const ActionRow = ({ tx }: { tx: Transaction }) => {
       ) : (
         isGeneralStatus(status) && (
           <Button
-            onClick={() => modal.open(tx.id)}
+            onClick={() => modal.open(getInitiatingHash(tx))}
             size={"xs"}
             variant={"secondary"}
           >
@@ -228,8 +229,8 @@ const useAction = (tx: Transaction) => {
     return status === MessageStatus.READY_TO_PROVE
       ? "prove"
       : status === MessageStatus.READY_FOR_RELAY
-        ? "finalize"
-        : null;
+      ? "finalize"
+      : null;
   }
 
   if (isArbitrumWithdrawal(tx)) {
@@ -251,8 +252,8 @@ const useProgressBars = (
   const proveTx = isOptimismWithdrawal(tx)
     ? tx.prove
     : isOptimismForcedWithdrawal(tx)
-      ? tx.withdrawal?.prove
-      : null;
+    ? tx.withdrawal?.prove
+    : null;
   const pendingFinalises = usePendingTransactions.usePendingFinalises();
 
   const bars: {
@@ -310,9 +311,6 @@ export const TransactionRowV2 = ({ tx }: { tx: Transaction }) => {
   const bars = useProgressBars(tx);
   const provider = useTxProvider(tx);
 
-  if (tx.mock) {
-    console.log(isInProgress);
-  }
   return (
     <div
       className="bg-card w-full rounded-xl flex gap-2.5 lg:gap-4 p-5 md:p-6 relative"
@@ -375,7 +373,7 @@ export const TransactionRowV2 = ({ tx }: { tx: Transaction }) => {
           )}
           {isSuccessful && (
             <Button
-              onClick={() => modal.open(tx.id)}
+              onClick={() => modal.open(getInitiatingHash(tx))}
               size={"xs"}
               variant={"secondary"}
             >

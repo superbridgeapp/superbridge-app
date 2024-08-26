@@ -29,13 +29,17 @@ const superbidge: AppConfig = {
   theme: superbridgeTheme,
 
   links: [],
+
+  metadata: {
+    gId: "G-GVCWE7KL11", // v3
+  },
 };
 
 const renzo: AppConfig = {
   head: {
     name: "ezETH Bridge",
     description: "Bridge ezETH between Base, Blast, Ethereum and more",
-    og: "https://superbridge.app/og/superbridge-og-image.png",
+    og: "https://renzo.superbridge.app/img/renzo/og.png",
     favicon: "/img/superbridge/favicon-32x32.png",
   },
   images: {
@@ -47,13 +51,17 @@ const renzo: AppConfig = {
   theme: renzoTheme,
 
   links: [],
+
+  metadata: {
+    gId: "G-T6VPED3THL",
+  },
 };
 
 const hyperlane: AppConfig = {
   head: {
     name: "Hyperlane Bridge",
     description: "Bridge tokens between supported Hyperlane chains",
-    og: "https://superbridge.app/og/superbridge-og-image.png",
+    og: "https://hyperlane.superbridge.app/img/hyperlane/og.png",
     favicon: "/img/superbridge/favicon-32x32.png",
   },
   images: {
@@ -65,13 +73,17 @@ const hyperlane: AppConfig = {
   theme: hyperlaneTheme,
 
   links: [],
+
+  metadata: {
+    gId: "G-0W40FTXFP4",
+  },
 };
 
 const usdc: AppConfig = {
   head: {
     name: "USDC Bridge",
     description: "Bridge USDC between supported chains",
-    og: "https://superbridge.app/og/superbridge-og-image.png",
+    og: "https://usdc.superbridge.app/img/usdc/og.png",
     favicon: "/img/superbridge/favicon-32x32.png",
   },
   images: {
@@ -83,6 +95,10 @@ const usdc: AppConfig = {
   theme: usdcTheme,
 
   links: [],
+
+  metadata: {
+    gId: "G-3GT9P7XJH7",
+  },
 };
 
 export const frontendApps: { [x: string]: AppConfig | undefined } = {

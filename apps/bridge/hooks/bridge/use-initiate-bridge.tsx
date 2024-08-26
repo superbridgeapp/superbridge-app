@@ -12,7 +12,6 @@ import { useStatusCheck } from "@/hooks/use-status-check";
 import { useSwitchChain } from "@/hooks/use-switch-chain";
 import { useTrackEvent } from "@/services/ga";
 import { useConfigState } from "@/state/config";
-import { useModalsState } from "@/state/modals";
 import { usePendingTransactions } from "@/state/pending-txs";
 import { buildPendingTx } from "@/utils/build-pending-tx";
 import { isRouteQuote } from "@/utils/guards";
@@ -45,6 +44,7 @@ export const useInitiateBridge = () => {
   const rawAmount = useConfigState.useRawAmount();
   const recipient = useConfigState.useRecipientAddress();
   const setSubmittingBridge = useConfigState.useSetSubmittingBridge();
+  const setSubmittedHash = useConfigState.useSetSubmittedHash();
   const addPendingTransaction = usePendingTransactions.useAddTransaction();
   const updatePendingTransactionHash =
     usePendingTransactions.useUpdateTransactionByHash();
@@ -121,7 +121,9 @@ export const useInitiateBridge = () => {
       );
       if (pending) addPendingTransaction(pending);
 
-      waitForTransactionReceipt(wagmiConfig, {
+      setSubmittedHash(hash);
+
+      await waitForTransactionReceipt(wagmiConfig, {
         hash,
         chainId: initiatingChain.id,
         onReplaced: ({ replacedTransaction, transaction }) => {
@@ -129,10 +131,9 @@ export const useInitiateBridge = () => {
             replacedTransaction.hash,
             transaction.hash
           );
+          setSubmittedHash(transaction.hash);
         },
       });
-
-      return hash;
     } catch (e: any) {
       // todo: when something goes wrong we should toast an error
       if (e.message.includes("rejected")) {

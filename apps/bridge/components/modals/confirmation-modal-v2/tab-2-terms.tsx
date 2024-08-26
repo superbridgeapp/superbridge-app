@@ -148,7 +148,8 @@ export const ConfirmationModalTermsTab = ({
 
       <DialogFooter>
         <Link
-          href="/support"
+          href="https://help.superbridge.app"
+          target="_blank"
           className="text-xs font-heading text-center hover:underline"
         >
           Need help? View the FAQs

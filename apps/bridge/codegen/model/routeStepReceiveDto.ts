@@ -8,5 +8,6 @@
 import type { RouteStepType } from './routeStepType';
 
 export interface RouteStepReceiveDto {
+  chainId: string;
   type: RouteStepType;
 }

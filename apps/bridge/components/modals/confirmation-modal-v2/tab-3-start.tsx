@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { isPresent } from "ts-is-present";
 import { match } from "ts-pattern";
@@ -75,12 +75,15 @@ export const ConfirmationModalStartTab = () => {
   const isSuperbridge = useIsSuperbridge();
 
   const currency = useSettingsState.useCurrency();
-  const submitting = useConfigState.useSubmittingBridge();
+  const open = useConfigState.useDisplayConfirmationModal();
   const fromToken = useSelectedToken();
   const toToken = useDestinationToken();
   const withdrawing = useIsWithdrawal();
   const escapeHatch = useConfigState.useForceViaL1();
   const rawAmount = useConfigState.useRawAmount();
+  const submitting = useConfigState.useSubmittingBridge();
+  const submittedHash = useConfigState.useSubmittedHash();
+  const setSubmittedHash = useConfigState.useSetSubmittedHash();
 
   const from = useFromChain();
   const to = useToChain();
@@ -94,8 +97,6 @@ export const ConfirmationModalStartTab = () => {
   const isArbitrumDeposit = useIsArbitrumDeposit();
 
   const onSubmitBridge = useSubmitBridge();
-
-  const [useSubmittedHash, setUseSubmittedHash] = useState(false);
 
   const gasTokenAllowance = useAllowanceGasToken();
   const approveGasToken = useApproveGasToken(
@@ -138,6 +139,10 @@ export const ConfirmationModalStartTab = () => {
     gasLimit: BigInt(50_000),
   };
 
+  useEffect(() => {
+    setSubmittedHash(null);
+  }, [open]);
+
   const getGasCost = (chainId: string, gasLimit: number) => {
     const gasToken = parseInt(chainId) === from?.id ? fromGas : toGas;
     return { gasToken, gasLimit: BigInt(gasLimit) };
@@ -169,11 +174,19 @@ export const ConfirmationModalStartTab = () => {
     )}`;
   };
 
-  const approved =
-    typeof allowance.data !== "undefined" && allowance.data >= weiAmount;
+  const approved = (() => {
+    if (submittedHash) {
+      return true;
+    }
+    return typeof allowance.data !== "undefined" && allowance.data >= weiAmount;
+  })();
 
   const requiredCustomGasTokenBalance = useRequiredCustomGasTokenBalance();
   const approvedGasToken = (() => {
+    if (submittedHash) {
+      return true;
+    }
+
     if (
       typeof gasTokenAllowance.data === "undefined" ||
       !deployment ||
@@ -298,12 +311,7 @@ export const ConfirmationModalStartTab = () => {
       disabled: true,
     }))
     .otherwise(() => ({
-      onSubmit: async () => {
-        const hash = await onSubmitBridge();
-        if (hash) {
-          setUseSubmittedHash(true);
-        }
-      },
+      onSubmit: onSubmitBridge,
       buttonText: t("confirmationModal.initiateBridge"),
       disabled: false,
     }));
@@ -386,9 +394,7 @@ export const ConfirmationModalStartTab = () => {
           .filter(isPresent)
       : [];
 
-  const lineItems = useSubmittedHash
-    ? submittedLineItems
-    : preSubmissionLineItems;
+  const lineItems = submittedHash ? submittedLineItems : preSubmissionLineItems;
 
   return (
     <div>
@@ -406,7 +412,6 @@ export const ConfirmationModalStartTab = () => {
             <span className="text-xs text-muted-foreground">
               via <RouteProviderName provider={route.data?.id ?? null} />
             </span>
-            {/* <RouteProviderIcon provider={route.data?.id ?? null} /> */}
           </div>
         </DialogDescription>
       </DialogHeader>
@@ -421,7 +426,9 @@ export const ConfirmationModalStartTab = () => {
                 }),
                 chain: from,
                 fee: approvedGasToken ? undefined : fee(approveGasTokenCost),
-                buttonComponent: (
+                buttonComponent: approveGasToken ? (
+                  <IconCheckCircle className="w-6 h-6 fill-primary" />
+                ) : (
                   <Button
                     onClick={approveGasTokenButton.onSubmit}
                     disabled={approveGasTokenButton.disabled}
@@ -458,7 +465,7 @@ export const ConfirmationModalStartTab = () => {
                 chain: from,
                 fee: approved ? undefined : fee(approveCost),
                 buttonComponent: approved ? (
-                  <IconCheckCircle className="w-6 h-6 fill-muted-foreground" />
+                  <IconCheckCircle className="w-6 h-6 fill-primary" />
                 ) : (
                   <Button
                     onClick={approveButton.onSubmit}

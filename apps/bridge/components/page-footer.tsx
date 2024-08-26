@@ -31,7 +31,8 @@ const PageFooter = () => {
         </Link>
         <Link
           className="rounded-full shadow-sm bg-card text-sm   py-2 px-4 hover:scale-105 transition-transform cursor-pointer grow-0 flex items-center leading-4"
-          href="/support"
+          href="https://help.superbridge.app"
+          target="_blank"
         >
           Support
         </Link>

@@ -37,6 +37,7 @@ export const parseApp = ({
         logoLightSmall: "",
       },
       links: deployment?.theme?.links ?? [],
+      metadata: {},
     };
   }
 

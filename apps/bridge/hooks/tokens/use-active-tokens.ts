@@ -2,7 +2,8 @@ import { useMemo } from "react";
 import { Address, isAddressEqual } from "viem";
 
 import { useInjectedStore } from "@/state/injected";
-import { isBridgedUsdc } from "@/utils/tokens/is-bridged-usdc";
+import { isBridgeable } from "@/utils/is-bridgeable";
+import { isBridgedUsdc, nativeUSDC } from "@/utils/tokens/usdc";
 
 import { useAllTokens } from "./use-all-tokens";
 
@@ -12,17 +13,9 @@ export function useActiveTokens() {
   const toChainId = useInjectedStore((s) => s.toChainId);
 
   const hasNativeUsdc = useMemo(
-    () =>
-      !!tokens.data?.find(
-        (token) =>
-          token[1]?.address &&
-          token[10]?.address &&
-          isAddressEqual(
-            token[1]!.address as Address,
-            token[10]!.address as Address
-          )
-      ),
-    [tokens]
+    () => !!nativeUSDC[fromChainId] && !!nativeUSDC[toChainId],
+
+    [tokens, fromChainId, toChainId]
   );
 
   return useMemo(() => {
@@ -59,11 +52,15 @@ export function useActiveTokens() {
          * We want to disable selection of the bridged-USDC token
          * when depositing if there exists a native USDC option
          */
-        if (fromChainId === 1 && hasNativeUsdc && isBridgedUsdc(t)) {
+        if (
+          fromChainId === 1 &&
+          hasNativeUsdc &&
+          (isBridgedUsdc(from) || isBridgedUsdc(to))
+        ) {
           return false;
         }
 
-        return true;
+        return isBridgeable(from, to);
       }),
     };
   }, [tokens.data, tokens.isFetching, fromChainId, toChainId, hasNativeUsdc]);

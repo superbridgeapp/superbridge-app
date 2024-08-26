@@ -18,7 +18,12 @@ import { useModal } from "@/hooks/use-modal";
 import { useNetworkFeeForGasLimit } from "@/hooks/use-network-fee";
 import { useApproxTotalBridgeTimeTextForRoute } from "@/hooks/use-transfer-time";
 
-import { IconSimpleFees, IconSimpleGas, IconSimpleTime } from "../icons";
+import {
+  IconCaretDown,
+  IconSimpleFees,
+  IconSimpleGas,
+  IconSimpleTime,
+} from "../icons";
 import { NetworkIcon } from "../network-icon";
 import { RouteProviderIcon, RouteProviderName } from "../route-provider-icon";
 import { TokenIcon } from "../token-icon";
@@ -27,12 +32,12 @@ import { Skeleton } from "../ui/skeleton";
 export const Route = ({
   provider,
   quote,
-
+  onRoutesClick,
   allowDetailClicks,
 }: {
   provider: RouteProvider;
   quote: RouteQuoteDto;
-
+  onRoutesClick?: () => void;
   allowDetailClicks?: boolean;
 }) => {
   const selectedToken = useSelectedToken();
@@ -69,26 +74,51 @@ export const Route = ({
   const allowFeeClicks = allowDetailClicks && fees.data?.totals.token !== 0;
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-2">
       <div className="flex justify-between items-center gap-1">
-        <div className="flex gap-1.5">
-          <NetworkIcon chain={to} className="w-4 w-4 rounded-2xs" />
-          <h3 className="text-xs font-heading">Get on {to?.name} </h3>
-        </div>
-        <div className="flex gap-1 items-center">
-          <span className="text-foreground text-xs font-body">
-            Via <RouteProviderName provider={provider} />
-          </span>
-          <RouteProviderIcon
-            provider={provider}
-            className="rounded-2xs bg-muted"
-          />
-          {/* <IconCaretDown className="w-3 w-3 fill-foreground" /> */}
-        </div>
+        <h3 className="text-xs font-heading leading-none">
+          Get on {to?.name}{" "}
+        </h3>
+        {allowDetailClicks && onRoutesClick ? (
+          <button
+            className="flex gap-1.5 items-center rounded-full bg-muted pl-1.5 pr-2.5 py-1.5 hover:scale-105 transition-all"
+            onClick={onRoutesClick}
+          >
+            <div className="flex gap-1 items-center text-foreground text-xs font-body leading-none">
+              <RouteProviderIcon
+                route={route.data}
+                className="rounded-full bg-muted"
+              />
+              <span>
+                <RouteProviderName provider={provider} />
+              </span>
+            </div>
+
+            <IconCaretDown className="w-4 w-4 fill-foreground" />
+          </button>
+        ) : (
+          <div className="flex gap-1.5 items-center rounded-full bg-muted pl-1.5 pr-2 py-1.5">
+            <div className="flex gap-1 items-center text-foreground text-xs font-body leading-none">
+              <RouteProviderIcon
+                route={route.data}
+                className="rounded-full bg-muted"
+              />
+              <span>
+                <RouteProviderName provider={provider} />
+              </span>
+            </div>
+          </div>
+        )}
       </div>
 
-      <div className="flex items-center gap-2.5">
-        <TokenIcon token={token} className="h-10 w-10" />
+      <div className="flex items-center gap-3">
+        <div className="relative">
+          <TokenIcon token={token} className="h-10 w-10" />
+          <NetworkIcon
+            chain={to}
+            className="w-4 w-4 rounded-2xs absolute bottom-0 -right-1"
+          />
+        </div>
         <div className="flex flex-col gap-1">
           <span className="text-2xl leading-none">
             {receive.token.formatted}
@@ -101,57 +131,33 @@ export const Route = ({
         </div>
       </div>
 
-      <div className="flex gap-3 justify-start mt-2">
-        <div
-          className={clsx(
-            fees.data?.totals.token === 0
-              ? "bg-primary rounded-full py-0.5 pl-0.5 pr-1.5"
-              : "bg-transparent",
-            "flex gap-1 items-center",
-            allowFeeClicks && "cursor-pointer"
-          )}
-          onClick={() => (allowFeeClicks ? feeBreakdownModal.open() : null)}
-        >
-          <IconSimpleFees
-            className={clsx(
-              fees.data?.totals.token === 0
-                ? "fill-primary-foreground"
-                : "fill-muted-foreground",
-              "h-3 w-auto"
-            )}
-          />
-          {fees.data?.totals.token === 0 ? (
-            <span className="text-xs leading-none text-primary-foreground">
-              0 fees
-            </span>
-          ) : (
-            <span className="text-xs leading-none text-muted-foreground">
-              {fees.data?.totals.fiatFormatted ??
-                fees.data?.totals.tokenFormatted}{" "}
-              Fee
-            </span>
-          )}
+      <div className="flex gap-3 justify-start mt-4">
+        <div className="flex gap-1 items-center mr-auto">
+          <IconSimpleTime className="h-4 w-4 fill-muted-foreground" />{" "}
+          <span className="text-xs leading-none text-muted-foreground">
+            {time.data}
+          </span>
         </div>
 
         <div
           className={clsx(
             "flex gap-1 items-center",
-            allowDetailClicks && "cursor-pointer"
+            allowDetailClicks && "cursor-pointer group"
           )}
           onClick={() => (allowDetailClicks ? gasInfoModal.open() : null)}
         >
-          <IconSimpleGas className="h-3 w-auto fill-muted-foreground" />{" "}
+          <IconSimpleGas className="h-4 w-4 fill-muted-foreground group-hover:fill-foreground" />{" "}
           {networkFee.isLoading ? (
             <Skeleton className="h-3 w-[60px]" />
           ) : (
             <>
               {!networkFee.data?.fiat && (
-                <span className="text-xs leading-none text-muted-foreground">
+                <span className="text-xs leading-none text-muted-foreground group-hover:text-foreground">
                   {networkFee.data?.token.formatted}
                 </span>
               )}
               {networkFee.data?.fiat && (
-                <span className="text-xs leading-none text-muted-foreground">
+                <span className="text-xs leading-none text-muted-foreground group-hover:text-foreground">
                   {networkFee.data.fiat.formatted}
                 </span>
               )}
@@ -159,11 +165,35 @@ export const Route = ({
           )}
         </div>
 
-        <div className="flex gap-1 items-center">
-          <IconSimpleTime className="h-3 w-auto fill-muted-foreground" />{" "}
-          <span className="text-xs leading-none text-muted-foreground">
-            {time.data}
-          </span>
+        <div
+          className={clsx(
+            fees.data?.totals.token === 0
+              ? "bg-primary rounded-full py-0.5 pl-0.5 pr-1.5"
+              : "bg-transparent",
+            "flex gap-1 items-center ",
+            allowFeeClicks && "cursor-pointer group"
+          )}
+          onClick={() => (allowFeeClicks ? feeBreakdownModal.open() : null)}
+        >
+          <IconSimpleFees
+            className={clsx(
+              fees.data?.totals.token === 0
+                ? "fill-primary-foreground"
+                : "fill-muted-foreground group-hover:fill-foreground",
+              "h-4 w-4"
+            )}
+          />
+          {fees.data?.totals.token === 0 ? (
+            <span className="text-xs leading-none text-primary-foreground">
+              0 fees
+            </span>
+          ) : (
+            <span className="text-xs leading-none text-muted-foreground group-hover:text-foreground">
+              {fees.data?.totals.fiatFormatted ??
+                fees.data?.totals.tokenFormatted}{" "}
+              Fee
+            </span>
+          )}
         </div>
       </div>
     </div>

@@ -8,6 +8,7 @@ import { bridgeControllerGetBridgeConfigByDomain } from "@/codegen";
 import { Layout } from "@/components/Layout";
 import { PageTransition } from "@/components/PageTransition";
 import { Providers } from "@/components/Providers";
+import { Analytics } from "@/components/analytics";
 import { Bridge } from "@/components/bridge";
 import { Head } from "@/components/head";
 import { InjectedStoreProvider } from "@/state/injected";
@@ -68,6 +69,7 @@ export default function IndexRoot(
           <Layout>
             <Index />
           </Layout>
+          <Analytics />
         </Providers>
       </ThemeProvider>
     </InjectedStoreProvider>

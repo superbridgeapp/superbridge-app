@@ -33,7 +33,7 @@ export function TokenBanner() {
         const l1 = token[deployment.l1ChainId];
         const l2 = token[deployment.l2ChainId];
         if (l1 && l2) {
-          setToken(l1, l2);
+          setToken(l1);
         }
       }
     }, 500);
