@@ -1,14 +1,13 @@
 import { GoogleAnalytics } from "@next/third-parties/google";
-import { Analytics as VercelAnalytics } from "@vercel/analytics/react";
 
-import { isSuperbridge } from "@/utils/is-superbridge";
+import { useApp } from "@/hooks/use-metadata";
 
 export function Analytics() {
+  const metadata = useApp();
   return (
     <>
-      <VercelAnalytics />
-      {typeof window !== "undefined" && isSuperbridge(window.location.host) && (
-        <GoogleAnalytics gaId="G-KN31CJ3PHL" />
+      {typeof window !== "undefined" && metadata.metadata.gId && (
+        <GoogleAnalytics gaId={metadata.metadata.gId} />
       )}
     </>
   );

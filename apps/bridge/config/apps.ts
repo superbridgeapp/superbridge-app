@@ -29,6 +29,10 @@ const superbidge: AppConfig = {
   theme: superbridgeTheme,
 
   links: [],
+
+  metadata: {
+    gId: "G-GVCWE7KL11", // v3
+  },
 };
 
 const renzo: AppConfig = {
@@ -47,6 +51,10 @@ const renzo: AppConfig = {
   theme: renzoTheme,
 
   links: [],
+
+  metadata: {
+    gId: "G-T6VPED3THL",
+  },
 };
 
 const hyperlane: AppConfig = {
@@ -65,6 +73,10 @@ const hyperlane: AppConfig = {
   theme: hyperlaneTheme,
 
   links: [],
+
+  metadata: {
+    gId: "G-0W40FTXFP4",
+  },
 };
 
 const usdc: AppConfig = {
@@ -83,6 +95,10 @@ const usdc: AppConfig = {
   theme: usdcTheme,
 
   links: [],
+
+  metadata: {
+    gId: "G-3GT9P7XJH7",
+  },
 };
 
 export const frontendApps: { [x: string]: AppConfig | undefined } = {
