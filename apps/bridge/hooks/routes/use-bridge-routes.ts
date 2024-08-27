@@ -41,10 +41,11 @@ export const useBridgeRoutes = () => {
 
       hyperlaneFromTokenRouterAddress: fromToken?.hyperlane?.router,
       hyperlaneToTokenRouterAddress: toToken?.hyperlane?.router,
+
+      opBridgedUsdcAdapter: fromToken?.opBridgedUsdc?.adapter,
     },
     {
       query: {
-        // queryKey: [""],
         enabled:
           !!weiAmount &&
           !!from &&
