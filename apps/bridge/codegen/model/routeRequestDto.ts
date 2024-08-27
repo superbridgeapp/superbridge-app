@@ -14,6 +14,7 @@ export interface RouteRequestDto {
   graffiti: string;
   hyperlaneFromTokenRouterAddress?: string;
   hyperlaneToTokenRouterAddress?: string;
+  opBridgedUsdcAdapter?: string;
   recipient: string;
   sender: string;
   toChainId: string;

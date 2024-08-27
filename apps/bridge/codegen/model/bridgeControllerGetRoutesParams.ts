@@ -18,4 +18,5 @@ graffiti: string;
 forceViaL1: boolean;
 hyperlaneFromTokenRouterAddress?: string;
 hyperlaneToTokenRouterAddress?: string;
+opBridgedUsdcAdapter?: string;
 };
