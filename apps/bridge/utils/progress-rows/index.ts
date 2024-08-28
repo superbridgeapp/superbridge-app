@@ -9,6 +9,7 @@ import { useOptimismWithdrawalProgressRows } from "@/utils/progress-rows/withdra
 
 import { useAcrossProgressRows } from "./across";
 import { useHyperlaneProgressRows } from "./hyperlane";
+import { useLzProgressRows } from "./lz";
 
 export const useProgressRows = (tx: Transaction | null) => {
   const deployment = useTxDeployment(tx);
@@ -24,6 +25,7 @@ export const useProgressRows = (tx: Transaction | null) => {
   const cctp = useCctpProgressRows(tx);
   const across = useAcrossProgressRows(tx);
   const hyperlaneProgressRows = useHyperlaneProgressRows(tx);
+  const lzProgressRows = useLzProgressRows(tx);
 
   return (
     optimismDeposit ||
@@ -33,6 +35,7 @@ export const useProgressRows = (tx: Transaction | null) => {
     arbitrumWithdrawal ||
     cctp ||
     across ||
-    hyperlaneProgressRows
+    hyperlaneProgressRows ||
+    lzProgressRows
   );
 };

@@ -52,7 +52,7 @@ export const useBridge = () => {
     params.value = BigInt(tx.value);
   }
 
-  let { data: gas, refetch } = useEstimateGas(params);
+  let { data: gas, refetch, error } = useEstimateGas(params);
 
   if (gas) {
     params.gas = gas + gas / BigInt("10");

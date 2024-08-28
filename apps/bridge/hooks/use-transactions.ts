@@ -4,18 +4,19 @@ import { useAccount } from "wagmi";
 
 import { bridgeControllerGetActivityV4 } from "@/codegen";
 import { ActivityV3Dto } from "@/codegen/model";
-import { MOCK_TRANSACTIONS } from "@/constants/test-transactions";
 import { useInjectedStore } from "@/state/injected";
 
 import { useAcrossDomains } from "./across/use-across-domains";
 import { useCctpDomains } from "./cctp/use-cctp-domains";
 import { useDeployments } from "./deployments/use-deployments";
 import { useHyperlaneActivityRequest } from "./hyperlane/use-hyperlane-activity-request";
+import { useLzActivityRequest } from "./lz/use-lz-activity-request";
 
 export const useTransactions = () => {
   const account = useAccount();
   const deployments = useDeployments();
   const hyperlane = useHyperlaneActivityRequest();
+  const lz = useLzActivityRequest();
   const superbridgeTestnetsEnabled = useInjectedStore(
     (s) => s.superbridgeTestnets
   );
@@ -52,7 +53,9 @@ export const useTransactions = () => {
           cctpDomains: cctpDomains.map((x) => x.id),
           deploymentIds: deployments.map((d) => d.id),
           cursor: pageParam || null,
+
           hyperlane,
+          lz,
         }).then((x) => x.data);
       },
       initialPageParam: "",

@@ -43,6 +43,7 @@ export const useBridgeRoutes = () => {
       hyperlaneToTokenRouterAddress: toToken?.hyperlane?.router,
 
       opBridgedUsdcAdapter: fromToken?.opBridgedUsdc?.adapter,
+      lzAdapter: fromToken?.lz?.adapter,
     },
     {
       query: {

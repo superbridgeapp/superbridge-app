@@ -5,6 +5,7 @@ import {
   ArbitrumTransactionType,
   CctpTransactionType,
   HyperlaneTransactionType,
+  LzTransactionType,
   OptimismTransactionType,
   RouteProvider,
   RouteResultDto,
@@ -21,6 +22,7 @@ const icons = {
   [RouteProvider.OptimismWithdrawal]: "/img/networks/optimism.svg",
   [RouteProvider.OptimismForcedWithdrawal]: "/img/networks/optimism.svg",
   [RouteProvider.Hyperlane]: "/img/networks/hyperlane.svg",
+  [RouteProvider.Lz]: "/img/lz/icon.png",
 };
 
 const names = {
@@ -32,6 +34,7 @@ const names = {
   [RouteProvider.OptimismWithdrawal]: "Native bridge",
   [RouteProvider.OptimismForcedWithdrawal]: "Native bridge",
   [RouteProvider.Hyperlane]: "Hyperlane",
+  [RouteProvider.Lz]: "Layer Zero",
 };
 
 export const routeProviderToTransactionType = {
@@ -46,6 +49,7 @@ export const routeProviderToTransactionType = {
   [RouteProvider.OptimismForcedWithdrawal]:
     OptimismTransactionType["forced-withdrawal"],
   [RouteProvider.Hyperlane]: HyperlaneTransactionType["hyperlane-bridge"],
+  [RouteProvider.Lz]: LzTransactionType["lz-bridge"],
 };
 
 export const RouteProviderName = ({

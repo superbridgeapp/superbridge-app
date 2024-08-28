@@ -19,4 +19,5 @@ export const RouteProvider = {
   Cctp: 'Cctp',
   Across: 'Across',
   Hyperlane: 'Hyperlane',
+  Lz: 'Lz',
 } as const;

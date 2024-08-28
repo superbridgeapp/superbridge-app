@@ -11,6 +11,7 @@ import {
   isDeposit,
   isForcedWithdrawal,
   isHyperlaneBridge,
+  isLzBridge,
 } from "@/utils/guards";
 import { isNativeToken } from "@/utils/tokens/is-eth";
 
@@ -102,12 +103,24 @@ export function useTxToken(tx: Transaction | null | undefined) {
     return t?.[from.id] ?? null;
   }
 
+  if (isLzBridge(tx)) {
+    const t = tokens.data.find((x) => {
+      const src = x[from.id];
+      if (!src) {
+        return false;
+      }
+      return isAddressEqual(src.lz?.adapter as Address, tx.token as Address);
+    });
+
+    return t?.[from.id] ?? null;
+  }
+
   const metadata =
     isForcedWithdrawal(tx) && tx.withdrawal
       ? tx.withdrawal.metadata
       : isForcedWithdrawal(tx)
-      ? tx.deposit.metadata
-      : tx.metadata;
+        ? tx.deposit.metadata
+        : tx.metadata;
 
   return match(metadata)
     .with({ type: "eth-deposit" }, () => {

@@ -6,6 +6,7 @@ import {
   ChainDto,
   DeploymentDto,
   HyperlaneMailboxDto,
+  LzDomainDto,
   SuperbridgeConfigDto,
 } from "@/codegen/model";
 import { AppConfig } from "@/types/app-config";
@@ -18,6 +19,7 @@ export type InjectedState = {
   deployments: DeploymentDto[];
   acrossDomains: AcrossDomainDto[];
   cctpDomains: CctpDomainDto[];
+  lzDomains: LzDomainDto[];
   hyperlaneMailboxes: HyperlaneMailboxDto[];
   fromChainId: number;
   toChainId: number;

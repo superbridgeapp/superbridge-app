@@ -8,6 +8,7 @@ import {
   isCctpBridge,
   isForcedWithdrawal,
   isHyperlaneBridge,
+  isLzBridge,
 } from "@/utils/guards";
 
 export function useTxAmount(
@@ -34,13 +35,17 @@ export function useTxAmount(
     amount = tx.amount;
     decimals = token?.decimals ?? 18;
     symbol = token?.symbol ?? "ETH";
+  } else if (isLzBridge(tx)) {
+    amount = tx.amount;
+    decimals = token?.decimals ?? 18;
+    symbol = token?.symbol ?? "ETH";
   } else {
     const metadata =
       isForcedWithdrawal(tx) && tx.withdrawal
         ? tx.withdrawal.metadata
         : isForcedWithdrawal(tx)
-        ? tx.deposit.metadata
-        : tx.metadata;
+          ? tx.deposit.metadata
+          : tx.metadata;
 
     if (metadata.type === "eth-deposit") {
       amount = (metadata as EthDepositDto).data.amount;

@@ -3,12 +3,15 @@ import {
   isCctpBridge,
   isForcedWithdrawal,
   isHyperlaneBridge,
+  isLzBridge,
 } from "@/utils/guards";
 
 export const useTxRecipient = (tx: Transaction) => {
-  if (isHyperlaneBridge(tx)) return tx.to;
+  if (isHyperlaneBridge(tx) || isLzBridge(tx)) return tx.to;
   if (isCctpBridge(tx)) return tx.recipient;
+  // @ts-expect-error todo: handle this lz issue
   if (isForcedWithdrawal(tx)) return tx.deposit.metadata.to;
+  // @ts-expect-error todo: handle this lz issue
   return tx.metadata.to;
 };
 

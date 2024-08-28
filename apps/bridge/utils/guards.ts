@@ -17,6 +17,8 @@ import {
   GenericRouteErrorDto,
   HyperlaneBridgeDto,
   HyperlaneTransactionType,
+  LzBridgeV2Dto,
+  LzTransactionType,
   OptimismTransactionType,
   PausedRouteErrorDto,
   PortalDepositDto,
@@ -135,6 +137,12 @@ export const isHyperlaneBridge = (
   tx: Pick<Transaction, "type">
 ): tx is HyperlaneBridgeDto => {
   return tx.type === HyperlaneTransactionType["hyperlane-bridge"];
+};
+
+export const isLzBridge = (
+  tx: Pick<Transaction, "type">
+): tx is LzBridgeV2Dto => {
+  return tx.type === LzTransactionType["lz-bridge"];
 };
 
 export const isActive = (

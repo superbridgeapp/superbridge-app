@@ -229,8 +229,8 @@ const useAction = (tx: Transaction) => {
     return status === MessageStatus.READY_TO_PROVE
       ? "prove"
       : status === MessageStatus.READY_FOR_RELAY
-      ? "finalize"
-      : null;
+        ? "finalize"
+        : null;
   }
 
   if (isArbitrumWithdrawal(tx)) {
@@ -252,8 +252,8 @@ const useProgressBars = (
   const proveTx = isOptimismWithdrawal(tx)
     ? tx.prove
     : isOptimismForcedWithdrawal(tx)
-    ? tx.withdrawal?.prove
-    : null;
+      ? tx.withdrawal?.prove
+      : null;
   const pendingFinalises = usePendingTransactions.usePendingFinalises();
 
   const bars: {
@@ -310,7 +310,7 @@ export const TransactionRowV2 = ({ tx }: { tx: Transaction }) => {
   const finalizingTx = useFinalisingTx(tx);
   const bars = useProgressBars(tx);
   const provider = useTxProvider(tx);
-
+  console.log(tx);
   return (
     <div
       className="bg-card w-full rounded-xl flex gap-2.5 lg:gap-4 p-5 md:p-6 relative"
