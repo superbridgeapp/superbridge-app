@@ -81,8 +81,6 @@ export const OpenActivity = ({}) => {
     }
   }, [inView, fetchNextPage, isFetchingNextPage]);
 
-  console.log(transactions);
-
   return (
     <main
       className="flex items-start justify-center scroll-smooth overflow-y-scroll w-screen h-dvh fixed inset-0 px-2 md:px-0 py-16 md:py-20 z-[25]"

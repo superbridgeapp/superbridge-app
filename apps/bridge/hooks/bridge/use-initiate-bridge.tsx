@@ -62,7 +62,6 @@ export const useInitiateBridge = () => {
   const gasTokenAllowance = useAllowanceGasToken();
 
   return async () => {
-    console.log(1, bridge);
     if (
       !account.address ||
       !wallet.data ||
@@ -74,7 +73,6 @@ export const useInitiateBridge = () => {
     ) {
       return;
     }
-    console.log(2);
 
     try {
       setSubmittingBridge(true);
