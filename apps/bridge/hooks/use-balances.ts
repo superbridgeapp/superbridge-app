@@ -76,6 +76,10 @@ export function useTokenBalances(chainId: number | undefined) {
     isLoading: reads.isLoading,
     isError: reads.isError,
     data,
+    refetch: () => {
+      reads.refetch();
+      ethBalance.refetch();
+    },
   };
 }
 

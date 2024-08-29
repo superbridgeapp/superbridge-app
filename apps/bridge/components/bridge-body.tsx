@@ -9,13 +9,12 @@ import { useAccount, useBalance, useConfig, useWalletClient } from "wagmi";
 import { useBridgeControllerTrack } from "@/codegen";
 import { isSuperbridge } from "@/config/superbridge";
 import { SUPERCHAIN_MAINNETS } from "@/constants/superbridge";
-import { useAcrossDomains } from "@/hooks/across/use-across-domains";
 import { useAcrossPaused } from "@/hooks/across/use-across-paused";
 import { useBridgeMax } from "@/hooks/limits/use-bridge-max";
 import { useBridgeMin } from "@/hooks/limits/use-bridge-min";
 import { useAllowance } from "@/hooks/use-allowance";
 import { useApprove } from "@/hooks/use-approve";
-import { useTokenBalance } from "@/hooks/use-balances";
+import { useTokenBalance, useTokenBalances } from "@/hooks/use-balances";
 import { useBaseNativeTokenBalance } from "@/hooks/use-base-native-token-balance";
 import { useBridge } from "@/hooks/use-bridge";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
@@ -115,7 +114,7 @@ export const BridgeBody = () => {
   const tokenBalance = useTokenBalance(token);
   const wagmiConfig = useConfig();
 
-  const acrossDomains = useAcrossDomains();
+  const balances = useTokenBalances(from?.id);
   const allowance = useAllowance(token, bridge.address);
 
   const networkFee = useNetworkFee();
@@ -193,6 +192,9 @@ export const BridgeBody = () => {
             transaction.hash
           );
         },
+      }).then(() => {
+        allowance.refetch();
+        balances.refetch();
       });
 
       trackEvent({
@@ -251,7 +253,6 @@ export const BridgeBody = () => {
 
   const initiateBridge = async () => {
     await onWrite();
-    allowance.refetch();
     setConfirmationModal(false);
   };
 
