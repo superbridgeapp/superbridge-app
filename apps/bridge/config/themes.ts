@@ -140,11 +140,11 @@ export const elixirTheme: Partial<FrontendThemeDto> = {
   card: "#ffffff",
   border: "#F3F3F3",
   fontBody:
-    "https://elixir.superbridge.app/fonts/elixir/MundialRegular-b828e325.otf",
+    "https://elixir.superbridge.app/fonts/elixir/MundialLight-00b6da05.otf",
   fontButton:
-    "https://elixir.superbridge.app/fonts/elixir/MundialBold-666abfcc.otf",
+    "https://elixir.superbridge.app/fonts/elixir/MundialRegular-b828e325.otf",
   fontHeading:
-    "https://elixir.superbridge.app/fonts/elixir/MundialBold-666abfcc.otf",
+    "https://elixir.superbridge.app/fonts/elixir/MundialRegular-b828e325.otf",
   imageBackground: "/img/elixir/bg.jpg",
   imageBackgroundDark: "/img/elixir/bg.jpg",
   backgroundImageBlendMode: "normal",
