@@ -101,11 +101,33 @@ const usdc: AppConfig = {
   },
 };
 
+const elixir: AppConfig = {
+  head: {
+    name: "USDC Bridge",
+    description: "Bridge USDC between supported chains",
+    og: "https://usdc.superbridge.app/img/usdc/og.png",
+    favicon: "/img/superbridge/favicon-32x32.png",
+  },
+  images: {
+    logoLight: "/img/usdc/logo.svg",
+    logoDark: "/img/usdc/logo.svg",
+    logoLightSmall: "/img/usdc/logo.svg",
+    logoDarkSmall: "/img/usdc/logo.svg",
+  },
+  theme: usdcTheme,
+
+  links: [],
+
+  metadata: {
+    // gId: ""
+  },
+};
+
 export const frontendApps: { [x: string]: AppConfig | undefined } = {
   [SUPERBRIDGE_HOST]: superbidge,
   [SUPERBRIDGE_TESTNET_HOST]: superbidge,
   [V3_SUPERBRIDGE_HOST]: superbidge,
   ["renzo.superbridge.app"]: renzo,
   ["hyperlane.superbridge.app"]: hyperlane,
-  ["usdc.superbridge.app"]: usdc,
+  ["elixir.superbridge.app"]: elixir,
 };
