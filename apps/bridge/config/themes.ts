@@ -127,3 +127,29 @@ export const usdcTheme: Partial<FrontendThemeDto> = {
   backgroundImageRepeat: "no-repeat",
   backgroundImageOpacity: "12",
 };
+
+export const elixirTheme: Partial<FrontendThemeDto> = {
+  darkModeEnabled: false,
+  rainbowMode: "light",
+  background: "#F3F3F3",
+  muted: "#F3F3F3",
+  foreground: "#020101",
+  "muted-foreground": "#808080",
+  primary: "#020101",
+  "primary-foreground": "#ffffff",
+  card: "#ffffff",
+  border: "#F3F3F3",
+  fontBody:
+    "https://elixir.superbridge.app/fonts/usdc/MundialRegular-b828e325.otf",
+  fontButton:
+    "https://elixir.superbridge.app/fonts/usdc/MundialBold-666abfcc.otf",
+  fontHeading:
+    "https://elixir.superbridge.app/fonts/usdc/MundialBold-666abfcc.otf",
+  imageBackground: "/img/elixir/bg.jpg",
+  imageBackgroundDark: "/img/elixir/bg.jpg",
+  backgroundImageBlendMode: "normal",
+  backgroundImagePosition: "center",
+  backgroundImageSize: "cover",
+  backgroundImageRepeat: "no-repeat",
+  backgroundImageOpacity: "100",
+};
