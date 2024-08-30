@@ -51,8 +51,8 @@ export const useInitialiseTheme = () => {
   const app = useApp();
   const [themeValues, setThemeValues] = useState<Partial<ThemeDto> | null>({
     ...app.theme,
-    imageLogo: app.images.logoLight ?? app.theme.imageLogo,
-    imageLogoDark: app.images.logoDark ?? app.theme.imageLogoDark,
+    imageLogo: app.images.logoLight || app.theme.imageLogo,
+    imageLogoDark: app.images.logoDark || app.theme.imageLogoDark,
   });
 
   useEffect(() => {

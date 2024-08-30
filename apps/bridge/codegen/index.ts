@@ -36,7 +36,6 @@ import type {
   BridgeControllerGetDeploymentsParams,
   BridgeControllerGetRoutesParams,
   BridgeControllerGetTokens200Item,
-  BridgeNftDto,
   CctpDomainDto,
   ConduitDeploymentConfigDto,
   CreateConduitDeploymentDto,
@@ -1301,67 +1300,6 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
       return useMutation(mutationOptions);
     }
     
-export const bridgeControllerGetNfts = (
-    deploymentId: string,
-    withdrawing: string,
-    address: string, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<BridgeNftDto[]>> => {
-    
-    return axios.get(
-      `/api/bridge/nfts/${deploymentId}/${withdrawing}/${address}`,options
-    );
-  }
-
-
-export const getBridgeControllerGetNftsQueryKey = (deploymentId: string,
-    withdrawing: string,
-    address: string,) => {
-    return [`/api/bridge/nfts/${deploymentId}/${withdrawing}/${address}`] as const;
-    }
-
-    
-export const getBridgeControllerGetNftsQueryOptions = <TData = Awaited<ReturnType<typeof bridgeControllerGetNfts>>, TError = AxiosError<unknown>>(deploymentId: string,
-    withdrawing: string,
-    address: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetNfts>>, TError, TData>>, axios?: AxiosRequestConfig}
-) => {
-
-const {query: queryOptions, axios: axiosOptions} = options ?? {};
-
-  const queryKey =  queryOptions?.queryKey ?? getBridgeControllerGetNftsQueryKey(deploymentId,withdrawing,address);
-
-  
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof bridgeControllerGetNfts>>> = ({ signal }) => bridgeControllerGetNfts(deploymentId,withdrawing,address, { signal, ...axiosOptions });
-
-      
-
-      
-
-   return  { queryKey, queryFn, enabled: !!(deploymentId && withdrawing && address), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetNfts>>, TError, TData> & { queryKey: QueryKey }
-}
-
-export type BridgeControllerGetNftsQueryResult = NonNullable<Awaited<ReturnType<typeof bridgeControllerGetNfts>>>
-export type BridgeControllerGetNftsQueryError = AxiosError<unknown>
-
-export const useBridgeControllerGetNfts = <TData = Awaited<ReturnType<typeof bridgeControllerGetNfts>>, TError = AxiosError<unknown>>(
- deploymentId: string,
-    withdrawing: string,
-    address: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetNfts>>, TError, TData>>, axios?: AxiosRequestConfig}
-
-  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-
-  const queryOptions = getBridgeControllerGetNftsQueryOptions(deploymentId,withdrawing,address,options)
-
-  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
-
-  query.queryKey = queryOptions.queryKey ;
-
-  return query;
-}
-
-
-
-
 export const bridgeControllerGetStatus = (
     address: string, options?: AxiosRequestConfig
  ): Promise<AxiosResponse<BoolDto>> => {
@@ -1800,7 +1738,7 @@ export const hyperlaneControllerResolveWarpRouteYamlFile = (
 
 
 
-export const getHyperlaneControllerResolveWarpRouteYamlFileMutationOptions = <TError = AxiosError<unknown>,
+export const getHyperlaneControllerResolveWarpRouteYamlFileMutationOptions = <TError = AxiosError<HyperlaneCustomWarpRouteFileResponseDto>,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof hyperlaneControllerResolveWarpRouteYamlFile>>, TError,{data: HyperlaneCustomWarpRouteFileRequestDto}, TContext>, axios?: AxiosRequestConfig}
 ): UseMutationOptions<Awaited<ReturnType<typeof hyperlaneControllerResolveWarpRouteYamlFile>>, TError,{data: HyperlaneCustomWarpRouteFileRequestDto}, TContext> => {
 const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
@@ -1821,9 +1759,9 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
 
     export type HyperlaneControllerResolveWarpRouteYamlFileMutationResult = NonNullable<Awaited<ReturnType<typeof hyperlaneControllerResolveWarpRouteYamlFile>>>
     export type HyperlaneControllerResolveWarpRouteYamlFileMutationBody = HyperlaneCustomWarpRouteFileRequestDto
-    export type HyperlaneControllerResolveWarpRouteYamlFileMutationError = AxiosError<unknown>
+    export type HyperlaneControllerResolveWarpRouteYamlFileMutationError = AxiosError<HyperlaneCustomWarpRouteFileResponseDto>
 
-    export const useHyperlaneControllerResolveWarpRouteYamlFile = <TError = AxiosError<unknown>,
+    export const useHyperlaneControllerResolveWarpRouteYamlFile = <TError = AxiosError<HyperlaneCustomWarpRouteFileResponseDto>,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof hyperlaneControllerResolveWarpRouteYamlFile>>, TError,{data: HyperlaneCustomWarpRouteFileRequestDto}, TContext>, axios?: AxiosRequestConfig}
 ): UseMutationResult<
         Awaited<ReturnType<typeof hyperlaneControllerResolveWarpRouteYamlFile>>,

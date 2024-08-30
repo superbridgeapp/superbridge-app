@@ -6,6 +6,7 @@
  * OpenAPI spec version: 1.0
  */
 import type { HyperlaneRouterDto } from './hyperlaneRouterDto';
+import type { OpBridgedUsdcDto } from './opBridgedUsdcDto';
 
 export interface BridgeableTokenDto {
   address: string;
@@ -16,5 +17,6 @@ export interface BridgeableTokenDto {
   hyperlane?: HyperlaneRouterDto;
   logoURI: string;
   name: string;
+  opBridgedUsdc?: OpBridgedUsdcDto;
   symbol: string;
 }
