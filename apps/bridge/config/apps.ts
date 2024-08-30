@@ -6,6 +6,7 @@ import {
   V3_SUPERBRIDGE_HOST,
 } from "../constants/hosts";
 import {
+  elixirTheme,
   hyperlaneTheme,
   renzoTheme,
   superbridgeTheme,
@@ -103,18 +104,18 @@ const usdc: AppConfig = {
 
 const elixir: AppConfig = {
   head: {
-    name: "USDC Bridge",
-    description: "Bridge USDC between supported chains",
-    og: "https://usdc.superbridge.app/img/usdc/og.png",
+    name: "deUSD Bridge",
+    description: "Bridge deUSD between supported chains",
+    og: "https://elixir.superbridge.app/img/elixir/og.png",
     favicon: "/img/superbridge/favicon-32x32.png",
   },
   images: {
-    logoLight: "/img/usdc/logo.svg",
-    logoDark: "/img/usdc/logo.svg",
-    logoLightSmall: "/img/usdc/logo.svg",
-    logoDarkSmall: "/img/usdc/logo.svg",
+    logoLight: "/img/elixir/logo.svg",
+    logoDark: "/img/elixir/logo.svg",
+    logoLightSmall: "/img/elixir/logo.svg",
+    logoDarkSmall: "/img/elixir/logo.svg",
   },
-  theme: usdcTheme,
+  theme: elixirTheme,
 
   links: [],
 
