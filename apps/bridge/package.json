@@ -37,7 +37,6 @@
     "framer-motion": "^10.18.0",
     "i18next": "^23.12.2",
     "i18next-browser-languagedetector": "^7.2.1",
-    "i18next-http-backend": "^2.5.2",
     "lucide-react": "^0.263.1",
     "next": "^14.2.5",
     "next-themes": "^0.2.1",
@@ -45,7 +44,6 @@
     "react-dom": "^18.3.1",
     "react-i18next": "^13.5.0",
     "react-intersection-observer": "^9.13.0",
-    "react-loading-skeleton": "^3.4.0",
     "react-markdown": "^9.0.1",
     "styled-components": "^6.1.12",
     "tailwind-merge": "^1.14.0",
@@ -55,7 +53,6 @@
     "use-debounce": "^10.0.2",
     "viem": "^2.19.4",
     "wagmi": "^2.12.5",
-    "yaml": "^2.5.0",
     "zustand": "^4.5.4"
   },
   "devDependencies": {

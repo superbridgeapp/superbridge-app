@@ -1,5 +1,4 @@
 import { useTranslation } from "react-i18next";
-import Skeleton from "react-loading-skeleton";
 
 import { useSelectedToken } from "@/hooks/tokens/use-token";
 import { useToChain } from "@/hooks/use-chain";
@@ -11,6 +10,7 @@ import { IconTime } from "../icons";
 import { TokenIcon } from "../token-icon";
 import { Button } from "../ui/button";
 import { Dialog, DialogContent } from "../ui/dialog";
+import { Skeleton } from "../ui/skeleton";
 
 const Content = () => {
   const { t } = useTranslation();
