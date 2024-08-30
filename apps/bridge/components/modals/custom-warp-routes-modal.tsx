@@ -34,12 +34,18 @@ export const CustomWarpRoutesModal = () => {
   const onSave = async () => {
     setSaved(data);
 
-    const result = await resolveWarpRoutes.mutateAsync({
-      data: { file: data },
-    });
+    if (data) {
+      const result = await resolveWarpRoutes
+        .mutateAsync({
+          data: { file: data },
+        })
+        .catch(() => null);
 
-    setMailboxes(result.data.mailboxes);
-    setTokens(result.data.tokens);
+      if (result) {
+        setMailboxes(result.data.mailboxes);
+        setTokens(result.data.tokens);
+      }
+    }
 
     modal.close();
   };
