@@ -1,5 +1,3 @@
-import { arbitrumSepolia } from "viem/chains";
-
 import { DeploymentType } from "@/codegen/model";
 import { useDeployment } from "@/hooks/use-deployment";
 import { useFaultProofUpgradeTime } from "@/hooks/use-fault-proof-upgrade-time";
@@ -10,7 +8,6 @@ import { PoweredByAlchemy } from "./badges/powered-by-alchemy";
 import { PoweredByAltLayer } from "./badges/powered-by-alt-layer-badge";
 import { PoweredByConduit } from "./badges/powered-by-conduit-badge";
 import { TestnetBadge } from "./badges/testnet-badge";
-import { ArbitrumSepoliaDelayedDepositsBanner } from "./banners/arbitrum-sepolia-banner";
 import { FaultProofsBanner } from "./banners/fault-proofs-banner";
 import { GravityBanner } from "./banners/gravity-banner";
 import { HasWithdrawalReadyToFinalizeBanner } from "./banners/has-withdrawal-ready-to-finalize-banner.ts";
@@ -39,9 +36,6 @@ export const Bridge = () => {
             new Date(deployment.deletedAt) > new Date() && (
               <ScheduledDeletion />
             )}
-          {deployment?.l1.id === arbitrumSepolia.id && (
-            <ArbitrumSepoliaDelayedDepositsBanner />
-          )}
           {withdrawalsPaused && <WithdrawalsPaused />}
           {faultProofUpgradeTime && <FaultProofsBanner />}
           {hasWithdrawalReadyToFinalize && (
