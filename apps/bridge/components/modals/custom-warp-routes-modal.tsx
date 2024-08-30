@@ -58,13 +58,13 @@ export const CustomWarpRoutesModal = () => {
         </DialogHeader>
         <div className="flex flex-col px-6">
           <div className="grid w-full gap-2">
-            <Label htmlFor="warproutes">YAML</Label>
+            <Label htmlFor="warproutes">Warp route YAML</Label>
             <Textarea
               id="warproutes"
               value={data}
               className="min-h-56 text-xs p-4"
               onChange={(e) => setData(e.target.value)}
-              placeholder="Paste your YAML Hyperlane routes"
+              placeholder="Paste in your warp route deployment YAML file"
             />
           </div>
         </div>
