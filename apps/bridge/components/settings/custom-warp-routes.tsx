@@ -29,7 +29,7 @@ export const CustomWarpRoutes = () => {
         </div>
 
         <Button onClick={() => modal.open()} size={"xs"}>
-          Cutsomize
+          Customize
         </Button>
       </div>
     </div>
