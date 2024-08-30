@@ -1,11 +1,19 @@
+import { DialogTitle } from "@radix-ui/react-dialog";
 import { useEffect, useState } from "react";
 
 import { useHyperlaneControllerResolveWarpRouteYamlFile } from "@/codegen/index";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { useModal } from "@/hooks/use-modal";
 import { useHyperlaneState } from "@/state/hyperlane";
 
 import { Button } from "../ui/button";
-import { Dialog, DialogContent } from "../ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+} from "../ui/dialog";
 
 export const CustomWarpRoutesModal = () => {
   const modal = useModal("CustomWarpRoutes");
@@ -39,17 +47,26 @@ export const CustomWarpRoutesModal = () => {
   return (
     <Dialog open={modal.isOpen} onOpenChange={modal.close}>
       <DialogContent>
-        <div className="flex flex-col gap-8 p-6">
-          <textarea
-            className="text-black p-2"
-            value={data}
-            onChange={(e) => setData(e.target.value)}
-          />
-
+        <DialogHeader>
+          <DialogTitle>Custom Warp Routes</DialogTitle>
+        </DialogHeader>
+        <div className="flex flex-col px-6">
+          <div className="grid w-full gap-2">
+            <Label htmlFor="warproutes">YAML</Label>
+            <Textarea
+              id="warproutes"
+              value={data}
+              className="min-h-56 text-xs p-4"
+              onChange={(e) => setData(e.target.value)}
+              placeholder="Paste your YAML Hyperlane routes"
+            />
+          </div>
+        </div>
+        <DialogFooter>
           <Button disabled={resolveWarpRoutes.isPending} onClick={onSave}>
             Save
           </Button>
-        </div>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );
