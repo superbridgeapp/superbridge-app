@@ -90,9 +90,9 @@ export const useEstimateTotalFeesInFiat = () => {
 };
 
 export const ExpensiveGasModal = () => {
-  const onProceed = useDismissAlert("GasExpensive");
+  const onProceed = useDismissAlert("gas-expensive");
   const onCancel = useCancelBridge();
-  const open = useModalsState.useAlerts().includes("GasExpensive");
+  const open = useModalsState.useAlerts().includes("gas-expensive");
 
   const { t } = useTranslation();
   const token = useSelectedToken();

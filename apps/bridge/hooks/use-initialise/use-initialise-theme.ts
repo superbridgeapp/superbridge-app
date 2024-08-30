@@ -7,7 +7,7 @@ import {
   defaultHeadingFont,
 } from "@/config/fonts";
 
-import { useApp } from "./use-metadata";
+import { useApp } from "../use-metadata";
 
 async function refreshFonts(theme: ThemeDto) {
   const heading = new FontFace(

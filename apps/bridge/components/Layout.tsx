@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from "framer-motion";
 
 import { OpenActivity } from "@/components/activity/open-activity";
 import { useIsSuperbridge } from "@/hooks/apps/use-is-superbridge";
-import { useInitialise } from "@/hooks/use-initialise";
+import { useInitialise } from "@/hooks/use-initialise/use-initialise";
 import {
   useBackgroundIcon,
   useBackgroundImageBlendMode,

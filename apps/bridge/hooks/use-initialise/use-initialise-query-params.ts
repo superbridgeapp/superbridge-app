@@ -5,10 +5,10 @@ import { Address, isAddress, isAddressEqual } from "viem";
 import { useConfigState } from "@/state/config";
 import { MultiChainToken } from "@/types/token";
 
-import { useDeployment } from "./deployments/use-deployment";
-import { useActiveTokens } from "./tokens/use-active-tokens";
-import { useSetToken } from "./tokens/use-set-token";
-import { useFromChain, useToChain } from "./use-chain";
+import { useDeployment } from "../deployments/use-deployment";
+import { useActiveTokens } from "../tokens/use-active-tokens";
+import { useSetToken } from "../tokens/use-set-token";
+import { useFromChain, useToChain } from "../use-chain";
 
 /**
  * // legacy & new

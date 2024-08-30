@@ -32,9 +32,9 @@ const supportsAcross = (deployment: DeploymentDto) => {
 };
 
 export const NoGasModal = () => {
-  const onProceed = useDismissAlert("NoGas");
+  const onProceed = useDismissAlert("no-gas");
   const onCancel = useCancelBridge();
-  const open = useModalsState.useAlerts().includes("NoGas");
+  const open = useModalsState.useAlerts().includes("no-gas");
   const isSuperbridge = useIsSuperbridge();
 
   const { t } = useTranslation();

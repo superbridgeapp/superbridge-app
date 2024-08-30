@@ -49,7 +49,7 @@ export const useSubmitBridge = () => {
       needDestinationGasConditions.some((x) => x) &&
       toEthBalance.data?.value === BigInt(0)
     ) {
-      modals.push("NoGas");
+      modals.push("no-gas");
     }
 
     if (
@@ -59,11 +59,11 @@ export const useSubmitBridge = () => {
       isSuperbridge &&
       SUPERCHAIN_MAINNETS.includes(deployment?.name ?? "")
     ) {
-      modals.push("GasExpensive");
+      modals.push("gas-expensive");
     }
 
     if (faultProofUpgradeTime && withdrawing) {
-      modals.push("FaultProofs");
+      modals.push("fault-proofs");
     }
 
     if (modals.length === 0) {
