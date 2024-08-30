@@ -43,7 +43,8 @@ export function Layout({ children }: { children: any }) {
       {isSuperbridge && (
         <motion.div
           initial={{ opacity: 0 }}
-          className="bg-gradient-to-t from-violet-500 to-violet-500/0 dark:from-violet-500/0 dark:to-violet-500/50 inset-0 z-0 fixed mix-blend-plus-lighter"
+          animate={{ opacity: 1 }}
+          className="bg-gradient-to-t from-[rgba(168,130,253,0.27)] via-[rgba(168,130,253,0.05)] to-[rgba(168,130,253,0)] inset-0 z-0 fixed mix-blend-plus-lighter"
         />
       )}
       <div

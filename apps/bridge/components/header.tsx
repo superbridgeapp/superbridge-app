@@ -16,13 +16,16 @@ export function Header() {
   const navIcon = useNavIcon();
 
   return (
-    <nav className="flex flex-row justify-between items-center p-3 md:p-6 fixed top-0 left-0 w-screen z-10">
+    <nav className="flex justify-between items-center p-3 md:p-6 fixed top-0 left-0 w-screen z-10">
       <div onClick={() => navigate("/")} className="cursor-pointer">
         {isSuperbridge ? (
-          <>
+          <div className="flex gap-2 md:gap-4 items-center">
             <SBLockup className="hidden md:inline-flex h-8 w-auto" />
             <SBLockupSmall className="md:hidden h-8 w-auto" />
-          </>
+            <span className="bg-primary text-background px-2 py-1 text-[10px] leading-none rounded-full inline-flex">
+              v3.0 beta
+            </span>
+          </div>
         ) : (
           <img
             src={navIcon}
