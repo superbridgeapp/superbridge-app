@@ -3,10 +3,10 @@ import { useEffect } from "react";
 import { Address, isAddress, isAddressEqual } from "viem";
 
 import { useConfigState } from "@/state/config";
+import { useHyperlaneState } from "@/state/hyperlane";
 import { MultiChainToken } from "@/types/token";
 
 import { useDeployment } from "../deployments/use-deployment";
-import { useSaveWarpRouteFile } from "../hyperlane/use-save-warp-route-file";
 import { useActiveTokens } from "../tokens/use-active-tokens";
 import { useSetToken } from "../tokens/use-set-token";
 import { useFromChain, useToChain } from "../use-chain";
@@ -35,28 +35,14 @@ export const useInitialiseQueryParams = () => {
   const from = useFromChain();
   const to = useToChain();
   const tokens = useActiveTokens();
-  const saveWarpRouteFile = useSaveWarpRouteFile();
+  const setHyperlaneCustomRoutesId = useHyperlaneState.useSetCustomRoutesId();
 
   useEffect(() => {
     const hyperlaneWarpRoutes = router.query.hyperlaneWarpRoutes as
       | string
       | undefined;
     if (hyperlaneWarpRoutes) {
-      saveWarpRouteFile.mutateAsync(hyperlaneWarpRoutes).then((valid) => {
-        if (valid) {
-          router.replace(
-            "/",
-            {
-              pathname: "/",
-              query: {
-                hyperlaneWarpRoutes:
-                  Buffer.from(hyperlaneWarpRoutes).toString("base64"),
-              },
-            },
-            { shallow: true }
-          );
-        }
-      });
+      setHyperlaneCustomRoutesId(hyperlaneWarpRoutes);
     }
   }, []);
 

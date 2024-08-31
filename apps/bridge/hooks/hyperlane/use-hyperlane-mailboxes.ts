@@ -1,14 +1,15 @@
 import { useMemo } from "react";
 
-import { useHyperlaneState } from "@/state/hyperlane";
 import { useInjectedStore } from "@/state/injected";
 
+import { useHyperlaneCustomRoutes } from "./use-hyperlane-custom-routes";
+
 export const useHyperlaneMailboxes = () => {
-  const customHyperlaneMailboxes = useHyperlaneState.useCustomMailboxes();
+  const customRoutes = useHyperlaneCustomRoutes();
   const defaultMailboxes = useInjectedStore((s) => s.hyperlaneMailboxes);
 
   return useMemo(
-    () => [...defaultMailboxes, ...customHyperlaneMailboxes],
-    [customHyperlaneMailboxes, defaultMailboxes]
+    () => [...defaultMailboxes, ...(customRoutes?.mailboxes ?? [])],
+    [customRoutes, defaultMailboxes]
   );
 };
