@@ -6,6 +6,7 @@ import {
   V3_SUPERBRIDGE_HOST,
 } from "../constants/hosts";
 import {
+  elixirTheme,
   hyperlaneTheme,
   renzoTheme,
   superbridgeTheme,
@@ -101,11 +102,33 @@ const usdc: AppConfig = {
   },
 };
 
+const elixir: AppConfig = {
+  head: {
+    name: "deUSD Bridge",
+    description: "Bridge deUSD between supported chains",
+    og: "https://elixir.superbridge.app/img/elixir/og.png",
+    favicon: "/img/superbridge/favicon-32x32.png",
+  },
+  images: {
+    logoLight: "/img/elixir/logo.svg",
+    logoDark: "/img/elixir/logo.svg",
+    logoLightSmall: "/img/elixir/logo.svg",
+    logoDarkSmall: "/img/elixir/logo.svg",
+  },
+  theme: elixirTheme,
+
+  links: [],
+
+  metadata: {
+    // gId: ""
+  },
+};
+
 export const frontendApps: { [x: string]: AppConfig | undefined } = {
   [SUPERBRIDGE_HOST]: superbidge,
   [SUPERBRIDGE_TESTNET_HOST]: superbidge,
   [V3_SUPERBRIDGE_HOST]: superbidge,
   ["renzo.superbridge.app"]: renzo,
   ["hyperlane.superbridge.app"]: hyperlane,
-  ["usdc.superbridge.app"]: usdc,
+  ["elixir.superbridge.app"]: elixir,
 };

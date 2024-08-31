@@ -3,7 +3,7 @@ import { ThemeProviderProps } from "next-themes/dist/types";
 import { createContext, useEffect } from "react";
 
 import { ThemeDto } from "@/codegen/model";
-import { useInitialiseTheme } from "@/hooks/use-initialise-theme";
+import { useInitialiseTheme } from "@/hooks/use-initialise/use-initialise-theme";
 import { useDarkModeEnabled } from "@/hooks/use-theme";
 
 export const ThemeContext = createContext<Partial<ThemeDto> | null>(null);

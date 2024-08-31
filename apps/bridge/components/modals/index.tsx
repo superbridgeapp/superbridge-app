@@ -8,6 +8,7 @@ import { ExpensiveGasModal } from "./alerts/expensive-gas-modal";
 import { FaultProofsModal } from "./alerts/fault-proofs-modal";
 import { NoGasModal } from "./alerts/no-gas-modal";
 import { ConfirmationModalV2 } from "./confirmation-modal-v2";
+import { CustomWarpRoutesModal } from "./custom-warp-routes-modal";
 import { BlockProvingModal } from "./fault-proofs/block-proving-modal";
 import { FaultProofInfoModal } from "./fault-proofs/fault-proof-info-modal";
 import { FeeBreakdownModal } from "./fee-breakdown-modal";
@@ -32,6 +33,7 @@ export const Modals = () => {
       <ConfirmationModalV2 />
       <TransactionDetailsModal />
       <GasInfoModal />
+      <CustomWarpRoutesModal />
 
       {/* Alerts */}
       <NoGasModal />

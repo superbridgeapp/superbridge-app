@@ -33,10 +33,11 @@ const modalNames = [
   "CustomTokenListImport",
   "BlockProving",
   "FaultProof",
+  "CustomWarpRoutes",
 ] as const;
 export type ModalName = (typeof modalNames)[number];
 
-const alerts = ["no-gas", "gas-expensive", "fault-proofs"];
+const alerts = ["no-gas", "gas-expensive", "fault-proofs"] as const;
 export type AlertName = (typeof alerts)[number];
 
 const ModalsState = create<ModalsState>()((set, get) => ({

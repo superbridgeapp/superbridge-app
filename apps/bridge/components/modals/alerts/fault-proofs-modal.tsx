@@ -12,9 +12,9 @@ import { useDeployment } from "@/hooks/deployments/use-deployment";
 import { useModalsState } from "@/state/modals";
 
 export const FaultProofsModal = () => {
-  const onProceed = useDismissAlert("FaultProofs");
+  const onProceed = useDismissAlert("fault-proofs");
   const onCancel = useCancelBridge();
-  const open = useModalsState.useAlerts().includes("FaultProofs");
+  const open = useModalsState.useAlerts().includes("fault-proofs");
   const isSuperbridge = useIsSuperbridge();
 
   const { t } = useTranslation();

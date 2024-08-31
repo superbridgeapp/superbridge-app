@@ -6,7 +6,7 @@ import { useAccount } from "wagmi";
 import { resolveAddress, resolveName } from "@/services/ens";
 import { useConfigState } from "@/state/config";
 
-import { useIsContractAccount } from "./use-is-contract-account";
+import { useIsContractAccount } from "../use-is-contract-account";
 
 /**
  * Things handled in the useEffect

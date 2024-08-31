@@ -12,6 +12,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { flagSymbolMap } from "@/constants/currency-symbol-map";
+import { useIsHyperlanePlayground } from "@/hooks/apps/use-is-hyperlane";
 import { useIsSuperbridge } from "@/hooks/apps/use-is-superbridge";
 import { useDeployments } from "@/hooks/deployments/use-deployments";
 import { useIsContractAccount } from "@/hooks/use-is-contract-account";
@@ -25,11 +26,13 @@ import { isOptimism } from "@/utils/deployments/is-mainnet";
 
 import { Dialog, DialogContent } from "../ui/dialog";
 import { Switch } from "../ui/switch";
+import { CustomWarpRoutes } from "./custom-warp-routes";
 import { TokenLists } from "./token-lists";
 
 export const SettingsModal = () => {
   const { t, i18n } = useTranslation();
   const isSuperbridge = useIsSuperbridge();
+  const isHyperlanePlayground = useIsHyperlanePlayground();
   const trackEvent = useTrackEvent();
 
   const modal = useModal("Settings");
@@ -306,6 +309,7 @@ export const SettingsModal = () => {
               )}
 
               {isSuperbridge && <TokenLists />}
+              {isHyperlanePlayground && <CustomWarpRoutes />}
 
               {darkModeEnabled && (
                 <div className="flex items-center justify-between p-4">
