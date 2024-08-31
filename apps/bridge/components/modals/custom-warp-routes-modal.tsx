@@ -1,9 +1,9 @@
 import { DialogTitle } from "@radix-ui/react-dialog";
 import { useEffect, useState } from "react";
 
-import { useHyperlaneControllerResolveWarpRouteYamlFile } from "@/codegen/index";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { useSaveWarpRouteFile } from "@/hooks/hyperlane/use-save-warp-route-file";
 import { useModal } from "@/hooks/use-modal";
 import { useHyperlaneState } from "@/state/hyperlane";
 
@@ -19,11 +19,8 @@ export const CustomWarpRoutesModal = () => {
   const modal = useModal("CustomWarpRoutes");
 
   const saved = useHyperlaneState.useCustomWarpRoutesFile();
-  const setSaved = useHyperlaneState.useSetCustomWarpRoutesFile();
-  const setMailboxes = useHyperlaneState.useSetCustomMailboxes();
-  const setTokens = useHyperlaneState.useSetCustomTokens();
 
-  const resolveWarpRoutes = useHyperlaneControllerResolveWarpRouteYamlFile();
+  const saveWarpRouteFile = useSaveWarpRouteFile();
 
   const [data, setData] = useState("");
 
@@ -32,19 +29,8 @@ export const CustomWarpRoutesModal = () => {
   }, [modal.isOpen, saved]);
 
   const onSave = async () => {
-    setSaved(data);
-
     if (data) {
-      const result = await resolveWarpRoutes
-        .mutateAsync({
-          data: { file: data },
-        })
-        .catch(() => null);
-
-      if (result) {
-        setMailboxes(result.data.mailboxes);
-        setTokens(result.data.tokens);
-      }
+      await saveWarpRouteFile.mutateAsync(data);
     }
 
     modal.close();
@@ -69,7 +55,7 @@ export const CustomWarpRoutesModal = () => {
           </div>
         </div>
         <DialogFooter>
-          <Button disabled={resolveWarpRoutes.isPending} onClick={onSave}>
+          <Button disabled={saveWarpRouteFile.isPending} onClick={onSave}>
             Save
           </Button>
         </DialogFooter>
