@@ -10,6 +10,6 @@ export const useHyperlaneMailboxes = () => {
 
   return useMemo(
     () => [...defaultMailboxes, ...(customRoutes?.mailboxes ?? [])],
-    [customRoutes, defaultMailboxes]
+    [defaultMailboxes, customRoutes?.mailboxes]
   );
 };
