@@ -7,10 +7,12 @@ import { isSuperbridge } from "@/config/superbridge";
 import { useInjectedStore } from "@/state/injected";
 
 import { useDeployments } from "./use-deployments";
+import { useStatusCheck } from "./use-status-check";
 
 export const useTransactions = () => {
   const account = useAccount();
   const deployments = useDeployments();
+  const statusCheck = useStatusCheck();
 
   const superbridgeTestnetsEnabled = useInjectedStore((s) => s.testnets);
 
@@ -42,7 +44,7 @@ export const useTransactions = () => {
 
       getNextPageParam: (lastPage) =>
         lastPage?.transactions?.[lastPage.transactions.length - 1]?.id,
-      enabled: !!account.address && deployments.length > 0,
+      enabled: !!account.address && deployments.length > 0 && !statusCheck,
       refetchInterval: 10_000,
     });
 
