@@ -1,9 +1,9 @@
 import { DialogTitle } from "@radix-ui/react-dialog";
 import { useEffect, useState } from "react";
 
+import { useHyperlaneControllerSaveWarpRouteYamlFile } from "@/codegen/index";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { useSaveWarpRouteFile } from "@/hooks/hyperlane/use-save-warp-route-file";
 import { useModal } from "@/hooks/use-modal";
 import { useHyperlaneState } from "@/state/hyperlane";
 
@@ -18,19 +18,19 @@ import {
 export const CustomWarpRoutesModal = () => {
   const modal = useModal("CustomWarpRoutes");
 
-  const saved = useHyperlaneState.useCustomWarpRoutesFile();
+  const saveWarpRouteFile = useHyperlaneControllerSaveWarpRouteYamlFile();
+  const setCustomRoutesId = useHyperlaneState.useSetCustomRoutesId();
 
-  const saveWarpRouteFile = useSaveWarpRouteFile();
-
-  const [data, setData] = useState("");
+  const [file, setFile] = useState("");
 
   useEffect(() => {
-    setData(saved);
-  }, [modal.isOpen, saved]);
+    setFile("");
+  }, [modal.isOpen]);
 
   const onSave = async () => {
-    if (data) {
-      await saveWarpRouteFile.mutateAsync(data);
+    if (file) {
+      const result = await saveWarpRouteFile.mutateAsync({ data: { file } });
+      setCustomRoutesId(result.data.id);
     }
 
     modal.close();
@@ -47,9 +47,9 @@ export const CustomWarpRoutesModal = () => {
             <Label htmlFor="warproutes">Warp route YAML</Label>
             <Textarea
               id="warproutes"
-              value={data}
+              value={file}
               className="min-h-56 text-xs p-4"
-              onChange={(e) => setData(e.target.value)}
+              onChange={(e) => setFile(e.target.value)}
               placeholder="Paste in your warp route deployment YAML file"
             />
           </div>
