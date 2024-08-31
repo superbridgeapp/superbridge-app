@@ -1,4 +1,5 @@
 import { DialogTitle } from "@radix-ui/react-dialog";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 import { useHyperlaneControllerSaveWarpRouteYamlFile } from "@/codegen/index";
@@ -16,6 +17,7 @@ import {
 } from "../ui/dialog";
 
 export const CustomWarpRoutesModal = () => {
+  const router = useRouter();
   const modal = useModal("CustomWarpRoutes");
 
   const saveWarpRouteFile = useHyperlaneControllerSaveWarpRouteYamlFile();
@@ -31,6 +33,17 @@ export const CustomWarpRoutesModal = () => {
     if (file) {
       const result = await saveWarpRouteFile.mutateAsync({ data: { file } });
       setCustomRoutesId(result.data.id);
+
+      router.push(
+        "/",
+        {
+          pathname: "/",
+          query: {
+            hyperlaneWarpRoutes: result.data.id,
+          },
+        },
+        { shallow: true }
+      );
     }
 
     modal.close();
