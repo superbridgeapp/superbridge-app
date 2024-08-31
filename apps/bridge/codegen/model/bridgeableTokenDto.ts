@@ -16,6 +16,7 @@ export interface BridgeableTokenDto {
   decimals: number;
   hyperlane?: HyperlaneRouterDto;
   logoURI: string;
+  lz?: OpBridgedUsdcDto;
   name: string;
   opBridgedUsdc?: OpBridgedUsdcDto;
   symbol: string;

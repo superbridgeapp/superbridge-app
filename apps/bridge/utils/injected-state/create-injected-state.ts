@@ -24,6 +24,7 @@ export const createInjectedState = (props: {
     cctpDomains: dto?.cctpDomains ?? [],
     deployments: dto?.deployments ?? [],
     hyperlaneMailboxes: dto?.hyperlaneMailboxes ?? [],
+    lzDomains: dto?.lzDomains ?? [],
     superbridgeConfig:
       dto?.highlightedTokens && dto?.banner
         ? { banner: dto?.banner, highlightedTokens: dto?.highlightedTokens }

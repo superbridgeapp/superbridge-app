@@ -10,6 +10,7 @@ import {
   bsc,
   bscTestnet,
   fraxtal,
+  gravity,
   holesky,
   inEVM,
   kroma,
@@ -64,4 +65,5 @@ export const chainIcons: { [chainId: number]: string | undefined } = {
   [scroll.id]: "/img/networks/scroll.svg",
   [polygon.id]: "/img/networks/polygon.svg",
   [48900]: "/img/networks/zircuit.svg",
+  [gravity.id]: "/img/networks/gravity.png",
 };

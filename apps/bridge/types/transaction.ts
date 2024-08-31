@@ -7,6 +7,7 @@ import {
   CctpBridgeDto,
   ForcedWithdrawalDto,
   HyperlaneBridgeDto,
+  LzBridgeV2Dto,
   PortalDepositDto,
 } from "@/codegen/model";
 
@@ -27,6 +28,7 @@ type All =
   | OptimismTransaction
   | CctpBridgeDto
   | AcrossBridgeDto
-  | HyperlaneBridgeDto;
+  | HyperlaneBridgeDto
+  | LzBridgeV2Dto;
 
 export type Transaction = All & { mock?: true };
