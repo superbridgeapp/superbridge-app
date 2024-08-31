@@ -13,7 +13,6 @@ export * from './acrossBridgeMetadataDto';
 export * from './acrossContractAddressesDto';
 export * from './acrossDomainDto';
 export * from './acrossTransactionType';
-export * from './actionDto';
 export * from './activeDeploymentStatus';
 export * from './activityDto';
 export * from './activityDtoTransactionsItem';

@@ -2,8 +2,8 @@ import { useMemo } from "react";
 
 import { MultiChainToken } from "@/types/token";
 
+import { useHyperlaneCustomRoutes } from "../hyperlane/use-hyperlane-custom-routes";
 import { useBackendTokens } from "./use-backend-tokens";
-import { useCustomHyperlaneTokens } from "./use-custom-hyperlane-tokens";
 import { useCustomTokenLists } from "./use-custom-token-lists";
 
 export function useAllTokens(): {
@@ -12,7 +12,7 @@ export function useAllTokens(): {
 } {
   const backendTokens = useBackendTokens();
   const customTokenLists = useCustomTokenLists();
-  const customHyperlaneTokens = useCustomHyperlaneTokens();
+  const customHyperlaneRoutes = useHyperlaneCustomRoutes();
 
   return useMemo(
     () => ({
@@ -20,7 +20,7 @@ export function useAllTokens(): {
       data: [
         ...(backendTokens.data ?? []),
         ...(customTokenLists.data ?? []),
-        ...customHyperlaneTokens,
+        ...(customHyperlaneRoutes?.tokens ?? []),
       ],
     }),
     [
@@ -28,7 +28,7 @@ export function useAllTokens(): {
       backendTokens.data,
       customTokenLists.isFetching,
       customTokenLists.data,
-      customHyperlaneTokens,
+      customHyperlaneRoutes?.tokens,
     ]
   );
 }

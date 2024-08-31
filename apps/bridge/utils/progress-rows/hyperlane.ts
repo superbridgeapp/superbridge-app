@@ -1,8 +1,8 @@
 import { useTranslation } from "react-i18next";
 
 import { useTxToken } from "@/hooks/activity/use-tx-token";
+import { useHyperlaneMailboxes } from "@/hooks/hyperlane/use-hyperlane-mailboxes";
 import { useChain } from "@/hooks/use-chain";
-import { useInjectedStore } from "@/state/injected";
 import { Transaction } from "@/types/transaction";
 
 import { isHyperlaneBridge } from "../guards";
@@ -14,7 +14,7 @@ export const useHyperlaneProgressRows = (
   const { t } = useTranslation();
   const token = useTxToken(tx);
 
-  const hyperlaneMailboxes = useInjectedStore((s) => s.hyperlaneMailboxes);
+  const hyperlaneMailboxes = useHyperlaneMailboxes();
 
   const fromMailbox =
     tx && isHyperlaneBridge(tx)

@@ -64,6 +64,7 @@ export const buildPendingTx = (
           outputTokenAddress: toToken?.address ?? "",
         },
       },
+      duration: 1000 * 60 * 2,
       type: "across-bridge",
       fill: undefined,
     };
@@ -92,6 +93,8 @@ export const buildPendingTx = (
 
       fromDomain: fromMailbox.domain,
       toDomain: toMailbox.domain,
+      from: account,
+      to: recipient,
       token: fromToken.hyperlane?.router ?? "",
     };
     return b;
@@ -144,6 +147,8 @@ export const buildPendingTx = (
       type: "cctp-bridge",
       relay: undefined,
       token: fromToken.address,
+      recipient,
+      sender: account,
     };
     return b;
   }
@@ -211,6 +216,8 @@ export const buildPendingTx = (
         metadata,
         status: MessageStatus.STATE_ROOT_NOT_PUBLISHED,
         deploymentId: deployment.id,
+        finalizeDuration: deployment.finalizeDuration,
+        proveDuration: deployment.proveDuration!,
       };
       return w;
     }
@@ -229,6 +236,7 @@ export const buildPendingTx = (
       metadata,
       status: MessageStatus.UNCONFIRMED_L1_TO_L2_MESSAGE,
       deploymentId: deployment.id,
+      duration: deployment.depositDuration,
     };
     return a;
   }
@@ -246,7 +254,9 @@ export const buildPendingTx = (
       l2TransactionHash: "0x",
       metadata,
       deploymentId: deployment.id,
+      duration: deployment.depositDuration,
     };
+
     return a;
   }
 
@@ -263,6 +273,7 @@ export const buildPendingTx = (
       metadata,
       status: ArbitrumMessageStatus.UNCONFIRMED,
       deploymentId: deployment.id,
+      duration: deployment.finalizeDuration,
     };
     return w;
   }

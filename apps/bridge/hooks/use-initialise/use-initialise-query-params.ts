@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { Address, isAddress, isAddressEqual } from "viem";
 
 import { useConfigState } from "@/state/config";
+import { useHyperlaneState } from "@/state/hyperlane";
 import { MultiChainToken } from "@/types/token";
 
 import { useDeployment } from "../deployments/use-deployment";
@@ -34,6 +35,16 @@ export const useInitialiseQueryParams = () => {
   const from = useFromChain();
   const to = useToChain();
   const tokens = useActiveTokens();
+  const setHyperlaneCustomRoutesId = useHyperlaneState.useSetCustomRoutesId();
+
+  useEffect(() => {
+    const hyperlaneWarpRoutes = router.query.hyperlaneWarpRoutes as
+      | string
+      | undefined;
+    if (hyperlaneWarpRoutes) {
+      setHyperlaneCustomRoutesId(hyperlaneWarpRoutes);
+    }
+  }, []);
 
   useEffect(() => {
     if (!tokens.data?.length || !from || !to) {

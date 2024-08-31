@@ -1,7 +1,8 @@
 import { DialogTitle } from "@radix-ui/react-dialog";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-import { useHyperlaneControllerResolveWarpRouteYamlFile } from "@/codegen/index";
+import { useHyperlaneControllerSaveWarpRouteYamlFile } from "@/codegen/index";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useModal } from "@/hooks/use-modal";
@@ -16,35 +17,33 @@ import {
 } from "../ui/dialog";
 
 export const CustomWarpRoutesModal = () => {
+  const router = useRouter();
   const modal = useModal("CustomWarpRoutes");
 
-  const saved = useHyperlaneState.useCustomWarpRoutesFile();
-  const setSaved = useHyperlaneState.useSetCustomWarpRoutesFile();
-  const setMailboxes = useHyperlaneState.useSetCustomMailboxes();
-  const setTokens = useHyperlaneState.useSetCustomTokens();
+  const saveWarpRouteFile = useHyperlaneControllerSaveWarpRouteYamlFile();
+  const setCustomRoutesId = useHyperlaneState.useSetCustomRoutesId();
 
-  const resolveWarpRoutes = useHyperlaneControllerResolveWarpRouteYamlFile();
-
-  const [data, setData] = useState("");
+  const [file, setFile] = useState("");
 
   useEffect(() => {
-    setData(saved);
-  }, [modal.isOpen, saved]);
+    setFile("");
+  }, [modal.isOpen]);
 
   const onSave = async () => {
-    setSaved(data);
+    if (file) {
+      const result = await saveWarpRouteFile.mutateAsync({ data: { file } });
+      setCustomRoutesId(result.data.id);
 
-    if (data) {
-      const result = await resolveWarpRoutes
-        .mutateAsync({
-          data: { file: data },
-        })
-        .catch(() => null);
-
-      if (result) {
-        setMailboxes(result.data.mailboxes);
-        setTokens(result.data.tokens);
-      }
+      router.push(
+        "/",
+        {
+          pathname: "/",
+          query: {
+            hyperlaneWarpRoutes: result.data.id,
+          },
+        },
+        { shallow: true }
+      );
     }
 
     modal.close();
@@ -61,15 +60,15 @@ export const CustomWarpRoutesModal = () => {
             <Label htmlFor="warproutes">Warp route YAML</Label>
             <Textarea
               id="warproutes"
-              value={data}
+              value={file}
               className="min-h-56 text-xs p-4"
-              onChange={(e) => setData(e.target.value)}
+              onChange={(e) => setFile(e.target.value)}
               placeholder="Paste in your warp route deployment YAML file"
             />
           </div>
         </div>
         <DialogFooter>
-          <Button disabled={resolveWarpRoutes.isPending} onClick={onSave}>
+          <Button disabled={saveWarpRouteFile.isPending} onClick={onSave}>
             Save
           </Button>
         </DialogFooter>
