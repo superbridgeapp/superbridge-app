@@ -6,7 +6,6 @@ import { match } from "ts-pattern";
 import { formatUnits, parseUnits } from "viem";
 import { useAccount, useBalance, useConfig, useWalletClient } from "wagmi";
 
-import { useBridgeControllerTrack } from "@/codegen";
 import { isSuperbridge } from "@/config/superbridge";
 import { SUPERCHAIN_MAINNETS } from "@/constants/superbridge";
 import { useAcrossPaused } from "@/hooks/across/use-across-paused";
@@ -96,7 +95,6 @@ export const BridgeBody = () => {
   const statusCheck = useStatusCheck();
   const bridgeMax = useBridgeMax();
   const bridgeMin = useBridgeMin();
-  const track = useBridgeControllerTrack();
   const faultProofUpgradeTime = useFaultProofUpgradeTime(deployment);
   const acrossPaused = useAcrossPaused();
   const withdrawalsPaused = useWithdrawalsPaused();
@@ -212,21 +210,6 @@ export const BridgeBody = () => {
           : "deposit",
         transactionHash: hash,
       });
-
-      if (!fast && deployment) {
-        track.mutate({
-          data: {
-            amount: weiAmount.toString(),
-            deploymentId: deployment.id,
-            transactionHash: hash,
-            action: withdrawing
-              ? forceViaL1
-                ? "force-withdraw"
-                : "withdraw"
-              : "deposit",
-          },
-        });
-      }
 
       const pending = buildPendingTx(
         deployment,
