@@ -18,6 +18,7 @@ import { isRouteQuote } from "@/utils/guards";
 
 import { useDeployment } from "../deployments/use-deployment";
 import { useHyperlaneMailboxes } from "../hyperlane/use-hyperlane-mailboxes";
+import { useLzDomains } from "../lz/use-lz-domains";
 import { useSelectedBridgeRoute } from "../routes/use-selected-bridge-route";
 import { useAllowanceGasToken } from "../use-allowance-gas-token";
 import { useInitiatingChainId } from "../use-initiating-chain-id";
@@ -50,6 +51,7 @@ export const useInitiateBridge = () => {
     usePendingTransactions.useUpdateTransactionByHash();
   const statusCheck = useStatusCheck();
   const hyperlaneMailboxes = useHyperlaneMailboxes();
+  const lzDomains = useLzDomains();
 
   const initiatingChainId = useInitiatingChainId();
   const initiatingChain = useChain(initiatingChainId);
@@ -117,6 +119,7 @@ export const useInitiateBridge = () => {
         forceViaL1,
         route.data.id,
         hyperlaneMailboxes,
+        lzDomains,
         { from: from!, to: to! }
       );
       if (pending) addPendingTransaction(pending);

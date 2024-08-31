@@ -6,6 +6,7 @@
  * OpenAPI spec version: 1.0
  */
 import type { GetHyperlaneActivityDto } from './getHyperlaneActivityDto';
+import type { GetLzActivityDto } from './getLzActivityDto';
 
 export interface GetActivityV4Dto {
   acrossDomains: string[];
@@ -15,4 +16,5 @@ export interface GetActivityV4Dto {
   cursor: string | null;
   deploymentIds: string[];
   hyperlane?: GetHyperlaneActivityDto;
+  lz?: GetLzActivityDto;
 }

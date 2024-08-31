@@ -5,16 +5,19 @@ import {
   isDeposit,
   isForcedWithdrawal,
   isHyperlaneBridge,
+  isLzBridge,
   isWithdrawal,
 } from "@/utils/guards";
 
 import { useDeployments } from "../deployments/use-deployments";
 import { useHyperlaneMailboxes } from "../hyperlane/use-hyperlane-mailboxes";
+import { useLzDomains } from "../lz/use-lz-domains";
 import { useChain } from "../use-chain";
 
 export const useTxFromTo = (tx: Transaction | undefined | null) => {
   const deployments = useDeployments();
   const hyperlaneMailboxes = useHyperlaneMailboxes();
+  const lzDomains = useLzDomains();
 
   let fromChainId = 0;
   let toChainId = 0;
@@ -42,6 +45,11 @@ export const useTxFromTo = (tx: Transaction | undefined | null) => {
       hyperlaneMailboxes.find((x) => x.domain === tx.fromDomain)?.chainId ?? 0;
     toChainId =
       hyperlaneMailboxes.find((x) => x.domain === tx.toDomain)?.chainId ?? 0;
+  }
+
+  if (tx && isLzBridge(tx)) {
+    fromChainId = lzDomains.find((x) => x.eId === tx.fromEid)?.chainId ?? 0;
+    toChainId = lzDomains.find((x) => x.eId === tx.toEid)?.chainId ?? 0;
   }
 
   if (tx && isDeposit(tx)) {

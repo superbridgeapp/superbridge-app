@@ -10,6 +10,8 @@ import {
   ForcedWithdrawalDto,
   HyperlaneBridgeDto,
   HyperlaneMailboxDto,
+  LzBridgeV2Dto,
+  LzDomainDto,
   PortalDepositDto,
   RouteProvider,
 } from "@/codegen/model";
@@ -32,6 +34,7 @@ export const buildPendingTx = (
   force: boolean,
   provider: RouteProvider,
   hyperlaneMailboxes: HyperlaneMailboxDto[],
+  lzDomains: LzDomainDto[],
   { from, to }: { from: ChainDto; to: ChainDto }
 ) => {
   if (!fromToken || !toToken) {
@@ -90,6 +93,36 @@ export const buildPendingTx = (
       fromDomain: fromMailbox.domain,
       toDomain: toMailbox.domain,
       token: fromToken.hyperlane?.router ?? "",
+    };
+    return b;
+  }
+
+  if (provider == RouteProvider.Lz) {
+    const fromDomain = lzDomains.find((x) => x.chainId === from.id);
+    const toDomain = lzDomains.find((x) => x.chainId === to.id);
+    if (!fromDomain || !toDomain) {
+      return null;
+    }
+    const b: LzBridgeV2Dto = {
+      id: Math.random().toString(),
+      // @ts-expect-error
+      send: {
+        transactionHash: hash,
+      },
+      createdAt: new Date().toString(),
+      updatedAt: new Date().toString(),
+
+      amount: weiAmount.toString(),
+      type: "lz-bridge",
+      receive: undefined,
+      duration: 1000 * 60 * 2,
+
+      from: account,
+      fromEid: fromDomain.eId,
+      toEid: toDomain.eId,
+
+      to: recipient,
+      token: fromToken.address,
     };
     return b;
   }
