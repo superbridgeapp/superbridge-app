@@ -4,6 +4,7 @@ import { DeploymentType } from "@/codegen/model";
 import { useIsSpecialApp } from "@/hooks/apps/use-is-special-app";
 import { useIsSuperbridge } from "@/hooks/apps/use-is-superbridge";
 import { useDeployments } from "@/hooks/deployments/use-deployments";
+import { useIsWidget } from "@/hooks/use-is-widget";
 import { useModal } from "@/hooks/use-modal";
 import { useTransactions } from "@/hooks/use-transactions";
 import { useConfigState } from "@/state/config";
@@ -22,6 +23,8 @@ export const BridgeHeader = () => {
   const superbridgeTestnets = useInjectedStore((s) => s.superbridgeTestnets);
   const isSuperbridge = useIsSuperbridge();
   const isSpecialApp = useIsSpecialApp();
+
+  const isWidget = useIsWidget();
 
   return (
     <>
