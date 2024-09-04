@@ -26,18 +26,18 @@ export const getPeriod = (seconds: number): Period => {
   if (seconds >= ONE_DAY) {
     return {
       period: "days",
-      value: seconds / ONE_DAY,
+      value: Math.round(seconds / ONE_DAY),
     };
   }
   if (seconds >= ONE_HOUR) {
     return {
       period: "hours",
-      value: seconds / ONE_HOUR,
+      value: Math.round(seconds / ONE_HOUR),
     };
   }
   return {
     period: "mins",
-    value: Math.max(seconds / ONE_MINUTE, 1),
+    value: Math.round(Math.max(seconds / ONE_MINUTE, 1)),
   };
 };
 
