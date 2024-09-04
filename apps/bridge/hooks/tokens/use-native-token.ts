@@ -1,4 +1,4 @@
-import { useChain, useFromChain, useToChain } from "./use-chain";
+import { useChain, useFromChain, useToChain } from "../use-chain";
 
 export function useNativeTokenForChainId(chainId: number | undefined) {
   return useChain(chainId)?.nativeCurrency;

@@ -10,7 +10,7 @@ import {
   IconSpinner,
 } from "@/components/icons";
 import { NetworkIcon } from "@/components/network-icon";
-import { useNetworkFeeForGasLimit } from "@/hooks/use-network-fee";
+import { useNetworkFeeForGasLimit } from "@/hooks/gas/use-network-fee";
 import { Transaction } from "@/types/transaction";
 import {
   isArbitrumDeposit,

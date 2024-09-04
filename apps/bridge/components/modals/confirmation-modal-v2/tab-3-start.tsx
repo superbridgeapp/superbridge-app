@@ -32,6 +32,10 @@ import { useCustomGasTokenAddress } from "@/hooks/custom-gas-token/use-custom-ga
 import { useDeployment } from "@/hooks/deployments/use-deployment";
 import { useSelectedBridgeRoute } from "@/hooks/routes/use-selected-bridge-route";
 import {
+  useNativeToken,
+  useToNativeToken,
+} from "@/hooks/tokens/use-native-token";
+import {
   useDestinationToken,
   useSelectedToken,
 } from "@/hooks/tokens/use-token";
@@ -40,7 +44,6 @@ import { useAllowanceGasToken } from "@/hooks/use-allowance-gas-token";
 import { useApprove } from "@/hooks/use-approve";
 import { useApproveGasToken } from "@/hooks/use-approve-gas-token";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
-import { useNativeToken, useToNativeToken } from "@/hooks/use-native-token";
 import { useTokenPrice } from "@/hooks/use-prices";
 import { useReceiveAmount } from "@/hooks/use-receive-amount";
 import { useRequiredCustomGasTokenBalance } from "@/hooks/use-required-custom-gas-token-balance";

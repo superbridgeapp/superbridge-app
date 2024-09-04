@@ -6,16 +6,16 @@ import {
   RouteStepTransactionDto,
 } from "@/codegen/model";
 import { useBridge } from "@/hooks/bridge/use-bridge";
+import { useFeesForRoute } from "@/hooks/fees/use-fees";
+import { useNetworkFeeForGasLimit } from "@/hooks/gas/use-network-fee";
 import { useSelectedBridgeRoute } from "@/hooks/routes/use-selected-bridge-route";
 import {
   useDestinationToken,
   useSelectedToken,
 } from "@/hooks/tokens/use-token";
 import { useToChain } from "@/hooks/use-chain";
-import { useFeesForRoute } from "@/hooks/use-fees";
 import { useGetFormattedAmount } from "@/hooks/use-get-formatted-amount";
 import { useModal } from "@/hooks/use-modal";
-import { useNetworkFeeForGasLimit } from "@/hooks/use-network-fee";
 import { useApproxTotalBridgeTimeTextForRoute } from "@/hooks/use-transfer-time";
 
 import {

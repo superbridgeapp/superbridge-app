@@ -1,93 +1,19 @@
 import { Trans, useTranslation } from "react-i18next";
-import { formatUnits } from "viem";
-import { useEstimateFeesPerGas } from "wagmi";
 
 import { IconAlert, IconFees } from "@/components/icons";
 import { TokenIcon } from "@/components/token-icon";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { currencySymbolMap } from "@/constants/currency-symbol-map";
-import { FINALIZE_GAS, PROVE_GAS } from "@/constants/gas-limits";
-import { useBridge } from "@/hooks/bridge/use-bridge";
 import { useCancelBridge } from "@/hooks/bridge/use-cancel-bridge";
 import { useDismissAlert } from "@/hooks/bridge/use-dismiss-alert";
-import { useDeployment } from "@/hooks/deployments/use-deployment";
+import { useEstimateTotalNetworkFees } from "@/hooks/gas/use-total-network-fees";
 import { useSelectedToken } from "@/hooks/tokens/use-token";
-import { useFromChain, useToChain } from "@/hooks/use-chain";
-import { useNativeToken, useToNativeToken } from "@/hooks/use-native-token";
 import { useTokenPrice } from "@/hooks/use-prices";
-import { useIsWithdrawal } from "@/hooks/use-withdrawing";
 import { useConfigState } from "@/state/config";
 import { useModalsState } from "@/state/modals";
 import { useSettingsState } from "@/state/settings";
-import { isOptimism } from "@/utils/deployments/is-mainnet";
-
-export const useEstimateTotalFeesInFiat = () => {
-  const from = useFromChain();
-  const to = useToChain();
-  const withdrawing = useIsWithdrawal();
-  const escapeHatch = useConfigState.useForceViaL1();
-
-  const deployment = useDeployment();
-
-  const fromFeeData = useEstimateFeesPerGas({ chainId: from?.id });
-  const toFeeData = useEstimateFeesPerGas({ chainId: to?.id });
-
-  const fromNativeToken = useNativeToken();
-  const toNativeToken = useToNativeToken();
-
-  const fromNativeTokenPrice = useTokenPrice(fromNativeToken ?? null);
-  const toNativeTokenPrice = useTokenPrice(toNativeToken ?? null);
-
-  const fromGasPrice =
-    fromFeeData.data?.gasPrice ?? fromFeeData.data?.maxFeePerGas ?? BigInt(0);
-  const toGasPrice =
-    toFeeData.data?.gasPrice ?? toFeeData.data?.maxFeePerGas ?? BigInt(0);
-
-  const fromGas = {
-    token: fromNativeToken,
-    price: fromNativeTokenPrice,
-    gasPrice: fromGasPrice,
-  };
-  const toGas = {
-    token: toNativeToken,
-    price: toNativeTokenPrice,
-    gasPrice: toGasPrice,
-  };
-
-  const { gas } = useBridge();
-  const initiateCost = {
-    gasToken: withdrawing && escapeHatch ? toGas : fromGas,
-    gasLimit: gas ?? BigInt(0),
-  };
-  const proveCost = { gasToken: toGas, gasLimit: PROVE_GAS };
-  const finalizeCost = {
-    gasToken: toGas,
-    gasLimit: FINALIZE_GAS,
-  };
-
-  const costs = [];
-  if (fromNativeTokenPrice && toNativeTokenPrice) {
-    costs.push(initiateCost);
-
-    if (withdrawing) {
-      if (deployment && isOptimism(deployment)) {
-        costs.push(proveCost);
-      }
-      costs.push(finalizeCost);
-    }
-  }
-
-  return costs.reduce((accum, { gasLimit, gasToken }) => {
-    if (!gasToken.price) return accum;
-
-    const nativeTokenAmount = gasLimit * gasToken.gasPrice;
-    const formattedAmount = parseFloat(
-      formatUnits(nativeTokenAmount, gasToken.token?.decimals ?? 18)
-    );
-    return gasToken.price * formattedAmount + accum;
-  }, 0);
-};
+import { formatDecimals } from "@/utils/format-decimals";
 
 export const ExpensiveGasModal = () => {
   const onProceed = useDismissAlert("gas-expensive");
@@ -97,7 +23,7 @@ export const ExpensiveGasModal = () => {
   const { t } = useTranslation();
   const token = useSelectedToken();
 
-  const totalBridgeFees = useEstimateTotalFeesInFiat();
+  const totalGasCosts = useEstimateTotalNetworkFees();
 
   const usdPrice = useTokenPrice(token);
 
@@ -105,12 +31,10 @@ export const ExpensiveGasModal = () => {
   const currency = useSettingsState.useCurrency();
 
   const tokenFiatAmount = usdPrice
-    ? `${currencySymbolMap[currency]}${(rawAmount * usdPrice).toLocaleString(
-        "en"
-      )}`
+    ? `${currencySymbolMap[currency]}${formatDecimals(rawAmount * usdPrice)}`
     : undefined;
 
-  const fees = `${currencySymbolMap[currency]}${totalBridgeFees.toLocaleString(
+  const fees = `${currencySymbolMap[currency]}${totalGasCosts.data?.toLocaleString(
     "en"
   )} `;
 

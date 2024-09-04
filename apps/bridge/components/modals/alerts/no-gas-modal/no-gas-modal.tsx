@@ -11,9 +11,9 @@ import { useCancelBridge } from "@/hooks/bridge/use-cancel-bridge";
 import { useDismissAlert } from "@/hooks/bridge/use-dismiss-alert";
 import { useIsCctpRoute } from "@/hooks/cctp/use-is-cctp-route";
 import { useDeployment } from "@/hooks/deployments/use-deployment";
+import { useToNativeToken } from "@/hooks/tokens/use-native-token";
 import { useSelectedToken } from "@/hooks/tokens/use-token";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
-import { useToNativeToken } from "@/hooks/use-native-token";
 import { useIsWithdrawal } from "@/hooks/use-withdrawing";
 import { useModalsState } from "@/state/modals";
 

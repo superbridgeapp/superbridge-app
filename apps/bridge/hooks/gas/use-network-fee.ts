@@ -9,9 +9,9 @@ import { useSettingsState } from "@/state/settings";
 import { formatDecimals } from "@/utils/format-decimals";
 import { isRouteQuote } from "@/utils/guards";
 
-import { useBridge } from "./bridge/use-bridge";
-import { useSelectedBridgeRoute } from "./routes/use-selected-bridge-route";
-import { useNativeTokenForChainId } from "./use-native-token";
+import { useBridge } from "../bridge/use-bridge";
+import { useSelectedBridgeRoute } from "../routes/use-selected-bridge-route";
+import { useNativeTokenForChainId } from "../tokens/use-native-token";
 
 export const useNetworkFee = () => {
   const route = useSelectedBridgeRoute();
