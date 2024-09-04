@@ -13,7 +13,6 @@ import { useTxAmount } from "@/hooks/activity/use-tx-amount";
 import { useTxDeployment } from "@/hooks/activity/use-tx-deployment";
 import { useTxDuration } from "@/hooks/activity/use-tx-duration";
 import { useTxFromTo } from "@/hooks/activity/use-tx-from-to";
-import { useTxProvider } from "@/hooks/activity/use-tx-provider";
 import { useTxTimestamp } from "@/hooks/activity/use-tx-timestamp";
 import { useTxToken } from "@/hooks/activity/use-tx-token";
 import { useModal } from "@/hooks/use-modal";
@@ -87,7 +86,10 @@ const useNextStateChangeTimestamp = (tx: Transaction) => {
   let description = "";
 
   if (isArbitrumWithdrawal(tx)) {
-    description = "In challenge period";
+    return {
+      description: "In challenge period",
+      timestamp: initiatingTx.timestamp + (deployment?.finalizeDuration ?? 0),
+    };
   } else if (isCctpBridge(tx)) {
     description = "Waiting for Circle attestation";
   } else {
@@ -307,10 +309,8 @@ export const TransactionRowV2 = ({ tx }: { tx: Transaction }) => {
 
   const isSuccessful = useIsSuccessfulBridge(tx);
   const isInProgress = useIsInProgress(tx);
-  const finalizingTx = useFinalisingTx(tx);
   const bars = useProgressBars(tx);
-  const provider = useTxProvider(tx);
-  
+
   return (
     <div
       className="bg-card w-full rounded-xl flex gap-2.5 lg:gap-4 p-5 md:p-6 relative"
