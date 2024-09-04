@@ -3,7 +3,7 @@ import { FC, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Lottie from "react-lottie-player";
 import { match } from "ts-pattern";
-import { Address, formatUnits, isAddressEqual } from "viem";
+import { Address, formatUnits, isAddressEqual, zeroAddress } from "viem";
 import { useChainId } from "wagmi";
 
 import {
@@ -368,7 +368,17 @@ function useToken(tx: Transaction, tokens: MultiChainToken[]) {
   }
 
   if (isAcrossBridge(tx)) {
-    if (tx.metadata.data.isEth) {
+    if (
+      tx.metadata.data.isEth ||
+      isAddressEqual(
+        tx.metadata.data.inputTokenAddress as Address,
+        zeroAddress
+      ) ||
+      isAddressEqual(
+        tx.metadata.data.outputTokenAddress as Address,
+        zeroAddress
+      )
+    ) {
       return getNativeToken(tokens, from.id);
     }
 
