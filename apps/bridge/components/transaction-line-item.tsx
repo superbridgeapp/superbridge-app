@@ -1,5 +1,6 @@
 import clsx from "clsx";
-import { formatDistanceToNowStrict } from "date-fns";
+import { formatDistance, formatDistanceStrict } from "date-fns";
+import { useEffect, useState } from "react";
 
 import {
   IconArrowUpRightCircle,
@@ -22,6 +23,7 @@ import {
   ActivityStep,
   ButtonComponent,
   TransactionStep,
+  WaitStep,
   isWaitStep,
   isWaitStepDone,
   isWaitStepInProgress,
@@ -37,47 +39,65 @@ import {
 } from "./transaction-buttons";
 import { Skeleton } from "./ui/skeleton";
 
-export function LineItem({
+function WaitLineItem({
   step,
-  tx,
 }: {
-  step: ActivityStep;
+  step: WaitStep;
   tx?: Pick<Transaction, "type">;
 }) {
-  if (isWaitStep(step)) {
-    const duration = formatDistanceToNowStrict(Date.now() - step.duration);
+  const [remainingDuration, setRemainingDuration] = useState<string | null>(
+    formatDistance(Date.now(), Date.now() + step.duration)
+  );
 
-    return (
-      <div className="flex gap-4 px-3 py-2 rounded-lg justify-start items-center w-full">
-        <div className="flex items-center gap-2 w-full">
-          <IconSimpleTime className="w-8 h-8 p-1 fill-foreground" />
+  useEffect(() => {
+    if (isWaitStepInProgress(step)) {
+      const updateDuration = () => {
+        const remaining = formatDistanceStrict(
+          Date.now(),
+          step.startedAt + step.duration,
+          {
+            addSuffix: false,
+          }
+        );
+        setRemainingDuration(remaining);
+      };
 
-          <span className="text-sm">Wait {duration}</span>
+      updateDuration();
+      const interval = setInterval(updateDuration, 1000);
 
-          <span className="ml-auto">
-            {isWaitStepDone(step) ? (
-              <IconCheckCircle className="w-6 h-6 fill-primary" />
-            ) : isWaitStepInProgress(step) ? (
-              <div className="flex items-center gap-1">
-                <span className="text-xs text-foreground">
-                  ~{formatDistanceToNowStrict(step.startedAt + step.duration)}{" "}
-                  to go
-                </span>
-                <IconSpinner className="h-6 w-6" />
-              </div>
-            ) : (
-              ""
-            )}
-          </span>
-        </div>
+      return () => clearInterval(interval);
+    }
+  }, [step]);
+
+  return (
+    <div className="flex gap-4 px-3 py-2 rounded-lg justify-start items-center w-full">
+      <div className="flex items-center gap-2 w-full">
+        <IconSimpleTime className="w-8 h-8 p-1 fill-foreground" />
+
+        <span className="text-sm">
+          Wait {formatDistanceStrict(Date.now(), Date.now() + step.duration)}
+        </span>
+
+        <span className="ml-auto">
+          {isWaitStepDone(step) ? (
+            <IconCheckCircle className="w-6 h-6 fill-primary" />
+          ) : isWaitStepInProgress(step) ? (
+            <div className="flex items-center gap-1">
+              <span className="text-xs text-foreground">
+                ~{remainingDuration} to go
+              </span>
+              <IconSpinner className="h-6 w-6" />
+            </div>
+          ) : (
+            ""
+          )}
+        </span>
       </div>
-    );
-  }
-
-  return <TransactionLineItem tx={tx} step={step} />;
+    </div>
+  );
 }
 
-export function TransactionLineItem({
+function TransactionLineItem({
   step,
   tx,
 }: {
@@ -181,4 +201,15 @@ export function TransactionLineItem({
       )}
     </div>
   );
+}
+
+export function LineItem(props: {
+  step: ActivityStep;
+  tx?: Pick<Transaction, "type">;
+}) {
+  if (isWaitStep(props.step)) {
+    return <WaitLineItem {...props} step={props.step} />;
+  }
+
+  return <TransactionLineItem {...props} step={props.step} />;
 }

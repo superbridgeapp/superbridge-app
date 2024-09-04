@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import { formatDistanceToNowStrict } from "date-fns";
+import { useEffect, useState } from "react";
 
 import {
   ConfirmationDto,
@@ -158,6 +159,24 @@ const ActionRow = ({ tx }: { tx: Transaction }) => {
   const status = useStatus(tx);
   const modal = useModal("TransactionDetails");
 
+  const [timeRemaining, setTimeRemaining] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (status && isWaitStatus(status)) {
+      const updateTimeRemaining = () => {
+        const remaining = formatDistanceToNowStrict(status.timestamp, {
+          addSuffix: false,
+        });
+        setTimeRemaining(remaining);
+      };
+
+      updateTimeRemaining();
+      const interval = setInterval(updateTimeRemaining, 5_000);
+
+      return () => clearInterval(interval);
+    }
+  }, [status]);
+
   if (!status) {
     return null;
   }
@@ -178,7 +197,7 @@ const ActionRow = ({ tx }: { tx: Transaction }) => {
           onClick={() => modal.open(getInitiatingHash(tx))}
         >
           <span className="text-xs lg:text-sm text-muted-foreground">
-            ~{formatDistanceToNowStrict((status as any).timestamp)} to go
+            ~{timeRemaining} to go
           </span>
           <IconSimpleTime className="w-6 h-6 fill-muted-foreground animate-wiggle-waggle" />
         </div>
