@@ -1,6 +1,7 @@
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import * as React from "react";
 
+import { useIsWidget } from "@/hooks/use-is-widget";
 import { cn } from "@/utils";
 
 const Dialog = DialogPrimitive.Root;
@@ -34,6 +35,7 @@ const DialogContent = React.forwardRef<
     hideCloseButton?: boolean;
   }
 >(({ className, children, ...props }, ref) => {
+  const isWidget = useIsWidget();
   return (
     <DialogPortal>
       <DialogOverlay />
@@ -41,6 +43,9 @@ const DialogContent = React.forwardRef<
         ref={ref}
         className={cn(
           `flex flex-col backdrop-blur-lg fixed left-[50%] bottom-[0] md:bottom-auto  md:top-[50%] z-50 h-auto max-h-[96dvh] md:max-h-[680px] w-screen md:w-[50vw] md:max-w-[420px] translate-x-[-50%] md:translate-y-[-50%]  p-0  shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-bottom-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-bottom-[48%] rounded-t-[21px] md:rounded-[32px] bg-card overflow-hidden overflow-y-auto`,
+          isWidget
+            ? "max-h-[100dvh] min-h-[100dvh]"
+            : "max-h-[96dvh] md:max-h-[680px]",
           className
         )}
         {...props}

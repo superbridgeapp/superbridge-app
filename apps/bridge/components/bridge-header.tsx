@@ -28,7 +28,12 @@ export const BridgeHeader = () => {
 
   return (
     <>
-      <div className="flex items-center justify-end gap-8 py-2 px-0.5">
+      <div
+        className={clsx(
+          "flex items-center justify-end gap-8 w-full",
+          isWidget ? "pt-4 -mb-2 px-2.5" : "px-0.5"
+        )}
+      >
         {(isSuperbridge && superbridgeTestnets) ||
         (!isSpecialApp &&
           deployments.length === 1 &&
