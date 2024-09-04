@@ -58,6 +58,7 @@ import {
   isRouteTransactionStep,
   isRouteWaitStep,
 } from "@/utils/guards";
+import { scaleToNativeTokenDecimals } from "@/utils/native-token-scaling";
 import { useProgressRows } from "@/utils/progress-rows";
 import {
   ActivityStep,
@@ -159,10 +160,14 @@ export const ConfirmationModalStartTab = () => {
     };
     gasLimit: bigint;
   }) => {
-    const nativeTokenAmount = gasLimit * gasToken.gasPrice;
-
     const formattedAmount = parseFloat(
-      formatUnits(nativeTokenAmount, gasToken.token?.decimals ?? 18)
+      formatUnits(
+        scaleToNativeTokenDecimals({
+          amount: gasLimit * gasToken.gasPrice,
+          decimals: gasToken.token?.decimals ?? 18,
+        }),
+        gasToken.token?.decimals ?? 18
+      )
     );
 
     if (!gasToken.price) {
@@ -203,7 +208,7 @@ export const ConfirmationModalStartTab = () => {
     if (
       isArbitrumDeposit &&
       deployment?.arbitrumNativeToken &&
-      !isEth(toToken)
+      isEth(toToken)
     ) {
       // gets handled by gasTokenApproval
       return false;

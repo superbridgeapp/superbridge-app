@@ -94,7 +94,7 @@ export const TokenInput = () => {
           >
             <TokenIcon
               token={token}
-              className="h-[20px] w-[20px] shrink-0 text-[6px]"
+              className="h-[20px] w-[20px] shrink-0 !text-[6px]"
             />
             {token?.symbol}
             <IconCaretDown className="w-3.5 h-3.5 fill-foreground" />
