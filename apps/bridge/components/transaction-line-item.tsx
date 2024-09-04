@@ -81,7 +81,8 @@ function WaitLineItem({
         <span className="ml-auto">
           {isWaitStepDone(step) ? (
             <IconCheckCircle className="w-6 h-6 fill-primary" />
-          ) : isWaitStepInProgress(step) ? (
+          ) : isWaitStepInProgress(step) &&
+            step.startedAt + step.duration > Date.now() ? (
             <div className="flex items-center gap-1">
               <span className="text-xs text-foreground">
                 ~{remainingDuration} to go

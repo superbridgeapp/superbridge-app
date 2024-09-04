@@ -2,8 +2,6 @@ import { BridgeConfigDto } from "@/codegen/model";
 
 import { isSuperbridge } from "../is-superbridge";
 
-const defaults = { fromChainId: 1, toChainId: 10 };
-
 export const parseInjectedChainIds = ({
   dto,
   host,
@@ -29,7 +27,7 @@ export const parseInjectedChainIds = ({
 
   let path = "";
   try {
-    path = new URL(url).pathname;
+    path = new URL(url, `https://${host}`).pathname;
   } catch {}
 
   // legacy setup was to have superbridge.app/network/
