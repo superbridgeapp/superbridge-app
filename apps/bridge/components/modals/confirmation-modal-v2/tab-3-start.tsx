@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { isPresent } from "ts-is-present";
@@ -21,7 +20,6 @@ import { LineItem } from "@/components/transaction-line-item";
 import { Button } from "@/components/ui/button";
 import {
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
@@ -506,17 +504,6 @@ export const ConfirmationModalStartTab = () => {
           />
         ))}
       </div>
-      {isSuperbridge && !isAcross && (withdrawing || isCctp) && (
-        <DialogFooter>
-          <Link
-            className={`mt-2 leading-3 text-center text-xs   cursor-pointer transition-all opacity-70 hover:opacity-100`}
-            href="/alternative-bridges"
-            target="_blank"
-          >
-            {t("confirmationModal.viewAlternateBridges")}
-          </Link>
-        </DialogFooter>
-      )}
     </div>
   );
 };

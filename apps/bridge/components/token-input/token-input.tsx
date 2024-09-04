@@ -84,7 +84,10 @@ export const TokenInput = () => {
           <div
             className={`flex shrink-0 relative gap-1 rounded-full py-2 pl-3 pr-4 items-center font-button transition-all text-foreground bg-card`}
           >
-            <TokenIcon token={token} className="h-[20px] w-[20px] shrink-0" />
+            <TokenIcon
+              token={token}
+              className="h-[20px] w-[20px] shrink-0 !text-[6px]"
+            />
             {token?.symbol}
           </div>
         ) : (
