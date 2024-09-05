@@ -9,7 +9,7 @@ import {
 export const superbridgeTheme: Partial<FrontendThemeDto> = {
   darkModeEnabled: true,
 
-  background: "hsl(282 100% 85%)",
+  background: "#A882FD",
   foreground: "hsl(240 10% 3.9%)",
   card: "hsl(0 0% 100%)",
   "card-foreground": "hsl(240 10% 3.9%)",

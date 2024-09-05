@@ -188,7 +188,7 @@ export const OpenActivity = ({}) => {
               }
 
               return (
-                <div className="flex flex-col gap-3 lg:gap-4 w-full px-2 max-w-2xl">
+                <div className="flex flex-col gap-3 lg:gap-4 w-full px-2 max-w-xl">
                   {[...pendingTransactions, ...transactions].map((t) => {
                     return (
                       <motion.div
@@ -198,7 +198,7 @@ export const OpenActivity = ({}) => {
                         // whileHover={{ scale: 1.03 }}
                         // whileTap={{ scale: 1 }}
                         className={
-                          "relative w-full h-full flex flex-col shrink-0 overflow-hidden rounded-2xl shadow-sm"
+                          "relative w-full h-full flex flex-col shrink-0 overflow-hidden rounded-3xl shadow-sm"
                         }
                       >
                         <TransactionRowV2 key={t.id} tx={t} />

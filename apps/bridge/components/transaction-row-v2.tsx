@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import { formatDistanceToNowStrict } from "date-fns";
+import { useEffect, useState } from "react";
 
 import {
   ConfirmationDto,
@@ -13,7 +14,6 @@ import { useTxAmount } from "@/hooks/activity/use-tx-amount";
 import { useTxDeployment } from "@/hooks/activity/use-tx-deployment";
 import { useTxDuration } from "@/hooks/activity/use-tx-duration";
 import { useTxFromTo } from "@/hooks/activity/use-tx-from-to";
-import { useTxProvider } from "@/hooks/activity/use-tx-provider";
 import { useTxTimestamp } from "@/hooks/activity/use-tx-timestamp";
 import { useTxToken } from "@/hooks/activity/use-tx-token";
 import { useModal } from "@/hooks/use-modal";
@@ -87,7 +87,10 @@ const useNextStateChangeTimestamp = (tx: Transaction) => {
   let description = "";
 
   if (isArbitrumWithdrawal(tx)) {
-    description = "In challenge period";
+    return {
+      description: "In challenge period",
+      timestamp: initiatingTx.timestamp + (deployment?.finalizeDuration ?? 0),
+    };
   } else if (isCctpBridge(tx)) {
     description = "Waiting for Circle attestation";
   } else {
@@ -156,6 +159,24 @@ const ActionRow = ({ tx }: { tx: Transaction }) => {
   const status = useStatus(tx);
   const modal = useModal("TransactionDetails");
 
+  const [timeRemaining, setTimeRemaining] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (status && isWaitStatus(status)) {
+      const updateTimeRemaining = () => {
+        const remaining = formatDistanceToNowStrict(status.timestamp, {
+          addSuffix: false,
+        });
+        setTimeRemaining(remaining);
+      };
+
+      updateTimeRemaining();
+      const interval = setInterval(updateTimeRemaining, 5_000);
+
+      return () => clearInterval(interval);
+    }
+  }, [status]);
+
   if (!status) {
     return null;
   }
@@ -176,7 +197,7 @@ const ActionRow = ({ tx }: { tx: Transaction }) => {
           onClick={() => modal.open(getInitiatingHash(tx))}
         >
           <span className="text-xs lg:text-sm text-muted-foreground">
-            ~{formatDistanceToNowStrict((status as any).timestamp)} to go
+            ~{timeRemaining} to go
           </span>
           <IconSimpleTime className="w-6 h-6 fill-muted-foreground animate-wiggle-waggle" />
         </div>
@@ -307,10 +328,8 @@ export const TransactionRowV2 = ({ tx }: { tx: Transaction }) => {
 
   const isSuccessful = useIsSuccessfulBridge(tx);
   const isInProgress = useIsInProgress(tx);
-  const finalizingTx = useFinalisingTx(tx);
   const bars = useProgressBars(tx);
-  const provider = useTxProvider(tx);
-  
+
   return (
     <div
       className="bg-card w-full rounded-xl flex gap-2.5 lg:gap-4 p-5 md:p-6 relative"

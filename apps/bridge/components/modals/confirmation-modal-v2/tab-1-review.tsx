@@ -22,15 +22,15 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useFeesForRoute } from "@/hooks/fees/use-fees";
+import { useNetworkFee } from "@/hooks/gas/use-network-fee";
 import { useSelectedBridgeRoute } from "@/hooks/routes/use-selected-bridge-route";
 import {
   useDestinationToken,
   useSelectedToken,
 } from "@/hooks/tokens/use-token";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
-import { useFeesForRoute } from "@/hooks/use-fees";
 import { useModal } from "@/hooks/use-modal";
-import { useNetworkFee } from "@/hooks/use-network-fee";
 import { usePeriodText } from "@/hooks/use-period-text";
 import { useReceiveAmount } from "@/hooks/use-receive-amount";
 import { useApproxTotalBridgeTime } from "@/hooks/use-transfer-time";
@@ -92,7 +92,7 @@ export const ConfirmationModalReviewTab = ({
               </span>
               <TokenIcon
                 token={selectedToken}
-                className="h-5 w-5 rounded-full text-[6px]"
+                className="h-5 w-5 rounded-full !text-[6px]"
               />
             </div>
           </div>
@@ -117,7 +117,7 @@ export const ConfirmationModalReviewTab = ({
               </span>
               <TokenIcon
                 token={destinationToken}
-                className="h-5 w-5 rounded-full text-[6px]"
+                className="h-5 w-5 rounded-full !text-[6px]"
               />
             </div>
           </div>

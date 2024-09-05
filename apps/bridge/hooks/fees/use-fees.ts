@@ -10,8 +10,8 @@ import { useSettingsState } from "@/state/settings";
 import { formatDecimals } from "@/utils/format-decimals";
 import { isRouteQuote } from "@/utils/guards";
 
-import { useDestinationToken, useSelectedToken } from "./tokens/use-token";
-import { useFromChain } from "./use-chain";
+import { useDestinationToken, useSelectedToken } from "../tokens/use-token";
+import { useFromChain } from "../use-chain";
 
 export const useFees = () => {
   const route = useSelectedBridgeRoute();
@@ -94,8 +94,9 @@ export const useFeesForRoute = (route: {
       : null;
 
   const totalToken = fees.reduce((acc, f) => f.token.amount + acc, 0);
-  const totalTokenFormatted = `${formatDecimals(totalToken)} ${fees[0]?.token
-    .token?.symbol}`;
+  const totalTokenFormatted = `${formatDecimals(totalToken)} ${
+    fees[0]?.token.token?.symbol
+  }`;
 
   return {
     isLoading: false,

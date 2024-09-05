@@ -7,9 +7,8 @@ import { useIsCustomToken } from "@/hooks/tokens/use-is-custom-token";
 import { useIsCustomTokenFromList } from "@/hooks/tokens/use-is-custom-token-from-list";
 import { useSelectedToken } from "@/hooks/tokens/use-token";
 import { useTokenBalance } from "@/hooks/use-balances";
-import { useGetFormattedAmount } from "@/hooks/use-get-formatted-amount";
 import { useModal } from "@/hooks/use-modal";
-import { useWeiAmount } from "@/hooks/use-wei-amount";
+import { useSendAmount } from "@/hooks/use-send-amount";
 import { useConfigState } from "@/state/config";
 import { formatDecimals } from "@/utils/format-decimals";
 import { isEth } from "@/utils/tokens/is-eth";
@@ -20,29 +19,23 @@ import { Skeleton } from "../ui/skeleton";
 import { Recipient } from "./recipient";
 
 export const TokenInput = () => {
-  const token = useSelectedToken();
   const { t } = useTranslation();
+  const account = useAccount();
+  const token = useSelectedToken();
   const tokens = useActiveTokens();
-
-  const rawAmount = useConfigState.useRawAmount();
-  const setRawAmount = useConfigState.useSetRawAmount();
+  const amount = useSendAmount();
   const tokenSelectorModal = useModal("TokenSelector");
-  const weiAmount = useWeiAmount();
-
   const tokenBalance = useTokenBalance(token);
-  const getFormattedAmount = useGetFormattedAmount(token);
-
   const isCustomToken = useIsCustomToken(token);
   const isCustomTokenFromList = useIsCustomTokenFromList(token);
 
-  const account = useAccount();
+  const rawAmount = useConfigState.useRawAmount();
+  const setRawAmount = useConfigState.useSetRawAmount();
 
   const formattedTokenBalance = formatUnits(
     tokenBalance.data,
     token?.decimals ?? 18
   );
-
-  const amount = getFormattedAmount(weiAmount.toString());
 
   return (
     <div
@@ -84,7 +77,10 @@ export const TokenInput = () => {
           <div
             className={`flex shrink-0 relative gap-1 rounded-full py-2 pl-3 pr-4 items-center font-button transition-all text-foreground bg-card`}
           >
-            <TokenIcon token={token} className="h-[20px] w-[20px] shrink-0" />
+            <TokenIcon
+              token={token}
+              className="h-[20px] w-[20px] shrink-0 !text-[6px]"
+            />
             {token?.symbol}
           </div>
         ) : (
@@ -94,7 +90,7 @@ export const TokenInput = () => {
           >
             <TokenIcon
               token={token}
-              className="h-[20px] w-[20px] shrink-0 text-[6px]"
+              className="h-[20px] w-[20px] shrink-0 !text-[6px]"
             />
             {token?.symbol}
             <IconCaretDown className="w-3.5 h-3.5 fill-foreground" />

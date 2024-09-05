@@ -1,17 +1,15 @@
 import { useAccount, useBalance } from "wagmi";
 
-import { useEstimateTotalFeesInFiat } from "@/components/modals/alerts/expensive-gas-modal";
-import { SUPERCHAIN_MAINNETS } from "@/constants/superbridge";
 import { useToChain } from "@/hooks/use-chain";
 import { useFaultProofUpgradeTime } from "@/hooks/use-fault-proof-upgrade-time";
-import { useReceiveAmount } from "@/hooks/use-receive-amount";
 import { AlertName, useModalsState } from "@/state/modals";
 import { isEth } from "@/utils/tokens/is-eth";
 
-import { useIsSuperbridge } from "../apps/use-is-superbridge";
 import { useIsCctpRoute } from "../cctp/use-is-cctp-route";
 import { useDeployment } from "../deployments/use-deployment";
+import { useEstimateTotalNetworkFees } from "../gas/use-total-network-fees";
 import { useDestinationToken } from "../tokens/use-token";
+import { useSendAmount } from "../use-send-amount";
 import { useIsWithdrawal } from "../use-withdrawing";
 import { useInitiateBridge } from "./use-initiate-bridge";
 
@@ -20,7 +18,6 @@ export const useSubmitBridge = () => {
   const to = useToChain();
   const deployment = useDeployment();
   const initiateBridge = useInitiateBridge();
-  const isSuperbridge = useIsSuperbridge();
 
   const withdrawing = useIsWithdrawal();
   const destinationToken = useDestinationToken();
@@ -33,9 +30,9 @@ export const useSubmitBridge = () => {
     chainId: to?.id,
   });
 
-  const receive = useReceiveAmount();
-  const totalFeesInFiat = useEstimateTotalFeesInFiat();
-  const fiatValueBeingBridged = receive.data?.fiat?.amount ?? null;
+  const sendAmount = useSendAmount();
+  const fiatValueBeingBridged = sendAmount.data?.fiat?.amount ?? null;
+  const totalNetworkFees = useEstimateTotalNetworkFees();
 
   return () => {
     const modals: AlertName[] = [];
@@ -43,7 +40,7 @@ export const useSubmitBridge = () => {
     const needDestinationGasConditions = [
       withdrawing, // need to prove/finalize
       isCctp, // need to mint
-      !withdrawing && !isEth(destinationToken), // depositing an ERC20 with no gas on the destination (won't be able to do anything with it)
+      !isEth(destinationToken), // bridging an ERC20 with no gas on the destination (won't be able to do anything with it)
     ];
     if (
       needDestinationGasConditions.some((x) => x) &&
@@ -53,11 +50,9 @@ export const useSubmitBridge = () => {
     }
 
     if (
-      totalFeesInFiat &&
       fiatValueBeingBridged &&
-      totalFeesInFiat > fiatValueBeingBridged &&
-      isSuperbridge &&
-      SUPERCHAIN_MAINNETS.includes(deployment?.name ?? "")
+      totalNetworkFees.data &&
+      totalNetworkFees.data > fiatValueBeingBridged
     ) {
       modals.push("gas-expensive");
     }

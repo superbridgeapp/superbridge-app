@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { isPresent } from "ts-is-present";
@@ -21,7 +20,6 @@ import { LineItem } from "@/components/transaction-line-item";
 import { Button } from "@/components/ui/button";
 import {
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
@@ -34,6 +32,10 @@ import { useCustomGasTokenAddress } from "@/hooks/custom-gas-token/use-custom-ga
 import { useDeployment } from "@/hooks/deployments/use-deployment";
 import { useSelectedBridgeRoute } from "@/hooks/routes/use-selected-bridge-route";
 import {
+  useNativeToken,
+  useToNativeToken,
+} from "@/hooks/tokens/use-native-token";
+import {
   useDestinationToken,
   useSelectedToken,
 } from "@/hooks/tokens/use-token";
@@ -42,7 +44,6 @@ import { useAllowanceGasToken } from "@/hooks/use-allowance-gas-token";
 import { useApprove } from "@/hooks/use-approve";
 import { useApproveGasToken } from "@/hooks/use-approve-gas-token";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
-import { useNativeToken, useToNativeToken } from "@/hooks/use-native-token";
 import { useTokenPrice } from "@/hooks/use-prices";
 import { useReceiveAmount } from "@/hooks/use-receive-amount";
 import { useRequiredCustomGasTokenBalance } from "@/hooks/use-required-custom-gas-token-balance";
@@ -58,6 +59,7 @@ import {
   isRouteTransactionStep,
   isRouteWaitStep,
 } from "@/utils/guards";
+import { scaleToNativeTokenDecimals } from "@/utils/native-token-scaling";
 import { useProgressRows } from "@/utils/progress-rows";
 import {
   ActivityStep,
@@ -159,10 +161,14 @@ export const ConfirmationModalStartTab = () => {
     };
     gasLimit: bigint;
   }) => {
-    const nativeTokenAmount = gasLimit * gasToken.gasPrice;
-
     const formattedAmount = parseFloat(
-      formatUnits(nativeTokenAmount, gasToken.token?.decimals ?? 18)
+      formatUnits(
+        scaleToNativeTokenDecimals({
+          amount: gasLimit * gasToken.gasPrice,
+          decimals: gasToken.token?.decimals ?? 18,
+        }),
+        gasToken.token?.decimals ?? 18
+      )
     );
 
     if (!gasToken.price) {
@@ -203,7 +209,7 @@ export const ConfirmationModalStartTab = () => {
     if (
       isArbitrumDeposit &&
       deployment?.arbitrumNativeToken &&
-      !isEth(toToken)
+      isEth(toToken)
     ) {
       // gets handled by gasTokenApproval
       return false;
@@ -501,17 +507,6 @@ export const ConfirmationModalStartTab = () => {
           />
         ))}
       </div>
-      {isSuperbridge && !isAcross && (withdrawing || isCctp) && (
-        <DialogFooter>
-          <Link
-            className={`mt-2 leading-3 text-center text-xs   cursor-pointer transition-all opacity-70 hover:opacity-100`}
-            href="/alternative-bridges"
-            target="_blank"
-          >
-            {t("confirmationModal.viewAlternateBridges")}
-          </Link>
-        </DialogFooter>
-      )}
     </div>
   );
 };

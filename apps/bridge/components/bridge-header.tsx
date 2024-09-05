@@ -11,7 +11,7 @@ import { useConfigState } from "@/state/config";
 import { useInjectedStore } from "@/state/injected";
 
 import { TestnetBadge } from "./badges/testnet-badge";
-import { IconActivity, IconSettings } from "./icons";
+import { IconActivity, IconSettings, IconSpinner } from "./icons";
 
 export const BridgeHeader = () => {
   const setDisplayTransactions = useConfigState.useSetDisplayTransactions();
@@ -55,18 +55,17 @@ export const BridgeHeader = () => {
             <IconActivity
               className={clsx(
                 inProgressCount > 0
-                  ? "fill-foreground animate-wiggle-waggle"
+                  ? "fill-foreground"
                   : "fill-muted-foreground",
                 "group-hover:fill-foreground group-hover:animate-wiggle-waggle transition-all h-5 w-5 shrink-0"
               )}
             />
             {inProgressCount > 0 && (
-              <div className="flex items-center gap-1">
-                <span className="text-xs font-body leading-none">
-                  {actionRequiredCount > 0
-                    ? "Action required"
-                    : `${inProgressCount} active`}
+              <div className="flex items-center gap-1.5 pr-1.5 pl-2.5 h-5 rounded-full bg-primary">
+                <span className="text-[10px] leading-none text-primary-foreground">
+                  {actionRequiredCount > 0 ? "Action needed" : inProgressCount}
                 </span>
+                <IconSpinner className="w-2.5 h-2.5 text-primary-foreground" />
               </div>
             )}
           </button>

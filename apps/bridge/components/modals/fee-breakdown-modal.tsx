@@ -1,7 +1,7 @@
 import { Trans, useTranslation } from "react-i18next";
 
 import { useIsAcrossRoute } from "@/hooks/across/use-is-across-route";
-import { useFees } from "@/hooks/use-fees";
+import { useFees } from "@/hooks/fees/use-fees";
 import { useModal } from "@/hooks/use-modal";
 
 import { IconSimpleFees, IconSpinner } from "../icons";
