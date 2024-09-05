@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 import { ThemeDto } from "@/codegen/model";
@@ -49,6 +50,7 @@ function updateTheme(theme: ThemeDto) {
 
 export const useInitialiseTheme = () => {
   const app = useApp();
+  const router = useRouter();
   const [themeValues, setThemeValues] = useState<Partial<ThemeDto> | null>({
     ...app.theme,
     imageLogo: app.images.logoLight || app.theme.imageLogo,
@@ -58,6 +60,16 @@ export const useInitialiseTheme = () => {
   useEffect(() => {
     if (app) {
       updateTheme(app.theme);
+    }
+
+    const theme = router.query.theme;
+    if (theme) {
+      try {
+        const parsed: Partial<ThemeDto> = JSON.parse(
+          router.query.theme as string
+        );
+        updateTheme(parsed);
+      } catch {}
     }
   }, [app]);
 
