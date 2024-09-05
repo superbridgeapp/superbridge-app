@@ -128,6 +128,7 @@ export const frontendApps: { [x: string]: AppConfig | undefined } = {
   [SUPERBRIDGE_HOST]: superbidge,
   [SUPERBRIDGE_TESTNET_HOST]: superbidge,
   [V3_SUPERBRIDGE_HOST]: superbidge,
+  ["usdc.superbridge.app"]: usdc,
   ["renzo.superbridge.app"]: renzo,
   ["hyperlane.superbridge.app"]: hyperlane,
   ["elixir.superbridge.app"]: elixir,
