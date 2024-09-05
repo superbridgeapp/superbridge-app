@@ -2,6 +2,7 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 import { useIsSuperbridge } from "@/hooks/apps/use-is-superbridge";
 import { useDeployments } from "@/hooks/deployments/use-deployments";
+import { useIsWidget } from "@/hooks/use-is-widget";
 import { useNavigate } from "@/hooks/use-navigate";
 import { useNavIcon } from "@/hooks/use-theme";
 
@@ -14,6 +15,12 @@ export function Header() {
   const navigate = useNavigate();
   const isSuperbridge = useIsSuperbridge();
   const navIcon = useNavIcon();
+
+  const widget = useIsWidget();
+
+  if (widget) {
+    return null;
+  }
 
   return (
     <nav className="flex justify-between items-center p-3 md:p-6 fixed top-0 left-0 w-screen z-10">

@@ -13,7 +13,7 @@ export const createInjectedState = (props: {
   const { dto, host } = props;
 
   const app = parseApp(props);
-  const { fromChainId, toChainId } = parseInjectedChainIds(props);
+  const { fromChainId, toChainId, widget } = parseInjectedChainIds(props);
   const superbridgeTestnets = parseSuperbridgeTestnets(
     { fromChainId, toChainId },
     props
@@ -35,5 +35,6 @@ export const createInjectedState = (props: {
     app,
     chains: dto?.chains ?? [],
     host,
+    widget,
   };
 };

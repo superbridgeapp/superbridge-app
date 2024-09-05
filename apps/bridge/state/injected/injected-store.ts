@@ -27,6 +27,8 @@ export type InjectedState = {
 
   app: AppConfig;
   host: string;
+
+  widget: boolean;
 };
 
 export type InjectedActions = {

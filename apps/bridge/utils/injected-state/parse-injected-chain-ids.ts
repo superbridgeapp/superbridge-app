@@ -10,8 +10,14 @@ export const parseInjectedChainIds = ({
   dto: BridgeConfigDto | null;
   host: string;
   url: string;
-}): { fromChainId: number; toChainId: number } => {
+}): { fromChainId: number; toChainId: number; widget: boolean } => {
   const search = new URLSearchParams(url.split("?")[1]);
+
+  let widget = false;
+
+  if (search.has("widget")) {
+    widget = search.get("widget") === "true";
+  }
 
   if (search.has("fromChainId") || search.has("toChainId")) {
     const searchParams = search;
@@ -20,6 +26,7 @@ export const parseInjectedChainIds = ({
     const toChainId = searchParams.get("toChainId") || "10";
 
     return {
+      widget,
       fromChainId: parseInt(fromChainId),
       toChainId: parseInt(toChainId),
     };
@@ -45,11 +52,13 @@ export const parseInjectedChainIds = ({
       if (deployment) {
         if (search.get("direction") === "withdraw") {
           return {
+            widget,
             fromChainId: deployment.l2ChainId,
             toChainId: deployment.l1ChainId,
           };
         }
         return {
+          widget,
           fromChainId: deployment.l1ChainId,
           toChainId: deployment.l2ChainId,
         };
@@ -60,5 +69,6 @@ export const parseInjectedChainIds = ({
   return {
     fromChainId: dto?.initialFromChainId ?? 1,
     toChainId: dto?.initialToChainId ?? 10,
+    widget,
   };
 };

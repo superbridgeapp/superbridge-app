@@ -13,14 +13,14 @@ export const useTransformPeriodText = () => {
             count: period.value,
           }).toString()
         : period?.period === "hours"
-        ? t(`${str}Hours`, {
-            ...args,
-            count: period.value,
-          }).toString()
-        : t(`${str}Days`, {
-            ...args,
-            count: period?.value,
-          }).toString();
+          ? t(`${str}Hours`, {
+              ...args,
+              count: period.value,
+            }).toString()
+          : t(`${str}Days`, {
+              ...args,
+              count: period?.value,
+            }).toString();
     return value ?? "";
   };
 };
