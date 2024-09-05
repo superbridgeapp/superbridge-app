@@ -31,7 +31,7 @@ export const useSubmitBridge = () => {
   });
 
   const sendAmount = useSendAmount();
-  const fiatValueBeingBridged = sendAmount.data?.fiat?.amount ?? null;
+  const fiatValueBeingBridged = sendAmount?.fiat?.amount ?? null;
   const totalNetworkFees = useEstimateTotalNetworkFees();
 
   return () => {
