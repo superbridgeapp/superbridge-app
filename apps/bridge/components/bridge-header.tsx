@@ -32,6 +32,7 @@ import {
 export const BridgeHeader = () => {
   const setDisplayTransactions = useConfigState.useSetDisplayTransactions();
   const settingsModal = useModal("Settings");
+  const legalModal = useModal("Legal");
 
   const { inProgressCount, actionRequiredCount } = useTransactions();
 
@@ -60,15 +61,6 @@ export const BridgeHeader = () => {
             <TestnetBadge />
           </div>
         ) : null}
-
-        {/* {account.address && isWidget && (
-          <div className="pl-0.5 mr-auto">
-            <span className="bg-muted rounded-full text-xs text-muted-foreground px-3 py-1 h-6">
-              {account.address.slice(0, 4)}&hellip;
-              {account.address.slice(account.address.length - 4)}
-            </span>
-          </div>
-        )} */}
 
         <div className="flex gap-1.5 items-center">
           <button
@@ -146,7 +138,7 @@ export const BridgeHeader = () => {
                   </Link>
                   <button
                     className=" text-xs  leading-none w-full flex gap-2 items-center"
-                    // onClick={() => legalModal.open()}
+                    onClick={() => legalModal.open()}
                   >
                     <IconArrowUpRight className="mx-0.5 h-3 w-3 w-auto fill-muted-foreground" />
                     <span>Legal</span>
