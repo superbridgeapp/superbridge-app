@@ -11,6 +11,7 @@ import ReactMarkdown from "react-markdown";
 
 import { useIsSuperbridge } from "@/hooks/apps/use-is-superbridge";
 import { useDeployment } from "@/hooks/deployments/use-deployment";
+import { useIsWidget } from "@/hooks/use-is-widget";
 import { useMetadata } from "@/hooks/use-metadata";
 import { useModal } from "@/hooks/use-modal";
 import { useSettingsState } from "@/state/settings";
@@ -27,6 +28,7 @@ export const TosModal = () => {
   const metadata = useMetadata();
   const deployment = useDeployment();
   const isSuperbridge = useIsSuperbridge();
+  const widget = useIsWidget();
 
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -206,8 +208,10 @@ export const TosModal = () => {
     });
   }
 
+  const open = widget ? false : !hasViewedTos;
+
   return (
-    <Dialog open={!hasViewedTos} onOpenChange={() => {}}>
+    <Dialog open={open} onOpenChange={() => {}}>
       <DialogContent
         hideCloseButton
         onOpenAutoFocus={(e) => e.preventDefault()}
