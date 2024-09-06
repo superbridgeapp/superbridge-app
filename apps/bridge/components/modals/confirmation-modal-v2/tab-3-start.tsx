@@ -5,12 +5,7 @@ import { match } from "ts-pattern";
 import { formatUnits } from "viem";
 import { useAccount, useEstimateFeesPerGas } from "wagmi";
 
-import {
-  ChainNativeCurrencyDto,
-  DeploymentFamily,
-  RouteProvider,
-  RouteStepType,
-} from "@/codegen/model";
+import { ChainNativeCurrencyDto, RouteStepType } from "@/codegen/model";
 import { IconCheckCircle } from "@/components/icons";
 import { NetworkIcon } from "@/components/network-icon";
 import { RouteProviderName } from "@/components/route-provider-icon";
@@ -74,7 +69,6 @@ export const ConfirmationModalStartTab = () => {
   const allowance = useAllowance();
   const approve = useApprove();
   const { t } = useTranslation();
-  const isSuperbridge = useIsSuperbridge();
 
   const currency = useSettingsState.useCurrency();
   const open = useConfigState.useDisplayConfirmationModal();
@@ -92,7 +86,6 @@ export const ConfirmationModalStartTab = () => {
   const weiAmount = useWeiAmount();
   const account = useAccount();
   const receive = useReceiveAmount();
-  const token = useSelectedToken();
   const deployment = useDeployment();
   const customGasToken = useCustomGasTokenAddress(deployment?.id);
   const route = useSelectedBridgeRoute();
@@ -214,14 +207,25 @@ export const ConfirmationModalStartTab = () => {
       // gets handled by gasTokenApproval
       return false;
     }
-    return !approved;
+    if (
+      fromToken?.address &&
+      fromToken.lz?.adapter &&
+      fromToken?.address === fromToken.lz?.adapter
+    ) {
+      return false;
+    }
+    if (
+      fromToken?.address &&
+      fromToken.hyperlane?.router &&
+      fromToken?.address === fromToken.hyperlane?.router
+    ) {
+      return false;
+    }
+
+    return true;
   })();
   const needsGasTokenApprove = (() => {
-    return (
-      isArbitrumDeposit &&
-      !!deployment?.arbitrumNativeToken &&
-      !approvedGasToken
-    );
+    return isArbitrumDeposit && !!deployment?.arbitrumNativeToken;
   })();
 
   const approveGasTokenButton = match({
@@ -230,11 +234,9 @@ export const ConfirmationModalStartTab = () => {
     family: deployment?.family,
     approved: approvedGasToken,
     approving: approveGasToken.isLoading,
+    needsGasTokenApprove,
   })
-    .with({ withdrawing: true }, () => null)
-    .with({ customGasToken: null }, () => null)
-    .with({ family: undefined }, () => null)
-    .with({ family: DeploymentFamily.optimism }, () => null)
+    .with({ needsGasTokenApprove: false }, () => null)
     .with({ approving: true }, () => ({
       onSubmit: () => {},
       buttonText: "Approving",
@@ -263,16 +265,9 @@ export const ConfirmationModalStartTab = () => {
     approving: approve.isLoading,
     bridge,
     withdrawing,
-    isNativeToken: isEth(token),
-    isDepositingCustomGasToken:
-      deployment?.family === DeploymentFamily.arbitrum &&
-      !!deployment?.arbitrumNativeToken &&
-      !!token &&
-      deployment.arbitrumNativeToken.address.toLowerCase() ===
-        token.address.toLowerCase(),
+    needsApprove,
   })
-    .with({ isDepositingCustomGasToken: true }, () => null)
-    .with({ isNativeToken: true }, () => null)
+    .with({ needsApprove: false }, () => null)
     .with({ approving: true }, () => ({
       onSubmit: () => {},
       buttonText: "Approving",
@@ -302,7 +297,9 @@ export const ConfirmationModalStartTab = () => {
 
   const initiateButton = match({
     needsApprove,
+    approved,
     needsGasTokenApprove,
+    approvedGasToken,
     withdrawing,
     submitting,
   })
@@ -311,26 +308,27 @@ export const ConfirmationModalStartTab = () => {
       buttonText: t("bridging"),
       disabled: true,
     }))
-    .with({ needsApprove: true }, { needsGasTokenApprove: true }, () => ({
-      onSubmit: () => {},
-      buttonText: t("confirmationModal.initiateBridge"),
-      disabled: true,
-    }))
+    .with(
+      { needsApprove: true, approved: false },
+      { needsGasTokenApprove: true, approvedGasToken: false },
+      () => ({
+        onSubmit: () => {},
+        buttonText: t("confirmationModal.initiateBridge"),
+        disabled: true,
+      })
+    )
     .otherwise(() => ({
       onSubmit: onSubmitBridge,
       buttonText: t("confirmationModal.initiateBridge"),
       disabled: false,
     }));
 
-  const isAcross = route.data?.id === RouteProvider.Across;
-  const isCctp = route.data?.id === RouteProvider.Cctp;
-
   const common = {
     from: from?.name,
     to: to?.name,
     base: deployment?.l1.name,
     rollup: deployment?.l2.name,
-    symbol: token?.symbol,
+    symbol: fromToken?.symbol,
     receiveAmount: receive.data?.token.amount,
     receiveSymbol: toToken?.symbol,
     formatted: toToken?.symbol,
@@ -407,9 +405,9 @@ export const ConfirmationModalStartTab = () => {
   return (
     <div>
       <DialogHeader className="items-center">
-        <TokenIcon token={token} className="h-14 w-14 mb-2" />
+        <TokenIcon token={fromToken} className="h-14 w-14 mb-2" />
         <DialogTitle className="text-3xl text-center">
-          Bridge {rawAmount} {token?.symbol}
+          Bridge {rawAmount} {fromToken?.symbol}
         </DialogTitle>
         <DialogDescription>
           <div className="flex gap-1 items-center rounded-sm border pl-1 pr-2 py-1">
@@ -430,7 +428,7 @@ export const ConfirmationModalStartTab = () => {
             <LineItem
               step={{
                 label: t("confirmationModal.approveGasToken", {
-                  symbol: token?.symbol,
+                  symbol: fromToken?.symbol,
                 }),
                 chain: from,
                 fee: approvedGasToken ? undefined : fee(approveGasTokenCost),
@@ -468,7 +466,7 @@ export const ConfirmationModalStartTab = () => {
             <LineItem
               step={{
                 label: t("confirmationModal.approve", {
-                  symbol: token?.symbol,
+                  symbol: fromToken?.symbol,
                 }),
                 chain: from,
                 fee: approved ? undefined : fee(approveCost),
