@@ -54,6 +54,13 @@ const useNextStateChangeTimestamp = (tx: Transaction) => {
   }
 
   if (isOptimismWithdrawal(tx) || isOptimismForcedWithdrawal(tx)) {
+    if (isOptimismForcedWithdrawal(tx) && !tx.withdrawal) {
+      return {
+        description: "Waiting for rollup withdrawal",
+        timestamp: initiatingTx.timestamp + (deployment?.depositDuration ?? 0),
+      };
+    }
+
     const withdrawal = isOptimismWithdrawal(tx) ? tx : tx.withdrawal;
     const status = isOptimismWithdrawal(tx) ? tx.status : tx.withdrawal?.status;
     if (!withdrawal || !status) {

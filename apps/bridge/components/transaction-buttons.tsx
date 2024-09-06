@@ -33,11 +33,11 @@ export const ProveButton = (props: TxButtonProps) => {
   );
 };
 
-export const FinaliseButton = (props: TxButtonProps) => {
+export const ClaimButton = (props: TxButtonProps) => {
   const { t } = useTranslation();
   return (
     <Button onClick={props.onClick} size={"sm"} disabled={props.disabled}>
-      {t("buttons.finalize")}
+      {t("buttons.claim")}
     </Button>
   );
 };
@@ -49,7 +49,7 @@ export const Prove = ({
   tx: BridgeWithdrawalDto | ForcedWithdrawalDto;
   enabled: boolean;
 }) => {
-  const prove = useProveOptimism(isWithdrawal(tx) ? tx : tx.withdrawal!);
+  const prove = useProveOptimism(isWithdrawal(tx) ? tx : tx.withdrawal);
   return (
     <ProveButton onClick={prove.onProve} disabled={prove.loading || !enabled} />
   );
@@ -62,9 +62,9 @@ export const Finalise = ({
   tx: BridgeWithdrawalDto | ForcedWithdrawalDto;
   enabled: boolean;
 }) => {
-  const finalise = useFinaliseOptimism(isWithdrawal(tx) ? tx : tx.withdrawal!);
+  const finalise = useFinaliseOptimism(isWithdrawal(tx) ? tx : tx.withdrawal);
   return (
-    <FinaliseButton
+    <ClaimButton
       onClick={finalise.onFinalise}
       disabled={finalise.loading || !enabled}
     />

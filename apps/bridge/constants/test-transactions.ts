@@ -2,6 +2,7 @@ import { zeroAddress } from "viem";
 
 import {
   BridgeWithdrawalDto,
+  ForcedWithdrawalDto,
   OptimismTransactionType,
   PortalDepositDto,
   TransactionStatus,
@@ -94,15 +95,36 @@ const completedWithdrawal: BridgeWithdrawalDto = {
   status: MessageStatus.RELAYED,
 };
 
-export const MOCK_TRANSACTIONS: Transaction[] = [
-  justSubmittedDeposit,
-  submittedDeposit,
-  successfulDeposit,
+const justSubmittedForceWithdrawal: ForcedWithdrawalDto = {
+  id: "123",
+  type: "forced-withdrawal",
+  deposit: justSubmittedDeposit,
+};
+const forcedWithdrawalWaitingForWithdrawal: ForcedWithdrawalDto = {
+  id: "124",
+  type: "forced-withdrawal",
+  deposit: successfulDeposit,
+};
+const completedForceWithdrawal: ForcedWithdrawalDto = {
+  id: "125",
+  type: "forced-withdrawal",
+  deposit: successfulDeposit,
+  withdrawal: completedWithdrawal,
+};
 
-  justSubmittedWithdrawal,
-  waitingForStateRootWithdrawal,
-  readyToProveWithdrawal,
-  challengePeriodWithdrawal,
-  readyToFinalizeWithdrawal,
-  completedWithdrawal,
+export const MOCK_TRANSACTIONS: Transaction[] = [
+  // justSubmittedDeposit,
+  // submittedDeposit,
+  // successfulDeposit,
+
+  // justSubmittedWithdrawal,
+  // waitingForStateRootWithdrawal,
+  // readyToProveWithdrawal,
+  // challengePeriodWithdrawal,
+  // readyToFinalizeWithdrawal,
+  // completedWithdrawal,
+
+  justSubmittedForceWithdrawal,
+  forcedWithdrawalWaitingForWithdrawal,
+  completedForceWithdrawal,
 ];

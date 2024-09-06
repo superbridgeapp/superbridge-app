@@ -135,6 +135,7 @@
 
   "buttons": {
     "finalize": "Finalize",
+    "claim": "Claim",
     "prove": "Prove",
     "redeem": "Redeem",
     "switchChain": "Switch chain",

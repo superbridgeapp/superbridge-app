@@ -1,13 +1,15 @@
 import { useTranslation } from "react-i18next";
 
-import { DeploymentDto } from "@/codegen/model";
+import {
+  BridgeWithdrawalDto,
+  ConfirmationDto,
+  DeploymentDto,
+} from "@/codegen/model";
 import { FINALIZE_GAS, PROVE_GAS } from "@/constants/gas-limits";
 import { MessageStatus } from "@/constants/optimism-message-status";
 import { useChain } from "@/hooks/use-chain";
 import { usePendingTransactions } from "@/state/pending-txs";
-import { Transaction } from "@/types/transaction";
 
-import { isOptimismWithdrawal } from "../guards";
 import {
   ActivityStep,
   ButtonComponent,
@@ -16,7 +18,11 @@ import {
 } from "./common";
 
 export const useOptimismWithdrawalProgressRows = (
-  w: Transaction | null,
+  id: string | null,
+  status: BridgeWithdrawalDto["status"] | null,
+  withdrawal: ConfirmationDto | null,
+  prove: ConfirmationDto | null,
+  finalise: ConfirmationDto | null,
   deployment: DeploymentDto | null
 ): ActivityStep[] | null => {
   const pendingFinalises = usePendingTransactions.usePendingFinalises();
@@ -25,65 +31,65 @@ export const useOptimismWithdrawalProgressRows = (
   const l1 = useChain(deployment?.l1ChainId);
   const l2 = useChain(deployment?.l2ChainId);
 
-  if (!w || !isOptimismWithdrawal(w) || !deployment || !l1 || !l2) {
+  if (!deployment || !l1 || !l2) {
     return null;
   }
 
-  const pendingProve = pendingProves[w?.id ?? ""];
-  const pendingFinalise = pendingFinalises[w?.id ?? ""];
+  const pendingProve = pendingProves[id ?? ""];
+  const pendingFinalise = pendingFinalises[id ?? ""];
 
-  const withdraw: TransactionStep = {
+  const withdrawStep: TransactionStep = {
     label: "Start bridge",
-    hash: w.withdrawal.timestamp ? w.withdrawal.transactionHash : undefined,
-    pendingHash: w.withdrawal.timestamp
+    hash: withdrawal?.timestamp ? withdrawal?.transactionHash : undefined,
+    pendingHash: withdrawal?.timestamp
       ? undefined
-      : w.withdrawal.transactionHash,
+      : withdrawal?.transactionHash,
     chain: l2,
     button: undefined,
   };
 
-  const readyToProve = w.status === MessageStatus.READY_TO_PROVE;
-  const readyToFinalize = w.status === MessageStatus.READY_FOR_RELAY;
+  const readyToProve = status === MessageStatus.READY_TO_PROVE;
+  const readyToFinalize = status === MessageStatus.READY_FOR_RELAY;
 
-  const prove: TransactionStep = {
+  const proveStep: TransactionStep = {
     label: t("buttons.prove"),
     pendingHash: pendingProve,
-    hash: w.prove?.transactionHash,
+    hash: prove?.transactionHash,
     chain: l1,
     button: {
       type: ButtonComponent.Prove,
       enabled: readyToProve,
     },
-    gasLimit: w.prove ? undefined : PROVE_GAS,
+    gasLimit: prove ? undefined : PROVE_GAS,
   };
 
-  const finalise: TransactionStep = {
+  const finaliseStep: TransactionStep = {
     label: t("buttons.finalize"),
     pendingHash: pendingFinalise,
-    hash: w.finalise?.transactionHash,
+    hash: finalise?.transactionHash,
     chain: l1,
     button: {
       type: ButtonComponent.Finalise,
       enabled: readyToFinalize,
     },
-    gasLimit: w.finalise ? undefined : FINALIZE_GAS,
+    gasLimit: finalise ? undefined : FINALIZE_GAS,
   };
 
   return [
-    withdraw,
+    withdrawStep,
     buildWaitStep(
-      w.withdrawal.timestamp,
-      w.prove?.timestamp,
+      withdrawal?.timestamp,
+      prove?.timestamp,
       deployment.proveDuration!,
       readyToProve
     ),
-    prove,
+    proveStep,
     buildWaitStep(
-      w.prove?.timestamp,
-      w.finalise?.timestamp,
+      prove?.timestamp,
+      finalise?.timestamp,
       deployment.finalizeDuration,
       readyToFinalize
     ),
-    finalise,
+    finaliseStep,
   ];
 };

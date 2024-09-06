@@ -44,8 +44,6 @@ const Content = () => {
   const provider = useTxProvider(tx);
   const chains = useTxFromTo(tx);
 
-  const initiatingTx = useInitiatingTx(tx);
-  const proveTx = useProveTx(tx);
   const finalisingTx = useFinalisingTx(tx);
 
   const isSuccess = finalisingTx?.status === TransactionStatus.confirmed;

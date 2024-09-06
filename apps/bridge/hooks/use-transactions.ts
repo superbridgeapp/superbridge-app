@@ -4,6 +4,7 @@ import { useAccount } from "wagmi";
 
 import { bridgeControllerGetActivityV4 } from "@/codegen";
 import { ActivityV3Dto } from "@/codegen/model";
+import { MOCK_TRANSACTIONS } from "@/constants/test-transactions";
 import { useInjectedStore } from "@/state/injected";
 
 import { useAcrossDomains } from "./across/use-across-domains";

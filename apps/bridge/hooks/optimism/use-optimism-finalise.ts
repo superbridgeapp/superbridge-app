@@ -6,32 +6,31 @@ import { usePendingTransactions } from "@/state/pending-txs";
 import { useDeploymentById } from "../deployments/use-deployment-by-id";
 import { useSendTransactionDto } from "../use-send-transaction-dto";
 
-export function useFinaliseOptimism({
-  id,
-  deploymentId,
-  withdrawal,
-}: BridgeWithdrawalDto) {
-  const deployment = useDeploymentById(deploymentId);
+export function useFinaliseOptimism(w: BridgeWithdrawalDto | undefined) {
+  const deployment = useDeploymentById(w?.deploymentId);
   const setFinalising = usePendingTransactions.useSetFinalising();
   const getFinaliseTransaction = useBridgeControllerGetFinaliseTransaction();
   const trackEvent = useTrackEvent();
 
-  const { loading, onSubmit } = useSendTransactionDto(deployment?.l1, () =>
-    getFinaliseTransaction.mutateAsync({
-      data: { id },
-    })
-  );
+  const { loading, onSubmit } = useSendTransactionDto(deployment?.l1, () => {
+    if (!w) throw new Error("");
+    return getFinaliseTransaction.mutateAsync({
+      data: { id: w.id },
+    });
+  });
 
   const onFinalise = async () => {
+    if (!w) return;
+
     const hash = await onSubmit();
     if (hash) {
       trackEvent({
         event: "finalize-withdrawal",
         network: deployment?.l1.name ?? "",
         originNetwork: deployment?.l2.name ?? "",
-        withdrawalTransactionHash: withdrawal.transactionHash,
+        withdrawalTransactionHash: w.withdrawal.transactionHash,
       });
-      setFinalising(id, hash);
+      setFinalising(w.id, hash);
     }
   };
 

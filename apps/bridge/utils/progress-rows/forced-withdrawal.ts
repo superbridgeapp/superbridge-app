@@ -2,7 +2,7 @@ import { DeploymentDto } from "@/codegen/model";
 import { Transaction } from "@/types/transaction";
 
 import { isOptimismForcedWithdrawal } from "../guards";
-import { ActivityStep, ProgressRowStatus, TransactionStep } from "./common";
+import { ActivityStep } from "./common";
 import { useOptimismDepositProgressRows } from "./deposit";
 import { useOptimismWithdrawalProgressRows } from "./withdrawal";
 
@@ -17,7 +17,19 @@ export const useOptimismForcedWithdrawalProgressRows = (
     ) || [];
   let withdrawalRows =
     useOptimismWithdrawalProgressRows(
-      fw && isOptimismForcedWithdrawal(fw) ? (fw.withdrawal ?? null) : null,
+      fw && isOptimismForcedWithdrawal(fw) ? fw.id : null,
+      fw && isOptimismForcedWithdrawal(fw)
+        ? (fw.withdrawal?.status ?? null)
+        : null,
+      fw && isOptimismForcedWithdrawal(fw)
+        ? (fw.withdrawal?.withdrawal ?? null)
+        : null,
+      fw && isOptimismForcedWithdrawal(fw)
+        ? (fw.withdrawal?.prove ?? null)
+        : null,
+      fw && isOptimismForcedWithdrawal(fw)
+        ? (fw.withdrawal?.finalise ?? null)
+        : null,
       deployment
     ) || [];
 
@@ -25,20 +37,5 @@ export const useOptimismForcedWithdrawalProgressRows = (
     return null;
   }
 
-  // if (depositRows[0]. === ProgressRowStatus.InProgress) {
-  //   (depositRows[0] as TransactionStep).label = "Withdrawing on L1";
-  // } else {
-  //   (depositRows[0] as TransactionStep).label = "Withdrawn on L1";
-  // }
-
-  // // duplicated "Waiting for L2" and "Withdrawn" items here
-  // // need to figure out which to remove
-  // if (depositRows[1].status === ProgressRowStatus.Done) {
-  //   depositRows = depositRows.slice(0, 1);
-  //   withdrawalRows[0].label = "Withdrawn on L2";
-  // } else {
-  //   withdrawalRows = withdrawalRows.slice(1);
-  // }
-
-  return [...depositRows, ...withdrawalRows];
+  return [depositRows[0], ...withdrawalRows.slice(1)];
 };

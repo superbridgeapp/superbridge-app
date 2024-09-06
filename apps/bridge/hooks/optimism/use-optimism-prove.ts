@@ -8,24 +8,25 @@ import { useFaultProofUpgradeTime } from "../use-fault-proof-upgrade-time";
 import { useModal } from "../use-modal";
 import { useSendTransactionDto } from "../use-send-transaction-dto";
 
-export function useProveOptimism({
-  id,
-  deploymentId,
-  withdrawal,
-}: BridgeWithdrawalDto) {
-  const deployment = useDeploymentById(deploymentId);
+export function useProveOptimism(w: BridgeWithdrawalDto | undefined) {
+  const deployment = useDeploymentById(w?.deploymentId);
   const setProving = usePendingTransactions.useSetProving();
   const blockProvingModal = useModal("BlockProving");
   const getProveTransaction = useBridgeControllerGetProveTransaction();
   const faultProofUpgradeTime = useFaultProofUpgradeTime(deployment);
-  const { loading, onSubmit } = useSendTransactionDto(deployment?.l1, () =>
-    getProveTransaction.mutateAsync({
-      data: { id },
-    })
-  );
+  const { loading, onSubmit } = useSendTransactionDto(deployment?.l1, () => {
+    if (!w) throw new Error();
+    return getProveTransaction.mutateAsync({
+      data: { id: w.id },
+    });
+  });
   const trackEvent = useTrackEvent();
 
   const onProve = async () => {
+    if (!w) {
+      return;
+    }
+
     if (faultProofUpgradeTime) {
       blockProvingModal.open(deployment?.id);
       return;
@@ -37,9 +38,9 @@ export function useProveOptimism({
         event: "prove-withdrawal",
         network: deployment?.l1.name ?? "",
         originNetwork: deployment?.l2.name ?? "",
-        withdrawalTransactionHash: withdrawal.transactionHash,
+        withdrawalTransactionHash: w.withdrawal.transactionHash,
       });
-      setProving(id, hash);
+      setProving(w.id, hash);
     }
   };
 

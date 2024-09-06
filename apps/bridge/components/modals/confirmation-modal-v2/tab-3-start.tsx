@@ -15,7 +15,7 @@ import { IconCheckCircle } from "@/components/icons";
 import { NetworkIcon } from "@/components/network-icon";
 import { RouteProviderName } from "@/components/route-provider-icon";
 import { TokenIcon } from "@/components/token-icon";
-import { FinaliseButton, ProveButton } from "@/components/transaction-buttons";
+import { ClaimButton, ProveButton } from "@/components/transaction-buttons";
 import { LineItem } from "@/components/transaction-line-item";
 import { Button } from "@/components/ui/button";
 import {
@@ -366,8 +366,10 @@ export const ConfirmationModalStartTab = () => {
                 ) : x.type === RouteStepType.Prove ? (
                   <ProveButton onClick={() => {}} disabled />
                 ) : x.type === RouteStepType.Finalize ? (
-                  <FinaliseButton onClick={() => {}} disabled />
-                ) : x.type === RouteStepType.Mint ? undefined : undefined;
+                  <ClaimButton onClick={() => {}} disabled />
+                ) : x.type === RouteStepType.Mint ? (
+                  <ClaimButton onClick={() => {}} disabled />
+                ) : undefined;
               const a: TransactionStep = {
                 label,
                 fee: fee(getGasCost(x.chainId, x.estimatedGasLimit)),
