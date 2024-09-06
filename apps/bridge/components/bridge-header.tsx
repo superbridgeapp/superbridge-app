@@ -1,6 +1,7 @@
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 import clsx from "clsx";
 import Link from "next/link";
-import { useAccount } from "wagmi";
+import { useAccount, useDisconnect } from "wagmi";
 
 import { DeploymentType } from "@/codegen/model";
 import {
@@ -41,6 +42,7 @@ export const BridgeHeader = () => {
 
   const isWidget = useIsWidget();
   const account = useAccount();
+  const { disconnect } = useDisconnect();
 
   return (
     <>
@@ -111,7 +113,10 @@ export const BridgeHeader = () => {
               </DropdownMenuTrigger>
               <DropdownMenuContent>
                 {account.address ? (
-                  <DropdownMenuItem className="flex justify-between items-center w-full">
+                  <DropdownMenuItem
+                    className="flex justify-between items-center w-full"
+                    onClick={() => disconnect()}
+                  >
                     <span className="text-sm">Disconnect</span>
                     <span className="bg-muted rounded-full text-xs text-muted-foreground px-2 py-1 h-6">
                       {account.address.slice(0, 4)}&hellip;
@@ -120,7 +125,7 @@ export const BridgeHeader = () => {
                   </DropdownMenuItem>
                 ) : (
                   <DropdownMenuItem>
-                    <span className="text-sm">Connect</span>
+                    <ConnectButton />
                   </DropdownMenuItem>
                 )}
 
