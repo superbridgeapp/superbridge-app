@@ -20,6 +20,7 @@ import { useModal } from "@/hooks/use-modal";
 import { usePendingTransactions } from "@/state/pending-txs";
 import { Transaction } from "@/types/transaction";
 import { isOptimism } from "@/utils/deployments/is-mainnet";
+import { formatDurationToNow } from "@/utils/get-period";
 import {
   isAcrossBridge,
   isArbitrumWithdrawal,
@@ -171,10 +172,7 @@ const ActionRow = ({ tx }: { tx: Transaction }) => {
   useEffect(() => {
     if (status && isWaitStatus(status)) {
       const updateTimeRemaining = () => {
-        const remaining = formatDistanceToNowStrict(status.timestamp, {
-          addSuffix: false,
-        });
-        setTimeRemaining(remaining);
+        setTimeRemaining(formatDurationToNow(status.timestamp));
       };
 
       updateTimeRemaining();

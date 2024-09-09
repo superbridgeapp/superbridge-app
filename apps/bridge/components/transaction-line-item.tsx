@@ -1,5 +1,4 @@
 import clsx from "clsx";
-import { formatDistance, formatDistanceStrict } from "date-fns";
 import { useEffect, useState } from "react";
 
 import {
@@ -12,6 +11,7 @@ import {
 import { NetworkIcon } from "@/components/network-icon";
 import { useNetworkFeeForGasLimit } from "@/hooks/gas/use-network-fee";
 import { Transaction } from "@/types/transaction";
+import { formatDuration, formatDurationToNow } from "@/utils/get-period";
 import {
   isArbitrumDeposit,
   isArbitrumWithdrawal,
@@ -46,18 +46,15 @@ function WaitLineItem({
   tx?: Pick<Transaction, "type">;
 }) {
   const [remainingDuration, setRemainingDuration] = useState<string | null>(
-    formatDistance(Date.now(), Date.now() + step.duration)
+    formatDuration(Date.now(), Date.now() + step.duration)
   );
 
   useEffect(() => {
     if (isWaitStepInProgress(step)) {
       const updateDuration = () => {
-        const remaining = formatDistanceStrict(
+        const remaining = formatDuration(
           Date.now(),
-          step.startedAt + step.duration,
-          {
-            addSuffix: false,
-          }
+          step.startedAt + step.duration
         );
         setRemainingDuration(remaining);
       };
@@ -75,7 +72,7 @@ function WaitLineItem({
         <IconSimpleTime className="w-8 h-8 p-1 fill-foreground" />
 
         <span className="text-sm">
-          Wait {formatDistanceStrict(Date.now(), Date.now() + step.duration)}
+          Wait {formatDurationToNow(Date.now() + step.duration)}
         </span>
 
         <span className="ml-auto">

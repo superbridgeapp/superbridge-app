@@ -1,3 +1,4 @@
+const ONE_SECOND = 1;
 const ONE_MINUTE = 60;
 const ONE_HOUR = 60 * 60;
 const ONE_DAY = 60 * 60 * 24;
@@ -25,4 +26,33 @@ export const getPeriod = (seconds: number): Period => {
     period: "mins",
     value: Math.round(Math.max(seconds / ONE_MINUTE, 1)),
   };
+};
+
+export const formatDuration = (start: number, end: number): string | null => {
+  const durationInSeconds = Math.ceil((end - start) / 1000);
+
+  if (durationInSeconds < 0) {
+    return null;
+  }
+
+  if (durationInSeconds >= ONE_DAY) {
+    const days = Math.ceil(durationInSeconds / ONE_DAY);
+    return `${days} day${days > 1 ? "s" : ""}`;
+  }
+
+  if (durationInSeconds >= ONE_HOUR) {
+    const hours = Math.ceil(durationInSeconds / ONE_HOUR);
+    return `${hours} hour${hours > 1 ? "s" : ""}`;
+  }
+
+  if (durationInSeconds >= ONE_MINUTE) {
+    const minutes = Math.ceil(durationInSeconds / ONE_MINUTE);
+    return `${minutes} min${minutes > 1 ? "s" : ""}`;
+  }
+
+  return `${durationInSeconds} sec${durationInSeconds !== 1 ? "s" : ""}`;
+};
+
+export const formatDurationToNow = (end: number): string | null => {
+  return formatDuration(Date.now(), end);
 };
