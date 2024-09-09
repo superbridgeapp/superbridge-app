@@ -73,6 +73,11 @@ const nativeRoutes: RouteProvider[] = [
   RouteProvider.OptimismForcedWithdrawal,
 ];
 
+const depositRoutes: RouteProvider[] = [
+  RouteProvider.ArbitrumDeposit,
+  RouteProvider.OptimismDeposit,
+];
+
 export const RouteProviderIcon = ({
   route,
   className,
@@ -86,9 +91,14 @@ export const RouteProviderIcon = ({
 
   let icon = icons[route.id];
   if (nativeRoutes.includes(route.id) && isRouteQuote(route.result)) {
-    const lastStep = route.result.steps[route.result.steps.length - 1];
-    if (!isRouteWaitStep(lastStep)) {
-      const chainIcon = chainIcons[parseInt(lastStep.chainId)];
+    // if deposit, we want to take chain icon of last step
+    // if withdrawal, first step
+    const index = depositRoutes.includes(route.id)
+      ? route.result.steps.length - 1
+      : 0;
+    const step = route.result.steps[index];
+    if (!isRouteWaitStep(step)) {
+      const chainIcon = chainIcons[parseInt(step.chainId)];
       if (chainIcon) {
         icon = chainIcon;
       }

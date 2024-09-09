@@ -20,7 +20,6 @@ import {
 } from "@/components/ui/dialog";
 import { currencySymbolMap } from "@/constants/currency-symbol-map";
 import { useLatestSubmittedTx } from "@/hooks/activity/use-tx-by-hash";
-import { useIsSuperbridge } from "@/hooks/apps/use-is-superbridge";
 import { useBridge } from "@/hooks/bridge/use-bridge";
 import { useSubmitBridge } from "@/hooks/bridge/use-submit-bridge";
 import { useCustomGasTokenAddress } from "@/hooks/custom-gas-token/use-custom-gas-token-address";
