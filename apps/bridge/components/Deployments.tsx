@@ -5,6 +5,7 @@ import { DeploymentDto, DeploymentType } from "@/codegen/model";
 import { BridgePlaceholder } from "@/components/bridge-placeholder";
 import { useDeployments } from "@/hooks/use-deployments";
 import { useNavigate } from "@/hooks/use-navigate";
+import { useInjectedStore } from "@/state/injected";
 
 const spring = {
   type: "spring",
@@ -28,6 +29,7 @@ const NEW_DEPLOYMENTS = ["world-chain"];
 export const DeploymentsGrid = () => {
   const deployments = useDeployments();
   const navigate = useNavigate();
+  const testnetsEnabled = useInjectedStore((s) => s.testnets);
 
   const onDeploymentClick = (n: DeploymentDto) => {
     navigate(n);
@@ -57,7 +59,11 @@ export const DeploymentsGrid = () => {
         </motion.div>
       ))}
 
-      {SUPERCHAIN_COMING_SOON.map((n, index) => (
+      {SUPERCHAIN_COMING_SOON.filter((x) =>
+        testnetsEnabled
+          ? x.type === DeploymentType.testnet
+          : x.type === DeploymentType.mainnet
+      ).map((n, index) => (
         <motion.div
           key={"grid" + n.displayName}
           transition={spring}
