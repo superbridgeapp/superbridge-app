@@ -62,6 +62,11 @@ export const useAcrossProgressRows = () => {
             status: ProgressRowStatus.Done,
             link: transactionLink(tx.fill.transactionHash, toDomain?.chain),
           }
+        : tx.deposit.timestamp < Date.now() - 1000 * 60 * 90
+        ? {
+            label: "Refunded",
+            status: ProgressRowStatus.Reverted,
+          }
         : // assume immediate confirmation for rollups
         tx.deposit.timestamp || tx.fromChainId
         ? {
