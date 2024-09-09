@@ -7,6 +7,7 @@ import { useOptimismDepositProgressRows } from "@/utils/progress-rows/deposit";
 import { useOptimismForcedWithdrawalProgressRows } from "@/utils/progress-rows/forced-withdrawal";
 import { useOptimismWithdrawalProgressRows } from "@/utils/progress-rows/withdrawal";
 
+import { isOptimismWithdrawal } from "../guards";
 import { useAcrossProgressRows } from "./across";
 import { useHyperlaneProgressRows } from "./hyperlane";
 import { useLzProgressRows } from "./lz";
@@ -15,7 +16,14 @@ export const useProgressRows = (tx: Transaction | null) => {
   const deployment = useTxDeployment(tx);
 
   const optimismDeposit = useOptimismDepositProgressRows(tx, deployment);
-  const optimismWithdrawal = useOptimismWithdrawalProgressRows(tx, deployment);
+  const optimismWithdrawal = useOptimismWithdrawalProgressRows(
+    tx && isOptimismWithdrawal(tx) ? tx.id : null,
+    tx && isOptimismWithdrawal(tx) ? tx.status : null,
+    tx && isOptimismWithdrawal(tx) ? tx.withdrawal : null,
+    tx && isOptimismWithdrawal(tx) ? (tx.prove ?? null) : null,
+    tx && isOptimismWithdrawal(tx) ? (tx.finalise ?? null) : null,
+    deployment
+  );
   const optimismForcedWithdrawal = useOptimismForcedWithdrawalProgressRows(
     tx,
     deployment
