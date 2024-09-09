@@ -12,6 +12,7 @@ import { useTranslation } from "react-i18next";
 import { Chain } from "viem";
 import { WagmiProvider } from "wagmi";
 
+import { useFromChain } from "@/hooks/use-chain";
 import { useChains } from "@/hooks/use-chains";
 import { useApp, useMetadata } from "@/hooks/use-metadata";
 import { useWagmiConfig } from "@/hooks/wagmi/use-wagmi-config";
@@ -24,6 +25,7 @@ function Web3Provider({ children }: { children: React.ReactNode }) {
   const { i18n } = useTranslation();
   const metadata = useMetadata();
   const wagmiConfig = useWagmiConfig();
+  const fromChain = useFromChain();
 
   const theme = useApp().theme;
 
@@ -41,9 +43,6 @@ function Web3Provider({ children }: { children: React.ReactNode }) {
         accentColorForeground: theme["primary-foreground"],
       });
 
-      // specific light overrides
-      // if (theme.card) t.colors.modalBackground = theme.card;
-
       return t;
     }
 
@@ -53,9 +52,6 @@ function Web3Provider({ children }: { children: React.ReactNode }) {
         accentColor: theme.primary,
         accentColorForeground: theme["primary-foreground"],
       });
-
-      // specific dark overrides
-      // if (theme["card-dark"]) t.colors.modalBackground = theme["card-dark"];
 
       return t;
     }
@@ -67,9 +63,6 @@ function Web3Provider({ children }: { children: React.ReactNode }) {
         accentColorForeground: theme["primary-foreground"],
       });
 
-      // specific light overrides, do we need these?
-      // if (theme.card) t.colors.modalBackground = theme.card;
-
       return t;
     }
 
@@ -79,16 +72,14 @@ function Web3Provider({ children }: { children: React.ReactNode }) {
       accentColorForeground: theme["primary-foreground"],
     });
 
-    // specific dark overrides, do we need these?
-    // if (theme["card-dark"]) t.colors.modalBackground = theme["card-dark"];
-
     return t;
   }, [theme, mounted, resolvedTheme]);
 
+  const initialChain = fromChain || chains[0];
   return (
     <WagmiProvider config={wagmiConfig}>
       <RainbowKitProvider
-        initialChain={chains[0] as unknown as Chain}
+        initialChain={initialChain as unknown as Chain}
         locale={
           i18n.language?.includes("zh")
             ? "zh"
