@@ -132,4 +132,5 @@ export const frontendApps: { [x: string]: AppConfig | undefined } = {
   ["renzo.superbridge.app"]: renzo,
   ["hyperlane.superbridge.app"]: hyperlane,
   ["elixir.superbridge.app"]: elixir,
+  ["wbtc.superbridge.app"]: elixir,
 };

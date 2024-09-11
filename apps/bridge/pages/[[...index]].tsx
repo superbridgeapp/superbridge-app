@@ -42,7 +42,7 @@ export const getServerSideProps = async ({
     req.headers.host?.includes("ngrok")
   ) {
     // change this to load different apps
-    requestHost = "hyperlane.superbridge.app";
+    requestHost = "wbtc.superbridge.app";
   }
 
   const config = await bridgeControllerGetBridgeConfigByDomain(
