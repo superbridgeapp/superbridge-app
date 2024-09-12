@@ -34,6 +34,8 @@ export function useSendTransactionDto(
 
       const to = result.to as Address;
       const data = result.data as Hex;
+      // @ts-expect-error
+      const value = result.value as string | undefined;
 
       const [gas, fees] = await Promise.all([
         client.estimateGas({
@@ -56,6 +58,7 @@ export function useSendTransactionDto(
               maxFeePerGas: fees.maxFeePerGas,
               maxPriorityFeePerGas: fees.maxPriorityFeePerGas,
             }),
+        value: BigInt(value ?? "0"),
       });
     } catch (e: any) {
       if (
