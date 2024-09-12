@@ -160,17 +160,14 @@ export const wbtcTheme: Partial<FrontendThemeDto> = {
   background: "#F3F3F3",
   muted: "rgba(134,65,146,0.1)",
   foreground: "#ffffff",
-  "muted-foreground": "#808080",
+  "muted-foreground": "rgba(255,255,255,0.5)",
   primary: "#F09242",
   "primary-foreground": "#ffffff",
   card: "rgba(18,15,25,0.5)",
-  border: "rgba(134,65,146,0.5)",
-  fontBody:
-    "https://wbtc.superbridge.app/fonts/elixir/MundialLight-00b6da05.otf",
-  fontButton:
-    "https://wbtc.superbridge.app/fonts/elixir/MundialRegular-b828e325.otf",
-  fontHeading:
-    "https://wbtc.superbridge.app/fonts/elixir/MundialRegular-b828e325.otf",
+  border: "rgba(134,65,146,0.33)",
+  fontBody: "https://usdc.superbridge.app/fonts/usdc/Inter-Medium.woff2",
+  fontButton: "https://usdc.superbridge.app/fonts/usdc/Inter-SemiBold.woff2",
+  fontHeading: "https://usdc.superbridge.app/fonts/usdc/Inter-SemiBold.woff2",
   imageBackground: "/img/wbtc/bg.svg",
   imageBackgroundDark: "/img/wbtc/bg.svg",
   backgroundImageBlendMode: "normal",
