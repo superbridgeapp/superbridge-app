@@ -153,3 +153,26 @@ export const elixirTheme: Partial<FrontendThemeDto> = {
   backgroundImageRepeat: "no-repeat",
   backgroundImageOpacity: "100",
 };
+
+export const wbtcTheme: Partial<FrontendThemeDto> = {
+  darkModeEnabled: false,
+  rainbowMode: "dark",
+  background: "#F3F3F3",
+  muted: "rgba(134,65,146,0.1)",
+  foreground: "#ffffff",
+  "muted-foreground": "rgba(255,255,255,0.5)",
+  primary: "#F09242",
+  "primary-foreground": "#ffffff",
+  card: "rgba(18,15,25,0.5)",
+  border: "rgba(134,65,146,0.33)",
+  fontBody: "https://usdc.superbridge.app/fonts/usdc/Inter-Medium.woff2",
+  fontButton: "https://usdc.superbridge.app/fonts/usdc/Inter-SemiBold.woff2",
+  fontHeading: "https://usdc.superbridge.app/fonts/usdc/Inter-SemiBold.woff2",
+  imageBackground: "/img/wbtc/bg.svg",
+  imageBackgroundDark: "/img/wbtc/bg.svg",
+  backgroundImageBlendMode: "normal",
+  backgroundImagePosition: "center",
+  backgroundImageSize: "cover",
+  backgroundImageRepeat: "no-repeat",
+  backgroundImageOpacity: "100",
+};

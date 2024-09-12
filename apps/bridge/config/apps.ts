@@ -11,6 +11,7 @@ import {
   renzoTheme,
   superbridgeTheme,
   usdcTheme,
+  wbtcTheme,
 } from "./themes";
 
 const superbidge: AppConfig = {
@@ -124,12 +125,37 @@ const elixir: AppConfig = {
   },
 };
 
+const wbtc: AppConfig = {
+  head: {
+    name: "WBTC Bridge",
+    description: "Bridge WBTC between supported chains",
+    og: "https://wbtc.superbridge.app/img/wbtc/og.png",
+    favicon: "/img/superbridge/favicon-32x32.png",
+  },
+  images: {
+    logoLight: "/img/wbtc/logo.svg",
+    logoDark: "/img/wbtc/logo.svg",
+    logoLightSmall: "/img/wbtc/logo.svg",
+    logoDarkSmall: "/img/wbtc/logo.svg",
+  },
+  theme: wbtcTheme,
+
+  links: [],
+
+  metadata: {
+    // gId: ""
+  },
+};
+
 export const frontendApps: { [x: string]: AppConfig | undefined } = {
   [SUPERBRIDGE_HOST]: superbidge,
   [SUPERBRIDGE_TESTNET_HOST]: superbidge,
   [V3_SUPERBRIDGE_HOST]: superbidge,
   ["usdc.superbridge.app"]: usdc,
+  ["usdc-bridge.com"]: usdc,
   ["renzo.superbridge.app"]: renzo,
+  ["renzo-bridge.com"]: renzo,
   ["hyperlane.superbridge.app"]: hyperlane,
   ["elixir.superbridge.app"]: elixir,
+  ["wbtc.superbridge.app"]: wbtc,
 };
