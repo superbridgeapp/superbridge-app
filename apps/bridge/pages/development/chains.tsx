@@ -16,8 +16,8 @@ function Page() {
   return (
     <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 w-full px-4 max-w-3xl overflow-scroll h-screen">
       {mailboxes.data?.data.map((x) => (
-        <div>
-          <ChainCard key={x.id} chain={x.chain} onSelect={() => {}} />
+        <div key={x.id}>
+          <ChainCard chain={x.chain} onSelect={() => {}} />
         </div>
       ))}
     </div>
