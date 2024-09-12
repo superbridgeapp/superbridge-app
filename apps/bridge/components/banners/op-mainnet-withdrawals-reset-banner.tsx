@@ -24,13 +24,13 @@ export const OpMainnetWithdrawalsResetBanner = ({ className }: any) => {
       </div>
       <div className="prose">
         <p className="text-xs text-foreground">
-          Pending withdrawals on OP Mainnet were reset on Aug 16 following
-          activation of the permissioned proving fallback. Recently proved
+          Pending withdrawals from OP Mainnet were reset on Sep 11 following
+          reactivation of permissionless fault proofs. Recently proved
           withdrawals will need to be reproven.
         </p>
         <p className="text-xs">
           <a
-            href="https://gov.optimism.io/t/upgrade-proposal-10-granite-network-upgrade/8733"
+            href="https://x.com/Optimism/status/1833903320945041685"
             target="_blank"
             className="cursor-pointer hover:underline text-muted-foreground"
           >
