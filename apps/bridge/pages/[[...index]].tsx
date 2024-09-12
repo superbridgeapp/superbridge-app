@@ -41,7 +41,7 @@ export const getServerSideProps = async ({
     req.headers.host?.includes("ngrok")
   ) {
     // change this to load different apps
-    requestHost = "wbtc.superbridge.app";
+    requestHost = "v3.superbridge.app";
   }
 
   const config = await bridgeControllerGetBridgeConfigByDomain(
