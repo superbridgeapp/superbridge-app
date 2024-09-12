@@ -17,6 +17,7 @@ import { useChains } from "@/hooks/use-chains";
 import { useApp, useMetadata } from "@/hooks/use-metadata";
 import { useWagmiConfig } from "@/hooks/wagmi/use-wagmi-config";
 import { queryClient } from "@/services/query-client";
+import { ThemeProvider } from "@/state/theme";
 
 function Web3Provider({ children }: { children: React.ReactNode }) {
   const { resolvedTheme } = useTheme();
@@ -99,8 +100,10 @@ function Web3Provider({ children }: { children: React.ReactNode }) {
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
-    <QueryClientProvider client={queryClient}>
-      <Web3Provider>{children}</Web3Provider>
-    </QueryClientProvider>
+    <ThemeProvider>
+      <QueryClientProvider client={queryClient}>
+        <Web3Provider>{children}</Web3Provider>
+      </QueryClientProvider>
+    </ThemeProvider>
   );
 }

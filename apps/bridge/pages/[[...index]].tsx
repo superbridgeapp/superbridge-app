@@ -12,7 +12,6 @@ import { Analytics } from "@/components/analytics";
 import { Bridge } from "@/components/bridge";
 import { Head } from "@/components/head";
 import { InjectedStoreProvider } from "@/state/injected";
-import { ThemeProvider } from "@/state/theme";
 import { createInjectedState } from "@/utils/injected-state/create-injected-state";
 
 const ignored = ["favicon", "locales", "_vercel", "_next", "fonts"];
@@ -63,15 +62,13 @@ export default function IndexRoot(
 ) {
   return (
     <InjectedStoreProvider initialValues={props}>
-      <ThemeProvider>
-        <Providers>
-          <Head />
-          <Layout>
-            <Index />
-          </Layout>
-          <Analytics />
-        </Providers>
-      </ThemeProvider>
+      <Providers>
+        <Head />
+        <Layout>
+          <Index />
+        </Layout>
+        <Analytics />
+      </Providers>
     </InjectedStoreProvider>
   );
 }
