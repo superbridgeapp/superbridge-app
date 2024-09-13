@@ -339,6 +339,14 @@ const zircuitTheme = {
   },
 };
 
+const moltenTheme = {
+  icon: "/img/molten/molten-chain.png",
+  card: {
+    className: "bg-black",
+    title: "text-white",
+  },
+};
+
 export const cardThemes: {
   [chainId: string]: { card: Theme["card"]; icon: string } | undefined;
 } = {
@@ -389,4 +397,5 @@ export const cardThemes: {
   [celoAlfajores.id]: celoTheme,
   [48900]: zircuitTheme,
   [zircuitTestnet.id]: zircuitTheme,
+  [360]: moltenTheme,
 };
