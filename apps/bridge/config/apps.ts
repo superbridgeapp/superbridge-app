@@ -158,4 +158,5 @@ export const frontendApps: { [x: string]: AppConfig | undefined } = {
   ["hyperlane.superbridge.app"]: hyperlane,
   ["elixir.superbridge.app"]: elixir,
   ["wbtc.superbridge.app"]: wbtc,
+  ["molten.superbridge.app"]: wbtc,
 };
