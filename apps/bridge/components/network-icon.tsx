@@ -1,4 +1,3 @@
-import clsx from "clsx";
 import { ImageProps } from "next/image";
 import { Chain } from "viem";
 import { mainnet, sepolia, syscoin } from "viem/chains";

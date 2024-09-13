@@ -176,3 +176,24 @@ export const wbtcTheme: Partial<FrontendThemeDto> = {
   backgroundImageRepeat: "no-repeat",
   backgroundImageOpacity: "100",
 };
+
+export const moltenTheme: Partial<FrontendThemeDto> = {
+  darkModeEnabled: false,
+  rainbowMode: "dark",
+  background: "#F3F3F3",
+  muted: "rgba(134,65,146,0.1)",
+  foreground: "#ffffff",
+  "muted-foreground": "rgba(255,255,255,0.5)",
+  primary: "#F09242",
+  "primary-dark": "rgba(255, 115, 26, 1)",
+  "primary-foreground": "#ffffff",
+  card: "rgba(18,15,25,0.5)",
+  border: "rgba(134,65,146,0.33)",
+  imageBackground: "/img/wbtc/bg.svg",
+  imageBackgroundDark: "/img/wbtc/bg.svg",
+  backgroundImageBlendMode: "normal",
+  backgroundImagePosition: "center",
+  backgroundImageSize: "cover",
+  backgroundImageRepeat: "no-repeat",
+  backgroundImageOpacity: "100",
+};

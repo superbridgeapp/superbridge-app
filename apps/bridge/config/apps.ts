@@ -8,6 +8,7 @@ import {
 import {
   elixirTheme,
   hyperlaneTheme,
+  moltenTheme,
   renzoTheme,
   superbridgeTheme,
   usdcTheme,
@@ -142,9 +143,27 @@ const wbtc: AppConfig = {
 
   links: [],
 
-  metadata: {
-    // gId: ""
+  metadata: {},
+};
+
+const molten: AppConfig = {
+  head: {
+    name: "Molten Bridge",
+    description: "Bridge assets between supported chains",
+    og: "/img/molten/molten.png",
+    favicon: "/img/superbridge/favicon-32x32.png",
   },
+  images: {
+    logoLight: "/img/molten/molten-chain.png",
+    logoDark: "/img/molten/molten-chain.png",
+    logoLightSmall: "/img/molten/molten-chain.png",
+    logoDarkSmall: "/img/molten/molten-chain.png",
+  },
+  theme: moltenTheme,
+
+  links: [],
+
+  metadata: {},
 };
 
 export const frontendApps: { [x: string]: AppConfig | undefined } = {
@@ -158,4 +177,5 @@ export const frontendApps: { [x: string]: AppConfig | undefined } = {
   ["hyperlane.superbridge.app"]: hyperlane,
   ["elixir.superbridge.app"]: elixir,
   ["wbtc.superbridge.app"]: wbtc,
+  ["molten.superbridge.app"]: molten,
 };
