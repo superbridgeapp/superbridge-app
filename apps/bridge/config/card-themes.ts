@@ -395,6 +395,38 @@ const metisTheme = {
   },
 };
 
+const moonbeamTheme = {
+  icon: "/img/moonbeam/icon.svg",
+  card: {
+    className: "bg-[url('/img/moonbeam/bg.svg')] bg-no-repeat bg-cover",
+    title: "text-white",
+  },
+};
+
+const polygonZkEvmTheme = {
+  icon: "/img/polygonzkevm/icon.svg",
+  card: {
+    className: "bg-[#6C00F6]",
+    title: "text-white",
+  },
+};
+
+const realTheme = {
+  icon: "/img/real/icon.svg",
+  card: {
+    className: "bg-gradient-to-t from-[#D0D3E2] to-[#F5F6FB]",
+    title: "text-black",
+  },
+};
+
+const seiTheme = {
+  icon: "/img/sei/icon.svg",
+  card: {
+    className: "bg-gradient-to-b from-[#F2E9E9] to-[#ecedee]",
+    title: "text-black",
+  },
+};
+
 export const cardThemes: {
   [chainId: string]: { card: Theme["card"]; icon: string } | undefined;
 } = {
@@ -466,17 +498,17 @@ export const cardThemes: {
   // Metis
   [1088]: metisTheme,
   // Moonbeam
-  [1284]: celoTheme,
+  [1284]: moonbeamTheme,
   // Polygon zkEVM
-  [1101]: celoTheme,
+  [1101]: polygonZkEvmTheme,
   // Real
-  [111188]: celoTheme,
+  [111188]: realTheme,
   // Redstone
-  [690]: celoTheme,
+  [690]: redstoneTheme,
   // Sroll
-  [534352]: celoTheme,
+  [534352]: scrollTheme,
   // Sei
-  [1329]: celoTheme,
+  [1329]: seiTheme,
   // Taiko
   [167000]: celoTheme,
   // Xai
