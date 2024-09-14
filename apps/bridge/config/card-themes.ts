@@ -427,6 +427,22 @@ const seiTheme = {
   },
 };
 
+const taikoTheme = {
+  icon: "/img/taiko/icon.svg",
+  card: {
+    className: "bg-[#E81899]",
+    title: "text-white",
+  },
+};
+
+const xiaTheme = {
+  icon: "/img/xia/icon.svg",
+  card: {
+    className: "bg-[#FF0030]",
+    title: "text-white",
+  },
+};
+
 export const cardThemes: {
   [chainId: string]: { card: Theme["card"]; icon: string } | undefined;
 } = {
@@ -510,9 +526,9 @@ export const cardThemes: {
   // Sei
   [1329]: seiTheme,
   // Taiko
-  [167000]: celoTheme,
+  [167000]: taikoTheme,
   // Xai
-  [660279]: celoTheme,
+  [660279]: xiaTheme,
   // xLayer
   [196]: celoTheme,
   // Zeta Chain
