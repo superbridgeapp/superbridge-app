@@ -371,6 +371,30 @@ const luksoTheme = {
   },
 };
 
+const mantleTheme = {
+  icon: "/img/mantle/icon.svg",
+  card: {
+    className: "bg-black",
+    title: "text-white",
+  },
+};
+
+const merlinTheme = {
+  icon: "/img/merlin/icon.svg",
+  card: {
+    className: "bg-[#0F0832]",
+    title: "text-white",
+  },
+};
+
+const metisTheme = {
+  icon: "/img/metis/icon.svg",
+  card: {
+    className: "bg-[#00CFFF]",
+    title: "text-white",
+  },
+};
+
 export const cardThemes: {
   [chainId: string]: { card: Theme["card"]; icon: string } | undefined;
 } = {
@@ -436,11 +460,11 @@ export const cardThemes: {
   // Lukso
   [42]: luksoTheme,
   // Mantle
-  [5000]: celoTheme,
+  [5000]: mantleTheme,
   // Merlin
-  [4200]: celoTheme,
+  [4200]: merlinTheme,
   // Metis
-  [1088]: celoTheme,
+  [1088]: metisTheme,
   // Moonbeam
   [1284]: celoTheme,
   // Polygon zkEVM
