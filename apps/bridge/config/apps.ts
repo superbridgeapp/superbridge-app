@@ -150,14 +150,14 @@ const molten: AppConfig = {
   head: {
     name: "Molten Bridge",
     description: "Bridge assets between supported chains",
-    og: "/img/molten/molten.png",
+    og: "/img/molten/og.png",
     favicon: "/img/superbridge/favicon-32x32.png",
   },
   images: {
-    logoLight: "/img/molten/molten-chain.png",
-    logoDark: "/img/molten/molten-chain.png",
-    logoLightSmall: "/img/molten/molten-chain.png",
-    logoDarkSmall: "/img/molten/molten-chain.png",
+    logoLight: "/img/molten/logo.svg",
+    logoDark: "/img/molten/logo.svg",
+    logoLightSmall: "/img/molten/logo.svg",
+    logoDarkSmall: "/img/molten/logo.svg",
   },
   theme: moltenTheme,
 

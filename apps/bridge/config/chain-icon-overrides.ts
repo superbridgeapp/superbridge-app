@@ -66,5 +66,5 @@ export const chainIcons: { [chainId: number]: string | undefined } = {
   [polygon.id]: "/img/networks/polygon.svg",
   [48900]: "/img/networks/zircuit.svg",
   [gravity.id]: "/img/networks/gravity.png",
-  [360]: "/img/molten/molten-chain.png",
+  [360]: "/img/molten/network.svg",
 };
