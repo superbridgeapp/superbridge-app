@@ -340,9 +340,9 @@ const zircuitTheme = {
 };
 
 const moltenTheme = {
-  icon: "/img/molten/molten-chain.png",
+  icon: "/img/molten/icon.svg",
   card: {
-    className: "bg-black",
+    className: "bg-[#0D0F13]",
     title: "text-white",
   },
 };
