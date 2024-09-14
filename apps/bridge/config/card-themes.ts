@@ -218,8 +218,8 @@ const worldchainTheme = {
 const cyberTheme = {
   icon: "/img/cyber-mainnet/icon.svg",
   card: {
-    className: "bg-black",
-    title: "text-white",
+    className: "bg-[#EAFFE7]",
+    title: "text-zinc-900",
   },
 };
 
@@ -339,6 +339,30 @@ const zircuitTheme = {
   },
 };
 
+const degenTheme = {
+  icon: "/img/degen/icon.svg",
+  card: {
+    className: "bg-gradient-to-b from-[#0F172A] to-[#412978]",
+    title: "text-white",
+  },
+};
+
+const fuseTheme = {
+  icon: "/img/fuse/icon.svg",
+  card: {
+    className: "bg-[#BAFEC0]",
+    title: "text-black",
+  },
+};
+
+const gnosisTheme = {
+  icon: "/img/gnosis/icon.svg",
+  card: {
+    className: "bg-[#F0EBDE]",
+    title: "text-black",
+  },
+};
+
 export const cardThemes: {
   [chainId: string]: { card: Theme["card"]; icon: string } | undefined;
 } = {
@@ -389,4 +413,52 @@ export const cardThemes: {
   [celoAlfajores.id]: celoTheme,
   [48900]: zircuitTheme,
   [zircuitTestnet.id]: zircuitTheme,
+  // Cyber
+  [7560]: cyberTheme,
+  // Degen Chain
+  [666666666]: degenTheme,
+  // Fuse
+  [122]: fuseTheme,
+  // Gnosis
+  [100]: gnosisTheme,
+  // Kroma
+  [255]: celoTheme,
+  // Lisk
+  [1135]: celoTheme,
+  // Lukso
+  [42]: celoTheme,
+  // Mantle
+  [5000]: celoTheme,
+  // Merlin
+  [4200]: celoTheme,
+  // Metis
+  [1088]: celoTheme,
+  // Moonbeam
+  [1284]: celoTheme,
+  // Polygon zkEVM
+  [1101]: celoTheme,
+  // Real
+  [111188]: celoTheme,
+  // Redstone
+  [690]: celoTheme,
+  // Sroll
+  [534352]: celoTheme,
+  // Sei
+  [1329]: celoTheme,
+  // Taiko
+  [167000]: celoTheme,
+  // Xai
+  [660279]: celoTheme,
+  // xLayer
+  [196]: celoTheme,
+  // Zeta Chain
+  [7000]: celoTheme,
+  // Proof of Play Apex
+  [70700]: celoTheme,
+  // Sanko
+  [1996]: celoTheme,
+  // World Chain
+  [480]: celoTheme,
+  // Endurance
+  [648]: celoTheme,
 };
