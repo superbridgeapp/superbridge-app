@@ -139,7 +139,7 @@ const kromaTheme = {
     className: "bg-[#72DE2F]",
     overlay: {
       className:
-        "bg-gradient-to-t from-teal-950 via-teal-950/0 to-teal-950/0 mix-blend-hard-light opacity-30",
+        "bg-gradient-to-t from-teal-950 via-teal-950/0 to-teal-950/0 mix-blend-screen opacity-100",
     },
   },
 };
@@ -358,7 +358,15 @@ const fuseTheme = {
 const gnosisTheme = {
   icon: "/img/gnosis/icon.svg",
   card: {
-    className: "bg-[#F0EBDE]",
+    className: "bg-[#133629]",
+    title: "text-white",
+  },
+};
+
+const luksoTheme = {
+  icon: "/img/lukso/icon.svg",
+  card: {
+    className: "bg-white",
     title: "text-black",
   },
 };
@@ -422,11 +430,11 @@ export const cardThemes: {
   // Gnosis
   [100]: gnosisTheme,
   // Kroma
-  [255]: celoTheme,
+  [255]: kromaTheme,
   // Lisk
-  [1135]: celoTheme,
+  [1135]: liskTheme,
   // Lukso
-  [42]: celoTheme,
+  [42]: luksoTheme,
   // Mantle
   [5000]: celoTheme,
   // Merlin
