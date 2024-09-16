@@ -579,8 +579,6 @@ export const cardThemes: {
   [celoAlfajores.id]: celoTheme,
   [48900]: zircuitTheme,
   [zircuitTestnet.id]: zircuitTheme,
-  // Cyber
-  [7560]: cyberTheme,
   // Degen Chain
   [666666666]: degenTheme,
   // Fuse
@@ -589,8 +587,6 @@ export const cardThemes: {
   [100]: gnosisTheme,
   // Kroma
   [255]: kromaTheme,
-  // Lisk
-  [1135]: liskTheme,
   // Lukso
   [42]: luksoTheme,
   // Mantle
@@ -605,10 +601,6 @@ export const cardThemes: {
   [1101]: polygonZkEvmTheme,
   // Real
   [111188]: realTheme,
-  // Redstone
-  [690]: redstoneTheme,
-  // Sroll
-  [534352]: scrollTheme,
   // Sei
   [1329]: seiTheme,
   // Taiko
