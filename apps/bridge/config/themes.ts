@@ -56,6 +56,7 @@ export const superbridgeTheme: Partial<FrontendThemeDto> = {
 
 export const renzoTheme: Partial<FrontendThemeDto> = {
   darkModeEnabled: false,
+  rainbowMode: "dark",
   background: "#030411",
   muted: "rgba(255, 255, 255, 0.03)",
   foreground: "#ffffff",
@@ -80,8 +81,6 @@ export const renzoTheme: Partial<FrontendThemeDto> = {
   backgroundImageSize: "auto",
   backgroundImageRepeat: "no-repeat",
   backgroundImageOpacity: "70",
-
-  rainbowMode: "dark",
 };
 
 export const hyperlaneTheme: Partial<FrontendThemeDto> = {
@@ -205,30 +204,20 @@ export const moltenTheme: Partial<FrontendThemeDto> = {
   // backgroundImageOpacity: "85",
 };
 
-// Lava pattern bg
-
-// export const moltenTheme: Partial<FrontendThemeDto> = {
-//   darkModeEnabled: false,
-//   rainbowMode: "dark",
-//   background: "#08090D",
-//   muted: "rgba(246, 246, 246, 0.066)",
-//   card: "rgba(14,14,14,0.84)",
-//   "muted-foreground": "rgba(246, 246, 246, 0.55)",
-//   primary: "#ffffff",
-//   foreground: "#ffffff",
-//   "primary-foreground": "#08090D",
-//   border: "rgba(246, 246, 246, 0.08)",
-//   fontBody:
-//     "https://molten.superbridge.app/fonts/molten/InstrumentSans-Medium.woff",
-//   fontButton:
-//     "https://molten.superbridge.app/fonts/molten/InstrumentSans-Bold.woff",
-//   fontHeading:
-//     "https://molten.superbridge.app/fonts/molten/InstrumentSans-Bold.woff",
-//   imageBackground: "/img/molten/bg2.png",
-//   imageBackgroundDark: "/img/molten/bg2.png",
-//   backgroundImageBlendMode: "normal",
-//   backgroundImagePosition: "center",
-//   backgroundImageSize: "cover",
-//   backgroundImageRepeat: "no-repeat",
-//   backgroundImageOpacity: "69",
-// };
+export const cbethTheme: Partial<FrontendThemeDto> = {
+  darkModeEnabled: false,
+  rainbowMode: "light",
+  background: "#fafafa",
+  muted: "#FAFAFA",
+  foreground: "#0A0B0D",
+  "muted-foreground": "#5C616D",
+  primary: "#0052FF",
+  "primary-foreground": "#ffffff",
+  card: "#ffffff",
+  border: "#E2E3E6",
+  imageLogo: "/img/renzo/logo.svg",
+  imageLogoDark: "/img/renzo/logo.svg",
+  fontBody: "https://cbeth.superbridge.app/fonts/cbeth/cb-regular.woff2",
+  fontButton: "https://cbeth.superbridge.app/fonts/cbeth/cb-regular.woff2",
+  fontHeading: "https://cbeth.superbridge.app/fonts/cbeth/cb-bold.woff2",
+};

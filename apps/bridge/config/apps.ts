@@ -6,6 +6,7 @@ import {
   V3_SUPERBRIDGE_HOST,
 } from "../constants/hosts";
 import {
+  cbethTheme,
   elixirTheme,
   hyperlaneTheme,
   moltenTheme,
@@ -42,7 +43,7 @@ const renzo: AppConfig = {
   head: {
     name: "ezETH Bridge",
     description: "Bridge ezETH between Base, Blast, Ethereum and more",
-    og: "https://renzo.superbridge.app/img/renzo/og.png",
+    og: "https://v3.superbridge.app/img/renzo/og.png",
     favicon: "/img/superbridge/favicon-32x32.png",
   },
   images: {
@@ -60,11 +61,31 @@ const renzo: AppConfig = {
   },
 };
 
+const cbeth: AppConfig = {
+  head: {
+    name: "cbBTC Bridge",
+    description: "Bridge cbBTC between Base, Ethereum and more",
+    og: "https://v3.superbridge.app/img/cbBTC/og.png",
+    favicon: "/img/superbridge/favicon-32x32.png",
+  },
+  images: {
+    logoLight: "/img/cbeth/logo.svg",
+    logoDark: "/img/cbeth/logo.svg",
+    logoLightSmall: "/img/cbeth/logo.svg",
+    logoDarkSmall: "/img/cbeth/logo.svg",
+  },
+  theme: cbethTheme,
+
+  links: [],
+
+  metadata: {},
+};
+
 const hyperlane: AppConfig = {
   head: {
     name: "Hyperlane Bridge",
     description: "Bridge tokens between supported Hyperlane chains",
-    og: "https://hyperlane.superbridge.app/img/hyperlane/og.png",
+    og: "https://v3.superbridge.app/img/hyperlane/og.png",
     favicon: "/img/superbridge/favicon-32x32.png",
   },
   images: {
@@ -86,7 +107,7 @@ const usdc: AppConfig = {
   head: {
     name: "USDC Bridge",
     description: "Bridge USDC between supported chains",
-    og: "https://usdc.superbridge.app/img/usdc/og.png",
+    og: "https://v3.superbridge.app/img/usdc/og.png",
     favicon: "/img/superbridge/favicon-32x32.png",
   },
   images: {
@@ -108,7 +129,7 @@ const elixir: AppConfig = {
   head: {
     name: "deUSD Bridge",
     description: "Bridge deUSD between supported chains",
-    og: "https://elixir.superbridge.app/img/elixir/og.png",
+    og: "https://v3.superbridge.app/img/elixir/og.png",
     favicon: "/img/superbridge/favicon-32x32.png",
   },
   images: {
@@ -130,7 +151,7 @@ const wbtc: AppConfig = {
   head: {
     name: "WBTC Bridge",
     description: "Bridge WBTC between supported chains",
-    og: "https://wbtc.superbridge.app/img/wbtc/og.png",
+    og: "https://v3.superbridge.app/img/wbtc/og.png",
     favicon: "/img/superbridge/favicon-32x32.png",
   },
   images: {
@@ -150,7 +171,7 @@ const molten: AppConfig = {
   head: {
     name: "Molten Bridge",
     description: "Bridge assets between supported chains",
-    og: "/img/molten/og.png",
+    og: "https://v3.superbridge.app/img/molten/og.png",
     favicon: "/img/superbridge/favicon-32x32.png",
   },
   images: {
@@ -178,4 +199,5 @@ export const frontendApps: { [x: string]: AppConfig | undefined } = {
   ["elixir.superbridge.app"]: elixir,
   ["wbtc.superbridge.app"]: wbtc,
   ["molten.superbridge.app"]: molten,
+  ["cbbtc-demo.superbridge.app"]: cbeth,
 };
