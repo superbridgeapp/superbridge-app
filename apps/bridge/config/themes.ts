@@ -183,8 +183,8 @@ export const moltenTheme: Partial<FrontendThemeDto> = {
   darkModeEnabled: false,
   rainbowMode: "dark",
   background: "#08090D",
-  muted: "rgba(246, 246, 246, 0.066)",
-  card: "rgba(32,32,32,0.84)",
+  muted: "rgba(246, 246, 246, 0.06)",
+  card: "rgba(32,32,32,0.8)",
   "muted-foreground": "rgba(246, 246, 246, 0.55)",
   primary: "#ffffff",
   foreground: "#ffffff",
@@ -196,13 +196,13 @@ export const moltenTheme: Partial<FrontendThemeDto> = {
     "https://molten.superbridge.app/fonts/molten/InstrumentSans-Bold.woff",
   fontHeading:
     "https://molten.superbridge.app/fonts/molten/InstrumentSans-Bold.woff",
-  imageBackground: "/img/molten/bg.png",
-  imageBackgroundDark: "/img/molten/bg.png",
-  backgroundImageBlendMode: "normal",
-  backgroundImagePosition: "bottom",
-  backgroundImageSize: "cover",
-  backgroundImageRepeat: "no-repeat",
-  backgroundImageOpacity: "85",
+  // imageBackground: "/img/molten/bg.png",
+  // imageBackgroundDark: "/img/molten/bg.png",
+  // backgroundImageBlendMode: "normal",
+  // backgroundImagePosition: "bottom",
+  // backgroundImageSize: "cover",
+  // backgroundImageRepeat: "no-repeat",
+  // backgroundImageOpacity: "85",
 };
 
 // Lava pattern bg
