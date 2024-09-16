@@ -1,12 +1,14 @@
 import {
   ancient8,
   arbitrum,
+  arbitrumSepolia,
   avalanche,
   avalancheFuji,
   base,
   baseSepolia,
   blast,
   bsc,
+  bscTestnet,
   celo,
   celoAlfajores,
   cyber,
@@ -29,6 +31,7 @@ import {
   pgn,
   pgnTestnet,
   polygon,
+  polygonAmoy,
   redstone,
   scroll,
   sepolia,
@@ -139,7 +142,7 @@ const kromaTheme = {
     className: "bg-[#72DE2F]",
     overlay: {
       className:
-        "bg-gradient-to-t from-teal-950 via-teal-950/0 to-teal-950/0 mix-blend-hard-light opacity-30",
+        "bg-gradient-to-t from-teal-950 via-teal-950/0 to-teal-950/0 mix-blend-screen opacity-100",
     },
   },
 };
@@ -212,14 +215,15 @@ const worldchainTheme = {
   icon: "/img/worldchain-mainnet/icon.svg",
   card: {
     className: "bg-black",
+    title: "text-white",
   },
 };
 
 const cyberTheme = {
   icon: "/img/cyber-mainnet/icon.svg",
   card: {
-    className: "bg-black",
-    title: "text-white",
+    className: "bg-[#EAFFE7]",
+    title: "text-zinc-900",
   },
 };
 
@@ -247,7 +251,7 @@ const blastTheme = {
   icon: "/img/blast/icon.svg",
   card: {
     className: "bg-black border border-white/5",
-    title: "text-[#FCFC03]",
+    title: "text-white",
   },
 };
 
@@ -318,7 +322,15 @@ const scrollTheme = {
 const polygonTheme = {
   card: {
     className: "bg-gradient-to-b from-[#7F49F3] to-[#693CC8]",
-    title: "text-[#ffffff]",
+    title: "text-white",
+  },
+  icon: "/img/polygon/icon.svg",
+};
+
+const polygonAmoyTheme = {
+  card: {
+    className: "bg-gradient-to-tr from-[#7F49F3] to-[#693CC8]",
+    title: "text-white",
   },
   icon: "/img/polygon/icon.svg",
 };
@@ -339,10 +351,177 @@ const zircuitTheme = {
   },
 };
 
+const degenTheme = {
+  icon: "/img/degen/icon.svg",
+  card: {
+    className: "bg-gradient-to-b from-[#0F172A] to-[#412978]",
+    title: "text-white",
+  },
+};
+
+const fuseTheme = {
+  icon: "/img/fuse/icon.svg",
+  card: {
+    className: "bg-[#BAFEC0]",
+    title: "text-black",
+  },
+};
+
+const gnosisTheme = {
+  icon: "/img/gnosis/icon.svg",
+  card: {
+    className: "bg-[#133629]",
+    title: "text-white",
+  },
+};
+
+const luksoTheme = {
+  icon: "/img/lukso/icon.svg",
+  card: {
+    className: "bg-white",
+    title: "text-black",
+  },
+};
+
+const mantleTheme = {
+  icon: "/img/mantle/icon.svg",
+  card: {
+    className: "bg-black",
+    title: "text-white",
+  },
+};
+
+const merlinTheme = {
+  icon: "/img/merlin/icon.svg",
+  card: {
+    className: "bg-[#0F0832]",
+    title: "text-white",
+  },
+};
+
+const metisTheme = {
+  icon: "/img/metis/icon.svg",
+  card: {
+    className: "bg-[#00CFFF]",
+    title: "text-white",
+  },
+};
+
+const moonbeamTheme = {
+  icon: "/img/moonbeam/icon.svg",
+  card: {
+    className: "bg-[url('/img/moonbeam/bg.svg')] bg-no-repeat bg-cover",
+    title: "text-white",
+  },
+};
+
+const polygonZkEvmTheme = {
+  icon: "/img/polygonzkevm/icon.svg",
+  card: {
+    className: "bg-[#6C00F6]",
+    title: "text-white",
+  },
+};
+
+const realTheme = {
+  icon: "/img/real/icon.svg",
+  card: {
+    className: "bg-gradient-to-t from-[#D0D3E2] to-[#F5F6FB]",
+    title: "text-black",
+  },
+};
+
+const seiTheme = {
+  icon: "/img/sei/icon.svg",
+  card: {
+    className: "bg-gradient-to-b from-[#F2E9E9] to-[#ecedee]",
+    title: "text-black",
+  },
+};
+
+const taikoTheme = {
+  icon: "/img/taiko/icon.svg",
+  card: {
+    className: "bg-[#E81899]",
+    title: "text-white",
+  },
+};
+
+const xiaTheme = {
+  icon: "/img/xia/icon.svg",
+  card: {
+    className: "bg-[#FF0030]",
+    title: "text-white",
+  },
+};
+
+const xlayerTheme = {
+  icon: "/img/xlayer/icon.svg",
+  card: {
+    className: "bg-gradient-to-b from-zinc-900 to-zinc-950",
+    title: "text-white",
+  },
+};
+
+const zetaTheme = {
+  icon: "/img/zeta/icon.svg",
+  card: {
+    className: "bg-[#005741]",
+    title: "text-white",
+  },
+};
+
+const cheesechainTheme = {
+  icon: "/img/cheesechain/icon.png",
+  card: {
+    className: "bg-[#03F3F2]",
+    title: "text-zinc-900",
+  },
+};
+
+const proofofplayTheme = {
+  icon: "/img/proofofplay/icon.svg",
+  card: {
+    className: "bg-gradient-to-tr from-[#863AF8] to-[#37D7D5]",
+    title: "text-white",
+  },
+};
+
+const sankoTheme = {
+  icon: "/img/sanko/icon.png",
+  card: {
+    className: "bg-[#11131E]",
+    title: "text-white",
+  },
+};
+
+const enduranceTheme = {
+  icon: "/img/endurance/icon.png",
+  card: {
+    className: "bg-gradient-to-bl from-[#936A48] to-[#1C1B25]",
+    title: "text-white",
+  },
+};
+
 const moltenTheme = {
   icon: "/img/molten/icon.svg",
   card: {
-    className: "bg-[#0D0F13]",
+    className: "bg-zinc-900",
+    title: "text-white",
+  },
+};
+const mantaTheme = {
+  icon: "/img/manta/icon.svg",
+  card: {
+    className: "bg-gradient-to-tr from-[#29CCB9] via-[#0091FF] to-[#FF66B7]",
+    title: "text-white",
+  },
+};
+
+const bobTheme = {
+  icon: "/img/bob/icon.svg",
+  card: {
+    className: "bg-[#F25D00]",
     title: "text-white",
   },
 };
@@ -355,6 +534,7 @@ export const cardThemes: {
   [optimism.id]: optimismTheme,
   [optimismSepolia.id]: optimismTheme,
   [arbitrum.id]: arbitrumOneTheme,
+  [arbitrumSepolia.id]: arbitrumOneTheme,
   [mode.id]: modeTheme,
   [modeTestnet.id]: modeTheme,
   [fraxtal.id]: fraxTheme,
@@ -362,6 +542,7 @@ export const cardThemes: {
   [blast.id]: blastTheme,
   [linea.id]: lineaTheme,
   [bsc.id]: bscTheme,
+  [bscTestnet.id]: bscTheme,
   [88]: victionTheme,
   [inEVM.id]: injectiveTheme,
   [ancient8.id]: ancient8Theme,
@@ -369,6 +550,7 @@ export const cardThemes: {
   [sepolia.id]: ethereumTheme,
   [holesky.id]: ethereumTheme,
   [polygon.id]: polygonTheme,
+  [polygonAmoy.id]: polygonAmoyTheme,
   [avalanche.id]: avalancheTheme,
   [avalancheFuji.id]: avalancheTheme,
   [scroll.id]: scrollTheme,
@@ -397,5 +579,49 @@ export const cardThemes: {
   [celoAlfajores.id]: celoTheme,
   [48900]: zircuitTheme,
   [zircuitTestnet.id]: zircuitTheme,
+  // Degen Chain
+  [666666666]: degenTheme,
+  // Fuse
+  [122]: fuseTheme,
+  // Gnosis
+  [100]: gnosisTheme,
+  // Kroma
+  [255]: kromaTheme,
+  // Lukso
+  [42]: luksoTheme,
+  // Mantle
+  [5000]: mantleTheme,
+  // Merlin
+  [4200]: merlinTheme,
+  // Metis
+  [1088]: metisTheme,
+  // Moonbeam
+  [1284]: moonbeamTheme,
+  // Polygon zkEVM
+  [1101]: polygonZkEvmTheme,
+  // Real
+  [111188]: realTheme,
+  // Sei
+  [1329]: seiTheme,
+  // Taiko
+  [167000]: taikoTheme,
+  // Xai
+  [660279]: xiaTheme,
+  // xLayer
+  [196]: xlayerTheme,
+  // Zeta Chain
+  [7000]: zetaTheme,
+  // Proof of Play Apex
+  [70700]: proofofplayTheme,
+  // Sanko
+  [1996]: sankoTheme,
+  // World Chain
+  [480]: worldchainTheme,
+  // Endurance
+  [648]: enduranceTheme,
+  // cheesechain
+  [383353]: cheesechainTheme,
   [360]: moltenTheme,
+  [169]: mantaTheme,
+  [60808]: bobTheme,
 };
