@@ -6,6 +6,7 @@ import {
   V3_SUPERBRIDGE_HOST,
 } from "../constants/hosts";
 import {
+  cbethTheme,
   elixirTheme,
   hyperlaneTheme,
   moltenTheme,
@@ -59,6 +60,28 @@ const renzo: AppConfig = {
     gId: "G-T6VPED3THL",
   },
 };
+
+// const cbeth: AppConfig = {
+//   head: {
+//     name: "cbETH Bridge",
+//     description: "Bridge cbETH between Base, Ethereum and more",
+//     og: "https://cbeth.superbridge.app/img/cbeth/og.png",
+//     favicon: "/img/superbridge/favicon-32x32.png",
+//   },
+//   images: {
+//     logoLight: "/img/cbeth/logo.svg",
+//     logoDark: "/img/cbeth/logo.svg",
+//     logoLightSmall: "/img/cbeth/logo.svg",
+//     logoDarkSmall: "/img/cbeth/logo.svg",
+//   },
+//   theme: cbethTheme,
+
+//   links: [],
+
+//   metadata: {
+//     gId: "G-T6VPED3THL",
+//   },
+// };
 
 const hyperlane: AppConfig = {
   head: {

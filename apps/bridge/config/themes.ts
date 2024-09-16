@@ -56,6 +56,7 @@ export const superbridgeTheme: Partial<FrontendThemeDto> = {
 
 export const renzoTheme: Partial<FrontendThemeDto> = {
   darkModeEnabled: false,
+  rainbowMode: "dark",
   background: "#030411",
   muted: "rgba(255, 255, 255, 0.03)",
   foreground: "#ffffff",
@@ -80,8 +81,6 @@ export const renzoTheme: Partial<FrontendThemeDto> = {
   backgroundImageSize: "auto",
   backgroundImageRepeat: "no-repeat",
   backgroundImageOpacity: "70",
-
-  rainbowMode: "dark",
 };
 
 export const hyperlaneTheme: Partial<FrontendThemeDto> = {
@@ -195,4 +194,22 @@ export const moltenTheme: Partial<FrontendThemeDto> = {
     "https://molten.superbridge.app/fonts/molten/InstrumentSans-Bold.woff",
   fontHeading:
     "https://molten.superbridge.app/fonts/molten/InstrumentSans-Bold.woff",
+};
+
+export const cbethTheme: Partial<FrontendThemeDto> = {
+  darkModeEnabled: false,
+  rainbowMode: "light",
+  background: "#fafafa",
+  muted: "#FAFAFA",
+  foreground: "#0A0B0D",
+  "muted-foreground": "#5C616D",
+  primary: "#0052FF",
+  "primary-foreground": "#ffffff",
+  card: "#ffffff",
+  border: "#E2E3E6",
+  imageLogo: "/img/renzo/logo.svg",
+  imageLogoDark: "/img/renzo/logo.svg",
+  fontBody: "https://cbeth.superbridge.app/fonts/cbeth/cb-regular.woff2",
+  fontButton: "https://cbeth.superbridge.app/fonts/cbeth/cb-regular.woff2",
+  fontHeading: "https://cbeth.superbridge.app/fonts/cbeth/cb-bold.woff2",
 };
