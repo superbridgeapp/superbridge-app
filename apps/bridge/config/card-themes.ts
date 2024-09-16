@@ -212,6 +212,7 @@ const worldchainTheme = {
   icon: "/img/worldchain-mainnet/icon.svg",
   card: {
     className: "bg-black",
+    title: "text-white",
   },
 };
 
@@ -443,6 +444,54 @@ const xiaTheme = {
   },
 };
 
+const xlayerTheme = {
+  icon: "/img/xlayer/icon.svg",
+  card: {
+    className: "bg-gradient-to-b from-zinc-900 to-zinc-950",
+    title: "text-white",
+  },
+};
+
+const zetaTheme = {
+  icon: "/img/zeta/icon.svg",
+  card: {
+    className: "bg-[#005741]",
+    title: "text-white",
+  },
+};
+
+const cheesechainTheme = {
+  icon: "/img/cheesechain/icon.png",
+  card: {
+    className: "bg-[#03F3F2]",
+    title: "text-zinc-900",
+  },
+};
+
+const proofofplayTheme = {
+  icon: "/img/proofofplay/icon.svg",
+  card: {
+    className: "bg-gradient-to-tr from-[#863AF8] to-[#37D7D5]",
+    title: "text-white",
+  },
+};
+
+const sankoTheme = {
+  icon: "/img/sanko/icon.png",
+  card: {
+    className: "bg-[#11131E]",
+    title: "text-white",
+  },
+};
+
+const enduranceTheme = {
+  icon: "/img/endurance/icon.png",
+  card: {
+    className: "bg-gradient-to-bl from-[#936A48] to-[#1C1B25]",
+    title: "text-white",
+  },
+};
+
 export const cardThemes: {
   [chainId: string]: { card: Theme["card"]; icon: string } | undefined;
 } = {
@@ -530,15 +579,17 @@ export const cardThemes: {
   // Xai
   [660279]: xiaTheme,
   // xLayer
-  [196]: celoTheme,
+  [196]: xlayerTheme,
   // Zeta Chain
-  [7000]: celoTheme,
+  [7000]: zetaTheme,
   // Proof of Play Apex
-  [70700]: celoTheme,
+  [70700]: proofofplayTheme,
   // Sanko
-  [1996]: celoTheme,
+  [1996]: sankoTheme,
   // World Chain
-  [480]: celoTheme,
+  [480]: worldchainTheme,
   // Endurance
-  [648]: celoTheme,
+  [648]: enduranceTheme,
+  // cheesechain
+  [383353]: cheesechainTheme,
 };
