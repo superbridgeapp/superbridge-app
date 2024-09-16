@@ -1,12 +1,14 @@
 import {
   ancient8,
   arbitrum,
+  arbitrumSepolia,
   avalanche,
   avalancheFuji,
   base,
   baseSepolia,
   blast,
   bsc,
+  bscTestnet,
   celo,
   celoAlfajores,
   cyber,
@@ -29,6 +31,7 @@ import {
   pgn,
   pgnTestnet,
   polygon,
+  polygonAmoy,
   redstone,
   scroll,
   sepolia,
@@ -248,7 +251,7 @@ const blastTheme = {
   icon: "/img/blast/icon.svg",
   card: {
     className: "bg-black border border-white/5",
-    title: "text-[#FCFC03]",
+    title: "text-white",
   },
 };
 
@@ -319,7 +322,15 @@ const scrollTheme = {
 const polygonTheme = {
   card: {
     className: "bg-gradient-to-b from-[#7F49F3] to-[#693CC8]",
-    title: "text-[#ffffff]",
+    title: "text-white",
+  },
+  icon: "/img/polygon/icon.svg",
+};
+
+const polygonAmoyTheme = {
+  card: {
+    className: "bg-gradient-to-tr from-[#7F49F3] to-[#693CC8]",
+    title: "text-white",
   },
   icon: "/img/polygon/icon.svg",
 };
@@ -492,6 +503,29 @@ const enduranceTheme = {
   },
 };
 
+const moltenTheme = {
+  icon: "/img/molten/icon.svg",
+  card: {
+    className: "bg-zinc-900",
+    title: "text-white",
+  },
+};
+const mantaTheme = {
+  icon: "/img/manta/icon.svg",
+  card: {
+    className: "bg-gradient-to-tr from-[#29CCB9] via-[#0091FF] to-[#FF66B7]",
+    title: "text-white",
+  },
+};
+
+const bobTheme = {
+  icon: "/img/bob/icon.svg",
+  card: {
+    className: "bg-[#F25D00]",
+    title: "text-white",
+  },
+};
+
 export const cardThemes: {
   [chainId: string]: { card: Theme["card"]; icon: string } | undefined;
 } = {
@@ -500,6 +534,7 @@ export const cardThemes: {
   [optimism.id]: optimismTheme,
   [optimismSepolia.id]: optimismTheme,
   [arbitrum.id]: arbitrumOneTheme,
+  [arbitrumSepolia.id]: arbitrumOneTheme,
   [mode.id]: modeTheme,
   [modeTestnet.id]: modeTheme,
   [fraxtal.id]: fraxTheme,
@@ -507,6 +542,7 @@ export const cardThemes: {
   [blast.id]: blastTheme,
   [linea.id]: lineaTheme,
   [bsc.id]: bscTheme,
+  [bscTestnet.id]: bscTheme,
   [88]: victionTheme,
   [inEVM.id]: injectiveTheme,
   [ancient8.id]: ancient8Theme,
@@ -514,6 +550,7 @@ export const cardThemes: {
   [sepolia.id]: ethereumTheme,
   [holesky.id]: ethereumTheme,
   [polygon.id]: polygonTheme,
+  [polygonAmoy.id]: polygonAmoyTheme,
   [avalanche.id]: avalancheTheme,
   [avalancheFuji.id]: avalancheTheme,
   [scroll.id]: scrollTheme,
@@ -592,4 +629,7 @@ export const cardThemes: {
   [648]: enduranceTheme,
   // cheesechain
   [383353]: cheesechainTheme,
+  [360]: moltenTheme,
+  [169]: mantaTheme,
+  [60808]: bobTheme,
 };
