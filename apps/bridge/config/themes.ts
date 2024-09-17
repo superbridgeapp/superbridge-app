@@ -67,12 +67,9 @@ export const renzoTheme: Partial<FrontendThemeDto> = {
   border: "rgba(187, 227, 219, 0.1)",
   imageLogo: "/img/renzo/logo.svg",
   imageLogoDark: "/img/renzo/logo.svg",
-  fontBody:
-    "https://renzo.superbridge.app/fonts/renzo/SpaceGrotesk-Medium.woff2",
-  fontButton:
-    "https://renzo.superbridge.app/fonts/renzo/SpaceGrotesk-Bold.woff2",
-  fontHeading:
-    "https://renzo.superbridge.app/fonts/renzo/SpaceGrotesk-Bold.woff2",
+  fontBody: "https://v3.superbridge.app/fonts/renzo/SpaceGrotesk-Medium.woff2",
+  fontButton: "https://v3.superbridge.app/fonts/renzo/SpaceGrotesk-Bold.woff2",
+  fontHeading: "https://v3.superbridge.app/fonts/renzo/SpaceGrotesk-Bold.woff2",
 
   imageBackground: "/img/renzo/bg.jpg",
   imageBackgroundDark: "/img/renzo/bg.jpg",
@@ -115,9 +112,9 @@ export const usdcTheme: Partial<FrontendThemeDto> = {
   "primary-foreground": "#0F1424",
   card: "rgba(16,22, 40, .666)",
   border: "rgba(110,160,230, 0.1)",
-  fontBody: "https://usdc.superbridge.app/fonts/usdc/Inter-Medium.woff2",
-  fontButton: "https://usdc.superbridge.app/fonts/usdc/Inter-SemiBold.woff2",
-  fontHeading: "https://usdc.superbridge.app/fonts/usdc/Inter-SemiBold.woff2",
+  fontBody: "https://v3.superbridge.app/fonts/usdc/Inter-Medium.woff2",
+  fontButton: "https://v3.superbridge.app/fonts/usdc/Inter-SemiBold.woff2",
+  fontHeading: "https://v3.superbridge.app/fonts/usdc/Inter-SemiBold.woff2",
   imageBackground: "/img/usdc/bg.svg",
   imageBackgroundDark: "/img/usdc/bg.svg",
   backgroundImageBlendMode: "normal",
@@ -138,12 +135,11 @@ export const elixirTheme: Partial<FrontendThemeDto> = {
   "primary-foreground": "#ffffff",
   card: "#ffffff",
   border: "#F3F3F3",
-  fontBody:
-    "https://elixir.superbridge.app/fonts/elixir/MundialLight-00b6da05.otf",
+  fontBody: "https://v3.superbridge.app/fonts/elixir/MundialLight-00b6da05.otf",
   fontButton:
-    "https://elixir.superbridge.app/fonts/elixir/MundialRegular-b828e325.otf",
+    "https://v3.superbridge.app/fonts/elixir/MundialRegular-b828e325.otf",
   fontHeading:
-    "https://elixir.superbridge.app/fonts/elixir/MundialRegular-b828e325.otf",
+    "https://v3.superbridge.app/fonts/elixir/MundialRegular-b828e325.otf",
   imageBackground: "/img/elixir/bg.jpg",
   imageBackgroundDark: "/img/elixir/bg.jpg",
   backgroundImageBlendMode: "normal",
@@ -164,9 +160,9 @@ export const wbtcTheme: Partial<FrontendThemeDto> = {
   "primary-foreground": "#ffffff",
   card: "rgba(18,15,25,0.5)",
   border: "rgba(134,65,146,0.33)",
-  fontBody: "https://usdc.superbridge.app/fonts/usdc/Inter-Medium.woff2",
-  fontButton: "https://usdc.superbridge.app/fonts/usdc/Inter-SemiBold.woff2",
-  fontHeading: "https://usdc.superbridge.app/fonts/usdc/Inter-SemiBold.woff2",
+  fontBody: "https://v3.superbridge.app/fonts/usdc/Inter-Medium.woff2",
+  fontButton: "https://v3.superbridge.app/fonts/usdc/Inter-SemiBold.woff2",
+  fontHeading: "https://v3.superbridge.app/fonts/usdc/Inter-SemiBold.woff2",
   imageBackground: "/img/wbtc/bg.svg",
   imageBackgroundDark: "/img/wbtc/bg.svg",
   backgroundImageBlendMode: "normal",
@@ -190,11 +186,11 @@ export const moltenTheme: Partial<FrontendThemeDto> = {
   "primary-foreground": "#08090D",
   border: "rgba(246, 246, 246, 0.08)",
   fontBody:
-    "https://molten.superbridge.app/fonts/molten/InstrumentSans-Medium.woff",
+    "https://v3.superbridge.app/fonts/molten/InstrumentSans-Medium.woff",
   fontButton:
-    "https://molten.superbridge.app/fonts/molten/InstrumentSans-Bold.woff",
+    "https://v3.superbridge.app/fonts/molten/InstrumentSans-Bold.woff",
   fontHeading:
-    "https://molten.superbridge.app/fonts/molten/InstrumentSans-Bold.woff",
+    "https://v3.superbridge.app/fonts/molten/InstrumentSans-Bold.woff",
   // imageBackground: "/img/molten/bg.png",
   // imageBackgroundDark: "/img/molten/bg.png",
   // backgroundImageBlendMode: "normal",
@@ -217,7 +213,7 @@ export const cbethTheme: Partial<FrontendThemeDto> = {
   border: "#E2E3E6",
   imageLogo: "/img/renzo/logo.svg",
   imageLogoDark: "/img/renzo/logo.svg",
-  fontBody: "https://cbeth.superbridge.app/fonts/cbeth/cb-regular.woff2",
-  fontButton: "https://cbeth.superbridge.app/fonts/cbeth/cb-regular.woff2",
-  fontHeading: "https://cbeth.superbridge.app/fonts/cbeth/cb-bold.woff2",
+  fontBody: "https://v3.superbridge.app/fonts/cbeth/cb-regular.woff2",
+  fontButton: "https://v3.superbridge.app/fonts/cbeth/cb-regular.woff2",
+  fontHeading: "https://v3.superbridge.app/fonts/cbeth/cb-bold.woff2",
 };
