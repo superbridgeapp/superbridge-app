@@ -51,7 +51,19 @@ export const useCustomToken = (address: Address) => {
         address,
         abi: OptimismMintableERC20Abi,
         chainId: deployment?.l2.id,
+        functionName: "l2Bridge",
+      },
+      {
+        address,
+        abi: OptimismMintableERC20Abi,
+        chainId: deployment?.l2.id,
         functionName: "REMOTE_TOKEN",
+      },
+      {
+        address,
+        abi: OptimismMintableERC20Abi,
+        chainId: deployment?.l2.id,
+        functionName: "l1Token",
       },
 
       // Arbitrum
@@ -82,13 +94,13 @@ export const useCustomToken = (address: Address) => {
   const decimals = reads.data?.[2].result;
   const balance = reads.data?.[3].result;
 
-  const OP_L2_BRIDGE = reads.data?.[4].result;
-  const OP_L1_TOKEN = reads.data?.[5].result;
+  const OP_L2_BRIDGE = reads.data?.[4].result ?? reads.data?.[5].result;
+  const OP_L1_TOKEN = reads.data?.[6].result ?? reads.data?.[7].result;
 
-  const ARB_L1_TOKEN = reads.data?.[6].result;
-  const ARB_L2_GATEWAY = reads.data?.[7].result;
+  const ARB_L1_TOKEN = reads.data?.[8].result;
+  const ARB_L2_GATEWAY = reads.data?.[9].result;
 
-  const isL1Token = !!reads.data?.[8].result;
+  const isL1Token = !!reads.data?.[10].result;
 
   const opL2Bridge = useReadContract({
     address: OP_L2_BRIDGE,
