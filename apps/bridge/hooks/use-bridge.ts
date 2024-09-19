@@ -30,7 +30,7 @@ export const useBridge = () => {
   });
 
   if (gas) {
-    gas = gas + gas / BigInt("50");
+    gas = gas + gas / BigInt("75");
   }
 
   return {
