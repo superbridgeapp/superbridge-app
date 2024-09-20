@@ -2,7 +2,9 @@ import {
   Address,
   encodeAbiParameters,
   encodeFunctionData,
+  gweiUnits,
   isAddress,
+  parseUnits,
 } from "viem";
 import { useEstimateFeesPerGas } from "wagmi";
 
@@ -41,7 +43,9 @@ export const useArbitrumGasCostsInWei = () => {
   const l1GasCost =
     (l1FeeData.data?.maxFeePerGas ?? BigInt(0)) +
     (l1FeeData.data?.maxFeePerGas ?? BigInt(0)) / BigInt(20);
-  const l2GasCost = (l2FeeData.data?.maxFeePerGas ?? BigInt(0)) * BigInt(3);
+  const l2GasCost =
+    (l2FeeData.data?.maxFeePerGas ?? parseUnits("0.1", gweiUnits.wei)) *
+    BigInt(3);
   const maxSubmissionCost = l1GasCost * l1GasLimit;
 
   return {
