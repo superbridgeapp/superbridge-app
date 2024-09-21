@@ -14,6 +14,7 @@ import {
   superbridgeTheme,
   usdcTheme,
   wbtcTheme,
+  worldchainTheme,
 } from "./themes";
 
 const superbidge: AppConfig = {
@@ -187,6 +188,26 @@ const molten: AppConfig = {
   metadata: {},
 };
 
+const worldchain: AppConfig = {
+  head: {
+    name: "Worldchain Bridge",
+    description: "Bridge assets between supported chains",
+    og: "https://v3.superbridge.app/img/worldchain-mainnet/og.png",
+    favicon: "/img/superbridge/favicon-32x32.png",
+  },
+  images: {
+    logoLight: "/img/worldchain-mainnet/logo-light.svg",
+    logoDark: "/img/worldchain-mainnet/logo-dark.svg",
+    logoLightSmall: "/img/worldchain-mainnet/logo-light.svg",
+    logoDarkSmall: "/img/worldchain-mainnet/logo-dark.svg",
+  },
+  theme: worldchainTheme,
+
+  links: [],
+
+  metadata: {},
+};
+
 export const frontendApps: { [x: string]: AppConfig | undefined } = {
   [SUPERBRIDGE_HOST]: superbidge,
   [SUPERBRIDGE_TESTNET_HOST]: superbidge,
@@ -200,4 +221,5 @@ export const frontendApps: { [x: string]: AppConfig | undefined } = {
   ["wbtc.superbridge.app"]: wbtc,
   ["molten.superbridge.app"]: molten,
   ["cbbtc-demo.superbridge.app"]: cbeth,
+  ["wld.superbridge.app"]: worldchain,
 };

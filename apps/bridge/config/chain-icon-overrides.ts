@@ -67,4 +67,5 @@ export const chainIcons: { [chainId: number]: string | undefined } = {
   [48900]: "/img/networks/zircuit.svg",
   [gravity.id]: "/img/networks/gravity.png",
   [360]: "/img/molten/network.svg",
+  [480]: "/img/networks/worldchain.svg",
 };

@@ -215,3 +215,28 @@ export const cbethTheme: Partial<FrontendThemeDto> = {
   fontButton: "https://v3.superbridge.app/fonts/cbeth/cb-regular.woff2",
   fontHeading: "https://v3.superbridge.app/fonts/cbeth/cb-bold.woff2",
 };
+
+export const worldchainTheme: Partial<FrontendThemeDto> = {
+  darkModeEnabled: true,
+  background: "#fafafa",
+  "background-dark": "#000000",
+  muted: "rgba(0,0,0,0.04)",
+  "muted-dark": "rgba(255,255,255,0.04)",
+  foreground: "#000000",
+  "foreground-dark": "#ffffff",
+  "muted-foreground": "#999999",
+  "muted-foreground-dark": "#999999",
+  primary: "#000000",
+  "primary-foreground": "#ffffff",
+  card: "#ffffff",
+  "card-dark": "rgba(32,32,32,0.9)",
+  border: "rgba(0,0,0,0.065)",
+  "border-dark": "rgba(244,244,244,0.065)",
+
+  fontBody: "https://v3.superbridge.app/fonts/worldchain/GTAmerica-Rg.woff2",
+  fontButton: "https://v3.superbridge.app/fonts/worldchain/GTAmerica-Rg.woff2",
+  fontHeading: "https://v3.superbridge.app/fonts/worldchain/GTAmerica-Rg.woff2",
+  // fontBody: "https://worldcoin.org/fonts/GTAmerica-Rg.woff2",
+  // fontButton: "https://worldcoin.org/fonts/GTAmerica-Rg.woff2",
+  // fontHeading: "https://worldcoin.org/fonts/GTAmerica-Rg.woff2",
+};
