@@ -61,7 +61,11 @@ export const Bridge = () => {
                     {deployment?.type === DeploymentType.testnet && (
                       <TestnetBadge />
                     )}
-                    {deployment?.provider === "conduit" && <PoweredByConduit />}
+                    {deployment?.provider === "conduit" &&
+                      deployment.name !==
+                        "layerk-fw3894cabq-de1d9d3570666ee0" && (
+                        <PoweredByConduit />
+                      )}
                     {deployment?.provider === "alt-layer" && (
                       <PoweredByAltLayer />
                     )}
