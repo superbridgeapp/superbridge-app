@@ -1,7 +1,14 @@
 import { useMemo } from "react";
 import { isPresent } from "ts-is-present";
 import { Address, isAddressEqual } from "viem";
-import { bsc, bscTestnet, syscoin, syscoinTestnet } from "viem/chains";
+import {
+  berachainTestnet,
+  berachainTestnetbArtio,
+  bsc,
+  bscTestnet,
+  syscoin,
+  syscoinTestnet,
+} from "viem/chains";
 
 import { DeploymentFamily } from "@/codegen/model";
 import { useConfigState } from "@/state/config";
@@ -108,6 +115,7 @@ const BNB_TESTNET_CHAINS: number[] = [bscTestnet.id];
 const BNB_MAINNET_CHAINS: number[] = [bsc.id];
 const BNB_CHAINS: number[] = [...BNB_TESTNET_CHAINS, ...BNB_MAINNET_CHAINS];
 const SYS_CHAINS: number[] = [syscoinTestnet.id, syscoin.id];
+const BERA_CHAINS: number[] = [berachainTestnet.id, berachainTestnetbArtio.id];
 
 export function useAllTokens() {
   const deployment = useDeployment();
@@ -156,6 +164,13 @@ export function useAllTokens() {
                 l2Ether.logoURI = "https://bridge.rollux.com/syscoin-logo.svg";
                 l1Ether.coinGeckoId = "syscoin";
                 l2Ether.coinGeckoId = "syscoin";
+              }
+
+              if (BERA_CHAINS.includes(d.l1.id)) {
+                l1Ether.logoURI = "/img/berachain/network.png";
+                l2Ether.logoURI = "/img/berachain/network.png";
+                l1Ether.coinGeckoId = "berachain-bera";
+                l2Ether.coinGeckoId = "berachain-bera";
               }
 
               // ensure every deployment has a native token registered
