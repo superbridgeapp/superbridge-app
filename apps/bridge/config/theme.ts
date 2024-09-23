@@ -4,6 +4,8 @@ import {
   arbitrumSepolia,
   base,
   baseSepolia,
+  berachainTestnet,
+  berachainTestnetbArtio,
   bsc,
   bscTestnet,
   holesky,
@@ -51,6 +53,8 @@ export const chainIcons: { [chainId: number]: string | undefined } = {
   [bscTestnet.id]: "/img/bsc/network.png",
   [lisk.id]: "/img/lisk-mainnet/network.png",
   [redstone.id]: "/img/redstone-mainnet/network.svg",
+  [berachainTestnet.id]: "/img/berachain/network.png",
+  [berachainTestnetbArtio.id]: "/img/berachain/network.png",
 };
 
 const defaultTheme: Theme = {

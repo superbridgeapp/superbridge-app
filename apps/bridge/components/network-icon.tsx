@@ -1,7 +1,13 @@
 import clsx from "clsx";
 import { ImageProps } from "next/image";
 import { Chain } from "viem";
-import { mainnet, sepolia, syscoin } from "viem/chains";
+import {
+  berachainTestnet,
+  berachainTestnetbArtio,
+  mainnet,
+  sepolia,
+  syscoin,
+} from "viem/chains";
 
 import { ChainDto, DeploymentDto } from "@/codegen/model";
 import { chainIcons } from "@/config/theme";
@@ -12,6 +18,8 @@ export const L1_BASE_CHAINS: number[] = [
   sepolia.id,
   syscoin.id,
   900, // Conduit devnet ID
+  berachainTestnet.id,
+  berachainTestnetbArtio.id,
 ];
 
 export const NetworkIcon = ({
