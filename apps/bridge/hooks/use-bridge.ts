@@ -31,6 +31,9 @@ export const useBridge = () => {
 
   if (gas) {
     gas = gas + gas / BigInt("75");
+    if (gas < BigInt(300_000)) {
+      gas = BigInt(300_000);
+    }
   }
 
   return {
