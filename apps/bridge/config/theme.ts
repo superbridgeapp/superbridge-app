@@ -797,6 +797,7 @@ export const themes: { [name: string]: Theme | undefined } = {
   ["celo-testnet"]: celoTheme,
   ["swan-chain"]: swanTheme,
   ["shape-testnet"]: shapeTheme,
+  ["shape-mainnet"]: shapeTheme,
   ["snaxchain-mainnet"]: snaxTheme,
   ["snaxchain-testnet"]: snaxTheme,
   ["soneium-mainnet"]: soneiumTheme,
