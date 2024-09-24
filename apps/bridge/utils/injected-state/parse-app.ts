@@ -22,7 +22,7 @@ export const parseApp = ({
         name: `${deployment?.l2.name} Bridge`,
         description: `Bridge ${deployment?.l2.nativeCurrency.symbol} and ERC20 tokens into and out of ${deployment?.l2.name}`,
         favicon:
-          deployment?.theme?.theme.imageLogo ??
+          deployment?.theme?.theme.imageNetwork ??
           "https://superbridge.app/img/superbridge-icon.png",
         og:
           deployment?.theme?.theme.imageOg ??
@@ -30,11 +30,10 @@ export const parseApp = ({
       },
       theme: deployment?.theme?.theme ?? {},
       images: {
-        // todo: figure this out
-        logoDark: "",
-        logoDarkSmall: "",
-        logoLight: "",
-        logoLightSmall: "",
+        logoDark: deployment?.theme?.theme.imageLogoDark ?? "",
+        logoDarkSmall: deployment?.theme?.theme.imageLogoDark ?? "",
+        logoLight: deployment?.theme?.theme.imageLogo ?? "",
+        logoLightSmall: deployment?.theme?.theme.imageLogo ?? "",
       },
       links: deployment?.theme?.links ?? [],
       metadata: {},
