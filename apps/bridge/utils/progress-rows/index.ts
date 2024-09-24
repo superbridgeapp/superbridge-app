@@ -36,11 +36,11 @@ export const useProgressRows = (tx: Transaction | null) => {
   const lzProgressRows = useLzProgressRows(tx);
 
   return (
+    arbitrumDeposit ||
+    arbitrumWithdrawal ||
     optimismDeposit ||
     optimismWithdrawal ||
     optimismForcedWithdrawal ||
-    arbitrumDeposit ||
-    arbitrumWithdrawal ||
     cctp ||
     across ||
     hyperlaneProgressRows ||
