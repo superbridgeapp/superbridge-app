@@ -6,6 +6,8 @@ import {
   avalanche,
   base,
   baseSepolia,
+  berachainTestnet,
+  berachainTestnetbArtio,
   blast,
   bsc,
   bscTestnet,
@@ -68,4 +70,6 @@ export const chainIcons: { [chainId: number]: string | undefined } = {
   [gravity.id]: "/img/networks/gravity.png",
   [360]: "/img/molten/network.svg",
   [480]: "/img/networks/worldchain.svg",
+  [berachainTestnet.id]: "/img/berachain/network.png",
+  [berachainTestnetbArtio.id]: "/img/berachain/network.png",
 };
