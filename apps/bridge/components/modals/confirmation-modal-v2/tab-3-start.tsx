@@ -431,7 +431,7 @@ export const ConfirmationModalStartTab = () => {
                 }),
                 chain: from,
                 fee: approvedGasToken ? undefined : fee(approveGasTokenCost),
-                buttonComponent: approveGasToken ? (
+                buttonComponent: approvedGasToken ? (
                   <IconCheckCircle className="w-6 h-6 fill-primary" />
                 ) : (
                   <Button
