@@ -50,6 +50,7 @@ import type {
   IdDto,
   NumberDto,
   PricesDto,
+  RouteRequestDto,
   RouteResponseDto,
   SuperbridgeConfigDto,
   SyncStatusDto,
@@ -1305,6 +1306,55 @@ export const useBridgeControllerGetRoutes = <TData = Awaited<ReturnType<typeof b
 
 
 
+export const bridgeControllerGetBridgeRoutes = (
+    routeRequestDto: RouteRequestDto, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<RouteResponseDto>> => {
+    
+    return axios.post(
+      `/api/bridge/routes`,
+      routeRequestDto,options
+    );
+  }
+
+
+
+export const getBridgeControllerGetBridgeRoutesMutationOptions = <TError = AxiosError<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerGetBridgeRoutes>>, TError,{data: RouteRequestDto}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerGetBridgeRoutes>>, TError,{data: RouteRequestDto}, TContext> => {
+const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof bridgeControllerGetBridgeRoutes>>, {data: RouteRequestDto}> = (props) => {
+          const {data} = props ?? {};
+
+          return  bridgeControllerGetBridgeRoutes(data,axiosOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type BridgeControllerGetBridgeRoutesMutationResult = NonNullable<Awaited<ReturnType<typeof bridgeControllerGetBridgeRoutes>>>
+    export type BridgeControllerGetBridgeRoutesMutationBody = RouteRequestDto
+    export type BridgeControllerGetBridgeRoutesMutationError = AxiosError<unknown>
+
+    export const useBridgeControllerGetBridgeRoutes = <TError = AxiosError<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerGetBridgeRoutes>>, TError,{data: RouteRequestDto}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationResult<
+        Awaited<ReturnType<typeof bridgeControllerGetBridgeRoutes>>,
+        TError,
+        {data: RouteRequestDto},
+        TContext
+      > => {
+
+      const mutationOptions = getBridgeControllerGetBridgeRoutesMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
 export const bridgeControllerGetTokens = (
     domain: string, options?: AxiosRequestConfig
  ): Promise<AxiosResponse<BridgeControllerGetTokens200Item[]>> => {

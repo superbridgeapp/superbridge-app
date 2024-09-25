@@ -5,7 +5,10 @@
  * API docs
  * OpenAPI spec version: 1.0
  */
+import type { HyperlaneRouterDtoType } from './hyperlaneRouterDtoType';
 
 export interface HyperlaneRouterDto {
   router: string;
+  type?: HyperlaneRouterDtoType;
+  xERC20?: string;
 }

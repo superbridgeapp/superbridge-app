@@ -1,3 +1,4 @@
+import { useQuery } from "@tanstack/react-query";
 import { useDebounce } from "use-debounce";
 import { isAddress } from "viem";
 import { useAccount } from "wagmi";
@@ -5,7 +6,7 @@ import { useAccount } from "wagmi";
 import { useConfigState } from "@/state/config";
 import { deadAddress } from "@/utils/tokens/is-eth";
 
-import { useBridgeControllerGetRoutes } from "../../codegen";
+import { bridgeControllerGetBridgeRoutes } from "../../codegen";
 import { useDestinationToken, useSelectedToken } from "../tokens/use-token";
 import { useFromChain, useToChain } from "../use-chain";
 import { useGraffiti } from "../use-graffiti";
@@ -23,40 +24,64 @@ export const useBridgeRoutes = () => {
 
   const fromTokenAddress = fromToken?.address;
   const toTokenAddress = toToken?.address;
+  const graffiti = useGraffiti();
 
   const [weiAmount] = useDebounce(useWeiAmount(), 300);
 
-  const routes = useBridgeControllerGetRoutes(
-    {
-      amount: weiAmount.toString(),
-      fromChainId: from?.id.toString() ?? "",
-      toChainId: to?.id.toString() ?? "",
-      fromTokenAddress: fromTokenAddress ?? "",
-      toTokenAddress: toTokenAddress ?? "",
-      graffiti: useGraffiti(),
-      recipient: recipientAddress || deadAddress,
-      sender: account.address ?? deadAddress,
-
+  const routes = useQuery({
+    queryKey: [
+      weiAmount.toString(),
+      from?.id.toString() ?? "",
+      to?.id.toString() ?? "",
+      fromTokenAddress ?? "",
+      toTokenAddress ?? "",
+      recipientAddress || deadAddress,
+      account.address ?? deadAddress,
+      graffiti,
       forceViaL1,
 
-      hyperlaneFromTokenRouterAddress: fromToken?.hyperlane?.router,
-      hyperlaneToTokenRouterAddress: toToken?.hyperlane?.router,
+      fromToken?.hyperlane?.router,
+      toToken?.hyperlane?.router,
 
-      opBridgedUsdcAdapter: fromToken?.opBridgedUsdc?.adapter,
-      lzAdapter: fromToken?.lz?.adapter,
+      fromToken?.opBridgedUsdc?.adapter,
+      fromToken?.lz?.adapter,
+    ],
+    queryFn: () => {
+      return bridgeControllerGetBridgeRoutes({
+        amount: weiAmount.toString(),
+        fromChainId: from?.id.toString() ?? "",
+        toChainId: to?.id.toString() ?? "",
+        fromTokenAddress: fromTokenAddress ?? "",
+        toTokenAddress: toTokenAddress ?? "",
+        graffiti,
+        recipient: recipientAddress || deadAddress,
+        sender: account.address ?? deadAddress,
+
+        forceViaL1,
+
+        hyperlaneFromTokenRouterAddress: fromToken?.hyperlane?.router,
+        hyperlaneToTokenRouterAddress: toToken?.hyperlane?.router,
+
+        hyperlane:
+          fromToken?.hyperlane && toToken?.hyperlane
+            ? {
+                from: fromToken.hyperlane,
+                to: toToken.hyperlane,
+              }
+            : undefined,
+
+        opBridgedUsdcAdapter: fromToken?.opBridgedUsdc?.adapter,
+        lzAdapter: fromToken?.lz?.adapter,
+      });
     },
-    {
-      query: {
-        enabled:
-          !!weiAmount &&
-          !!from &&
-          !!to &&
-          !!fromTokenAddress &&
-          !!toTokenAddress &&
-          (recipientAddress ? isAddress(recipientAddress) : true),
-      },
-    }
-  );
+    enabled:
+      !!weiAmount &&
+      !!from &&
+      !!to &&
+      !!fromTokenAddress &&
+      !!toTokenAddress &&
+      (recipientAddress ? isAddress(recipientAddress) : true),
+  });
 
   return {
     isLoading: routes.isFetching,
