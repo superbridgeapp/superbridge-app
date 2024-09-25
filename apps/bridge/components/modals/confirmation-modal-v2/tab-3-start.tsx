@@ -6,10 +6,12 @@ import { formatUnits } from "viem";
 import { useAccount, useEstimateFeesPerGas } from "wagmi";
 
 import { ChainNativeCurrencyDto, RouteStepType } from "@/codegen/model";
+import { BridgeInfo } from "@/components/bridge-info";
 import { IconCheckCircle } from "@/components/icons";
 import { ClaimButton, ProveButton } from "@/components/transaction-buttons";
 import { LineItem } from "@/components/transaction-line-item";
 import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { currencySymbolMap } from "@/constants/currency-symbol-map";
 import { useLatestSubmittedTx } from "@/hooks/activity/use-tx-by-hash";
 import { useBridge } from "@/hooks/bridge/use-bridge";
@@ -31,6 +33,7 @@ import { useAllowanceGasToken } from "@/hooks/use-allowance-gas-token";
 import { useApprove } from "@/hooks/use-approve";
 import { useApproveGasToken } from "@/hooks/use-approve-gas-token";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
+import { useModal } from "@/hooks/use-modal";
 import { useTokenPrice } from "@/hooks/use-prices";
 import { useReceiveAmount } from "@/hooks/use-receive-amount";
 import { useRequiredCustomGasTokenBalance } from "@/hooks/use-required-custom-gas-token-balance";
@@ -83,6 +86,11 @@ export const ConfirmationModalStartTab = () => {
   const customGasToken = useCustomGasTokenAddress(deployment?.id);
   const route = useSelectedBridgeRoute();
   const isArbitrumDeposit = useIsArbitrumDeposit();
+
+  const recipientAddress = useConfigState.useRecipientAddress();
+
+  const gasInfoModal = useModal("GasInfo");
+  const feeBreakdownModal = useModal("FeeBreakdown");
 
   const onSubmitBridge = useSubmitBridge();
 
@@ -365,7 +373,7 @@ export const ConfirmationModalStartTab = () => {
                 buttonComponent,
                 hash: undefined,
                 pendingHash: undefined,
-                token,
+                token: x.type === RouteStepType.Prove ? null : token,
               };
               return a;
             }
@@ -384,6 +392,7 @@ export const ConfirmationModalStartTab = () => {
                 fee: undefined,
                 hash: undefined,
                 pendingHash: undefined,
+                token,
               };
               return step;
             }
@@ -394,92 +403,114 @@ export const ConfirmationModalStartTab = () => {
   const lineItems = submittedHash ? submittedLineItems : preSubmissionLineItems;
 
   return (
-    <div>
-      <div className="flex flex-col p-6 pt-0 gap-1">
-        {approveGasTokenButton && from && (
-          <>
-            <LineItem
-              step={{
-                label: t("confirmationModal.approveGasToken", {
-                  symbol: fromToken?.symbol,
-                }),
-                chain: from,
-                fee: approvedGasToken ? undefined : fee(approveGasTokenCost),
-                buttonComponent: approvedGasToken ? (
-                  <IconCheckCircle className="w-6 h-6 fill-primary" />
-                ) : (
-                  <Button
-                    onClick={approveGasTokenButton.onSubmit}
-                    disabled={approveGasTokenButton.disabled}
-                    size="xs"
-                  >
-                    {approveGasTokenButton.buttonText}
-                    {approvedGasToken && (
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="15"
-                        height="12"
-                        viewBox="0 0 15 12"
-                        className="fill-white dark:fill-zinc-950 ml-2 h-2.5 w-auto"
-                      >
-                        <path d="M6.80216 12C6.32268 12 5.94594 11.8716 5.67623 11.559L0.63306 6.02355C0.384755 5.7624 0.269165 5.41563 0.269165 5.07742C0.269165 4.31109 0.915614 3.67749 1.66909 3.67749C2.04583 3.67749 2.42257 3.83161 2.69228 4.13129L6.57955 8.38245L12.1921 0.56939C12.4661 0.192651 12.8899 0 13.3309 0C14.0715 0 14.7308 0.56939 14.7308 1.38709C14.7308 1.67392 14.6538 1.96932 14.4697 2.21762L7.84676 11.4306C7.61558 11.7688 7.21315 12 6.79788 12H6.80216Z" />
-                      </svg>
-                    )}
-                  </Button>
-                ),
-                pendingHash: undefined,
-                hash: undefined,
-              }}
-            />
-          </>
-        )}
-
-        {approveButton && from && (
-          <>
-            <LineItem
-              step={{
-                label: t("confirmationModal.approve", {
-                  symbol: fromToken?.symbol,
-                }),
-                chain: from,
-                fee: approved ? undefined : fee(approveCost),
-                buttonComponent: approved ? (
-                  <IconCheckCircle className="w-6 h-6 fill-primary" />
-                ) : (
-                  <Button
-                    onClick={approveButton.onSubmit}
-                    disabled={approveButton.disabled}
-                    size="xs"
-                  >
-                    {approveButton.buttonText}
-                    {approved && (
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="15"
-                        height="12"
-                        viewBox="0 0 15 12"
-                        className="fill-white dark:fill-zinc-950 ml-2 h-2.5 w-auto"
-                      >
-                        <path d="M6.80216 12C6.32268 12 5.94594 11.8716 5.67623 11.559L0.63306 6.02355C0.384755 5.7624 0.269165 5.41563 0.269165 5.07742C0.269165 4.31109 0.915614 3.67749 1.66909 3.67749C2.04583 3.67749 2.42257 3.83161 2.69228 4.13129L6.57955 8.38245L12.1921 0.56939C12.4661 0.192651 12.8899 0 13.3309 0C14.0715 0 14.7308 0.56939 14.7308 1.38709C14.7308 1.67392 14.6538 1.96932 14.4697 2.21762L7.84676 11.4306C7.61558 11.7688 7.21315 12 6.79788 12H6.80216Z" />
-                      </svg>
-                    )}
-                  </Button>
-                ),
-                pendingHash: undefined,
-                hash: undefined,
-              }}
-            />
-          </>
-        )}
-
-        {lineItems.filter(isPresent).map((step) => (
-          <LineItem
-            key={isWaitStep(step) ? step.duration.toString() : step.label}
-            step={step}
-            tx={lastSubmittedTx}
-          />
-        ))}
+    <Tabs defaultValue="steps" className="flex flex-col">
+      <div className="mx-auto">
+        <TabsList className="bg-blue-400">
+          <TabsTrigger value="steps">Steps</TabsTrigger>
+          <TabsTrigger value="info">Bridge info</TabsTrigger>
+        </TabsList>
       </div>
-    </div>
+
+      <TabsContent value="steps">
+        <div className="flex flex-col p-6 pt-0 gap-1">
+          {approveGasTokenButton && from && (
+            <>
+              <LineItem
+                step={{
+                  label: t("confirmationModal.approveGasToken", {
+                    symbol: fromToken?.symbol,
+                  }),
+                  chain: from,
+                  fee: approvedGasToken ? undefined : fee(approveGasTokenCost),
+                  buttonComponent: approvedGasToken ? (
+                    <IconCheckCircle className="w-6 h-6 fill-primary" />
+                  ) : (
+                    <Button
+                      onClick={approveGasTokenButton.onSubmit}
+                      disabled={approveGasTokenButton.disabled}
+                      size="xs"
+                    >
+                      {approveGasTokenButton.buttonText}
+                      {approvedGasToken && (
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="15"
+                          height="12"
+                          viewBox="0 0 15 12"
+                          className="fill-white dark:fill-zinc-950 ml-2 h-2.5 w-auto"
+                        >
+                          <path d="M6.80216 12C6.32268 12 5.94594 11.8716 5.67623 11.559L0.63306 6.02355C0.384755 5.7624 0.269165 5.41563 0.269165 5.07742C0.269165 4.31109 0.915614 3.67749 1.66909 3.67749C2.04583 3.67749 2.42257 3.83161 2.69228 4.13129L6.57955 8.38245L12.1921 0.56939C12.4661 0.192651 12.8899 0 13.3309 0C14.0715 0 14.7308 0.56939 14.7308 1.38709C14.7308 1.67392 14.6538 1.96932 14.4697 2.21762L7.84676 11.4306C7.61558 11.7688 7.21315 12 6.79788 12H6.80216Z" />
+                        </svg>
+                      )}
+                    </Button>
+                  ),
+                  pendingHash: undefined,
+                  hash: undefined,
+                }}
+              />
+            </>
+          )}
+
+          {approveButton && from && (
+            <>
+              <LineItem
+                step={{
+                  label: t("confirmationModal.approve", {
+                    symbol: fromToken?.symbol,
+                  }),
+                  chain: from,
+                  fee: approved ? undefined : fee(approveCost),
+                  buttonComponent: approved ? (
+                    <IconCheckCircle className="w-6 h-6 fill-primary" />
+                  ) : (
+                    <Button
+                      onClick={approveButton.onSubmit}
+                      disabled={approveButton.disabled}
+                      size="xs"
+                    >
+                      {approveButton.buttonText}
+                      {approved && (
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="15"
+                          height="12"
+                          viewBox="0 0 15 12"
+                          className="fill-white dark:fill-zinc-950 ml-2 h-2.5 w-auto"
+                        >
+                          <path d="M6.80216 12C6.32268 12 5.94594 11.8716 5.67623 11.559L0.63306 6.02355C0.384755 5.7624 0.269165 5.41563 0.269165 5.07742C0.269165 4.31109 0.915614 3.67749 1.66909 3.67749C2.04583 3.67749 2.42257 3.83161 2.69228 4.13129L6.57955 8.38245L12.1921 0.56939C12.4661 0.192651 12.8899 0 13.3309 0C14.0715 0 14.7308 0.56939 14.7308 1.38709C14.7308 1.67392 14.6538 1.96932 14.4697 2.21762L7.84676 11.4306C7.61558 11.7688 7.21315 12 6.79788 12H6.80216Z" />
+                        </svg>
+                      )}
+                    </Button>
+                  ),
+                  pendingHash: undefined,
+                  hash: undefined,
+                }}
+              />
+            </>
+          )}
+
+          {lineItems.filter(isPresent).map((step) => (
+            <LineItem
+              key={isWaitStep(step) ? step.duration.toString() : step.label}
+              step={step}
+              tx={lastSubmittedTx}
+            />
+          ))}
+        </div>
+      </TabsContent>
+
+      <TabsContent value="info">
+        <BridgeInfo
+          from={from}
+          to={to}
+          amount={rawAmount}
+          token={token}
+          provider={route.data?.id ?? null}
+          sender={account.address ?? "0x"}
+          recipient={recipientAddress}
+          transferTime="10 mins"
+        />
+      </TabsContent>
+    </Tabs>
   );
 };

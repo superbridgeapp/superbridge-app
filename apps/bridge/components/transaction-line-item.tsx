@@ -121,10 +121,15 @@ function TransactionLineItem({
           </span>
         </div>
 
-        <div className="flex items-center gap-1">
-          <TokenIcon token={step.token?.[step.chain.id]} className="h-6 w-6" />
-          <span className="text-xl font-heading leading-none">1 ETH</span>
-        </div>
+        {step.token && (
+          <div className="flex items-center gap-1">
+            <TokenIcon
+              token={step.token?.[step.chain.id]}
+              className="h-6 w-6"
+            />
+            <span className="text-2xl font-heading leading-none">1 ETH</span>
+          </div>
+        )}
 
         <div
           className={clsx(

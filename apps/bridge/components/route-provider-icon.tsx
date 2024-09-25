@@ -8,10 +8,8 @@ import {
   LzTransactionType,
   OptimismTransactionType,
   RouteProvider,
-  RouteResultDto,
 } from "@/codegen/model";
 import { chainIcons } from "@/config/chain-icon-overrides";
-import { isRouteQuote, isRouteWaitStep } from "@/utils/guards";
 
 const icons = {
   [RouteProvider.Across]: "/img/networks/across.svg",
@@ -79,35 +77,35 @@ const depositRoutes: RouteProvider[] = [
 ];
 
 export const RouteProviderIcon = ({
-  route,
+  provider,
   className,
+  fromChainId,
+  toChainId,
 }: {
-  route: RouteResultDto | null;
+  provider: RouteProvider | null;
   className?: string;
+  fromChainId: number;
+  toChainId: number;
 }) => {
-  if (!route) {
+  if (!provider) {
     return null;
   }
 
-  let icon = icons[route.id];
-  if (nativeRoutes.includes(route.id) && isRouteQuote(route.result)) {
+  let icon = icons[provider];
+  if (nativeRoutes.includes(provider)) {
     // if deposit, we want to take chain icon of last step
     // if withdrawal, first step
-    const index = depositRoutes.includes(route.id)
-      ? route.result.steps.length - 1
-      : 0;
-    const step = route.result.steps[index];
-    if (!isRouteWaitStep(step)) {
-      const chainIcon = chainIcons[parseInt(step.chainId)];
-      if (chainIcon) {
-        icon = chainIcon;
-      }
+
+    const chainId = depositRoutes.includes(provider) ? toChainId : fromChainId;
+    const override = chainIcons[chainId];
+    if (override) {
+      icon = override;
     }
   }
 
   return (
     <Image
-      alt={`${route.id} icon`}
+      alt={`${provider} icon`}
       src={icon}
       className={className}
       height={16}

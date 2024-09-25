@@ -86,7 +86,9 @@ export const Route = ({
           >
             <div className="flex gap-1 items-center text-foreground text-xs font-body leading-none">
               <RouteProviderIcon
-                route={route.data}
+                provider={route.data.id}
+                fromChainId={selectedToken?.chainId ?? 0}
+                toChainId={token?.chainId ?? 0}
                 className="rounded-full bg-muted"
               />
               <span>
@@ -100,7 +102,9 @@ export const Route = ({
           <div className="flex gap-1.5 items-center rounded-full bg-muted pl-1.5 pr-2 py-1.5">
             <div className="flex gap-1 items-center text-foreground text-xs font-body leading-none">
               <RouteProviderIcon
-                route={route.data}
+                provider={route.data.id}
+                fromChainId={selectedToken?.chainId ?? 0}
+                toChainId={token?.chainId ?? 0}
                 className="rounded-full bg-muted"
               />
               <span>
