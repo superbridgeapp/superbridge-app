@@ -1,7 +1,7 @@
 import { match } from "ts-pattern";
 import { Address, isAddressEqual } from "viem";
 
-import { BridgeableTokenDto, TokenDepositDto } from "@/codegen/model";
+import { TokenDepositDto } from "@/codegen/model";
 import { useTxFromTo } from "@/hooks/activity/use-tx-from-to";
 import { MultiChainToken } from "@/types/token";
 import { Transaction } from "@/types/transaction";
@@ -28,7 +28,7 @@ const getToken = (
   },
   destChainId?: number
 ) => {
-  let match: BridgeableTokenDto | null = null;
+  let match: MultiChainToken | null = null;
   for (const t of tokens) {
     if (
       destChainId &&
@@ -36,27 +36,24 @@ const getToken = (
       t[destChainId]?.address &&
       isAddressEqual(t[chainId]!.address as Address, tokenAddress as Address)
     ) {
-      return t[chainId]!;
+      return t;
     }
 
     if (
       t[chainId]?.address &&
       isAddressEqual(t[chainId]!.address as Address, tokenAddress as Address)
     ) {
-      match = t[chainId]!;
+      match = t;
     }
   }
 
   return match;
 };
 
-const getNativeToken = (tokens: MultiChainToken[], chainId: number) => {
-  return tokens.find((x) => {
-    return x[chainId] && isNativeToken(x);
-  })?.[chainId];
-};
+const getNativeToken = (tokens: MultiChainToken[], chainId: number) =>
+  tokens.find((x) => x[chainId] && isNativeToken(x));
 
-export function useTxToken(tx: Transaction | null | undefined) {
+export function useTxMultichainToken(tx: Transaction | null | undefined) {
   const tokens = useAllTokens();
 
   const chains = useTxFromTo(tx);
@@ -67,10 +64,14 @@ export function useTxToken(tx: Transaction | null | undefined) {
   const { from, to } = chains;
 
   if (isCctpBridge(tx)) {
-    return getToken(tokens.data, {
-      chainId: tx.from.id,
-      tokenAddress: tx.token,
-    });
+    return getToken(
+      tokens.data,
+      {
+        chainId: tx.from.id,
+        tokenAddress: tx.token,
+      },
+      tx.to.id
+    );
   }
 
   if (isAcrossBridge(tx)) {
@@ -100,7 +101,7 @@ export function useTxToken(tx: Transaction | null | undefined) {
       );
     });
 
-    return t?.[from.id] ?? null;
+    return t ?? null;
   }
 
   if (isLzBridge(tx)) {
@@ -112,7 +113,7 @@ export function useTxToken(tx: Transaction | null | undefined) {
       return isAddressEqual(src.lz?.adapter as Address, tx.token as Address);
     });
 
-    return t?.[from.id] ?? null;
+    return t ?? null;
   }
 
   const metadata =
@@ -141,4 +142,15 @@ export function useTxToken(tx: Transaction | null | undefined) {
       );
     })
     .otherwise(() => null);
+}
+
+export function useTxToken(tx: Transaction | null | undefined) {
+  const chains = useTxFromTo(tx);
+  const token = useTxMultichainToken(tx);
+
+  if (!chains) {
+    return null;
+  }
+
+  return token?.[chains.from.id] ?? null;
 }

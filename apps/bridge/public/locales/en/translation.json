@@ -134,12 +134,14 @@
   },
 
   "buttons": {
+    "start": "Start",
     "finalize": "Finalize",
     "claim": "Claim",
     "prove": "Prove",
     "redeem": "Redeem",
     "switchChain": "Switch chain",
-    "mint": "Mint"
+    "mint": "Mint",
+    "get": "Get"
   },
 
   "fees": {
@@ -180,7 +182,7 @@
     "approxFees": "Approx. fees",
     "initiateDeposit": "Initiate deposit",
     "initiateWithdrawal": "Initiate withdrawal",
-    "initiateBridge": "Start bridge",
+    "start": "Start",
     "startBridgeOn": "Start bridge on {{from}}",
     "proveOn": "Prove on {{to}}",
     "getOn": "Get on {{to}}",

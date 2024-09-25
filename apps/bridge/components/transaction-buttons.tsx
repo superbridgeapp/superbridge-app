@@ -27,7 +27,7 @@ type TxButtonProps = { onClick: () => void; disabled: boolean };
 export const ProveButton = (props: TxButtonProps) => {
   const { t } = useTranslation();
   return (
-    <Button onClick={props.onClick} size={"sm"} disabled={props.disabled}>
+    <Button onClick={props.onClick} size={"xs"} disabled={props.disabled}>
       {t("buttons.prove")}
     </Button>
   );
@@ -36,8 +36,8 @@ export const ProveButton = (props: TxButtonProps) => {
 export const ClaimButton = (props: TxButtonProps) => {
   const { t } = useTranslation();
   return (
-    <Button onClick={props.onClick} size={"sm"} disabled={props.disabled}>
-      {t("buttons.claim")}
+    <Button onClick={props.onClick} size={"xs"} disabled={props.disabled}>
+      {t("buttons.get")}
     </Button>
   );
 };

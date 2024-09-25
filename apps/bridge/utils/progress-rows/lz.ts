@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
 
+import { useTxMultichainToken } from "@/hooks/activity/use-tx-token";
 import { useLzDomains } from "@/hooks/lz/use-lz-domains";
 import { useChain } from "@/hooks/use-chain";
 import { Transaction } from "@/types/transaction";
@@ -20,6 +21,7 @@ export const useLzProgressRows = (
 
   const fromChain = useChain(fromDomain?.chainId);
   const toChain = useChain(toDomain?.chainId);
+  const token = useTxMultichainToken(tx);
 
   if (!tx || !isLzBridge(tx) || !fromChain || !toChain) {
     return null;
@@ -34,6 +36,7 @@ export const useLzProgressRows = (
       pendingHash: tx.send.timestamp ? undefined : tx.send.transactionHash,
       chain: fromChain,
       button: undefined,
+      token,
     },
     buildWaitStep(tx.send.timestamp, tx.receive?.timestamp, 1000 * 60 * 2),
     {
@@ -44,6 +47,7 @@ export const useLzProgressRows = (
       pendingHash: undefined,
       chain: toChain,
       button: undefined,
+      token,
     },
   ];
 };

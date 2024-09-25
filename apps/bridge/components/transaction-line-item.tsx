@@ -30,6 +30,7 @@ import {
 } from "@/utils/progress-rows/common";
 import { transactionLink } from "@/utils/transaction-link";
 
+import { TokenIcon } from "./token-icon";
 import {
   Finalise,
   FinaliseArbitrum,
@@ -67,7 +68,7 @@ function WaitLineItem({
   }, [step]);
 
   return (
-    <div className="flex gap-4 px-3 py-2 rounded-lg justify-start items-center w-full">
+    <div className="flex gap-4 justify-start items-center w-full">
       <div className="flex items-center gap-2 w-full">
         <IconSimpleTime className="w-8 h-8 p-1 fill-foreground" />
 
@@ -111,45 +112,50 @@ function TransactionLineItem({
   // not done, ie no transaction hash
 
   return (
-    <div
-      className={clsx(
-        "flex gap-4 px-3 py-4 rounded-lg justify-between bg-muted items-center relative"
-      )}
-    >
-      <div
-        className={clsx(
-          "flex gap-2",
-          fee.data ? "items-start" : "items-center"
-        )}
-      >
-        <NetworkIcon chain={step.chain} className="w-8 h-8 rounded-sm" />
-        <div className="flex flex-col gap-1">
+    <div className="flex gap-4 justify-between items-center relative">
+      <div className="flex flex-col gap-2">
+        <div className="flex items-center gap-1">
+          <NetworkIcon chain={step.chain} className="w-4 h-4 rounded-sm" />
           <span className="text-sm font-heading leading-none">
             {step.label}
           </span>
+        </div>
 
-          {!!step.gasLimit && (
-            <div className="flex gap-1">
-              <IconSimpleGas className="w-3.5 h-auto fill-muted-foreground opacity-80" />
-              {fee.isLoading ? (
-                <Skeleton className="h-4 w-[88px]" />
-              ) : (
+        <div className="flex items-center gap-1">
+          <TokenIcon token={step.token?.[step.chain.id]} className="h-6 w-6" />
+          <span className="text-xl font-heading leading-none">1 ETH</span>
+        </div>
+
+        <div
+          className={clsx(
+            "flex gap-2",
+            fee.data ? "items-start" : "items-center"
+          )}
+        >
+          <div className="flex flex-col gap-1">
+            {!!step.gasLimit && (
+              <div className="flex gap-1">
+                <IconSimpleGas className="w-3.5 h-auto fill-muted-foreground opacity-80" />
+                {fee.isLoading ? (
+                  <Skeleton className="h-4 w-[88px]" />
+                ) : (
+                  <span className="text-xs text-muted-foreground leading-none">
+                    <p className="text-xs">
+                      {fee.data?.fiat?.formatted ?? fee.data?.token.formatted}
+                    </p>
+                  </span>
+                )}
+              </div>
+            )}
+            {!!step.fee && (
+              <div className="flex gap-1">
+                <IconSimpleGas className="w-3.5 h-auto fill-muted-foreground opacity-80" />
                 <span className="text-xs text-muted-foreground leading-none">
-                  <p className="text-xs">
-                    {fee.data?.fiat?.formatted ?? fee.data?.token.formatted}
-                  </p>
+                  <p className="text-xs">{step.fee}</p>
                 </span>
-              )}
-            </div>
-          )}
-          {!!step.fee && (
-            <div className="flex gap-1">
-              <IconSimpleGas className="w-3.5 h-auto fill-muted-foreground opacity-80" />
-              <span className="text-xs text-muted-foreground leading-none">
-                <p className="text-xs">{step.fee}</p>
-              </span>
-            </div>
-          )}
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
@@ -205,9 +211,13 @@ export function LineItem(props: {
   step: ActivityStep;
   tx?: Pick<Transaction, "type">;
 }) {
-  if (isWaitStep(props.step)) {
-    return <WaitLineItem {...props} step={props.step} />;
-  }
-
-  return <TransactionLineItem {...props} step={props.step} />;
+  return (
+    <div className="px-5 py-4 rounded-lg bg-muted">
+      {isWaitStep(props.step) ? (
+        <WaitLineItem {...props} step={props.step} />
+      ) : (
+        <TransactionLineItem {...props} step={props.step} />
+      )}
+    </div>
+  );
 }

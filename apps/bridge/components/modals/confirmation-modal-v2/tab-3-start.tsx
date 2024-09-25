@@ -7,17 +7,9 @@ import { useAccount, useEstimateFeesPerGas } from "wagmi";
 
 import { ChainNativeCurrencyDto, RouteStepType } from "@/codegen/model";
 import { IconCheckCircle } from "@/components/icons";
-import { NetworkIcon } from "@/components/network-icon";
-import { RouteProviderName } from "@/components/route-provider-icon";
-import { TokenIcon } from "@/components/token-icon";
 import { ClaimButton, ProveButton } from "@/components/transaction-buttons";
 import { LineItem } from "@/components/transaction-line-item";
 import { Button } from "@/components/ui/button";
-import {
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
 import { currencySymbolMap } from "@/constants/currency-symbol-map";
 import { useLatestSubmittedTx } from "@/hooks/activity/use-tx-by-hash";
 import { useBridge } from "@/hooks/bridge/use-bridge";
@@ -31,6 +23,7 @@ import {
 } from "@/hooks/tokens/use-native-token";
 import {
   useDestinationToken,
+  useMultichainToken,
   useSelectedToken,
 } from "@/hooks/tokens/use-token";
 import { useAllowance } from "@/hooks/use-allowance";
@@ -73,6 +66,7 @@ export const ConfirmationModalStartTab = () => {
   const open = useConfigState.useDisplayConfirmationModal();
   const fromToken = useSelectedToken();
   const toToken = useDestinationToken();
+  const token = useMultichainToken();
   const withdrawing = useIsWithdrawal();
   const escapeHatch = useConfigState.useForceViaL1();
   const rawAmount = useConfigState.useRawAmount();
@@ -312,13 +306,13 @@ export const ConfirmationModalStartTab = () => {
       { needsGasTokenApprove: true, approvedGasToken: false },
       () => ({
         onSubmit: () => {},
-        buttonText: t("confirmationModal.initiateBridge"),
+        buttonText: t("buttons.start"),
         disabled: true,
       })
     )
     .otherwise(() => ({
       onSubmit: onSubmitBridge,
-      buttonText: t("confirmationModal.initiateBridge"),
+      buttonText: t("buttons.start"),
       disabled: false,
     }));
 
@@ -343,14 +337,11 @@ export const ConfirmationModalStartTab = () => {
             if (isRouteTransactionStep(x)) {
               const label =
                 x.type === RouteStepType.Initiate
-                  ? "Start bridge"
+                  ? t("confirmationModal.startBridgeOn", { from: from?.name })
                   : x.type === RouteStepType.Prove
-                    ? "Prove"
-                    : x.type === RouteStepType.Finalize
-                      ? "Claim"
-                      : x.type === RouteStepType.Mint
-                        ? "Claim"
-                        : "";
+                    ? t("confirmationModal.proveOn", { to: to?.name })
+                    : t("confirmationModal.getOn", { to: to?.name });
+
               const buttonComponent =
                 x.type === RouteStepType.Initiate ? (
                   <Button
@@ -374,6 +365,7 @@ export const ConfirmationModalStartTab = () => {
                 buttonComponent,
                 hash: undefined,
                 pendingHash: undefined,
+                token,
               };
               return a;
             }
@@ -387,7 +379,7 @@ export const ConfirmationModalStartTab = () => {
 
             if (isRouteReceiveStep(x)) {
               const step: TransactionStep = {
-                label: t("confirmationModal.receiveAmount", common),
+                label: t("confirmationModal.getOn", common),
                 chain: to!,
                 fee: undefined,
                 hash: undefined,
@@ -403,24 +395,6 @@ export const ConfirmationModalStartTab = () => {
 
   return (
     <div>
-      <DialogHeader className="items-center">
-        <TokenIcon token={fromToken} className="h-14 w-14 mb-2" />
-        <DialogTitle className="text-3xl text-center">
-          Bridge {rawAmount} {fromToken?.symbol}
-        </DialogTitle>
-        <DialogDescription>
-          <div className="flex gap-1 items-center rounded-sm border pl-1 pr-2 py-1">
-            <div className="flex">
-              <NetworkIcon chain={from} className="w-4 h-4 rounded-2xs" />
-              <NetworkIcon chain={to} className="w-4 h-4 rounded-2xs -ml-1" />
-            </div>
-            <span className="text-xs text-muted-foreground">
-              via <RouteProviderName provider={route.data?.id ?? null} />
-            </span>
-          </div>
-        </DialogDescription>
-      </DialogHeader>
-
       <div className="flex flex-col p-6 pt-0 gap-1">
         {approveGasTokenButton && from && (
           <>

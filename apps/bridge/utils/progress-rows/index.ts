@@ -17,11 +17,7 @@ export const useProgressRows = (tx: Transaction | null) => {
 
   const optimismDeposit = useOptimismDepositProgressRows(tx, deployment);
   const optimismWithdrawal = useOptimismWithdrawalProgressRows(
-    tx && isOptimismWithdrawal(tx) ? tx.id : null,
-    tx && isOptimismWithdrawal(tx) ? tx.status : null,
-    tx && isOptimismWithdrawal(tx) ? tx.withdrawal : null,
-    tx && isOptimismWithdrawal(tx) ? (tx.prove ?? null) : null,
-    tx && isOptimismWithdrawal(tx) ? (tx.finalise ?? null) : null,
+    tx && isOptimismWithdrawal(tx) ? tx : null,
     deployment
   );
   const optimismForcedWithdrawal = useOptimismForcedWithdrawalProgressRows(

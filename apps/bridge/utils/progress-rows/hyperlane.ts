@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
 
+import { useTxMultichainToken } from "@/hooks/activity/use-tx-token";
 import { useHyperlaneMailboxes } from "@/hooks/hyperlane/use-hyperlane-mailboxes";
 import { useChain } from "@/hooks/use-chain";
 import { Transaction } from "@/types/transaction";
@@ -11,6 +12,7 @@ export const useHyperlaneProgressRows = (
   tx: Transaction | null
 ): ActivityStep[] | null => {
   const { t } = useTranslation();
+  const token = useTxMultichainToken(tx);
 
   const hyperlaneMailboxes = useHyperlaneMailboxes();
 
@@ -39,6 +41,7 @@ export const useHyperlaneProgressRows = (
       pendingHash: tx.send.timestamp ? undefined : tx.send.transactionHash,
       chain: fromChain,
       button: undefined,
+      token,
     },
     buildWaitStep(tx.send.timestamp, tx.receive?.timestamp, tx.duration),
     {
@@ -49,6 +52,7 @@ export const useHyperlaneProgressRows = (
       pendingHash: undefined,
       chain: toChain,
       button: undefined,
+      token,
     },
   ];
 };

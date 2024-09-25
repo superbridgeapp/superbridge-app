@@ -1,4 +1,5 @@
 import { ChainDto } from "@/codegen/model";
+import { MultiChainToken } from "@/types/token";
 
 export enum ProgressRowStatus {
   NotDone = "not-done",
@@ -28,6 +29,7 @@ export type TransactionStep = {
   buttonComponent?: JSX.Element;
   pendingHash: string | undefined;
   hash: string | undefined;
+  token?: MultiChainToken | null;
 };
 
 export type WaitStepInProgress = {
