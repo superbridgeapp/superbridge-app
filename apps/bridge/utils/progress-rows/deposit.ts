@@ -1,7 +1,6 @@
 import { useTranslation } from "react-i18next";
 
 import { DeploymentDto } from "@/codegen/model";
-import { useTxToken } from "@/hooks/activity/use-tx-token";
 import { useChain } from "@/hooks/use-chain";
 import { Transaction } from "@/types/transaction";
 
@@ -13,7 +12,6 @@ export const useOptimismDepositProgressRows = (
   deployment: DeploymentDto | null
 ): ActivityStep[] | null => {
   const { t } = useTranslation();
-  const token = useTxToken(tx);
   const l1 = useChain(deployment?.l1ChainId);
   const l2 = useChain(deployment?.l2ChainId);
 
@@ -23,7 +21,9 @@ export const useOptimismDepositProgressRows = (
 
   return [
     {
-      label: "Start bridge",
+      label: t("confirmationModal.startBridgeOn", {
+        from: l1.name,
+      }),
       chain: l1,
       hash: tx.deposit.timestamp ? tx.deposit.transactionHash : undefined,
       pendingHash: tx.deposit.timestamp
@@ -37,7 +37,9 @@ export const useOptimismDepositProgressRows = (
       deployment.depositDuration
     ),
     {
-      label: `Receive ${token?.symbol}`,
+      label: t("confirmationModal.getOn", {
+        to: l2.name,
+      }),
       hash: tx.relay?.transactionHash,
       chain: l2,
       button: undefined,

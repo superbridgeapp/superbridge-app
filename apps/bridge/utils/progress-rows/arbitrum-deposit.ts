@@ -1,7 +1,6 @@
 import { useTranslation } from "react-i18next";
 
 import { DeploymentDto } from "@/codegen/model";
-import { useTxToken } from "@/hooks/activity/use-tx-token";
 import { useChain } from "@/hooks/use-chain";
 import { usePendingTransactions } from "@/state/pending-txs";
 import { Transaction } from "@/types/transaction";
@@ -17,7 +16,6 @@ export const useArbitrumDepositProgressRows = (
   const l1 = useChain(deployment?.l1ChainId);
   const l2 = useChain(deployment?.l2ChainId);
   const pendingFinalises = usePendingTransactions.usePendingFinalises();
-  const token = useTxToken(tx);
 
   if (!tx || !isArbitrumDeposit(tx) || !deployment || !l1 || !l2) {
     return null;
@@ -25,7 +23,9 @@ export const useArbitrumDepositProgressRows = (
 
   const receive = tx.relay
     ? {
-        label: `Receive ${token?.symbol}`,
+        label: t("confirmationModal.getOn", {
+          to: l2.name,
+        }),
         button: undefined,
         chain: l2,
         hash: tx.relay.transactionHash,
@@ -34,7 +34,9 @@ export const useArbitrumDepositProgressRows = (
       }
     : tx.deposit.timestamp && tx.deposit.timestamp < Date.now() - 1000 * 60 * 60
       ? {
-          label: "Manual relay required",
+          label: t("confirmationModal.getOn", {
+            to: l2.name,
+          }),
           fee: undefined, // todo
           button: {
             type: ButtonComponent.Redeem,
@@ -45,7 +47,9 @@ export const useArbitrumDepositProgressRows = (
           pendingHash: pendingFinalises[tx.id],
         }
       : {
-          label: `Receive ${token?.symbol}`,
+          label: t("confirmationModal.getOn", {
+            to: l2.name,
+          }),
           button: undefined,
           chain: l2,
           fee: undefined,
@@ -55,7 +59,9 @@ export const useArbitrumDepositProgressRows = (
 
   return [
     {
-      label: "Start bridge",
+      label: t("confirmationModal.startBridgeOn", {
+        from: l1.name,
+      }),
       hash: tx.deposit.timestamp ? tx.deposit.transactionHash : undefined,
       pendingHash: tx.deposit.timestamp
         ? undefined

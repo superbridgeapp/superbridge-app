@@ -25,7 +25,9 @@ export const useCctpProgressRows = (
   const pendingFinalise = pendingFinalises[tx?.id ?? ""];
 
   const burn: TransactionStep = {
-    label: "Start bridge",
+    label: t("confirmationModal.startBridgeOn", {
+      from: domains.from.chain.name,
+    }),
     hash: tx.bridge.timestamp ? tx.bridge.transactionHash : undefined,
     pendingHash: tx.bridge.timestamp ? undefined : tx.bridge.transactionHash,
     chain: tx.from,
@@ -35,7 +37,9 @@ export const useCctpProgressRows = (
   const mint: TransactionStep =
     tx.bridge.timestamp + domains.from.duration < Date.now() && !tx.relay
       ? {
-          label: "Claim USDC",
+          label: t("confirmationModal.getOn", {
+            to: domains.to.chain.name,
+          }),
           button: {
             type: ButtonComponent.Mint,
             enabled: true,
@@ -46,7 +50,9 @@ export const useCctpProgressRows = (
           gasLimit: BigInt(100_000),
         }
       : {
-          label: "Claim USDC",
+          label: t("confirmationModal.getOn", {
+            to: domains.to.chain.name,
+          }),
           hash: tx.relay?.transactionHash,
           pendingHash: pendingFinalise,
           chain: tx.to,

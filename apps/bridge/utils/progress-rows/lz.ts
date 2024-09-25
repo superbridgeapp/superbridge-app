@@ -1,4 +1,5 @@
-import { useTxToken } from "@/hooks/activity/use-tx-token";
+import { useTranslation } from "react-i18next";
+
 import { useLzDomains } from "@/hooks/lz/use-lz-domains";
 import { useChain } from "@/hooks/use-chain";
 import { Transaction } from "@/types/transaction";
@@ -9,8 +10,8 @@ import { ActivityStep, buildWaitStep } from "./common";
 export const useLzProgressRows = (
   tx: Transaction | null
 ): ActivityStep[] | null => {
-  const token = useTxToken(tx);
   const domains = useLzDomains();
+  const { t } = useTranslation();
 
   const fromDomain =
     tx && isLzBridge(tx) ? domains.find((x) => x.eId === tx.fromEid) : null;
@@ -26,7 +27,9 @@ export const useLzProgressRows = (
 
   return [
     {
-      label: "Start bridge",
+      label: t("confirmationModal.startBridgeOn", {
+        from: fromChain.name,
+      }),
       hash: tx.send.timestamp ? tx.send.transactionHash : undefined,
       pendingHash: tx.send.timestamp ? undefined : tx.send.transactionHash,
       chain: fromChain,
@@ -34,7 +37,9 @@ export const useLzProgressRows = (
     },
     buildWaitStep(tx.send.timestamp, tx.receive?.timestamp, 1000 * 60 * 2),
     {
-      label: `Receive ${token?.symbol}`,
+      label: t("confirmationModal.getOn", {
+        to: toChain.name,
+      }),
       hash: tx.receive?.transactionHash,
       pendingHash: undefined,
       chain: toChain,

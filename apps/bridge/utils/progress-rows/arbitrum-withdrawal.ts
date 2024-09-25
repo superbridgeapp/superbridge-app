@@ -31,7 +31,9 @@ export const useArbitrumWithdrawalProgressRows = (
   const pendingFinalise = pendingFinalises[w?.id ?? ""];
 
   const withdraw: TransactionStep = {
-    label: "Start bridge",
+    label: t("confirmationModal.startBridgeOn", {
+      from: l2.name,
+    }),
     hash: w.withdrawal.timestamp ? w.withdrawal.transactionHash : undefined,
     pendingHash: w.withdrawal.timestamp
       ? undefined
@@ -43,7 +45,9 @@ export const useArbitrumWithdrawalProgressRows = (
   const readyToFinalize = w.status === ArbitrumMessageStatus.CONFIRMED;
 
   const finalise: TransactionStep = {
-    label: t("buttons.finalize"),
+    label: t("confirmationModal.getOn", {
+      to: l1.name,
+    }),
     pendingHash: pendingFinalise,
     hash: w.finalise?.transactionHash,
     chain: l1,

@@ -39,7 +39,9 @@ export const useOptimismWithdrawalProgressRows = (
   const pendingFinalise = pendingFinalises[id ?? ""];
 
   const withdrawStep: TransactionStep = {
-    label: "Start bridge",
+    label: t("confirmationModal.startBridgeOn", {
+      from: l2.name,
+    }),
     hash: withdrawal?.timestamp ? withdrawal?.transactionHash : undefined,
     pendingHash: withdrawal?.timestamp
       ? undefined
@@ -52,7 +54,9 @@ export const useOptimismWithdrawalProgressRows = (
   const readyToFinalize = status === MessageStatus.READY_FOR_RELAY;
 
   const proveStep: TransactionStep = {
-    label: t("buttons.prove"),
+    label: t("confirmationModal.proveOn", {
+      from: l1.name,
+    }),
     pendingHash: pendingProve,
     hash: prove?.transactionHash,
     chain: l1,
@@ -64,7 +68,9 @@ export const useOptimismWithdrawalProgressRows = (
   };
 
   const finaliseStep: TransactionStep = {
-    label: t("buttons.finalize"),
+    label: t("confirmationModal.getOn", {
+      from: l1.name,
+    }),
     pendingHash: pendingFinalise,
     hash: finalise?.transactionHash,
     chain: l1,
