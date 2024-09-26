@@ -18,6 +18,7 @@ export const SUPERCHAIN_MAINNETS = [
   "swan-chain",
   "snaxchain-mainnet",
   "world-chain",
+  "race-mainnet",
 ];
 
 export const SUPERCHAIN_TESTNETS = [
@@ -37,5 +38,6 @@ export const SUPERCHAIN_TESTNETS = [
   "celo-testnet",
   "shape-testnet",
   "soneium-minato",
+  "race-testnet",
   // "snaxchain-testnet",
 ];
