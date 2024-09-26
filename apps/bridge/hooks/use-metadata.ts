@@ -7,3 +7,5 @@ export const useMetadata = () => {
 export const useApp = () => {
   return useInjectedStore((s) => s.app);
 };
+
+export const useHost = () => useInjectedStore((s) => s.host);
