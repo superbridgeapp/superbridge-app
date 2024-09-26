@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { isPresent } from "ts-is-present";
@@ -18,6 +19,7 @@ import { useBridge } from "@/hooks/bridge/use-bridge";
 import { useSubmitBridge } from "@/hooks/bridge/use-submit-bridge";
 import { useCustomGasTokenAddress } from "@/hooks/custom-gas-token/use-custom-gas-token-address";
 import { useDeployment } from "@/hooks/deployments/use-deployment";
+import { useHelpCenterLinkByProvider } from "@/hooks/help/use-help-center-link";
 import { useSelectedBridgeRoute } from "@/hooks/routes/use-selected-bridge-route";
 import {
   useNativeToken,
@@ -402,6 +404,7 @@ export const ConfirmationModalStartTab = () => {
 
   const lineItems = submittedHash ? submittedLineItems : preSubmissionLineItems;
 
+  const helpCenterLink = useHelpCenterLinkByProvider(route.data?.id ?? null);
   return (
     <Tabs defaultValue="steps" className="flex flex-col">
       <div className="mx-auto">
@@ -496,6 +499,18 @@ export const ConfirmationModalStartTab = () => {
               tx={lastSubmittedTx}
             />
           ))}
+
+          {helpCenterLink && (
+            <div className="flex items-center justify-center pt-3">
+              <Link
+                href={helpCenterLink}
+                target="_blank"
+                className="text-xs font-heading text-center hover:underline"
+              >
+                Need help? View the FAQs
+              </Link>
+            </div>
+          )}
         </div>
       </TabsContent>
 

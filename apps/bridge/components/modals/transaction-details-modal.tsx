@@ -1,4 +1,5 @@
-import { TransactionStatus } from "@/codegen/model";
+import Link from "next/link";
+
 import { useFinalisingTx } from "@/hooks/activity/use-finalising-tx";
 import { useTxAmount } from "@/hooks/activity/use-tx-amount";
 import { useTxDuration } from "@/hooks/activity/use-tx-duration";
@@ -10,6 +11,7 @@ import {
   useTxMultichainToken,
   useTxToken,
 } from "@/hooks/activity/use-tx-token";
+import { useHelpCenterLinkByProvider } from "@/hooks/help/use-help-center-link";
 import { useModal } from "@/hooks/use-modal";
 import { usePeriodText } from "@/hooks/use-period-text";
 import { useTransactions } from "@/hooks/use-transactions";
@@ -60,6 +62,8 @@ const Content = () => {
 
   const rows = useProgressRows(tx ?? null);
 
+  const helpCenterLink = useHelpCenterLinkByProvider(provider);
+
   return (
     <Tabs defaultValue="steps" className="flex flex-col">
       <div className="mx-auto">
@@ -78,6 +82,18 @@ const Content = () => {
               tx={tx!}
             />
           ))}
+
+          {helpCenterLink && (
+            <div className="flex items-center justify-center pt-3">
+              <Link
+                href={helpCenterLink}
+                target="_blank"
+                className="text-xs font-heading text-center hover:underline"
+              >
+                Need help? View the FAQs
+              </Link>
+            </div>
+          )}
         </div>
       </TabsContent>
 

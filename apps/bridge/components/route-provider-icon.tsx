@@ -10,6 +10,7 @@ import {
   RouteProvider,
 } from "@/codegen/model";
 import { chainIcons } from "@/config/chain-icon-overrides";
+import { depositRoutes, nativeRoutes } from "@/constants/routes";
 
 const icons = {
   [RouteProvider.Across]: "/img/networks/across.svg",
@@ -62,19 +63,6 @@ export const RouteProviderName = ({
 
   return <span>{names[provider]}</span>;
 };
-
-const nativeRoutes: RouteProvider[] = [
-  RouteProvider.ArbitrumDeposit,
-  RouteProvider.ArbitrumWithdrawal,
-  RouteProvider.OptimismDeposit,
-  RouteProvider.OptimismWithdrawal,
-  RouteProvider.OptimismForcedWithdrawal,
-];
-
-const depositRoutes: RouteProvider[] = [
-  RouteProvider.ArbitrumDeposit,
-  RouteProvider.OptimismDeposit,
-];
 
 export const RouteProviderIcon = ({
   provider,
