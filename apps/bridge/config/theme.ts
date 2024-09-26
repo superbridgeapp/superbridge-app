@@ -795,6 +795,7 @@ export const themes: { [name: string]: Theme | undefined } = {
   ["xterio-chain-eth"]: xterioTheme,
   ["xterio-eth-testnet"]: xterioTheme,
   ["celo-testnet"]: celoTheme,
+  ["celo-alfajores"]: celoTheme,
   ["swan-chain"]: swanTheme,
   ["shape-testnet"]: shapeTheme,
   ["shape-mainnet"]: shapeTheme,
