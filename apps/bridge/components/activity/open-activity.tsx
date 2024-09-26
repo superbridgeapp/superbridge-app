@@ -60,7 +60,6 @@ export const OpenActivity = ({}) => {
   });
   const account = useAccount();
   const setDisplayTransactions = useConfigState.useSetDisplayTransactions();
-  const open = useConfigState.useDisplayTransactions();
   const pendingTransactions = usePendingTransactions.useTransactions();
   const {
     transactions,
@@ -216,7 +215,7 @@ export const OpenActivity = ({}) => {
                           <>
                             <IconSpinner className="w-3 h-3 block text-foreground" />
                             <span className="text-sm text-foreground leading-none font-heading">
-                              Loading
+                              {t("loading")}
                             </span>
                           </>
                         ) : (
@@ -228,7 +227,7 @@ export const OpenActivity = ({}) => {
                             }}
                             className="text-sm text-foreground leading-none font-heading"
                           >
-                            Load more
+                            {t("loadMore")}
                           </button>
                         )}
                       </div>

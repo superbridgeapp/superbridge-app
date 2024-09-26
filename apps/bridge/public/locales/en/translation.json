@@ -20,6 +20,7 @@
   "bridgeMin": "Min. amount {{amount}} {{symbol}}",
   "enterAnAmount": "Enter an amount",
   "loading": "Loading",
+  "loadMore": "Load more",
   "error": "Error",
   "noAccountConnected": "No account connected",
   "save": "Save",
