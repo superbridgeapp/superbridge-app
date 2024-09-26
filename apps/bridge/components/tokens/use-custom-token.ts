@@ -54,13 +54,13 @@ export const useCustomToken = (address: string | null) => {
         functionName: "l2Bridge",
       },
       {
-        address,
+        address: address as Address,
         abi: OptimismMintableERC20Abi,
         chainId: deployment?.l2.id,
         functionName: "REMOTE_TOKEN",
       },
       {
-        address,
+        address: address as Address,
         abi: OptimismMintableERC20Abi,
         chainId: deployment?.l2.id,
         functionName: "l1Token",

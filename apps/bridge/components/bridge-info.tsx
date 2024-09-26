@@ -12,11 +12,11 @@ import { TokenIcon } from "@/components/token-icon";
 import { useModal } from "@/hooks/use-modal";
 import { MultiChainToken } from "@/types/token";
 
-export const Ens = ({ address }: { address: string }) => {
+export const Ens = ({ address }: { address: string | null }) => {
   const a = useEnsName({ address: address as Address });
 
   return (
-    a.data ?? address.slice(0, 6) + "..." + address.slice(address.length - 6)
+    a.data ?? address?.slice(0, 6) + "..." + address?.slice(address.length - 6)
   );
 };
 
@@ -29,20 +29,22 @@ export const BridgeInfo = ({
   recipient,
   sender,
   token,
-  amount,
+  sentAmount,
+  receivedAmount,
 }: {
   from: ChainDto | null;
   to: ChainDto | null;
   provider: RouteProvider | null;
 
-  sender: string;
-  recipient: string;
+  sender: string | null;
+  recipient: string | null;
 
   transferTime: string;
 
   token: MultiChainToken | null;
 
-  amount: string;
+  sentAmount: string | null;
+  receivedAmount: string | null;
 }) => {
   const feeBreakdownModal = useModal("FeeBreakdown");
   const gasInfoModal = useModal("GasInfo");
@@ -62,7 +64,7 @@ export const BridgeInfo = ({
               </div>
             </div>
             <div className="flex gap-1.5 items-center justify-between ">
-              {amount} {token?.[from?.id ?? 0]?.symbol}
+              {sentAmount} {token?.[from?.id ?? 0]?.symbol}
               <TokenIcon token={token?.[from?.id ?? 0]} className="h-4 w-4" />
             </div>
           </div>
@@ -76,7 +78,7 @@ export const BridgeInfo = ({
               </div>
             </div>
             <div className="flex gap-1.5 items-center justify-between ">
-              {amount} {token?.[to?.id ?? 0]?.symbol}
+              {receivedAmount} {token?.[to?.id ?? 0]?.symbol}
               <TokenIcon token={token?.[to?.id ?? 0]} className="h-4 w-4" />
             </div>
           </div>

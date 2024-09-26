@@ -1,6 +1,6 @@
 import { formatUnits } from "viem";
 
-import { EthDepositDto, NftDepositDto, TokenDepositDto } from "@/codegen/model";
+import { EthDepositDto, TokenDepositDto } from "@/codegen/model";
 import { Token } from "@/types/token";
 import { Transaction } from "@/types/transaction";
 import { formatDecimals } from "@/utils/format-decimals";
@@ -51,8 +51,6 @@ export function useTxAmount(
       amount = (metadata as EthDepositDto).data.amount;
       decimals = 18;
       symbol = token?.symbol ?? "ETH";
-    } else if (metadata.type === "nft-deposit") {
-      return `#${(metadata as NftDepositDto).data.tokenId}`;
     } else {
       const dto = metadata as TokenDepositDto;
       amount = dto.data.amount;
@@ -64,5 +62,10 @@ export function useTxAmount(
   const formatted = formatDecimals(
     parseFloat(formatUnits(BigInt(amount), decimals))
   );
-  return `${formatted} ${symbol}`;
+
+  return {
+    formatted,
+    raw: amount,
+    text: `${formatted} ${symbol}`,
+  };
 }

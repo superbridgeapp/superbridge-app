@@ -503,7 +503,8 @@ export const ConfirmationModalStartTab = () => {
         <BridgeInfo
           from={from}
           to={to}
-          amount={rawAmount}
+          sentAmount={rawAmount}
+          receivedAmount={receive.data?.token.amount.toString() ?? null}
           token={token}
           provider={route.data?.id ?? null}
           sender={account.address ?? "0x"}

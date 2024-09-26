@@ -359,7 +359,9 @@ export const TransactionRowV2 = ({ tx }: { tx: Transaction }) => {
                 ? `~${formatDistanceToNowStrict(timestamp)} ago`
                 : "just now"}
             </span>
-            <span className="text-2xl lg:text-3xl leading-none">{amount}</span>
+            <span className="text-2xl lg:text-3xl leading-none">
+              {amount?.text}
+            </span>
           </div>
           <div className="flex bg-muted rounded-md p-1 shrink-0">
             <NetworkIcon chain={chains?.from} className="h-6 w-6 rounded-xs" />

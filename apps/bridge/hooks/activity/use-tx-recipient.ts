@@ -6,7 +6,10 @@ import {
   isLzBridge,
 } from "@/utils/guards";
 
-export const useTxRecipient = (tx: Transaction) => {
+export const useTxRecipient = (
+  tx: Transaction | null | undefined
+): string | null => {
+  if (!tx) return null;
   if (isHyperlaneBridge(tx) || isLzBridge(tx)) return tx.to;
   if (isCctpBridge(tx)) return tx.recipient;
   // @ts-expect-error todo: handle this lz issue
