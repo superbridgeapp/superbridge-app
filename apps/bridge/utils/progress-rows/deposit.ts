@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 
 import { DeploymentDto } from "@/codegen/model";
+import { useTxAmount } from "@/hooks/activity/use-tx-amount";
 import { useTxMultichainToken } from "@/hooks/activity/use-tx-token";
 import { useChain } from "@/hooks/use-chain";
 import { Transaction } from "@/types/transaction";
@@ -16,6 +17,8 @@ export const useOptimismDepositProgressRows = (
   const l1 = useChain(deployment?.l1ChainId);
   const l2 = useChain(deployment?.l2ChainId);
   const token = useTxMultichainToken(tx);
+  const inputAmount = useTxAmount(tx, token?.[l1?.id ?? 0]);
+  const outputAmount = useTxAmount(tx, token?.[l2?.id ?? 0]);
 
   if (!tx || !isOptimismDeposit(tx) || !deployment || !l1 || !l2) {
     return null;
@@ -33,6 +36,7 @@ export const useOptimismDepositProgressRows = (
         : tx.deposit.transactionHash,
       button: undefined,
       token,
+      amount: inputAmount,
     },
     buildWaitStep(
       tx.deposit.timestamp,
@@ -48,6 +52,7 @@ export const useOptimismDepositProgressRows = (
       button: undefined,
       pendingHash: undefined,
       token,
+      amount: outputAmount,
     },
   ];
 };

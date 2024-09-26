@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 
 import { DeploymentDto } from "@/codegen/model";
+import { useTxAmount } from "@/hooks/activity/use-tx-amount";
 import { useTxMultichainToken } from "@/hooks/activity/use-tx-token";
 import { useChain } from "@/hooks/use-chain";
 import { usePendingTransactions } from "@/state/pending-txs";
@@ -18,6 +19,8 @@ export const useArbitrumDepositProgressRows = (
   const l2 = useChain(deployment?.l2ChainId);
   const pendingFinalises = usePendingTransactions.usePendingFinalises();
   const token = useTxMultichainToken(tx);
+  const inputAmount = useTxAmount(tx, token?.[l1?.id ?? 0]);
+  const outputAmount = useTxAmount(tx, token?.[l2?.id ?? 0]);
 
   if (!tx || !isArbitrumDeposit(tx) || !deployment || !l1 || !l2) {
     return null;
@@ -34,6 +37,7 @@ export const useArbitrumDepositProgressRows = (
         pendingHash: undefined,
         fee: undefined,
         token,
+        amount: outputAmount,
       }
     : tx.deposit.timestamp && tx.deposit.timestamp < Date.now() - 1000 * 60 * 60
       ? {
@@ -49,6 +53,7 @@ export const useArbitrumDepositProgressRows = (
           hash: undefined,
           pendingHash: pendingFinalises[tx.id],
           token,
+          amount: outputAmount,
         }
       : {
           label: t("confirmationModal.getOn", {
@@ -60,6 +65,7 @@ export const useArbitrumDepositProgressRows = (
           hash: undefined,
           pendingHash: undefined,
           token,
+          amount: outputAmount,
         };
 
   return [
@@ -74,6 +80,7 @@ export const useArbitrumDepositProgressRows = (
       button: undefined,
       chain: l1,
       token,
+      amount: inputAmount,
     },
     buildWaitStep(
       tx.deposit.timestamp,

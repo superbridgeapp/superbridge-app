@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { BridgeWithdrawalDto, DeploymentDto } from "@/codegen/model";
 import { FINALIZE_GAS, PROVE_GAS } from "@/constants/gas-limits";
 import { MessageStatus } from "@/constants/optimism-message-status";
+import { useTxAmount } from "@/hooks/activity/use-tx-amount";
 import { useTxMultichainToken } from "@/hooks/activity/use-tx-token";
 import { useChain } from "@/hooks/use-chain";
 import { usePendingTransactions } from "@/state/pending-txs";
@@ -24,6 +25,8 @@ export const useOptimismWithdrawalProgressRows = (
   const l1 = useChain(deployment?.l1ChainId);
   const l2 = useChain(deployment?.l2ChainId);
   const token = useTxMultichainToken(withdrawal);
+  const inputAmount = useTxAmount(withdrawal, token?.[l2?.id ?? 0]);
+  const outputAmount = useTxAmount(withdrawal, token?.[l1?.id ?? 0]);
 
   if (!deployment || !l1 || !l2) {
     return null;
@@ -45,6 +48,7 @@ export const useOptimismWithdrawalProgressRows = (
     chain: l2,
     button: undefined,
     token,
+    amount: inputAmount,
   };
 
   const readyToProve = withdrawal?.status === MessageStatus.READY_TO_PROVE;
@@ -77,6 +81,7 @@ export const useOptimismWithdrawalProgressRows = (
     },
     gasLimit: withdrawal?.finalise ? undefined : FINALIZE_GAS,
     token,
+    amount: outputAmount,
   };
 
   return [

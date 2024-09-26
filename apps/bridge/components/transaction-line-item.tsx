@@ -127,7 +127,9 @@ function TransactionLineItem({
               token={step.token?.[step.chain.id]}
               className="h-6 w-6"
             />
-            <span className="text-2xl font-heading leading-none">1 ETH</span>
+            <span className="text-2xl font-heading leading-none">
+              {step.amount?.formatted}
+            </span>
           </div>
         )}
 

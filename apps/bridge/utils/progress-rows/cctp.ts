@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
 
+import { useTxAmount } from "@/hooks/activity/use-tx-amount";
 import { useTxCctpDomains } from "@/hooks/activity/use-tx-cctp-domains";
 import { useTxMultichainToken } from "@/hooks/activity/use-tx-token";
 import { usePendingTransactions } from "@/state/pending-txs";
@@ -20,6 +21,7 @@ export const useCctpProgressRows = (
   const pendingFinalises = usePendingTransactions.usePendingFinalises();
   const domains = useTxCctpDomains(tx);
   const token = useTxMultichainToken(tx);
+  const amount = useTxAmount(tx, token?.[domains?.from.chain.id ?? 0]);
 
   if (!tx || !isCctpBridge(tx) || !domains) {
     return null;
@@ -35,6 +37,7 @@ export const useCctpProgressRows = (
     chain: tx.from,
     button: undefined,
     token,
+    amount,
   };
 
   const mint: TransactionStep =
@@ -52,6 +55,7 @@ export const useCctpProgressRows = (
           chain: tx.to,
           gasLimit: BigInt(100_000),
           token,
+          amount,
         }
       : {
           label: t("confirmationModal.getOn", {
@@ -63,6 +67,7 @@ export const useCctpProgressRows = (
           button: undefined,
           gasLimit: tx.relay ? undefined : BigInt(100_000),
           token,
+          amount,
         };
 
   return [

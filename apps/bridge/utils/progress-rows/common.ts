@@ -1,4 +1,5 @@
 import { ChainDto } from "@/codegen/model";
+import { useTxAmount } from "@/hooks/activity/use-tx-amount";
 import { MultiChainToken } from "@/types/token";
 
 export enum ProgressRowStatus {
@@ -30,6 +31,7 @@ export type TransactionStep = {
   pendingHash: string | undefined;
   hash: string | undefined;
   token?: MultiChainToken | null;
+  amount?: ReturnType<typeof useTxAmount>;
 };
 
 export type WaitStepInProgress = {

@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { DeploymentDto } from "@/codegen/model";
 import { ArbitrumMessageStatus } from "@/constants/arbitrum-message-status";
 import { FINALIZE_GAS } from "@/constants/gas-limits";
+import { useTxAmount } from "@/hooks/activity/use-tx-amount";
 import { useTxMultichainToken } from "@/hooks/activity/use-tx-token";
 import { useChain } from "@/hooks/use-chain";
 import { usePendingTransactions } from "@/state/pending-txs";
@@ -25,6 +26,8 @@ export const useArbitrumWithdrawalProgressRows = (
   const l1 = useChain(deployment?.l1ChainId);
   const l2 = useChain(deployment?.l2ChainId);
   const token = useTxMultichainToken(w);
+  const inputAmount = useTxAmount(w, token?.[l2?.id ?? 0]);
+  const outputAmount = useTxAmount(w, token?.[l1?.id ?? 0]);
 
   if (!w || !isArbitrumWithdrawal(w) || !deployment || !l1 || !l2) {
     return null;
@@ -43,6 +46,7 @@ export const useArbitrumWithdrawalProgressRows = (
     chain: l2,
     button: undefined,
     token,
+    amount: inputAmount,
   };
 
   const readyToFinalize = w.status === ArbitrumMessageStatus.CONFIRMED;
@@ -60,6 +64,7 @@ export const useArbitrumWithdrawalProgressRows = (
     },
     gasLimit: w.finalise ? undefined : FINALIZE_GAS,
     token,
+    amount: outputAmount,
   };
 
   return [
