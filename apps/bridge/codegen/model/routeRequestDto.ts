@@ -13,7 +13,9 @@ export interface RouteRequestDto {
   fromChainId: string;
   fromTokenAddress: string;
   graffiti: string;
+  host: string;
   hyperlane?: HyperlaneRouteRequestDto;
+  hyperlaneCustomRoutesId?: string;
   hyperlaneFromTokenRouterAddress?: string;
   hyperlaneToTokenRouterAddress?: string;
   lzAdapter?: string;

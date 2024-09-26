@@ -4,23 +4,27 @@ import { isAddress } from "viem";
 import { useAccount } from "wagmi";
 
 import { useConfigState } from "@/state/config";
+import { useHyperlaneState } from "@/state/hyperlane";
 import { deadAddress } from "@/utils/tokens/is-eth";
 
 import { bridgeControllerGetBridgeRoutes } from "../../codegen";
 import { useDestinationToken, useSelectedToken } from "../tokens/use-token";
 import { useFromChain, useToChain } from "../use-chain";
 import { useGraffiti } from "../use-graffiti";
+import { useHost } from "../use-metadata";
 import { useWeiAmount } from "../use-wei-amount";
 
 export const useBridgeRoutes = () => {
   const from = useFromChain();
   const to = useToChain();
   const account = useAccount();
+  const host = useHost();
 
   const fromToken = useSelectedToken();
   const toToken = useDestinationToken();
   const recipientAddress = useConfigState.useRecipientAddress();
   const forceViaL1 = useConfigState.useForceViaL1();
+  const hyperlaneCustomRoutesId = useHyperlaneState.useCustomRoutesId();
 
   const fromTokenAddress = fromToken?.address;
   const toTokenAddress = toToken?.address;
@@ -39,7 +43,8 @@ export const useBridgeRoutes = () => {
       account.address ?? deadAddress,
       graffiti,
       forceViaL1,
-
+      host,
+      hyperlaneCustomRoutesId,
       fromToken?.hyperlane?.router,
       toToken?.hyperlane?.router,
 
@@ -48,6 +53,8 @@ export const useBridgeRoutes = () => {
     ],
     queryFn: () => {
       return bridgeControllerGetBridgeRoutes({
+        host,
+        hyperlaneCustomRoutesId,
         amount: weiAmount.toString(),
         fromChainId: from?.id.toString() ?? "",
         toChainId: to?.id.toString() ?? "",

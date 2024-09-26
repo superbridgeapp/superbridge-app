@@ -5,7 +5,7 @@ import { HyperlaneMailboxDto } from "@/codegen/model";
 import { MultiChainToken } from "@/types/token";
 
 interface HyperlaneState {
-  customRoutesId: string;
+  customRoutesId: string | undefined;
   setCustomRoutesId: (s: string) => void;
 
   customMailboxes: HyperlaneMailboxDto[];
@@ -16,7 +16,7 @@ interface HyperlaneState {
 }
 
 const HyperlaneState = create<HyperlaneState>()((set) => ({
-  customRoutesId: "",
+  customRoutesId: undefined,
   setCustomRoutesId: (customRoutesId) => set({ customRoutesId }),
 
   customMailboxes: [],
