@@ -14,6 +14,7 @@ export interface HyperlaneBridgeDto {
   duration: number;
   from: string;
   fromDomain: number;
+  hyperlaneMessageId: string;
   id: string;
   receive?: ConfirmationDto;
   send: ConfirmationDto;

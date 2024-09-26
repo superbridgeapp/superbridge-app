@@ -5,6 +5,7 @@
  * API docs
  * OpenAPI spec version: 1.0
  */
+import type { HyperlaneRouterDto } from './hyperlaneRouterDto';
 
 export type BridgeControllerGetRoutesParams = {
 fromTokenAddress: string;
@@ -20,4 +21,6 @@ hyperlaneFromTokenRouterAddress?: string;
 hyperlaneToTokenRouterAddress?: string;
 opBridgedUsdcAdapter?: string;
 lzAdapter?: string;
+from: HyperlaneRouterDto;
+to: HyperlaneRouterDto;
 };

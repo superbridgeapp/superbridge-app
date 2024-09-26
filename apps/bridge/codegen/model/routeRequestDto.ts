@@ -5,6 +5,7 @@
  * API docs
  * OpenAPI spec version: 1.0
  */
+import type { HyperlaneRouteRequestDto } from './hyperlaneRouteRequestDto';
 
 export interface RouteRequestDto {
   amount: string;
@@ -12,6 +13,7 @@ export interface RouteRequestDto {
   fromChainId: string;
   fromTokenAddress: string;
   graffiti: string;
+  hyperlane?: HyperlaneRouteRequestDto;
   hyperlaneFromTokenRouterAddress?: string;
   hyperlaneToTokenRouterAddress?: string;
   lzAdapter?: string;

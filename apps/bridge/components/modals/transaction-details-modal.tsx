@@ -5,6 +5,7 @@ import { useTxAmount } from "@/hooks/activity/use-tx-amount";
 import { useTxDuration } from "@/hooks/activity/use-tx-duration";
 import { useTxFromTo } from "@/hooks/activity/use-tx-from-to";
 import { useTxProvider } from "@/hooks/activity/use-tx-provider";
+import { useTxProviderExplorerLink } from "@/hooks/activity/use-tx-provider-explorer-link";
 import { useTxRecipient } from "@/hooks/activity/use-tx-recipient";
 import { useTxSender } from "@/hooks/activity/use-tx-sender";
 import {
@@ -63,6 +64,7 @@ const Content = () => {
   const rows = useProgressRows(tx ?? null);
 
   const helpCenterLink = useHelpCenterLinkByProvider(provider);
+  const providerExplorerLink = useTxProviderExplorerLink(tx);
 
   return (
     <Tabs defaultValue="steps" className="flex flex-col">
@@ -91,6 +93,18 @@ const Content = () => {
                 className="text-xs font-heading text-center hover:underline"
               >
                 Need help? View the FAQs
+              </Link>
+            </div>
+          )}
+
+          {providerExplorerLink && (
+            <div className="flex items-center justify-center pt-3">
+              <Link
+                href={providerExplorerLink}
+                target="_blank"
+                className="text-xs font-heading text-center hover:underline"
+              >
+                View on the {provider} explorer
               </Link>
             </div>
           )}

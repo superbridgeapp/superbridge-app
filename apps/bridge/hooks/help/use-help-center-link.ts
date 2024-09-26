@@ -12,10 +12,10 @@ export const useHelpCenterLinkByProvider = (provider: RouteProvider | null) => {
 
   if (provider === RouteProvider.Across)
     return "https://help.superbridge.app/en/articles/9751873-how-to-bridge-via-across";
-  if (provider === RouteProvider.Lz)
-    return "https://help.superbridge.app/en/articles/9751873-how-to-bridge-via-across";
   if (provider === RouteProvider.Cctp)
     return "https://help.superbridge.app/en/articles/9751865-how-to-bridge-via-cctp";
+  if (provider === RouteProvider.Hyperlane)
+    return "https://help.superbridge.app/en/articles/9751857-how-to-bridge-via-hyperlane";
 
   return null;
 };

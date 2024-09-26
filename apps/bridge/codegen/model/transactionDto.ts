@@ -10,4 +10,5 @@ export interface TransactionDto {
   chainId: number;
   data: string;
   to: string;
+  value?: string;
 }
