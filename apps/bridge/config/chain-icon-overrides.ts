@@ -27,6 +27,7 @@ import {
   polygon,
   rollux,
   scroll,
+  sei,
   sepolia,
   syscoin,
   zora,
@@ -72,4 +73,5 @@ export const chainIcons: { [chainId: number]: string | undefined } = {
   [480]: "/img/networks/worldchain.svg",
   [berachainTestnet.id]: "/img/berachain/network.png",
   [berachainTestnetbArtio.id]: "/img/berachain/network.png",
+  [sei.id]: "/img/networks/sei.png",
 };
