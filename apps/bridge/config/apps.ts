@@ -13,6 +13,7 @@ import {
   renzoTheme,
   superbridgeTheme,
   usdcTheme,
+  veenoxTheme,
   wbtcTheme,
   worldchainTheme,
 } from "./themes";
@@ -208,6 +209,26 @@ const worldchain: AppConfig = {
   metadata: {},
 };
 
+const veenox: AppConfig = {
+  head: {
+    name: "Veenox Bridge",
+    description: "Bridge assets between supported chains",
+    og: "https://v3.superbridge.app/img/veenox/og.png",
+    favicon: "/img/superbridge/favicon-32x32.png",
+  },
+  images: {
+    logoLight: "/img/veenox/logo.svg",
+    logoDark: "/img/veenox/logo.svg",
+    logoLightSmall: "/img/veenox/logo.svg",
+    logoDarkSmall: "/img/veenox/logo.svg",
+  },
+  theme: veenoxTheme,
+
+  links: [],
+
+  metadata: {},
+};
+
 export const frontendApps: { [x: string]: AppConfig | undefined } = {
   [SUPERBRIDGE_HOST]: superbidge,
   [SUPERBRIDGE_TESTNET_HOST]: superbidge,
@@ -222,4 +243,5 @@ export const frontendApps: { [x: string]: AppConfig | undefined } = {
   ["molten.superbridge.app"]: molten,
   ["cbbtc-demo.superbridge.app"]: cbeth,
   ["wld.superbridge.app"]: worldchain,
+  ["9c48238032ba950c.demos.rollbridge.app"]: veenox,
 };

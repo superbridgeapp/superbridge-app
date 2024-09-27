@@ -236,7 +236,20 @@ export const worldchainTheme: Partial<FrontendThemeDto> = {
   fontBody: "https://v3.superbridge.app/fonts/worldchain/GTAmerica-Rg.woff2",
   fontButton: "https://v3.superbridge.app/fonts/worldchain/GTAmerica-Rg.woff2",
   fontHeading: "https://v3.superbridge.app/fonts/worldchain/GTAmerica-Rg.woff2",
-  // fontBody: "https://worldcoin.org/fonts/GTAmerica-Rg.woff2",
-  // fontButton: "https://worldcoin.org/fonts/GTAmerica-Rg.woff2",
-  // fontHeading: "https://worldcoin.org/fonts/GTAmerica-Rg.woff2",
+};
+
+export const veenoxTheme: Partial<FrontendThemeDto> = {
+  darkModeEnabled: false,
+  rainbowMode: "dark",
+  background: "#1B1D22",
+  muted: "rgba(66,66,66,.22)",
+  foreground: "#ffffff",
+  "muted-foreground": "#999999",
+  primary: "#836EF9",
+  "primary-foreground": "#ffffff",
+  card: "#202226",
+  border: "rgba(66,66,66,.5)",
+  fontBody: "https://v3.superbridge.app/fonts/veenox/Inter-Medium.woff2",
+  fontButton: "https://v3.superbridge.app/fonts/veenox/Inter-SemiBold.woff2",
+  fontHeading: "https://v3.superbridge.app/fonts/veenox/Inter-SemiBold.woff2",
 };

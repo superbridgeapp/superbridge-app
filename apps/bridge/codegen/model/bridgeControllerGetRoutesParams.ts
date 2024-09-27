@@ -8,6 +8,8 @@
 import type { HyperlaneRouterDto } from './hyperlaneRouterDto';
 
 export type BridgeControllerGetRoutesParams = {
+forceViaL1: boolean;
+host: string;
 fromTokenAddress: string;
 fromChainId: string;
 toTokenAddress: string;
@@ -16,11 +18,11 @@ sender: string;
 recipient: string;
 amount: string;
 graffiti: string;
-forceViaL1: boolean;
+from: HyperlaneRouterDto;
+to: HyperlaneRouterDto;
 hyperlaneFromTokenRouterAddress?: string;
 hyperlaneToTokenRouterAddress?: string;
 opBridgedUsdcAdapter?: string;
 lzAdapter?: string;
-from: HyperlaneRouterDto;
-to: HyperlaneRouterDto;
+hyperlaneCustomRoutesId?: string;
 };

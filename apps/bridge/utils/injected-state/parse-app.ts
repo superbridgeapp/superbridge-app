@@ -14,7 +14,7 @@ export const parseApp = ({
 
   if (frontendApps[host]) {
     app = frontendApps[host];
-  } else {
+  } else if (dto?.deployments[0]) {
     const deployment = dto?.deployments[0];
     // rollie
     app = {
@@ -36,6 +36,24 @@ export const parseApp = ({
         logoLightSmall: deployment?.theme?.theme.imageLogo ?? "",
       },
       links: deployment?.theme?.links ?? [],
+      metadata: {},
+    };
+  } else {
+    app = {
+      head: {
+        name: `Demo Bridge`,
+        description: `Bridge tokens into and out of supported chains`,
+        favicon: "https://superbridge.app/img/superbridge-icon.png",
+        og: "https://raw.githubusercontent.com/superbridgeapp/assets/main/rollies/og-rollies.png",
+      },
+      theme: {},
+      images: {
+        logoDark: "",
+        logoDarkSmall: "",
+        logoLight: "",
+        logoLightSmall: "",
+      },
+      links: [],
       metadata: {},
     };
   }
