@@ -738,6 +738,19 @@ const soneiumTheme: Theme = {
   },
 };
 
+const raceTheme: Theme = {
+  ...defaultTheme,
+  iconSrc: "/img/race/icon.svg",
+  card: {
+    className: "bg-[#05141B]",
+    title: "text-white",
+    overlay: {
+      image: "/img/race/bg-card.jpg",
+      className: "bg-cover bg-bottom bg-no-repeat",
+    },
+  },
+};
+
 export const themes: { [name: string]: Theme | undefined } = {
   ["base"]: baseTheme,
   ["base-sepolia"]: baseTheme,
@@ -802,6 +815,8 @@ export const themes: { [name: string]: Theme | undefined } = {
   ["snaxchain-testnet"]: snaxTheme,
   ["soneium-mainnet"]: soneiumTheme,
   ["soneium-minato"]: soneiumTheme,
+  ["race-mainnet"]: raceTheme,
+  ["race-testnet"]: raceTheme,
 };
 
 export const deploymentTheme = (
