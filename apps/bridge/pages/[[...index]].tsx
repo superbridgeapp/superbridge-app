@@ -88,7 +88,7 @@ export const getServerSideProps = async ({
     req.headers.host?.includes("ngrok")
   ) {
     const { data } = await bridgeControllerGetDeployments({
-      names: ["xterio-chain-eth"],
+      names: ["pepe-unchained-test-ypyaeq1krb-39391c88d242aec2"],
     });
     return { props: { deployments: data } };
   }
