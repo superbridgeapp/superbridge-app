@@ -16,7 +16,6 @@ import {
 import { TokenIcon } from "@/components/token-icon";
 import { Button } from "@/components/ui/button";
 import {
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -66,10 +65,9 @@ export const ConfirmationModalReviewTab = ({
   return (
     <div>
       <DialogHeader className="items-center">
-        <DialogTitle className="text-3xl">Review</DialogTitle>
-        <DialogDescription className="text-center">
-          Please check these details carefully
-        </DialogDescription>
+        <DialogTitle className="text-3xl">
+          {t("confirmationModal.review")}
+        </DialogTitle>
       </DialogHeader>
       <div className="flex flex-col gap-2 px-6">
         <div className="flex flex-col gap-1">

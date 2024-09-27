@@ -185,6 +185,7 @@
     "initiateWithdrawal": "Initiate withdrawal",
     "start": "Start",
     "startBridgeOn": "Start bridge on {{from}}",
+    "bridgeFrom": "Bridge from {{from}}",
     "proveOn": "Prove on {{to}}",
     "getOn": "Get on {{to}}",
     "initiateBridgeEscapeHatch": "Initiate Escape Hatch on {{base}}",
@@ -224,7 +225,9 @@
     "checkbox3": "I understand network fees are approximate and will change",
 
     "continue": "Continue withdraw",
-    "viewAlternateBridges": "Or view alternative bridges…"
+    "viewAlternateBridges": "Or view alternative bridges…",
+
+    "review": "Review"
   },
 
   "tos": {
@@ -279,5 +282,10 @@
     "feeBreakdownTitle": "Across fees",
     "feeBreakdownDescription": "Fees paid to <0>Across</0> and their liquidity providers and relayers",
     "acrossFee": "Across fee"
+  },
+
+  "header": {
+    "supportAndFaqs": "Support & FAQs",
+    "legal": "Legal"
   }
 }
