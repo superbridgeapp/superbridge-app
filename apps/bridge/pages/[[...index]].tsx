@@ -88,7 +88,7 @@ export const getServerSideProps = async ({
     req.headers.host?.includes("ngrok")
   ) {
     const { data } = await bridgeControllerGetDeployments({
-      names: ["pepe-unchained-test-ypyaeq1krb-39391c88d242aec2"],
+      names: [""],
     });
     return { props: { deployments: data } };
   }

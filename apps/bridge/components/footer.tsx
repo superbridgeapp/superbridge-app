@@ -47,8 +47,8 @@ export function Footer() {
     isSuperbridge
       ? defaultLinks
       : deployment?.theme?.links.length
-      ? deployment.theme.links
-      : defaultLinks;
+        ? deployment.theme.links
+        : defaultLinks;
 
   return (
     <footer className="flex flex-row justify-between px-1.5 md:px-6 py-3 md:py-4 fixed bottom-0 left-0 w-screen z-50 bg-gradient-to-t from-zinc-950/40 md:from-transparent">
@@ -184,9 +184,7 @@ export function Footer() {
                   deployment?.theme?.links &&
                   deployment?.theme?.links.length > 0 && (
                     <div className="bg-muted p-3 rounded-lg flex flex-col gap-3 mt-3">
-                      {!deployment.name.includes(
-                        "pepe-unchained-test-ypyaeq1krb-39391c88d242aec2"
-                      ) && (
+                      {!deployment.name.includes("pepe-unchained") && (
                         <a
                           href="https://superbridge.app"
                           className=" text-xs  leading-none w-full flex gap-2 items-center"
@@ -196,9 +194,7 @@ export function Footer() {
                         </a>
                       )}
 
-                      {!deployment.name.includes(
-                        "pepe-unchained-test-ypyaeq1krb-39391c88d242aec2"
-                      ) && (
+                      {!deployment.name.includes("pepe-unchained") && (
                         <Link
                           href={`https://superbridge.app/support/${deployment.name}`}
                           className=" text-xs  leading-none w-full flex gap-2 items-center"

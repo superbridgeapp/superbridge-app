@@ -62,18 +62,16 @@ export const Bridge = () => {
                       <TestnetBadge />
                     )}
                     {deployment?.provider === "conduit" &&
-                      !deployment.name.includes("layerk") &&
-                      !deployment.name.includes(
-                        "pepe-unchained-test-ypyaeq1krb-39391c88d242aec2"
+                      !(
+                        deployment.name.includes("layerk") ||
+                        deployment.name.includes("pepe-unchained")
                       ) && <PoweredByConduit />}
-                    {deployment?.provider === "alt-layer" &&
-                      !deployment.name.includes(
-                        "pepe-unchained-test-ypyaeq1krb-39391c88d242aec2"
-                      ) && <PoweredByAltLayer />}
-                    {deployment?.name === "shape-testnet" &&
-                      !deployment.name.includes(
-                        "pepe-unchained-test-ypyaeq1krb-39391c88d242aec2"
-                      ) && <PoweredByAlchemy />}
+                    {deployment?.provider === "alt-layer" && (
+                      <PoweredByAltLayer />
+                    )}
+                    {deployment?.name === "shape-testnet" && (
+                      <PoweredByAlchemy />
+                    )}
                   </div>
                 )}
               </>
