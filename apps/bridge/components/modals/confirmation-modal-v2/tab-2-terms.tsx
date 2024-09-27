@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { match } from "ts-pattern";
 
-import { RouteProvider } from "@/codegen/model";
+import { DeploymentFamily, RouteProvider } from "@/codegen/model";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -12,6 +12,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { optimismRoutes, withdrawalRoutes } from "@/constants/routes";
 import { useSelectedBridgeRoute } from "@/hooks/routes/use-selected-bridge-route";
 import { useToChain } from "@/hooks/use-chain";
 import { useApproxTotalBridgeTime } from "@/hooks/use-transfer-time";
@@ -50,28 +51,17 @@ export const ConfirmationModalTermsTab = ({
     isAcross: route.data?.id === RouteProvider.Across,
     isCctp: route.data?.id === RouteProvider.Cctp,
     isHyperlane: route.data?.id === RouteProvider.Hyperlane,
-    withdrawing: (
-      [
-        RouteProvider.ArbitrumWithdrawal,
-        RouteProvider.OptimismWithdrawal,
-        RouteProvider.OptimismForcedWithdrawal,
-      ] as string[]
-    ).includes(route.data?.id ?? ""),
-    family: (
-      [
-        RouteProvider.OptimismDeposit,
-        RouteProvider.OptimismWithdrawal,
-        RouteProvider.OptimismForcedWithdrawal,
-      ] as string[]
-    ).includes(route.data?.id ?? "")
-      ? "optimism"
-      : "arbitrum",
+    withdrawing: route.data?.id && withdrawalRoutes.includes(route.data.id),
+    family:
+      route.data?.id && optimismRoutes.includes(route.data.id)
+        ? DeploymentFamily.optimism
+        : DeploymentFamily.arbitrum,
   })
-    .with(
-      { isAcross: true },
-      { isHyperlane: true },
-      () =>
-        `I understand it will take ~${totalBridgeTime.data?.value} mins until my funds are on ${to?.name}`
+    .with({ isAcross: true }, { isHyperlane: true }, () =>
+      t("confirmationModal.checkbox1Bridge", {
+        mins: totalBridgeTime.data?.value,
+        to: to?.name,
+      })
     )
     .with({ isCctp: true }, () =>
       t("confirmationModal.checkbox1Cctp", {
@@ -104,9 +94,11 @@ export const ConfirmationModalTermsTab = ({
   return (
     <div>
       <DialogHeader className="items-center">
-        <DialogTitle className="text-3xl">Accept terms</DialogTitle>
+        <DialogTitle className="text-3xl">
+          {t("confirmationModal.acceptTerms")}
+        </DialogTitle>
         <DialogDescription className="text-center">
-          Please read and agree to the following terms before you continue
+          {t("confirmationModal.agreeToTerms")}
         </DialogDescription>
       </DialogHeader>
 
@@ -152,7 +144,7 @@ export const ConfirmationModalTermsTab = ({
           target="_blank"
           className="text-xs font-heading text-center hover:underline"
         >
-          Need help? View the FAQs
+          {t("general.needHelp")}
         </Link>
 
         <Button
@@ -160,7 +152,7 @@ export const ConfirmationModalTermsTab = ({
           className="w-full"
           disabled={!checkbox1 || !checkbox2 || !checkbox3}
         >
-          Continue
+          {t("buttons.continue")}
         </Button>
       </DialogFooter>
     </div>

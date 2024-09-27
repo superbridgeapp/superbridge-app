@@ -1,3 +1,5 @@
+import { useTranslation } from "react-i18next";
+
 import { useBridgeRoutes } from "@/hooks/routes/use-bridge-routes";
 import { useModal } from "@/hooks/use-modal";
 import { useConfigState } from "@/state/config";
@@ -7,6 +9,7 @@ import { Route } from "../route-preview/route";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
 
 export const RouteSelectorModal = () => {
+  const { t } = useTranslation();
   const routes = useBridgeRoutes();
   const modal = useModal("RouteSelector");
   const setRouteId = useConfigState.useSetRouteId();
@@ -20,7 +23,7 @@ export const RouteSelectorModal = () => {
     <Dialog open={modal.isOpen} onOpenChange={modal.close}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Choose route</DialogTitle>
+          <DialogTitle>{t("routeSelectorModal.title")}</DialogTitle>
         </DialogHeader>
         <div className="flex flex-col px-4 pb-6 gap-3">
           {routes.data?.results.map((route) => {

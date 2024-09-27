@@ -127,7 +127,7 @@ export const TokenInput = () => {
                     onClick={() => setRawAmount(formattedTokenBalance)}
                     className="text-[10px] font-button bg-card rounded-full px-1.5 py-1 leading-none text-muted-foreground transition-all hover:scale-105"
                   >
-                    Max
+                    {t("buttons.max")}
                   </button>
                 )}
               </>

@@ -1,4 +1,5 @@
 import { AnimatePresence } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 import { useIsWidget } from "@/hooks/use-is-widget";
 
@@ -10,6 +11,7 @@ import { RoutePreview } from "./route-preview";
 import { TokenInput } from "./token-input";
 
 export const BridgeBody = () => {
+  const { t } = useTranslation();
   const isWidget = useIsWidget();
   return (
     <div className="flex flex-col gap-3 px-4 py-4">
@@ -32,7 +34,7 @@ export const BridgeBody = () => {
           >
             <IconSB className="w-5 h-auto" />
             <span className="text-[10px] leading-none">
-              Powered by Superbridge
+              {t("poweredBy", { name: "Superbridge" })}
             </span>
           </a>
         </div>

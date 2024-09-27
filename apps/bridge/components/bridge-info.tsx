@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { Address } from "viem";
 import { useEnsName } from "wagmi";
 
@@ -46,6 +47,7 @@ export const BridgeInfo = ({
   sentAmount: string | null;
   receivedAmount: string | null;
 }) => {
+  const { t } = useTranslation();
   const feeBreakdownModal = useModal("FeeBreakdown");
   const gasInfoModal = useModal("GasInfo");
 
@@ -60,7 +62,7 @@ export const BridgeInfo = ({
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <NetworkIcon chain={from} className="h-4 w-4" />
-                <span>From {from?.name}</span>
+                <span>{t("transaction.fromChain", { from: from?.name })}</span>
               </div>
             </div>
             <div className="flex gap-1.5 items-center justify-between ">
@@ -74,7 +76,7 @@ export const BridgeInfo = ({
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <NetworkIcon chain={to} className="h-4 w-4" />
-                <span>To {to?.name}</span>
+                <span>{t("transaction.toChain", { to: to?.name })}</span>
               </div>
             </div>
             <div className="flex gap-1.5 items-center justify-between ">
@@ -88,7 +90,7 @@ export const BridgeInfo = ({
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <IconVia className="w-4 h-auto fill-muted-foreground" />
-                <span>Via</span>
+                <span>{t("transaction.via")}</span>
               </div>
             </div>
             <div className="flex gap-1.5 items-center justify-between ">
@@ -107,7 +109,7 @@ export const BridgeInfo = ({
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <IconVia className="w-4 h-auto fill-muted-foreground" />
-                <span>From address</span>
+                <span>{t("transaction.fromAddress")}</span>
               </div>
             </div>
             <div className="flex gap-1.5 items-center justify-between ">
@@ -120,7 +122,7 @@ export const BridgeInfo = ({
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <IconVia className="w-4 h-auto fill-muted-foreground" />
-                <span>To address</span>
+                <span>{t("transaction.toAddress")}</span>
               </div>
             </div>
             <div className="flex gap-1.5 items-center justify-between ">
@@ -133,7 +135,7 @@ export const BridgeInfo = ({
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <IconSimpleTime className="w-4 h-auto fill-muted-foreground" />
-                <span>Transfer time</span>
+                <span>{t("transaction.transferTime")}</span>
               </div>
             </div>
             <div className="flex items-center justify-between">

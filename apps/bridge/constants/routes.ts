@@ -18,3 +18,9 @@ export const withdrawalRoutes: RouteProvider[] = [
   RouteProvider.OptimismWithdrawal,
   RouteProvider.OptimismForcedWithdrawal,
 ];
+
+export const optimismRoutes: RouteProvider[] = [
+  RouteProvider.OptimismDeposit,
+  RouteProvider.OptimismWithdrawal,
+  RouteProvider.OptimismForcedWithdrawal,
+];

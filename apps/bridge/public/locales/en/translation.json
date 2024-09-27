@@ -46,16 +46,22 @@
   "support": "Support",
   "ok": "Ok",
 
+  "general": {
+    "needHelp": "Need help? View FAQs"
+  },
+
   "settings": {
     "settings": "Settings",
     "withdrawalSettings": "Withdrawal settings",
-    "escapeHatchDescription": "Force your withdrawal via a censorship resistant transaction on {{base}}.",
+    "escapeHatchDescription": "Force withdrawals via censorship resistant transactions on the settlement chain.",
     "easyModeDescription": "Let us handle the extra transactions so you can set 'n forget.",
     "feeBreakdown": "Network fees",
     "currency": "Currency",
     "language": "Language",
     "explorer": "Explorer",
-    "tokenLists": "Token lists"
+    "tokenLists": "Token lists",
+    "enableTestnets": "Enable testnets",
+    "darkMode": "Dark mode"
   },
 
   "customTokenLists": {
@@ -142,7 +148,14 @@
     "redeem": "Redeem",
     "switchChain": "Switch chain",
     "mint": "Mint",
-    "get": "Get"
+    "get": "Get",
+    "continue": "Continue",
+    "approve": "Approve",
+    "approved": "Approved",
+    "approving": "Approving",
+    "max": "Max",
+    "bridgingDisabled": "Bridging disabled",
+    "bridgingPaused": "Bridging paused"
   },
 
   "fees": {
@@ -152,6 +165,19 @@
   },
 
   "poweredBy": "Powered by {{name}}",
+
+  "transaction": {
+    "via": "Via",
+    "transferTime": "Transfer time",
+    "steps": "Steps",
+    "bridgeInfo": "Bridge info",
+
+    "fromChain": "From {from}}",
+    "toChain": "To {to}}",
+
+    "fromAddress": "From address",
+    "toAddress": "From address"
+  },
 
   "confirmationModal": {
     "cctpDepositTitle": "{{symbol}} deposits take ~{{mins}} mins",
@@ -209,6 +235,7 @@
 
     "checkbox1Cctp": "I understand it will take ~{{mins}} mins until my funds are claimable on {{to}}",
     "checkbox1Deposit": "I understand it will take ~{{mins}} mins until my funds are on {{rollup}}",
+    "checkbox1Bridge": "I understand it will take ~{{mins}} mins until my funds are on {{to}}",
     "opCheckbox1WithdrawalMinutes_one": "I understand it will take ~{{count}} min until my funds are claimable on {{base}} after I prove my withdrawal",
     "opCheckbox1WithdrawalMinutes_other": "I understand it will take ~{{count}} mins until my funds are claimable on {{base}} after I prove my withdrawal",
     "opCheckbox1WithdrawalHours_one": "I understand it will take ~{{count}} hour until my funds are claimable on {{base}} after I prove my withdrawal",
@@ -227,7 +254,12 @@
     "continue": "Continue withdraw",
     "viewAlternateBridges": "Or view alternative bridges…",
 
-    "review": "Review"
+    "review": "Review",
+    "gasCosts": "Gas costs",
+    "fees": "Fees",
+
+    "acceptTerms": "Accept terms",
+    "agreeToTerms": "Please read and agree to the following terms before you continue"
   },
 
   "tos": {
@@ -273,6 +305,25 @@
     "networkFees": "Network fees",
     "goBack": "Go back",
     "proceedAnyway": "Proceed anyway"
+  },
+
+  "feeModal": {
+    "providerFees": "{{provider}} fees",
+    "acrossFeeBreakdownDescription": "Fees paid to <0>Across</0> and their liquidity providers and relayers",
+    "hyperlaneFeeBreakdownDescription": "Fees paid to <0>Hyperlane</0> relayers for message delivery"
+  },
+
+  "gasInfoModal": {
+    "title": "Gas fees",
+    "description": "With blockchains you need to pay a fee to submit transactions. Transactions submitted to {{from}} require a small amount of {{symbol}} to ensure they're confirmed by the network."
+  },
+
+  "networkSelectorModal": {
+    "title": "Select a network"
+  },
+
+  "routeSelectorModal": {
+    "title": "Choose route"
   },
 
   "across": {

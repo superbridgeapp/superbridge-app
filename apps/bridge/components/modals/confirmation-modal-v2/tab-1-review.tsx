@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import Link from "next/link";
+import { useTranslation } from "react-i18next";
 
 import {
   IconHelp,
@@ -40,6 +41,7 @@ export const ConfirmationModalReviewTab = ({
 }: {
   onNext: () => void;
 }) => {
+  const { t } = useTranslation();
   const from = useFromChain();
   const to = useToChain();
   const selectedToken = useSelectedToken();
@@ -72,51 +74,40 @@ export const ConfirmationModalReviewTab = ({
       <div className="flex flex-col gap-2 px-6">
         <div className="flex flex-col gap-1">
           {/* Send */}
-          <div className="flex gap-4 px-3 py-4 rounded-lg justify-between bg-muted">
+          <div className="flex flex-col gap-2 px-3 py-4 rounded-lg justify-between bg-muted">
             <div className="flex items-center gap-2 shrink-0">
-              <NetworkIcon chain={from} className="h-7 w-7 rounded-xs" />
-              <div className="flex flex-col gap-0.5">
-                <span className="text-xs text-muted-foreground leading-none">
-                  Send from{" "}
-                </span>
-                <span className="text-sm font-heading leading-none">
-                  {from?.name}
-                </span>
-              </div>
+              <NetworkIcon chain={from} className="h-4 w-4 rounded-xs" />
+              <span className="text-xs text-foreground leading-none">
+                {t("confirmationModal.bridgeFrom", { from: from?.name })}
+              </span>
             </div>
             <div className="flex items-center gap-2 leading-none text-right">
-              <span>
-                {rawAmount} {selectedToken?.symbol}
-              </span>
               <TokenIcon
                 token={selectedToken}
-                className="h-5 w-5 rounded-full !text-[6px]"
+                className="h-8 w-8 rounded-full !text-[6px]"
               />
+              <span className="text-3xl">
+                {rawAmount} {selectedToken?.symbol}
+              </span>
             </div>
           </div>
 
           {/* Receive 2 */}
-          <div className="flex gap-4 px-3 py-4 rounded-lg justify-between bg-muted">
+          <div className="flex flex-col gap-2 px-3 py-4 rounded-lg justify-between bg-muted">
             <div className="flex items-center gap-2 shrink-0">
-              <NetworkIcon chain={to} className="h-7 w-7 rounded-xs" />
-              <div className="flex flex-col gap-0.5">
-                <span className="text-xs text-muted-foreground leading-none">
-                  Receive on{" "}
-                </span>
-                <span className="text-sm font-heading leading-none">
-                  {to?.name}
-                </span>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-2 leading-none text-right">
-              <span>
-                {receive.data ? <>{receive.data.token.formatted}</> : "…"}
+              <NetworkIcon chain={to} className="h-4 w-4 rounded-xs" />
+              <span className="text-xs text-foreground leading-none">
+                {t("confirmationModal.getOn", { to: to?.name })}
               </span>
+            </div>
+            <div className="flex items-center gap-2 leading-none text-right">
               <TokenIcon
                 token={destinationToken}
-                className="h-5 w-5 rounded-full !text-[6px]"
+                className="h-8 w-8 rounded-full !text-[6px]"
               />
+              <span className="text-3xl">
+                {receive.data ? <>{receive.data.token.formatted}</> : "…"}
+              </span>
             </div>
           </div>
         </div>
@@ -127,7 +118,7 @@ export const ConfirmationModalReviewTab = ({
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <IconVia className="w-4 h-auto fill-muted-foreground" />
-                <span>Bridge via</span>
+                <span>{t("transaction.via")}</span>
               </div>
             </div>
             <div className="flex gap-1.5 items-center justify-between ">
@@ -146,7 +137,7 @@ export const ConfirmationModalReviewTab = ({
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <IconSimpleTime className="w-4 h-auto fill-muted-foreground" />
-                <span>Approx bridge time</span>
+                <span>{t("transaction.transferTime")}</span>
               </div>
             </div>
             <div className="flex items-center justify-between">
@@ -159,7 +150,7 @@ export const ConfirmationModalReviewTab = ({
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <IconSimpleGas className="w-4 h-auto fill-muted-foreground" />
-                <span>Network costs</span>
+                <span>{t("confirmationModal.gasCosts")}</span>
               </div>
             </div>
             <div className="flex items-center justify-between">
@@ -185,7 +176,7 @@ export const ConfirmationModalReviewTab = ({
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <IconSimpleFees className="w-4 h-auto fill-muted-foreground" />
-                <span>Fees</span>
+                <span>{t("confirmationModal.fees")}</span>
               </div>
             </div>
             <div className="flex items-center justify-between">
@@ -230,10 +221,10 @@ export const ConfirmationModalReviewTab = ({
           target="_blank"
           className="text-xs font-heading text-center hover:underline"
         >
-          Need help? View the FAQs
+          {t("general.needHelp")}
         </Link>
         <Button onClick={onNext} className="w-full">
-          Continue
+          {t("general.continue")}
         </Button>
       </DialogFooter>
     </div>

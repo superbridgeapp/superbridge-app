@@ -20,19 +20,6 @@ const item = {
   },
 };
 
-const PlacehoderItem = {
-  hidden: { opacity: 0, scale: 0.85 },
-  show: {
-    opacity: 0.2,
-    scale: 1,
-    transition: {
-      type: "spring",
-      stiffness: 300,
-      damping: 12,
-    },
-  },
-};
-
 export const ChainCard = ({
   chain,
   onSelect,

@@ -242,7 +242,7 @@ export const ConfirmationModalStartTab = () => {
     .with({ needsGasTokenApprove: false }, () => null)
     .with({ approving: true }, () => ({
       onSubmit: () => {},
-      buttonText: "Approving",
+      buttonText: t("buttons.approving"),
       disabled: true,
     }))
     .with({ approved: false }, () => ({
@@ -253,12 +253,12 @@ export const ConfirmationModalStartTab = () => {
 
         approveGasToken.write();
       },
-      buttonText: "Approve",
+      buttonText: t("buttons.approve"),
       disabled: false,
     }))
     .with({ approved: true }, () => ({
       onSubmit: () => {},
-      buttonText: "Approved",
+      buttonText: t("buttons.approved"),
       disabled: true,
     }))
     .exhaustive();
@@ -273,7 +273,7 @@ export const ConfirmationModalStartTab = () => {
     .with({ needsApprove: false }, () => null)
     .with({ approving: true }, () => ({
       onSubmit: () => {},
-      buttonText: "Approving",
+      buttonText: t("buttons.approving"),
       disabled: true,
     }))
     .with({ approved: false }, () => {
@@ -287,13 +287,13 @@ export const ConfirmationModalStartTab = () => {
       }
       return {
         onSubmit: () => approve.write(),
-        buttonText: "Approve",
+        buttonText: t("buttons.approve"),
         disabled: false,
       };
     })
     .with({ approved: true }, () => ({
       onSubmit: () => {},
-      buttonText: "Approved",
+      buttonText: t("buttons.approved"),
       disabled: true,
     }))
     .exhaustive();
@@ -409,8 +409,8 @@ export const ConfirmationModalStartTab = () => {
     <Tabs defaultValue="steps" className="flex flex-col">
       <div className="mx-auto">
         <TabsList className="bg-blue-400">
-          <TabsTrigger value="steps">Steps</TabsTrigger>
-          <TabsTrigger value="info">Bridge info</TabsTrigger>
+          <TabsTrigger value="steps">{t("transaction.steps")}</TabsTrigger>
+          <TabsTrigger value="info">{t("transaction.bridgeInfo")}</TabsTrigger>
         </TabsList>
       </div>
 
@@ -507,7 +507,7 @@ export const ConfirmationModalStartTab = () => {
                 target="_blank"
                 className="text-xs font-heading text-center hover:underline"
               >
-                Need help? View the FAQs
+                {t("general.needHelp")}
               </Link>
             </div>
           )}

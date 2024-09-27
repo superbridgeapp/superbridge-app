@@ -127,12 +127,12 @@ export const BridgeButton = () => {
   })
     .with({ disabled: true }, () => ({
       onSubmit: () => {},
-      buttonText: "Bridging disabled",
+      buttonText: t("buttons.bridgingDisabled"),
       disabled: true,
     }))
     .with({ paused: true }, () => ({
       onSubmit: () => {},
-      buttonText: "Bridging paused",
+      buttonText: t("buttons.bridgingPaused"),
       disabled: true,
     }))
     .when(

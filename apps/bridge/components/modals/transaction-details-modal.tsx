@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useTranslation } from "react-i18next";
 
 import { useFinalisingTx } from "@/hooks/activity/use-finalising-tx";
 import { useTxAmount } from "@/hooks/activity/use-tx-amount";
@@ -37,6 +38,7 @@ const useTransactionByInitiatingHash = (hash: string | null) => {
 };
 
 const Content = () => {
+  const { t } = useTranslation();
   const modal = useModal("TransactionDetails");
   const tx = useTransactionByInitiatingHash(modal.data);
 
@@ -70,8 +72,8 @@ const Content = () => {
     <Tabs defaultValue="steps" className="flex flex-col">
       <div className="mx-auto">
         <TabsList className="bg-blue-400">
-          <TabsTrigger value="steps">Steps</TabsTrigger>
-          <TabsTrigger value="info">Bridge info</TabsTrigger>
+          <TabsTrigger value="steps">{t("transaction.steps")}</TabsTrigger>
+          <TabsTrigger value="info">{t("transaction.bridgeInfo")}</TabsTrigger>
         </TabsList>
       </div>
 
@@ -92,7 +94,7 @@ const Content = () => {
                 target="_blank"
                 className="text-xs font-heading text-center hover:underline"
               >
-                Need help? View the FAQs
+                {t("general.needHelp")}
               </Link>
             </div>
           )}

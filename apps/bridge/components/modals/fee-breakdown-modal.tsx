@@ -2,6 +2,9 @@ import { Trans, useTranslation } from "react-i18next";
 
 import { useIsAcrossRoute } from "@/hooks/across/use-is-across-route";
 import { useFees } from "@/hooks/fees/use-fees";
+import { useIsHyperlaneRoute } from "@/hooks/hyperlane/use-is-hyperlane-route";
+import { useProviderName } from "@/hooks/providers/use-provider-name";
+import { useSelectedBridgeRoute } from "@/hooks/routes/use-selected-bridge-route";
 import { useModal } from "@/hooks/use-modal";
 
 import { IconSimpleFees, IconSpinner } from "../icons";
@@ -16,7 +19,11 @@ export const FeeBreakdownModal = () => {
 
   const fees = useFees();
 
+  const route = useSelectedBridgeRoute();
+
   const isAcross = useIsAcrossRoute();
+  const isHyperlane = useIsHyperlaneRoute();
+  const provider = useProviderName(route.data?.id ?? null);
 
   return (
     <Dialog open={modal.isOpen} onOpenChange={modal.close}>
@@ -26,12 +33,12 @@ export const FeeBreakdownModal = () => {
             <IconSimpleFees className="w-16 h-auto mb-4 fill-primary drop-shadow" />
 
             <h1 className="font-heading text-2xl text-pretty">
-              {isAcross ? t("across.feeBreakdownTitle") : "Hyperlane fees"}
+              {t("feeModal.providerFees", { provider })}
             </h1>
             <p className="text-xs md:text-sm prose-sm text-muted-foreground text-pretty text-center">
-              {isAcross ? (
+              {isAcross && (
                 <Trans
-                  i18nKey={"across.feeBreakdownDescription"}
+                  i18nKey={"across.acrossFeeBreakdownDescription"}
                   components={[
                     <a
                       key="name"
@@ -41,8 +48,19 @@ export const FeeBreakdownModal = () => {
                     />,
                   ]}
                 />
-              ) : (
-                "Fees paid to Hyperlane relayer for message delivery"
+              )}
+              {isHyperlane && (
+                <Trans
+                  i18nKey={"across.hyperlaneFeeBreakdownDescription"}
+                  components={[
+                    <a
+                      key="name"
+                      className="underline"
+                      href="https://hyperlane.xyz"
+                      target="_blank"
+                    />,
+                  ]}
+                />
               )}
             </p>
           </div>
