@@ -44,7 +44,7 @@ export const HyperlaneLiquidity = () => {
         }
 
         return (
-          <div cla>
+          <div>
             <div className="text-2xl">{t.name}</div>
 
             <div className="flex gap-4">
