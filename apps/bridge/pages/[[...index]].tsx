@@ -3,6 +3,7 @@ import type {
   GetServerSidePropsContext,
   InferGetServerSidePropsType,
 } from "next";
+import { useRouter } from "next/router";
 
 import { bridgeControllerGetBridgeConfigByDomain } from "@/codegen";
 import { Layout } from "@/components/Layout";
@@ -13,6 +14,8 @@ import { Bridge } from "@/components/bridge";
 import { Head } from "@/components/head";
 import { InjectedStoreProvider } from "@/state/injected";
 import { createInjectedState } from "@/utils/injected-state/create-injected-state";
+
+import { HyperlaneLiquidity } from "./development/hyperlane-liquidity";
 
 const ignored = ["favicon", "locales", "_vercel", "_next", "fonts"];
 
@@ -41,7 +44,7 @@ export const getServerSideProps = async ({
     req.headers.host?.includes("ngrok")
   ) {
     // change this to load different apps
-    requestHost = "v3.superbridge.app";
+    requestHost = "molten.superbridge.app";
   }
 
   const config = await bridgeControllerGetBridgeConfigByDomain(
@@ -74,11 +77,16 @@ export default function IndexRoot(
 }
 
 function Index() {
+  const router = useRouter();
   return (
     <PageTransition key={"index"}>
       <AnimatePresence mode="sync">
         <PageTransition key={"bridge"}>
-          <Bridge key={"bridge"} />
+          {router.asPath === "/hyperlane-liquidity" ? (
+            <HyperlaneLiquidity />
+          ) : (
+            <Bridge key={"bridge"} />
+          )}
         </PageTransition>
       </AnimatePresence>
     </PageTransition>
