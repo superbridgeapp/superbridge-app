@@ -13,6 +13,7 @@ import type { DeploymentDto } from './deploymentDto';
 import type { HighlightedTokens } from './highlightedTokens';
 import type { HyperlaneMailboxDto } from './hyperlaneMailboxDto';
 import type { LzDomainDto } from './lzDomainDto';
+import type { BridgeConfigDtoTheme } from './bridgeConfigDtoTheme';
 
 export interface BridgeConfigDto {
   acrossDomains: AcrossDomainDto[];
@@ -26,4 +27,6 @@ export interface BridgeConfigDto {
   initialFromChainId: number;
   initialToChainId: number;
   lzDomains: LzDomainDto[];
+  /** @nullable */
+  theme: BridgeConfigDtoTheme;
 }

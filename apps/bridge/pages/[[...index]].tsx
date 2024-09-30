@@ -4,7 +4,7 @@ import type {
   InferGetServerSidePropsType,
 } from "next";
 
-import { bridgeControllerGetBridgeConfigByDomain } from "@/codegen";
+import { bridgeControllerGetBridgeConfigByDomainV2 } from "@/codegen";
 import { Layout } from "@/components/Layout";
 import { PageTransition } from "@/components/PageTransition";
 import { Providers } from "@/components/Providers";
@@ -41,10 +41,10 @@ export const getServerSideProps = async ({
     req.headers.host?.includes("ngrok")
   ) {
     // change this to load different apps
-    requestHost = "9c48238032ba950c.demos.rollbridge.app";
+    requestHost = "molten.superbridge-test.app";
   }
 
-  const config = await bridgeControllerGetBridgeConfigByDomain(
+  const config = await bridgeControllerGetBridgeConfigByDomainV2(
     requestHost
   ).catch(() => null);
 
