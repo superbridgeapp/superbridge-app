@@ -23,13 +23,8 @@ const SUPERCHAIN_COMING_SOON: {
     displayName: "Soneium Mainnet",
     type: DeploymentType.mainnet,
   },
-  {
-    name: "shape-mainnet",
-    displayName: "Shape Mainnet",
-    type: DeploymentType.mainnet,
-  },
 ];
-const NEW_DEPLOYMENTS = ["world-chain"];
+const NEW_DEPLOYMENTS = ["shape-mainnet"];
 
 export const DeploymentsGrid = () => {
   const deployments = useDeployments();
