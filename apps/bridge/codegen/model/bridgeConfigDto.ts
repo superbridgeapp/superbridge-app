@@ -27,6 +27,7 @@ export interface BridgeConfigDto {
   initialFromChainId: number;
   initialToChainId: number;
   lzDomains: LzDomainDto[];
+  name: string;
   /** @nullable */
   theme: BridgeConfigDtoTheme;
 }

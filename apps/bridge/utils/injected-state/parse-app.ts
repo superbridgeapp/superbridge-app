@@ -19,8 +19,8 @@ export const parseApp = ({
   if (dto?.theme) {
     return {
       head: {
-        name: `Bridge`,
-        description: ``,
+        name: `${dto.name} Bridge`,
+        description: `${dto.name} Bridge`,
         favicon:
           dto.theme.imageNetwork ??
           "https://superbridge.app/img/superbridge-icon.png",
