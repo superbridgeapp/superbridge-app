@@ -18,6 +18,7 @@ import { useBaseNativeTokenBalance } from "@/hooks/use-base-native-token-balance
 import { useBridge } from "@/hooks/use-bridge";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
 import { useDeployment } from "@/hooks/use-deployment";
+import { useDepositsPaused } from "@/hooks/use-deposits-paused";
 import { useFaultProofUpgradeTime } from "@/hooks/use-fault-proof-upgrade-time";
 import { useNativeToken } from "@/hooks/use-native-token";
 import { useNetworkFee } from "@/hooks/use-network-fee";
@@ -98,7 +99,7 @@ export const BridgeBody = () => {
   const faultProofUpgradeTime = useFaultProofUpgradeTime(deployment);
   const acrossPaused = useAcrossPaused();
   const withdrawalsPaused = useWithdrawalsPaused();
-
+  const depositsPaused = useDepositsPaused();
   const initiatingChain = forceViaL1 && withdrawing ? deployment?.l1 : from;
   const fromEthBalance = useBalance({
     address: account.address,
@@ -204,10 +205,10 @@ export const BridgeBody = () => {
         type: fast
           ? "across"
           : !!stateToken && isCctp(stateToken)
-          ? "cctp"
-          : withdrawing
-          ? "withdraw"
-          : "deposit",
+            ? "cctp"
+            : withdrawing
+              ? "withdraw"
+              : "deposit",
         transactionHash: hash,
       });
 
@@ -302,6 +303,7 @@ export const BridgeBody = () => {
     fast,
     acrossPaused,
     withdrawalsPaused,
+    depositsPaused,
     isSubmitting: bridge.isLoading,
     account: account.address,
     hasInsufficientBalance,
@@ -312,11 +314,10 @@ export const BridgeBody = () => {
     weiAmount,
     bridgeMax,
     bridgeMin,
-    depositsDisabled: deployment?.name === "parallel" && !withdrawing,
   })
-    .with({ depositsDisabled: true }, () => ({
+    .with({ depositsPaused: true, withdrawing: false }, () => ({
       onSubmit: () => {},
-      buttonText: "Deposits disabled",
+      buttonText: "Deposits paused",
       disabled: true,
     }))
     .with({ fast: true, acrossPaused: true }, () => ({
@@ -405,10 +406,10 @@ export const BridgeBody = () => {
           ? t("withdrawNft", { tokenId: `#${d.nft.tokenId}` })
           : t("depositNft", { tokenId: `#${d.nft.tokenId}` })
         : d.fast
-        ? t("reviewBridge")
-        : d.withdrawing
-        ? t("withdraw")
-        : t("deposit"),
+          ? t("reviewBridge")
+          : d.withdrawing
+            ? t("withdraw")
+            : t("deposit"),
       disabled: false,
     }));
 
