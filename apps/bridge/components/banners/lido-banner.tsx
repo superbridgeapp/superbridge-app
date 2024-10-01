@@ -8,7 +8,7 @@ export const LidoBanner = () => {
         From 7th of October the availability for wstETH Ethereum to Optimism
         bridge deposits will be paused.{" "}
         <a
-          href="https://research.lido.fi/t/steth-on-optimism-upgrade-announcement-and-action-plan/8474"
+          href="https://snapshot.org/#/lido-snapshot.eth/proposal/0xb1a3c33a4911712770c351504bac0499611ceb0faff248eacb1e96354f8e21e8"
           target="_blank"
           className="underline"
         >
