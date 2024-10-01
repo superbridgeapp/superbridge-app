@@ -11,6 +11,7 @@ import { TestnetBadge } from "./badges/testnet-badge";
 import { FaultProofsBanner } from "./banners/fault-proofs-banner";
 import { GravityBanner } from "./banners/gravity-banner";
 import { HasWithdrawalReadyToFinalizeBanner } from "./banners/has-withdrawal-ready-to-finalize-banner.ts";
+import { LidoBanner } from "./banners/lido-banner";
 import { ScheduledDeletion } from "./banners/scheduled-deletion";
 import { WithdrawalsPaused } from "./banners/withdrawals-paused";
 import { BridgeBody } from "./bridge-body";
@@ -41,7 +42,7 @@ export const Bridge = () => {
           {hasWithdrawalReadyToFinalize && (
             <HasWithdrawalReadyToFinalizeBanner />
           )}
-
+          {deployment?.name === "optimism" && <LidoBanner />}
           <div
             className={`bg-card mx-auto rounded-[24px] md:rounded-[32px] shadow-sm w-full shrink-0 backdrop-blur-sm`}
           >
