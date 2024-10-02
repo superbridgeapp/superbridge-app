@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 
 import { useFinalisingTx } from "@/hooks/activity/use-finalising-tx";
 import { useTxAmount } from "@/hooks/activity/use-tx-amount";
+import { useTxAmountOutput } from "@/hooks/activity/use-tx-amount-output";
 import { useTxDuration } from "@/hooks/activity/use-tx-duration";
 import { useTxFromTo } from "@/hooks/activity/use-tx-from-to";
 import { useTxProvider } from "@/hooks/activity/use-tx-provider";
@@ -25,7 +26,7 @@ import { isWaitStep } from "@/utils/progress-rows/common";
 
 import { BridgeInfo } from "../bridge-info";
 import { LineItem } from "../transaction-line-item";
-import { Dialog, DialogContent, DialogHeader } from "../ui/dialog";
+import { Dialog, DialogContent } from "../ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 
 const useTransactionByInitiatingHash = (hash: string | null) => {
@@ -46,6 +47,7 @@ const Content = () => {
   const token = useTxToken(tx);
 
   const amount = useTxAmount(tx, token);
+  const outputAmount = useTxAmountOutput(tx, token);
   const provider = useTxProvider(tx);
   const chains = useTxFromTo(tx);
 
@@ -123,8 +125,7 @@ const Content = () => {
             recipient={recipient}
             sender={sender}
             sentAmount={amount?.formatted ?? null}
-            // todo: make this handle Across fees
-            receivedAmount={amount?.formatted ?? null}
+            receivedAmount={outputAmount?.formatted ?? null}
             from={chains?.from ?? null}
             to={chains?.to ?? null}
             provider={provider}

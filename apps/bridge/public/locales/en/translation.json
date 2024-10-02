@@ -172,8 +172,8 @@
     "steps": "Steps",
     "bridgeInfo": "Bridge info",
 
-    "fromChain": "From {from}}",
-    "toChain": "To {to}}",
+    "fromChain": "From {{from}}",
+    "toChain": "To {{to}}",
 
     "fromAddress": "From address",
     "toAddress": "To address"
