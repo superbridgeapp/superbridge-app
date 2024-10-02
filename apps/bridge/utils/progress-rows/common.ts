@@ -18,8 +18,7 @@ export enum ButtonComponent {
 
 export type TransactionStep = {
   label: string;
-  gasLimit?: bigint | undefined;
-  fee?: string | undefined;
+  gasLimit?: number | bigint;
   chain: ChainDto;
   button?:
     | {

@@ -62,7 +62,6 @@ export const useArbitrumWithdrawalProgressRows = (
       type: ButtonComponent.Finalise,
       enabled: readyToFinalize,
     },
-    gasLimit: w.finalise ? undefined : FINALIZE_GAS,
     token,
     amount: outputAmount,
   };

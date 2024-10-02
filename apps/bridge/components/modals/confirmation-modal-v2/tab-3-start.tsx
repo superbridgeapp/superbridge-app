@@ -373,6 +373,10 @@ export const ConfirmationModalStartTab = () => {
                   : x.type === RouteStepType.Prove
                     ? undefined
                     : receiveAmount;
+              const gasLimit =
+                x.type === RouteStepType.Initiate
+                  ? x.estimatedGasLimit
+                  : 500_000;
 
               const buttonComponent =
                 x.type === RouteStepType.Initiate ? (
@@ -392,7 +396,7 @@ export const ConfirmationModalStartTab = () => {
                 ) : undefined;
               const a: TransactionStep = {
                 label,
-                fee: fee(getGasCost(x.chainId, x.estimatedGasLimit)),
+                gasLimit,
                 chain: x.chainId === from?.id.toString() ? from! : to!,
                 buttonComponent,
                 hash: undefined,
@@ -414,7 +418,6 @@ export const ConfirmationModalStartTab = () => {
               const step: TransactionStep = {
                 label: t("confirmationModal.getOn", common),
                 chain: to!,
-                fee: undefined,
                 hash: undefined,
                 pendingHash: undefined,
                 token,
@@ -452,7 +455,7 @@ export const ConfirmationModalStartTab = () => {
                     symbol: fromToken?.symbol,
                   }),
                   chain: from,
-                  fee: approvedGasToken ? undefined : fee(approveGasTokenCost),
+                  gasLimit: approveGasTokenCost.gasLimit,
                   buttonComponent: approvedGasToken ? (
                     <IconCheckCircle className="w-6 h-6 fill-primary" />
                   ) : (
@@ -491,7 +494,7 @@ export const ConfirmationModalStartTab = () => {
                     symbol: fromToken?.symbol,
                   }),
                   chain: from,
-                  fee: approved ? undefined : fee(approveCost),
+                  gasLimit: approveCost.gasLimit,
                   buttonComponent: approved ? (
                     <IconCheckCircle className="w-6 h-6 fill-primary" />
                   ) : (

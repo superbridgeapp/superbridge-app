@@ -35,7 +35,6 @@ export const useArbitrumDepositProgressRows = (
         chain: l2,
         hash: tx.relay.transactionHash,
         pendingHash: undefined,
-        fee: undefined,
         token,
         amount: outputAmount,
       }
@@ -44,7 +43,6 @@ export const useArbitrumDepositProgressRows = (
           label: t("confirmationModal.getOn", {
             to: l2.name,
           }),
-          fee: undefined, // todo
           button: {
             type: ButtonComponent.Redeem,
             enabled: true,
@@ -61,7 +59,6 @@ export const useArbitrumDepositProgressRows = (
           }),
           button: undefined,
           chain: l2,
-          fee: undefined,
           hash: undefined,
           pendingHash: undefined,
           token,

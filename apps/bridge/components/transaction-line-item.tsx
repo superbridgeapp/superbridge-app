@@ -2,10 +2,8 @@ import clsx from "clsx";
 import { useEffect, useState } from "react";
 
 import {
-  IconArrowUpRightCircle,
   IconCheckCircle,
   IconSimpleGas,
-  IconSimpleTime,
   IconSpinner,
   IconTime,
 } from "@/components/icons";
@@ -106,7 +104,10 @@ function TransactionLineItem({
   step: TransactionStep;
   tx?: Pick<Transaction, "type">;
 }) {
-  const fee = useNetworkFeeForGasLimit(step.chain.id, step.gasLimit);
+  const fee = useNetworkFeeForGasLimit(
+    step.chain.id,
+    BigInt(step.gasLimit ?? 500_000)
+  );
 
   // transaction steps have three basic states
   // done, has a transaction hash
@@ -132,7 +133,6 @@ function TransactionLineItem({
             />
             <span className="text-3xl font-heading leading-none">
               {step.amount?.formatted}
-              {/* 100 */}
             </span>
           </div>
         )}
@@ -196,25 +196,22 @@ function TransactionLineItem({
           )}
         >
           <div className="flex gap-1">
-            {!!step.gasLimit && (
+            {!!step.gasLimit && !step.pendingHash && !step.hash && (
               <div className="flex gap-1">
                 {fee.isLoading ? (
                   <Skeleton className="h-4 w-[88px]" />
                 ) : (
-                  <span className="text-xs text-muted-foreground leading-none">
-                    <p className="text-xs">
-                      {fee.data?.fiat?.formatted ?? fee.data?.token.formatted}
-                    </p>
-                  </span>
+                  <div className="flex items-center gap-1">
+                    <span className="text-xs text-muted-foreground leading-none">
+                      {fee.data?.token.formatted}
+                    </span>
+                    {fee.data?.fiat?.formatted && (
+                      <span className="text-xs text-muted-foreground leading-none">
+                        {fee.data?.fiat?.formatted}
+                      </span>
+                    )}
+                  </div>
                 )}
-                <IconSimpleGas className="w-3.5 h-auto fill-muted-foreground opacity-80" />
-              </div>
-            )}
-            {!!step.fee && (
-              <div className="flex gap-1">
-                <span className="text-xs text-muted-foreground leading-none">
-                  <p className="text-xs">{step.fee}</p>
-                </span>
                 <IconSimpleGas className="w-3.5 h-auto fill-muted-foreground opacity-80" />
               </div>
             )}

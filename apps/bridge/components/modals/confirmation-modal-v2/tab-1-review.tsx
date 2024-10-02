@@ -174,10 +174,10 @@ export const ConfirmationModalReviewTab = ({
                   className="flex gap-1 items-center cursor-pointer"
                   onClick={() => gasInfoModal.open()}
                 >
-                  <span>
-                    {networkFee.data?.fiat?.formatted ??
-                      networkFee.data?.token.formatted}
-                  </span>
+                  <span>{networkFee.data?.token.formatted}</span>
+                  {networkFee.data?.fiat?.formatted && (
+                    <span>{networkFee.data.fiat.formatted}</span>
+                  )}
                   <IconHelp className="fill-muted-foreground h-3 w-auto" />
                 </div>
               )}
@@ -209,10 +209,13 @@ export const ConfirmationModalReviewTab = ({
                 ) : (
                   <>
                     <span className="text-xs leading-none text-foreground">
-                      {fees.data?.totals.fiatFormatted ??
-                        fees.data?.totals.tokenFormatted}{" "}
-                      Fee
+                      {fees.data?.totals.tokenFormatted}{" "}
                     </span>
+                    {fees.data?.totals.fiatFormatted && (
+                      <span className="text-xs leading-none text-foreground">
+                        {fees.data?.totals.fiatFormatted}{" "}
+                      </span>
+                    )}
                     <IconHelp
                       className={clsx(
                         fees.data?.totals.token === 0
