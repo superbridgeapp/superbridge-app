@@ -17,6 +17,7 @@ import { useToChain } from "@/hooks/use-chain";
 import { useGetFormattedAmount } from "@/hooks/use-get-formatted-amount";
 import { useModal } from "@/hooks/use-modal";
 import { useApproxTotalBridgeTimeTextForRoute } from "@/hooks/use-transfer-time";
+import { isRouteTransactionStep } from "@/utils/guards";
 
 import {
   IconCaretDown,
@@ -70,6 +71,10 @@ export const Route = ({
   };
   const fees = useFeesForRoute(route);
   const time = useApproxTotalBridgeTimeTextForRoute(route);
+
+  const transactionStepCount = quote.steps.filter((x) =>
+    isRouteTransactionStep(x)
+  ).length;
 
   const allowFeeClicks = allowDetailClicks && fees.data?.totals.token !== 0;
 
@@ -154,18 +159,14 @@ export const Route = ({
           {networkFee.isLoading ? (
             <Skeleton className="h-3 w-[60px]" />
           ) : (
-            <>
-              {!networkFee.data?.fiat && (
-                <span className="text-xs leading-none text-muted-foreground group-hover:text-foreground">
-                  {networkFee.data?.token.formatted}
-                </span>
-              )}
-              {networkFee.data?.fiat && (
-                <span className="text-xs leading-none text-muted-foreground group-hover:text-foreground">
-                  {networkFee.data.fiat.formatted}
-                </span>
-              )}
-            </>
+            <span className="text-xs leading-none text-muted-foreground group-hover:text-foreground">
+              {networkFee.data?.token.formatted}
+            </span>
+          )}
+          {transactionStepCount > 1 && (
+            <div className="border rounded-full text-xs">
+              +{transactionStepCount - 1}
+            </div>
           )}
         </div>
 

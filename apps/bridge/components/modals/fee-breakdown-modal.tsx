@@ -38,7 +38,7 @@ export const FeeBreakdownModal = () => {
             <p className="text-xs md:text-sm prose-sm text-muted-foreground text-pretty text-center">
               {isAcross && (
                 <Trans
-                  i18nKey={"across.acrossFeeBreakdownDescription"}
+                  i18nKey={"feeModal.acrossFeeBreakdownDescription"}
                   components={[
                     <a
                       key="name"
@@ -51,7 +51,7 @@ export const FeeBreakdownModal = () => {
               )}
               {isHyperlane && (
                 <Trans
-                  i18nKey={"across.hyperlaneFeeBreakdownDescription"}
+                  i18nKey={"feeModal.hyperlaneFeeBreakdownDescription"}
                   components={[
                     <a
                       key="name"
