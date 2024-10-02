@@ -176,7 +176,7 @@
     "toChain": "To {to}}",
 
     "fromAddress": "From address",
-    "toAddress": "From address"
+    "toAddress": "To address"
   },
 
   "confirmationModal": {
@@ -210,7 +210,7 @@
     "initiateDeposit": "Initiate deposit",
     "initiateWithdrawal": "Initiate withdrawal",
     "start": "Start",
-    "startBridgeOn": "Start bridge on {{from}}",
+    "startBridgeOn": "Start on {{from}}",
     "bridgeFrom": "Bridge from {{from}}",
     "proveOn": "Prove on {{to}}",
     "getOn": "Get on {{to}}",

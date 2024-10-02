@@ -3,7 +3,14 @@ import { Address } from "viem";
 import { useEnsName } from "wagmi";
 
 import { ChainDto, RouteProvider } from "@/codegen/model";
-import { IconSimpleTime, IconVia } from "@/components/icons";
+import {
+  IconArrowDownRightCircle,
+  IconArrowUpRight,
+  IconArrowUpRightCircle,
+  IconSimpleTime,
+  IconTime,
+  IconVia,
+} from "@/components/icons";
 import { NetworkIcon } from "@/components/network-icon";
 import {
   RouteProviderIcon,
@@ -56,9 +63,9 @@ export const BridgeInfo = ({
   return (
     <div>
       <div className="flex flex-col gap-2 px-6">
-        <div className="flex flex-col divide-y divide-border rounded-lg border py-0.5 text-xs">
+        <div className="flex flex-col divide-y divide-border rounded-xl border py-0.5 text-xs">
           {/* Send */}
-          <div className="flex items-start gap-4 p-3 justify-between">
+          <div className="flex items-start gap-4 py-3 px-3.5 justify-between">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <NetworkIcon chain={from} className="h-4 w-4" />
@@ -72,7 +79,7 @@ export const BridgeInfo = ({
           </div>
 
           {/* Receive */}
-          <div className="flex items-start gap-4 p-3 justify-between">
+          <div className="flex items-start gap-4 py-3 px-3.5 justify-between">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <NetworkIcon chain={to} className="h-4 w-4" />
@@ -86,10 +93,10 @@ export const BridgeInfo = ({
           </div>
 
           {/* Via */}
-          <div className="flex items-start gap-4 p-3 justify-between">
+          <div className="flex items-start gap-4 py-3 px-3.5 justify-between">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <IconVia className="w-4 h-auto fill-muted-foreground" />
+                <IconVia className="w-4 h-auto fill-foreground" />
                 <span>{t("transaction.via")}</span>
               </div>
             </div>
@@ -105,10 +112,10 @@ export const BridgeInfo = ({
           </div>
 
           {/* Sender */}
-          <div className="flex items-start gap-4 p-3 justify-between">
+          <div className="flex items-start gap-4 py-3 px-3.5 justify-between">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <IconVia className="w-4 h-auto fill-muted-foreground" />
+                <IconArrowDownRightCircle className="w-4 h-auto fill-foreground" />
                 <span>{t("transaction.fromAddress")}</span>
               </div>
             </div>
@@ -118,10 +125,10 @@ export const BridgeInfo = ({
           </div>
 
           {/* Recipient */}
-          <div className="flex items-start gap-4 p-3 justify-between">
+          <div className="flex items-start gap-4 py-3 px-3.5 justify-between">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <IconVia className="w-4 h-auto fill-muted-foreground" />
+                <IconArrowUpRightCircle className="w-4 h-auto fill-foreground" />
                 <span>{t("transaction.toAddress")}</span>
               </div>
             </div>
@@ -131,10 +138,10 @@ export const BridgeInfo = ({
           </div>
 
           {/* Row 2 */}
-          <div className="flex items-start gap-4 p-3 justify-between">
+          <div className="flex items-start gap-4 py-3 px-3.5 justify-between">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <IconSimpleTime className="w-4 h-auto fill-muted-foreground" />
+                <IconTime className="w-4 h-auto fill-foreground" />
                 <span>{t("transaction.transferTime")}</span>
               </div>
             </div>

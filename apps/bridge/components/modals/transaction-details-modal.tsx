@@ -25,7 +25,7 @@ import { isWaitStep } from "@/utils/progress-rows/common";
 
 import { BridgeInfo } from "../bridge-info";
 import { LineItem } from "../transaction-line-item";
-import { Dialog, DialogContent } from "../ui/dialog";
+import { Dialog, DialogContent, DialogHeader } from "../ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 
 const useTransactionByInitiatingHash = (hash: string | null) => {
@@ -70,10 +70,14 @@ const Content = () => {
 
   return (
     <Tabs defaultValue="steps" className="flex flex-col">
-      <div className="mx-auto">
-        <TabsList className="bg-blue-400">
-          <TabsTrigger value="steps">{t("transaction.steps")}</TabsTrigger>
-          <TabsTrigger value="info">{t("transaction.bridgeInfo")}</TabsTrigger>
+      <div className="mx-auto pt-6 pb-2">
+        <TabsList>
+          <TabsTrigger className="text-xs" value="steps">
+            {t("transaction.steps")}
+          </TabsTrigger>
+          <TabsTrigger className="text-xs" value="info">
+            {t("transaction.bridgeInfo")}
+          </TabsTrigger>
         </TabsList>
       </div>
 
@@ -114,18 +118,20 @@ const Content = () => {
       </TabsContent>
 
       <TabsContent value="info">
-        <BridgeInfo
-          recipient={recipient}
-          sender={sender}
-          sentAmount={amount?.formatted ?? null}
-          // todo: make this handle Across fees
-          receivedAmount={amount?.formatted ?? null}
-          from={chains?.from ?? null}
-          to={chains?.to ?? null}
-          provider={provider}
-          token={multichainToken ?? null}
-          transferTime={transferTime}
-        />
+        <div className="pb-6">
+          <BridgeInfo
+            recipient={recipient}
+            sender={sender}
+            sentAmount={amount?.formatted ?? null}
+            // todo: make this handle Across fees
+            receivedAmount={amount?.formatted ?? null}
+            from={chains?.from ?? null}
+            to={chains?.to ?? null}
+            provider={provider}
+            token={multichainToken ?? null}
+            transferTime={transferTime}
+          />
+        </div>
       </TabsContent>
     </Tabs>
   );

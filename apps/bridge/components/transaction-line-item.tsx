@@ -7,6 +7,7 @@ import {
   IconSimpleGas,
   IconSimpleTime,
   IconSpinner,
+  IconTime,
 } from "@/components/icons";
 import { NetworkIcon } from "@/components/network-icon";
 import { useNetworkFeeForGasLimit } from "@/hooks/gas/use-network-fee";
@@ -70,9 +71,11 @@ function WaitLineItem({
   return (
     <div className="flex gap-4 justify-start items-center w-full">
       <div className="flex items-center gap-2 w-full">
-        <IconSimpleTime className="w-8 h-8 p-1 fill-foreground" />
+        {/* <div className="w-5 h-5 rounded-full bg-card"> */}
+        <IconTime className="w-5 h-5 fill-foreground" />
+        {/* </div> */}
 
-        <span className="text-sm">
+        <span className="text-sm font-heading">
           Wait {formatDurationToNow(Date.now() + step.duration)}
         </span>
 
@@ -114,8 +117,8 @@ function TransactionLineItem({
   return (
     <div className="flex gap-4 justify-between items-center relative">
       <div className="flex flex-col gap-2">
-        <div className="flex items-center gap-1">
-          <NetworkIcon chain={step.chain} className="w-4 h-4 rounded-sm" />
+        <div className="flex items-center gap-2">
+          <NetworkIcon chain={step.chain} className="w-5 h-5 rounded-xs" />
           <span className="text-sm font-heading leading-none">
             {step.label}
           </span>
@@ -125,12 +128,65 @@ function TransactionLineItem({
           <div className="flex items-center gap-1">
             <TokenIcon
               token={step.token?.[step.chain.id]}
-              className="h-6 w-6"
+              className="h-8 w-8"
             />
-            <span className="text-2xl font-heading leading-none">
+            <span className="text-3xl font-heading leading-none">
               {step.amount?.formatted}
+              {/* 100 */}
             </span>
           </div>
+        )}
+      </div>
+      <div className="flex flex-col gap-1.5 -mt-0.5 items-end">
+        {step.hash ? (
+          <div className="flex flex-col gap-1 items-end">
+            <IconCheckCircle className="w-6 h-6 fill-primary opacity-100 scale-100 group-hover:opacity-0 group-hover:scale-95 transition-all ease-in-out" />
+            <a
+              href={transactionLink(step.hash, step.chain)}
+              target="_blank"
+              className="text-xs"
+            >
+              {/* Put better link to Tx here */}
+              View in explorer
+            </a>
+          </div>
+        ) : step.pendingHash ? (
+          <a
+            href={transactionLink(step.pendingHash, step.chain)}
+            target="_blank"
+          >
+            <IconSpinner className="h-6 w-6" />
+          </a>
+        ) : (
+          <>
+            {tx &&
+              step.button?.type === ButtonComponent.Prove &&
+              (isOptimismWithdrawal(tx) || isOptimismForcedWithdrawal(tx)) && (
+                <Prove tx={tx} enabled={step.button.enabled} />
+              )}
+            {tx &&
+              step.button?.type === ButtonComponent.Finalise &&
+              (isOptimismWithdrawal(tx) || isOptimismForcedWithdrawal(tx)) && (
+                <Finalise tx={tx} enabled={step.button.enabled} />
+              )}
+            {tx &&
+              step.button?.type === ButtonComponent.Finalise &&
+              isArbitrumWithdrawal(tx) && (
+                <FinaliseArbitrum tx={tx} enabled={step.button.enabled} />
+              )}
+            {tx &&
+              step.button?.type === ButtonComponent.Mint &&
+              isCctpBridge(tx) && (
+                <MintCctp tx={tx} enabled={step.button.enabled} />
+              )}
+            {tx &&
+              step.button?.type === ButtonComponent.Redeem &&
+              isArbitrumDeposit(tx) && (
+                <RedeemArbitrum tx={tx} enabled={step.button.enabled} />
+              )}
+
+            {step.buttonComponent}
+          </>
         )}
 
         <div
@@ -139,10 +195,9 @@ function TransactionLineItem({
             fee.data ? "items-start" : "items-center"
           )}
         >
-          <div className="flex flex-col gap-1">
+          <div className="flex gap-1">
             {!!step.gasLimit && (
               <div className="flex gap-1">
-                <IconSimpleGas className="w-3.5 h-auto fill-muted-foreground opacity-80" />
                 {fee.isLoading ? (
                   <Skeleton className="h-4 w-[88px]" />
                 ) : (
@@ -152,64 +207,20 @@ function TransactionLineItem({
                     </p>
                   </span>
                 )}
+                <IconSimpleGas className="w-3.5 h-auto fill-muted-foreground opacity-80" />
               </div>
             )}
             {!!step.fee && (
               <div className="flex gap-1">
-                <IconSimpleGas className="w-3.5 h-auto fill-muted-foreground opacity-80" />
                 <span className="text-xs text-muted-foreground leading-none">
                   <p className="text-xs">{step.fee}</p>
                 </span>
+                <IconSimpleGas className="w-3.5 h-auto fill-muted-foreground opacity-80" />
               </div>
             )}
           </div>
         </div>
       </div>
-
-      {step.hash ? (
-        <a
-          href={transactionLink(step.hash, step.chain)}
-          target="_blank"
-          className="flex gap-2 items-center justify-end absolute inset-0 p-3 group"
-        >
-          <IconArrowUpRightCircle className="w-6 h-6 fill-muted-foreground opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 fill-primary transition-all ease-in-out delay-150 absolute right-3" />
-          <IconCheckCircle className="w-6 h-6 fill-primary opacity-100 scale-100 group-hover:opacity-0 group-hover:scale-95 transition-all ease-in-out absolute right-3" />
-        </a>
-      ) : step.pendingHash ? (
-        <a href={transactionLink(step.pendingHash, step.chain)} target="_blank">
-          <IconSpinner className="h-6 w-6" />
-        </a>
-      ) : (
-        <>
-          {tx &&
-            step.button?.type === ButtonComponent.Prove &&
-            (isOptimismWithdrawal(tx) || isOptimismForcedWithdrawal(tx)) && (
-              <Prove tx={tx} enabled={step.button.enabled} />
-            )}
-          {tx &&
-            step.button?.type === ButtonComponent.Finalise &&
-            (isOptimismWithdrawal(tx) || isOptimismForcedWithdrawal(tx)) && (
-              <Finalise tx={tx} enabled={step.button.enabled} />
-            )}
-          {tx &&
-            step.button?.type === ButtonComponent.Finalise &&
-            isArbitrumWithdrawal(tx) && (
-              <FinaliseArbitrum tx={tx} enabled={step.button.enabled} />
-            )}
-          {tx &&
-            step.button?.type === ButtonComponent.Mint &&
-            isCctpBridge(tx) && (
-              <MintCctp tx={tx} enabled={step.button.enabled} />
-            )}
-          {tx &&
-            step.button?.type === ButtonComponent.Redeem &&
-            isArbitrumDeposit(tx) && (
-              <RedeemArbitrum tx={tx} enabled={step.button.enabled} />
-            )}
-
-          {step.buttonComponent}
-        </>
-      )}
     </div>
   );
 }
@@ -219,7 +230,7 @@ export function LineItem(props: {
   tx?: Pick<Transaction, "type">;
 }) {
   return (
-    <div className="px-5 py-4 rounded-lg bg-muted">
+    <div className="p-4 rounded-xl bg-muted">
       {isWaitStep(props.step) ? (
         <WaitLineItem {...props} step={props.step} />
       ) : (

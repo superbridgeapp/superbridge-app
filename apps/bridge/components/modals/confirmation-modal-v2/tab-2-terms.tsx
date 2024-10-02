@@ -94,7 +94,7 @@ export const ConfirmationModalTermsTab = ({
   return (
     <div>
       <DialogHeader className="items-center">
-        <DialogTitle className="text-3xl">
+        <DialogTitle className="text-2xl">
           {t("confirmationModal.acceptTerms")}
         </DialogTitle>
         <DialogDescription className="text-center">
@@ -102,8 +102,8 @@ export const ConfirmationModalTermsTab = ({
         </DialogDescription>
       </DialogHeader>
 
-      <div className="flex flex-col gap-4 px-6">
-        <div className="flex gap-3  items-center">
+      <div className="flex flex-col gap-4 px-8 py-2">
+        <div className="flex gap-2 items-start">
           <Checkbox
             id="timeframe"
             checked={checkbox1}
@@ -114,7 +114,7 @@ export const ConfirmationModalTermsTab = ({
             {checkbox1Text}
           </label>
         </div>
-        <div className="flex gap-3  items-center">
+        <div className="flex gap-2  items-start">
           <Checkbox
             id="speed"
             checked={checkbox2}
@@ -125,7 +125,7 @@ export const ConfirmationModalTermsTab = ({
             {t("confirmationModal.checkbox2")}
           </label>
         </div>
-        <div className="flex gap-3 items-center">
+        <div className="flex gap-2 items-start">
           <Checkbox
             id="fees"
             checked={checkbox3}
@@ -139,13 +139,13 @@ export const ConfirmationModalTermsTab = ({
       </div>
 
       <DialogFooter>
-        <Link
+        {/* <Link
           href="https://help.superbridge.app"
           target="_blank"
           className="text-xs font-heading text-center hover:underline"
         >
           {t("general.needHelp")}
-        </Link>
+        </Link> */}
 
         <Button
           onClick={onNext}
