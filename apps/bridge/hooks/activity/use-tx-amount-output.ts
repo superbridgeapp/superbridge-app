@@ -27,8 +27,6 @@ export function useTxAmountOutput(
       )
     );
 
-    console.log(tx.metadata.data.outputAmount, formatted);
-
     return {
       formatted,
       raw: tx.metadata.data.outputAmount,

@@ -25,7 +25,7 @@ import { useIsWithdrawal } from "@/hooks/use-withdrawing";
 import { useConfigState } from "@/state/config";
 import { formatDecimals } from "@/utils/format-decimals";
 import { isRouteQuote } from "@/utils/guards";
-import { deadAddress, isEth } from "@/utils/tokens/is-eth";
+import { deadAddress } from "@/utils/tokens/is-eth";
 
 import { Button } from "./ui/button";
 
@@ -73,9 +73,6 @@ export const BridgeButton = () => {
     let availableGasBalance =
       fromEthBalance.data.value -
       BigInt(route.data.result.initiatingTransaction.value);
-    if (isEth(token)) {
-      availableGasBalance = availableGasBalance - weiAmount;
-    }
 
     return (
       availableGasBalance <
