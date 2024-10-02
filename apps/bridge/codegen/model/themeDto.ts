@@ -42,7 +42,6 @@ export interface ThemeDto {
   imageLogo?: string;
   imageLogoDark?: string;
   imageNetwork?: string;
-  imageNetworkDark?: string;
   imageOg?: string;
   imageSuperbridgeLogo?: string;
   imageSuperbridgeLogoDark?: string;

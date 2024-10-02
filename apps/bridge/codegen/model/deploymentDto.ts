@@ -40,6 +40,8 @@ export interface DeploymentDto {
   proveDuration: number | null;
   /** @nullable */
   provider: string | null;
+  /** @nullable */
+  rollupNetworkIcon: string | null;
   status: DeploymentDtoStatus;
   supportsNftBridging: boolean;
   /** @nullable */

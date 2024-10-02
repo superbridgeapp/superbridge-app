@@ -35,16 +35,13 @@ export const useNavIcon = () => {
 
 export const useNetworkIcon = (deploymentId?: string) => {
   const deployments = useDeployments();
-  const theme = useContext(ThemeContext);
 
   const deployment = deployments.find((d) => d.id === deploymentId);
   const defaultIcon = L1s.includes(deployment?.l1ChainId ?? 0)
     ? defaultImages.l2
     : defaultImages.l3;
 
-  return (
-    theme?.imageNetwork || deployment?.theme?.theme.imageNetwork || defaultIcon
-  );
+  return deployment?.rollupNetworkIcon ?? defaultIcon;
 };
 
 export const useBackgroundIcon = () => {
