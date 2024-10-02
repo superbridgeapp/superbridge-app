@@ -51,16 +51,12 @@ function updateTheme(theme: ThemeDto) {
 export const useInitialiseTheme = () => {
   const app = useApp();
   const router = useRouter();
-  const [themeValues, setThemeValues] = useState<Partial<ThemeDto> | null>({
-    ...app.theme,
-    imageLogo: app.images.logoLight || app.theme.imageLogo,
-    imageLogoDark: app.images.logoDark || app.theme.imageLogoDark,
-  });
+  const [themeValues, setThemeValues] = useState<Partial<ThemeDto> | null>(
+    app.theme
+  );
 
   useEffect(() => {
-    if (app) {
-      updateTheme(app.theme);
-    }
+    updateTheme(app.theme);
 
     const theme = router.query.theme;
     if (theme) {
@@ -71,7 +67,7 @@ export const useInitialiseTheme = () => {
         updateTheme(parsed);
       } catch {}
     }
-  }, [app]);
+  }, []);
 
   useEffect(() => {
     const listener = (e: MessageEvent) => {
