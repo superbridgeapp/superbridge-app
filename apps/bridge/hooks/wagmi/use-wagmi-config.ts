@@ -3,8 +3,9 @@ import "@rainbow-me/rainbowkit/styles.css";
 import { okxWallet, safeWallet } from "@rainbow-me/rainbowkit/wallets";
 import { useMemo } from "react";
 import { fallback, http } from "wagmi";
-import { Chain } from "wagmi/chains";
+import { Chain, mainnet } from "wagmi/chains";
 
+import { ChainDto } from "@/codegen/model";
 import { chainIcons } from "@/config/chain-icon-overrides";
 import { useMetadata } from "@/hooks/use-metadata";
 
@@ -19,6 +20,11 @@ export function useWagmiConfig() {
   const isSuperbridge = useIsSuperbridge();
 
   return useMemo(() => {
+    // Rainbowkit doesn't like no chains
+    if (chains.length === 0) {
+      chains.push(mainnet as unknown as ChainDto);
+    }
+
     const chainsWithIcons: Chain[] = chains.map((c) => {
       if (chainIcons[c.id]) {
         // @ts-expect-error
