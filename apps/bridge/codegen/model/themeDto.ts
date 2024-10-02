@@ -61,6 +61,7 @@ export interface ThemeDto {
   'primary-foreground'?: string;
   'primary-foreground-dark'?: string;
   radius?: string;
+  rainbowMode?: string;
   ring?: string;
   'ring-dark'?: string;
   secondary?: string;

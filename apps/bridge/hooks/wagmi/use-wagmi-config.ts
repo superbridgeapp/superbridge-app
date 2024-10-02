@@ -61,7 +61,7 @@ export function useWagmiConfig() {
     }
 
     return getDefaultConfig({
-      appName: metadata.head.name,
+      appName: metadata.head.title,
       appDescription: metadata.head.description,
       appIcon: metadata.head.favicon,
       projectId: "50c3481ab766b0e9c611c9356a42987b",

@@ -25,13 +25,7 @@ export const getServerSideProps = async ({
     !req.headers.host ||
     ignored.find((x) => req.url?.includes(x))
   ) {
-    return {
-      props: createInjectedState({
-        dto: null,
-        host: "",
-        url: "",
-      }),
-    };
+    throw new Error("Invalid request");
   }
 
   let requestHost = req.headers.host;
@@ -41,16 +35,20 @@ export const getServerSideProps = async ({
     req.headers.host?.includes("ngrok")
   ) {
     // change this to load different apps
-    requestHost = "molten.superbridge-test.app";
+    requestHost = "8935b200-12e9-4fc8-8bbe-6b1b6b66fb2e.bridges.rollbridge.app";
   }
 
   const config = await bridgeControllerGetBridgeConfigByDomainV2(
     requestHost
   ).catch(() => null);
 
+  if (!config?.data) {
+    throw new Error("Invalid request");
+  }
+
   return {
     props: createInjectedState({
-      dto: config?.data ?? null,
+      dto: config.data,
       host: requestHost,
       url: req.url,
     }),

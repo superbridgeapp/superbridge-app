@@ -112,6 +112,7 @@ export * from './opBridgedUsdcDto';
 export * from './optimismConfigDto';
 export * from './optimismContractAddressesDto';
 export * from './optimismTransactionType';
+export * from './paidDeploymentMetadataDto';
 export * from './pausedRouteErrorDto';
 export * from './portalDepositDto';
 export * from './portalDepositDtoMetadata';
