@@ -1,12 +1,12 @@
 import clsx from "clsx";
-import Link from "next/link";
 import { useTranslation } from "react-i18next";
 
+import { Ens } from "@/components/bridge-info";
 import {
+  IconArrowDownRightCircle,
   IconHelp,
   IconSimpleFees,
   IconSimpleGas,
-  IconSimpleTime,
   IconTime,
   IconVia,
 } from "@/components/icons";
@@ -51,6 +51,7 @@ export const ConfirmationModalReviewTab = ({
   const feeBreakdownModal = useModal("FeeBreakdown");
   const gasInfoModal = useModal("GasInfo");
 
+  const recipient = useConfigState.useRecipientAddress();
   const networkFee = useNetworkFee();
   const route = useSelectedBridgeRoute();
   const fees = useFeesForRoute(route);
@@ -114,7 +115,7 @@ export const ConfirmationModalReviewTab = ({
         </div>
 
         <div className="flex flex-col divide-y divide-border rounded-xl border py-0.5 text-xs">
-          {/* Row 1 */}
+          {/* Via */}
           <div className="flex items-start gap-4 py-3 px-3.5 justify-between">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-1.5">
@@ -131,6 +132,17 @@ export const ConfirmationModalReviewTab = ({
                 className="h-4 w-4 rounded-2xs"
               />
             </div>
+          </div>
+
+          {/* To */}
+          <div className="flex items-start gap-4 py-3 px-3.5 justify-between">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-1.5">
+                <IconArrowDownRightCircle className="w-4 h-auto fill-foreground" />
+                <span>{t("transaction.toAddress")}</span>
+              </div>
+            </div>
+            <Ens address={recipient} />
           </div>
 
           {/* Row 2 */}
@@ -217,15 +229,8 @@ export const ConfirmationModalReviewTab = ({
         </div>
       </div>
       <DialogFooter className="pt-4">
-        {/* <Link
-          href="https://help.superbridge.app"
-          target="_blank"
-          className="text-xs font-heading text-center hover:underline"
-        >
-          {t("general.needHelp")}
-        </Link> */}
         <Button onClick={onNext} className="w-full">
-          {t("general.continue")}
+          {t("buttons.continue")}
         </Button>
       </DialogFooter>
     </div>

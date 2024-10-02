@@ -344,13 +344,35 @@ export const ConfirmationModalStartTab = () => {
     route.data?.result && isRouteQuote(route.data.result)
       ? route.data.result.steps
           .map((x) => {
+            const receiveAmount = {
+              raw: receive.data?.token.amount.toString() ?? "0",
+              formatted: receive.data?.token.formatted ?? "",
+              text: receive.data?.token.formatted ?? "",
+            };
+
             if (isRouteTransactionStep(x)) {
               const label =
                 x.type === RouteStepType.Initiate
                   ? t("confirmationModal.startBridgeOn", { from: from?.name })
                   : x.type === RouteStepType.Prove
-                  ? t("confirmationModal.proveOn", { to: to?.name })
-                  : t("confirmationModal.getOn", { to: to?.name });
+                    ? t("confirmationModal.proveOn", { to: to?.name })
+                    : t("confirmationModal.getOn", { to: to?.name });
+              const amount: TransactionStep["amount"] =
+                x.type === RouteStepType.Initiate
+                  ? {
+                      raw: weiAmount.toString(),
+                      formatted: formatUnits(
+                        weiAmount,
+                        fromToken?.decimals ?? 18
+                      ),
+                      text: `${formatUnits(
+                        weiAmount,
+                        fromToken?.decimals ?? 18
+                      )} ${fromToken?.symbol}`,
+                    }
+                  : x.type === RouteStepType.Prove
+                    ? undefined
+                    : receiveAmount;
 
               const buttonComponent =
                 x.type === RouteStepType.Initiate ? (
@@ -376,6 +398,7 @@ export const ConfirmationModalStartTab = () => {
                 hash: undefined,
                 pendingHash: undefined,
                 token: x.type === RouteStepType.Prove ? null : token,
+                amount,
               };
               return a;
             }
@@ -395,6 +418,7 @@ export const ConfirmationModalStartTab = () => {
                 hash: undefined,
                 pendingHash: undefined,
                 token,
+                amount: receiveAmount,
               };
               return step;
             }

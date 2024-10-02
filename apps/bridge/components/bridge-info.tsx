@@ -5,9 +5,7 @@ import { useEnsName } from "wagmi";
 import { ChainDto, RouteProvider } from "@/codegen/model";
 import {
   IconArrowDownRightCircle,
-  IconArrowUpRight,
   IconArrowUpRightCircle,
-  IconSimpleTime,
   IconTime,
   IconVia,
 } from "@/components/icons";
