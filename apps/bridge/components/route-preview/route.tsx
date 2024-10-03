@@ -24,6 +24,7 @@ import {
   IconSimpleFees,
   IconSimpleGas,
   IconSimpleTime,
+  IconTime,
 } from "../icons";
 import { NetworkIcon } from "../network-icon";
 import { RouteProviderIcon, RouteProviderName } from "../route-provider-icon";
@@ -141,35 +142,6 @@ export const Route = ({
       </div>
 
       <div className="flex gap-3 justify-start mt-4">
-        <div className="flex gap-1 items-center mr-auto">
-          <IconSimpleTime className="h-4 w-4 fill-muted-foreground" />{" "}
-          <span className="text-xs leading-none text-muted-foreground">
-            {time.data}
-          </span>
-        </div>
-
-        <div
-          className={clsx(
-            "flex gap-1 items-center",
-            allowDetailClicks && "cursor-pointer group"
-          )}
-          onClick={() => (allowDetailClicks ? gasInfoModal.open() : null)}
-        >
-          <IconSimpleGas className="h-4 w-4 fill-muted-foreground group-hover:fill-foreground" />{" "}
-          {networkFee.isLoading ? (
-            <Skeleton className="h-3 w-[60px]" />
-          ) : (
-            <span className="text-xs leading-none text-muted-foreground group-hover:text-foreground">
-              {networkFee.data?.token.formatted}
-            </span>
-          )}
-          {transactionStepCount > 1 && (
-            <div className="border rounded-full text-xs">
-              +{transactionStepCount - 1}
-            </div>
-          )}
-        </div>
-
         <div
           className={clsx(
             fees.data?.totals.token === 0
@@ -185,7 +157,7 @@ export const Route = ({
               fees.data?.totals.token === 0
                 ? "fill-primary-foreground"
                 : "fill-muted-foreground group-hover:fill-foreground",
-              "h-4 w-4"
+              "h-3.5 w-3.5"
             )}
           />
           {fees.data?.totals.token === 0 ? (
@@ -199,6 +171,33 @@ export const Route = ({
               Fee
             </span>
           )}
+        </div>
+        <div
+          className={clsx(
+            "flex gap-1 items-center",
+            allowDetailClicks && "cursor-pointer group"
+          )}
+          onClick={() => (allowDetailClicks ? gasInfoModal.open() : null)}
+        >
+          <IconSimpleGas className="h-3.5 w-3.5 fill-muted-foreground group-hover:fill-foreground" />{" "}
+          {networkFee.isLoading ? (
+            <Skeleton className="h-3 w-[60px]" />
+          ) : (
+            <span className="text-xs leading-none text-muted-foreground group-hover:text-foreground">
+              {networkFee.data?.token.formatted}
+            </span>
+          )}
+          {transactionStepCount > 1 && (
+            <span className="rounded-full text-[10px] leading-none bg-primary text-primary-foreground py-1 px-1.5">
+              +{transactionStepCount - 1}
+            </span>
+          )}
+        </div>
+        <div className="flex gap-1 items-center ml-auto">
+          <span className="text-xs leading-none text-muted-foreground">
+            {time.data}
+          </span>
+          <IconTime className="h-3.5 w-3.5 fill-muted-foreground" />{" "}
         </div>
       </div>
     </div>
