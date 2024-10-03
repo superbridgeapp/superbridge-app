@@ -25,9 +25,17 @@ import { useProgressRows } from "@/utils/progress-rows";
 import { isWaitStep } from "@/utils/progress-rows/common";
 
 import { BridgeInfo } from "../bridge-info";
+import { IconArrowUpRight, IconHelp } from "../icons";
 import { RouteProviderName } from "../route-provider-icon";
 import { LineItem } from "../transaction-line-item";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
+import { Button } from "../ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "../ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 
 const useTransactionByInitiatingHash = (hash: string | null) => {
@@ -73,7 +81,7 @@ const Content = () => {
 
   return (
     <Tabs defaultValue="steps" className="flex flex-col">
-      <DialogHeader className="items-center pt-10 pb-3">
+      <DialogHeader className="items-center pt-10 pb-4">
         <DialogTitle className="text-3xl text-center leading-none">
           <span className="text-base text-muted-foreground">
             Bridge via <br />
@@ -93,7 +101,7 @@ const Content = () => {
       </div>
 
       <TabsContent value="steps">
-        <div className="flex flex-col p-6 pt-0 gap-1">
+        <div className="flex flex-col px-6 gap-1">
           {rows?.map((item) => (
             <LineItem
               key={isWaitStep(item) ? item.duration.toString() : item.label}
@@ -101,48 +109,50 @@ const Content = () => {
               tx={tx!}
             />
           ))}
-
-          {helpCenterLink && (
-            <div className="flex items-center justify-center pt-3">
-              <Link
-                href={helpCenterLink}
-                target="_blank"
-                className="text-xs font-heading text-center hover:underline"
-              >
-                {t("general.needHelp")}
-              </Link>
-            </div>
-          )}
-
-          {providerExplorerLink && (
-            <div className="flex items-center justify-center pt-3">
-              <Link
-                href={providerExplorerLink}
-                target="_blank"
-                className="text-xs font-heading text-center hover:underline"
-              >
-                View on the {provider} explorer
-              </Link>
-            </div>
-          )}
         </div>
       </TabsContent>
 
       <TabsContent value="info">
-        <div className="pb-6">
-          <BridgeInfo
-            recipient={recipient}
-            sender={sender}
-            sentAmount={amount?.formatted ?? null}
-            receivedAmount={outputAmount?.formatted ?? null}
-            from={chains?.from ?? null}
-            to={chains?.to ?? null}
-            provider={provider}
-            token={multichainToken ?? null}
-            transferTime={transferTime}
-          />
-        </div>
+        <BridgeInfo
+          recipient={recipient}
+          sender={sender}
+          sentAmount={amount?.formatted ?? null}
+          receivedAmount={outputAmount?.formatted ?? null}
+          from={chains?.from ?? null}
+          to={chains?.to ?? null}
+          provider={provider}
+          token={multichainToken ?? null}
+          transferTime={transferTime}
+        />
       </TabsContent>
+
+      <DialogFooter className="flex gap-2 items-center">
+        {providerExplorerLink && (
+          <Button asChild size={"xs"} variant={"secondary"}>
+            <Link
+              href={providerExplorerLink}
+              target="_blank"
+              // className="text-xs font-button text-center hover:underline flex gap-1 items-center"
+            >
+              <span>View on {provider} explorer</span>
+              <IconArrowUpRight className="w-2.5 h-2.5 ml-1.5 fill-foreground group-hover:fill-foreground" />
+            </Link>
+          </Button>
+        )}
+
+        {helpCenterLink && (
+          <Button asChild size={"xs"} variant={"secondary"}>
+            <Link
+              href={helpCenterLink}
+              target="_blank"
+              // className="text-xs font-button text-center hover:underline"
+            >
+              {t("general.needHelp")}
+              <IconHelp className="w-2.5 h-2.5 ml-1.5 fill-foreground group-hover:fill-foreground" />
+            </Link>
+          </Button>
+        )}
+      </DialogFooter>
     </Tabs>
   );
 };

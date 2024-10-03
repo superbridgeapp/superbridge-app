@@ -8,12 +8,16 @@ import { useAccount, useEstimateFeesPerGas } from "wagmi";
 
 import { ChainNativeCurrencyDto, RouteStepType } from "@/codegen/model";
 import { BridgeInfo } from "@/components/bridge-info";
-import { IconCheck, IconCheckCircle } from "@/components/icons";
+import { IconCheck, IconCheckCircle, IconHelp } from "@/components/icons";
 import { RouteProviderName } from "@/components/route-provider-icon";
 import { ClaimButton, ProveButton } from "@/components/transaction-buttons";
 import { LineItem } from "@/components/transaction-line-item";
 import { Button } from "@/components/ui/button";
-import { DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { currencySymbolMap } from "@/constants/currency-symbol-map";
 import { useLatestSubmittedTx } from "@/hooks/activity/use-tx-by-hash";
@@ -456,7 +460,7 @@ export const ConfirmationModalStartTab = () => {
       </div>
 
       <TabsContent value="steps">
-        <div className="flex flex-col p-6 pt-0 gap-1">
+        <div className="flex flex-col px-6 gap-1">
           {approveGasTokenButton && from && (
             <>
               <LineItem
@@ -524,36 +528,50 @@ export const ConfirmationModalStartTab = () => {
               tx={lastSubmittedTx}
             />
           ))}
-
-          {helpCenterLink && (
-            <div className="flex items-center justify-center pt-3">
-              <Link
-                href={helpCenterLink}
-                target="_blank"
-                className="text-xs font-heading text-center hover:underline"
-              >
-                {t("general.needHelp")}
-              </Link>
-            </div>
-          )}
         </div>
       </TabsContent>
 
       <TabsContent value="info">
-        <div className="pb-6">
-          <BridgeInfo
-            from={from}
-            to={to}
-            sentAmount={rawAmount}
-            receivedAmount={receive.data?.token.amount.toString() ?? null}
-            token={token}
-            provider={route.data?.id ?? null}
-            sender={account.address ?? "0x"}
-            recipient={recipientAddress}
-            transferTime="10 mins"
-          />
-        </div>
+        <BridgeInfo
+          from={from}
+          to={to}
+          sentAmount={rawAmount}
+          receivedAmount={receive.data?.token.amount.toString() ?? null}
+          token={token}
+          provider={route.data?.id ?? null}
+          sender={account.address ?? "0x"}
+          recipient={recipientAddress}
+          transferTime="10 mins"
+        />
       </TabsContent>
+
+      <DialogFooter className="flex gap-2 items-center">
+        {/* {providerExplorerLink && (
+          <Button asChild size={"xs"} variant={"secondary"}>
+            <Link
+              href={providerExplorerLink}
+              target="_blank"
+              // className="text-xs font-button text-center hover:underline flex gap-1 items-center"
+            >
+              <span>View on {provider} explorer</span>
+              <IconArrowUpRight className="w-2.5 h-2.5 ml-1.5 fill-foreground group-hover:fill-foreground" />
+            </Link>
+          </Button> 
+        )}*/}
+
+        {helpCenterLink && (
+          <Button asChild size={"xs"} variant={"secondary"}>
+            <Link
+              href={helpCenterLink}
+              target="_blank"
+              // className="text-xs font-button text-center hover:underline"
+            >
+              {t("general.needHelp")}
+              <IconHelp className="w-2.5 h-2.5 ml-1.5 fill-foreground group-hover:fill-foreground" />
+            </Link>
+          </Button>
+        )}
+      </DialogFooter>
     </Tabs>
   );
 };
