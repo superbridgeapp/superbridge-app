@@ -23,7 +23,6 @@ import {
   IconCaretDown,
   IconSimpleFees,
   IconSimpleGas,
-  IconSimpleTime,
   IconTime,
 } from "../icons";
 import { NetworkIcon } from "../network-icon";
@@ -45,7 +44,7 @@ export const Route = ({
   const selectedToken = useSelectedToken();
   const token = useDestinationToken();
   const to = useToChain();
-  const getFormattedAmount = useGetFormattedAmount(selectedToken);
+  const getFormattedAmount = useGetFormattedAmount(token);
   const feeBreakdownModal = useModal("FeeBreakdown");
   const gasInfoModal = useModal("GasInfo");
 
