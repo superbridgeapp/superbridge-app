@@ -2,6 +2,7 @@ import clsx from "clsx";
 import { useEffect, useState } from "react";
 
 import {
+  IconArrowUpRight,
   IconCheckCircle,
   IconSimpleGas,
   IconSpinner,
@@ -70,10 +71,10 @@ function WaitLineItem({
     <div className="flex gap-4 justify-start items-center w-full">
       <div className="flex items-center gap-2 w-full">
         {/* <div className="w-5 h-5 rounded-full bg-card"> */}
-        <IconTime className="w-5 h-5 fill-foreground" />
+        <IconTime className="w-4 h-4 fill-foreground" />
         {/* </div> */}
 
-        <span className="text-sm font-heading">
+        <span className="text-xs font-heading">
           Wait {formatDurationToNow(Date.now() + step.duration)}
         </span>
 
@@ -117,38 +118,69 @@ function TransactionLineItem({
 
   return (
     <div className="flex gap-4 justify-between items-center relative">
-      <div className="flex flex-col gap-2">
-        <div className="flex items-center gap-2">
-          <NetworkIcon chain={step.chain} className="w-5 h-5 rounded-xs" />
-          <span className="text-sm font-heading leading-none">
+      <div className="flex flex-col gap-1">
+        <div className="flex items-center gap-1.5">
+          <NetworkIcon chain={step.chain} className="w-4 h-4 rounded-xs" />
+          <span className="text-xs font-heading leading-none">
             {step.label}
           </span>
         </div>
 
         {step.token && (
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-1 mb-1">
             <TokenIcon
               token={step.token?.[step.chain.id]}
-              className="h-8 w-8"
+              className="h-6 w-6"
             />
-            <span className="text-3xl font-heading leading-none">
+            <span className="text-2xl leading-none">
               {step.amount?.formatted}
             </span>
           </div>
         )}
+
+        {/* Gas and fees */}
+        <div
+          className={clsx(
+            "flex gap-2",
+            fee.data ? "items-start" : "items-center"
+          )}
+        >
+          <div className="flex gap-1">
+            {!!step.gasLimit && !step.pendingHash && !step.hash && (
+              <div className="flex gap-2 mt-0.5 ml-0.5">
+                <IconSimpleGas className="w-3 h-auto fill-muted-foreground opacity-80" />
+                {fee.isLoading ? (
+                  <Skeleton className="h-4 w-[88px]" />
+                ) : (
+                  <div className="flex items-center gap-1">
+                    <span className="text-xs text-muted-foreground leading-none">
+                      {fee.data?.token.formatted}
+                    </span>
+                    {fee.data?.fiat?.formatted && (
+                      <span className="text-xs text-muted-foreground leading-none  opacity-50">
+                        {fee.data?.fiat?.formatted}
+                      </span>
+                    )}
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        </div>
       </div>
-      <div className="flex flex-col gap-1.5 -mt-0.5 items-end">
+      <div className="flex flex-col gap-1.5 items-end">
         {step.hash ? (
-          <div className="flex flex-col gap-1 items-end">
-            <IconCheckCircle className="w-6 h-6 fill-primary opacity-100 scale-100 group-hover:opacity-0 group-hover:scale-95 transition-all ease-in-out" />
+          <div className="flex gap-2 items-center group">
             <a
               href={transactionLink(step.hash, step.chain)}
               target="_blank"
-              className="text-xs"
+              className="bg-card text-muted-foreground flex gap-1.5 items-center text-[10px] px-2 py-0.5 rounded-full group hover:text-foreground"
             >
               {/* Put better link to Tx here */}
-              View in explorer
+              <span>View Tx</span>
+              <IconArrowUpRight className="w-2 h-2 fill-muted-foreground group-hover:fill-foreground" />
             </a>
+            <IconCheckCircle className="w-6 h-6 fill-primary group-hover:scale-105 transition-all ease-in-out" />
           </div>
         ) : step.pendingHash ? (
           <a
@@ -188,35 +220,6 @@ function TransactionLineItem({
             {step.buttonComponent}
           </>
         )}
-
-        <div
-          className={clsx(
-            "flex gap-2",
-            fee.data ? "items-start" : "items-center"
-          )}
-        >
-          <div className="flex gap-1">
-            {!!step.gasLimit && !step.pendingHash && !step.hash && (
-              <div className="flex gap-1">
-                {fee.isLoading ? (
-                  <Skeleton className="h-4 w-[88px]" />
-                ) : (
-                  <div className="flex items-center gap-1">
-                    <span className="text-xs text-muted-foreground leading-none">
-                      {fee.data?.token.formatted}
-                    </span>
-                    {fee.data?.fiat?.formatted && (
-                      <span className="text-xs text-muted-foreground leading-none">
-                        {fee.data?.fiat?.formatted}
-                      </span>
-                    )}
-                  </div>
-                )}
-                <IconSimpleGas className="w-3.5 h-auto fill-muted-foreground opacity-80" />
-              </div>
-            )}
-          </div>
-        </div>
       </div>
     </div>
   );

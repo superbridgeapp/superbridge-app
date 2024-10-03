@@ -25,8 +25,9 @@ import { useProgressRows } from "@/utils/progress-rows";
 import { isWaitStep } from "@/utils/progress-rows/common";
 
 import { BridgeInfo } from "../bridge-info";
+import { RouteProviderName } from "../route-provider-icon";
 import { LineItem } from "../transaction-line-item";
-import { Dialog, DialogContent } from "../ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 
 const useTransactionByInitiatingHash = (hash: string | null) => {
@@ -72,7 +73,15 @@ const Content = () => {
 
   return (
     <Tabs defaultValue="steps" className="flex flex-col">
-      <div className="mx-auto pt-6 pb-2">
+      <DialogHeader className="items-center pt-10 pb-3">
+        <DialogTitle className="text-3xl text-center leading-none">
+          <span className="text-base text-muted-foreground">
+            Bridge via <br />
+          </span>
+          <RouteProviderName provider={provider} />
+        </DialogTitle>
+      </DialogHeader>
+      <div className="mx-auto">
         <TabsList>
           <TabsTrigger className="text-xs" value="steps">
             {t("transaction.steps")}

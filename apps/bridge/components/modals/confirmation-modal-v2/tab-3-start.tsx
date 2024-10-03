@@ -9,9 +9,11 @@ import { useAccount, useEstimateFeesPerGas } from "wagmi";
 import { ChainNativeCurrencyDto, RouteStepType } from "@/codegen/model";
 import { BridgeInfo } from "@/components/bridge-info";
 import { IconCheck, IconCheckCircle } from "@/components/icons";
+import { RouteProviderName } from "@/components/route-provider-icon";
 import { ClaimButton, ProveButton } from "@/components/transaction-buttons";
 import { LineItem } from "@/components/transaction-line-item";
 import { Button } from "@/components/ui/button";
+import { DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { currencySymbolMap } from "@/constants/currency-symbol-map";
 import { useLatestSubmittedTx } from "@/hooks/activity/use-tx-by-hash";
@@ -355,8 +357,8 @@ export const ConfirmationModalStartTab = () => {
                 x.type === RouteStepType.Initiate
                   ? t("confirmationModal.startBridgeOn", { from: from?.name })
                   : x.type === RouteStepType.Prove
-                    ? t("confirmationModal.proveOn", { to: to?.name })
-                    : t("confirmationModal.getOn", { to: to?.name });
+                  ? t("confirmationModal.proveOn", { to: to?.name })
+                  : t("confirmationModal.getOn", { to: to?.name });
               const amount: TransactionStep["amount"] =
                 x.type === RouteStepType.Initiate
                   ? {
@@ -371,8 +373,8 @@ export const ConfirmationModalStartTab = () => {
                       )} ${fromToken?.symbol}`,
                     }
                   : x.type === RouteStepType.Prove
-                    ? undefined
-                    : receiveAmount;
+                  ? undefined
+                  : receiveAmount;
               const gasLimit =
                 x.type === RouteStepType.Initiate
                   ? x.estimatedGasLimit
@@ -434,7 +436,15 @@ export const ConfirmationModalStartTab = () => {
   const helpCenterLink = useHelpCenterLinkByProvider(route.data?.id ?? null);
   return (
     <Tabs defaultValue="steps" className="flex flex-col">
-      <div className="mx-auto pt-2 pb-2">
+      <DialogHeader className="items-center py-3">
+        <DialogTitle className="text-3xl text-center leading-none">
+          <span className="text-base text-muted-foreground">
+            Bridge via <br />
+          </span>
+          <RouteProviderName provider={route.data?.id ?? null} />
+        </DialogTitle>
+      </DialogHeader>
+      <div className="mx-auto">
         <TabsList>
           <TabsTrigger className="text-xs" value="steps">
             {t("transaction.steps")}
@@ -467,15 +477,6 @@ export const ConfirmationModalStartTab = () => {
                       {approveGasTokenButton.buttonText}
                       {approvedGasToken && (
                         <IconCheck className="w-3 h-3 fill-primary-foreground" />
-                        // <svg
-                        //   xmlns="http://www.w3.org/2000/svg"
-                        //   width="15"
-                        //   height="12"
-                        //   viewBox="0 0 15 12"
-                        //   className="fill-white dark:fill-zinc-950 ml-2 h-2.5 w-auto"
-                        // >
-                        //   <path d="M6.80216 12C6.32268 12 5.94594 11.8716 5.67623 11.559L0.63306 6.02355C0.384755 5.7624 0.269165 5.41563 0.269165 5.07742C0.269165 4.31109 0.915614 3.67749 1.66909 3.67749C2.04583 3.67749 2.42257 3.83161 2.69228 4.13129L6.57955 8.38245L12.1921 0.56939C12.4661 0.192651 12.8899 0 13.3309 0C14.0715 0 14.7308 0.56939 14.7308 1.38709C14.7308 1.67392 14.6538 1.96932 14.4697 2.21762L7.84676 11.4306C7.61558 11.7688 7.21315 12 6.79788 12H6.80216Z" />
-                        // </svg>
                       )}
                     </Button>
                   ),
@@ -506,17 +507,6 @@ export const ConfirmationModalStartTab = () => {
                       {approveButton.buttonText}
                       {approved && (
                         <IconCheck className="w-3 h-3 fill-primary-foreground" />
-                        // <svg
-                        //   xmlns="http://www.w3.org/2000/svg"
-                        //   width="15"
-                        //   height="12"
-                        //   viewBox="0 0 15 12"
-                        // >
-                        //   <path
-                        //     fill="black"
-                        //     d="M6.80216 12C6.32268 12 5.94594 11.8716 5.67623 11.559L0.63306 6.02355C0.384755 5.7624 0.269165 5.41563 0.269165 5.07742C0.269165 4.31109 0.915614 3.67749 1.66909 3.67749C2.04583 3.67749 2.42257 3.83161 2.69228 4.13129L6.57955 8.38245L12.1921 0.56939C12.4661 0.192651 12.8899 0 13.3309 0C14.0715 0 14.7308 0.56939 14.7308 1.38709C14.7308 1.67392 14.6538 1.96932 14.4697 2.21762L7.84676 11.4306C7.61558 11.7688 7.21315 12 6.79788 12H6.80216Z"
-                        //   />
-                        // </svg>
                       )}
                     </Button>
                   ),
