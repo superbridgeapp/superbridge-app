@@ -527,10 +527,14 @@ const bobTheme = {
 };
 
 export const defaultCardTheme: { card: Theme["card"]; icon: string } = {
-  icon: "/img/bob/icon.svg",
+  icon: "/img/default/icon.svg",
   card: {
-    className: "bg-[#F25D00]",
+    className: "bg-[#A882FD]",
     title: "text-white",
+    overlay: {
+      className:
+        "bg-[url('/img/default/bg.svg')] bg-repeat bg-center bg-[length:16px_16px] opacity-15",
+    },
   },
 };
 
