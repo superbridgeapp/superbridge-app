@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { ImageProps } from "next/image";
 import { Chain } from "viem";
 import { mainnet, sepolia, syscoin } from "viem/chains";
@@ -40,6 +41,12 @@ export const NetworkIcon = ({
   } else if (isRollup) {
     if (isL3) src = "/img/L3.svg";
     else src = "/img/L2.svg";
+  }
+
+  if (!src) {
+    return (
+      <div className={clsx(props.className, "bg-card h-[32px] w-[32px]")} />
+    );
   }
 
   return (
