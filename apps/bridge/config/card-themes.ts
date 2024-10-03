@@ -526,6 +526,14 @@ const bobTheme = {
   },
 };
 
+export const defaultCardTheme: { card: Theme["card"]; icon: string } = {
+  icon: "/img/bob/icon.svg",
+  card: {
+    className: "bg-[#F25D00]",
+    title: "text-white",
+  },
+};
+
 export const cardThemes: {
   [chainId: string]: { card: Theme["card"]; icon: string } | undefined;
 } = {
