@@ -1,10 +1,19 @@
 import { RouteProvider } from "@/codegen/model";
-import { nativeRoutes } from "@/constants/routes";
+
+const names = {
+  [RouteProvider.Across]: "Across",
+  [RouteProvider.Cctp]: "CCTP",
+  [RouteProvider.ArbitrumDeposit]: "Native Bridge",
+  [RouteProvider.ArbitrumWithdrawal]: "Native Bridge",
+  [RouteProvider.OptimismDeposit]: "Native Bridge",
+  [RouteProvider.OptimismWithdrawal]: "Native Bridge",
+  [RouteProvider.OptimismForcedWithdrawal]: "Native Bridge",
+  [RouteProvider.Hyperlane]: "Hyperlane",
+  [RouteProvider.Lz]: "Layer Zero",
+};
 
 export const useProviderName = (provider: RouteProvider | null) => {
   if (!provider) return "";
 
-  if (provider === RouteProvider.Lz) return "Layer Zero";
-  if (nativeRoutes.includes(provider)) return "Native Bridge";
-  return provider.toString();
+  return names[provider];
 };

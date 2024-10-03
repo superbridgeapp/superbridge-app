@@ -11,6 +11,7 @@ import {
 } from "@/codegen/model";
 import { chainIcons } from "@/config/chain-icon-overrides";
 import { depositRoutes, nativeRoutes } from "@/constants/routes";
+import { useProviderName } from "@/hooks/providers/use-provider-name";
 
 const icons = {
   [RouteProvider.Across]: "/img/networks/across.svg",
@@ -22,18 +23,6 @@ const icons = {
   [RouteProvider.OptimismForcedWithdrawal]: "/img/networks/optimism.svg",
   [RouteProvider.Hyperlane]: "/img/networks/hyperlane.svg",
   [RouteProvider.Lz]: "/img/lz/icon.png",
-};
-
-const names = {
-  [RouteProvider.Across]: "Across",
-  [RouteProvider.Cctp]: "CCTP",
-  [RouteProvider.ArbitrumDeposit]: "Native bridge",
-  [RouteProvider.ArbitrumWithdrawal]: "Native bridge",
-  [RouteProvider.OptimismDeposit]: "Native bridge",
-  [RouteProvider.OptimismWithdrawal]: "Native bridge",
-  [RouteProvider.OptimismForcedWithdrawal]: "Native bridge",
-  [RouteProvider.Hyperlane]: "Hyperlane",
-  [RouteProvider.Lz]: "Layer Zero",
 };
 
 export const routeProviderToTransactionType = {
@@ -57,11 +46,8 @@ export const RouteProviderName = ({
   provider: RouteProvider | null;
   className?: string;
 }) => {
-  if (!provider) {
-    return null;
-  }
-
-  return <span>{names[provider]}</span>;
+  const name = useProviderName(provider);
+  return <span>{name}</span>;
 };
 
 export const RouteProviderIcon = ({
