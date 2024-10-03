@@ -1,9 +1,10 @@
 import clsx from "clsx";
 import { useTranslation } from "react-i18next";
+import { isAddressEqual } from "viem";
+import { useAccount } from "wagmi";
 
 import { Ens } from "@/components/bridge-info";
 import {
-  IconArrowDownRightCircle,
   IconHelp,
   IconSimpleFees,
   IconSimpleGas,
@@ -43,6 +44,7 @@ export const ConfirmationModalReviewTab = ({
 }: {
   onNext: () => void;
 }) => {
+  const account = useAccount();
   const { t } = useTranslation();
   const from = useFromChain();
   const to = useToChain();
@@ -149,15 +151,19 @@ export const ConfirmationModalReviewTab = ({
           </div>
 
           {/* To Row */}
-          <div className="flex items-start gap-4 py-3 px-3.5 justify-between">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-1.5">
-                <IconWallet className="w-3.5 h-auto fill-foreground" />
-                <span>{t("transaction.toAddress")}</span>
+          {account.address &&
+            recipient &&
+            !isAddressEqual(account.address, recipient) && (
+              <div className="flex items-start gap-4 py-3 px-3.5 justify-between">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-1.5">
+                    <IconWallet className="w-3.5 h-auto fill-foreground" />
+                    <span>{t("transaction.toAddress")}</span>
+                  </div>
+                </div>
+                <Ens address={recipient} />
               </div>
-            </div>
-            <Ens address={recipient} />
-          </div>
+            )}
 
           {/* Gas Row */}
           <div className="flex items-start gap-4 py-3 px-3.5 justify-between">
