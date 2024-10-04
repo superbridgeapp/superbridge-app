@@ -43,6 +43,18 @@ import {
 
 import { Theme } from "@/types/theme";
 
+export const defaultCardTheme: { card: Theme["card"]; icon: string } = {
+  icon: "/img/default/icon.svg",
+  card: {
+    className: "bg-[#A882FD]",
+    title: "text-white",
+    overlay: {
+      className:
+        "bg-[url('/img/default/bg.svg')] bg-repeat bg-center bg-[length:16px_16px] opacity-15",
+    },
+  },
+};
+
 const baseTheme = {
   icon: "/img/base/icon.svg",
   card: {
@@ -526,15 +538,60 @@ const bobTheme = {
   },
 };
 
-export const defaultCardTheme: { card: Theme["card"]; icon: string } = {
-  icon: "/img/default/icon.svg",
+const formTheme = {
+  icon: "/img/form/icon.svg",
   card: {
-    className: "bg-[#A882FD]",
+    className: "bg-black",
     title: "text-white",
     overlay: {
       className:
-        "bg-[url('/img/default/bg.svg')] bg-repeat bg-center bg-[length:16px_16px] opacity-15",
+        "bg-[url('/img/form/bg-card.jpg')] bg-center bg-cover opacity-70",
     },
+  },
+};
+const campTheme = {
+  icon: "/img/camp/icon.svg",
+  card: {
+    className: "bg-white border-black/5",
+    title: "text-black",
+  },
+};
+const citreaTheme = {
+  icon: "/img/citrea/icon.svg",
+  card: {
+    className: "bg-white",
+    title: "text-black",
+    overlay: {
+      className: "bg-[url('/img/citrea/bg-card.svg')] bg-bottom bg-cover",
+    },
+  },
+};
+const suaveTheme = {
+  icon: "/img/suave/icon.png",
+  card: {
+    className: "bg-white border border-black/5",
+    title: "text-black",
+  },
+};
+const soneiumTheme = {
+  icon: "/img/soneium/icon.png",
+  card: {
+    className: "bg-black",
+    title: "text-white",
+  },
+};
+const beraTheme = {
+  icon: "/img/berachain/icon.svg",
+  card: {
+    className: "bg-[#F8F2E9]",
+    title: "text-black",
+  },
+};
+const formaTheme = {
+  icon: "/img/forma/icon.svg",
+  card: {
+    className: "bg-black",
+    title: "text-white",
   },
 };
 
@@ -636,4 +693,11 @@ export const cardThemes: {
   [360]: moltenTheme,
   [169]: mantaTheme,
   [60808]: bobTheme,
+  [132902]: formTheme,
+  [325000]: campTheme,
+  [5115]: citreaTheme,
+  [33626250]: suaveTheme,
+  [1946]: soneiumTheme,
+  [80084]: beraTheme,
+  [984122]: formaTheme,
 };
