@@ -127,7 +127,7 @@ export const transformIntoOptimismToken = (
         .metall2BridgeAddress as Address;
     }
     if (t.chainId === metalL2.id) {
-      t.standardBridgeAddresses[sepolia.id] = token.extensions
+      t.standardBridgeAddresses[mainnet.id] = token.extensions
         .metall2BridgeAddress as Address;
     }
   }
