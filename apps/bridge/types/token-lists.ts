@@ -14,6 +14,7 @@ export interface SuperchainToken {
     baseBridgeAddress?: string;
     modeBridgeAddress?: string;
     pgnBridgeAddress?: string;
+    metall2BridgeAddress?: string;
     opListId: string;
     opTokenId: string;
   };

@@ -3,6 +3,7 @@ import {
   base,
   baseSepolia,
   mainnet,
+  metalL2,
   mode,
   modeTestnet,
   optimism,
@@ -117,6 +118,17 @@ export const transformIntoOptimismToken = (
     if (t.chainId === pgnTestnet.id) {
       t.standardBridgeAddresses[sepolia.id] = token.extensions
         .pgnBridgeAddress as Address;
+    }
+  }
+
+  if (token.extensions.metall2BridgeAddress) {
+    if (t.chainId === mainnet.id) {
+      t.standardBridgeAddresses[metalL2.id] = token.extensions
+        .metall2BridgeAddress as Address;
+    }
+    if (t.chainId === metalL2.id) {
+      t.standardBridgeAddresses[sepolia.id] = token.extensions
+        .metall2BridgeAddress as Address;
     }
   }
 
