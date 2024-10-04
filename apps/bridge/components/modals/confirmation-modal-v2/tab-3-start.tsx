@@ -361,8 +361,8 @@ export const ConfirmationModalStartTab = () => {
                 x.type === RouteStepType.Initiate
                   ? t("confirmationModal.startBridgeOn", { from: from?.name })
                   : x.type === RouteStepType.Prove
-                  ? t("confirmationModal.proveOn", { to: to?.name })
-                  : t("confirmationModal.getOn", { to: to?.name });
+                    ? t("confirmationModal.proveOn", { to: to?.name })
+                    : t("confirmationModal.getOn", { to: to?.name });
               const amount: TransactionStep["amount"] =
                 x.type === RouteStepType.Initiate
                   ? {
@@ -377,8 +377,8 @@ export const ConfirmationModalStartTab = () => {
                       )} ${fromToken?.symbol}`,
                     }
                   : x.type === RouteStepType.Prove
-                  ? undefined
-                  : receiveAmount;
+                    ? undefined
+                    : receiveAmount;
               const gasLimit =
                 x.type === RouteStepType.Initiate
                   ? x.estimatedGasLimit
@@ -560,7 +560,7 @@ export const ConfirmationModalStartTab = () => {
         )}*/}
 
         {helpCenterLink && (
-          <Button asChild size={"xs"} variant={"secondary"}>
+          <Button asChild size={"xs"} variant={"outline"}>
             <Link
               href={helpCenterLink}
               target="_blank"

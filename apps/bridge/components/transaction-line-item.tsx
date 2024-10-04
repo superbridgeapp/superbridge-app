@@ -228,7 +228,7 @@ export function LineItem(props: {
   tx?: Pick<Transaction, "type">;
 }) {
   return (
-    <div className="p-4 rounded-xl bg-muted">
+    <div className="px-4 py-3.5 rounded-xl bg-muted">
       {isWaitStep(props.step) ? (
         <WaitLineItem {...props} step={props.step} />
       ) : (

@@ -33,7 +33,14 @@ import {
 import { getInitiatingHash } from "@/utils/initiating-tx-hash";
 
 import { MessageStatus } from "../constants";
-import { IconCheckCircle, IconSimpleTime, IconTx } from "./icons";
+import {
+  IconCaretRight,
+  IconCheckCircle,
+  IconSimpleTime,
+  IconSpinner,
+  IconTime,
+  IconTx,
+} from "./icons";
 import { NetworkIcon } from "./network-icon";
 import { TokenIcon } from "./token-icon";
 import { Button } from "./ui/button";
@@ -188,9 +195,16 @@ const ActionRow = ({ tx }: { tx: Transaction }) => {
 
   return (
     <div className="w-full flex items-center justify-between gap-2">
-      <span className="text-xs lg:text-sm text-muted-foreground leading-none">
-        {status.description}
-      </span>
+      {/* <div className="flex gap-2 items-center rounded-full border pl-2 pr-3 py-1.5">
+              <IconCheckCircle className="fill-primary w-4 h-4" />
+              <span className="text-xs lg:text-sm">Bridge successful</span>
+            </div> */}
+      <div className="flex gap-2 items-center rounded-full  py-1.5">
+        <IconSpinner className="fill-muted-foreground text-muted-foreground w-4 h-4" />
+        <span className="text-xs lg:text-sm leading-none text-muted-foreground">
+          {status.description}
+        </span>
+      </div>
 
       {isActionStatus(status) ? (
         <Button size={"sm"} onClick={() => modal.open(getInitiatingHash(tx))}>
@@ -198,13 +212,13 @@ const ActionRow = ({ tx }: { tx: Transaction }) => {
         </Button>
       ) : isWaitStatus(status) && status.timestamp > Date.now() ? (
         <div
-          className="bg-muted rounded-full flex items-center gap-2 p-2 pl-3 cursor-pointer"
+          className="border rounded-full flex items-center gap-2 p-2 pl-3 cursor-pointer"
           onClick={() => modal.open(getInitiatingHash(tx))}
         >
-          <span className="text-xs lg:text-sm text-muted-foreground">
+          <span className="text-xs lg:text-sm text-muted-foreground leading-none">
             ~{timeRemaining} to go
           </span>
-          <IconSimpleTime className="w-6 h-6 fill-muted-foreground animate-wiggle-waggle" />
+          <IconTime className="w-4 h-4 fill-muted-foreground animate-wiggle-waggle" />
         </div>
       ) : (
         isGeneralStatus(status) && (
@@ -337,38 +351,44 @@ export const TransactionRowV2 = ({ tx }: { tx: Transaction }) => {
 
   return (
     <div
-      className="bg-card w-full rounded-xl flex gap-2.5 lg:gap-4 p-5 md:p-6 relative"
+      className="bg-card w-full rounded-xl flex gap-2.5 lg:gap-3 p-5 md:p-6 relative"
       key={tx.id}
-      onClick={(e) => e.stopPropagation()}
+      onClick={(e) => {
+        e.stopPropagation();
+        modal.open(getInitiatingHash(tx));
+      }}
     >
       {tx.mock && (
         <div className="absolute left-2 bottom-2 text-purple-500 text-xs">
           MOCK
         </div>
       )}
-      <TokenIcon
-        token={token ?? null}
-        className="h-10 w-10 lg:h-12 lg:w-12 shrink-0"
-      />
+      <TokenIcon token={token ?? null} className="h-12 w-12 shrink-0 p-0.5" />
       <div className="flex flex-col w-full gap-2">
         <div className="flex justify-between items-start">
-          <div className="flex flex-col gap-1 lg:gap-2">
-            <span className="text-xs lg:text-sm text-muted-foreground leading-none">
-              Started{" "}
+          <div className="flex flex-col gap-0.5">
+            <span className="text-xs text-muted-foreground leading-none">
+              {/* Started{" "} */}
               {timestamp
-                ? `~${formatDistanceToNowStrict(timestamp)} ago`
+                ? `${formatDistanceToNowStrict(timestamp)} ago`
                 : "just now"}
             </span>
             <span className="text-2xl lg:text-3xl leading-none">
               {amount?.text}
             </span>
           </div>
-          <div className="flex bg-muted rounded-md p-1 shrink-0">
-            <NetworkIcon chain={chains?.from} className="h-6 w-6 rounded-xs" />
-            <NetworkIcon
-              chain={chains?.to}
-              className="h-6 w-6 -ml-1 rounded-xs"
-            />
+          <div className="flex items-center -mt-1 gap-2">
+            <span className="text-xs text-muted-foreground">Via Hyperlane</span>
+            <div className="flex items-center">
+              <NetworkIcon
+                chain={chains?.from}
+                className="h-5 w-5 rounded-xs"
+              />
+              <NetworkIcon
+                chain={chains?.to}
+                className="h-5 w-5 rounded-xs -ml-0.5"
+              />
+            </div>
           </div>
         </div>
         {isInProgress && (
@@ -397,15 +417,11 @@ export const TransactionRowV2 = ({ tx }: { tx: Transaction }) => {
               <span className="text-xs lg:text-sm">Bridge successful</span>
             </div>
           )}
-          {isSuccessful && (
-            <Button
-              onClick={() => modal.open(getInitiatingHash(tx))}
-              size={"xs"}
-              variant={"secondary"}
-            >
-              <IconTx className="fill-foreground w-3 h-3 md:w-4 md:h-4" />
-            </Button>
-          )}
+          {/* {isSuccessful && (
+            <div className="rounded-full bg-muted px-2.5 py-2">
+              <IconCaretRight className="fill-foreground w-3.5 h-3.5" />
+            </div>
+          )} */}
         </div>
       </div>
     </div>

@@ -128,7 +128,7 @@ const Content = () => {
 
       <DialogFooter className="flex gap-2 items-center">
         {providerExplorerLink && (
-          <Button asChild size={"xs"} variant={"secondary"}>
+          <Button asChild size={"xs"} variant={"outline"}>
             <Link
               href={providerExplorerLink}
               target="_blank"
@@ -141,7 +141,7 @@ const Content = () => {
         )}
 
         {helpCenterLink && (
-          <Button asChild size={"xs"} variant={"secondary"}>
+          <Button asChild size={"xs"} variant={"outline"}>
             <Link
               href={helpCenterLink}
               target="_blank"

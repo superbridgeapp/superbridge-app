@@ -194,10 +194,10 @@ export const OpenActivity = ({}) => {
                         key={`activity-${getInitiatingHash(t)}`}
                         variants={item}
                         // hovers must not be a variant or stagger animation fails
-                        // whileHover={{ scale: 1.03 }}
-                        // whileTap={{ scale: 1 }}
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
                         className={
-                          "relative w-full h-full flex flex-col shrink-0 overflow-hidden rounded-3xl shadow-sm"
+                          "relative w-full h-full flex flex-col shrink-0 overflow-hidden rounded-3xl shadow-sm cursor-pointer"
                         }
                       >
                         <TransactionRowV2 key={t.id} tx={t} />
