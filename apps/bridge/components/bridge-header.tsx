@@ -3,16 +3,16 @@ import clsx from "clsx";
 import Link from "next/link";
 import { useAccount, useDisconnect } from "wagmi";
 
-import { DeploymentType } from "@/codegen/model";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useIsSpecialApp } from "@/hooks/apps/use-is-special-app";
+import { useIsHyperlanePlayground } from "@/hooks/apps/use-is-hyperlane";
 import { useIsSuperbridge } from "@/hooks/apps/use-is-superbridge";
 import { useDeployments } from "@/hooks/deployments/use-deployments";
+import { useChains } from "@/hooks/use-chains";
 import { useIsWidget } from "@/hooks/use-is-widget";
 import { useModal } from "@/hooks/use-modal";
 import { useTransactions } from "@/hooks/use-transactions";
@@ -39,7 +39,10 @@ export const BridgeHeader = () => {
   const deployments = useDeployments();
   const superbridgeTestnets = useInjectedStore((s) => s.superbridgeTestnets);
   const isSuperbridge = useIsSuperbridge();
-  const isSpecialApp = useIsSpecialApp();
+  const isHyperlanePlayground = useIsHyperlanePlayground();
+
+  const chains = useChains();
+  const isTestnet = !!chains.find((x) => x.testnet);
 
   const isWidget = useIsWidget();
   const account = useAccount();
@@ -54,9 +57,7 @@ export const BridgeHeader = () => {
         )}
       >
         {(isSuperbridge && superbridgeTestnets) ||
-        (!isSpecialApp &&
-          deployments.length === 1 &&
-          deployments[0]?.type === DeploymentType.testnet) ? (
+        (!isHyperlanePlayground && isTestnet) ? (
           <div className="pl-0.5 mr-auto">
             <TestnetBadge />
           </div>

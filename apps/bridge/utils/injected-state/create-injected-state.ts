@@ -6,7 +6,7 @@ import { parseInjectedChainIds } from "./parse-injected-chain-ids";
 import { parseSuperbridgeTestnets } from "./parse-superbridge-testnets";
 
 export const createInjectedState = (props: {
-  dto: BridgeConfigDto | null;
+  dto: BridgeConfigDto;
   host: string;
   url: string;
 }): InjectedState => {

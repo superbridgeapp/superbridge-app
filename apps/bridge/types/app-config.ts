@@ -1,28 +1,18 @@
-import { LinkDto } from "@/codegen/model";
-
-import { FrontendThemeDto } from "./theme";
+import { LinkDto, ThemeDto } from "@/codegen/model";
 
 export type AppConfig = {
   head: {
-    name: string;
+    title: string;
     description: string;
     og: string;
     favicon: string;
   };
 
-  theme: FrontendThemeDto;
-
-  images: {
-    logoLight: string;
-    logoLightSmall: string;
-
-    logoDark: string;
-    logoDarkSmall: string;
-  };
+  theme: ThemeDto;
 
   links: LinkDto[];
 
   metadata: {
-    gId?: string;
+    gId: string;
   };
 };

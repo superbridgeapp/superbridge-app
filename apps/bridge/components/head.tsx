@@ -7,7 +7,7 @@ export function Head() {
 
   return (
     <SuperbridgeHead
-      title={metadata.head.name}
+      title={metadata.head.title}
       description={metadata.head.description}
       og={metadata.head.og}
       icon={metadata.head.favicon}

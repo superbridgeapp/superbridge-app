@@ -156,7 +156,7 @@ export const CustomTokenListModal = () => {
               htmlFor="tokenListAgree"
               className="text-[11px] text-muted-foreground "
             >
-              {t("customTokenLists.disclaimer", { app: metadata.head.name })}{" "}
+              {t("customTokenLists.disclaimer", { app: metadata.head.title })}{" "}
               <a
                 target="_blank"
                 href="https://docs.superbridge.app/custom-tokens"

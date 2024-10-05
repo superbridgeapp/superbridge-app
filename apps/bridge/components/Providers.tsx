@@ -6,7 +6,7 @@ import {
 } from "@rainbow-me/rainbowkit";
 import "@rainbow-me/rainbowkit/styles.css";
 import { QueryClientProvider } from "@tanstack/react-query";
-import { useTheme } from "next-themes";
+import { useTheme as useNextTheme } from "next-themes";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Chain } from "viem";
@@ -14,13 +14,14 @@ import { WagmiProvider } from "wagmi";
 
 import { useFromChain } from "@/hooks/use-chain";
 import { useChains } from "@/hooks/use-chains";
-import { useApp, useMetadata } from "@/hooks/use-metadata";
+import { useMetadata } from "@/hooks/use-metadata";
+import { useRainbowMode, useTheme } from "@/hooks/use-theme";
 import { useWagmiConfig } from "@/hooks/wagmi/use-wagmi-config";
 import { queryClient } from "@/services/query-client";
 import { ThemeProvider } from "@/state/theme";
 
 function Web3Provider({ children }: { children: React.ReactNode }) {
-  const { resolvedTheme } = useTheme();
+  const { resolvedTheme } = useNextTheme();
   const chains = useChains();
   const [mounted, setMounted] = useState(false);
   const { i18n } = useTranslation();
@@ -28,7 +29,8 @@ function Web3Provider({ children }: { children: React.ReactNode }) {
   const wagmiConfig = useWagmiConfig();
   const fromChain = useFromChain();
 
-  const theme = useApp().theme;
+  const rainbowMode = useRainbowMode();
+  const theme = useTheme();
 
   useEffect(() => {
     setMounted(true);
@@ -37,21 +39,21 @@ function Web3Provider({ children }: { children: React.ReactNode }) {
   const rainbowTheme = useMemo(() => {
     if (!mounted) return null;
 
-    if (theme.rainbowMode === "light") {
+    if (rainbowMode === "light") {
       const t = lightTheme({
         borderRadius: "large",
-        accentColor: theme.primary,
-        accentColorForeground: theme["primary-foreground"],
+        accentColor: theme?.primary,
+        accentColorForeground: theme?.["primary-foreground"],
       });
 
       return t;
     }
 
-    if (theme.rainbowMode === "dark") {
+    if (rainbowMode === "dark") {
       const t = darkTheme({
         borderRadius: "large",
-        accentColor: theme.primary,
-        accentColorForeground: theme["primary-foreground"],
+        accentColor: theme?.primary,
+        accentColorForeground: theme?.["primary-foreground"],
       });
 
       return t;
@@ -60,8 +62,8 @@ function Web3Provider({ children }: { children: React.ReactNode }) {
     if (resolvedTheme === "light") {
       const t = lightTheme({
         borderRadius: "large",
-        accentColor: theme.primary,
-        accentColorForeground: theme["primary-foreground"],
+        accentColor: theme?.primary,
+        accentColorForeground: theme?.["primary-foreground"],
       });
 
       return t;
@@ -69,8 +71,8 @@ function Web3Provider({ children }: { children: React.ReactNode }) {
 
     const t = darkTheme({
       borderRadius: "large",
-      accentColor: theme.primary,
-      accentColorForeground: theme["primary-foreground"],
+      accentColor: theme?.primary,
+      accentColorForeground: theme?.["primary-foreground"],
     });
 
     return t;
@@ -88,7 +90,7 @@ function Web3Provider({ children }: { children: React.ReactNode }) {
         }
         theme={rainbowTheme}
         appInfo={{
-          appName: metadata.head.name,
+          appName: metadata.head.title,
           learnMoreUrl: "https://help.superbridge.app",
         }}
       >

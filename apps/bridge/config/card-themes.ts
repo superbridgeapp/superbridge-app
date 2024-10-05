@@ -41,9 +41,16 @@ import {
   zoraSepolia,
 } from "viem/chains";
 
-import { Theme } from "@/types/theme";
+interface CardTheme {
+  className?: string;
+  overlay?: {
+    className?: string;
+    image?: string;
+  };
+  title?: string;
+}
 
-export const defaultCardTheme: { card: Theme["card"]; icon: string } = {
+export const defaultCardTheme: { card: CardTheme; icon: string } = {
   icon: "/img/default/icon.svg",
   card: {
     className: "bg-[#A882FD]",
@@ -596,7 +603,7 @@ const formaTheme = {
 };
 
 export const cardThemes: {
-  [chainId: string]: { card: Theme["card"]; icon: string } | undefined;
+  [chainId: string]: { card: CardTheme; icon: string } | undefined;
 } = {
   [base.id]: baseTheme,
   [baseSepolia.id]: baseTheme,
