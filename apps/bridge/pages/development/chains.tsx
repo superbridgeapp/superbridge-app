@@ -45,18 +45,14 @@ export default function ChainsPage() {
           head: {
             description: "",
             favicon: "",
-            name: "",
+            title: "",
             og: "",
-          },
-          images: {
-            logoDark: "",
-            logoDarkSmall: "",
-            logoLight: "",
-            logoLightSmall: "",
           },
           links: [],
           theme: {},
-          metadata: {},
+          metadata: {
+            gId: "",
+          },
         },
         host: "",
         superbridgeTestnets: false,

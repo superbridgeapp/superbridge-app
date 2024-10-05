@@ -69,7 +69,7 @@ export const TosModal = () => {
     <div className="flex flex-col gap-6 p-6">
       <div className="flex flex-col gap-2">
         <h1 className="font-heading text-3xl  text-center text-foreground">
-          {t("tos.welcome", { name: metadata.head.name })}
+          {t("tos.welcome", { name: metadata.head.title })}
         </h1>
 
         {!isSuperbridge && (
