@@ -4,7 +4,6 @@ import { useDeployment } from "@/hooks/deployments/use-deployment";
 import { useIsWidget } from "@/hooks/use-is-widget";
 
 import { Banners } from "./banners";
-import { BridgeBadges } from "./bridge-badges";
 import { BridgeBody } from "./bridge-body";
 import { BridgeDeleted } from "./bridge-deleted";
 import { BridgeHeader } from "./bridge-header";
@@ -12,6 +11,7 @@ import { BridgeHeader } from "./bridge-header";
 export const Bridge = () => {
   const deployment = useDeployment();
   const isWidget = useIsWidget();
+
   return (
     <main
       className="relative flex items-start justify-center w-screen h-screen fixed inset-0 overflow-y-auto overflow-x-hidden"
@@ -45,7 +45,6 @@ export const Bridge = () => {
                   {/* TODO: maybe make this separate component called WidgetHeader */}
                   {isWidget && <BridgeHeader />}
                   <BridgeBody />
-                  <BridgeBadges />
                 </div>
               </>
             )}

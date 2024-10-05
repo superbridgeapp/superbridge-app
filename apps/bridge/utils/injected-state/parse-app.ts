@@ -1,62 +1,25 @@
 import { BridgeConfigDto } from "@/codegen/model";
-import { frontendApps } from "@/config/apps";
 import { AppConfig } from "@/types/app-config";
 
 export const parseApp = ({
   dto,
-  host,
 }: {
-  dto: BridgeConfigDto | null;
+  dto: BridgeConfigDto;
   host: string;
   url: string;
 }): AppConfig => {
-  let app: AppConfig;
-
-  if (frontendApps[host]) {
-    app = frontendApps[host];
-  } else if (dto?.deployments[0]) {
-    const deployment = dto?.deployments[0];
-    // rollie
-    app = {
-      head: {
-        name: `${deployment?.l2.name} Bridge`,
-        description: `Bridge ${deployment?.l2.nativeCurrency.symbol} and ERC20 tokens into and out of ${deployment?.l2.name}`,
-        favicon:
-          deployment?.theme?.theme.imageNetwork ??
-          "https://superbridge.app/img/superbridge-icon.png",
-        og:
-          deployment?.theme?.theme.imageOg ??
-          "https://raw.githubusercontent.com/superbridgeapp/assets/main/rollies/og-rollies.png",
-      },
-      theme: deployment?.theme?.theme ?? {},
-      images: {
-        logoDark: deployment?.theme?.theme.imageLogoDark ?? "",
-        logoDarkSmall: deployment?.theme?.theme.imageLogoDark ?? "",
-        logoLight: deployment?.theme?.theme.imageLogo ?? "",
-        logoLightSmall: deployment?.theme?.theme.imageLogo ?? "",
-      },
-      links: deployment?.theme?.links ?? [],
-      metadata: {},
-    };
-  } else {
-    app = {
-      head: {
-        name: `Demo Bridge`,
-        description: `Bridge tokens into and out of supported chains`,
-        favicon: "https://superbridge.app/img/superbridge-icon.png",
-        og: "https://raw.githubusercontent.com/superbridgeapp/assets/main/rollies/og-rollies.png",
-      },
-      theme: {},
-      images: {
-        logoDark: "",
-        logoDarkSmall: "",
-        logoLight: "",
-        logoLightSmall: "",
-      },
-      links: [],
-      metadata: {},
-    };
-  }
-
-  return app;
+  return {
+    head: {
+      title: dto.metadata.title ?? "",
+      description: dto.metadata.description ?? "",
+      favicon: dto.metadata.imageFavicon ?? "",
+      og: dto.metadata.imageOg ?? "",
+    },
+    tos: dto.tos,
+    theme: dto.theme ?? {},
+    links: dto.links,
+    metadata: {
+      gId: dto.metadata.googleAnalyticsId ?? "",
+    },
+  };
 };

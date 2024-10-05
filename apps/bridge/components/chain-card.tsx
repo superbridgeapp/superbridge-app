@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 
 import { ChainDto } from "@/codegen/model";
-import { cardThemes } from "@/config/card-themes";
+import { cardThemes, defaultCardTheme } from "@/config/card-themes";
 
 import { NetworkIcon } from "./network-icon";
 
@@ -27,6 +27,8 @@ export const ChainCard = ({
   chain: ChainDto;
   onSelect: () => void;
 }) => {
+  const theme = cardThemes[chain.id] ?? defaultCardTheme;
+
   return (
     <motion.div
       key={`chain-${chain.id}`}
@@ -37,16 +39,16 @@ export const ChainCard = ({
       whileTap={{ scale: 1 }}
       className={clsx(
         "relative w-full  aspect-[3.25/4] shrink-0 flex flex-col shrink-0 cursor-pointer overflow-hidden rounded-2xl shadow-sm",
-        cardThemes[chain.id]?.card.className
+        theme.card.className
       )}
     >
       {/* overlay */}
-      {cardThemes[chain.id]?.card.overlay?.image ? (
+      {theme.card.overlay?.image ? (
         <img
-          src={cardThemes[chain.id]?.card.overlay?.image}
+          src={theme.card.overlay?.image}
           className={clsx(
             "inset-0 z-0 absolute",
-            cardThemes[chain.id]?.card.overlay?.className
+            theme.card.overlay?.className
           )}
           alt={chain.name}
           // fill
@@ -57,15 +59,15 @@ export const ChainCard = ({
         <div
           className={clsx(
             "inset-0 z-0 absolute",
-            cardThemes[chain.id]?.card.overlay?.className
+            theme.card.overlay?.className
           )}
         />
       )}
       <div className="flex gap-4 flex-col capitalize items-center justify-center px-3 md:px-6 grow w-full relative z-10">
-        {cardThemes[chain.id]?.icon ? (
+        {theme.icon ? (
           <Image
             alt={chain.name}
-            src={cardThemes[chain.id]?.icon!}
+            src={theme.icon!}
             width={96}
             height={96}
             className="pointer-events-none w-16 h-16 md:w-20 md:h-20"
@@ -81,7 +83,7 @@ export const ChainCard = ({
         <h3
           className={clsx(
             `text-xs md:text-sm text-center font-heading`,
-            cardThemes[chain.id]?.card.title
+            theme.card.title
           )}
         >
           {chain.name}

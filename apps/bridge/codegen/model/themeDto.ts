@@ -42,7 +42,6 @@ export interface ThemeDto {
   imageLogo?: string;
   imageLogoDark?: string;
   imageNetwork?: string;
-  imageNetworkDark?: string;
   imageOg?: string;
   imageSuperbridgeLogo?: string;
   imageSuperbridgeLogoDark?: string;
@@ -61,6 +60,7 @@ export interface ThemeDto {
   'primary-foreground'?: string;
   'primary-foreground-dark'?: string;
   radius?: string;
+  rainbowMode?: string;
   ring?: string;
   'ring-dark'?: string;
   secondary?: string;

@@ -223,7 +223,7 @@ const CustomTokenImport = () => {
               htmlFor="importAgree"
               className="text-[11px] text-muted-foreground "
             >
-              {t("customTokenLists.disclaimer", { app: metadata.head.name })}
+              {t("customTokenLists.disclaimer", { app: metadata.head.title })}
             </label>
           </div>
 

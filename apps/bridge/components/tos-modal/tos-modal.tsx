@@ -10,7 +10,6 @@ import { Trans, useTranslation } from "react-i18next";
 import ReactMarkdown from "react-markdown";
 
 import { useIsSuperbridge } from "@/hooks/apps/use-is-superbridge";
-import { useDeployment } from "@/hooks/deployments/use-deployment";
 import { useIsWidget } from "@/hooks/use-is-widget";
 import { useMetadata } from "@/hooks/use-metadata";
 import { useModal } from "@/hooks/use-modal";
@@ -26,7 +25,6 @@ export const TosModal = () => {
   const hasViewedTos = useSettingsState.useHasViewedTos();
   const legalModal = useModal("Legal");
   const metadata = useMetadata();
-  const deployment = useDeployment();
   const isSuperbridge = useIsSuperbridge();
   const widget = useIsWidget();
 
@@ -34,10 +32,10 @@ export const TosModal = () => {
 
   const onNext = () => {
     let doneIndex = 0;
-    if (deployment?.tos?.forceReadPrivacyPolicy) {
+    if (metadata?.tos?.forceReadPrivacyPolicy) {
       doneIndex++;
     }
-    if (deployment?.tos?.forceReadTermsOfService) {
+    if (metadata?.tos?.forceReadTermsOfService) {
       doneIndex++;
     }
 
@@ -68,8 +66,8 @@ export const TosModal = () => {
   const tab1 = (
     <div className="flex flex-col gap-6 p-6">
       <div className="flex flex-col gap-2">
-        <h1 className="font-heading text-3xl  text-center text-foreground">
-          {t("tos.welcome", { name: metadata.head.name })}
+        <h1 className="font-heading text-3xl text-center text-foreground">
+          {t("tos.welcome", { name: metadata.head.title })}
         </h1>
 
         {!isSuperbridge && (
@@ -107,7 +105,7 @@ export const TosModal = () => {
                 className="underline"
               />,
             ]}
-            values={{ name: deployment?.l2.name }}
+            values={{ name: metadata.head.title }}
           />
         </p>
       </div>
@@ -124,7 +122,7 @@ export const TosModal = () => {
                 className="underline"
               />,
             ]}
-            values={{ name: deployment?.l2.name }}
+            values={{ name: metadata.head.title }}
           />
         </p>
       </div>
@@ -172,7 +170,7 @@ export const TosModal = () => {
           className="max-h-[320px] prose prose-sm prose-headings:font-heading dark:prose-invert overflow-y-scroll p-6"
         >
           <h1 className="text-lg font-heading text-foreground">{title}</h1>
-          <ReactMarkdown>{content}</ReactMarkdown>
+          <ReactMarkdown className="text-foreground">{content}</ReactMarkdown>
         </div>
         <div className="border-t border-muted p-6 relative">
           {!scrolled && <ScrollArrow />}
@@ -185,24 +183,24 @@ export const TosModal = () => {
   };
 
   const tabs = [{ name: "tab1", component: tab1 }];
-  if (deployment?.tos?.forceReadTermsOfService) {
+  if (metadata?.tos?.forceReadTermsOfService) {
     tabs.push({
       name: "terms",
       component: (
         <ForceReadScroll
           title={t("tos.forceReadTerms")}
-          content={deployment?.tos?.customTermsOfService ?? ""}
+          content={metadata?.tos?.customTermsOfService ?? ""}
         />
       ),
     });
   }
-  if (deployment?.tos?.forceReadPrivacyPolicy) {
+  if (metadata?.tos?.forceReadPrivacyPolicy) {
     tabs.push({
       name: "privacy",
       component: (
         <ForceReadScroll
           title={t("tos.forceReadPrivacy")}
-          content={deployment?.tos?.customPrivacyPolicy ?? ""}
+          content={metadata?.tos?.customPrivacyPolicy ?? ""}
         />
       ),
     });

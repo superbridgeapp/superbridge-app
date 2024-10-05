@@ -5,7 +5,7 @@ import type {
 } from "next";
 import { useRouter } from "next/router";
 
-import { bridgeControllerGetBridgeConfigByDomain } from "@/codegen";
+import { bridgeControllerGetBridgeConfigByDomainV2 } from "@/codegen";
 import { Layout } from "@/components/Layout";
 import { PageTransition } from "@/components/PageTransition";
 import { Providers } from "@/components/Providers";
@@ -28,13 +28,7 @@ export const getServerSideProps = async ({
     !req.headers.host ||
     ignored.find((x) => req.url?.includes(x))
   ) {
-    return {
-      props: createInjectedState({
-        dto: null,
-        host: "",
-        url: "",
-      }),
-    };
+    throw new Error("Invalid request");
   }
 
   let requestHost = req.headers.host;
@@ -44,16 +38,20 @@ export const getServerSideProps = async ({
     req.headers.host?.includes("ngrok")
   ) {
     // change this to load different apps
-    requestHost = "molten.superbridge.app";
+    requestHost = "hyperlane.superbridge.app";
   }
 
-  const config = await bridgeControllerGetBridgeConfigByDomain(
+  const config = await bridgeControllerGetBridgeConfigByDomainV2(
     requestHost
   ).catch(() => null);
 
+  if (!config?.data) {
+    throw new Error("Invalid request");
+  }
+
   return {
     props: createInjectedState({
-      dto: config?.data ?? null,
+      dto: config.data,
       host: requestHost,
       url: req.url,
     }),
