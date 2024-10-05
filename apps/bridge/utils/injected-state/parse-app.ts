@@ -15,6 +15,7 @@ export const parseApp = ({
       favicon: dto.metadata.imageFavicon ?? "",
       og: dto.metadata.imageOg ?? "",
     },
+    tos: dto.tos,
     theme: dto.theme ?? {},
     links: dto.links,
     metadata: {

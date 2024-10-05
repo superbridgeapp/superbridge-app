@@ -1,4 +1,4 @@
-import { LinkDto, ThemeDto } from "@/codegen/model";
+import { LinkDto, ThemeDto, ToSDto } from "@/codegen/model";
 
 export type AppConfig = {
   head: {
@@ -11,6 +11,7 @@ export type AppConfig = {
   theme: ThemeDto;
 
   links: LinkDto[];
+  tos: ToSDto | null;
 
   metadata: {
     gId: string;

@@ -16,6 +16,7 @@ import type { LinkDto } from './linkDto';
 import type { LzDomainDto } from './lzDomainDto';
 import type { PaidDeploymentMetadataDto } from './paidDeploymentMetadataDto';
 import type { BridgeConfigDtoTheme } from './bridgeConfigDtoTheme';
+import type { BridgeConfigDtoTos } from './bridgeConfigDtoTos';
 
 export interface BridgeConfigDto {
   acrossDomains: AcrossDomainDto[];
@@ -34,4 +35,6 @@ export interface BridgeConfigDto {
   name: string;
   /** @nullable */
   theme: BridgeConfigDtoTheme;
+  /** @nullable */
+  tos: BridgeConfigDtoTos;
 }

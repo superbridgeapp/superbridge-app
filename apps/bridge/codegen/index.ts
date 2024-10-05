@@ -33,7 +33,6 @@ import type {
   BridgeConfigDto,
   BridgeControllerGetActivityParams,
   BridgeControllerGetDeploymentsParams,
-  BridgeControllerGetRoutesParams,
   BridgeControllerGetTokens200Item,
   CctpDomainDto,
   ConduitDeploymentConfigDto,
@@ -1251,61 +1250,6 @@ export const useBridgeControllerGetSuperbridgeConfig = <TData = Awaited<ReturnTy
 
 
 
-export const bridgeControllerGetRoutes = (
-    params: BridgeControllerGetRoutesParams, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<RouteResponseDto>> => {
-    
-    return axios.get(
-      `/api/bridge/routes`,{
-    ...options,
-        params: {...params, ...options?.params},}
-    );
-  }
-
-
-export const getBridgeControllerGetRoutesQueryKey = (params: BridgeControllerGetRoutesParams,) => {
-    return [`/api/bridge/routes`, ...(params ? [params]: [])] as const;
-    }
-
-    
-export const getBridgeControllerGetRoutesQueryOptions = <TData = Awaited<ReturnType<typeof bridgeControllerGetRoutes>>, TError = AxiosError<unknown>>(params: BridgeControllerGetRoutesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetRoutes>>, TError, TData>>, axios?: AxiosRequestConfig}
-) => {
-
-const {query: queryOptions, axios: axiosOptions} = options ?? {};
-
-  const queryKey =  queryOptions?.queryKey ?? getBridgeControllerGetRoutesQueryKey(params);
-
-  
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof bridgeControllerGetRoutes>>> = ({ signal }) => bridgeControllerGetRoutes(params, { signal, ...axiosOptions });
-
-      
-
-      
-
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetRoutes>>, TError, TData> & { queryKey: QueryKey }
-}
-
-export type BridgeControllerGetRoutesQueryResult = NonNullable<Awaited<ReturnType<typeof bridgeControllerGetRoutes>>>
-export type BridgeControllerGetRoutesQueryError = AxiosError<unknown>
-
-export const useBridgeControllerGetRoutes = <TData = Awaited<ReturnType<typeof bridgeControllerGetRoutes>>, TError = AxiosError<unknown>>(
- params: BridgeControllerGetRoutesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetRoutes>>, TError, TData>>, axios?: AxiosRequestConfig}
-
-  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-
-  const queryOptions = getBridgeControllerGetRoutesQueryOptions(params,options)
-
-  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
-
-  query.queryKey = queryOptions.queryKey ;
-
-  return query;
-}
-
-
-
-
 export const bridgeControllerGetBridgeRoutes = (
     routeRequestDto: RouteRequestDto, options?: AxiosRequestConfig
  ): Promise<AxiosResponse<RouteResponseDto>> => {
@@ -1397,59 +1341,6 @@ export const useBridgeControllerGetTokens = <TData = Awaited<ReturnType<typeof b
   ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
 
   const queryOptions = getBridgeControllerGetTokensQueryOptions(domain,options)
-
-  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
-
-  query.queryKey = queryOptions.queryKey ;
-
-  return query;
-}
-
-
-
-
-export const bridgeControllerGetBridgeConfigByDomain = (
-    domain: string, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<BridgeConfigDto>> => {
-    
-    return axios.get(
-      `/api/bridge/bridge_config/${domain}`,options
-    );
-  }
-
-
-export const getBridgeControllerGetBridgeConfigByDomainQueryKey = (domain: string,) => {
-    return [`/api/bridge/bridge_config/${domain}`] as const;
-    }
-
-    
-export const getBridgeControllerGetBridgeConfigByDomainQueryOptions = <TData = Awaited<ReturnType<typeof bridgeControllerGetBridgeConfigByDomain>>, TError = AxiosError<unknown>>(domain: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetBridgeConfigByDomain>>, TError, TData>>, axios?: AxiosRequestConfig}
-) => {
-
-const {query: queryOptions, axios: axiosOptions} = options ?? {};
-
-  const queryKey =  queryOptions?.queryKey ?? getBridgeControllerGetBridgeConfigByDomainQueryKey(domain);
-
-  
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof bridgeControllerGetBridgeConfigByDomain>>> = ({ signal }) => bridgeControllerGetBridgeConfigByDomain(domain, { signal, ...axiosOptions });
-
-      
-
-      
-
-   return  { queryKey, queryFn, enabled: !!(domain), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetBridgeConfigByDomain>>, TError, TData> & { queryKey: QueryKey }
-}
-
-export type BridgeControllerGetBridgeConfigByDomainQueryResult = NonNullable<Awaited<ReturnType<typeof bridgeControllerGetBridgeConfigByDomain>>>
-export type BridgeControllerGetBridgeConfigByDomainQueryError = AxiosError<unknown>
-
-export const useBridgeControllerGetBridgeConfigByDomain = <TData = Awaited<ReturnType<typeof bridgeControllerGetBridgeConfigByDomain>>, TError = AxiosError<unknown>>(
- domain: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetBridgeConfigByDomain>>, TError, TData>>, axios?: AxiosRequestConfig}
-
-  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-
-  const queryOptions = getBridgeControllerGetBridgeConfigByDomainQueryOptions(domain,options)
 
   const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
