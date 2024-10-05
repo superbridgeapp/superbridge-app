@@ -11,6 +11,7 @@ import { BridgeHeader } from "./bridge-header";
 export const Bridge = () => {
   const deployment = useDeployment();
   const isWidget = useIsWidget();
+
   return (
     <main
       className="relative flex items-start justify-center w-screen h-screen fixed inset-0 overflow-y-auto overflow-x-hidden"

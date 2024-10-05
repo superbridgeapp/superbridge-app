@@ -10,7 +10,6 @@ import { Trans, useTranslation } from "react-i18next";
 import ReactMarkdown from "react-markdown";
 
 import { useIsSuperbridge } from "@/hooks/apps/use-is-superbridge";
-import { useDeployment } from "@/hooks/deployments/use-deployment";
 import { useIsWidget } from "@/hooks/use-is-widget";
 import { useMetadata } from "@/hooks/use-metadata";
 import { useModal } from "@/hooks/use-modal";
@@ -28,8 +27,6 @@ export const TosModal = () => {
   const metadata = useMetadata();
   const isSuperbridge = useIsSuperbridge();
   const widget = useIsWidget();
-
-  console.log(metadata);
 
   const [activeIndex, setActiveIndex] = useState(0);
 
