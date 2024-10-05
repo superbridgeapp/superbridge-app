@@ -53,6 +53,7 @@ export default function ChainsPage() {
           metadata: {
             gId: "",
           },
+          tos: null,
         },
         host: "",
         superbridgeTestnets: false,
