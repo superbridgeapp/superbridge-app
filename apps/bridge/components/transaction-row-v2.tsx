@@ -366,7 +366,7 @@ export const TransactionRowV2 = ({ tx }: { tx: Transaction }) => {
   const providerName = useProviderName(useTxProvider(tx));
   return (
     <div
-      className="bg-card w-full rounded-xl flex gap-2.5 lg:gap-3 p-5 md:p-6 relative"
+      className="bg-card w-full rounded-xl flex gap-2.5 lg:gap-3 p-6 pb-5 lg:p-8 lg:pb-7 relative"
       key={tx.id}
       role="button"
       tabIndex={0}
@@ -380,11 +380,14 @@ export const TransactionRowV2 = ({ tx }: { tx: Transaction }) => {
           •
         </div>
       )}
-      <TokenIcon token={token ?? null} className="h-12 w-12 shrink-0 p-0.5" />
+      <TokenIcon
+        token={token ?? null}
+        className="h-10 w-10 lg:h-12 lg:w-12 shrink-0 lg:mt-0.5"
+      />
       <div className="flex flex-col w-full gap-3">
         <div className="flex justify-between items-start">
-          <div className="flex flex-col gap-0.5">
-            <span className="text-xs text-muted-foreground leading-none">
+          <div className="flex flex-col gap-1">
+            <span className="text-xs lg:text-sm text-muted-foreground leading-none">
               {/* Started{" "} */}
               {timestamp
                 ? `${formatDistanceToNowStrict(timestamp)} ago`
@@ -394,18 +397,18 @@ export const TransactionRowV2 = ({ tx }: { tx: Transaction }) => {
               {amount?.text}
             </span>
           </div>
-          <div className="flex items-center -mt-1 gap-2">
+          <div className="flex items-center -mt-1 lg:mt-0.5 gap-2">
             <span className="text-xs text-muted-foreground">
               Via {providerName}
             </span>
             <div className="flex items-center">
               <NetworkIcon
                 chain={chains?.from}
-                className="h-5 w-5 rounded-xs"
+                className="h-5 w-5 rounded-xs shadow-sm"
               />
               <NetworkIcon
                 chain={chains?.to}
-                className="h-5 w-5 rounded-xs -ml-0.5"
+                className="h-5 w-5 rounded-xs -ml-0.5 s shadow-sm"
               />
             </div>
           </div>
@@ -431,18 +434,19 @@ export const TransactionRowV2 = ({ tx }: { tx: Transaction }) => {
             <ActionRow tx={tx} />
           </>
         )}
-        <div className="flex justify-between items-center">
-          {isSuccessful && (
+        {isSuccessful && (
+          <div className="flex justify-between items-center">
             <div className="flex gap-2 items-center rounded-full border pl-2 pr-3 py-1.5">
               <IconCheckCircle className="fill-primary w-4 h-4" />
               <span className="text-xs lg:text-sm">Bridge successful</span>
             </div>
-          )}
-          {/* Caret */}
-          {/* <div className="rounded-full bg-muted px-2.5 py-2">
+
+            {/* Caret */}
+            {/* <div className="rounded-full bg-muted px-2.5 py-2">
             <IconCaretRight className="fill-foreground w-3.5 h-3.5" />
           </div> */}
-        </div>
+          </div>
+        )}
       </div>
     </div>
   );

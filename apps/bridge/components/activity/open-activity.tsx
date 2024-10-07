@@ -42,16 +42,19 @@ const container = {
 };
 
 const item = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { opacity: 0, y: 20, scale: 1 },
   show: {
     opacity: 1,
     y: 0,
+    scale: 1,
     transition: {
       type: "spring",
       stiffness: 300,
       damping: 12,
     },
   },
+  hover: { opacity: 1, y: 0, scale: 1.02 },
+  tap: { opacity: 1, y: 0, scale: 0.98 },
 };
 
 export const OpenActivity = ({}) => {
@@ -194,8 +197,8 @@ export const OpenActivity = ({}) => {
                         key={`activity-${getInitiatingHash(t)}`}
                         variants={item}
                         // hovers must not be a variant or stagger animation fails
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
+                        whileHover={"hover"}
+                        whileTap={"tap"}
                         className={
                           "relative w-full h-full flex flex-col shrink-0 overflow-hidden rounded-3xl shadow-sm cursor-pointer"
                         }
