@@ -60,7 +60,7 @@ import {
 export const chainIcons: { [chainId: number]: string | undefined } = {
   [mainnet.id]: "/img/networks/ethereum.svg",
   [sepolia.id]: "/img/networks/sepolia.svg",
-  [holesky.id]: "/img/networks/holesky.png",
+  [holesky.id]: "/img/networks/sepolia.svg",
   [arbitrumSepolia.id]: "/img/networks/arbitrum-one.svg",
   [arbitrum.id]: "/img/networks/arbitrum-one.svg",
   [arbitrumNova.id]: "/img/networks/arbitrum-nova.svg",
