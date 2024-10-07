@@ -167,10 +167,10 @@ export const TosModal = () => {
         </div>
         <div
           ref={scrollRef}
-          className="max-h-[320px] prose prose-sm prose-headings:font-heading dark:prose-invert overflow-y-scroll p-6"
+          className="max-h-[320px] prose prose-sm prose-headings:font-heading prose-headings:text-foreground prose-a:text-foreground prose-p:text-foreground dark:prose-invert overflow-y-scroll p-6"
         >
           <h1 className="text-lg font-heading text-foreground">{title}</h1>
-          <ReactMarkdown className="text-foreground">{content}</ReactMarkdown>
+          <ReactMarkdown>{content}</ReactMarkdown>
         </div>
         <div className="border-t border-muted p-6 relative">
           {!scrolled && <ScrollArrow />}
