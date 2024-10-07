@@ -34,6 +34,10 @@ export const transformIntoOptimismToken = (
     return null;
   }
 
+  if (token.name.includes("SPX6900")) {
+    return null;
+  }
+
   const t: OptimismToken = {
     name: token.name,
     chainId: token.chainId,
