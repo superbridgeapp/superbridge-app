@@ -44,12 +44,12 @@ export const HyperlaneLiquidity = () => {
         }
 
         return (
-          <div>
+          <div key={t.address}>
             <div className="text-2xl">{t.name}</div>
 
             <div className="flex gap-4">
               {Object.values(x).map((x) => (
-                <TokenView token={x} />
+                <TokenView key={x.address} token={x} />
               ))}
             </div>
           </div>

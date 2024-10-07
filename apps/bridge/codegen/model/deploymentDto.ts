@@ -8,13 +8,13 @@
 import type { DeploymentDtoArbitrumNativeToken } from './deploymentDtoArbitrumNativeToken';
 import type { DeploymentDtoConfig } from './deploymentDtoConfig';
 import type { DeploymentDtoContractAddresses } from './deploymentDtoContractAddresses';
-import type { DeploymentDtoFamily } from './deploymentDtoFamily';
+import type { DeploymentFamily } from './deploymentFamily';
 import type { ChainDto } from './chainDto';
 import type { DeploymentDtoStatus } from './deploymentDtoStatus';
 import type { DeploymentDtoTheme } from './deploymentDtoTheme';
 import type { FetchedMultichainTokenDto } from './fetchedMultichainTokenDto';
 import type { DeploymentDtoTos } from './deploymentDtoTos';
-import type { DeploymentDtoType } from './deploymentDtoType';
+import type { DeploymentType } from './deploymentType';
 
 export interface DeploymentDto {
   /** @nullable */
@@ -28,7 +28,7 @@ export interface DeploymentDto {
   deletedAt: string | null;
   depositDuration: number;
   displayName: string;
-  family: DeploymentDtoFamily;
+  family: DeploymentFamily;
   finalizeDuration: number;
   id: string;
   l1: ChainDto;
@@ -40,6 +40,8 @@ export interface DeploymentDto {
   proveDuration: number | null;
   /** @nullable */
   provider: string | null;
+  /** @nullable */
+  rollupNetworkIcon: string | null;
   status: DeploymentDtoStatus;
   supportsNftBridging: boolean;
   /** @nullable */
@@ -47,5 +49,5 @@ export interface DeploymentDto {
   tokens: FetchedMultichainTokenDto[];
   /** @nullable */
   tos: DeploymentDtoTos;
-  type: DeploymentDtoType;
+  type: DeploymentType;
 }

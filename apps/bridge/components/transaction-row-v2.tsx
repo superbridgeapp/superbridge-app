@@ -14,8 +14,10 @@ import { useTxAmount } from "@/hooks/activity/use-tx-amount";
 import { useTxDeployment } from "@/hooks/activity/use-tx-deployment";
 import { useTxDuration } from "@/hooks/activity/use-tx-duration";
 import { useTxFromTo } from "@/hooks/activity/use-tx-from-to";
+import { useTxProvider } from "@/hooks/activity/use-tx-provider";
 import { useTxTimestamp } from "@/hooks/activity/use-tx-timestamp";
 import { useTxToken } from "@/hooks/activity/use-tx-token";
+import { useProviderName } from "@/hooks/providers/use-provider-name";
 import { useModal } from "@/hooks/use-modal";
 import { usePendingTransactions } from "@/state/pending-txs";
 import { Transaction } from "@/types/transaction";
@@ -349,6 +351,7 @@ export const TransactionRowV2 = ({ tx }: { tx: Transaction }) => {
   const isInProgress = useIsInProgress(tx);
   const bars = useProgressBars(tx);
 
+  const providerName = useProviderName(useTxProvider(tx));
   return (
     <div
       className="bg-card w-full rounded-xl flex gap-2.5 lg:gap-3 p-5 md:p-6 relative"
@@ -380,7 +383,9 @@ export const TransactionRowV2 = ({ tx }: { tx: Transaction }) => {
             </span>
           </div>
           <div className="flex items-center -mt-1 gap-2">
-            <span className="text-xs text-muted-foreground">Via Hyperlane</span>
+            <span className="text-xs text-muted-foreground">
+              Via {providerName}
+            </span>
             <div className="flex items-center">
               <NetworkIcon
                 chain={chains?.from}

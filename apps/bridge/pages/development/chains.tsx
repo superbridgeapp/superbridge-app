@@ -4,6 +4,7 @@ import { useBridgeControllerGetHyperlaneMailboxes } from "@/codegen/index";
 import { ChainDto } from "@/codegen/model";
 import { Providers } from "@/components/Providers";
 import { ChainCard } from "@/components/chain-card";
+import { NetworkIcon } from "@/components/network-icon";
 import { InjectedStoreProvider } from "@/state/injected";
 
 function Page() {
@@ -18,6 +19,7 @@ function Page() {
       {mailboxes.data?.data.map((x) => (
         <div key={x.id}>
           <ChainCard chain={x.chain} onSelect={() => {}} />
+          <NetworkIcon chain={x.chain} />
         </div>
       ))}
     </div>
@@ -43,18 +45,15 @@ export default function ChainsPage() {
           head: {
             description: "",
             favicon: "",
-            name: "",
+            title: "",
             og: "",
-          },
-          images: {
-            logoDark: "",
-            logoDarkSmall: "",
-            logoLight: "",
-            logoLightSmall: "",
           },
           links: [],
           theme: {},
-          metadata: {},
+          metadata: {
+            gId: "",
+          },
+          tos: null,
         },
         host: "",
         superbridgeTestnets: false,
