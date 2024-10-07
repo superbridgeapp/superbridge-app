@@ -113,16 +113,16 @@ const completedForceWithdrawal: ForcedWithdrawalDto = {
 };
 
 export const MOCK_TRANSACTIONS: Transaction[] = [
-  // justSubmittedDeposit,
-  // submittedDeposit,
-  // successfulDeposit,
+  justSubmittedDeposit,
+  submittedDeposit,
+  successfulDeposit,
 
-  // justSubmittedWithdrawal,
-  // waitingForStateRootWithdrawal,
-  // readyToProveWithdrawal,
-  // challengePeriodWithdrawal,
-  // readyToFinalizeWithdrawal,
-  // completedWithdrawal,
+  justSubmittedWithdrawal,
+  waitingForStateRootWithdrawal,
+  readyToProveWithdrawal,
+  challengePeriodWithdrawal,
+  readyToFinalizeWithdrawal,
+  completedWithdrawal,
 
   justSubmittedForceWithdrawal,
   forcedWithdrawalWaitingForWithdrawal,
