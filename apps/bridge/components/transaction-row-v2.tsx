@@ -111,7 +111,8 @@ const useNextStateChangeTimestamp = (tx: Transaction) => {
   } else if (isCctpBridge(tx)) {
     description = "Waiting for Circle attestation";
   } else {
-    description = `Waiting for confirmation on ${chains?.to.name}`;
+    // description = `Waiting for confirmation on ${chains?.to.name}`;
+    description = `Waiting for confirmation`;
   }
 
   return {
@@ -150,21 +151,24 @@ const useStatus = (tx: Transaction): Status => {
 
   if (action === "prove") {
     return {
-      description: `Ready to prove on ${chains.to.name}`,
+      // description: `Ready to prove on ${chains.to.name}`,
+      description: `Ready to prove`,
       button: "Prove",
     };
   }
 
   if (action === "finalize") {
     return {
-      description: `Ready to finalize on ${chains.to.name}`,
+      // description: `Ready to finalize on ${chains.to.name}`,
+      description: `Ready to finalize`,
       button: "Finalize",
     };
   }
 
   if (action === "mint") {
     return {
-      description: `Ready to mint on ${chains.to.name}`,
+      // description: `Ready to mint on ${chains.to.name}`,
+      description: `Ready to mint`,
       button: "Mint",
     };
   }
@@ -201,36 +205,44 @@ const ActionRow = ({ tx }: { tx: Transaction }) => {
               <IconCheckCircle className="fill-primary w-4 h-4" />
               <span className="text-xs lg:text-sm">Bridge successful</span>
             </div> */}
-      <div className="flex gap-2 items-center rounded-full  py-1.5">
+
+      <div className="flex gap-2 items-center rounded-full border border-muted pl-2 pr-3 py-1.5">
+        <IconSpinner className="fill-muted-foreground text-muted-foreground w-4 h-4" />
+        <span className="text-xs lg:text-sm text-muted-foreground">
+          {status.description}
+        </span>
+      </div>
+      {/* <div className="flex gap-2 items-center rounded-full  py-1.5">
         <IconSpinner className="fill-muted-foreground text-muted-foreground w-4 h-4" />
         <span className="text-xs lg:text-sm leading-none text-muted-foreground">
           {status.description}
         </span>
-      </div>
+      </div> */}
 
       {isActionStatus(status) ? (
-        <Button size={"sm"} onClick={() => modal.open(getInitiatingHash(tx))}>
-          {status.button}
-        </Button>
+        <div className="flex gap-1.5 items-center rounded-full bg-primary pr-2 pl-3 py-1.5">
+          <span className="text-xs lg:text-sm text-primary-foreground">
+            {status.button}
+          </span>
+          <IconCaretRight className="fill-primary-foreground w-3 h-3" />
+        </div>
       ) : isWaitStatus(status) && status.timestamp > Date.now() ? (
-        <div
-          className="border rounded-full flex items-center gap-2 p-2 pl-3 cursor-pointer"
-          onClick={() => modal.open(getInitiatingHash(tx))}
-        >
-          <span className="text-xs lg:text-sm text-muted-foreground leading-none">
+        <div className="flex gap-1.5 items-center rounded-full bg-muted pr-2 pl-3 py-1.5">
+          <span className="text-xs lg:text-sm text-muted-foreground">
             ~{timeRemaining} to go
           </span>
           <IconTime className="w-4 h-4 fill-muted-foreground animate-wiggle-waggle" />
         </div>
       ) : (
         isGeneralStatus(status) && (
-          <Button
-            onClick={() => modal.open(getInitiatingHash(tx))}
-            size={"xs"}
-            variant={"secondary"}
-          >
-            <IconTx className="fill-foreground w-3 h-3 md:w-4 md:h-4" />
-          </Button>
+          <></>
+          // <Button
+          //   onClick={() => modal.open(getInitiatingHash(tx))}
+          //   size={"xs"}
+          //   variant={"secondary"}
+          // >
+          //   <IconTx className="fill-foreground w-3 h-3 md:w-4 md:h-4" />
+          // </Button>
         )
       )}
     </div>
@@ -364,19 +376,19 @@ export const TransactionRowV2 = ({ tx }: { tx: Transaction }) => {
       }}
     >
       {tx.mock && (
-        <div className="absolute left-2 bottom-2 text-purple-500 text-xs">
-          MOCK
+        <div className="absolute left-4 bottom-4 text-purple-500 text-xs opacity-30">
+          •
         </div>
       )}
       <TokenIcon token={token ?? null} className="h-12 w-12 shrink-0 p-0.5" />
-      <div className="flex flex-col w-full gap-2">
+      <div className="flex flex-col w-full gap-3">
         <div className="flex justify-between items-start">
           <div className="flex flex-col gap-0.5">
             <span className="text-xs text-muted-foreground leading-none">
               {/* Started{" "} */}
               {timestamp
                 ? `${formatDistanceToNowStrict(timestamp)} ago`
-                : "just now"}
+                : "Just now"}
             </span>
             <span className="text-2xl lg:text-3xl leading-none">
               {amount?.text}
@@ -399,23 +411,25 @@ export const TransactionRowV2 = ({ tx }: { tx: Transaction }) => {
           </div>
         </div>
         {isInProgress && (
-          <div>
-            <div className="w-full flex items-center gap-1.5 py-3">
-              {bars.map((bar) => (
-                <div
-                  key={`${tx.id}-${bar.name}`}
-                  className={clsx(
-                    "w-full h-1 rounded-full",
-                    bar.status === "done" && "bg-primary",
-                    bar.status === "in-progress" && "bg-primary animate-pulse",
-                    bar.status === "not-started" && "bg-muted"
-                  )}
-                ></div>
-              ))}
+          <>
+            <div>
+              <div className="w-full flex items-center gap-1">
+                {bars.map((bar) => (
+                  <div
+                    key={`${tx.id}-${bar.name}`}
+                    className={clsx(
+                      "w-full h-1.5 rounded-full",
+                      bar.status === "done" && "bg-primary",
+                      bar.status === "in-progress" &&
+                        "bg-primary animate-pulse",
+                      bar.status === "not-started" && "bg-muted"
+                    )}
+                  ></div>
+                ))}
+              </div>
             </div>
-
             <ActionRow tx={tx} />
-          </div>
+          </>
         )}
         <div className="flex justify-between items-center">
           {isSuccessful && (
@@ -424,11 +438,10 @@ export const TransactionRowV2 = ({ tx }: { tx: Transaction }) => {
               <span className="text-xs lg:text-sm">Bridge successful</span>
             </div>
           )}
-          {/* {isSuccessful && (
-            <div className="rounded-full bg-muted px-2.5 py-2">
-              <IconCaretRight className="fill-foreground w-3.5 h-3.5" />
-            </div>
-          )} */}
+          {/* Caret */}
+          {/* <div className="rounded-full bg-muted px-2.5 py-2">
+            <IconCaretRight className="fill-foreground w-3.5 h-3.5" />
+          </div> */}
         </div>
       </div>
     </div>
