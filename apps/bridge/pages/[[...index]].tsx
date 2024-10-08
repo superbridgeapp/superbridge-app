@@ -15,7 +15,7 @@ import { Head } from "@/components/head";
 import { InjectedStoreProvider } from "@/state/injected";
 import { createInjectedState } from "@/utils/injected-state/create-injected-state";
 
-import { HyperlaneLiquidity } from "./development/hyperlane-liquidity";
+import { HyperlaneLiquidity } from "../components/hyperlane-liquidity";
 
 const ignored = ["favicon", "locales", "_vercel", "_next", "fonts"];
 
