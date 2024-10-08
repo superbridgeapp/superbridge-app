@@ -1,4 +1,5 @@
 import { Address, Hex } from "viem";
+import { scroll } from "viem/chains";
 import {
   useEstimateFeesPerGas,
   useEstimateGas,
@@ -8,10 +9,12 @@ import {
 import { isRouteQuote } from "@/utils/guards";
 
 import { useSelectedBridgeRoute } from "../routes/use-selected-bridge-route";
+import { useFromChain } from "../use-chain";
 import { useInitiatingChainId } from "../use-initiating-chain-id";
 
 export const useBridge = () => {
   const initiatingChainId = useInitiatingChainId();
+  const from = useFromChain();
 
   const selectedRoute = useSelectedBridgeRoute();
   const { sendTransactionAsync, isPending } = useSendTransaction();
@@ -41,7 +44,10 @@ export const useBridge = () => {
     value?: bigint;
   } = {
     gasPrice: fromFeeData.data?.gasPrice,
-    maxFeePerGas: fromFeeData.data?.maxFeePerGas,
+    maxFeePerGas:
+      from?.id === scroll.id && fromFeeData.data?.maxFeePerGas
+        ? fromFeeData.data.maxFeePerGas * BigInt(5)
+        : fromFeeData.data?.maxFeePerGas,
     maxPriorityFeePerGas: fromFeeData.data?.maxPriorityFeePerGas,
   };
 
