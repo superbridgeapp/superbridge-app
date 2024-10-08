@@ -1,4 +1,3 @@
-import clsx from "clsx";
 import { useEffect, useState } from "react";
 
 import {
@@ -30,7 +29,6 @@ import {
 } from "@/utils/progress-rows/common";
 import { transactionLink } from "@/utils/transaction-link";
 
-import { TokenIcon } from "./token-icon";
 import {
   Finalise,
   FinaliseArbitrum,
@@ -208,17 +206,6 @@ function TransactionLineItem({
           )}
         </div>
       </div>
-      {/* 
-      {step.token && (
-        <div className="flex items-center gap-2 border-t mt-3 pt-3">
-          <TokenIcon
-            token={step.token?.[step.chain.id]}
-            className="h-6 w-6 shrink-0"
-          />
-          <span className="text-xl leading-none">{step.amount?.text}</span>
-        </div>
-      )}
-       */}
     </div>
   );
 }
