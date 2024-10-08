@@ -283,8 +283,8 @@ const useAction = (tx: Transaction) => {
     return status === MessageStatus.READY_TO_PROVE
       ? "prove"
       : status === MessageStatus.READY_FOR_RELAY
-        ? "finalize"
-        : null;
+      ? "finalize"
+      : null;
   }
 
   if (isArbitrumWithdrawal(tx)) {
@@ -306,8 +306,8 @@ const useProgressBars = (
   const proveTx = isOptimismWithdrawal(tx)
     ? tx.prove
     : isOptimismForcedWithdrawal(tx)
-      ? tx.withdrawal?.prove
-      : null;
+    ? tx.withdrawal?.prove
+    : null;
   const pendingFinalises = usePendingTransactions.usePendingFinalises();
 
   const bars: {
@@ -382,11 +382,11 @@ export const TransactionRowV2 = ({ tx }: { tx: Transaction }) => {
       )}
       <TokenIcon
         token={token ?? null}
-        className="h-10 w-10 lg:h-12 lg:w-12 shrink-0 lg:mt-0.5"
+        className="h-10 w-10 lg:h-12 lg:w-12 shrink-0 lg:mt-1"
       />
       <div className="flex flex-col w-full gap-3">
         <div className="flex justify-between items-start">
-          <div className="flex flex-col gap-1">
+          <div className="flex flex-col gap-1 lg:gap-0">
             <span className="text-xs lg:text-sm text-muted-foreground leading-none">
               {/* Started{" "} */}
               {timestamp

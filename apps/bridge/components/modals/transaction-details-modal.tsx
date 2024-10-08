@@ -27,6 +27,7 @@ import { isWaitStep } from "@/utils/progress-rows/common";
 import { BridgeInfo } from "../bridge-info";
 import { IconArrowUpRight, IconHelp } from "../icons";
 import { RouteProviderName } from "../route-provider-icon";
+import { TokenIcon } from "../token-icon";
 import { LineItem } from "../transaction-line-item";
 import { Button } from "../ui/button";
 import {
@@ -81,12 +82,13 @@ const Content = () => {
 
   return (
     <Tabs defaultValue="steps" className="flex flex-col">
-      <DialogHeader className="items-center pt-10 pb-4">
-        <DialogTitle className="text-3xl text-center leading-none">
-          <span className="text-base text-muted-foreground">
-            Bridge via <br />
+      <DialogHeader className="items-center gap-3 pt-10 pb-4">
+        <TokenIcon token={token} className="h-12 w-12" />
+        <DialogTitle className="flex flex-col gap-1.5 text-3xl text-center leading-none">
+          Bridge {amount?.formatted} {token?.symbol} <br />
+          <span className="text-sm text-muted-foreground leading-none">
+            Via <RouteProviderName provider={provider} />
           </span>
-          <RouteProviderName provider={provider} />
         </DialogTitle>
       </DialogHeader>
       <div className="mx-auto">

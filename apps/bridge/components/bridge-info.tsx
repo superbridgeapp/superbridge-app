@@ -66,7 +66,7 @@ export const BridgeInfo = ({
           <div className="flex items-start gap-4 py-3 px-3.5 justify-between">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <NetworkIcon chain={from} className="h-4 w-4" />
+                <NetworkIcon chain={from} className="h-4 w-4 rounded-xs" />
                 <span>{t("transaction.fromChain", { from: from?.name })}</span>
               </div>
             </div>
@@ -80,7 +80,7 @@ export const BridgeInfo = ({
           <div className="flex items-start gap-4 py-3 px-3.5 justify-between">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <NetworkIcon chain={to} className="h-4 w-4" />
+                <NetworkIcon chain={to} className="h-4 w-4 rounded-xs" />
                 <span>{t("transaction.toChain", { to: to?.name })}</span>
               </div>
             </div>
@@ -104,7 +104,7 @@ export const BridgeInfo = ({
                 provider={provider}
                 fromChainId={from?.id ?? 0}
                 toChainId={to?.id ?? 0}
-                className="h-4 w-4 rounded-2xs"
+                className="h-4 w-4 rounded-xs"
               />
             </div>
           </div>

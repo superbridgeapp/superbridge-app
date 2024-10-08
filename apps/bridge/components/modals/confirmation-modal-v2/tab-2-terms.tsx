@@ -94,7 +94,7 @@ export const ConfirmationModalTermsTab = ({
   return (
     <div>
       <DialogHeader className="items-center">
-        <DialogTitle className="text-2xl">
+        <DialogTitle className="text-3xl">
           {t("confirmationModal.acceptTerms")}
         </DialogTitle>
         <DialogDescription className="text-center">

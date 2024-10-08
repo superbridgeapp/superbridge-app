@@ -70,11 +70,11 @@ function WaitLineItem({
   return (
     <div className="flex gap-4 justify-start items-center w-full">
       <div className="flex items-center gap-2 w-full">
-        {/* <div className="w-5 h-5 rounded-full bg-card"> */}
-        <IconTime className="w-4 h-4 fill-foreground" />
-        {/* </div> */}
+        <div className="w-4 h-4 rounded-full bg-card">
+          <IconTime className="w-4 h-4 fill-foreground" />
+        </div>
 
-        <span className="text-xs font-heading">
+        <span className="text-sm font-heading leading-none">
           Wait {formatDurationToNow(Date.now() + step.duration)}
         </span>
 
@@ -83,11 +83,11 @@ function WaitLineItem({
             <IconCheckCircle className="w-6 h-6 fill-primary" />
           ) : isWaitStepInProgress(step) &&
             step.startedAt + step.duration > Date.now() ? (
-            <div className="flex items-center gap-1">
-              <span className="text-xs text-foreground">
+            <div className="flex items-center gap-2">
+              <span className="text-xs text-muted-foreground">
                 ~{remainingDuration} to go
               </span>
-              <IconSpinner className="h-6 w-6" />
+              <IconSpinner className="h-6 w-6 p-0.5 text-foreground fill-foreground" />
             </div>
           ) : (
             ""
@@ -117,40 +117,35 @@ function TransactionLineItem({
   // not done, ie no transaction hash
 
   return (
-    <div className="flex gap-4 justify-between items-center relative">
-      <div className="flex flex-col gap-1">
-        <div className="flex items-center gap-1.5">
+    <div className="flex flex-col">
+      <div className="flex gap-1 justify-between items-center relative">
+        <div className="flex gap-1.5">
           <NetworkIcon chain={step.chain} className="w-4 h-4 rounded-xs" />
-          <span className="text-xs font-heading leading-none">
-            {step.label}
-          </span>
-        </div>
+          <div className="flex flex-col gap-1 justify-center">
+            <span className="text-sm font-heading leading-none">
+              {step.label}
+            </span>
 
-        {step.token && (
-          <div className="flex items-center gap-1 mb-1">
-            <TokenIcon
-              token={step.token?.[step.chain.id]}
-              className="h-6 w-6"
-            />
-            <span className="text-2xl leading-none">{step.amount?.text}</span>
-          </div>
-        )}
+            {/* View Txn */}
+            {step.hash && (
+              <a
+                href={transactionLink(step.hash, step.chain)}
+                target="_blank"
+                className="text-muted-foreground flex gap-1.5 items-center text-xs group hover:text-foreground"
+              >
+                <span>View in explorer</span>
+                <IconArrowUpRight className="w-2 h-2 fill-muted-foreground group-hover:fill-foreground" />
+              </a>
+            )}
 
-        {/* Gas and fees */}
-        <div
-          className={clsx(
-            "flex gap-2",
-            fee.data ? "items-start" : "items-center"
-          )}
-        >
-          <div className="flex gap-1">
+            {/* Gas and fees */}
             {!!step.gasLimit && !step.pendingHash && !step.hash && (
-              <div className="flex gap-2 mt-0.5 ml-0.5">
-                <IconSimpleGas className="w-3 h-auto fill-muted-foreground opacity-80" />
+              <div className="flex gap-1 items-center">
+                <IconSimpleGas className="w-3 h-auto fill-muted-foreground" />
                 {fee.isLoading ? (
                   <Skeleton className="h-4 w-[88px]" />
                 ) : (
-                  <div className="flex items-center gap-1">
+                  <>
                     <span className="text-xs text-muted-foreground leading-none">
                       {fee.data?.token.formatted}
                     </span>
@@ -159,66 +154,71 @@ function TransactionLineItem({
                         {fee.data?.fiat?.formatted}
                       </span>
                     )}
-                  </div>
+                  </>
                 )}
               </div>
             )}
           </div>
         </div>
-      </div>
-      <div className="flex flex-col gap-1.5 items-end">
-        {step.hash ? (
-          <div className="flex gap-2 items-center group">
-            <a
-              href={transactionLink(step.hash, step.chain)}
-              target="_blank"
-              className="bg-card text-muted-foreground flex gap-1.5 items-center text-[10px] px-2 py-0.5 rounded-full group hover:text-foreground"
-            >
-              {/* Put better link to Tx here */}
-              <span>View Tx</span>
-              <IconArrowUpRight className="w-2 h-2 fill-muted-foreground group-hover:fill-foreground" />
-            </a>
-            <IconCheckCircle className="w-6 h-6 fill-primary group-hover:scale-105 transition-all ease-in-out" />
-          </div>
-        ) : step.pendingHash ? (
-          <a
-            href={transactionLink(step.pendingHash, step.chain)}
-            target="_blank"
-          >
-            <IconSpinner className="h-6 w-6" />
-          </a>
-        ) : (
-          <>
-            {tx &&
-              step.button?.type === ButtonComponent.Prove &&
-              (isOptimismWithdrawal(tx) || isOptimismForcedWithdrawal(tx)) && (
-                <Prove tx={tx} enabled={step.button.enabled} />
-              )}
-            {tx &&
-              step.button?.type === ButtonComponent.Finalise &&
-              (isOptimismWithdrawal(tx) || isOptimismForcedWithdrawal(tx)) && (
-                <Finalise tx={tx} enabled={step.button.enabled} />
-              )}
-            {tx &&
-              step.button?.type === ButtonComponent.Finalise &&
-              isArbitrumWithdrawal(tx) && (
-                <FinaliseArbitrum tx={tx} enabled={step.button.enabled} />
-              )}
-            {tx &&
-              step.button?.type === ButtonComponent.Mint &&
-              isCctpBridge(tx) && (
-                <MintCctp tx={tx} enabled={step.button.enabled} />
-              )}
-            {tx &&
-              step.button?.type === ButtonComponent.Redeem &&
-              isArbitrumDeposit(tx) && (
-                <RedeemArbitrum tx={tx} enabled={step.button.enabled} />
-              )}
 
-            {step.buttonComponent}
-          </>
-        )}
+        <div className="flex flex-col gap-1.5 items-end">
+          {step.hash ? (
+            <div className="flex gap-2 items-center group">
+              <IconCheckCircle className="w-6 h-6 fill-primary" />
+            </div>
+          ) : step.pendingHash ? (
+            <a
+              href={transactionLink(step.pendingHash, step.chain)}
+              target="_blank"
+            >
+              <IconSpinner className="h-6 w-6" />
+            </a>
+          ) : (
+            <>
+              {tx &&
+                step.button?.type === ButtonComponent.Prove &&
+                (isOptimismWithdrawal(tx) ||
+                  isOptimismForcedWithdrawal(tx)) && (
+                  <Prove tx={tx} enabled={step.button.enabled} />
+                )}
+              {tx &&
+                step.button?.type === ButtonComponent.Finalise &&
+                (isOptimismWithdrawal(tx) ||
+                  isOptimismForcedWithdrawal(tx)) && (
+                  <Finalise tx={tx} enabled={step.button.enabled} />
+                )}
+              {tx &&
+                step.button?.type === ButtonComponent.Finalise &&
+                isArbitrumWithdrawal(tx) && (
+                  <FinaliseArbitrum tx={tx} enabled={step.button.enabled} />
+                )}
+              {tx &&
+                step.button?.type === ButtonComponent.Mint &&
+                isCctpBridge(tx) && (
+                  <MintCctp tx={tx} enabled={step.button.enabled} />
+                )}
+              {tx &&
+                step.button?.type === ButtonComponent.Redeem &&
+                isArbitrumDeposit(tx) && (
+                  <RedeemArbitrum tx={tx} enabled={step.button.enabled} />
+                )}
+
+              {step.buttonComponent}
+            </>
+          )}
+        </div>
       </div>
+      {/* 
+      {step.token && (
+        <div className="flex items-center gap-2 border-t mt-3 pt-3">
+          <TokenIcon
+            token={step.token?.[step.chain.id]}
+            className="h-6 w-6 shrink-0"
+          />
+          <span className="text-xl leading-none">{step.amount?.text}</span>
+        </div>
+      )}
+       */}
     </div>
   );
 }
