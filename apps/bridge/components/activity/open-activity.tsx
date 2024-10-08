@@ -59,7 +59,8 @@ const item = {
 
 export const OpenActivity = ({}) => {
   const { ref, inView } = useInView({
-    threshold: 0,
+    threshold: 0.9,
+    delay: 300,
   });
   const account = useAccount();
   const setDisplayTransactions = useConfigState.useSetDisplayTransactions();
@@ -78,10 +79,22 @@ export const OpenActivity = ({}) => {
   const trackEvent = useTrackEvent();
 
   useEffect(() => {
-    if (inView && !isFetchingNextPage) {
+    if (isError) return;
+    if (isFetchingNextPage || isLoading) return;
+    if (totalTransactions === 0 || totalTransactions === transactions.length)
+      return;
+    if (inView) {
       fetchNextPage();
     }
-  }, [inView, fetchNextPage, isFetchingNextPage]);
+  }, [
+    inView,
+    isError,
+    fetchNextPage,
+    isFetchingNextPage,
+    isLoading,
+    totalTransactions,
+    transactions,
+  ]);
 
   return (
     <main
@@ -208,11 +221,10 @@ export const OpenActivity = ({}) => {
                     );
                   })}
 
+                  <span ref={ref} />
+
                   {transactions.length !== totalTransactions && (
-                    <div
-                      ref={ref}
-                      className="flex justify-center items-center p-3"
-                    >
+                    <div className="flex justify-center items-center p-3">
                       <div className="bg-card px-5 py-3 flex gap-1 items-center rounded-full hover:scale-105 transition-all">
                         {isFetchingNextPage ? (
                           <>

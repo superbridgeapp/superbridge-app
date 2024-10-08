@@ -4,7 +4,6 @@ import { useAccount } from "wagmi";
 
 import { bridgeControllerGetActivityV4 } from "@/codegen";
 import { ActivityV3Dto } from "@/codegen/model";
-import { MOCK_TRANSACTIONS } from "@/constants/test-transactions";
 import { useInjectedStore } from "@/state/injected";
 
 import { useAcrossDomains } from "./across/use-across-domains";
@@ -25,57 +24,66 @@ export const useTransactions = () => {
   const cctpDomains = useCctpDomains();
 
   const address = account.address;
-  const { data, isLoading, isFetchingNextPage, isError, fetchNextPage } =
-    useInfiniteQuery({
-      queryKey: [
-        "activity",
+  const {
+    data,
+    isLoading,
+    isFetchingNextPage,
+    isFetching,
+    isError,
+    fetchNextPage,
+    hasNextPage,
+  } = useInfiniteQuery({
+    queryKey: [
+      "activity",
+      address,
+      deployments.map((x) => x.id),
+      acrossDomains.map((x) => x.id),
+      cctpDomains.map((x) => x.id),
+      hyperlane.mailboxIds,
+      hyperlane.routers,
+      superbridgeTestnetsEnabled,
+    ],
+    queryFn: async ({ pageParam }) => {
+      if (!address) {
+        return {
+          actionRequiredCount: 0,
+          inProgressCount: 0,
+          total: 0,
+          transactions: [] as ActivityV3Dto["transactions"],
+          hasWithdrawalReadyToFinalize: null,
+        };
+      }
+
+      return await bridgeControllerGetActivityV4({
         address,
-        deployments.map((x) => x.id),
-        acrossDomains.map((x) => x.id),
-        cctpDomains.map((x) => x.id),
-        hyperlane.mailboxIds,
-        hyperlane.routers,
-        superbridgeTestnetsEnabled,
-      ],
-      queryFn: async ({ pageParam }) => {
-        if (!address) {
-          return {
-            actionRequiredCount: 0,
-            inProgressCount: 0,
-            total: 0,
-            transactions: [] as ActivityV3Dto["transactions"],
-            hasWithdrawalReadyToFinalize: null,
-          };
-        }
+        acrossDomains: acrossDomains.map((x) => x.id),
+        cctpDomains: cctpDomains.map((x) => x.id),
+        deploymentIds: deployments.map((d) => d.id),
+        cursor: pageParam || null,
 
-        return await bridgeControllerGetActivityV4({
-          address,
-          acrossDomains: acrossDomains.map((x) => x.id),
-          cctpDomains: cctpDomains.map((x) => x.id),
-          deploymentIds: deployments.map((d) => d.id),
-          cursor: pageParam || null,
-
-          hyperlane,
-          lz,
-        }).then((x) => x.data);
-      },
-      initialPageParam: "",
-      getNextPageParam: (lastPage) =>
-        lastPage?.transactions?.[lastPage.transactions.length - 1]?.id,
-      enabled: !!address,
-      refetchInterval: 10_000,
-    });
+        hyperlane,
+        lz,
+      }).then((x) => x.data);
+    },
+    initialPageParam: "",
+    getNextPageParam: (lastPage) =>
+      lastPage?.transactions?.[lastPage.transactions.length - 1]?.id,
+    enabled: !!address,
+    refetchInterval: 10_000,
+  });
 
   return {
     transactions: useMemo(() => {
-      const txs = [
-        // ...(process.env.NODE_ENV === "development" ? MOCK_TRANSACTIONS : []),
-        ...(data?.pages.flatMap((p) => p.transactions) ?? []),
-      ];
-      return txs;
+      return data?.pages.flatMap((p) => p.transactions) ?? [];
+      // const txs = [
+      //   // ...(process.env.NODE_ENV === "development" ? MOCK_TRANSACTIONS : []),
+      //   ...(data?.pages.flatMap((p) => p.transactions) ?? []),
+      // ];
+      // return txs;
     }, [data?.pages]),
     isLoading,
     isFetchingNextPage,
+    isFetching,
     isError,
     fetchNextPage,
     total: data?.pages?.[0].total ?? 0,

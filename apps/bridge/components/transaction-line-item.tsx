@@ -49,6 +49,7 @@ function WaitLineItem({
   );
 
   useEffect(() => {
+    let interval = null;
     if (isWaitStepInProgress(step)) {
       const updateDuration = () => {
         const remaining = formatDuration(
@@ -59,10 +60,13 @@ function WaitLineItem({
       };
 
       updateDuration();
-      const interval = setInterval(updateDuration, 1000);
-
-      return () => clearInterval(interval);
+      interval = setInterval(updateDuration, 1000);
     }
+    return () => {
+      if (interval) {
+        clearInterval(interval);
+      }
+    };
   }, [step]);
 
   return (

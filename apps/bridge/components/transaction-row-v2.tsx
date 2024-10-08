@@ -171,21 +171,24 @@ const useStatus = (tx: Transaction): Status => {
 
 const ActionRow = ({ tx }: { tx: Transaction }) => {
   const status = useStatus(tx);
-  const modal = useModal("TransactionDetails");
 
   const [timeRemaining, setTimeRemaining] = useState<string | null>(null);
 
   useEffect(() => {
+    let interval = null;
     if (status && isWaitStatus(status)) {
       const updateTimeRemaining = () => {
         setTimeRemaining(formatDurationToNow(status.timestamp));
       };
 
       updateTimeRemaining();
-      const interval = setInterval(updateTimeRemaining, 5_000);
-
-      return () => clearInterval(interval);
+      interval = setInterval(updateTimeRemaining, 5_000);
     }
+    return () => {
+      if (interval) {
+        clearInterval(interval);
+      }
+    };
   }, [status]);
 
   if (!status) {
