@@ -25,6 +25,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useIsAcrossRoute } from "@/hooks/across/use-is-across-route";
 import { useFeesForRoute } from "@/hooks/fees/use-fees";
 import { useNetworkFee } from "@/hooks/gas/use-network-fee";
 import { useSelectedBridgeRoute } from "@/hooks/routes/use-selected-bridge-route";
@@ -58,6 +59,7 @@ export const ConfirmationModalReviewTab = ({
   const networkFee = useNetworkFee();
   const route = useSelectedBridgeRoute();
   const fees = useFeesForRoute(route);
+  const isAcross = useIsAcrossRoute();
 
   const receive = useReceiveAmount();
 
@@ -111,9 +113,13 @@ export const ConfirmationModalReviewTab = ({
                 className="h-7 w-7 rounded-full"
               />
               <span className="text-2xl leading-none">
-                {receive.data
-                  ? `${receive.data.token.amount} ${destinationToken?.symbol}`
-                  : "…"}
+                {/* only Across has fees, so we'd prefer to show the same input
+                    amount rather than something rounded */}
+                {receive.data && isAcross
+                  ? receive.data.token.formatted
+                  : receive.data
+                    ? `${receive.data.token.amount} ${destinationToken?.symbol}`
+                    : "…"}
               </span>
             </div>
           </div>
