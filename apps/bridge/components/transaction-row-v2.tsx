@@ -38,14 +38,11 @@ import { MessageStatus } from "../constants";
 import {
   IconCaretRight,
   IconCheckCircle,
-  IconSimpleTime,
   IconSpinner,
   IconTime,
-  IconTx,
 } from "./icons";
 import { NetworkIcon } from "./network-icon";
 import { TokenIcon } from "./token-icon";
-import { Button } from "./ui/button";
 
 const useNextStateChangeTimestamp = (tx: Transaction) => {
   const initiatingTx = useInitiatingTx(tx);
@@ -111,7 +108,6 @@ const useNextStateChangeTimestamp = (tx: Transaction) => {
   } else if (isCctpBridge(tx)) {
     description = "Waiting for Circle attestation";
   } else {
-    // description = `Waiting for confirmation on ${chains?.to.name}`;
     description = `Waiting for confirmation`;
   }
 
@@ -151,7 +147,6 @@ const useStatus = (tx: Transaction): Status => {
 
   if (action === "prove") {
     return {
-      // description: `Ready to prove on ${chains.to.name}`,
       description: `Ready to prove`,
       button: "Prove",
     };
@@ -159,7 +154,6 @@ const useStatus = (tx: Transaction): Status => {
 
   if (action === "finalize") {
     return {
-      // description: `Ready to finalize on ${chains.to.name}`,
       description: `Ready to finalize`,
       button: "Finalize",
     };
@@ -167,7 +161,6 @@ const useStatus = (tx: Transaction): Status => {
 
   if (action === "mint") {
     return {
-      // description: `Ready to mint on ${chains.to.name}`,
       description: `Ready to mint`,
       button: "Mint",
     };
@@ -201,23 +194,12 @@ const ActionRow = ({ tx }: { tx: Transaction }) => {
 
   return (
     <div className="w-full flex items-center justify-between gap-2">
-      {/* <div className="flex gap-2 items-center rounded-full border pl-2 pr-3 py-1.5">
-              <IconCheckCircle className="fill-primary w-4 h-4" />
-              <span className="text-xs lg:text-sm">Bridge successful</span>
-            </div> */}
-
       <div className="flex gap-2 items-center rounded-full border border-muted pl-2 pr-3 py-1.5">
         <IconSpinner className="fill-muted-foreground text-muted-foreground w-4 h-4" />
         <span className="text-xs lg:text-sm text-muted-foreground">
           {status.description}
         </span>
       </div>
-      {/* <div className="flex gap-2 items-center rounded-full  py-1.5">
-        <IconSpinner className="fill-muted-foreground text-muted-foreground w-4 h-4" />
-        <span className="text-xs lg:text-sm leading-none text-muted-foreground">
-          {status.description}
-        </span>
-      </div> */}
 
       {isActionStatus(status) ? (
         <div className="flex gap-1.5 items-center rounded-full bg-primary pr-2 pl-3 py-1.5">
@@ -283,8 +265,8 @@ const useAction = (tx: Transaction) => {
     return status === MessageStatus.READY_TO_PROVE
       ? "prove"
       : status === MessageStatus.READY_FOR_RELAY
-      ? "finalize"
-      : null;
+        ? "finalize"
+        : null;
   }
 
   if (isArbitrumWithdrawal(tx)) {
@@ -306,8 +288,8 @@ const useProgressBars = (
   const proveTx = isOptimismWithdrawal(tx)
     ? tx.prove
     : isOptimismForcedWithdrawal(tx)
-    ? tx.withdrawal?.prove
-    : null;
+      ? tx.withdrawal?.prove
+      : null;
   const pendingFinalises = usePendingTransactions.usePendingFinalises();
 
   const bars: {
