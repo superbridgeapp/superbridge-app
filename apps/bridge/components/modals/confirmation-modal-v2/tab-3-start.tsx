@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { isPresent } from "ts-is-present";
@@ -6,24 +7,26 @@ import { formatUnits } from "viem";
 import { useAccount, useEstimateFeesPerGas } from "wagmi";
 
 import { ChainNativeCurrencyDto, RouteStepType } from "@/codegen/model";
-import { IconCheckCircle } from "@/components/icons";
-import { NetworkIcon } from "@/components/network-icon";
+import { BridgeInfo } from "@/components/bridge-info";
+import { IconCheck, IconCheckCircle, IconHelp } from "@/components/icons";
 import { RouteProviderName } from "@/components/route-provider-icon";
 import { TokenIcon } from "@/components/token-icon";
 import { ClaimButton, ProveButton } from "@/components/transaction-buttons";
 import { LineItem } from "@/components/transaction-line-item";
 import { Button } from "@/components/ui/button";
 import {
-  DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { currencySymbolMap } from "@/constants/currency-symbol-map";
 import { useLatestSubmittedTx } from "@/hooks/activity/use-tx-by-hash";
 import { useBridge } from "@/hooks/bridge/use-bridge";
 import { useSubmitBridge } from "@/hooks/bridge/use-submit-bridge";
 import { useCustomGasTokenAddress } from "@/hooks/custom-gas-token/use-custom-gas-token-address";
 import { useDeployment } from "@/hooks/deployments/use-deployment";
+import { useHelpCenterLinkByProvider } from "@/hooks/help/use-help-center-link";
 import { useSelectedBridgeRoute } from "@/hooks/routes/use-selected-bridge-route";
 import {
   useNativeToken,
@@ -31,6 +34,7 @@ import {
 } from "@/hooks/tokens/use-native-token";
 import {
   useDestinationToken,
+  useMultichainToken,
   useSelectedToken,
 } from "@/hooks/tokens/use-token";
 import { useAllowance } from "@/hooks/use-allowance";
@@ -38,6 +42,7 @@ import { useAllowanceGasToken } from "@/hooks/use-allowance-gas-token";
 import { useApprove } from "@/hooks/use-approve";
 import { useApproveGasToken } from "@/hooks/use-approve-gas-token";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
+import { useModal } from "@/hooks/use-modal";
 import { useTokenPrice } from "@/hooks/use-prices";
 import { useReceiveAmount } from "@/hooks/use-receive-amount";
 import { useRequiredCustomGasTokenBalance } from "@/hooks/use-required-custom-gas-token-balance";
@@ -73,6 +78,7 @@ export const ConfirmationModalStartTab = () => {
   const open = useConfigState.useDisplayConfirmationModal();
   const fromToken = useSelectedToken();
   const toToken = useDestinationToken();
+  const token = useMultichainToken();
   const withdrawing = useIsWithdrawal();
   const escapeHatch = useConfigState.useForceViaL1();
   const rawAmount = useConfigState.useRawAmount();
@@ -89,6 +95,11 @@ export const ConfirmationModalStartTab = () => {
   const customGasToken = useCustomGasTokenAddress(deployment?.id);
   const route = useSelectedBridgeRoute();
   const isArbitrumDeposit = useIsArbitrumDeposit();
+
+  const recipientAddress = useConfigState.useRecipientAddress();
+
+  const gasInfoModal = useModal("GasInfo");
+  const feeBreakdownModal = useModal("FeeBreakdown");
 
   const onSubmitBridge = useSubmitBridge();
 
@@ -238,7 +249,7 @@ export const ConfirmationModalStartTab = () => {
     .with({ needsGasTokenApprove: false }, () => null)
     .with({ approving: true }, () => ({
       onSubmit: () => {},
-      buttonText: "Approving",
+      buttonText: t("buttons.approving"),
       disabled: true,
     }))
     .with({ approved: false }, () => ({
@@ -249,12 +260,12 @@ export const ConfirmationModalStartTab = () => {
 
         approveGasToken.write();
       },
-      buttonText: "Approve",
+      buttonText: t("buttons.approve"),
       disabled: false,
     }))
     .with({ approved: true }, () => ({
       onSubmit: () => {},
-      buttonText: "Approved",
+      buttonText: t("buttons.approved"),
       disabled: true,
     }))
     .exhaustive();
@@ -269,7 +280,7 @@ export const ConfirmationModalStartTab = () => {
     .with({ needsApprove: false }, () => null)
     .with({ approving: true }, () => ({
       onSubmit: () => {},
-      buttonText: "Approving",
+      buttonText: t("buttons.approving"),
       disabled: true,
     }))
     .with({ approved: false }, () => {
@@ -283,13 +294,13 @@ export const ConfirmationModalStartTab = () => {
       }
       return {
         onSubmit: () => approve.write(),
-        buttonText: "Approve",
+        buttonText: t("buttons.approve"),
         disabled: false,
       };
     })
     .with({ approved: true }, () => ({
       onSubmit: () => {},
-      buttonText: "Approved",
+      buttonText: t("buttons.approved"),
       disabled: true,
     }))
     .exhaustive();
@@ -312,13 +323,13 @@ export const ConfirmationModalStartTab = () => {
       { needsGasTokenApprove: true, approvedGasToken: false },
       () => ({
         onSubmit: () => {},
-        buttonText: t("confirmationModal.initiateBridge"),
+        buttonText: t("buttons.start"),
         disabled: true,
       })
     )
     .otherwise(() => ({
       onSubmit: onSubmitBridge,
-      buttonText: t("confirmationModal.initiateBridge"),
+      buttonText: t("buttons.start"),
       disabled: false,
     }));
 
@@ -340,23 +351,49 @@ export const ConfirmationModalStartTab = () => {
     route.data?.result && isRouteQuote(route.data.result)
       ? route.data.result.steps
           .map((x) => {
+            const receiveAmount = {
+              raw: receive.data?.token.amount.toString() ?? "0",
+              formatted: receive.data?.token.formatted ?? "",
+              text: receive.data?.token.formatted ?? "",
+            };
+
             if (isRouteTransactionStep(x)) {
               const label =
                 x.type === RouteStepType.Initiate
-                  ? "Start bridge"
+                  ? t("confirmationModal.startBridgeOn", { from: from?.name })
                   : x.type === RouteStepType.Prove
-                    ? "Prove"
-                    : x.type === RouteStepType.Finalize
-                      ? "Claim"
-                      : x.type === RouteStepType.Mint
-                        ? "Claim"
-                        : "";
+                    ? t("confirmationModal.proveOn", { to: to?.name })
+                    : t("confirmationModal.getAmountOn", {
+                        to: to?.name,
+                        formatted: receive.data?.token.formatted,
+                      });
+              const amount: TransactionStep["amount"] =
+                x.type === RouteStepType.Initiate
+                  ? {
+                      raw: weiAmount.toString(),
+                      formatted: formatUnits(
+                        weiAmount,
+                        fromToken?.decimals ?? 18
+                      ),
+                      text: `${formatUnits(
+                        weiAmount,
+                        fromToken?.decimals ?? 18
+                      )} ${fromToken?.symbol}`,
+                    }
+                  : x.type === RouteStepType.Prove
+                    ? undefined
+                    : receiveAmount;
+              const gasLimit =
+                x.type === RouteStepType.Initiate
+                  ? x.estimatedGasLimit
+                  : 500_000;
+
               const buttonComponent =
                 x.type === RouteStepType.Initiate ? (
                   <Button
                     onClick={initiateButton.onSubmit}
                     disabled={initiateButton.disabled}
-                    size={"xs"}
+                    size={"sm"}
                   >
                     {initiateButton.buttonText}
                   </Button>
@@ -369,11 +406,13 @@ export const ConfirmationModalStartTab = () => {
                 ) : undefined;
               const a: TransactionStep = {
                 label,
-                fee: fee(getGasCost(x.chainId, x.estimatedGasLimit)),
+                gasLimit,
                 chain: x.chainId === from?.id.toString() ? from! : to!,
                 buttonComponent,
                 hash: undefined,
                 pendingHash: undefined,
+                token: x.type === RouteStepType.Prove ? null : token,
+                amount,
               };
               return a;
             }
@@ -387,11 +426,15 @@ export const ConfirmationModalStartTab = () => {
 
             if (isRouteReceiveStep(x)) {
               const step: TransactionStep = {
-                label: t("confirmationModal.receiveAmount", common),
+                label: t("confirmationModal.getAmountOn", {
+                  to: to?.name,
+                  formatted: receive.data?.token.formatted,
+                }),
                 chain: to!,
-                fee: undefined,
                 hash: undefined,
                 pendingHash: undefined,
+                token,
+                amount: receiveAmount,
               };
               return step;
             }
@@ -401,111 +444,142 @@ export const ConfirmationModalStartTab = () => {
 
   const lineItems = submittedHash ? submittedLineItems : preSubmissionLineItems;
 
+  const helpCenterLink = useHelpCenterLinkByProvider(route.data?.id ?? null);
   return (
-    <div>
-      <DialogHeader className="items-center">
-        <TokenIcon token={fromToken} className="h-14 w-14 mb-2" />
-        <DialogTitle className="text-3xl text-center">
-          Bridge {rawAmount} {fromToken?.symbol}
+    <Tabs defaultValue="steps" className="flex flex-col">
+      <DialogHeader className="items-center gap-3 pt-3 pb-4">
+        <TokenIcon token={token?.[from?.id ?? 0]} className="h-12 w-12" />
+        <DialogTitle className="flex flex-col gap-1.5 text-3xl text-center leading-none">
+          Bridge {rawAmount} {token?.[from?.id ?? 0]?.symbol} <br />
+          <span className="text-sm text-muted-foreground leading-none">
+            Via <RouteProviderName provider={route.data?.id ?? null} />
+          </span>
         </DialogTitle>
-        <DialogDescription>
-          <div className="flex gap-1 items-center rounded-sm border pl-1 pr-2 py-1">
-            <div className="flex">
-              <NetworkIcon chain={from} className="w-4 h-4 rounded-2xs" />
-              <NetworkIcon chain={to} className="w-4 h-4 rounded-2xs -ml-1" />
-            </div>
-            <span className="text-xs text-muted-foreground">
-              via <RouteProviderName provider={route.data?.id ?? null} />
-            </span>
-          </div>
-        </DialogDescription>
       </DialogHeader>
-
-      <div className="flex flex-col p-6 pt-0 gap-1">
-        {approveGasTokenButton && from && (
-          <>
-            <LineItem
-              step={{
-                label: t("confirmationModal.approveGasToken", {
-                  symbol: fromToken?.symbol,
-                }),
-                chain: from,
-                fee: approvedGasToken ? undefined : fee(approveGasTokenCost),
-                buttonComponent: approvedGasToken ? (
-                  <IconCheckCircle className="w-6 h-6 fill-primary" />
-                ) : (
-                  <Button
-                    onClick={approveGasTokenButton.onSubmit}
-                    disabled={approveGasTokenButton.disabled}
-                    size="xs"
-                  >
-                    {approveGasTokenButton.buttonText}
-                    {approvedGasToken && (
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="15"
-                        height="12"
-                        viewBox="0 0 15 12"
-                        className="fill-white dark:fill-zinc-950 ml-2 h-2.5 w-auto"
-                      >
-                        <path d="M6.80216 12C6.32268 12 5.94594 11.8716 5.67623 11.559L0.63306 6.02355C0.384755 5.7624 0.269165 5.41563 0.269165 5.07742C0.269165 4.31109 0.915614 3.67749 1.66909 3.67749C2.04583 3.67749 2.42257 3.83161 2.69228 4.13129L6.57955 8.38245L12.1921 0.56939C12.4661 0.192651 12.8899 0 13.3309 0C14.0715 0 14.7308 0.56939 14.7308 1.38709C14.7308 1.67392 14.6538 1.96932 14.4697 2.21762L7.84676 11.4306C7.61558 11.7688 7.21315 12 6.79788 12H6.80216Z" />
-                      </svg>
-                    )}
-                  </Button>
-                ),
-                pendingHash: undefined,
-                hash: undefined,
-              }}
-            />
-          </>
-        )}
-
-        {approveButton && from && (
-          <>
-            <LineItem
-              step={{
-                label: t("confirmationModal.approve", {
-                  symbol: fromToken?.symbol,
-                }),
-                chain: from,
-                fee: approved ? undefined : fee(approveCost),
-                buttonComponent: approved ? (
-                  <IconCheckCircle className="w-6 h-6 fill-primary" />
-                ) : (
-                  <Button
-                    onClick={approveButton.onSubmit}
-                    disabled={approveButton.disabled}
-                    size="xs"
-                  >
-                    {approveButton.buttonText}
-                    {approved && (
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="15"
-                        height="12"
-                        viewBox="0 0 15 12"
-                        className="fill-white dark:fill-zinc-950 ml-2 h-2.5 w-auto"
-                      >
-                        <path d="M6.80216 12C6.32268 12 5.94594 11.8716 5.67623 11.559L0.63306 6.02355C0.384755 5.7624 0.269165 5.41563 0.269165 5.07742C0.269165 4.31109 0.915614 3.67749 1.66909 3.67749C2.04583 3.67749 2.42257 3.83161 2.69228 4.13129L6.57955 8.38245L12.1921 0.56939C12.4661 0.192651 12.8899 0 13.3309 0C14.0715 0 14.7308 0.56939 14.7308 1.38709C14.7308 1.67392 14.6538 1.96932 14.4697 2.21762L7.84676 11.4306C7.61558 11.7688 7.21315 12 6.79788 12H6.80216Z" />
-                      </svg>
-                    )}
-                  </Button>
-                ),
-                pendingHash: undefined,
-                hash: undefined,
-              }}
-            />
-          </>
-        )}
-
-        {lineItems.filter(isPresent).map((step) => (
-          <LineItem
-            key={isWaitStep(step) ? step.duration.toString() : step.label}
-            step={step}
-            tx={lastSubmittedTx}
-          />
-        ))}
+      <div className="mx-auto">
+        <TabsList>
+          <TabsTrigger className="text-xs" value="steps">
+            {t("transaction.steps")}
+          </TabsTrigger>
+          <TabsTrigger className="text-xs" value="info">
+            {t("transaction.bridgeInfo")}
+          </TabsTrigger>
+        </TabsList>
       </div>
-    </div>
+
+      <TabsContent value="steps">
+        <div className="flex flex-col px-6 gap-1">
+          {approveGasTokenButton && from && (
+            <>
+              <LineItem
+                step={{
+                  label: t("confirmationModal.approveGasToken", {
+                    symbol: fromToken?.symbol,
+                  }),
+                  chain: from,
+                  gasLimit: approveGasTokenCost.gasLimit,
+                  buttonComponent: approvedGasToken ? (
+                    <IconCheckCircle className="w-6 h-6 fill-primary" />
+                  ) : (
+                    <Button
+                      onClick={approveGasTokenButton.onSubmit}
+                      disabled={approveGasTokenButton.disabled}
+                      size="sm"
+                    >
+                      {approveGasTokenButton.buttonText}
+                      {approvedGasToken && (
+                        <IconCheck className="w-3 h-3 fill-primary-foreground" />
+                      )}
+                    </Button>
+                  ),
+                  pendingHash: undefined,
+                  hash: undefined,
+                }}
+              />
+            </>
+          )}
+
+          {approveButton && from && (
+            <>
+              <LineItem
+                step={{
+                  label: t("confirmationModal.approve", {
+                    symbol: fromToken?.symbol,
+                  }),
+                  chain: from,
+                  gasLimit: approveCost.gasLimit,
+                  buttonComponent: approved ? (
+                    <IconCheckCircle className="w-6 h-6 fill-primary" />
+                  ) : (
+                    <Button
+                      onClick={approveButton.onSubmit}
+                      disabled={approveButton.disabled}
+                      size="sm"
+                    >
+                      {approveButton.buttonText}
+                      {approved && (
+                        <IconCheck className="w-3 h-3 fill-primary-foreground" />
+                      )}
+                    </Button>
+                  ),
+                  pendingHash: undefined,
+                  hash: undefined,
+                }}
+              />
+            </>
+          )}
+
+          {lineItems.filter(isPresent).map((step) => (
+            <LineItem
+              key={isWaitStep(step) ? step.duration.toString() : step.label}
+              step={step}
+              tx={lastSubmittedTx}
+            />
+          ))}
+        </div>
+      </TabsContent>
+
+      <TabsContent value="info">
+        <BridgeInfo
+          from={from}
+          to={to}
+          sentAmount={rawAmount}
+          receivedAmount={receive.data?.token.amount.toString() ?? null}
+          token={token}
+          provider={route.data?.id ?? null}
+          sender={account.address ?? "0x"}
+          recipient={recipientAddress}
+          transferTime="10 mins"
+        />
+      </TabsContent>
+
+      <DialogFooter className="flex gap-2 items-center">
+        {/* {providerExplorerLink && (
+          <Button asChild size={"xs"} variant={"secondary"}>
+            <Link
+              href={providerExplorerLink}
+              target="_blank"
+              // className="text-xs font-button text-center hover:underline flex gap-1 items-center"
+            >
+              <span>View on {provider} explorer</span>
+              <IconArrowUpRight className="w-2.5 h-2.5 ml-1.5 fill-foreground group-hover:fill-foreground" />
+            </Link>
+          </Button> 
+        )}*/}
+
+        {helpCenterLink && (
+          <Button asChild size={"xs"} variant={"outline"}>
+            <Link
+              href={helpCenterLink}
+              target="_blank"
+              // className="text-xs font-button text-center hover:underline"
+            >
+              {t("general.needHelp")}
+              <IconHelp className="w-2.5 h-2.5 ml-1.5 fill-foreground group-hover:fill-foreground" />
+            </Link>
+          </Button>
+        )}
+      </DialogFooter>
+    </Tabs>
   );
 };

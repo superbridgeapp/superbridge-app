@@ -1,6 +1,7 @@
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import clsx from "clsx";
 import Link from "next/link";
+import { useTranslation } from "react-i18next";
 import { useAccount, useDisconnect } from "wagmi";
 
 import {
@@ -30,6 +31,7 @@ import {
 } from "./icons";
 
 export const BridgeHeader = () => {
+  const { t } = useTranslation();
   const setDisplayTransactions = useConfigState.useSetDisplayTransactions();
   const settingsModal = useModal("Settings");
   const legalModal = useModal("Legal");
@@ -128,21 +130,21 @@ export const BridgeHeader = () => {
                     className=" text-xs  leading-none w-full flex gap-2 items-center"
                   >
                     <IconSB className="h-4 w-auto fill-foreground" />
-                    <span>Powered by Superbridge</span>
+                    <span>{t("poweredBy", { name: "Superbridge" })}</span>
                   </a>
                   <Link
                     href="https://help.superbridge.app"
                     className=" text-xs  leading-none w-full flex gap-2 items-center"
                   >
                     <IconArrowUpRight className="mx-0.5 h-3 w-3 fill-muted-foreground" />
-                    <span>Support & FAQs</span>
+                    <span>{t("header.supportAndFaqs")}</span>
                   </Link>
                   <button
                     className=" text-xs  leading-none w-full flex gap-2 items-center"
                     onClick={() => legalModal.open()}
                   >
                     <IconArrowUpRight className="mx-0.5 h-3 w-3 w-auto fill-muted-foreground" />
-                    <span>Legal</span>
+                    <span>{t("header.legal")}</span>
                   </button>
                 </div>
               </DropdownMenuContent>

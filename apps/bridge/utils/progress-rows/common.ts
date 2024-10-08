@@ -1,4 +1,6 @@
 import { ChainDto } from "@/codegen/model";
+import { useTxAmount } from "@/hooks/activity/use-tx-amount";
+import { MultiChainToken } from "@/types/token";
 
 export enum ProgressRowStatus {
   NotDone = "not-done",
@@ -16,8 +18,7 @@ export enum ButtonComponent {
 
 export type TransactionStep = {
   label: string;
-  gasLimit?: bigint | undefined;
-  fee?: string | undefined;
+  gasLimit?: number | bigint;
   chain: ChainDto;
   button?:
     | {
@@ -28,6 +29,8 @@ export type TransactionStep = {
   buttonComponent?: JSX.Element;
   pendingHash: string | undefined;
   hash: string | undefined;
+  token?: MultiChainToken | null;
+  amount?: ReturnType<typeof useTxAmount>;
 };
 
 export type WaitStepInProgress = {

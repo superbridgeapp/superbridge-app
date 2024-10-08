@@ -87,7 +87,7 @@ export const ExpensiveGasModal = () => {
                 </span>
               </div>
               <div className="flex items-center">
-                <span className=" text-sm  text-red-500">{fees}</span>
+                <span className="text-sm text-red-500">{fees}</span>
               </div>
             </div>
           </div>

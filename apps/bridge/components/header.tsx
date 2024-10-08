@@ -8,6 +8,7 @@ import { useNavIcon } from "@/hooks/use-theme";
 
 import { TokenBanner } from "./banners/token-banner";
 import { HeaderLinks } from "./header/header-links";
+import { HeaderVersion } from "./header/header-version";
 import { SBLockup, SBLockupSmall } from "./icons";
 
 export function Header() {
@@ -26,11 +27,11 @@ export function Header() {
     <nav className="flex justify-between items-center p-3 md:p-6 fixed top-0 left-0 w-screen z-10">
       <div onClick={() => navigate("/")} className="cursor-pointer">
         {isSuperbridge ? (
-          <div className="flex gap-2 md:gap-4 items-center">
+          <div className="flex gap-2 items-center">
             <SBLockup className="hidden md:inline-flex h-8 w-auto" />
             <SBLockupSmall className="md:hidden h-8 w-auto" />
             <span className="bg-primary text-background px-2 py-1 text-[10px] leading-none rounded-full inline-flex">
-              v3.0 beta
+              beta
             </span>
           </div>
         ) : (
@@ -59,6 +60,11 @@ export function Header() {
           }}
         />
         <HeaderLinks />
+        {isSuperbridge && (
+          <div className="fixed bottom-4 right-6">
+            <HeaderVersion />
+          </div>
+        )}
       </div>
     </nav>
   );

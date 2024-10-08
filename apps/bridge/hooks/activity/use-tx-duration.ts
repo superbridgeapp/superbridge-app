@@ -8,8 +8,11 @@ import {
 
 import { useTxDeployment } from "./use-tx-deployment";
 
-export const useTxDuration = (tx: Transaction): number | undefined => {
+export const useTxDuration = (
+  tx: Transaction | undefined | null
+): number | undefined => {
   const deployment = useTxDeployment(tx);
+  if (!tx) return undefined;
   if (isDeposit(tx)) return deployment?.depositDuration;
   if (isAcrossBridge(tx)) return tx.duration;
   if (isHyperlaneBridge(tx)) return tx.duration;

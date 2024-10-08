@@ -37,7 +37,7 @@ export const ClaimButton = (props: TxButtonProps) => {
   const { t } = useTranslation();
   return (
     <Button onClick={props.onClick} size={"sm"} disabled={props.disabled}>
-      {t("buttons.claim")}
+      {t("buttons.get")}
     </Button>
   );
 };

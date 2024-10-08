@@ -1,12 +1,10 @@
 import { useTranslation } from "react-i18next";
 
-import {
-  BridgeWithdrawalDto,
-  ConfirmationDto,
-  DeploymentDto,
-} from "@/codegen/model";
+import { BridgeWithdrawalDto, DeploymentDto } from "@/codegen/model";
 import { FINALIZE_GAS, PROVE_GAS } from "@/constants/gas-limits";
 import { MessageStatus } from "@/constants/optimism-message-status";
+import { useTxAmount } from "@/hooks/activity/use-tx-amount";
+import { useTxMultichainToken } from "@/hooks/activity/use-tx-token";
 import { useChain } from "@/hooks/use-chain";
 import { usePendingTransactions } from "@/state/pending-txs";
 
@@ -18,11 +16,7 @@ import {
 } from "./common";
 
 export const useOptimismWithdrawalProgressRows = (
-  id: string | null,
-  status: BridgeWithdrawalDto["status"] | null,
-  withdrawal: ConfirmationDto | null,
-  prove: ConfirmationDto | null,
-  finalise: ConfirmationDto | null,
+  withdrawal: BridgeWithdrawalDto | null,
   deployment: DeploymentDto | null
 ): ActivityStep[] | null => {
   const pendingFinalises = usePendingTransactions.usePendingFinalises();
@@ -30,63 +24,79 @@ export const useOptimismWithdrawalProgressRows = (
   const { t } = useTranslation();
   const l1 = useChain(deployment?.l1ChainId);
   const l2 = useChain(deployment?.l2ChainId);
+  const token = useTxMultichainToken(withdrawal);
+  const inputAmount = useTxAmount(withdrawal, token?.[l2?.id ?? 0]);
+  const outputAmount = useTxAmount(withdrawal, token?.[l1?.id ?? 0]);
 
   if (!deployment || !l1 || !l2) {
     return null;
   }
 
-  const pendingProve = pendingProves[id ?? ""];
-  const pendingFinalise = pendingFinalises[id ?? ""];
+  const pendingProve = pendingProves[withdrawal?.id ?? ""];
+  const pendingFinalise = pendingFinalises[withdrawal?.id ?? ""];
 
   const withdrawStep: TransactionStep = {
-    label: "Start bridge",
-    hash: withdrawal?.timestamp ? withdrawal?.transactionHash : undefined,
-    pendingHash: withdrawal?.timestamp
+    label: t("confirmationModal.startBridgeOn", {
+      from: l2.name,
+    }),
+    hash: withdrawal?.withdrawal.timestamp
+      ? withdrawal?.withdrawal.transactionHash
+      : undefined,
+    pendingHash: withdrawal?.withdrawal.timestamp
       ? undefined
-      : withdrawal?.transactionHash,
+      : withdrawal?.withdrawal.transactionHash,
     chain: l2,
     button: undefined,
+    token,
+    amount: inputAmount,
   };
 
-  const readyToProve = status === MessageStatus.READY_TO_PROVE;
-  const readyToFinalize = status === MessageStatus.READY_FOR_RELAY;
+  const readyToProve = withdrawal?.status === MessageStatus.READY_TO_PROVE;
+  const readyToFinalize = withdrawal?.status === MessageStatus.READY_FOR_RELAY;
 
   const proveStep: TransactionStep = {
-    label: t("buttons.prove"),
+    label: t("confirmationModal.proveOn", {
+      to: l1.name,
+    }),
     pendingHash: pendingProve,
-    hash: prove?.transactionHash,
+    hash: withdrawal?.prove?.transactionHash,
     chain: l1,
     button: {
       type: ButtonComponent.Prove,
       enabled: readyToProve,
     },
-    gasLimit: prove ? undefined : PROVE_GAS,
+    gasLimit: withdrawal?.prove ? undefined : PROVE_GAS,
   };
 
   const finaliseStep: TransactionStep = {
-    label: t("buttons.finalize"),
+    label: t("confirmationModal.getAmountOn", {
+      to: l1.name,
+      formatted: outputAmount?.formatted,
+    }),
     pendingHash: pendingFinalise,
-    hash: finalise?.transactionHash,
+    hash: withdrawal?.finalise?.transactionHash,
     chain: l1,
     button: {
       type: ButtonComponent.Finalise,
       enabled: readyToFinalize,
     },
-    gasLimit: finalise ? undefined : FINALIZE_GAS,
+    gasLimit: withdrawal?.finalise ? undefined : FINALIZE_GAS,
+    token,
+    amount: outputAmount,
   };
 
   return [
     withdrawStep,
     buildWaitStep(
-      withdrawal?.timestamp,
-      prove?.timestamp,
+      withdrawal?.withdrawal?.timestamp,
+      withdrawal?.prove?.timestamp,
       deployment.proveDuration!,
       readyToProve
     ),
     proveStep,
     buildWaitStep(
-      prove?.timestamp,
-      finalise?.timestamp,
+      withdrawal?.prove?.timestamp,
+      withdrawal?.finalise?.timestamp,
       deployment.finalizeDuration,
       readyToFinalize
     ),

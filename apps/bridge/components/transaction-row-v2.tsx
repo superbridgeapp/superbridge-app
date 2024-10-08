@@ -14,8 +14,10 @@ import { useTxAmount } from "@/hooks/activity/use-tx-amount";
 import { useTxDeployment } from "@/hooks/activity/use-tx-deployment";
 import { useTxDuration } from "@/hooks/activity/use-tx-duration";
 import { useTxFromTo } from "@/hooks/activity/use-tx-from-to";
+import { useTxProvider } from "@/hooks/activity/use-tx-provider";
 import { useTxTimestamp } from "@/hooks/activity/use-tx-timestamp";
 import { useTxToken } from "@/hooks/activity/use-tx-token";
+import { useProviderName } from "@/hooks/providers/use-provider-name";
 import { useModal } from "@/hooks/use-modal";
 import { usePendingTransactions } from "@/state/pending-txs";
 import { Transaction } from "@/types/transaction";
@@ -33,10 +35,14 @@ import {
 import { getInitiatingHash } from "@/utils/initiating-tx-hash";
 
 import { MessageStatus } from "../constants";
-import { IconCheckCircle, IconSimpleTime, IconTx } from "./icons";
+import {
+  IconCaretRight,
+  IconCheckCircle,
+  IconSpinner,
+  IconTime,
+} from "./icons";
 import { NetworkIcon } from "./network-icon";
 import { TokenIcon } from "./token-icon";
-import { Button } from "./ui/button";
 
 const useNextStateChangeTimestamp = (tx: Transaction) => {
   const initiatingTx = useInitiatingTx(tx);
@@ -102,7 +108,7 @@ const useNextStateChangeTimestamp = (tx: Transaction) => {
   } else if (isCctpBridge(tx)) {
     description = "Waiting for Circle attestation";
   } else {
-    description = `Waiting for confirmation on ${chains?.to.name}`;
+    description = `Waiting for confirmation`;
   }
 
   return {
@@ -141,21 +147,21 @@ const useStatus = (tx: Transaction): Status => {
 
   if (action === "prove") {
     return {
-      description: `Ready to prove on ${chains.to.name}`,
+      description: `Ready to prove`,
       button: "Prove",
     };
   }
 
   if (action === "finalize") {
     return {
-      description: `Ready to finalize on ${chains.to.name}`,
+      description: `Ready to finalize`,
       button: "Finalize",
     };
   }
 
   if (action === "mint") {
     return {
-      description: `Ready to mint on ${chains.to.name}`,
+      description: `Ready to mint`,
       button: "Mint",
     };
   }
@@ -165,21 +171,24 @@ const useStatus = (tx: Transaction): Status => {
 
 const ActionRow = ({ tx }: { tx: Transaction }) => {
   const status = useStatus(tx);
-  const modal = useModal("TransactionDetails");
 
   const [timeRemaining, setTimeRemaining] = useState<string | null>(null);
 
   useEffect(() => {
+    let interval = null;
     if (status && isWaitStatus(status)) {
       const updateTimeRemaining = () => {
         setTimeRemaining(formatDurationToNow(status.timestamp));
       };
 
       updateTimeRemaining();
-      const interval = setInterval(updateTimeRemaining, 5_000);
-
-      return () => clearInterval(interval);
+      interval = setInterval(updateTimeRemaining, 5_000);
     }
+    return () => {
+      if (interval) {
+        clearInterval(interval);
+      }
+    };
   }, [status]);
 
   if (!status) {
@@ -188,33 +197,37 @@ const ActionRow = ({ tx }: { tx: Transaction }) => {
 
   return (
     <div className="w-full flex items-center justify-between gap-2">
-      <span className="text-xs lg:text-sm text-muted-foreground leading-none">
-        {status.description}
-      </span>
+      <div className="flex gap-2 items-center rounded-full border border-muted pl-2 pr-3 py-1.5">
+        <IconSpinner className="fill-muted-foreground text-muted-foreground w-4 h-4" />
+        <span className="text-xs lg:text-sm text-muted-foreground">
+          {status.description}
+        </span>
+      </div>
 
       {isActionStatus(status) ? (
-        <Button size={"sm"} onClick={() => modal.open(getInitiatingHash(tx))}>
-          {status.button}
-        </Button>
+        <div className="flex gap-1.5 items-center rounded-full bg-primary pr-2 pl-3 py-1.5">
+          <span className="text-xs lg:text-sm text-primary-foreground">
+            {status.button}
+          </span>
+          <IconCaretRight className="fill-primary-foreground w-3 h-3" />
+        </div>
       ) : isWaitStatus(status) && status.timestamp > Date.now() ? (
-        <div
-          className="bg-muted rounded-full flex items-center gap-2 p-2 pl-3 cursor-pointer"
-          onClick={() => modal.open(getInitiatingHash(tx))}
-        >
+        <div className="flex gap-1.5 items-center rounded-full bg-muted pr-2 pl-3 py-1.5">
           <span className="text-xs lg:text-sm text-muted-foreground">
             ~{timeRemaining} to go
           </span>
-          <IconSimpleTime className="w-6 h-6 fill-muted-foreground animate-wiggle-waggle" />
+          <IconTime className="w-4 h-4 fill-muted-foreground animate-wiggle-waggle" />
         </div>
       ) : (
         isGeneralStatus(status) && (
-          <Button
-            onClick={() => modal.open(getInitiatingHash(tx))}
-            size={"xs"}
-            variant={"secondary"}
-          >
-            <IconTx className="fill-foreground w-3 h-3 md:w-4 md:h-4" />
-          </Button>
+          <></>
+          // <Button
+          //   onClick={() => modal.open(getInitiatingHash(tx))}
+          //   size={"xs"}
+          //   variant={"secondary"}
+          // >
+          //   <IconTx className="fill-foreground w-3 h-3 md:w-4 md:h-4" />
+          // </Button>
         )
       )}
     </div>
@@ -335,76 +348,90 @@ export const TransactionRowV2 = ({ tx }: { tx: Transaction }) => {
   const isInProgress = useIsInProgress(tx);
   const bars = useProgressBars(tx);
 
+  const providerName = useProviderName(useTxProvider(tx));
   return (
     <div
-      className="bg-card w-full rounded-xl flex gap-2.5 lg:gap-4 p-5 md:p-6 relative"
+      className="bg-card w-full rounded-xl flex gap-2.5 lg:gap-3 p-6 pb-5 lg:p-8 lg:pb-7 relative"
       key={tx.id}
-      onClick={(e) => e.stopPropagation()}
+      role="button"
+      tabIndex={0}
+      onClick={(e) => {
+        e.stopPropagation();
+        modal.open(getInitiatingHash(tx));
+      }}
     >
       {tx.mock && (
-        <div className="absolute left-2 bottom-2 text-purple-500 text-xs">
-          MOCK
+        <div className="absolute left-4 bottom-4 text-purple-500 text-xs opacity-30">
+          •
         </div>
       )}
       <TokenIcon
         token={token ?? null}
-        className="h-10 w-10 lg:h-12 lg:w-12 shrink-0"
+        className="h-10 w-10 lg:h-12 lg:w-12 shrink-0 lg:mt-1"
       />
-      <div className="flex flex-col w-full gap-2">
+      <div className="flex flex-col w-full gap-3">
         <div className="flex justify-between items-start">
-          <div className="flex flex-col gap-1 lg:gap-2">
+          <div className="flex flex-col gap-1 lg:gap-0">
             <span className="text-xs lg:text-sm text-muted-foreground leading-none">
-              Started{" "}
+              {/* Started{" "} */}
               {timestamp
-                ? `~${formatDistanceToNowStrict(timestamp)} ago`
-                : "just now"}
+                ? `${formatDistanceToNowStrict(timestamp)} ago`
+                : "Just now"}
             </span>
-            <span className="text-2xl lg:text-3xl leading-none">{amount}</span>
+            <span className="text-2xl lg:text-3xl leading-none">
+              {amount?.text}
+            </span>
           </div>
-          <div className="flex bg-muted rounded-md p-1 shrink-0">
-            <NetworkIcon chain={chains?.from} className="h-6 w-6 rounded-xs" />
-            <NetworkIcon
-              chain={chains?.to}
-              className="h-6 w-6 -ml-1 rounded-xs"
-            />
+          <div className="flex items-center -mt-1 lg:mt-0.5 gap-2">
+            <span className="text-xs text-muted-foreground">
+              Via {providerName}
+            </span>
+            <div className="flex items-center">
+              <NetworkIcon
+                chain={chains?.from}
+                className="h-5 w-5 rounded-xs shadow-sm"
+              />
+              <NetworkIcon
+                chain={chains?.to}
+                className="h-5 w-5 rounded-xs -ml-0.5 s shadow-sm"
+              />
+            </div>
           </div>
         </div>
         {isInProgress && (
-          <div>
-            <div className="w-full flex items-center gap-1.5 py-3">
-              {bars.map((bar) => (
-                <div
-                  key={`${tx.id}-${bar.name}`}
-                  className={clsx(
-                    "w-full h-1 rounded-full",
-                    bar.status === "done" && "bg-primary",
-                    bar.status === "in-progress" && "bg-primary animate-pulse",
-                    bar.status === "not-started" && "bg-muted"
-                  )}
-                ></div>
-              ))}
+          <>
+            <div>
+              <div className="w-full flex items-center gap-1">
+                {bars.map((bar) => (
+                  <div
+                    key={`${tx.id}-${bar.name}`}
+                    className={clsx(
+                      "w-full h-1.5 rounded-full",
+                      bar.status === "done" && "bg-primary",
+                      bar.status === "in-progress" &&
+                        "bg-primary animate-pulse",
+                      bar.status === "not-started" && "bg-muted"
+                    )}
+                  ></div>
+                ))}
+              </div>
             </div>
-
             <ActionRow tx={tx} />
-          </div>
+          </>
         )}
-        <div className="flex justify-between items-center">
-          {isSuccessful && (
+        {isSuccessful && (
+          <div className="flex justify-between items-center">
             <div className="flex gap-2 items-center rounded-full border pl-2 pr-3 py-1.5">
               <IconCheckCircle className="fill-primary w-4 h-4" />
               <span className="text-xs lg:text-sm">Bridge successful</span>
             </div>
-          )}
-          {isSuccessful && (
-            <Button
-              onClick={() => modal.open(getInitiatingHash(tx))}
-              size={"xs"}
-              variant={"secondary"}
-            >
-              <IconTx className="fill-foreground w-3 h-3 md:w-4 md:h-4" />
-            </Button>
-          )}
-        </div>
+
+            {/* Caret */}
+            {/* <div className="rounded-full bg-muted px-2.5 py-2">
+            <IconCaretRight className="fill-foreground w-3.5 h-3.5" />
+          </div> */}
+          </div>
+        )}
       </div>
     </div>
   );

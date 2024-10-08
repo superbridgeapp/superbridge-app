@@ -79,21 +79,21 @@ export function HeaderLinks() {
                     className=" text-xs  leading-none w-full flex gap-2 items-center"
                   >
                     <IconSB className="h-6 w-auto fill-foreground" />
-                    <span>Powered by Superbridge</span>
+                    <span>{t("tos.poweredBy")}</span>
                   </a>
                   <Link
                     href="https://help.superbridge.app"
                     className=" text-xs  leading-none w-full flex gap-2 items-center"
                   >
                     <IconArrowUpRight className="h-4 mx-1 w-auto fill-muted-foreground" />
-                    <span>Support & FAQs</span>
+                    <span>{t("header.supportAndFaqs")}</span>
                   </Link>
                   <button
                     className=" text-xs  leading-none w-full flex gap-2 items-center"
                     onClick={() => legalModal.open()}
                   >
                     <IconArrowUpRight className="h-4 mx-1 w-auto fill-muted-foreground" />
-                    <span>Legal</span>
+                    <span>{t("header.legal")}</span>
                   </button>
                 </div>
               )}
@@ -106,7 +106,7 @@ export function HeaderLinks() {
                   className=" text-xs  leading-none w-full flex gap-2 items-center"
                 >
                   <IconSB className="h-6 w-auto fill-foreground" />
-                  <span>Powered by Superbridge</span>
+                  <span>{t("tos.poweredBy")}</span>
                 </a>
               </div>
             )}

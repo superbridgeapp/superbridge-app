@@ -64,7 +64,7 @@ export const ConfirmationModalV2 = () => {
   return (
     <Dialog open={open} onOpenChange={cancel}>
       <DialogContent>
-        <div className="flex justify-between items center p-4 border-b border-muted">
+        <div className="flex justify-between items center p-4 pb-0">
           <div className="w-10 h-10 shrink-0">
             {/* back button */}
             {activeIndex === 0 || submitted || submitting ? null : (

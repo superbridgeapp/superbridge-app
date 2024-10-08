@@ -8,10 +8,10 @@ import {
   LzTransactionType,
   OptimismTransactionType,
   RouteProvider,
-  RouteResultDto,
 } from "@/codegen/model";
 import { chainIcons } from "@/config/chain-icon-overrides";
-import { isRouteQuote, isRouteWaitStep } from "@/utils/guards";
+import { depositRoutes, nativeRoutes } from "@/constants/routes";
+import { useProviderName } from "@/hooks/providers/use-provider-name";
 
 const icons = {
   [RouteProvider.Across]: "/img/networks/across.svg",
@@ -23,18 +23,6 @@ const icons = {
   [RouteProvider.OptimismForcedWithdrawal]: "/img/networks/optimism.svg",
   [RouteProvider.Hyperlane]: "/img/networks/hyperlane.svg",
   [RouteProvider.Lz]: "/img/lz/icon.png",
-};
-
-const names = {
-  [RouteProvider.Across]: "Across",
-  [RouteProvider.Cctp]: "CCTP",
-  [RouteProvider.ArbitrumDeposit]: "Native bridge",
-  [RouteProvider.ArbitrumWithdrawal]: "Native bridge",
-  [RouteProvider.OptimismDeposit]: "Native bridge",
-  [RouteProvider.OptimismWithdrawal]: "Native bridge",
-  [RouteProvider.OptimismForcedWithdrawal]: "Native bridge",
-  [RouteProvider.Hyperlane]: "Hyperlane",
-  [RouteProvider.Lz]: "Layer Zero",
 };
 
 export const routeProviderToTransactionType = {
@@ -58,56 +46,40 @@ export const RouteProviderName = ({
   provider: RouteProvider | null;
   className?: string;
 }) => {
+  const name = useProviderName(provider);
+  return <span>{name}</span>;
+};
+
+export const RouteProviderIcon = ({
+  provider,
+  className,
+  fromChainId,
+  toChainId,
+}: {
+  provider: RouteProvider | null;
+  className?: string;
+  fromChainId: number;
+  toChainId: number;
+}) => {
   if (!provider) {
     return null;
   }
 
-  return <span>{names[provider]}</span>;
-};
-
-const nativeRoutes: RouteProvider[] = [
-  RouteProvider.ArbitrumDeposit,
-  RouteProvider.ArbitrumWithdrawal,
-  RouteProvider.OptimismDeposit,
-  RouteProvider.OptimismWithdrawal,
-  RouteProvider.OptimismForcedWithdrawal,
-];
-
-const depositRoutes: RouteProvider[] = [
-  RouteProvider.ArbitrumDeposit,
-  RouteProvider.OptimismDeposit,
-];
-
-export const RouteProviderIcon = ({
-  route,
-  className,
-}: {
-  route: RouteResultDto | null;
-  className?: string;
-}) => {
-  if (!route) {
-    return null;
-  }
-
-  let icon = icons[route.id];
-  if (nativeRoutes.includes(route.id) && isRouteQuote(route.result)) {
+  let icon = icons[provider];
+  if (nativeRoutes.includes(provider)) {
     // if deposit, we want to take chain icon of last step
     // if withdrawal, first step
-    const index = depositRoutes.includes(route.id)
-      ? route.result.steps.length - 1
-      : 0;
-    const step = route.result.steps[index];
-    if (!isRouteWaitStep(step)) {
-      const chainIcon = chainIcons[parseInt(step.chainId)];
-      if (chainIcon) {
-        icon = chainIcon;
-      }
+
+    const chainId = depositRoutes.includes(provider) ? toChainId : fromChainId;
+    const override = chainIcons[chainId];
+    if (override) {
+      icon = override;
     }
   }
 
   return (
     <Image
-      alt={`${route.id} icon`}
+      alt={`${provider} icon`}
       src={icon}
       className={className}
       height={16}

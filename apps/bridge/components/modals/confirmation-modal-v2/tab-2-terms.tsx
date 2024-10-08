@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { match } from "ts-pattern";
 
-import { RouteProvider } from "@/codegen/model";
+import { DeploymentFamily, RouteProvider } from "@/codegen/model";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -12,6 +12,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { optimismRoutes, withdrawalRoutes } from "@/constants/routes";
 import { useSelectedBridgeRoute } from "@/hooks/routes/use-selected-bridge-route";
 import { useToChain } from "@/hooks/use-chain";
 import { useApproxTotalBridgeTime } from "@/hooks/use-transfer-time";
@@ -50,28 +51,17 @@ export const ConfirmationModalTermsTab = ({
     isAcross: route.data?.id === RouteProvider.Across,
     isCctp: route.data?.id === RouteProvider.Cctp,
     isHyperlane: route.data?.id === RouteProvider.Hyperlane,
-    withdrawing: (
-      [
-        RouteProvider.ArbitrumWithdrawal,
-        RouteProvider.OptimismWithdrawal,
-        RouteProvider.OptimismForcedWithdrawal,
-      ] as string[]
-    ).includes(route.data?.id ?? ""),
-    family: (
-      [
-        RouteProvider.OptimismDeposit,
-        RouteProvider.OptimismWithdrawal,
-        RouteProvider.OptimismForcedWithdrawal,
-      ] as string[]
-    ).includes(route.data?.id ?? "")
-      ? "optimism"
-      : "arbitrum",
+    withdrawing: route.data?.id && withdrawalRoutes.includes(route.data.id),
+    family:
+      route.data?.id && optimismRoutes.includes(route.data.id)
+        ? DeploymentFamily.optimism
+        : DeploymentFamily.arbitrum,
   })
-    .with(
-      { isAcross: true },
-      { isHyperlane: true },
-      () =>
-        `I understand it will take ~${totalBridgeTime.data?.value} mins until my funds are on ${to?.name}`
+    .with({ isAcross: true }, { isHyperlane: true }, () =>
+      t("confirmationModal.checkbox1Bridge", {
+        mins: totalBridgeTime.data?.value,
+        to: to?.name,
+      })
     )
     .with({ isCctp: true }, () =>
       t("confirmationModal.checkbox1Cctp", {
@@ -104,14 +94,16 @@ export const ConfirmationModalTermsTab = ({
   return (
     <div>
       <DialogHeader className="items-center">
-        <DialogTitle className="text-3xl">Accept terms</DialogTitle>
+        <DialogTitle className="text-3xl">
+          {t("confirmationModal.acceptTerms")}
+        </DialogTitle>
         <DialogDescription className="text-center">
-          Please read and agree to the following terms before you continue
+          {t("confirmationModal.agreeToTerms")}
         </DialogDescription>
       </DialogHeader>
 
-      <div className="flex flex-col gap-4 px-6">
-        <div className="flex gap-3  items-center">
+      <div className="flex flex-col gap-4 px-8 py-2">
+        <div className="flex gap-2 items-start">
           <Checkbox
             id="timeframe"
             checked={checkbox1}
@@ -122,7 +114,7 @@ export const ConfirmationModalTermsTab = ({
             {checkbox1Text}
           </label>
         </div>
-        <div className="flex gap-3  items-center">
+        <div className="flex gap-2  items-start">
           <Checkbox
             id="speed"
             checked={checkbox2}
@@ -133,7 +125,7 @@ export const ConfirmationModalTermsTab = ({
             {t("confirmationModal.checkbox2")}
           </label>
         </div>
-        <div className="flex gap-3 items-center">
+        <div className="flex gap-2 items-start">
           <Checkbox
             id="fees"
             checked={checkbox3}
@@ -147,20 +139,20 @@ export const ConfirmationModalTermsTab = ({
       </div>
 
       <DialogFooter>
-        <Link
+        {/* <Link
           href="https://help.superbridge.app"
           target="_blank"
           className="text-xs font-heading text-center hover:underline"
         >
-          Need help? View the FAQs
-        </Link>
+          {t("general.needHelp")}
+        </Link> */}
 
         <Button
           onClick={onNext}
           className="w-full"
           disabled={!checkbox1 || !checkbox2 || !checkbox3}
         >
-          Continue
+          {t("buttons.continue")}
         </Button>
       </DialogFooter>
     </div>

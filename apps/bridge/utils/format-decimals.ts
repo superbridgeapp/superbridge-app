@@ -11,7 +11,7 @@ export const formatDecimals = (x: number | undefined | null) => {
     if (leadingZeroDecimals === Infinity) {
       maximumFractionDigits = 0;
     } else {
-      maximumFractionDigits = leadingZeroDecimals + 3;
+      maximumFractionDigits = leadingZeroDecimals + 4;
     }
   }
 

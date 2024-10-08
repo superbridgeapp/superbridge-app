@@ -300,7 +300,9 @@ export const SettingsModal = () => {
                         </clipPath>
                       </defs>
                     </svg>
-                    <h3 className="font-heading text-sm">Enable Testnets</h3>
+                    <h3 className="font-heading text-sm">
+                      {t("settings.enableTestnets")}
+                    </h3>
                   </div>
                   <Switch
                     checked={testnets}
@@ -317,7 +319,9 @@ export const SettingsModal = () => {
                   <div className="flex gap-2 items-center">
                     <IconDark className="w-6 h-6 fill-muted-foreground" />
 
-                    <h3 className="font-heading text-sm">Dark mode</h3>
+                    <h3 className="font-heading text-sm">
+                      {t("settings.darkMode")}
+                    </h3>
                   </div>
                   <Switch
                     checked={resolvedTheme !== "light"}
@@ -340,9 +344,7 @@ export const SettingsModal = () => {
                   <div>
                     <h3 className="font-heading">Escape hatch</h3>
                     <p className="text-muted-foreground text-xs">
-                      Force withdrawals (rollup to settlement chain native
-                      bridges) via censorship resistant transactions on the
-                      settlement chain.
+                      {t("settings.escapeHatchDescription")}
                     </p>
                   </div>
                   <div className="pl-8">

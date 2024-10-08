@@ -1,6 +1,7 @@
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import * as React from "react";
 
+import { useIsSuperbridge } from "@/hooks/apps/use-is-superbridge";
 import { useIsWidget } from "@/hooks/use-is-widget";
 import { cn } from "@/utils";
 
@@ -36,6 +37,7 @@ const DialogContent = React.forwardRef<
   }
 >(({ className, children, ...props }, ref) => {
   const isWidget = useIsWidget();
+  const isSuperbridge = useIsSuperbridge();
   return (
     <DialogPortal>
       <DialogOverlay />
@@ -46,6 +48,8 @@ const DialogContent = React.forwardRef<
           isWidget
             ? "max-h-[100dvh] md:max-h-[100dvh]"
             : "max-h-[96dvh] md:max-h-[680px]",
+          isSuperbridge ? "tracking-tight" : "tracking-normal",
+
           className
         )}
         {...props}

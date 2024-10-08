@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 import { ChainDto } from "@/codegen/model";
 import { useSortedChains } from "@/hooks/network-selector/sort";
@@ -63,6 +64,7 @@ const PlacehoderItem = {
 };
 
 export const NetworkSelector = () => {
+  const { t } = useTranslation();
   const to = useToChain();
   const from = useFromChain();
   const trackEvent = useTrackEvent();
@@ -144,8 +146,9 @@ export const NetworkSelector = () => {
         className="flex flex-col items-center gap-10 w-full"
       >
         <div className="flex items-center gap-3 bg-card px-6 py-3 rounded-full shadow-sm">
-          <h1 className="text-2xl font-heading">Select a network</h1>
-          {/* <IconArrowUpCircle className="w-6 h-6 fill-muted-foreground" /> */}
+          <h1 className="text-2xl font-heading">
+            {t("networkSelectorModal.title")}
+          </h1>
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 w-full px-4 max-w-3xl">

@@ -42,25 +42,28 @@ const container = {
 };
 
 const item = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { opacity: 0, y: 20, scale: 1 },
   show: {
     opacity: 1,
     y: 0,
+    scale: 1,
     transition: {
       type: "spring",
       stiffness: 300,
       damping: 12,
     },
   },
+  hover: { opacity: 1, y: 0, scale: 1.02 },
+  tap: { opacity: 1, y: 0, scale: 0.98 },
 };
 
 export const OpenActivity = ({}) => {
   const { ref, inView } = useInView({
-    threshold: 0,
+    threshold: 0.9,
+    delay: 300,
   });
   const account = useAccount();
   const setDisplayTransactions = useConfigState.useSetDisplayTransactions();
-  const open = useConfigState.useDisplayTransactions();
   const pendingTransactions = usePendingTransactions.useTransactions();
   const {
     transactions,
@@ -76,10 +79,22 @@ export const OpenActivity = ({}) => {
   const trackEvent = useTrackEvent();
 
   useEffect(() => {
-    if (inView && !isFetchingNextPage) {
+    if (isError) return;
+    if (isFetchingNextPage || isLoading) return;
+    if (totalTransactions === 0 || totalTransactions === transactions.length)
+      return;
+    if (inView) {
       fetchNextPage();
     }
-  }, [inView, fetchNextPage, isFetchingNextPage]);
+  }, [
+    inView,
+    isError,
+    fetchNextPage,
+    isFetchingNextPage,
+    isLoading,
+    totalTransactions,
+    transactions,
+  ]);
 
   return (
     <main
@@ -195,10 +210,10 @@ export const OpenActivity = ({}) => {
                         key={`activity-${getInitiatingHash(t)}`}
                         variants={item}
                         // hovers must not be a variant or stagger animation fails
-                        // whileHover={{ scale: 1.03 }}
-                        // whileTap={{ scale: 1 }}
+                        whileHover={"hover"}
+                        whileTap={"tap"}
                         className={
-                          "relative w-full h-full flex flex-col shrink-0 overflow-hidden rounded-3xl shadow-sm"
+                          "relative w-full h-full flex flex-col shrink-0 overflow-hidden rounded-3xl shadow-sm cursor-pointer"
                         }
                       >
                         <TransactionRowV2 key={t.id} tx={t} />
@@ -206,17 +221,16 @@ export const OpenActivity = ({}) => {
                     );
                   })}
 
+                  <span ref={ref} />
+
                   {transactions.length !== totalTransactions && (
-                    <div
-                      ref={ref}
-                      className="flex justify-center items-center p-3"
-                    >
+                    <div className="flex justify-center items-center p-3">
                       <div className="bg-card px-5 py-3 flex gap-1 items-center rounded-full hover:scale-105 transition-all">
                         {isFetchingNextPage ? (
                           <>
                             <IconSpinner className="w-3 h-3 block text-foreground" />
                             <span className="text-sm text-foreground leading-none font-heading">
-                              Loading
+                              {t("loading")}
                             </span>
                           </>
                         ) : (
@@ -228,7 +242,7 @@ export const OpenActivity = ({}) => {
                             }}
                             className="text-sm text-foreground leading-none font-heading"
                           >
-                            Load more
+                            {t("loadMore")}
                           </button>
                         )}
                       </div>

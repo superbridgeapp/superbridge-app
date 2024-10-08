@@ -108,7 +108,7 @@ export const ClosedActivity = () => {
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.1 }}
               >
-                Action needed
+                {t("activity.actionNeeded")}
               </motion.h2>
             ) : (
               <motion.h2
