@@ -43,8 +43,9 @@ export const useCctpProgressRows = (
   const mint: TransactionStep =
     tx.bridge.timestamp + domains.from.duration < Date.now() && !tx.relay
       ? {
-          label: t("confirmationModal.getOn", {
+          label: t("confirmationModal.getAmountOn", {
             to: domains.to.chain.name,
+            formatted: amount?.formatted,
           }),
           button: {
             type: ButtonComponent.Mint,
@@ -58,8 +59,9 @@ export const useCctpProgressRows = (
           amount,
         }
       : {
-          label: t("confirmationModal.getOn", {
+          label: t("confirmationModal.getAmountOn", {
             to: domains.to.chain.name,
+            formatted: amount?.formatted,
           }),
           hash: tx.relay?.transactionHash,
           pendingHash: pendingFinalise,

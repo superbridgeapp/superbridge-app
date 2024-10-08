@@ -20,7 +20,6 @@ import {
 import { TokenIcon } from "@/components/token-icon";
 import { Button } from "@/components/ui/button";
 import {
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -112,7 +111,9 @@ export const ConfirmationModalReviewTab = ({
                 className="h-7 w-7 rounded-full"
               />
               <span className="text-2xl leading-none">
-                {receive.data ? <>{receive.data.token.formatted}</> : "…"}
+                {receive.data
+                  ? `${receive.data.token.amount} ${destinationToken?.symbol}`
+                  : "…"}
               </span>
             </div>
           </div>

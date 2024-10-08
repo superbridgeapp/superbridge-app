@@ -362,8 +362,11 @@ export const ConfirmationModalStartTab = () => {
                 x.type === RouteStepType.Initiate
                   ? t("confirmationModal.startBridgeOn", { from: from?.name })
                   : x.type === RouteStepType.Prove
-                  ? t("confirmationModal.proveOn", { to: to?.name })
-                  : t("confirmationModal.getOn", { to: to?.name });
+                    ? t("confirmationModal.proveOn", { to: to?.name })
+                    : t("confirmationModal.getAmountOn", {
+                        to: to?.name,
+                        formatted: receive.data?.token.formatted,
+                      });
               const amount: TransactionStep["amount"] =
                 x.type === RouteStepType.Initiate
                   ? {
@@ -378,8 +381,8 @@ export const ConfirmationModalStartTab = () => {
                       )} ${fromToken?.symbol}`,
                     }
                   : x.type === RouteStepType.Prove
-                  ? undefined
-                  : receiveAmount;
+                    ? undefined
+                    : receiveAmount;
               const gasLimit =
                 x.type === RouteStepType.Initiate
                   ? x.estimatedGasLimit
@@ -423,7 +426,10 @@ export const ConfirmationModalStartTab = () => {
 
             if (isRouteReceiveStep(x)) {
               const step: TransactionStep = {
-                label: t("confirmationModal.getOn", common),
+                label: t("confirmationModal.getAmountOn", {
+                  to: to?.name,
+                  formatted: receive.data?.token.formatted,
+                }),
                 chain: to!,
                 hash: undefined,
                 pendingHash: undefined,
@@ -441,14 +447,6 @@ export const ConfirmationModalStartTab = () => {
   const helpCenterLink = useHelpCenterLinkByProvider(route.data?.id ?? null);
   return (
     <Tabs defaultValue="steps" className="flex flex-col">
-      {/* <DialogHeader className="items-center py-3">
-        <DialogTitle className="text-3xl text-center leading-none">
-          <span className="text-base text-muted-foreground">
-            Bridge via <br />
-          </span>
-          <RouteProviderName provider={route.data?.id ?? null} />
-        </DialogTitle>
-      </DialogHeader> */}
       <DialogHeader className="items-center gap-3 pt-3 pb-4">
         <TokenIcon token={token?.[from?.id ?? 0]} className="h-12 w-12" />
         <DialogTitle className="flex flex-col gap-1.5 text-3xl text-center leading-none">

@@ -26,11 +26,14 @@ export const useArbitrumDepositProgressRows = (
     return null;
   }
 
+  const receiveLabel = t("confirmationModal.getAmountOn", {
+    to: l2.name,
+    formatted: outputAmount?.formatted,
+  });
+
   const receive = tx.relay
     ? {
-        label: t("confirmationModal.getOn", {
-          to: l2.name,
-        }),
+        label: receiveLabel,
         button: undefined,
         chain: l2,
         hash: tx.relay.transactionHash,
@@ -40,9 +43,7 @@ export const useArbitrumDepositProgressRows = (
       }
     : tx.deposit.timestamp && tx.deposit.timestamp < Date.now() - 1000 * 60 * 60
       ? {
-          label: t("confirmationModal.getOn", {
-            to: l2.name,
-          }),
+          label: receiveLabel,
           button: {
             type: ButtonComponent.Redeem,
             enabled: true,
@@ -54,9 +55,7 @@ export const useArbitrumDepositProgressRows = (
           amount: outputAmount,
         }
       : {
-          label: t("confirmationModal.getOn", {
-            to: l2.name,
-          }),
+          label: receiveLabel,
           button: undefined,
           chain: l2,
           hash: undefined,

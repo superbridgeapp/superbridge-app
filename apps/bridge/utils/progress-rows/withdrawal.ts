@@ -69,8 +69,9 @@ export const useOptimismWithdrawalProgressRows = (
   };
 
   const finaliseStep: TransactionStep = {
-    label: t("confirmationModal.getOn", {
+    label: t("confirmationModal.getAmountOn", {
       to: l1.name,
+      formatted: outputAmount?.formatted,
     }),
     pendingHash: pendingFinalise,
     hash: withdrawal?.finalise?.transactionHash,

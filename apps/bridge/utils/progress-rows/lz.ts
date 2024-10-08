@@ -44,8 +44,9 @@ export const useLzProgressRows = (
     },
     buildWaitStep(tx.send.timestamp, tx.receive?.timestamp, 1000 * 60 * 2),
     {
-      label: t("confirmationModal.getOn", {
+      label: t("confirmationModal.getAmountOn", {
         to: toChain.name,
+        formatted: outputAmount?.formatted,
       }),
       hash: tx.receive?.transactionHash,
       pendingHash: undefined,

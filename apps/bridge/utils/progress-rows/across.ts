@@ -38,8 +38,9 @@ export const useAcrossProgressRows = (
     },
     buildWaitStep(tx.deposit.timestamp, tx.fill?.timestamp, 2 * 1000 * 60),
     {
-      label: t("confirmationModal.getOn", {
+      label: t("confirmationModal.getAmountOn", {
         to: chains?.to.name,
+        formatted: outputAmount?.formatted,
       }),
       hash: tx.fill?.transactionHash,
       pendingHash: undefined,
