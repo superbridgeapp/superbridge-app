@@ -601,6 +601,16 @@ const formaTheme = {
     title: "text-white",
   },
 };
+const unichainTheme = {
+  icon: "/img/unichain/icon.svg",
+  card: {
+    className: "bg-[#F50DB4]",
+    title: "text-black",
+    overlay: {
+      className: "bg-[url('/img/unichain/bg-card.jpg')] bg-bottom bg-cover",
+    },
+  },
+};
 
 export const cardThemes: {
   [chainId: string]: { card: CardTheme; icon: string } | undefined;
