@@ -40,7 +40,7 @@ export const useAcrossProgressRows = (
     {
       label: t("confirmationModal.getAmountOn", {
         to: chains?.to.name,
-        formatted: outputAmount?.formatted,
+        formatted: outputAmount?.text,
       }),
       hash: tx.fill?.transactionHash,
       pendingHash: undefined,

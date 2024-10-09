@@ -52,7 +52,7 @@ export const useHyperlaneProgressRows = (
     {
       label: t("confirmationModal.getAmountOn", {
         to: toChain.name,
-        formatted: outputAmount?.formatted,
+        formatted: outputAmount?.text,
       }),
       hash: tx.receive?.transactionHash,
       pendingHash: undefined,

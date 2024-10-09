@@ -45,7 +45,7 @@ export const useCctpProgressRows = (
       ? {
           label: t("confirmationModal.getAmountOn", {
             to: domains.to.chain.name,
-            formatted: amount?.formatted,
+            formatted: amount?.text,
           }),
           button: {
             type: ButtonComponent.Mint,
@@ -61,7 +61,7 @@ export const useCctpProgressRows = (
       : {
           label: t("confirmationModal.getAmountOn", {
             to: domains.to.chain.name,
-            formatted: amount?.formatted,
+            formatted: amount?.text,
           }),
           hash: tx.relay?.transactionHash,
           pendingHash: pendingFinalise,

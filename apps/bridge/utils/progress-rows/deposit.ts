@@ -46,7 +46,7 @@ export const useOptimismDepositProgressRows = (
     {
       label: t("confirmationModal.getAmountOn", {
         to: l2.name,
-        formatted: outputAmount?.formatted,
+        formatted: outputAmount?.text,
       }),
       hash: tx.relay?.transactionHash,
       chain: l2,

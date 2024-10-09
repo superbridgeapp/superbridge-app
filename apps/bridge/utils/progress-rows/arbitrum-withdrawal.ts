@@ -53,7 +53,7 @@ export const useArbitrumWithdrawalProgressRows = (
   const finalise: TransactionStep = {
     label: t("confirmationModal.getAmountOn", {
       to: l1.name,
-      formatted: outputAmount?.formatted,
+      formatted: outputAmount?.text,
     }),
     pendingHash: pendingFinalise,
     hash: w.finalise?.transactionHash,

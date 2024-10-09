@@ -28,7 +28,7 @@ export const useArbitrumDepositProgressRows = (
 
   const receiveLabel = t("confirmationModal.getAmountOn", {
     to: l2.name,
-    formatted: outputAmount?.formatted,
+    formatted: outputAmount?.text,
   });
 
   const receive = tx.relay
