@@ -5,14 +5,14 @@ import { useConfig, useWriteContract } from "wagmi";
 
 import { isArbitrum, isOptimism } from "@/utils/deployments/is-mainnet";
 
-import { useApprovalAddressGasToken } from "./approvals/use-approval-address-gas-token";
-import { useCustomGasTokenAddress } from "./custom-gas-token/use-custom-gas-token-address";
-import { useDeployment } from "./deployments/use-deployment";
-import { useBridgeRoutes } from "./routes/use-bridge-routes";
-import { APPROVE_ABI_WITHOUT_RETURN } from "./use-approve";
-import { useFromChain } from "./use-chain";
-import { useRequiredCustomGasTokenBalance } from "./use-required-custom-gas-token-balance";
-import { useWeiAmount } from "./use-wei-amount";
+import { useCustomGasTokenAddress } from "../custom-gas-token/use-custom-gas-token-address";
+import { useDeployment } from "../deployments/use-deployment";
+import { useBridgeRoutes } from "../routes/use-bridge-routes";
+import { useApprovalAddressGasToken } from "../use-approval-address-gas-token";
+import { APPROVE_ABI_WITHOUT_RETURN } from "../use-approve";
+import { useFromChain } from "../use-chain";
+import { useRequiredCustomGasTokenBalance } from "../use-required-custom-gas-token-balance";
+import { useWeiAmount } from "../use-wei-amount";
 
 const useGasTokenApprovalAmount = () => {
   const deployment = useDeployment();

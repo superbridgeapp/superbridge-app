@@ -39,6 +39,7 @@ import type {
   CreateConduitDeploymentDto,
   DeploymentDto,
   DeploymentsQueryDto,
+  EstimateGasDto,
   FiatPricesDto,
   GetActivityDto,
   GetActivityV3Dto,
@@ -1458,6 +1459,55 @@ export const useBridgeControllerGetDeploymentSyncStatus = <TData = Awaited<Retur
 
 
 
+export const bridgeControllerGetGasEstimate = (
+    estimateGasDto: EstimateGasDto, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<number[]>> => {
+    
+    return axios.post(
+      `/api/v1/bridge/estimate_gas`,
+      estimateGasDto,options
+    );
+  }
+
+
+
+export const getBridgeControllerGetGasEstimateMutationOptions = <TError = AxiosError<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerGetGasEstimate>>, TError,{data: EstimateGasDto}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerGetGasEstimate>>, TError,{data: EstimateGasDto}, TContext> => {
+const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof bridgeControllerGetGasEstimate>>, {data: EstimateGasDto}> = (props) => {
+          const {data} = props ?? {};
+
+          return  bridgeControllerGetGasEstimate(data,axiosOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type BridgeControllerGetGasEstimateMutationResult = NonNullable<Awaited<ReturnType<typeof bridgeControllerGetGasEstimate>>>
+    export type BridgeControllerGetGasEstimateMutationBody = EstimateGasDto
+    export type BridgeControllerGetGasEstimateMutationError = AxiosError<unknown>
+
+    export const useBridgeControllerGetGasEstimate = <TError = AxiosError<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerGetGasEstimate>>, TError,{data: EstimateGasDto}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationResult<
+        Awaited<ReturnType<typeof bridgeControllerGetGasEstimate>>,
+        TError,
+        {data: EstimateGasDto},
+        TContext
+      > => {
+
+      const mutationOptions = getBridgeControllerGetGasEstimateMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
 export const hyperlaneControllerResolveWarpRouteYamlFile = (
     hyperlaneCustomWarpRouteFileRequestDto: HyperlaneCustomWarpRouteFileRequestDto, options?: AxiosRequestConfig
  ): Promise<AxiosResponse<HyperlaneCustomWarpRouteFileResponseDto>> => {

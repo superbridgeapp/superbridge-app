@@ -71,6 +71,7 @@ export * from './deploymentsQueryDto';
 export * from './depositNftDto';
 export * from './disabledRouteErrorDto';
 export * from './disputeGameDto';
+export * from './estimateGasDto';
 export * from './ethDepositDataDto';
 export * from './ethDepositDto';
 export * from './fetchedMultichainTokenDto';

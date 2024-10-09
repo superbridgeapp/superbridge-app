@@ -1,16 +1,13 @@
 import { Address, Hex } from "viem";
 import { scroll } from "viem/chains";
-import {
-  useEstimateFeesPerGas,
-  useEstimateGas,
-  useSendTransaction,
-} from "wagmi";
+import { useEstimateFeesPerGas, useSendTransaction } from "wagmi";
 
 import { isRouteQuote } from "@/utils/guards";
 
 import { useSelectedBridgeRoute } from "../routes/use-selected-bridge-route";
 import { useFromChain } from "../use-chain";
 import { useInitiatingChainId } from "../use-initiating-chain-id";
+import { useBridgeGasEstimate } from "./use-bridge-gas-estimate";
 
 export const useBridge = () => {
   const initiatingChainId = useInitiatingChainId();
@@ -50,25 +47,22 @@ export const useBridge = () => {
         : fromFeeData.data?.maxFeePerGas,
     maxPriorityFeePerGas: fromFeeData.data?.maxPriorityFeePerGas,
   };
+  const estimate = useBridgeGasEstimate(selectedRoute.data);
 
-  if (tx) {
+  console.log(estimate);
+
+  if (tx && estimate) {
     params.data = tx.data as Hex;
     params.to = tx.to as Address;
     params.chainId = parseInt(tx.chainId);
     params.value = BigInt(tx.value);
-  }
-
-  let { data: gas, refetch, error } = useEstimateGas(params);
-
-  if (gas) {
-    params.gas = gas + gas / BigInt("10");
+    params.gas = BigInt(estimate);
   }
 
   return {
     write: !params.gas ? undefined : () => sendTransactionAsync(params),
     isLoading: isPending,
-    refetch,
     valid: !!tx && !!params.gas,
-    gas,
+    gas: estimate,
   };
 };

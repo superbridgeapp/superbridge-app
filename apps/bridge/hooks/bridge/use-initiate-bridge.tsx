@@ -2,11 +2,11 @@ import { waitForTransactionReceipt } from "@wagmi/core";
 import { useAccount, useConfig, useWalletClient } from "wagmi";
 
 import { RouteProvider } from "@/codegen/model";
+import { useAllowance } from "@/hooks/approvals/use-allowance";
 import {
   useDestinationToken,
   useSelectedToken,
 } from "@/hooks/tokens/use-token";
-import { useAllowance } from "@/hooks/use-allowance";
 import { useChain, useFromChain, useToChain } from "@/hooks/use-chain";
 import { useStatusCheck } from "@/hooks/use-status-check";
 import { useSwitchChain } from "@/hooks/use-switch-chain";
@@ -16,11 +16,11 @@ import { usePendingTransactions } from "@/state/pending-txs";
 import { buildPendingTx } from "@/utils/build-pending-tx";
 import { isRouteQuote } from "@/utils/guards";
 
+import { useAllowanceGasToken } from "../approvals/use-allowance-gas-token";
 import { useDeployment } from "../deployments/use-deployment";
 import { useHyperlaneMailboxes } from "../hyperlane/use-hyperlane-mailboxes";
 import { useLzDomains } from "../lz/use-lz-domains";
 import { useSelectedBridgeRoute } from "../routes/use-selected-bridge-route";
-import { useAllowanceGasToken } from "../use-allowance-gas-token";
 import { useInitiatingChainId } from "../use-initiating-chain-id";
 import { useWeiAmount } from "../use-wei-amount";
 import { useIsWithdrawal } from "../use-withdrawing";

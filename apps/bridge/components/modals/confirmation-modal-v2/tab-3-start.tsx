@@ -22,6 +22,10 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { currencySymbolMap } from "@/constants/currency-symbol-map";
 import { useLatestSubmittedTx } from "@/hooks/activity/use-tx-by-hash";
+import { useAllowance } from "@/hooks/approvals/use-allowance";
+import { useAllowanceGasToken } from "@/hooks/approvals/use-allowance-gas-token";
+import { useApprove } from "@/hooks/approvals/use-approve";
+import { useApproveGasToken } from "@/hooks/approvals/use-approve-gas-token";
 import { useBridge } from "@/hooks/bridge/use-bridge";
 import { useSubmitBridge } from "@/hooks/bridge/use-submit-bridge";
 import { useCustomGasTokenAddress } from "@/hooks/custom-gas-token/use-custom-gas-token-address";
@@ -37,10 +41,6 @@ import {
   useMultichainToken,
   useSelectedToken,
 } from "@/hooks/tokens/use-token";
-import { useAllowance } from "@/hooks/use-allowance";
-import { useAllowanceGasToken } from "@/hooks/use-allowance-gas-token";
-import { useApprove } from "@/hooks/use-approve";
-import { useApproveGasToken } from "@/hooks/use-approve-gas-token";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
 import { useModal } from "@/hooks/use-modal";
 import { useTokenPrice } from "@/hooks/use-prices";
@@ -104,10 +104,7 @@ export const ConfirmationModalStartTab = () => {
   const onSubmitBridge = useSubmitBridge();
 
   const gasTokenAllowance = useAllowanceGasToken();
-  const approveGasToken = useApproveGasToken(
-    gasTokenAllowance.refetch,
-    bridge.refetch
-  );
+  const approveGasToken = useApproveGasToken(gasTokenAllowance.refetch);
 
   const fromFeeData = useEstimateFeesPerGas({ chainId: from?.id });
   const toFeeData = useEstimateFeesPerGas({ chainId: to?.id });
