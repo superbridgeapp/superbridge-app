@@ -46,7 +46,7 @@ export const useBridge = () => {
     gasPrice: fromFeeData.data?.gasPrice,
     maxFeePerGas:
       from?.id === scroll.id && fromFeeData.data?.maxFeePerGas
-        ? fromFeeData.data.maxFeePerGas * BigInt(5)
+        ? fromFeeData.data.maxFeePerGas * BigInt(10)
         : fromFeeData.data?.maxFeePerGas,
     maxPriorityFeePerGas: fromFeeData.data?.maxPriorityFeePerGas,
   };
