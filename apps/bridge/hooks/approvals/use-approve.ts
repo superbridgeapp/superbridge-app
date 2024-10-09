@@ -1,63 +1,42 @@
 import { waitForTransactionReceipt } from "@wagmi/core";
 import { useState } from "react";
-import { Address } from "viem";
-import { useConfig, useWalletClient, useWriteContract } from "wagmi";
+import { Address, Chain, Hex } from "viem";
+import { useConfig, useWalletClient } from "wagmi";
 
 import { useBridgeRoutes } from "../routes/use-bridge-routes";
+import { useSelectedBridgeRoute } from "../routes/use-selected-bridge-route";
 import { useSelectedToken } from "../tokens/use-token";
-import { useWeiAmount } from "../use-wei-amount";
+import { useFromChain } from "../use-chain";
 import { useAllowance } from "./use-allowance";
-import { useApprovalAddress } from "./use-approval-address";
-
-// Trying to approve USDT with the vanilla Wagmi ERC20 ABI
-// causes problems because it doesn't return anything
-export const APPROVE_ABI_WITHOUT_RETURN = [
-  {
-    type: "function",
-    name: "approve",
-    stateMutability: "nonpayable",
-    inputs: [
-      {
-        name: "spender",
-        type: "address",
-      },
-      {
-        name: "amount",
-        type: "uint256",
-      },
-    ],
-    outputs: [
-      //   {
-      //     name: "",
-      //     type: "bool",
-      //   },
-    ],
-  },
-];
+import { useApproveGasEstimate } from "./use-approve-gas-estimate";
+import { useApproveTx } from "./use-approve-tx";
 
 export function useApprove() {
   const routes = useBridgeRoutes();
+  const route = useSelectedBridgeRoute();
   const allowance = useAllowance();
   const token = useSelectedToken();
-  const weiAmount = useWeiAmount();
-  const approvalAddress = useApprovalAddress();
-  const { writeContractAsync } = useWriteContract();
   const config = useConfig();
   const [isLoading, setIsLoading] = useState(false);
   const wallet = useWalletClient();
 
+  const from = useFromChain();
+
+  const gasEstimate = useApproveGasEstimate();
+
+  const tx = useApproveTx(route.data);
+
   return {
     write: async () => {
-      if (!token?.address) return;
+      if (!token?.address || !tx || !from || !wallet.data || !gasEstimate)
+        return;
       setIsLoading(true);
       try {
-        await wallet.data?.sendTransaction();
-        const hash = await writeContractAsync({
-          abi: APPROVE_ABI_WITHOUT_RETURN,
-          address: token.address as Address,
-          args: [approvalAddress, weiAmount],
-          functionName: "approve",
-          chainId: token?.chainId,
+        const hash = await wallet.data.sendTransaction({
+          data: tx.data as Hex,
+          to: tx.to as Address,
+          chain: from as unknown as Chain,
+          gas: BigInt(gasEstimate),
         });
         await waitForTransactionReceipt(config, {
           hash,

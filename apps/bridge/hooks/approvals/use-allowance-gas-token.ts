@@ -3,8 +3,8 @@ import { useAccount, useReadContract } from "wagmi";
 
 import { useCustomGasTokenAddress } from "../custom-gas-token/use-custom-gas-token-address";
 import { useDeployment } from "../deployments/use-deployment";
-import { useApprovalAddressGasToken } from "../use-approval-address-gas-token";
 import { useFromChain } from "../use-chain";
+import { useApprovalAddressGasToken } from "./use-approval-address-gas-token";
 
 export function useAllowanceGasToken() {
   const account = useAccount();

@@ -4,9 +4,9 @@ import { useTranslation } from "react-i18next";
 import { isPresent } from "ts-is-present";
 import { match } from "ts-pattern";
 import { formatUnits } from "viem";
-import { useAccount, useEstimateFeesPerGas } from "wagmi";
+import { useAccount } from "wagmi";
 
-import { ChainNativeCurrencyDto, RouteStepType } from "@/codegen/model";
+import { RouteStepType } from "@/codegen/model";
 import { BridgeInfo } from "@/components/bridge-info";
 import { IconCheck, IconCheckCircle, IconHelp } from "@/components/icons";
 import { RouteProviderName } from "@/components/route-provider-icon";
@@ -20,45 +20,38 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { currencySymbolMap } from "@/constants/currency-symbol-map";
 import { useLatestSubmittedTx } from "@/hooks/activity/use-tx-by-hash";
 import { useAllowance } from "@/hooks/approvals/use-allowance";
 import { useAllowanceGasToken } from "@/hooks/approvals/use-allowance-gas-token";
 import { useApprove } from "@/hooks/approvals/use-approve";
+import { useApproveGasEstimate } from "@/hooks/approvals/use-approve-gas-estimate";
 import { useApproveGasToken } from "@/hooks/approvals/use-approve-gas-token";
+import { useApproveGasTokenGasEstimate } from "@/hooks/approvals/use-approve-gas-token-gas-estimate";
 import { useBridge } from "@/hooks/bridge/use-bridge";
+import { useBridgeGasEstimate } from "@/hooks/bridge/use-bridge-gas-estimate";
 import { useSubmitBridge } from "@/hooks/bridge/use-submit-bridge";
 import { useCustomGasTokenAddress } from "@/hooks/custom-gas-token/use-custom-gas-token-address";
 import { useDeployment } from "@/hooks/deployments/use-deployment";
 import { useHelpCenterLinkByProvider } from "@/hooks/help/use-help-center-link";
 import { useSelectedBridgeRoute } from "@/hooks/routes/use-selected-bridge-route";
 import {
-  useNativeToken,
-  useToNativeToken,
-} from "@/hooks/tokens/use-native-token";
-import {
   useDestinationToken,
   useMultichainToken,
   useSelectedToken,
 } from "@/hooks/tokens/use-token";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
-import { useModal } from "@/hooks/use-modal";
-import { useTokenPrice } from "@/hooks/use-prices";
 import { useReceiveAmount } from "@/hooks/use-receive-amount";
 import { useRequiredCustomGasTokenBalance } from "@/hooks/use-required-custom-gas-token-balance";
 import { useSwitchChain } from "@/hooks/use-switch-chain";
 import { useWeiAmount } from "@/hooks/use-wei-amount";
 import { useIsArbitrumDeposit, useIsWithdrawal } from "@/hooks/use-withdrawing";
 import { useConfigState } from "@/state/config";
-import { useSettingsState } from "@/state/settings";
-import { formatDecimals } from "@/utils/format-decimals";
 import {
   isRouteQuote,
   isRouteReceiveStep,
   isRouteTransactionStep,
   isRouteWaitStep,
 } from "@/utils/guards";
-import { scaleToNativeTokenDecimals } from "@/utils/native-token-scaling";
 import { useProgressRows } from "@/utils/progress-rows";
 import {
   ActivityStep,
@@ -74,7 +67,10 @@ export const ConfirmationModalStartTab = () => {
   const approve = useApprove();
   const { t } = useTranslation();
 
-  const currency = useSettingsState.useCurrency();
+  const bridgeGasEstimate = useBridgeGasEstimate();
+  const approveGasEstimate = useApproveGasEstimate();
+  const approveGasTokenGasEstimate = useApproveGasTokenGasEstimate();
+
   const open = useConfigState.useDisplayConfirmationModal();
   const fromToken = useSelectedToken();
   const toToken = useDestinationToken();
@@ -98,87 +94,16 @@ export const ConfirmationModalStartTab = () => {
 
   const recipientAddress = useConfigState.useRecipientAddress();
 
-  const gasInfoModal = useModal("GasInfo");
-  const feeBreakdownModal = useModal("FeeBreakdown");
-
   const onSubmitBridge = useSubmitBridge();
 
   const gasTokenAllowance = useAllowanceGasToken();
   const approveGasToken = useApproveGasToken(gasTokenAllowance.refetch);
 
-  const fromFeeData = useEstimateFeesPerGas({ chainId: from?.id });
-  const toFeeData = useEstimateFeesPerGas({ chainId: to?.id });
-
-  const fromNativeToken = useNativeToken();
-  const toNativeToken = useToNativeToken();
   const switchChain = useSwitchChain();
-
-  const fromNativeTokenPrice = useTokenPrice(fromNativeToken ?? null);
-  const toNativeTokenPrice = useTokenPrice(toNativeToken ?? null);
-
-  const fromGasPrice =
-    fromFeeData.data?.gasPrice ?? fromFeeData.data?.maxFeePerGas ?? BigInt(0);
-  const toGasPrice =
-    toFeeData.data?.gasPrice ?? toFeeData.data?.maxFeePerGas ?? BigInt(0);
-
-  const fromGas = {
-    token: fromNativeToken,
-    price: fromNativeTokenPrice,
-    gasPrice: fromGasPrice,
-  };
-  const toGas = {
-    token: toNativeToken,
-    price: toNativeTokenPrice,
-    gasPrice: toGasPrice,
-  };
-
-  const approveCost = {
-    gasToken: fromGas,
-    gasLimit: BigInt(50_000),
-  };
-  const approveGasTokenCost = {
-    gasToken: fromGas,
-    gasLimit: BigInt(50_000),
-  };
 
   useEffect(() => {
     setSubmittedHash(null);
   }, [open]);
-
-  const getGasCost = (chainId: string, gasLimit: number) => {
-    const gasToken = parseInt(chainId) === from?.id ? fromGas : toGas;
-    return { gasToken, gasLimit: BigInt(gasLimit) };
-  };
-
-  const fee = ({
-    gasLimit,
-    gasToken,
-  }: {
-    gasToken: {
-      token: ChainNativeCurrencyDto | undefined;
-      price: number | null;
-      gasPrice: bigint;
-    };
-    gasLimit: bigint;
-  }) => {
-    const formattedAmount = parseFloat(
-      formatUnits(
-        scaleToNativeTokenDecimals({
-          amount: gasLimit * gasToken.gasPrice,
-          decimals: gasToken.token?.decimals ?? 18,
-        }),
-        gasToken.token?.decimals ?? 18
-      )
-    );
-
-    if (!gasToken.price) {
-      return `${formatDecimals(formattedAmount)} ${gasToken.token?.symbol}`;
-    }
-
-    return `${currencySymbolMap[currency]}${formatDecimals(
-      gasToken.price * formattedAmount
-    )}`;
-  };
 
   const approved = (() => {
     if (submittedHash) {
@@ -330,17 +255,6 @@ export const ConfirmationModalStartTab = () => {
       disabled: false,
     }));
 
-  const common = {
-    from: from?.name,
-    to: to?.name,
-    base: deployment?.l1.name,
-    rollup: deployment?.l2.name,
-    symbol: fromToken?.symbol,
-    receiveAmount: receive.data?.token.amount,
-    receiveSymbol: toToken?.symbol,
-    formatted: toToken?.symbol,
-  };
-
   const lastSubmittedTx = useLatestSubmittedTx();
   const submittedLineItems = useProgressRows(lastSubmittedTx) || [];
 
@@ -382,7 +296,7 @@ export const ConfirmationModalStartTab = () => {
                     : receiveAmount;
               const gasLimit =
                 x.type === RouteStepType.Initiate
-                  ? x.estimatedGasLimit
+                  ? bridgeGasEstimate || 500_000
                   : 500_000;
 
               const buttonComponent =
@@ -474,7 +388,7 @@ export const ConfirmationModalStartTab = () => {
                     symbol: fromToken?.symbol,
                   }),
                   chain: from,
-                  gasLimit: approveGasTokenCost.gasLimit,
+                  gasLimit: approveGasTokenGasEstimate || 100_000,
                   buttonComponent: approvedGasToken ? (
                     <IconCheckCircle className="w-6 h-6 fill-primary" />
                   ) : (
@@ -504,7 +418,7 @@ export const ConfirmationModalStartTab = () => {
                     symbol: fromToken?.symbol,
                   }),
                   chain: from,
-                  gasLimit: approveCost.gasLimit,
+                  gasLimit: approveGasEstimate || 100_000,
                   buttonComponent: approved ? (
                     <IconCheckCircle className="w-6 h-6 fill-primary" />
                   ) : (

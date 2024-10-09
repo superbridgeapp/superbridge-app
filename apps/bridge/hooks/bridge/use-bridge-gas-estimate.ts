@@ -1,8 +1,14 @@
 import { RouteResultDto } from "@/codegen/model";
 
+import { useSelectedBridgeRoute } from "../routes/use-selected-bridge-route";
 import { useRouteGasEstimate } from "./use-route-gas-estimate";
 
-export const useBridgeGasEstimate = (route: RouteResultDto | null) => {
+export const useBridgeGasEstimate = () => {
+  const route = useSelectedBridgeRoute();
+  return useBridgeGasEstimateForRoute(route.data);
+};
+
+export const useBridgeGasEstimateForRoute = (route: RouteResultDto | null) => {
   const estimate = useRouteGasEstimate(route);
   if (!estimate.data) {
     return null;

@@ -8,11 +8,11 @@ import { isArbitrum, isOptimism } from "@/utils/deployments/is-mainnet";
 import { useCustomGasTokenAddress } from "../custom-gas-token/use-custom-gas-token-address";
 import { useDeployment } from "../deployments/use-deployment";
 import { useBridgeRoutes } from "../routes/use-bridge-routes";
-import { useApprovalAddressGasToken } from "../use-approval-address-gas-token";
 import { APPROVE_ABI_WITHOUT_RETURN } from "../use-approve";
 import { useFromChain } from "../use-chain";
 import { useRequiredCustomGasTokenBalance } from "../use-required-custom-gas-token-balance";
 import { useWeiAmount } from "../use-wei-amount";
+import { useApprovalAddressGasToken } from "./use-approval-address-gas-token";
 
 const useGasTokenApprovalAmount = () => {
   const deployment = useDeployment();

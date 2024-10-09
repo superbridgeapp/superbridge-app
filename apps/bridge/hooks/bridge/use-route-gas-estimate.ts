@@ -21,8 +21,21 @@ export const useRouteGasEstimate = (route: RouteResultDto | null) => {
 
   const account = useAccount();
 
-  return useQuery({
-    queryKey: [gasTokenApprovalTx, approvalTx, initiatingTransaction],
+  const a = useQuery({
+    queryKey: [
+      gasTokenApprovalTx?.chainId,
+      gasTokenApprovalTx?.to,
+      gasTokenApprovalTx?.data,
+      gasTokenApprovalTx?.value,
+      approvalTx?.chainId,
+      approvalTx?.to,
+      approvalTx?.data,
+      approvalTx?.value,
+      initiatingTransaction?.chainId,
+      initiatingTransaction?.to,
+      initiatingTransaction?.data,
+      initiatingTransaction?.value,
+    ],
     queryFn: async () => {
       if (!initiatingTransaction || !account.address) return null;
 
@@ -41,6 +54,10 @@ export const useRouteGasEstimate = (route: RouteResultDto | null) => {
       return result.data;
     },
   });
+
+  console.log("estiamte", a.data);
+
+  return a;
 
   // const estimate = useEstimateGas({
   //   data: initiatingTransaction?.data as Address,

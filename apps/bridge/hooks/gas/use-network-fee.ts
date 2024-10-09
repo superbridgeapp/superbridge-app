@@ -9,34 +9,27 @@ import { useSettingsState } from "@/state/settings";
 import { formatDecimals } from "@/utils/format-decimals";
 import { isRouteQuote } from "@/utils/guards";
 
-import { useBridge } from "../bridge/use-bridge";
+import {
+  useBridgeGasEstimate,
+  useBridgeGasEstimateForRoute,
+} from "../bridge/use-bridge-gas-estimate";
 import { useSelectedBridgeRoute } from "../routes/use-selected-bridge-route";
 import { useNativeTokenForChainId } from "../tokens/use-native-token";
 
 export const useNetworkFee = () => {
   const route = useSelectedBridgeRoute();
-  const { gas } = useBridge();
+  const gasEstimate = useBridgeGasEstimateForRoute(route.data);
 
   const chainId = isRouteQuote(route.data?.result)
     ? parseInt((route.data.result.steps[0] as RouteStepTransactionDto).chainId)
     : undefined;
 
-  let gasLimit: bigint | undefined = gas;
-  if (!gasLimit) {
-    gasLimit =
-      route.data?.result && isRouteQuote(route.data.result)
-        ? BigInt(
-            (route.data.result.steps[0] as RouteStepTransactionDto)
-              .estimatedGasLimit
-          )
-        : undefined;
-  }
-  return useNetworkFeeForGasLimit(chainId, gasLimit);
+  return useNetworkFeeForGasLimit(chainId, gasEstimate);
 };
 
 export const useNetworkFeeForGasLimit = (
   chainId: number | undefined,
-  gasLimit: bigint | undefined
+  gasLimit: number | bigint | undefined | null
 ) => {
   const [type, setType] = useState<FeeValuesType>("eip1559");
   const currency = useSettingsState.useCurrency();
@@ -73,7 +66,8 @@ export const useNetworkFeeForGasLimit = (
 
   const gwei = parseFloat(
     formatUnits(
-      (feeData.data.gasPrice ?? feeData.data.maxFeePerGas)! * gasLimit,
+      (feeData.data.gasPrice ?? feeData.data.maxFeePerGas ?? BigInt(0)) *
+        BigInt(gasLimit),
       18
     )
   );

@@ -7,7 +7,10 @@ import { isRouteQuote } from "@/utils/guards";
 import { useSelectedBridgeRoute } from "../routes/use-selected-bridge-route";
 import { useFromChain } from "../use-chain";
 import { useInitiatingChainId } from "../use-initiating-chain-id";
-import { useBridgeGasEstimate } from "./use-bridge-gas-estimate";
+import {
+  useBridgeGasEstimate,
+  useBridgeGasEstimateForRoute,
+} from "./use-bridge-gas-estimate";
 
 export const useBridge = () => {
   const initiatingChainId = useInitiatingChainId();
@@ -47,7 +50,7 @@ export const useBridge = () => {
         : fromFeeData.data?.maxFeePerGas,
     maxPriorityFeePerGas: fromFeeData.data?.maxPriorityFeePerGas,
   };
-  const estimate = useBridgeGasEstimate(selectedRoute.data);
+  const estimate = useBridgeGasEstimateForRoute(selectedRoute.data);
 
   console.log(estimate);
 

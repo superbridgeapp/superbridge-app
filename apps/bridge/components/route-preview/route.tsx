@@ -6,6 +6,7 @@ import {
   RouteStepTransactionDto,
 } from "@/codegen/model";
 import { useBridge } from "@/hooks/bridge/use-bridge";
+import { useBridgeGasEstimate } from "@/hooks/bridge/use-bridge-gas-estimate";
 import { useFeesForRoute } from "@/hooks/fees/use-fees";
 import { useNetworkFeeForGasLimit } from "@/hooks/gas/use-network-fee";
 import { useSelectedBridgeRoute } from "@/hooks/routes/use-selected-bridge-route";
@@ -53,13 +54,11 @@ export const Route = ({
 
   const receive = getFormattedAmount(quote.receive);
 
-  const estimate = BigInt(
-    (quote.steps[0] as RouteStepTransactionDto).estimatedGasLimit
-  );
+  const gasEstimate = useBridgeGasEstimate({ id: provider, result: quote });
+
+  console.log(">>>", gasEstimate);
+  const estimate = BigInt(gasEstimate || 500_000);
   let gasLimit = estimate;
-  if (selected.data?.id === provider && bridge.gas) {
-    gasLimit = bridge.gas;
-  }
   const networkFee = useNetworkFeeForGasLimit(
     parseInt((quote.steps[0] as RouteStepTransactionDto).chainId),
     gasLimit
