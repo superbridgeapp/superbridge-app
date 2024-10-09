@@ -477,7 +477,9 @@ export const ConfirmationModalStartTab = () => {
                     symbol: fromToken?.symbol,
                   }),
                   chain: from,
-                  gasLimit: approveGasTokenCost.gasLimit,
+                  gasLimit: approveGasToken
+                    ? undefined
+                    : approveGasTokenCost.gasLimit,
                   buttonComponent: approvedGasToken ? (
                     <IconCheckCircle className="w-6 h-6 fill-primary" />
                   ) : (
@@ -507,7 +509,7 @@ export const ConfirmationModalStartTab = () => {
                     symbol: fromToken?.symbol,
                   }),
                   chain: from,
-                  gasLimit: approveCost.gasLimit,
+                  gasLimit: approved ? undefined : approveCost.gasLimit,
                   buttonComponent: approved ? (
                     <IconCheckCircle className="w-6 h-6 fill-primary" />
                   ) : (
