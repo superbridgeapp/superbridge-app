@@ -2,6 +2,7 @@ import { useTranslation } from "react-i18next";
 
 import { DeploymentDto } from "@/codegen/model";
 import { ArbitrumMessageStatus } from "@/constants/arbitrum-message-status";
+import { FINALIZE_GAS } from "@/constants/gas-limits";
 import { useTxAmount } from "@/hooks/activity/use-tx-amount";
 import { useTxMultichainToken } from "@/hooks/activity/use-tx-token";
 import { useChain } from "@/hooks/use-chain";
@@ -64,6 +65,7 @@ export const useArbitrumWithdrawalProgressRows = (
     },
     token,
     amount: outputAmount,
+    gasLimit: w?.finalise ? undefined : FINALIZE_GAS,
   };
 
   return [
