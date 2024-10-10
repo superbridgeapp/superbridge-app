@@ -6,6 +6,7 @@ import {
   mode,
   optimism,
   redstone,
+  worldchain,
   zora,
 } from "viem/chains";
 
@@ -19,6 +20,7 @@ const WETH: { [chainId: number]: Address | undefined } = {
   [lisk.id]: "0x4200000000000000000000000000000000000006",
   [redstone.id]: "0x4200000000000000000000000000000000000006",
   [zora.id]: "0x4200000000000000000000000000000000000006",
+  [worldchain.id]: "0x4200000000000000000000000000000000000006",
 };
 
 /**

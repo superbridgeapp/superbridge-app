@@ -6,6 +6,7 @@ import {
   mode,
   optimism,
   redstone,
+  worldchain,
   zora,
 } from "viem/chains";
 
@@ -93,6 +94,7 @@ export const useAcrossTokens = (): MultiChainToken[] => {
       [lisk.id]: eth(deadAddress, lisk.id),
       [redstone.id]: eth(deadAddress, redstone.id),
       [zora.id]: eth(deadAddress, zora.id),
+      [worldchain.id]: eth(deadAddress, worldchain.id),
     },
     {
       [mainnet.id]: usdt(
