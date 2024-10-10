@@ -477,7 +477,7 @@ export const ConfirmationModalStartTab = () => {
                     symbol: fromToken?.symbol,
                   }),
                   chain: from,
-                  gasLimit: approveGasToken
+                  gasLimit: approvedGasToken
                     ? undefined
                     : approveGasTokenCost.gasLimit,
                   buttonComponent: approvedGasToken ? (

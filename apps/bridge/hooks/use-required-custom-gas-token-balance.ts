@@ -7,10 +7,7 @@ import { useWeiAmount } from "@/hooks/use-wei-amount";
 import { useArbitrumGasCostsInWei } from "./arbitrum/use-arbitrum-gas-costs";
 import { useCustomGasTokenAddress } from "./custom-gas-token/use-custom-gas-token-address";
 import { useSelectedToken } from "./tokens/use-token";
-import {
-  useIsArbitrumDeposit,
-  useIsArbitrumWithdrawal,
-} from "./use-withdrawing";
+import { useIsArbitrumDeposit } from "./use-withdrawing";
 
 /**
  * When depositing to an Arbitrum rollup with a custom gas token, we
@@ -23,7 +20,6 @@ import {
  * if depositing token, extraAmount < balance
  */
 export const useRequiredCustomGasTokenBalance = () => {
-  const withdrawing = useIsArbitrumWithdrawal();
   const token = useSelectedToken();
 
   const weiAmount = useWeiAmount();
@@ -36,7 +32,6 @@ export const useRequiredCustomGasTokenBalance = () => {
   if (
     !isArbitrumDeposit ||
     !customGasToken ||
-    withdrawing ||
     typeof baseNativeTokenBalance.data === "undefined" ||
     !token
   ) {

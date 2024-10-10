@@ -30,7 +30,7 @@ export const TokenList = () => {
   const to = useToChain();
   const deployment = useDeployment();
   const setToken = useSetToken();
-  const tokens = useTokenBalances(from?.id);
+  const tokens = useTokenBalances();
   const { t } = useTranslation();
   const modal = useModal("TokenSelector");
   const highlightedTokens =

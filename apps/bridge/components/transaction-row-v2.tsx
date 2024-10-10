@@ -373,7 +373,6 @@ export const TransactionRowV2 = ({ tx }: { tx: Transaction }) => {
         <div className="flex justify-between items-start">
           <div className="flex flex-col gap-1 lg:gap-0">
             <span className="text-xs lg:text-sm text-muted-foreground leading-none">
-              {/* Started{" "} */}
               {timestamp
                 ? `${formatDistanceToNowStrict(timestamp)} ago`
                 : "Just now"}

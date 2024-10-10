@@ -21,6 +21,7 @@ import { useHyperlaneMailboxes } from "../hyperlane/use-hyperlane-mailboxes";
 import { useLzDomains } from "../lz/use-lz-domains";
 import { useSelectedBridgeRoute } from "../routes/use-selected-bridge-route";
 import { useAllowanceGasToken } from "../use-allowance-gas-token";
+import { useTokenBalances } from "../use-balances";
 import { useInitiatingChainId } from "../use-initiating-chain-id";
 import { useWeiAmount } from "../use-wei-amount";
 import { useIsWithdrawal } from "../use-withdrawing";
@@ -52,6 +53,7 @@ export const useInitiateBridge = () => {
   const statusCheck = useStatusCheck();
   const hyperlaneMailboxes = useHyperlaneMailboxes();
   const lzDomains = useLzDomains();
+  const balances = useTokenBalances();
 
   const initiatingChainId = useInitiatingChainId();
   const initiatingChain = useChain(initiatingChainId);
@@ -145,6 +147,7 @@ export const useInitiateBridge = () => {
     } finally {
       allowance.refetch();
       gasTokenAllowance.refetch();
+      balances.refetch();
 
       setSubmittingBridge(false);
     }
