@@ -38,8 +38,8 @@ export function Header() {
           />
         ) : (
           <div className="bg-card rounded-full shadow-sm">
-            <LogoSB className="rounded-full hidden md:inline-flex h-10 w-auto fill-primary" />
-            <LogoSBsmall className="md:hidden h-10 w-auto fill-primary" />
+            <LogoSB className="rounded-full hidden md:inline-flex h-10 w-auto fill-foreground" />
+            <LogoSBsmall className="md:hidden h-10 w-auto fill-foreground" />
           </div>
         )}
       </div>
