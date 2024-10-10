@@ -753,6 +753,19 @@ const raceTheme: Theme = {
   },
 };
 
+const unichainTheme: Theme = {
+  ...defaultTheme,
+  iconSrc: "/img/unichain/icon.svg",
+  card: {
+    className: "bg-[#F50DB4]",
+    title: "text-black",
+    overlay: {
+      image: "/img/unichain/bg-card.jpg",
+      className: "bg-cover bg-bottom bg-no-repeat",
+    },
+  },
+};
+
 export const themes: { [name: string]: Theme | undefined } = {
   ["base"]: baseTheme,
   ["base-sepolia"]: baseTheme,
@@ -820,6 +833,7 @@ export const themes: { [name: string]: Theme | undefined } = {
   ["soneium-minato"]: soneiumTheme,
   ["race-mainnet"]: raceTheme,
   ["race-testnet"]: raceTheme,
+  ["unichain-sepolia"]: unichainTheme,
 };
 
 export const deploymentTheme = (
