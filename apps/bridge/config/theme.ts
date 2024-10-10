@@ -21,6 +21,7 @@ import {
   rollux,
   sepolia,
   syscoin,
+  worldchain,
   zora,
   zoraSepolia,
 } from "viem/chains";
@@ -55,6 +56,7 @@ export const chainIcons: { [chainId: number]: string | undefined } = {
   [redstone.id]: "/img/redstone-mainnet/network.svg",
   [berachainTestnet.id]: "/img/berachain/network.png",
   [berachainTestnetbArtio.id]: "/img/berachain/network.png",
+  [worldchain.id]: "/img/worldchain-mainnet/network.svg",
 };
 
 const defaultTheme: Theme = {
