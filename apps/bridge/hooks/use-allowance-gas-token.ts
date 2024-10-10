@@ -13,6 +13,7 @@ export function useAllowanceGasToken() {
   const from = useFromChain();
   const approvalAddress = useApprovalAddressGasToken();
 
+  console.log({ approvalAddress });
   const allowance = useReadContract({
     abi: erc20Abi,
     functionName: "allowance",

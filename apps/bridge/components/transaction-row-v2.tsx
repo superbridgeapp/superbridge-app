@@ -268,8 +268,8 @@ const useAction = (tx: Transaction) => {
     return status === MessageStatus.READY_TO_PROVE
       ? "prove"
       : status === MessageStatus.READY_FOR_RELAY
-        ? "finalize"
-        : null;
+      ? "finalize"
+      : null;
   }
 
   if (isArbitrumWithdrawal(tx)) {
@@ -291,8 +291,8 @@ const useProgressBars = (
   const proveTx = isOptimismWithdrawal(tx)
     ? tx.prove
     : isOptimismForcedWithdrawal(tx)
-      ? tx.withdrawal?.prove
-      : null;
+    ? tx.withdrawal?.prove
+    : null;
   const pendingFinalises = usePendingTransactions.usePendingFinalises();
 
   const bars: {
@@ -373,7 +373,6 @@ export const TransactionRowV2 = ({ tx }: { tx: Transaction }) => {
         <div className="flex justify-between items-start">
           <div className="flex flex-col gap-1 lg:gap-0">
             <span className="text-xs lg:text-sm text-muted-foreground leading-none">
-              {/* Started{" "} */}
               {timestamp
                 ? `${formatDistanceToNowStrict(timestamp)} ago`
                 : "Just now"}

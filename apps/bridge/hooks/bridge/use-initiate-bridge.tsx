@@ -21,6 +21,7 @@ import { useHyperlaneMailboxes } from "../hyperlane/use-hyperlane-mailboxes";
 import { useLzDomains } from "../lz/use-lz-domains";
 import { useSelectedBridgeRoute } from "../routes/use-selected-bridge-route";
 import { useAllowanceGasToken } from "../use-allowance-gas-token";
+import { useTokenBalances } from "../use-balances";
 import { useInitiatingChainId } from "../use-initiating-chain-id";
 import { useWeiAmount } from "../use-wei-amount";
 import { useIsWithdrawal } from "../use-withdrawing";
@@ -52,6 +53,7 @@ export const useInitiateBridge = () => {
   const statusCheck = useStatusCheck();
   const hyperlaneMailboxes = useHyperlaneMailboxes();
   const lzDomains = useLzDomains();
+  const balances = useTokenBalances();
 
   const initiatingChainId = useInitiatingChainId();
   const initiatingChain = useChain(initiatingChainId);
@@ -62,6 +64,15 @@ export const useInitiateBridge = () => {
   const gasTokenAllowance = useAllowanceGasToken();
 
   return async () => {
+    console.log(
+      !account.address,
+      !wallet.data,
+      !bridge.valid,
+      !recipient,
+      statusCheck,
+      !initiatingChain,
+      !isRouteQuote(route.data?.result)
+    );
     if (
       !account.address ||
       !wallet.data ||
@@ -73,6 +84,8 @@ export const useInitiateBridge = () => {
     ) {
       return;
     }
+
+    console.log("hier 2");
 
     try {
       setSubmittingBridge(true);
@@ -90,12 +103,12 @@ export const useInitiateBridge = () => {
         route.data.id === RouteProvider.Hyperlane
           ? "hyperlane"
           : route.data.id === RouteProvider.Across
-            ? "across"
-            : route.data.id === RouteProvider.Cctp
-              ? "cctp"
-              : withdrawing
-                ? "withdraw"
-                : "deposit";
+          ? "across"
+          : route.data.id === RouteProvider.Cctp
+          ? "cctp"
+          : withdrawing
+          ? "withdraw"
+          : "deposit";
 
       trackEvent({
         event: "bridge",
@@ -145,6 +158,7 @@ export const useInitiateBridge = () => {
     } finally {
       allowance.refetch();
       gasTokenAllowance.refetch();
+      balances.refetch();
 
       setSubmittingBridge(false);
     }
