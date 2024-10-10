@@ -831,6 +831,7 @@ export const themes: { [name: string]: Theme | undefined } = {
   ["soneium-minato"]: soneiumTheme,
   ["race-mainnet"]: raceTheme,
   ["race-testnet"]: raceTheme,
+  ["unichain-sepolia"]: unichainTheme,
 };
 
 export const deploymentTheme = (
