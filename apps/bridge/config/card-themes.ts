@@ -717,4 +717,5 @@ export const cardThemes: {
   [1946]: soneiumTheme,
   [80084]: beraTheme,
   [984122]: formaTheme,
+  [1301]: unichainTheme,
 };
