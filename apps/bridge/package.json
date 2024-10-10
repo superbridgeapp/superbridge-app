@@ -54,7 +54,7 @@
     "ts-is-present": "^1.2.2",
     "ts-pattern": "^5.2.0",
     "use-debounce": "^10.0.1",
-    "viem": "^2.17.4",
+    "viem": "^2.21.21",
     "wagmi": "^2.10.10",
     "zustand": "^4.5.4"
   },
