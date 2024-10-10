@@ -6,7 +6,7 @@ import {
 
 import { useConfigState } from "@/state/config";
 
-import { useFromChain } from "./use-chain";
+import { useFromChain, useToChain } from "./use-chain";
 import { useDeployment } from "./use-deployment";
 import { useTransactionArgs } from "./use-transaction-args";
 
@@ -19,6 +19,7 @@ export const useBridge = () => {
   const deployment = useDeployment();
 
   const from = useFromChain();
+  const to = useToChain();
   const chainId = withdrawing && escapeHatch ? deployment?.l1.id : from?.id;
 
   const fromFeeData = useEstimateFeesPerGas({ chainId });
@@ -33,6 +34,10 @@ export const useBridge = () => {
     gas = gas + gas / BigInt("75");
     if (gas < BigInt(300_000)) {
       gas = BigInt(300_000);
+    }
+
+    if (to?.id === 1301 && gas < BigInt(1_500_000)) {
+      gas = BigInt(1_500_000);
     }
   }
 
