@@ -60,7 +60,6 @@ export const useBridge = () => {
 
   let { data: gas, refetch, error } = useEstimateGas(params);
 
-  console.log(gas, error);
   if (gas) {
     params.gas = gas + gas / BigInt("10");
   }

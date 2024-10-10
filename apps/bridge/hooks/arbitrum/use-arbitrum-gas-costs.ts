@@ -23,7 +23,6 @@ export const useArbitrumGasCostsInWei = () => {
     },
   });
 
-  console.log(">>>", l2FeeData.data?.maxFeePerGas);
   const l1GasLimit = BigInt(100_000);
   const l2GasLimit = BigInt(300_000);
   const l1GasCost =

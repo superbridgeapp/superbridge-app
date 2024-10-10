@@ -207,11 +207,6 @@ export const ConfirmationModalStartTab = () => {
     return gasTokenAllowance.data >= requiredCustomGasTokenBalance;
   })();
 
-  console.log({
-    allowance: gasTokenAllowance.data,
-    requiredCustomGasTokenBalance,
-  });
-
   const needsApprove = (() => {
     if (isEth(fromToken)) return false;
     if (
@@ -482,7 +477,7 @@ export const ConfirmationModalStartTab = () => {
                     symbol: fromToken?.symbol,
                   }),
                   chain: from,
-                  gasLimit: approveGasToken
+                  gasLimit: approvedGasToken
                     ? undefined
                     : approveGasTokenCost.gasLimit,
                   buttonComponent: approvedGasToken ? (
