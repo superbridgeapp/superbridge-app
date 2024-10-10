@@ -9,12 +9,13 @@ import {
 import { isRouteQuote } from "@/utils/guards";
 
 import { useSelectedBridgeRoute } from "../routes/use-selected-bridge-route";
-import { useFromChain } from "../use-chain";
+import { useFromChain, useToChain } from "../use-chain";
 import { useInitiatingChainId } from "../use-initiating-chain-id";
 
 export const useBridge = () => {
   const initiatingChainId = useInitiatingChainId();
   const from = useFromChain();
+  const to = useToChain();
 
   const selectedRoute = useSelectedBridgeRoute();
   const { sendTransactionAsync, isPending } = useSendTransaction();
@@ -58,10 +59,14 @@ export const useBridge = () => {
     params.value = BigInt(tx.value);
   }
 
-  let { data: gas, refetch, error } = useEstimateGas(params);
+  let { data: gas, refetch } = useEstimateGas(params);
 
   if (gas) {
-    params.gas = gas + gas / BigInt("10");
+    if (to?.id === 1301 && gas < BigInt(1_600_000)) {
+      params.gas = BigInt(1_600_000);
+    } else {
+      params.gas = gas + gas / BigInt("75");
+    }
   }
 
   return {
