@@ -57,8 +57,8 @@ export function useTokenBalances() {
         from?.id && token[from?.id]?.coinGeckoId
           ? `coingecko:${token[from?.id]?.coinGeckoId}`
           : token[1]?.coinGeckoId
-          ? `coingecko:${token[1].coinGeckoId}`
-          : `ethereum:${token[1]?.address}`;
+            ? `coingecko:${token[1].coinGeckoId}`
+            : `ethereum:${token[1]?.address}`;
       // @ts-expect-error
       const price: number = prices.data?.data?.[id]?.price ?? 0;
       const usdValue =

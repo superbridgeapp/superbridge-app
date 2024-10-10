@@ -92,12 +92,12 @@ export const useInitiateBridge = () => {
         route.data.id === RouteProvider.Hyperlane
           ? "hyperlane"
           : route.data.id === RouteProvider.Across
-          ? "across"
-          : route.data.id === RouteProvider.Cctp
-          ? "cctp"
-          : withdrawing
-          ? "withdraw"
-          : "deposit";
+            ? "across"
+            : route.data.id === RouteProvider.Cctp
+              ? "cctp"
+              : withdrawing
+                ? "withdraw"
+                : "deposit";
 
       trackEvent({
         event: "bridge",
