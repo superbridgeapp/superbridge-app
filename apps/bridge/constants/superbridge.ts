@@ -41,4 +41,5 @@ export const SUPERCHAIN_TESTNETS = [
   "soneium-minato",
   "race-testnet",
   // "snaxchain-testnet",
+  "unichain-sepolia",
 ];
