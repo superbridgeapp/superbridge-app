@@ -36,8 +36,8 @@ export const useBridge = () => {
       gas = BigInt(300_000);
     }
 
-    if (to?.id === 1301 && gas < BigInt(1_500_000)) {
-      gas = BigInt(1_500_000);
+    if (to?.id === 1301 && gas < BigInt(1_600_000)) {
+      gas = BigInt(1_600_000);
     }
   }
 
