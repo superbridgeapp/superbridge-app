@@ -34,9 +34,9 @@ export const useProgressRows = (tx: Transaction | null) => {
   return (
     arbitrumDeposit ||
     arbitrumWithdrawal ||
+    optimismForcedWithdrawal ||
     optimismDeposit ||
     optimismWithdrawal ||
-    optimismForcedWithdrawal ||
     cctp ||
     across ||
     hyperlaneProgressRows ||

@@ -17,7 +17,7 @@ export const useOptimismForcedWithdrawalProgressRows = (
     ) || [];
   let withdrawalRows =
     useOptimismWithdrawalProgressRows(
-      fw && isOptimismForcedWithdrawal(fw) ? (fw.withdrawal ?? null) : null,
+      fw && isOptimismForcedWithdrawal(fw) ? fw.withdrawal ?? null : null,
       deployment
     ) || [];
 
