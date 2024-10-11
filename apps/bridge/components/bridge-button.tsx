@@ -153,7 +153,7 @@ export const BridgeButton = () => {
     }))
     .with({ recipient: "" }, () => ({
       onSubmit: () => {},
-      buttonText: t("reviewBridge"),
+      buttonText: "Add recipient address",
       disabled: true,
     }))
     .with({ weiAmount: BigInt("0") }, () => ({

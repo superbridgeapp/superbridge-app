@@ -21,7 +21,6 @@ export const Recipient = () => {
         <span className={"text-xs text-muted-foreground"}>{/* empty */}</span>
       ) : !recipientAddress ? (
         <div className="flex justify-center items-center gap-1 pl-2 pr-1 py-1 rounded-full cursor-pointer hover:scale-105 transition-all bg-muted">
-          <span className="text-xs text-foreground">Add recipient</span>
           <IconAddCircle className="w-3 h-3 fill-foreground" />
         </div>
       ) : (
