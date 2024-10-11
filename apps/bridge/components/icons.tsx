@@ -854,3 +854,64 @@ export const IconWallet = ({ className }: any) => (
     </defs>
   </svg>
 );
+
+export const IconEscapeHatch = ({ className }: any) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="32"
+    height="32"
+    fill="none"
+    viewBox="0 0 32 32"
+    className={className}
+  >
+    <path
+      fill="#000"
+      stroke="#000"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M15.647 23.523c6.632 0 14.663-2.495 14.663-7.262C30.31 11.495 22.312 9 15.647 9 9.657 9 1 11.181 1 16.261c0 4.767 7.998 7.262 14.647 7.262z"
+    ></path>
+    <path
+      fill="#CBCCBE"
+      d="M1.522 16.04c0-4.374 8.592-6.534 14.059-6.534 1.97 0 3.887.196 5.68.57 3.62.768 8.395 2.893 8.395 5.964 0 .607-.159 1.16-.479 1.696-1.242-3.607-8.981-4.802-13.526-4.802-5.538 0-12.568 1.517-13.562 4.963a3.315 3.315 0 01-.568-1.857h.001z"
+    ></path>
+    <mask
+      id="mask0_683_2977"
+      style={{ maskType: "luminance" }}
+      width="29"
+      height="14"
+      x="1"
+      y="9"
+      maskUnits="userSpaceOnUse"
+    >
+      <path
+        fill="#fff"
+        d="M15.648 22.963c6.378 0 14.098-2.307 14.098-6.714 0-4.408-7.69-6.714-14.098-6.714-5.76 0-14.083 2.017-14.083 6.714 0 4.407 7.69 6.714 14.083 6.714z"
+      ></path>
+    </mask>
+    <g mask="url(#mask0_683_2977)">
+      <path
+        fill="#fff"
+        stroke="#000"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M20.45 24.526a4.763 4.763 0 100-9.526 4.763 4.763 0 000 9.526z"
+      ></path>
+      <path
+        fill="#000"
+        d="M20.675 20.046a1.151 1.151 0 100-2.302 1.151 1.151 0 000 2.302z"
+      ></path>
+      <path
+        fill="#fff"
+        stroke="#000"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M10.852 24.526a4.763 4.763 0 100-9.526 4.763 4.763 0 000 9.526z"
+      ></path>
+      <path
+        fill="#000"
+        d="M11.09 20.382a1.151 1.151 0 100-2.302 1.151 1.151 0 000 2.302z"
+      ></path>
+    </g>
+  </svg>
+);

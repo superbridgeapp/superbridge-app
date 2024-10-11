@@ -25,7 +25,7 @@ import { useProgressRows } from "@/utils/progress-rows";
 import { isWaitStep } from "@/utils/progress-rows/common";
 
 import { BridgeInfo } from "../bridge-info";
-import { IconArrowUpRight, IconHelp } from "../icons";
+import { IconArrowUpRight, IconEscapeHatch, IconHelp } from "../icons";
 import { RouteProviderName } from "../route-provider-icon";
 import { TokenIcon } from "../token-icon";
 import { LineItem } from "../transaction-line-item";
@@ -86,12 +86,19 @@ const Content = () => {
         <TokenIcon token={token} className="h-12 w-12" />
         <DialogTitle className="flex flex-col gap-1.5 text-3xl text-center leading-none">
           Bridge {amount?.formatted} {token?.symbol} <br />
-          <span className="text-sm text-muted-foreground leading-none">
-            Via <RouteProviderName provider={provider} />
-          </span>
-          {provider === "OptimismForcedWithdrawal" && (
-            <div className="bg-blue-300">Escape hatch</div>
-          )}
+          <div className="flex gap-1 justify-center items-center">
+            {provider === "OptimismForcedWithdrawal" && (
+              <div className="bg-muted rounded-full pl-2 pr-2.5 py-0 flex items-center gap-1">
+                <IconEscapeHatch className="w-6 h-6 shrink-0" />
+                <span className="text-sm text-muted-foreground leading-none">
+                  Escape hatch
+                </span>
+              </div>
+            )}
+            <span className="text-sm text-muted-foreground leading-none">
+              Via <RouteProviderName provider={provider} />
+            </span>
+          </div>
         </DialogTitle>
       </DialogHeader>
       <div className="mx-auto">
