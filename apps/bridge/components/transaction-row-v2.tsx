@@ -38,6 +38,7 @@ import { MessageStatus } from "../constants";
 import {
   IconCaretRight,
   IconCheckCircle,
+  IconEscapeHatch,
   IconSpinner,
   IconTime,
 } from "./icons";
@@ -385,6 +386,11 @@ export const TransactionRowV2 = ({ tx }: { tx: Transaction }) => {
             <span className="text-xs text-muted-foreground">
               Via {providerName}
             </span>
+            {providerName === "OptimismForcedWithdrawal" && (
+              <div className="bg-muted rounded-full px-1 flex items-center gap-1">
+                <IconEscapeHatch className="w-6 h-6 shrink-0" />
+              </div>
+            )}
             <div className="flex items-center">
               <NetworkIcon
                 chain={chains?.from}
