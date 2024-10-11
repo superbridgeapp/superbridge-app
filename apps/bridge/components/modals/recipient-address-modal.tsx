@@ -269,10 +269,15 @@ export const RecipientAddressModal = () => {
                     )
                     .otherwise(() => null)}
 
-                  {/* TODO: Add on click to reset address */}
-                  <Button size={"xs"} variant={"outline"}>
-                    Reset
-                  </Button>
+                  {!isContractAccount.data && !!account.address && (
+                    <Button
+                      size={"xs"}
+                      variant={"outline"}
+                      onClick={() => setInput(account.address!)}
+                    >
+                      Reset
+                    </Button>
+                  )}
                 </div>
               </div>
 
