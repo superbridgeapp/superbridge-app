@@ -349,7 +349,9 @@ export const TransactionRowV2 = ({ tx }: { tx: Transaction }) => {
   const isInProgress = useIsInProgress(tx);
   const bars = useProgressBars(tx);
 
-  const providerName = useProviderName(useTxProvider(tx));
+  const provider = useTxProvider(tx);
+  const providerName = useProviderName(provider);
+
   return (
     <div
       className="bg-card w-full rounded-xl flex gap-2.5 lg:gap-3 p-6 pb-5 lg:p-8 lg:pb-7 relative"
@@ -386,7 +388,7 @@ export const TransactionRowV2 = ({ tx }: { tx: Transaction }) => {
             <span className="text-xs text-muted-foreground">
               Via {providerName}
             </span>
-            {providerName === "OptimismForcedWithdrawal" && (
+            {provider === "OptimismForcedWithdrawal" && (
               <div className="bg-muted rounded-full px-1 flex items-center gap-1">
                 <IconEscapeHatch className="w-6 h-6 shrink-0" />
               </div>
