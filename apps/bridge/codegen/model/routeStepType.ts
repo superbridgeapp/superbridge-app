@@ -14,7 +14,7 @@ export const RouteStepType = {
   Initiate: 'Initiate',
   Prove: 'Prove',
   Finalize: 'Finalize',
-  Mint: 'Mint',
+  ForcedWithdrawal: 'ForcedWithdrawal',
   Wait: 'Wait',
   Receive: 'Receive',
 } as const;

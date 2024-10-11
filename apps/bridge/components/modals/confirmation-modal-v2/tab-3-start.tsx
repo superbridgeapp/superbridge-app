@@ -42,6 +42,7 @@ import { useAllowanceGasToken } from "@/hooks/use-allowance-gas-token";
 import { useApprove } from "@/hooks/use-approve";
 import { useApproveGasToken } from "@/hooks/use-approve-gas-token";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
+import { useInitiatingChain } from "@/hooks/use-initiating-chain-id";
 import { useModal } from "@/hooks/use-modal";
 import { useTokenPrice } from "@/hooks/use-prices";
 import { useReceiveAmount } from "@/hooks/use-receive-amount";
@@ -53,6 +54,7 @@ import { useConfigState } from "@/state/config";
 import { useSettingsState } from "@/state/settings";
 import { formatDecimals } from "@/utils/format-decimals";
 import {
+  isRouteForcedWithdrawalStep,
   isRouteQuote,
   isRouteReceiveStep,
   isRouteTransactionStep,
@@ -98,6 +100,7 @@ export const ConfirmationModalStartTab = () => {
 
   const recipientAddress = useConfigState.useRecipientAddress();
 
+  const initiatingChain = useInitiatingChain();
   const gasInfoModal = useModal("GasInfo");
   const feeBreakdownModal = useModal("FeeBreakdown");
 
@@ -333,17 +336,6 @@ export const ConfirmationModalStartTab = () => {
       disabled: false,
     }));
 
-  const common = {
-    from: from?.name,
-    to: to?.name,
-    base: deployment?.l1.name,
-    rollup: deployment?.l2.name,
-    symbol: fromToken?.symbol,
-    receiveAmount: receive.data?.token.amount,
-    receiveSymbol: toToken?.symbol,
-    formatted: toToken?.symbol,
-  };
-
   const lastSubmittedTx = useLatestSubmittedTx();
   const submittedLineItems = useProgressRows(lastSubmittedTx) || [];
 
@@ -360,13 +352,15 @@ export const ConfirmationModalStartTab = () => {
             if (isRouteTransactionStep(x)) {
               const label =
                 x.type === RouteStepType.Initiate
-                  ? t("confirmationModal.startBridgeOn", { from: from?.name })
+                  ? t("confirmationModal.startBridgeOn", {
+                      from: initiatingChain?.name,
+                    })
                   : x.type === RouteStepType.Prove
-                    ? t("confirmationModal.proveOn", { to: to?.name })
-                    : t("confirmationModal.getAmountOn", {
-                        to: to?.name,
-                        formatted: receive.data?.token.formatted,
-                      });
+                  ? t("confirmationModal.proveOn", { to: to?.name })
+                  : t("confirmationModal.getAmountOn", {
+                      to: to?.name,
+                      formatted: receive.data?.token.formatted,
+                    });
               const amount: TransactionStep["amount"] =
                 x.type === RouteStepType.Initiate
                   ? {
@@ -381,12 +375,8 @@ export const ConfirmationModalStartTab = () => {
                       )} ${fromToken?.symbol}`,
                     }
                   : x.type === RouteStepType.Prove
-                    ? undefined
-                    : receiveAmount;
-              const gasLimit =
-                x.type === RouteStepType.Initiate
-                  ? x.estimatedGasLimit
-                  : 500_000;
+                  ? undefined
+                  : receiveAmount;
 
               const buttonComponent =
                 x.type === RouteStepType.Initiate ? (
@@ -401,12 +391,11 @@ export const ConfirmationModalStartTab = () => {
                   <ProveButton onClick={() => {}} disabled />
                 ) : x.type === RouteStepType.Finalize ? (
                   <ClaimButton onClick={() => {}} disabled />
-                ) : x.type === RouteStepType.Mint ? (
-                  <ClaimButton onClick={() => {}} disabled />
                 ) : undefined;
+
               const a: TransactionStep = {
                 label,
-                gasLimit,
+                gasLimit: x.estimatedGasLimit,
                 chain: x.chainId === from?.id.toString() ? from! : to!,
                 buttonComponent,
                 hash: undefined,
@@ -431,6 +420,18 @@ export const ConfirmationModalStartTab = () => {
                   formatted: receive.data?.token.formatted,
                 }),
                 chain: to!,
+                hash: undefined,
+                pendingHash: undefined,
+                token,
+                amount: receiveAmount,
+              };
+              return step;
+            }
+
+            if (isRouteForcedWithdrawalStep(x)) {
+              const step: TransactionStep = {
+                label: "Withdrawal initiated",
+                chain: from!,
                 hash: undefined,
                 pendingHash: undefined,
                 token,

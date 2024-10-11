@@ -23,6 +23,7 @@ import {
   PausedRouteErrorDto,
   PortalDepositDto,
   RouteQuoteDto,
+  RouteStepForcedWithdrawalDto,
   RouteStepReceiveDto,
   RouteStepTransactionDto,
   RouteStepType,
@@ -193,26 +194,35 @@ export const isRouteQuote = (a: RouteQuote | undefined): a is RouteQuoteDto => {
   return !!(a as RouteQuoteDto).initiatingTransaction;
 };
 
-export const isRouteWaitStep = (
-  a: RouteStepWaitDto | RouteStepReceiveDto | RouteStepTransactionDto
-): a is RouteStepWaitDto => {
+type RouteStepDto =
+  | RouteStepWaitDto
+  | RouteStepReceiveDto
+  | RouteStepTransactionDto
+  | RouteStepForcedWithdrawalDto;
+
+export const isRouteWaitStep = (a: RouteStepDto): a is RouteStepWaitDto => {
   return a.type === RouteStepType.Wait;
 };
 
 export const isRouteReceiveStep = (
-  a: RouteStepWaitDto | RouteStepReceiveDto | RouteStepTransactionDto
+  a: RouteStepDto
 ): a is RouteStepReceiveDto => {
   return a.type === RouteStepType.Receive;
 };
 
+export const isRouteForcedWithdrawalStep = (
+  a: RouteStepDto
+): a is RouteStepForcedWithdrawalDto => {
+  return a.type === RouteStepType.ForcedWithdrawal;
+};
+
 export const isRouteTransactionStep = (
-  a: RouteStepWaitDto | RouteStepReceiveDto | RouteStepTransactionDto
+  a: RouteStepDto
 ): a is RouteStepTransactionDto => {
   const options: RouteStepType[] = [
     RouteStepType.Initiate,
     RouteStepType.Prove,
     RouteStepType.Finalize,
-    RouteStepType.Mint,
   ];
   return options.includes(a.type);
 };

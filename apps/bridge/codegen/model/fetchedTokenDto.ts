@@ -5,6 +5,7 @@
  * API docs
  * OpenAPI spec version: 1.0
  */
+import type { OpBridgedUsdcDto } from './opBridgedUsdcDto';
 
 export interface FetchedTokenDto {
   address: string;
@@ -13,5 +14,6 @@ export interface FetchedTokenDto {
   decimals: number;
   logoURI: string;
   name: string;
+  opBridgedUsdc?: OpBridgedUsdcDto;
   symbol: string;
 }
