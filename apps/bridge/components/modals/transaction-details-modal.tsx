@@ -89,6 +89,9 @@ const Content = () => {
           <span className="text-sm text-muted-foreground leading-none">
             Via <RouteProviderName provider={provider} />
           </span>
+          {provider === "OptimismForcedWithdrawal" && (
+            <div className="bg-blue-300">Escape hatch</div>
+          )}
         </DialogTitle>
       </DialogHeader>
       <div className="mx-auto">
