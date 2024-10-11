@@ -28,7 +28,7 @@ export const FromTo = () => {
     <div className={`relative flex justify-between gap-1.5 select-none pt-0.5`}>
       <div
         className={clsx(
-          "flex gap-2 w-full items-start justify-start bg-muted px-3.5 py-4 rounded-lg transition-all origin-right grow-1",
+          "flex gap-2 w-full items-start justify-start bg-muted px-4 py-5 rounded-xl transition-all origin-right grow-1",
           networkSelectorEnabled && "cursor-pointer hover:scale-[1.02]"
         )}
         onClick={
@@ -74,7 +74,7 @@ export const FromTo = () => {
       </button>
       <div
         className={clsx(
-          "flex gap-2 w-full items-start justify-end bg-muted px-3.5 py-4 rounded-lg transition-all origin-left",
+          "flex gap-2 w-full items-start justify-end bg-muted px-4 py-5 rounded-xl transition-all origin-left",
           networkSelectorEnabled && "cursor-pointer hover:scale-[1.02]"
         )}
         onClick={

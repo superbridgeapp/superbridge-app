@@ -4,7 +4,7 @@ import { useAccount } from "wagmi";
 import { useModal } from "@/hooks/use-modal";
 import { useConfigState } from "@/state/config";
 
-import { IconAddCircle } from "../icons";
+import { IconAddCircle, IconWallet } from "../icons";
 
 export const Recipient = () => {
   const recipientName = useConfigState.useRecipientName();
@@ -27,17 +27,25 @@ export const Recipient = () => {
       ) : (
         <div
           className={clsx(
-            `flex justify-center items-center gap-1 px-2 py-1 -mr-0.5 rounded-full cursor-pointer hover:scale-105 transition-all bg-card`
+            `h-5 flex justify-center items-center gap-1 px-2 py-1 mr-0.5 rounded-full cursor-pointer hover:scale-105 transition-all bg-card`,
+            account.address !== recipientAddress &&
+              "bg-primary text-primary-foreground"
           )}
         >
-          {/* <IconCheckCircle className="w-3 h-3 fill-muted-foreground" /> */}
-          <span className="text-xs text-muted-foreground">
-            {recipientName
-              ? recipientName
-              : `${recipientAddress.slice(0, 4)}...${recipientAddress.slice(
-                  recipientAddress.length - 4
-                )}`}
-          </span>
+          {account.address !== recipientAddress ? (
+            <>
+              <span className="text-[10px] font-button leading-none">
+                {recipientName
+                  ? recipientName
+                  : `${recipientAddress.slice(0, 4)}...${recipientAddress.slice(
+                      recipientAddress.length - 4
+                    )}`}
+              </span>
+              <IconWallet className="w-3 h-3 fill-primary-foreground" />
+            </>
+          ) : (
+            <IconWallet className="w-3 h-3 fill-muted-foreground" />
+          )}
         </div>
       )}
     </div>

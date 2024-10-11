@@ -39,12 +39,12 @@ export const TokenInput = () => {
 
   return (
     <div
-      className={`flex flex-col gap-1.5 relative rounded-xl px-4 py-3 border border-transparent focus-within:border-border transition-colors bg-muted `}
+      className={`flex flex-col gap-1.5 relative rounded-2xl px-4 py-5 border border-transparent focus-within:border-border transition-colors bg-muted `}
     >
-      <div className="flex items-center justify-between">
+      {/* <div className="flex items-center justify-between">
         <span className="text-xs text-muted-foreground font-heading">Send</span>
         <Recipient />
-      </div>
+      </div> */}
       <div className="flex gap-1 items-center">
         <input
           value={rawAmount}
@@ -114,7 +114,7 @@ export const TokenInput = () => {
             {tokenBalance.isLoading ? (
               <Skeleton className="h-4 w-[88px] bg-muted-foreground" />
             ) : (
-              <>
+              <div className="flex items-center gap-2">
                 <span className={`text-muted-foreground text-xs leading-none`}>
                   {t("availableBalance", {
                     amount: formatDecimals(parseFloat(formattedTokenBalance)),
@@ -125,13 +125,14 @@ export const TokenInput = () => {
                 {!isEth(token) && (
                   <button
                     onClick={() => setRawAmount(formattedTokenBalance)}
-                    className="text-[10px] font-button bg-card rounded-full px-1.5 py-1 leading-none text-muted-foreground transition-all hover:scale-105"
+                    className="h-5 text-[10px] font-button bg-card rounded-full px-2 py-1 leading-none text-muted-foreground transition-all hover:scale-105"
                   >
                     {t("buttons.max")}
                   </button>
                 )}
-              </>
+              </div>
             )}
+            <Recipient />
           </div>
         )}
       </div>
