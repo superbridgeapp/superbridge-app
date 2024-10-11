@@ -39,6 +39,7 @@ import type {
   CreateConduitDeploymentDto,
   DeploymentDto,
   DeploymentsQueryDto,
+  EstimateGasDto,
   FiatPricesDto,
   GetActivityDto,
   GetActivityV3Dto,
@@ -47,6 +48,7 @@ import type {
   HyperlaneCustomWarpRouteFileResponseDto,
   HyperlaneMailboxDto,
   IdDto,
+  LzDomainDto,
   NumberDto,
   PricesDto,
   RouteRequestDto,
@@ -883,6 +885,59 @@ export const useBridgeControllerGetHyperlaneMailboxes = <TData = Awaited<ReturnT
 
 
 
+export const bridgeControllerGetLzDomains = (
+     options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<LzDomainDto[]>> => {
+    
+    return axios.get(
+      `/api/bridge/lz_domains`,options
+    );
+  }
+
+
+export const getBridgeControllerGetLzDomainsQueryKey = () => {
+    return [`/api/bridge/lz_domains`] as const;
+    }
+
+    
+export const getBridgeControllerGetLzDomainsQueryOptions = <TData = Awaited<ReturnType<typeof bridgeControllerGetLzDomains>>, TError = AxiosError<unknown>>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetLzDomains>>, TError, TData>>, axios?: AxiosRequestConfig}
+) => {
+
+const {query: queryOptions, axios: axiosOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getBridgeControllerGetLzDomainsQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof bridgeControllerGetLzDomains>>> = ({ signal }) => bridgeControllerGetLzDomains({ signal, ...axiosOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetLzDomains>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type BridgeControllerGetLzDomainsQueryResult = NonNullable<Awaited<ReturnType<typeof bridgeControllerGetLzDomains>>>
+export type BridgeControllerGetLzDomainsQueryError = AxiosError<unknown>
+
+export const useBridgeControllerGetLzDomains = <TData = Awaited<ReturnType<typeof bridgeControllerGetLzDomains>>, TError = AxiosError<unknown>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetLzDomains>>, TError, TData>>, axios?: AxiosRequestConfig}
+
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+
+  const queryOptions = getBridgeControllerGetLzDomainsQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
 export const bridgeControllerGetAcrossAvailableRoutes = (
      options?: AxiosRequestConfig
  ): Promise<AxiosResponse<AcrossAvailableRouteDto[]>> => {
@@ -1458,6 +1513,55 @@ export const useBridgeControllerGetDeploymentSyncStatus = <TData = Awaited<Retur
 
 
 
+export const bridgeControllerGetGasEstimate = (
+    estimateGasDto: EstimateGasDto, options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<number[]>> => {
+    
+    return axios.post(
+      `/api/v1/bridge/estimate_gas`,
+      estimateGasDto,options
+    );
+  }
+
+
+
+export const getBridgeControllerGetGasEstimateMutationOptions = <TError = AxiosError<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerGetGasEstimate>>, TError,{data: EstimateGasDto}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerGetGasEstimate>>, TError,{data: EstimateGasDto}, TContext> => {
+const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof bridgeControllerGetGasEstimate>>, {data: EstimateGasDto}> = (props) => {
+          const {data} = props ?? {};
+
+          return  bridgeControllerGetGasEstimate(data,axiosOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type BridgeControllerGetGasEstimateMutationResult = NonNullable<Awaited<ReturnType<typeof bridgeControllerGetGasEstimate>>>
+    export type BridgeControllerGetGasEstimateMutationBody = EstimateGasDto
+    export type BridgeControllerGetGasEstimateMutationError = AxiosError<unknown>
+
+    export const useBridgeControllerGetGasEstimate = <TError = AxiosError<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof bridgeControllerGetGasEstimate>>, TError,{data: EstimateGasDto}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationResult<
+        Awaited<ReturnType<typeof bridgeControllerGetGasEstimate>>,
+        TError,
+        {data: EstimateGasDto},
+        TContext
+      > => {
+
+      const mutationOptions = getBridgeControllerGetGasEstimateMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
 export const hyperlaneControllerResolveWarpRouteYamlFile = (
     hyperlaneCustomWarpRouteFileRequestDto: HyperlaneCustomWarpRouteFileRequestDto, options?: AxiosRequestConfig
  ): Promise<AxiosResponse<HyperlaneCustomWarpRouteFileResponseDto>> => {

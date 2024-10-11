@@ -25,5 +25,14 @@ export const useOptimismForcedWithdrawalProgressRows = (
     return null;
   }
 
-  return [depositRows[0], ...withdrawalRows.slice(1)];
+  return [
+    depositRows[0],
+    depositRows[1],
+    {
+      ...withdrawalRows[0],
+      label: "Withdrawal initated",
+      gasLimit: undefined,
+    },
+    ...withdrawalRows.slice(1),
+  ];
 };
