@@ -42,7 +42,6 @@ export const Bridge = () => {
           {hasWithdrawalReadyToFinalize && (
             <HasWithdrawalReadyToFinalizeBanner />
           )}
-          {deployment?.name === "optimism" && <LidoBanner />}
           <div
             className={`bg-card mx-auto rounded-[24px] md:rounded-[32px] shadow-sm w-full shrink-0 backdrop-blur-sm`}
           >
