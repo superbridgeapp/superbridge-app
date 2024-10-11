@@ -1,7 +1,12 @@
 import { useTranslation } from "react-i18next";
 
+import { useIsCctpRoute } from "@/hooks/cctp/use-is-cctp-route";
 import { useFromChain } from "@/hooks/use-chain";
 import { useModal } from "@/hooks/use-modal";
+import {
+  useIsArbitrumWithdrawal,
+  useIsOptimismWithdrawal,
+} from "@/hooks/use-withdrawing";
 
 import { IconGas } from "../icons";
 import { Button } from "../ui/button";
@@ -12,6 +17,18 @@ export const GasInfoModal = () => {
   const from = useFromChain();
 
   const modal = useModal("GasInfo");
+
+  const isOptimismWithdrawal = useIsOptimismWithdrawal();
+  const isArbitrumWithdrawal = useIsArbitrumWithdrawal();
+  const isCctp = useIsCctpRoute();
+
+  const description = isOptimismWithdrawal
+    ? "Withdrawals from OP Stack rollups require two extra transactions to prove & finalize the withdrawal on the settlement chain."
+    : isArbitrumWithdrawal
+    ? "Withdrawals from Arbitrum Nitro rollups require an extra transaction to finalize on the settlement chain."
+    : isCctp
+    ? "Native USDC bridges via CCTP require an extra transaction on the destination chain."
+    : null;
 
   return (
     <Dialog open={modal.isOpen} onOpenChange={modal.close}>
@@ -31,6 +48,10 @@ export const GasInfoModal = () => {
               })}
             </p>
           </div>
+
+          <p className="text-xs md:text-sm prose-sm text-muted-foreground text-pretty text-center">
+            {description}
+          </p>
 
           <Button onClick={modal.close}>{t("ok")}</Button>
         </div>
