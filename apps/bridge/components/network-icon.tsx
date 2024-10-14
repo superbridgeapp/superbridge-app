@@ -39,17 +39,18 @@ export const NetworkIcon = ({
     } else {
       src = "/img/shape/icon.svg";
     }
-  }
-  if (chainIcons[chain?.id ?? 0]) {
-    src = chainIcons[chain?.id ?? 0]!;
-  } else if (isRollup && rollupIcon) {
-    src = rollupIcon;
-  } else if (isBase) {
-    if (isL3) src = "/img/L2.svg";
-    else src = "/img/L1.svg";
-  } else if (isRollup) {
-    if (isL3) src = "/img/L3.svg";
-    else src = "/img/L2.svg";
+  } else {
+    if (chainIcons[chain?.id ?? 0]) {
+      src = chainIcons[chain?.id ?? 0]!;
+    } else if (isRollup && rollupIcon) {
+      src = rollupIcon;
+    } else if (isBase) {
+      if (isL3) src = "/img/L2.svg";
+      else src = "/img/L1.svg";
+    } else if (isRollup) {
+      if (isL3) src = "/img/L3.svg";
+      else src = "/img/L2.svg";
+    }
   }
 
   if (!src) {
