@@ -155,7 +155,7 @@ export const BridgeButton = () => {
     }))
     .with({ recipient: "" }, () => ({
       onSubmit: () => recipientAddressModal.open(),
-      buttonText: "Add recipient address",
+      buttonText: t("recipient.addRecipientAddress"),
       disabled: false,
     }))
     .with({ weiAmount: BigInt("0") }, () => ({

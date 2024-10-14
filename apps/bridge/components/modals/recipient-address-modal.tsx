@@ -275,7 +275,7 @@ export const RecipientAddressModal = () => {
                       variant={"outline"}
                       onClick={() => setInput(account.address!)}
                     >
-                      Reset
+                      {t("buttons.reset")}
                     </Button>
                   )}
                 </div>

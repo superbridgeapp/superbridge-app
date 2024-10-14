@@ -138,7 +138,8 @@
     "usedBefore": "Account used before",
     "usedBeforeMultiple": "Account used {{count}} times before",
     "newAddress": "New address - please be careful!",
-    "checkingAddress": "Checking address…"
+    "checkingAddress": "Checking address…",
+    "addRecipientAddress": "Add recipient address"
   },
 
   "buttons": {
@@ -156,7 +157,8 @@
     "approving": "Approving",
     "max": "Max",
     "bridgingDisabled": "Bridging disabled",
-    "bridgingPaused": "Bridging paused"
+    "bridgingPaused": "Bridging paused",
+    "reset": "Reset"
   },
 
   "fees": {
@@ -317,7 +319,11 @@
 
   "gasInfoModal": {
     "title": "Gas fees",
-    "description": "With blockchains you need to pay a fee to submit transactions. Transactions submitted to {{from}} require a small amount of {{symbol}} to ensure they're confirmed by the network."
+    "description": "With blockchains you need to pay a fee to submit transactions. Transactions submitted to {{from}} require a small amount of {{symbol}} to ensure they're confirmed by the network.",
+
+    "opWithdrawal": "Withdrawals from OP Stack rollups require two extra transactions to prove & finalize the withdrawal on the settlement chain.",
+    "arbWithdrawal": "Withdrawals from Arbitrum Nitro rollups require an extra transaction to finalize on the settlement chain.",
+    "cctp": "Native USDC bridges via CCTP require an extra transaction on the destination chain."
   },
 
   "networkSelectorModal": {

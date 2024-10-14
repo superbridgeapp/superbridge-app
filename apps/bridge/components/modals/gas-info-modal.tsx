@@ -23,12 +23,12 @@ export const GasInfoModal = () => {
   const isCctp = useIsCctpRoute();
 
   const description = isOptimismWithdrawal
-    ? "Withdrawals from OP Stack rollups require two extra transactions to prove & finalize the withdrawal on the settlement chain."
+    ? t("gasInfoModal.opWithdrawal")
     : isArbitrumWithdrawal
-    ? "Withdrawals from Arbitrum Nitro rollups require an extra transaction to finalize on the settlement chain."
-    : isCctp
-    ? "Native USDC bridges via CCTP require an extra transaction on the destination chain."
-    : null;
+      ? t("gasInfoModal.arbWithdrawal")
+      : isCctp
+        ? t("gasInfoModal.cctp")
+        : null;
 
   return (
     <Dialog open={modal.isOpen} onOpenChange={modal.close}>
