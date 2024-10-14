@@ -2,6 +2,8 @@ import { useTranslation } from "react-i18next";
 import { formatUnits } from "viem";
 import { useAccount } from "wagmi";
 
+import { DeploymentFamily } from "@/codegen/model";
+import { useDeployment } from "@/hooks/deployments/use-deployment";
 import { useActiveTokens } from "@/hooks/tokens";
 import { useIsCustomToken } from "@/hooks/tokens/use-is-custom-token";
 import { useIsCustomTokenFromList } from "@/hooks/tokens/use-is-custom-token-from-list";
@@ -31,21 +33,19 @@ export const TokenInput = () => {
 
   const rawAmount = useConfigState.useRawAmount();
   const setRawAmount = useConfigState.useSetRawAmount();
-  const recipientAddress = useConfigState.useRecipientAddress();
 
   const formattedTokenBalance = formatUnits(
     tokenBalance.data,
     token?.decimals ?? 18
   );
 
+  const isCustomTokenBridgingEnabled =
+    useDeployment()?.family === DeploymentFamily.optimism;
+
   return (
     <div
       className={`flex flex-col gap-2.5 relative rounded-2xl px-4 py-5 border border-transparent focus-within:border-border transition-colors bg-muted `}
     >
-      {/* <div className="flex items-center justify-between">
-        <span className="text-xs text-muted-foreground font-heading">Send</span>
-        <Recipient />
-      </div> */}
       <div className="flex gap-2 items-center">
         <input
           value={rawAmount}
@@ -74,7 +74,7 @@ export const TokenInput = () => {
             <Skeleton className="h-[25px] w-[25px] rounded-full" />
             <Skeleton className="h-[14px] w-[50px]" />
           </div>
-        ) : tokens.data?.length === 1 ? (
+        ) : tokens.data?.length === 1 && !isCustomTokenBridgingEnabled ? (
           <div
             className={`flex shrink-0 relative gap-1 rounded-full py-2 pl-3 pr-4 items-center font-button transition-all text-foreground bg-card`}
           >

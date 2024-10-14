@@ -40,6 +40,7 @@ export const SUPERCHAIN_TESTNETS = [
   "shape-testnet",
   "snaxchain-testnet",
   "soneium-minato",
+  "unichain-sepolia",
 ];
 
 export const SUPERCHAIN = [...SUPERCHAIN_MAINNETS, ...SUPERCHAIN_TESTNETS];
