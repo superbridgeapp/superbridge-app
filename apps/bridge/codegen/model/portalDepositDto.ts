@@ -7,7 +7,6 @@
  */
 import type { ConfirmationDto } from './confirmationDto';
 import type { PortalDepositDtoMetadata } from './portalDepositDtoMetadata';
-import type { DepositNftDto } from './depositNftDto';
 import type { OptimismTransactionType } from './optimismTransactionType';
 
 export interface PortalDepositDto {
@@ -18,7 +17,6 @@ export interface PortalDepositDto {
   id: string;
   l2TransactionHash: string;
   metadata: PortalDepositDtoMetadata;
-  nft?: DepositNftDto;
   relay?: ConfirmationDto;
   status: number;
   type: OptimismTransactionType;

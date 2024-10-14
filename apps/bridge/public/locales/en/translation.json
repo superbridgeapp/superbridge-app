@@ -1,10 +1,8 @@
 {
   "deposit": "Deposit",
   "depositDisabled": "Deposits disabled",
-  "depositNft": "Deposit {{tokenId}}",
   "depositing": "Depositing",
   "withdraw": "Withdraw",
-  "withdrawNft": "Withdraw {{tokenId}}",
   "withdrawing": "Withdrawing",
   "reviewBridge": "Review bridge",
   "bridging": "Bridging",
@@ -12,7 +10,6 @@
   "connectWallet": "Connect wallet",
   "switchToApprove": "Switch",
   "approve": "Approve",
-  "approveNft": "Approve {{tokenId}}",
   "insufficientFunds": "Insufficient funds",
   "insufficientGas": "Insufficient {{symbol}} for gas",
   "bridgeLimit": "{{amount}} {{symbol}} limit",
