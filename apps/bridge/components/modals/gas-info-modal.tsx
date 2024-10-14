@@ -49,9 +49,11 @@ export const GasInfoModal = () => {
             </p>
           </div>
 
-          <p className="text-xs md:text-sm prose-sm text-muted-foreground text-pretty text-center">
-            {description}
-          </p>
+          {description && (
+            <p className="text-xs md:text-sm prose-sm text-muted-foreground text-pretty text-center">
+              {description}
+            </p>
+          )}
 
           <Button onClick={modal.close}>{t("ok")}</Button>
         </div>
