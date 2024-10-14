@@ -24,7 +24,7 @@ import { useInjectedStore } from "@/state/injected";
 import { useSettingsState } from "@/state/settings";
 import { isOptimism } from "@/utils/deployments/is-mainnet";
 
-import { IconDark } from "../icons";
+import { IconDark, IconEscapeHatch } from "../icons";
 import { Dialog, DialogContent } from "../ui/dialog";
 import { Switch } from "../ui/switch";
 import { CustomWarpRoutes } from "./custom-warp-routes";
@@ -334,13 +334,7 @@ export const SettingsModal = () => {
 
               {forceViaL1Enabled && (
                 <div className="flex items-start p-4">
-                  <Image
-                    alt="Escape Hatch"
-                    src="/img/icon-escape-hatch.svg"
-                    height={32}
-                    width={32}
-                    className="mr-2"
-                  />
+                  <IconEscapeHatch className="w-6 h-6 mr-2 shrink-0" />
                   <div>
                     <h3 className="font-heading">Escape hatch</h3>
                     <p className="text-muted-foreground text-xs">

@@ -1,33 +1,26 @@
 {
-  "deposit": "Depósito",
-  "depositDisabled": "Depósitos desactivados",
-  "depositNft": "Depósito {{tokenId}}",
-  "depositing": "Depositando",
-  "withdraw": "Retirar",
-  "withdrawNft": "Retirar {{tokenId}}",
-  "withdrawing": "Retirando",
   "reviewBridge": "Revisar puente",
-  "bridging": "Puentear",
-  "approving": "Aprobando",
+  "bridging": "Estableciendo puente",
   "connectWallet": "Conectar billetera",
-  "switchToApprove": "Cambiar a aprobar",
-  "switchTo": "Cambiar a {{chain}}",
+  "switchToApprove": "Cambiar",
   "approve": "Aprobar",
-  "approveNft": "Aprobar {{tokenId}}",
   "insufficientFunds": "Fondos insuficientes",
-  "insufficientGas": "Gas insuficiente {{symbol}}",
-  "bridgeLimit": "{{amount}} {{symbol}} límite",
-  "bridgeMin": "Monto mínimo {{amount}} {{symbol}}",
-  "enterAnAmount": "Introduce una cantidad",
+  "insufficientGas": "Gas insuficiente de {{symbol}}",
+  "bridgeLimit": "Límite de {{amount}} {{symbol}}",
+  "bridgeMin": "Cantidad mínima {{amount}} {{symbol}}",
+  "enterAnAmount": "Ingresa un monto",
   "loading": "Cargando",
+  "loadMore": "Cargar más",
   "error": "Error",
   "noAccountConnected": "No hay cuenta conectada",
   "save": "Guardar",
-  "toAddress": "A dirección",
+  "toAddress": "A la dirección",
   "on": "encendido",
   "off": "apagado",
   "receiveOnChain": "Recibir en {{chain}}",
   "transferTime": "Tiempo de transferencia",
+  "transferTimeSeconds_one": "~{{count}} segundo",
+  "transferTimeSeconds_other": "~{{count}} segundos",
   "transferTimeMinutes_one": "~{{count}} minuto",
   "transferTimeMinutes_other": "~{{count}} minutos",
   "transferTimeHours_one": "~{{count}} hora",
@@ -35,24 +28,28 @@
   "transferTimeDays_one": "~{{count}} día",
   "transferTimeDays_other": "~{{count}} días",
   "availableBalance": "{{amount}} {{symbol}} disponible",
-  "comingSoon": "Próximamente",
-  "sorryAnErrorOccurred": "¡Lo siento! Se produjo un error",
+  "sorryAnErrorOccurred": "¡Lo siento! Ocurrió un error",
   "about": "Acerca de",
   "docs": "Documentos",
   "from": "De",
   "to": "A",
+  "manage": "Gestionar",
   "support": "Soporte",
-  "ok": "Ok",
+  "ok": "Aceptar",
+
+  "general": {
+    "needHelp": "¿Necesitas ayuda? Ver preguntas frecuentes"
+  },
 
   "settings": {
-    "settings": "Configuración",
-    "withdrawalSettings": "Configuración de retiro",
-    "escapeHatchDescription": "Forzar su retiro a través de una transacción resistente a la censura en Ethereum.",
-    "easyModeDescription": "Deje que nos ocupemos de las transacciones adicionales para que pueda configurar y olvidarse.",
-    "feeBreakdown": "Tarifas de red",
+    "settings": "Configuraciones",
+    "escapeHatchDescription": "Forzar retiros mediante transacciones resistentes a la censura en la cadena de liquidación.",
     "currency": "Moneda",
     "language": "Idioma",
-    "explorer": "Explorador"
+    "explorer": "Explorador",
+    "tokenLists": "Listas de tokens",
+    "enableTestnets": "Habilitar testnets",
+    "darkMode": "Modo oscuro"
   },
 
   "customTokenLists": {
@@ -62,39 +59,42 @@
     "url": "URL de la lista de tokens",
     "urlPlaceholder": "URL",
     "invalid": "URL de lista de tokens no válida",
-    "loadedTokens": "Tokens cargados {{num}}",
-    "disclaimer": "Cualquiera puede crear cualquier token, incluidas versiones falsas de tokens existentes. Tenga cuidado. Algunos tokens y sus parámetros técnicos pueden no ser compatibles con los servicios de {{app}}. Al importar esta lista de tokens personalizada, reconoce y acepta los riesgos.",
-    "learnMore": "Obtenga más información sobre los riesgos.",
+    "loadedTokens": "{{num}} tokens cargados",
+    "disclaimer": "Cualquiera puede crear un token, incluidas versiones falsas de tokens existentes. Ten cuidado. Algunos tokens y sus parámetros técnicos pueden no ser compatibles con los servicios de {{app}}. Al importar esta lista personalizada, reconoces y aceptas los riesgos.",
+    "learnMore": "Conoce más sobre los riesgos.",
     "save": "Guardar lista",
     "delete": "Eliminar lista"
   },
 
   "activity": {
     "activity": "Actividad",
-    "actionNeeded": "Acción necesaria",
-    "connectWallet": "Por favor, conecte su billetera...",
-    "noTransactions": "Aún no hay transacciones...",
-    "error": "¡Lo siento! No podemos obtener su feed de actividad.\n Por favor, intente actualizar la página",
+    "actionNeeded": "Acción requerida",
+    "connectWallet": "Por favor conecta tu billetera...",
+    "noTransactions": "No hay transacciones aún...",
+    "error": "¡Lo siento! No podemos cargar tu feed de actividad.\n Por favor, intenta refrescar la página",
     "withdrawn": "Retirado",
-    "proving": "Demostrando...",
-    "readyToProve": "Listo para demostrar",
-    "proved": "Demostrado",
-    "waitingForStateRoot": "Esperando el estado raíz...",
-    "stateRootPublished": "Estado raíz publicado",
+    "proving": "Probando...",
+    "readyToProve": "Listo para probar",
+    "proved": "Probado",
+    "waitingForStateRoot": "Esperando la raíz del estado...",
+    "waitingForDisputeGame": "Esperando juego de disputa...",
+    "stateRootPublished": "Raíz del estado publicada",
     "challengePeriod": "Período de desafío",
     "finalizing": "Finalizando...",
     "readyToFinalize": "Listo para finalizar",
     "finalized": "Finalizado",
     "deposited": "Depositado",
     "depositing": "Depositando",
-    "l2Confirmation": "Confirmación de L2",
+    "l2Confirmation": "Confirmación L2",
     "waitingForL2": "Esperando L2...",
-    "bridged": "Puenteado",
-    "bridging": "Puenteando",
+    "bridged": "Puente establecido",
+    "bridging": "Estableciendo puente",
     "minted": "Acuñado",
     "minting": "Acuñando",
     "readyToMint": "Listo para acuñar",
     "waitingForAttestation": "Esperando la certificación...",
+    "remainingSeconds_one": "~{{count}} segundo restante",
+    "remainingSeconds_other": "~{{count}} segundos restantes",
     "remainingMinutes_one": "~{{count}} minuto restante",
     "remainingMinutes_other": "~{{count}} minutos restantes",
     "remainingHours_one": "~{{count}} hora restante",
@@ -105,161 +105,171 @@
 
   "tokens": {
     "tokens": "Tokens",
-    "nfts": "NFTs",
-    "selectToken": "Seleccionar un token",
+    "selectToken": "Selecciona un token",
     "noneFound": "No se encontraron resultados",
-    "notBridgeable": "No se puede bridgear",
+    "notBridgeable": "No transferible por puente",
     "import": "Importar",
     "customImport": "Importación personalizada",
-    "customImportFromList": "De {{name}}",
-    "customImportCheck": "Asegúrese de haber verificado la dirección del token y de que sea correcta:",
+    "customImportFromList": "Desde {{name}}",
+    "customImportCheck": "Asegúrate de haber verificado la dirección del token y que sea correcta:",
     "customL1Address": "Dirección L1",
     "customL2Address": "Dirección L2",
     "customL3Address": "Dirección L3"
   },
 
   "recipient": {
-    "withdrawDestination": "Destino de retiro",
-    "depositDestination": "Destino de depósito",
+    "bridgeDestination": "Destino del puente",
+    "toAddress": "A la dirección",
     "invalidAddress": "Dirección no válida",
     "yourChainAddress": "Esta es tu dirección de {{chain}}",
     "usedBefore": "Cuenta utilizada anteriormente",
     "usedBeforeMultiple": "Cuenta utilizada {{count}} veces antes",
-    "newAddress": "Nueva dirección - ¡ten cuidado!"
+    "newAddress": "Nueva dirección - ¡ten cuidado!",
+    "checkingAddress": "Verificando dirección...",
+    "addRecipientAddress": "Agregar dirección del destinatario"
   },
 
   "buttons": {
+    "start": "Iniciar",
     "finalize": "Finalizar",
+    "claim": "Reclamar",
     "prove": "Probar",
-    "redeem": "Canjear",
+    "redeem": "Redimir",
     "switchChain": "Cambiar cadena",
-    "mint": "Acuñar"
+    "mint": "Acuñar",
+    "get": "Obtener",
+    "continue": "Continuar",
+    "approve": "Aprobar",
+    "approved": "Aprobado",
+    "approving": "Aprobando",
+    "max": "Máx.",
+    "bridgingDisabled": "Puente deshabilitado",
+    "bridgingPaused": "Puente pausado",
+    "reset": "Reiniciar"
   },
 
   "fees": {
-    "fees": "Tarifas de red",
-    "networkGas": "Gas {{chain}}",
-    "easyModeFee": "Gas de modo fácil"
+    "fees": "Comisiones de red",
+    "networkGas": "Gas de {{chain}}",
+    "easyModeFee": "Gas modo fácil"
   },
 
   "poweredBy": "Impulsado por {{name}}",
 
+  "transaction": {
+    "via": "Vía",
+    "transferTime": "Tiempo de transferencia",
+    "steps": "Pasos",
+    "bridgeInfo": "Información del puente",
+
+    "fromChain": "Desde {{from}}",
+    "toChain": "A {{to}}",
+
+    "fromAddress": "Desde dirección",
+    "toAddress": "A dirección"
+  },
+
   "confirmationModal": {
-    "cctpDepositTitle": "Los depósitos de {{symbol}} tardan ~{{mins}} minutos",
-    "cctpWithdrawalTitle": "Las retiradas de {{symbol}} tardan ~{{mins}} minutos",
-    "cctpWithdrawalTitleEscapeHatch": "Las retiradas de {{symbol}} del Escape Hatch tardan ~{{mins}} minutos",
-    "depositTitle": "Los depósitos de {{rollup}} tardan ~{{mins}} minutos",
-    "withdrawalTitleMinutes_one": "Las retiradas de {{rollup}} tardan ~{{count}} minuto",
-    "withdrawalTitleMinutes_other": "Las retiradas de {{rollup}} tardan ~{{count}} minutos",
-    "withdrawalTitleHours_one": "Las retiradas de {{rollup}} tardan ~{{count}} hora",
-    "withdrawalTitleHours_other": "Las retiradas de {{rollup}} tardan ~{{count}} horas",
-    "withdrawalTitleDays_one": "Las retiradas de {{rollup}} tardan ~{{count}} día",
-    "withdrawalTitleDays_other": "Las retiradas de {{rollup}} tardan ~{{count}} días",
-    "withdrawalTitleEscapeHatchMinutes_one": "Las retiradas del Escape Hatch de {{rollup}} tardan ~{{count}} minuto",
-    "withdrawalTitleEscapeHatchMinutes_other": "Las retiradas del Escape Hatch de {{rollup}} tardan ~{{count}} minutos",
-    "withdrawalTitleEscapeHatchHours_one": "Las retiradas del Escape Hatch de {{rollup}} tardan ~{{count}} hora",
-    "withdrawalTitleEscapeHatchHours_other": "Las retiradas del Escape Hatch de {{rollup}} tardan ~{{count}} horas",
-    "withdrawalTitleEscapeHatchDays_one": "Las retiradas del Escape Hatch de {{rollup}} tardan ~{{count}} día",
-    "withdrawalTitleEscapeHatchDays_other": "Las retiradas del Escape Hatch de {{rollup}} tardan ~{{count}} días",
-    "cctpDescription": "La transferencia de {{symbol}} nativo a través de CCTP es un proceso de 3 pasos, que requiere 2 transacciones en {{from}} y 1 transacción en {{to}}.",
-    "cctpDescriptionEscapeHatch": "El uso del Escape Hatch para forzar retiradas nativas de {{symbol}} es un proceso de 3 pasos, que requiere 2 transacciones en {{to}} y 1 transacción en {{from}}.",
-    "opDescription": "Las retiradas son un proceso de 3 pasos, que requiere 1 transacción {{rollup}} y 2 transacciones {{base}}.",
-    "opDescriptionToken": "Las retiradas son un proceso de 4 pasos, que requiere 2 transacciones {{rollup}} y 2 transacciones {{base}}.",
-    "opDescriptionEscapeHatch": "El uso del Escape Hatch para forzar retiradas es un proceso de 3 pasos, que requiere 3 transacciones en {{base}}.",
-    "opDescriptionTokenEscapeHatch": "El uso del Escape Hatch para forzar retiradas es un proceso de 4 pasos, que requiere 1 transacción {{rollup}} y 3 transacciones {{base}}.",
-    "arbDescription": "Las retiradas son un proceso de 2 pasos, que requiere 1 transacción {{rollup}} y 1 transacción {{base}}.",
-    "arbDescriptionToken": "Las retiradas son un proceso de 3 pasos, que requiere 2 transacciones en {{rollup}} y 1 en {{base}}.",
-    "acrossDescription": "Los tiempos de puente varían según la cantidad que desees puentear. Prueba con un valor menor para un puente más rápido.",
-    "learnMore": "Más información",
-    "approxFees": "Tarifas aproximadas",
-    "initiateDeposit": "Iniciar depósito",
-    "initiateWithdrawal": "Iniciar retiro",
-    "initiateBridge": "Iniciar puente",
-    "initiateBridgeEscapeHatch": "Iniciar Escape Hatch en {{base}}",
+    "startBridgeOn": "Iniciar en {{from}}",
+    "bridgeFrom": "Puente desde {{from}}",
+    "proveOn": "Probar en {{to}}",
+    "getOn": "Obtener en {{to}}",
+    "getAmountOn": "Obtener {{formatted}} en {{to}}",
+    "waitSeconds_one": "Espera ~{{count}} segundo",
+    "waitSeconds_other": "Espera ~{{count}} segundos",
     "waitMinutes_one": "Espera ~{{count}} minuto",
     "waitMinutes_other": "Espera ~{{count}} minutos",
     "waitHours_one": "Espera ~{{count}} hora",
     "waitHours_other": "Espera ~{{count}} horas",
     "waitDays_one": "Espera ~{{count}} día",
     "waitDays_other": "Espera ~{{count}} días",
-    "prove": "Demostrar en {{base}}",
+    "prove": "Probar en {{base}}",
     "finalize": "Reclamar en {{to}}",
-    "receiveDeposit": "Recibir en {{rollup}}",
     "receiveAmountOnChain": "Recibir {{receiveAmount}} {{receiveSymbol}} en {{to}}",
+    "receiveAmount": "Recibir {{formatted}}",
     "approve": "Aprobar {{symbol}}",
-    "approved": "Aprobado",
-    "approveGasToken": "Aprobar token de gas",
-    "switchToApproveGasToken": "Cambiar a aprobar token de gas",
-    "approvingGasToken": "Aprobando token de gas",
-    "approvedGasToken": "Token de gas aprobado",
-
-    "checkbox1Cctp": "Entiendo que tardará ~{{mins}} minutos hasta que mis fondos sean reclamables en {{to}}",
-    "checkbox1Deposit": "Entiendo que tardará ~{{mins}} minutos hasta que mis fondos estén en {{rollup}}",
-    "opCheckbox1WithdrawalMinutes_one": "Entiendo que tardará ~{{count}} minuto hasta que mis fondos sean reclamables en {{base}} después de demostrar mi retiro",
-    "opCheckbox1WithdrawalMinutes_other": "Entiendo que tardará ~{{count}} minutos hasta que mis fondos sean reclamables en {{base}} después de demostrar mi retiro",
-    "opCheckbox1WithdrawalHours_one": "Entiendo que tardará ~{{count}} hora hasta que mis fondos sean reclamables en {{base}} después de demostrar mi retiro",
-    "opCheckbox1WithdrawalHours_other": "Entiendo que tardará ~{{count}} horas hasta que mis fondos sean reclamables en {{base}} después de demostrar mi retiro",
-    "opCheckbox1WithdrawalDays_one": "Entiendo que tardará ~{{count}} día hasta que mis fondos sean reclamables en {{base}} después de demostrar mi retiro",
-    "opCheckbox1WithdrawalDays_other": "Entiendo que tardará ~{{count}} días hasta que mis fondos sean reclamables en {{base}} después de demostrar mi retiro",
-    "arbCheckbox1WithdrawalMinutes_one": "Entiendo que tardará ~{{count}} minuto hasta que mis fondos sean reclamables en {{base}}",
-    "arbCheckbox1WithdrawalMinutes_other": "Entiendo que tardará ~{{count}} minutos hasta que mis fondos sean reclamables en {{base}}",
-    "arbCheckbox1WithdrawalHours_one": "Entiendo que tardará ~{{count}} hora hasta que mis fondos sean reclamables en {{base}}",
-    "arbCheckbox1WithdrawalHours_other": "Entiendo que tardará ~{{count}} horas hasta que mis fondos sean reclamables en {{base}}",
-    "arbCheckbox1WithdrawalDays_one": "Entiendo que tardará ~{{count}} día hasta que mis fondos sean reclamables en {{base}}",
-    "arbCheckbox1WithdrawalDays_other": "Entiendo que tardará ~{{count}} días hasta que mis fondos sean reclamables en {{base}}",
-    "checkbox2Deposit": "Entiendo que una vez iniciado un depósito no se puede acelerar ni cancelar",
-    "checkbox2Withdrawal": "Entiendo que una vez iniciado un retiro no se puede acelerar ni cancelar",
-    "checkbox3": "Entiendo que las tarifas de la red son aproximadas y cambiarán",
-
-    "continue": "Continuar con el retiro",
-    "viewAlternateBridges": "O ver puentes alternativos…"
+    "approveGasToken": "Aprobar token de gas"
   },
 
   "tos": {
     "welcome": "Bienvenido a {{name}}",
-    "poweredBy": "Desarrollado por Superbridge",
+    "poweredBy": "Impulsado por Superbridge",
     "superbridge1": "Esta interfaz es solo una capa sobre los contratos de puente nativos para los rollups oficiales de Superchain.",
-    "superbridge2": "En ningún momento Superbridge retiene fondos en custodia.",
-    "superbridge3": "Para obtener ayuda sobre el puente, diríjase a <0>soporte y preguntas frecuentes</0>.",
-    "superbridge4": "Al utilizar esta interfaz, acepta nuestros <0>Términos y Política de Privacidad</0>.",
-    "dedicated1": "Esta interfaz es solo una capa sobre los contratos de puente nativos para <0>{{name}}</0>.",
+    "superbridge2": "Superbridge no retiene fondos en ningún momento.",
+    "superbridge3": "Para obtener ayuda con el puente, dirígete a <0>soporte y preguntas frecuentes</0>.",
+    "superbridge4": "Al usar esta interfaz, aceptas nuestros <0>Términos y Política de privacidad</0>.",
+
+    "dedicated1": "Esta interfaz es solo una capa sobre los contratos de puente nativos de <0>{{name}}</0>.",
     "agreeAndContinue": "Aceptar y continuar",
-    "forceReadTerms": "Lea y acepte los Términos de Servicio",
-    "forceReadPrivacy": "Lea y acepte la Política de Privacidad"
+
+    "forceReadTerms": "Por favor, lee y acepta los Términos de servicio",
+    "forceReadPrivacy": "Por favor, lee y acepta la Política de privacidad"
   },
+
   "legal": {
-    "footerButton": "Términos y Privacidad",
-    "title": "Términos y Privacidad",
-    "superbridgeTerms": "Términos de Servicio de Superbridge",
-    "superbridgePrivacy": "Política de Privacidad de Superbridge",
-    "dedicatedTerms": "Términos de Servicio de {{name}}",
-    "dedicatedPrivacy": "Política de Privacidad de {{name}}"
+    "footerButton": "Términos y privacidad",
+    "title": "Términos y privacidad",
+    "superbridgeTerms": "Términos de servicio de Superbridge",
+    "superbridgePrivacy": "Política de privacidad de Superbridge",
+    "dedicatedTerms": "Términos de servicio de {{name}}",
+    "dedicatedPrivacy": "Política de privacidad de {{name}}"
   },
+
   "noGasModal": {
     "youNeedGasOn": "Necesitas gas en {{to}}",
     "needHelp": "¿Necesitas ayuda? Ver preguntas frecuentes",
-    "cctp": "La creación de puentes para {{symbol}} requiere una transacción adicional en {{to}}. Por favor, recarga {{gas}} en {{to}} para completar este puente.",
-    "opWithdrawing": "El retiro requiere 2 transacciones adicionales en {{to}}. Por favor, recarga {{gas}} en {{to}} para completar este retiro.",
-    "arbWithdrawing": "El retiro de {{token}} requiere una transacción adicional en {{to}}. Por favor, recarga {{gas}} en {{to}} para completar este retiro.",
-    "depositing": "Sin gas en {{to}}, no podrás realizar ninguna transacción. Por favor, recarga {{gas}} en {{to}} antes de intentar este puente.",
+    "cctp": "Establecer puente de {{symbol}} requiere una transacción adicional en {{to}}. Por favor recarga {{gas}} en {{to}} para completar este puente.",
+    "opWithdrawing": "Retirar requiere 2 transacciones adicionales en {{to}}. Por favor recarga {{gas}} en {{to}} para completar este retiro.",
+    "arbWithdrawing": "Retirar {{token}} requiere una transacción adicional en {{to}}. Por favor recarga {{gas}} en {{to}} para completar este retiro.",
+    "depositing": "Sin gas en {{to}} no podrás realizar transacciones. Por favor recarga {{gas}} en {{to}} antes de intentar este puente.",
     "topup": "Recargar gas en {{to}}",
     "goBack": "Regresar",
-    "proceedAnyway": "Continuar de todos modos"
-  },
-  "expensiveGasModal": {
-    "title": "Las tarifas de la red serán superiores al valor del token",
-    "notBestOption": "Superbridge puede no ser la mejor opción para esta cantidad. Por favor considere <0>estos puentes alternativos</0>.",
-    "bridgeAmount": "Cantidad a transferir",
-    "networkFees": "Tarifas de red",
-    "goBack": "Volver",
     "proceedAnyway": "Proceder de todos modos"
   },
+
+  "expensiveGasModal": {
+    "title": "Las comisiones de la red serán más altas que el valor del token",
+    "notBestOption": "Superbridge puede no ser la mejor opción para esta cantidad. Por favor, considera <0>estas alternativas</0>.",
+    "bridgeAmount": "Cantidad del puente",
+    "networkFees": "Comisiones de red",
+    "goBack": "Regresar",
+    "proceedAnyway": "Proceder de todos modos"
+  },
+
+  "feeModal": {
+    "providerFees": "Comisiones de {{provider}}",
+    "acrossFeeBreakdownDescription": "Comisiones pagadas a <0>Across</0> y sus proveedores de liquidez y retransmisores",
+    "hyperlaneFeeBreakdownDescription": "Comisiones pagadas a los retransmisores de <0>Hyperlane</0> para la entrega de mensajes"
+  },
+
+  "gasInfoModal": {
+    "title": "Comisiones de gas",
+    "description": "Con blockchain necesitas pagar una comisión para enviar transacciones. Las transacciones enviadas a {{from}} requieren una pequeña cantidad de {{symbol}} para asegurar su confirmación por la red.",
+
+    "opWithdrawal": "Los retiros desde rollups de OP Stack requieren dos transacciones adicionales para probar y finalizar el retiro en la cadena de liquidación.",
+    "arbWithdrawal": "Los retiros desde rollups de Arbitrum Nitro requieren una transacción adicional para finalizar en la cadena de liquidación.",
+    "cctp": "Los puentes nativos de USDC vía CCTP requieren una transacción adicional en la cadena de destino."
+  },
+
+  "networkSelectorModal": {
+    "title": "Selecciona una red"
+  },
+
+  "routeSelectorModal": {
+    "title": "Elige ruta"
+  },
+
   "across": {
-    "transferTimeTitle": "Tiempo de transferencia superrápido",
-    "transferTimeDescription": "Dependiendo del tamaño del puente, los tiempos de transferencia superrápidos pueden variar. Los tiempos son solo estimaciones.",
+    "transferTimeTitle": "Tiempo de transferencia súper rápido",
+    "transferTimeDescription": "Dependiendo del tamaño del puente, los tiempos de transferencia súper rápidos pueden variar. Los tiempos son solo estimaciones.",
     "timeTo": "Tiempo a {{to}}",
-    "feeBreakdownTitle": "Tarifas superrápidas",
-    "feeBreakdownDescription": "Tarifas pagadas a <0>Across</0> y sus proveedores de liquidez y retransmisores",
-    "acrossFee": "Tarifa de Across"
+    "feeBreakdownTitle": "Comisiones de Across",
+    "feeBreakdownDescription": "Comisiones pagadas a <0>Across</0> y sus proveedores de liquidez y retransmisores",
+    "acrossFee": "Comisión de Across"
+  },
+
+  "header": {
+    "supportAndFaqs": "Soporte y preguntas frecuentes",
+    "legal": "Legal"
   }
 }

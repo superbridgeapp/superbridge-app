@@ -7,8 +7,7 @@
  */
 import type { EthDepositDto } from './ethDepositDto';
 import type { TokenDepositDto } from './tokenDepositDto';
-import type { NftDepositDto } from './nftDepositDto';
 import type { AcrossBridgeMetadataDto } from './acrossBridgeMetadataDto';
 import type { LzBridgeMetadataDto } from './lzBridgeMetadataDto';
 
-export type ArbitrumDepositEthDtoMetadata = EthDepositDto | TokenDepositDto | NftDepositDto | AcrossBridgeMetadataDto | LzBridgeMetadataDto;
+export type ArbitrumDepositEthDtoMetadata = EthDepositDto | TokenDepositDto | AcrossBridgeMetadataDto | LzBridgeMetadataDto;

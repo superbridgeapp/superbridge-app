@@ -19,6 +19,7 @@ import { useTokenBalance } from "@/hooks/use-balances";
 import { useBaseNativeTokenBalance } from "@/hooks/use-base-native-token-balance";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
 import { useInitiatingChain } from "@/hooks/use-initiating-chain-id";
+import { useModal } from "@/hooks/use-modal";
 import { useRequiredCustomGasTokenBalance } from "@/hooks/use-required-custom-gas-token-balance";
 import { useWeiAmount } from "@/hooks/use-wei-amount";
 import { useIsWithdrawal } from "@/hooks/use-withdrawing";
@@ -50,6 +51,7 @@ export const BridgeButton = () => {
   const disabled = useBridgeDisabled();
   const route = useSelectedBridgeRoute();
   const routeRequest = useRouteRequest();
+  const recipientAddressModal = useModal("RecipientAddress");
 
   const initiatingChain = useInitiatingChain();
   const fromEthBalance = useBalance({
@@ -152,9 +154,9 @@ export const BridgeButton = () => {
       disabled: false,
     }))
     .with({ recipient: "" }, () => ({
-      onSubmit: () => {},
-      buttonText: t("reviewBridge"),
-      disabled: true,
+      onSubmit: () => recipientAddressModal.open(),
+      buttonText: t("recipient.addRecipientAddress"),
+      disabled: false,
     }))
     .with({ weiAmount: BigInt("0") }, () => ({
       onSubmit: () => {},
@@ -196,9 +198,9 @@ export const BridgeButton = () => {
       }),
       disabled: true,
     }))
-    .with({ isSubmitting: true }, (d) => ({
+    .with({ isSubmitting: true }, () => ({
       onSubmit: () => {},
-      buttonText: d.withdrawing ? t("withdrawing") : t("depositing"),
+      buttonText: t("bridging"),
       disabled: true,
     }))
     .otherwise((d) => ({
