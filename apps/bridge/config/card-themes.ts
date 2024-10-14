@@ -359,7 +359,7 @@ const polygonAmoyTheme = {
   icon: "/img/polygon/icon.svg",
 };
 
-const shapeTheme = {
+export const shapeTheme = {
   icon: "/img/shape/icon.svg",
   card: {
     className: "bg-[#31E3DF]",
@@ -527,7 +527,7 @@ const enduranceTheme = {
   },
 };
 
-const moltenTheme = {
+export const moltenTheme = {
   icon: "/img/molten/icon.svg",
   card: {
     className: "bg-zinc-900",

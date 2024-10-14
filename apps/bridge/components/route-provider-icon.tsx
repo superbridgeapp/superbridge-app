@@ -11,6 +11,7 @@ import {
 } from "@/codegen/model";
 import { chainIcons } from "@/config/chain-icon-overrides";
 import { depositRoutes, nativeRoutes } from "@/constants/routes";
+import { useHyperlaneMailboxes } from "@/hooks/hyperlane/use-hyperlane-mailboxes";
 import { useProviderName } from "@/hooks/providers/use-provider-name";
 
 const icons = {
@@ -61,6 +62,8 @@ export const RouteProviderIcon = ({
   fromChainId: number;
   toChainId: number;
 }) => {
+  const hyperlaneMailboxes = useHyperlaneMailboxes();
+
   if (!provider) {
     return null;
   }
@@ -71,7 +74,16 @@ export const RouteProviderIcon = ({
     // if withdrawal, first step
 
     const chainId = depositRoutes.includes(provider) ? toChainId : fromChainId;
-    const override = chainIcons[chainId];
+
+    let override = chainIcons[chainId];
+    if (chainId === 360) {
+      if (hyperlaneMailboxes.length) {
+        override = "/img/networks/molten.svg";
+      } else {
+        override = "/img/shape/icon.svg";
+      }
+    }
+
     if (override) {
       icon = override;
     }

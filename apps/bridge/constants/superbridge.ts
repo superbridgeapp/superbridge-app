@@ -19,6 +19,7 @@ export const SUPERCHAIN_MAINNETS = [
   "snaxchain-mainnet",
   "world-chain",
   "soneium-mainnet",
+  "shape-mainnet",
 ];
 
 export const SUPERCHAIN_TESTNETS = [
