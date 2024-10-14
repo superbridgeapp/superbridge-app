@@ -16,8 +16,8 @@ import {
 } from "@/hooks/activity/use-tx-token";
 import { useHelpCenterLinkByProvider } from "@/hooks/help/use-help-center-link";
 import { useModal } from "@/hooks/use-modal";
-import { usePeriodText } from "@/hooks/use-period-text";
 import { useTransactions } from "@/hooks/use-transactions";
+import { useTransformPeriodText } from "@/hooks/use-transform-period-text";
 import { usePendingTransactions } from "@/state/pending-txs";
 import { getPeriod } from "@/utils/get-period";
 import { getInitiatingHash } from "@/utils/initiating-tx-hash";
@@ -67,7 +67,7 @@ const Content = () => {
 
   const duration = useTxDuration(tx);
 
-  const transformPeriodIntoText = usePeriodText();
+  const transformPeriodIntoText = useTransformPeriodText();
 
   const transferTime = transformPeriodIntoText(
     "transferTime",

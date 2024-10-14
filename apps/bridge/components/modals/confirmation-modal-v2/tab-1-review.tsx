@@ -35,9 +35,9 @@ import {
 } from "@/hooks/tokens/use-token";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
 import { useModal } from "@/hooks/use-modal";
-import { usePeriodText } from "@/hooks/use-period-text";
 import { useReceiveAmount } from "@/hooks/use-receive-amount";
 import { useApproxTotalBridgeTime } from "@/hooks/use-transfer-time";
+import { useTransformPeriodText } from "@/hooks/use-transform-period-text";
 import { useConfigState } from "@/state/config";
 
 export const ConfirmationModalReviewTab = ({
@@ -63,7 +63,7 @@ export const ConfirmationModalReviewTab = ({
 
   const receive = useReceiveAmount();
 
-  const transformPeriodIntoText = usePeriodText();
+  const transformPeriodIntoText = useTransformPeriodText();
 
   const transferTime = transformPeriodIntoText(
     "transferTime",
