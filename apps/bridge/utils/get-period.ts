@@ -7,6 +7,7 @@ export type Period =
   | { period: "days"; value: number }
   | { period: "hours"; value: number }
   | { period: "mins"; value: number }
+  | { period: "secs"; value: number }
   | null;
 
 export const getPeriod = (seconds: number): Period => {
@@ -22,9 +23,16 @@ export const getPeriod = (seconds: number): Period => {
       value: Math.round(seconds / ONE_HOUR),
     };
   }
+  if (seconds >= ONE_MINUTE) {
+    return {
+      period: "mins",
+      value: Math.round(Math.max(seconds / ONE_MINUTE, 1)),
+    };
+  }
+
   return {
-    period: "mins",
-    value: Math.round(Math.max(seconds / ONE_MINUTE, 1)),
+    period: "secs",
+    value: Math.round(seconds),
   };
 };
 

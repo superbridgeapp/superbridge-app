@@ -28,6 +28,8 @@
   "off": "off",
   "receiveOnChain": "Receive on {{chain}}",
   "transferTime": "Transfer time",
+  "transferTimeSeconds_one": "~{{count}} sec",
+  "transferTimeSeconds_other": "~{{count}} secs",
   "transferTimeMinutes_one": "~{{count}} min",
   "transferTimeMinutes_other": "~{{count}} mins",
   "transferTimeHours_one": "~{{count}} hour",
