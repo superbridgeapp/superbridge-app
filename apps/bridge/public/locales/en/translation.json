@@ -1,12 +1,6 @@
 {
-  "deposit": "Deposit",
-  "depositDisabled": "Deposits disabled",
-  "depositing": "Depositing",
-  "withdraw": "Withdraw",
-  "withdrawing": "Withdrawing",
   "reviewBridge": "Review bridge",
   "bridging": "Bridging",
-  "approving": "Approving",
   "connectWallet": "Connect wallet",
   "switchToApprove": "Switch",
   "approve": "Approve",

@@ -198,9 +198,9 @@ export const BridgeButton = () => {
       }),
       disabled: true,
     }))
-    .with({ isSubmitting: true }, (d) => ({
+    .with({ isSubmitting: true }, () => ({
       onSubmit: () => {},
-      buttonText: d.withdrawing ? t("withdrawing") : t("depositing"),
+      buttonText: t("bridging"),
       disabled: true,
     }))
     .otherwise((d) => ({
