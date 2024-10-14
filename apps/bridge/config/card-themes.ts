@@ -36,6 +36,11 @@ import {
   scroll,
   sepolia,
   shapeSepolia,
+  snax,
+  snaxTestnet,
+  swan,
+  swanProximaTestnet,
+  swanSaturnTestnet,
   zircuitTestnet,
   zora,
   zoraSepolia,
@@ -612,6 +617,38 @@ const unichainTheme = {
   },
 };
 
+const snaxTheme = {
+  icon: "/img/snax/icon.svg",
+  card: {
+    className: "bg-gradient-to-b from-[#06061B] to-[#170C34]",
+    title: "text-white",
+  },
+};
+
+const raceTheme = {
+  icon: "/img/race/icon.svg",
+  card: {
+    className: "bg-[#05141B]",
+    title: "text-white",
+    overlay: {
+      image: "/img/race/bg-card.jpg",
+      className: "bg-cover bg-bottom bg-no-repeat",
+    },
+  },
+};
+
+const swanTheme = {
+  icon: "/img/swanchain/icon.svg",
+  card: {
+    className: "bg-[#447DFF]",
+    title: "text-white",
+    overlay: {
+      image: "/img/swanchain/bg-card.svg",
+      className: "bg-cover bg-bottom bg-no-repeat mix-blend-multiply",
+    },
+  },
+};
+
 export const cardThemes: {
   [chainId: string]: { card: CardTheme; icon: string } | undefined;
 } = {
@@ -665,6 +702,15 @@ export const cardThemes: {
   [celoAlfajores.id]: celoTheme,
   [48900]: zircuitTheme,
   [zircuitTestnet.id]: zircuitTheme,
+  [swan.id]: swanTheme,
+  [swanSaturnTestnet.id]: swanTheme,
+  [swanProximaTestnet.id]: swanTheme,
+  [snax.id]: snaxTheme,
+  [snaxTestnet.id]: snaxTheme,
+  // Race
+  [6805]: raceTheme,
+  // Race Testnet
+  [6806]: raceTheme,
   // Degen Chain
   [666666666]: degenTheme,
   // Fuse
