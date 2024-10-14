@@ -14,21 +14,23 @@ export const Recipient = () => {
 
   return (
     <div
-      className="flex items-center justify-between"
+      className="flex items-center justify-between shrink-0"
       onClick={!account.address ? () => {} : () => recipientAddressModal.open()}
     >
       {!account.address ? (
         <span className={"text-xs text-muted-foreground"}>{/* empty */}</span>
       ) : !recipientAddress ? (
-        <div className="flex justify-center items-center gap-1 pl-2 pr-1 py-1 rounded-full cursor-pointer hover:scale-105 transition-all bg-muted">
+        <div className="flex justify-center items-center gap-1 pl-2 pr-1 py-1 rounded-full cursor-pointer hover:scale-105 transition-all bg-card">
+          <span className="text-[10px] font-button leading-none">
+            Add address
+          </span>
           <IconAddCircle className="w-3 h-3 fill-foreground" />
         </div>
       ) : (
         <div
           className={clsx(
             `h-5 flex justify-center items-center gap-1 px-2 py-1 mr-0.5 rounded-full cursor-pointer hover:scale-105 transition-all bg-card`,
-            account.address !== recipientAddress &&
-              "bg-primary text-primary-foreground"
+            account.address !== recipientAddress && "bg-card text-foreground"
           )}
         >
           {account.address !== recipientAddress ? (
@@ -40,7 +42,7 @@ export const Recipient = () => {
                       recipientAddress.length - 4
                     )}`}
               </span>
-              <IconWallet className="w-3 h-3 fill-primary-foreground" />
+              <IconWallet className="w-3 h-3 fill-foreground" />
             </>
           ) : (
             <IconWallet className="w-3 h-3 fill-muted-foreground" />
