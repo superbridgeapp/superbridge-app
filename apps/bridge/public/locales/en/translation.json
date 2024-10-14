@@ -176,7 +176,6 @@
   },
 
   "confirmationModal": {
-    "start": "Start",
     "startBridgeOn": "Start on {{from}}",
     "bridgeFrom": "Bridge from {{from}}",
     "proveOn": "Prove on {{to}}",
@@ -192,7 +191,6 @@
     "waitDays_other": "Wait ~{{count}} days",
     "prove": "Prove on {{base}}",
     "finalize": "Claim on {{to}}",
-    "receiveDeposit": "Receive on {{rollup}}",
     "receiveAmountOnChain": "Receive {{receiveAmount}} {{receiveSymbol}} on {{to}}",
     "receiveAmount": "Receive {{formatted}}",
     "approve": "Approve {{symbol}}",
