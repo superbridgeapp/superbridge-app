@@ -27,6 +27,7 @@ export const buildPendingTx = (
   account: Address,
   recipient: Address,
   weiAmount: bigint,
+  receiveAmount: bigint,
   fromToken: Token | null,
   toToken: Token | null,
   withdrawing: boolean,
@@ -59,7 +60,7 @@ export const buildPendingTx = (
         data: {
           isEth: isEth(fromToken),
           inputAmount: weiAmount.toString(),
-          outputAmount: weiAmount.toString(),
+          outputAmount: receiveAmount.toString(),
           inputTokenAddress: fromToken?.address ?? "",
           outputTokenAddress: toToken?.address ?? "",
         },
