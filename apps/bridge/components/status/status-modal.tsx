@@ -11,7 +11,7 @@ import { useFaultProofUpgradeTime } from "@/hooks/use-fault-proof-upgrade-time";
 import { isOptimism } from "@/utils/deployments/is-mainnet";
 import { getPeriod } from "@/utils/get-period";
 
-import { Dialog, DialogContent } from "../ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
 
 export const StatusModal = ({
   deployment,
@@ -41,21 +41,19 @@ export const StatusModal = ({
   return (
     <Dialog open={!!deployment} onOpenChange={onClose}>
       <DialogContent>
-        <section className="max-w-3xl mx-auto p-8">
-          <header className="flex flex-col items-center py-16 gap-4">
-            <img
-              src={deployment?.theme?.theme.imageNetwork}
-              alt={rollupChain}
-              className="w-24 h-24 rounded-full"
-            />
-            <h1 className="font-heading text-6xl  text-center">
-              {rollupChain} Status
-            </h1>
+        <DialogHeader className="pt-12 flex flex-col gap-4 items-center justify-center">
+          <img
+            src={deployment?.theme?.theme.imageNetwork}
+            alt={rollupChain}
+            className="w-16 h-16 rounded-full"
+          />
 
-            {faultProofUpgradeTime && (
-              <FaultProofAlert deployment={deployment} />
-            )}
-          </header>
+          <DialogTitle className="tracking-tight font-heading text-center text-2xl">
+            {rollupChain} Status
+          </DialogTitle>
+        </DialogHeader>
+        <div>
+          {faultProofUpgradeTime && <FaultProofAlert deployment={deployment} />}
 
           <StatusContactModal
             open={contactModal}
@@ -66,7 +64,7 @@ export const StatusModal = ({
           />
 
           <StatusChecks deployment={deployment} />
-        </section>
+        </div>
       </DialogContent>
     </Dialog>
   );

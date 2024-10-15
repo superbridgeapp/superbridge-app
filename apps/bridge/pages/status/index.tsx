@@ -19,7 +19,13 @@ export default function Status({
   const [deployment, setDeployment] = useState<DeploymentDto | null>(null);
 
   if (!deployments) {
-    return <div>Not Found</div>;
+    return (
+      <div className="flex p-6 items-center text-center">
+        <span className="text-center text-muted-foreground text-base">
+          Not Found...
+        </span>
+      </div>
+    );
   }
 
   return (
@@ -29,7 +35,9 @@ export default function Status({
         <StatusProviders deployments={deployments}>
           <section className="max-w-3xl mx-auto p-8">
             <header className="py-16">
-              <h1 className="font-heading text-6xl">Superchain Status</h1>
+              <h1 className="font-heading text-4xl md:text-6xl tracking-tighter text-center">
+                Superchain Status
+              </h1>
             </header>
             <div className="rounded-xl bg-card">
               <ul className="divide-y">
