@@ -59,6 +59,8 @@ export default function ChainsPage() {
         superbridgeTestnets: false,
         widget: false,
         superbridgeConfig: null,
+        isPaid: true,
+        deletedAt: null,
       }}
     >
       <Providers>
