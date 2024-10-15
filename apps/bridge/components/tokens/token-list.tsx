@@ -111,9 +111,8 @@ export const TokenList = () => {
               .map((x) => x.address),
             "ETH",
             "USDC",
-            "DAI",
+            "stETH",
             "USDT",
-            "WBTC",
           ]
             .filter(Boolean)
             .map((symbolOrAddress) => {
