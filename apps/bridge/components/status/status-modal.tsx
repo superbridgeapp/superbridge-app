@@ -25,17 +25,13 @@ export const StatusModal = ({
 
   const faultProofUpgradeTime = useFaultProofUpgradeTime(deployment);
 
-  if (!deployment) {
-    return <div>Not Found</div>;
-  }
-
-  const settlementChain = deployment.l1.name;
-  const rollupChain = deployment.l2.name;
+  const settlementChain = deployment?.l1.name;
+  const rollupChain = deployment?.l2.name;
 
   const finalizationPeriod = getPeriod(
-    isOptimism(deployment)
+    deployment && isOptimism(deployment)
       ? deployment.proveDuration! + deployment.finalizeDuration
-      : deployment.finalizeDuration
+      : (deployment?.finalizeDuration ?? 0)
   );
 
   return (
@@ -70,7 +66,11 @@ export const StatusModal = ({
   );
 };
 
-const FaultProofAlert = ({ deployment }: { deployment: DeploymentDto }) => {
+const FaultProofAlert = ({
+  deployment,
+}: {
+  deployment: DeploymentDto | null;
+}) => {
   return (
     <Alert size={"lg"}>
       <IconAlert className="w-6 h-6" />

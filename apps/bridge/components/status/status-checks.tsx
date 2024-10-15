@@ -81,7 +81,11 @@ const StatusLineItem = ({
   );
 };
 
-export const StatusChecks = ({ deployment }: { deployment: DeploymentDto }) => {
+export const StatusChecks = ({
+  deployment,
+}: {
+  deployment: DeploymentDto | null;
+}) => {
   const statusChecks = useDeploymentStatusChecks(deployment);
 
   return (
