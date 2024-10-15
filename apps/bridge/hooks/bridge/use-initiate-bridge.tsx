@@ -23,6 +23,7 @@ import { useSelectedBridgeRoute } from "../routes/use-selected-bridge-route";
 import { useAllowanceGasToken } from "../use-allowance-gas-token";
 import { useTokenBalances } from "../use-balances";
 import { useInitiatingChainId } from "../use-initiating-chain-id";
+import { useReceiveAmount } from "../use-receive-amount";
 import { useWeiAmount } from "../use-wei-amount";
 import { useIsWithdrawal } from "../use-withdrawing";
 import { useBridge } from "./use-bridge";
@@ -54,6 +55,7 @@ export const useInitiateBridge = () => {
   const hyperlaneMailboxes = useHyperlaneMailboxes();
   const lzDomains = useLzDomains();
   const balances = useTokenBalances();
+  const receive = useReceiveAmount();
 
   const initiatingChainId = useInitiatingChainId();
   const initiatingChain = useChain(initiatingChainId);
@@ -114,6 +116,9 @@ export const useInitiateBridge = () => {
         account.address,
         recipient,
         weiAmount,
+        receive.data?.token.amount
+          ? BigInt(receive.data.token.amount)
+          : BigInt(0),
         fromToken,
         toToken,
         withdrawing,
