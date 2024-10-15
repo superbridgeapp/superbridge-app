@@ -117,7 +117,7 @@ export const useInitiateBridge = () => {
         recipient,
         weiAmount,
         receive.data?.token.amount
-          ? BigInt(receive.data.token.amount)
+          ? BigInt(receive.data.token.amount * 10 ** (toToken?.decimals ?? 18))
           : BigInt(0),
         fromToken,
         toToken,
