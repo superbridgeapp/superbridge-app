@@ -1,5 +1,4 @@
 import { useTheme } from "next-themes";
-import Image from "next/image";
 import { useTranslation } from "react-i18next";
 
 import { useBridgeControllerFiatPrices } from "@/codegen/index";
@@ -13,7 +12,10 @@ import {
 } from "@/components/ui/select";
 import { flagSymbolMap } from "@/constants/currency-symbol-map";
 import { useIsHyperlanePlayground } from "@/hooks/apps/use-is-hyperlane";
-import { useIsSuperbridge } from "@/hooks/apps/use-is-superbridge";
+import {
+  useIsSuperbridge,
+  useIsSuperbridgeMainnet,
+} from "@/hooks/apps/use-is-superbridge";
 import { useDeployments } from "@/hooks/deployments/use-deployments";
 import { useIsContractAccount } from "@/hooks/use-is-contract-account";
 import { useModal } from "@/hooks/use-modal";
@@ -33,6 +35,7 @@ import { TokenLists } from "./token-lists";
 export const SettingsModal = () => {
   const { t, i18n } = useTranslation();
   const isSuperbridge = useIsSuperbridge();
+  const isSuperbridgeMainnet = useIsSuperbridgeMainnet();
   const isHyperlanePlayground = useIsHyperlanePlayground();
   const trackEvent = useTrackEvent();
 
@@ -269,7 +272,7 @@ export const SettingsModal = () => {
                 </Select>
               </div>
 
-              {isSuperbridge && (
+              {isSuperbridgeMainnet && (
                 <div className="flex items-center justify-between p-4">
                   <div className="flex gap-2 items-center">
                     <svg
