@@ -11,7 +11,7 @@ export const BridgeDeleted = () => {
       ["discord", "twitter", "x.com"].find((y) =>
         x.url.toLowerCase().includes(y)
       )
-    )?.url ?? app?.links[0].url;
+    )?.url ?? app?.links[0]?.url;
 
   return (
     <div className="min-h-[480px] p-10 flex flex-col gap-2 items-center justify-center">
