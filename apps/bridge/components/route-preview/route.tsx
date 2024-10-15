@@ -193,7 +193,7 @@ export const Route = ({
           )}
         </div>
         <div className="flex gap-1 items-center ml-auto">
-          <span className="text-xs leading-none text-muted-foreground">
+          <span className="text-xs text-right leading-none text-muted-foreground">
             {time.data}
           </span>
           <IconTime className="h-3.5 w-3.5 fill-muted-foreground" />{" "}
