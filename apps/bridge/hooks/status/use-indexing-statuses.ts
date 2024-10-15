@@ -5,14 +5,16 @@ import { useBridgeControllerGetDeploymentSyncStatus } from "@/codegen/index";
 import { DeploymentDto } from "@/codegen/model";
 import { SupportCheckStatus } from "@/components/status/types";
 
-export const useIndexingStatuses = (deployment: DeploymentDto) => {
-  const status = useBridgeControllerGetDeploymentSyncStatus(deployment.id);
+export const useIndexingStatuses = (deployment: DeploymentDto | null) => {
+  const status = useBridgeControllerGetDeploymentSyncStatus(
+    deployment?.id ?? ""
+  );
 
   return useMemo(() => {
     if (status.isLoading) {
       return [
         {
-          title: `${deployment.l2.name} indexing status`,
+          title: `${deployment?.l2.name} indexing status`,
           status: SupportCheckStatus.Loading,
           description: "Loading…",
         },
@@ -22,7 +24,7 @@ export const useIndexingStatuses = (deployment: DeploymentDto) => {
     if (!status.data?.data) {
       return [
         {
-          title: `${deployment.l2.name} indexing status`,
+          title: `${deployment?.l2.name} indexing status`,
           description: `Unable to load…`,
           status: SupportCheckStatus.Error,
         },

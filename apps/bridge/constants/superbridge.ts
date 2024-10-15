@@ -36,7 +36,7 @@ export const SUPERCHAIN_TESTNETS = [
   "lattice-testnet",
   "mint-sepolia-testnet-ijtsrc4ffq",
   "xterio-eth-testnet",
-  "celo-testnet",
+  "celo-alfajores",
   "shape-testnet",
   "snaxchain-testnet",
   "soneium-minato",
