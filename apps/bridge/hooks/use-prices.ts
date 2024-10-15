@@ -1,4 +1,5 @@
 import { useCallback } from "react";
+import { zeroAddress } from "viem";
 
 import {
   useBridgeControllerFiatPrices,
@@ -33,6 +34,8 @@ export const useGetTokenPrice = () => {
         //   tokenPrice =
         //     prices.data?.data?.[`coingecko:${token?.[1]?.coinGeckoId}`]?.price ??
         //     null;
+      } else if (t?.address?.toLowerCase() == zeroAddress) {
+        tokenPrice = null;
       } else {
         tokenPrice =
           // @ts-expect-error
