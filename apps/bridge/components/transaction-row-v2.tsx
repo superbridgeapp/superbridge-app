@@ -156,14 +156,14 @@ const useStatus = (tx: Transaction): Status => {
   if (action === "finalize") {
     return {
       description: `Ready to finalize`,
-      button: "Finalize",
+      button: "Get",
     };
   }
 
   if (action === "mint") {
     return {
       description: `Ready to mint`,
-      button: "Mint",
+      button: "Get",
     };
   }
 
