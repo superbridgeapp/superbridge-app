@@ -23,7 +23,7 @@ export function HeaderVersion() {
           </div> */}
         <Button
           size="xs"
-          className="text-xs font-body leading-none h-auto py-1.5 px-2.5 bg-card text-muted-foreground opacity-90 shadow-sm"
+          className="text-[10px] font-body leading-none h-auto py-1.5 px-2.5 bg-card text-foreground focus-visible:ring-0 focus:ring-0 opacity-90 shadow-sm"
         >
           V3.0 Beta
         </Button>
