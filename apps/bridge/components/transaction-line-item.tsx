@@ -40,6 +40,7 @@ import { Skeleton } from "./ui/skeleton";
 
 function WaitLineItem({
   step,
+  tx,
 }: {
   step: WaitStep;
   tx?: Pick<Transaction, "type">;
@@ -77,7 +78,9 @@ function WaitLineItem({
         </div>
 
         <span className="text-sm font-heading leading-none">
-          Wait {formatDurationToNow(Date.now() + step.duration)}
+          {tx?.type === "across-bridge"
+            ? "Wait a short moment"
+            : `Wait ${formatDurationToNow(Date.now() + step.duration)}`}
         </span>
 
         <span className="ml-auto">
