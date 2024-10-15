@@ -385,8 +385,8 @@ export const TransactionRowV2 = ({ tx }: { tx: Transaction }) => {
             </span>
           </div>
           <div className="flex items-center -mt-1 lg:mt-0.5 gap-2">
-            <span className="text-xs text-muted-foreground">
-              Via {providerName}
+            <span className="text-xs text-right text-muted-foreground">
+              <span className="hidden md:inline">Via</span> {providerName}
             </span>
             {provider === "OptimismForcedWithdrawal" && (
               <div className="bg-muted rounded-full px-1 flex items-center gap-1">
