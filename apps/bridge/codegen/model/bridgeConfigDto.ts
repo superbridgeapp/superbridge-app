@@ -24,11 +24,14 @@ export interface BridgeConfigDto {
   banner: BridgeConfigDtoBanner;
   cctpDomains: CctpDomainDto[];
   chains: ChainDto[];
+  /** @nullable */
+  deletedAt: number | null;
   deployments: DeploymentDto[];
   highlightedTokens: HighlightedTokens[];
   hyperlaneMailboxes: HyperlaneMailboxDto[];
   initialFromChainId: number;
   initialToChainId: number;
+  isPaid: boolean;
   links: LinkDto[];
   lzDomains: LzDomainDto[];
   metadata: PaidDeploymentMetadataDto;

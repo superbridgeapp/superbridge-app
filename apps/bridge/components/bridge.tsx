@@ -1,15 +1,16 @@
 import clsx from "clsx";
 
-import { useDeployment } from "@/hooks/deployments/use-deployment";
 import { useIsWidget } from "@/hooks/use-is-widget";
+import { useDeletedAt } from "@/hooks/use-metadata";
 
 import { Banners } from "./banners";
 import { BridgeBody } from "./bridge-body";
 import { BridgeDeleted } from "./bridge-deleted";
 import { BridgeHeader } from "./bridge-header";
+import { UpgradePromo } from "./upgrade-promo";
 
 export const Bridge = () => {
-  const deployment = useDeployment();
+  const deletedAt = useDeletedAt();
   const isWidget = useIsWidget();
 
   return (
@@ -28,8 +29,7 @@ export const Bridge = () => {
         <div className="flex flex-col gap-2 items-center h-full">
           <Banners />
           <>
-            {deployment?.deletedAt &&
-            new Date(deployment.deletedAt) < new Date() ? (
+            {deletedAt && deletedAt < Date.now() ? (
               <div className="w-full bg-card mx-auto rounded-[24px] md:rounded-[32px] shadow-sm shrink-0 backdrop-blur-sm">
                 <BridgeDeleted />
               </div>
@@ -49,6 +49,8 @@ export const Bridge = () => {
               </>
             )}
           </>
+
+          <UpgradePromo />
         </div>
       </div>
     </main>
