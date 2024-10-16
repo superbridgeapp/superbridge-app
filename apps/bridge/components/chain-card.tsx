@@ -3,7 +3,13 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 
 import { ChainDto } from "@/codegen/model";
-import { cardThemes, defaultCardTheme } from "@/config/card-themes";
+import {
+  cardThemes,
+  defaultCardTheme,
+  moltenTheme,
+  shapeTheme,
+} from "@/config/card-themes";
+import { useHyperlaneMailboxes } from "@/hooks/hyperlane/use-hyperlane-mailboxes";
 
 import { NetworkIcon } from "./network-icon";
 
@@ -27,7 +33,16 @@ export const ChainCard = ({
   chain: ChainDto;
   onSelect: () => void;
 }) => {
-  const theme = cardThemes[chain.id] ?? defaultCardTheme;
+  const hyperlaneMailboxes = useHyperlaneMailboxes();
+
+  let theme = cardThemes[chain.id] ?? defaultCardTheme;
+  if (chain.id === 360) {
+    if (hyperlaneMailboxes.length) {
+      theme = moltenTheme;
+    } else {
+      theme = shapeTheme;
+    }
+  }
 
   return (
     <motion.div

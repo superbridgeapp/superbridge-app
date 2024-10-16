@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 import { DeploymentDto } from "@/codegen/model";
 import { useDeploymentStatusChecks } from "@/hooks/status/use-deployment-status-checks";
 
@@ -7,8 +5,10 @@ import { SupportCheckStatus } from "./types";
 
 export function StatusDeploymentRow({
   deployment,
+  onClick,
 }: {
   deployment: DeploymentDto;
+  onClick: () => void;
 }) {
   const statusChecks = useDeploymentStatusChecks(deployment);
 
@@ -25,9 +25,8 @@ export function StatusDeploymentRow({
   );
 
   return (
-    <Link
-      href={`/support/${deployment.name}`}
-      prefetch={false}
+    <div
+      onClick={onClick}
       className="flex gap-2 items-center p-6 w-full cursor-pointer"
     >
       <img
@@ -56,6 +55,6 @@ export function StatusDeploymentRow({
           </span>
         )}
       </div>
-    </Link>
+    </div>
   );
 }

@@ -15,7 +15,6 @@ export const RoutePreview = () => {
 
   const routeSelectorModal = useModal("RouteSelector");
 
-  const routesCount = routes.data?.results.length ?? 0;
   const validRoutesCount =
     routes.data?.results.filter((x) => isRouteQuote(x.result)).length ?? 0;
 
@@ -40,7 +39,7 @@ export const RoutePreview = () => {
 
       {route.data &&
         isRouteQuoteError(route.data.result) &&
-        routesCount > 1 && (
+        validRoutesCount > 1 && (
           <div className="bg-muted rounded-xl p-4 flex flex-col gap-3">
             <Button
               onClick={() => routeSelectorModal.open()}

@@ -38,6 +38,7 @@ import { MessageStatus } from "../constants";
 import {
   IconCaretRight,
   IconCheckCircle,
+  IconEscapeHatch,
   IconSpinner,
   IconTime,
 } from "./icons";
@@ -155,14 +156,14 @@ const useStatus = (tx: Transaction): Status => {
   if (action === "finalize") {
     return {
       description: `Ready to finalize`,
-      button: "Finalize",
+      button: "Get",
     };
   }
 
   if (action === "mint") {
     return {
       description: `Ready to mint`,
-      button: "Mint",
+      button: "Get",
     };
   }
 
@@ -348,7 +349,9 @@ export const TransactionRowV2 = ({ tx }: { tx: Transaction }) => {
   const isInProgress = useIsInProgress(tx);
   const bars = useProgressBars(tx);
 
-  const providerName = useProviderName(useTxProvider(tx));
+  const provider = useTxProvider(tx);
+  const providerName = useProviderName(provider);
+
   return (
     <div
       className="bg-card w-full rounded-xl flex gap-2.5 lg:gap-3 p-6 pb-5 lg:p-8 lg:pb-7 relative"
@@ -373,7 +376,6 @@ export const TransactionRowV2 = ({ tx }: { tx: Transaction }) => {
         <div className="flex justify-between items-start">
           <div className="flex flex-col gap-1 lg:gap-0">
             <span className="text-xs lg:text-sm text-muted-foreground leading-none">
-              {/* Started{" "} */}
               {timestamp
                 ? `${formatDistanceToNowStrict(timestamp)} ago`
                 : "Just now"}
@@ -383,9 +385,14 @@ export const TransactionRowV2 = ({ tx }: { tx: Transaction }) => {
             </span>
           </div>
           <div className="flex items-center -mt-1 lg:mt-0.5 gap-2">
-            <span className="text-xs text-muted-foreground">
-              Via {providerName}
+            <span className="text-xs text-right text-muted-foreground">
+              <span className="hidden md:inline">Via</span> {providerName}
             </span>
+            {provider === "OptimismForcedWithdrawal" && (
+              <div className="bg-muted rounded-full px-1 flex items-center gap-1">
+                <IconEscapeHatch className="w-6 h-6 shrink-0" />
+              </div>
+            )}
             <div className="flex items-center">
               <NetworkIcon
                 chain={chains?.from}

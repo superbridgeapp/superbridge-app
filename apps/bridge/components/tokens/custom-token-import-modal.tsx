@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Address } from "viem";
+import { Address, isAddressEqual } from "viem";
 
 import { useDeployment } from "@/hooks/deployments/use-deployment";
 import { useMetadata } from "@/hooks/use-metadata";
@@ -40,6 +40,10 @@ const CustomTokenImport = () => {
   const [disclaimerChecked, setDisclaimerChecked] = useState(false);
 
   const onSubmit = () => {
+    if (!deployment) {
+      return;
+    }
+
     let l1Token: Token | undefined;
     let l2Token: Token | undefined;
 
@@ -89,7 +93,19 @@ const CustomTokenImport = () => {
       l2Token = arbL2Token;
     }
 
-    if (!l1Token || !l2Token) {
+    if (
+      !l1Token ||
+      !l2Token ||
+      customTokens.find(
+        (x) =>
+          x[deployment.l1.id] &&
+          x[deployment.l2.id] &&
+          isAddressEqual(
+            x[deployment.l1.id]!.address as Address,
+            x[deployment.l2.id]!.address as Address
+          )
+      )
+    ) {
       return;
     }
 

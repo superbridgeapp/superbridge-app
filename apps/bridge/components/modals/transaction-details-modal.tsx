@@ -16,8 +16,8 @@ import {
 } from "@/hooks/activity/use-tx-token";
 import { useHelpCenterLinkByProvider } from "@/hooks/help/use-help-center-link";
 import { useModal } from "@/hooks/use-modal";
-import { usePeriodText } from "@/hooks/use-period-text";
 import { useTransactions } from "@/hooks/use-transactions";
+import { useTransformPeriodText } from "@/hooks/use-transform-period-text";
 import { usePendingTransactions } from "@/state/pending-txs";
 import { getPeriod } from "@/utils/get-period";
 import { getInitiatingHash } from "@/utils/initiating-tx-hash";
@@ -25,7 +25,7 @@ import { useProgressRows } from "@/utils/progress-rows";
 import { isWaitStep } from "@/utils/progress-rows/common";
 
 import { BridgeInfo } from "../bridge-info";
-import { IconArrowUpRight, IconHelp } from "../icons";
+import { IconArrowUpRight, IconEscapeHatch, IconHelp } from "../icons";
 import { RouteProviderName } from "../route-provider-icon";
 import { TokenIcon } from "../token-icon";
 import { LineItem } from "../transaction-line-item";
@@ -67,7 +67,7 @@ const Content = () => {
 
   const duration = useTxDuration(tx);
 
-  const transformPeriodIntoText = usePeriodText();
+  const transformPeriodIntoText = useTransformPeriodText();
 
   const transferTime = transformPeriodIntoText(
     "transferTime",
@@ -86,9 +86,19 @@ const Content = () => {
         <TokenIcon token={token} className="h-12 w-12" />
         <DialogTitle className="flex flex-col gap-1.5 text-3xl text-center leading-none">
           Bridge {amount?.formatted} {token?.symbol} <br />
-          <span className="text-sm text-muted-foreground leading-none">
-            Via <RouteProviderName provider={provider} />
-          </span>
+          <div className="flex gap-1 justify-center items-center">
+            {provider === "OptimismForcedWithdrawal" && (
+              <div className="bg-muted rounded-full pl-2 pr-2.5 py-0 flex items-center gap-1">
+                <IconEscapeHatch className="w-6 h-6 shrink-0" />
+                <span className="text-sm text-muted-foreground leading-none">
+                  Escape hatch
+                </span>
+              </div>
+            )}
+            <span className="text-sm text-muted-foreground leading-none">
+              Via <RouteProviderName provider={provider} />
+            </span>
+          </div>
         </DialogTitle>
       </DialogHeader>
       <div className="mx-auto">

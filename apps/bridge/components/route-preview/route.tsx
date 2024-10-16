@@ -6,7 +6,7 @@ import {
   RouteStepTransactionDto,
 } from "@/codegen/model";
 import { useBridge } from "@/hooks/bridge/use-bridge";
-import { useBridgeGasEstimate } from "@/hooks/bridge/use-bridge-gas-estimate";
+import { useBridgeGasEstimateForRoute } from "@/hooks/bridge/use-bridge-gas-estimate";
 import { useFeesForRoute } from "@/hooks/fees/use-fees";
 import { useNetworkFeeForGasLimit } from "@/hooks/gas/use-network-fee";
 import { useSelectedBridgeRoute } from "@/hooks/routes/use-selected-bridge-route";
@@ -54,7 +54,10 @@ export const Route = ({
 
   const receive = getFormattedAmount(quote.receive);
 
-  const gasEstimate = useBridgeGasEstimate({ id: provider, result: quote });
+  const gasEstimate = useBridgeGasEstimateForRoute({
+    id: provider,
+    result: quote,
+  });
 
   console.log(">>>", gasEstimate);
   const estimate = BigInt(gasEstimate || 500_000);
@@ -192,7 +195,7 @@ export const Route = ({
           )}
         </div>
         <div className="flex gap-1 items-center ml-auto">
-          <span className="text-xs leading-none text-muted-foreground">
+          <span className="text-xs text-right leading-none text-muted-foreground">
             {time.data}
           </span>
           <IconTime className="h-3.5 w-3.5 fill-muted-foreground" />{" "}

@@ -24,21 +24,34 @@ export const FromTo = () => {
   const trackEvent = useTrackEvent();
 
   const networkSelectorEnabled = chains.length > 2;
+
+  const switchChains = () => {
+    if (!from || !to) return;
+
+    setToChainId(from.id);
+    setFromChainId(to.id);
+
+    trackEvent({ event: "from-chain-select", name: to.name });
+    trackEvent({ event: "to-chain-select", name: from.name });
+  };
+
+  const onClick = (dir: "from" | "to") => () => {
+    if (networkSelectorEnabled) {
+      setNetworkSelectorDirection(dir);
+      setDisplayNetworkSelector(true);
+    } else {
+      switchChains();
+    }
+  };
+
   return (
-    <div className={`relative flex justify-between gap-1.5 select-none pt-0.5`}>
+    <div className={`relative flex justify-between gap-1 select-none pt-0.5`}>
       <div
         className={clsx(
-          "flex gap-2 w-full items-start justify-start bg-muted px-3.5 py-4 rounded-lg transition-all origin-right grow-1",
-          networkSelectorEnabled && "cursor-pointer hover:scale-[1.02]"
+          "flex gap-2 w-full items-start justify-start bg-muted p-4 rounded-xl transition-all origin-right grow-1",
+          "cursor-pointer hover:scale-[1.02]"
         )}
-        onClick={
-          networkSelectorEnabled
-            ? () => {
-                setNetworkSelectorDirection("from");
-                setDisplayNetworkSelector(true);
-              }
-            : undefined
-        }
+        onClick={onClick("from")}
       >
         <NetworkIcon
           chain={from}
@@ -56,14 +69,7 @@ export const FromTo = () => {
         </div>
       </div>
       <button
-        onClick={() => {
-          if (!from || !to) return;
-          setToChainId(from.id);
-          setFromChainId(to.id);
-
-          trackEvent({ event: "from-chain-select", name: to.name });
-          trackEvent({ event: "to-chain-select", name: from.name });
-        }}
+        onClick={switchChains}
         className="rounded-md bg-card border-2 bg-clip-border border-card absolute left-[50%] top-1/2 -translate-x-[50%] -translate-y-2/4 z-10 transition-all hover:scale-105 overflow-hidden"
       >
         <div className="before:backdrop-blur-sm before:absolute before:inset-0 before:-z-10">
@@ -74,17 +80,10 @@ export const FromTo = () => {
       </button>
       <div
         className={clsx(
-          "flex gap-2 w-full items-start justify-end bg-muted px-3.5 py-4 rounded-lg transition-all origin-left",
-          networkSelectorEnabled && "cursor-pointer hover:scale-[1.02]"
+          "flex gap-2 w-full items-start justify-end bg-muted p-4 rounded-xl transition-all origin-left",
+          "cursor-pointer hover:scale-[1.02]"
         )}
-        onClick={
-          networkSelectorEnabled
-            ? () => {
-                setNetworkSelectorDirection("to");
-                setDisplayNetworkSelector(true);
-              }
-            : undefined
-        }
+        onClick={onClick("to")}
       >
         <div className="flex flex-col gap-0.5 text-right">
           <span

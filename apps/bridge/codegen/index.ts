@@ -48,6 +48,7 @@ import type {
   HyperlaneCustomWarpRouteFileResponseDto,
   HyperlaneMailboxDto,
   IdDto,
+  LzDomainDto,
   NumberDto,
   PricesDto,
   RouteRequestDto,
@@ -873,6 +874,59 @@ export const useBridgeControllerGetHyperlaneMailboxes = <TData = Awaited<ReturnT
   ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
 
   const queryOptions = getBridgeControllerGetHyperlaneMailboxesQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+export const bridgeControllerGetLzDomains = (
+     options?: AxiosRequestConfig
+ ): Promise<AxiosResponse<LzDomainDto[]>> => {
+    
+    return axios.get(
+      `/api/bridge/lz_domains`,options
+    );
+  }
+
+
+export const getBridgeControllerGetLzDomainsQueryKey = () => {
+    return [`/api/bridge/lz_domains`] as const;
+    }
+
+    
+export const getBridgeControllerGetLzDomainsQueryOptions = <TData = Awaited<ReturnType<typeof bridgeControllerGetLzDomains>>, TError = AxiosError<unknown>>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetLzDomains>>, TError, TData>>, axios?: AxiosRequestConfig}
+) => {
+
+const {query: queryOptions, axios: axiosOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getBridgeControllerGetLzDomainsQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof bridgeControllerGetLzDomains>>> = ({ signal }) => bridgeControllerGetLzDomains({ signal, ...axiosOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetLzDomains>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type BridgeControllerGetLzDomainsQueryResult = NonNullable<Awaited<ReturnType<typeof bridgeControllerGetLzDomains>>>
+export type BridgeControllerGetLzDomainsQueryError = AxiosError<unknown>
+
+export const useBridgeControllerGetLzDomains = <TData = Awaited<ReturnType<typeof bridgeControllerGetLzDomains>>, TError = AxiosError<unknown>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof bridgeControllerGetLzDomains>>, TError, TData>>, axios?: AxiosRequestConfig}
+
+  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+
+  const queryOptions = getBridgeControllerGetLzDomainsQueryOptions(options)
 
   const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
 

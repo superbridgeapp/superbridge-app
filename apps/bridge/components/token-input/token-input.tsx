@@ -2,6 +2,8 @@ import { useTranslation } from "react-i18next";
 import { formatUnits } from "viem";
 import { useAccount } from "wagmi";
 
+import { DeploymentFamily } from "@/codegen/model";
+import { useDeployment } from "@/hooks/deployments/use-deployment";
 import { useActiveTokens } from "@/hooks/tokens";
 import { useIsCustomToken } from "@/hooks/tokens/use-is-custom-token";
 import { useIsCustomTokenFromList } from "@/hooks/tokens/use-is-custom-token-from-list";
@@ -37,15 +39,14 @@ export const TokenInput = () => {
     token?.decimals ?? 18
   );
 
+  const isCustomTokenBridgingEnabled =
+    useDeployment()?.family === DeploymentFamily.optimism;
+
   return (
     <div
-      className={`flex flex-col gap-1.5 relative rounded-xl px-4 py-3 border border-transparent focus-within:border-border transition-colors bg-muted `}
+      className={`flex flex-col gap-2.5 relative rounded-2xl px-4 py-5 border border-transparent focus-within:border-border transition-colors bg-muted `}
     >
-      <div className="flex items-center justify-between">
-        <span className="text-xs text-muted-foreground font-heading">Send</span>
-        <Recipient />
-      </div>
-      <div className="flex gap-1 items-center">
+      <div className="flex gap-2 items-center">
         <input
           value={rawAmount}
           onChange={(e) => {
@@ -73,7 +74,7 @@ export const TokenInput = () => {
             <Skeleton className="h-[25px] w-[25px] rounded-full" />
             <Skeleton className="h-[14px] w-[50px]" />
           </div>
-        ) : tokens.data?.length === 1 ? (
+        ) : tokens.data?.length === 1 && !isCustomTokenBridgingEnabled ? (
           <div
             className={`flex shrink-0 relative gap-1 rounded-full py-2 pl-3 pr-4 items-center font-button transition-all text-foreground bg-card`}
           >
@@ -100,8 +101,8 @@ export const TokenInput = () => {
           </button>
         )}
       </div>
-      <div className="flex items-center justify-between">
-        <div>
+      <div className="flex items-start justify-between">
+        <div className="flex items-center">
           {amount.fiat && (
             <span className="text-muted-foreground text-xs leading-none">
               {amount.fiat.formatted}
@@ -110,12 +111,14 @@ export const TokenInput = () => {
         </div>
 
         {account.address && (
-          <div className="flex items-center gap-1">
+          <div className="flex flex-wrap items-start justify-end gap-2">
             {tokenBalance.isLoading ? (
               <Skeleton className="h-4 w-[88px] bg-muted-foreground" />
             ) : (
-              <>
-                <span className={`text-muted-foreground text-xs leading-none`}>
+              <div className="flex items-start gap-2">
+                <span
+                  className={`text-muted-foreground text-xs text-right leading-none`}
+                >
                   {t("availableBalance", {
                     amount: formatDecimals(parseFloat(formattedTokenBalance)),
                     symbol: token?.symbol,
@@ -125,13 +128,16 @@ export const TokenInput = () => {
                 {!isEth(token) && (
                   <button
                     onClick={() => setRawAmount(formattedTokenBalance)}
-                    className="text-[10px] font-button bg-card rounded-full px-1.5 py-1 leading-none text-muted-foreground transition-all hover:scale-105"
+                    className="h-5 text-[10px] font-button bg-card rounded-full px-2 py-1 -mt-1 leading-none text-muted-foreground transition-all hover:scale-105"
                   >
                     {t("buttons.max")}
                   </button>
                 )}
-              </>
+              </div>
             )}
+            <div className="-mt-1">
+              <Recipient />
+            </div>
           </div>
         )}
       </div>

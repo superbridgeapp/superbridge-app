@@ -7,15 +7,23 @@ import { scaleToNativeTokenDecimals } from "@/utils/native-token-scaling";
 import { isEth } from "@/utils/tokens/is-eth";
 
 import { useActiveTokens } from "./tokens/use-active-tokens";
-import { useChain } from "./use-chain";
+import { useChain, useFromChain } from "./use-chain";
 
-export function useTokenBalances(chainId: number | undefined) {
+export const useEthBalance = () => {
   const account = useAccount();
-  const chain = useChain(chainId);
-  const ethBalance = useBalance({
-    chainId: chainId,
+  const from = useFromChain();
+
+  return useBalance({
+    chainId: from?.id,
     address: account.address,
   });
+};
+
+export function useTokenBalances() {
+  const from = useFromChain();
+  const account = useAccount();
+  const chain = useChain(from?.id);
+  const ethBalance = useEthBalance();
   const prices = useBridgeControllerGetTokenPrices();
   const tokens = useActiveTokens();
 
@@ -25,8 +33,8 @@ export function useTokenBalances(chainId: number | undefined) {
       abi: erc20Abi,
       functionName: "balanceOf",
       args: [account.address ?? "0x"],
-      chainId: chainId,
-      address: t[chainId ?? 0]?.address as Address,
+      chainId: from?.id,
+      address: t[from?.id ?? 0]?.address as Address,
     })),
     query: {
       enabled: !!account.address,
@@ -36,7 +44,7 @@ export function useTokenBalances(chainId: number | undefined) {
   const data = tokens.data
     ?.map((token, index) => {
       let balance = BigInt(0);
-      if (chainId && token[chainId] && isEth(token[chainId])) {
+      if (from?.id && token[from?.id] && isEth(token[from?.id])) {
         balance = scaleToNativeTokenDecimals({
           amount: ethBalance.data?.value ?? BigInt(0),
           decimals: chain?.nativeCurrency.decimals ?? 18,
@@ -46,8 +54,8 @@ export function useTokenBalances(chainId: number | undefined) {
       }
 
       const id =
-        chainId && token[chainId]?.coinGeckoId
-          ? `coingecko:${token[chainId]?.coinGeckoId}`
+        from?.id && token[from?.id]?.coinGeckoId
+          ? `coingecko:${token[from?.id]?.coinGeckoId}`
           : token[1]?.coinGeckoId
             ? `coingecko:${token[1].coinGeckoId}`
             : `ethereum:${token[1]?.address}`;
@@ -77,11 +85,15 @@ export function useTokenBalances(chainId: number | undefined) {
     isLoading: reads.isFetching,
     isError: reads.isError,
     data,
+    refetch: () => {
+      reads.refetch();
+      ethBalance.refetch();
+    },
   };
 }
 
 export function useTokenBalance(token: BridgeableTokenDto | null) {
-  const tokenBalances = useTokenBalances(token?.chainId);
+  const tokenBalances = useTokenBalances();
 
   if (!token) {
     return {

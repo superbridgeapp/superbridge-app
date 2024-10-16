@@ -9,3 +9,5 @@ export const useApp = () => {
 };
 
 export const useHost = () => useInjectedStore((s) => s.host);
+export const useIsPaid = () => useInjectedStore((s) => s.isPaid);
+export const useDeletedAt = () => useInjectedStore((s) => s.deletedAt);

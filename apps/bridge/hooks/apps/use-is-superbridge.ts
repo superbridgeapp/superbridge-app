@@ -1,6 +1,11 @@
-import { useInjectedStore } from "@/state/injected";
-import { isSuperbridge } from "@/utils/is-superbridge";
+import { isSuperbridge, isSuperbridgeMainnet } from "@/utils/is-superbridge";
+
+import { useHost } from "../use-metadata";
 
 export const useIsSuperbridge = () => {
-  return isSuperbridge(useInjectedStore((s) => s.host));
+  return isSuperbridge(useHost());
+};
+
+export const useIsSuperbridgeMainnet = () => {
+  return isSuperbridgeMainnet(useHost());
 };

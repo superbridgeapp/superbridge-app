@@ -1,9 +1,5 @@
 import { useMemo } from "react";
 
-import {
-  SUPERCHAIN_MAINNETS,
-  SUPERCHAIN_TESTNETS,
-} from "@/constants/superbridge";
 import { useInjectedStore } from "@/state/injected";
 
 import { useIsSuperbridge } from "../apps/use-is-superbridge";
@@ -17,13 +13,9 @@ export const useDeployments = () => {
   return useMemo(() => {
     if (isSuperbridge) {
       if (testnets) {
-        return allDeployments.filter(({ name }) =>
-          SUPERCHAIN_TESTNETS.includes(name)
-        );
+        return allDeployments.filter(({ l2 }) => l2.testnet);
       } else {
-        return allDeployments.filter(({ name }) =>
-          SUPERCHAIN_MAINNETS.includes(name)
-        );
+        return allDeployments.filter(({ l2 }) => !l2.testnet);
       }
     }
     return allDeployments;

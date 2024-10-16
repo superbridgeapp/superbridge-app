@@ -1,7 +1,12 @@
 import { useTranslation } from "react-i18next";
 
+import { useIsCctpRoute } from "@/hooks/cctp/use-is-cctp-route";
 import { useFromChain } from "@/hooks/use-chain";
 import { useModal } from "@/hooks/use-modal";
+import {
+  useIsArbitrumWithdrawal,
+  useIsOptimismWithdrawal,
+} from "@/hooks/use-withdrawing";
 
 import { IconGas } from "../icons";
 import { Button } from "../ui/button";
@@ -12,6 +17,18 @@ export const GasInfoModal = () => {
   const from = useFromChain();
 
   const modal = useModal("GasInfo");
+
+  const isOptimismWithdrawal = useIsOptimismWithdrawal();
+  const isArbitrumWithdrawal = useIsArbitrumWithdrawal();
+  const isCctp = useIsCctpRoute();
+
+  const description = isOptimismWithdrawal
+    ? t("gasInfoModal.opWithdrawal")
+    : isArbitrumWithdrawal
+      ? t("gasInfoModal.arbWithdrawal")
+      : isCctp
+        ? t("gasInfoModal.cctp")
+        : null;
 
   return (
     <Dialog open={modal.isOpen} onOpenChange={modal.close}>
@@ -31,6 +48,12 @@ export const GasInfoModal = () => {
               })}
             </p>
           </div>
+
+          {description && (
+            <p className="text-xs md:text-sm prose-sm text-muted-foreground text-pretty text-center">
+              {description}
+            </p>
+          )}
 
           <Button onClick={modal.close}>{t("ok")}</Button>
         </div>

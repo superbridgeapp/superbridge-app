@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 
+import { useSettingsState } from "@/state/settings";
 import { MultiChainToken } from "@/types/token";
 
 import { useHyperlaneCustomRoutes } from "../hyperlane/use-hyperlane-custom-routes";
@@ -12,6 +13,7 @@ export function useAllTokens(): {
 } {
   const backendTokens = useBackendTokens();
   const customTokenLists = useCustomTokenLists();
+  const customTokens = useSettingsState.useCustomTokens();
   const customHyperlaneRoutes = useHyperlaneCustomRoutes();
 
   return useMemo(
@@ -21,6 +23,7 @@ export function useAllTokens(): {
         ...(backendTokens.data ?? []),
         ...(customTokenLists.data ?? []),
         ...(customHyperlaneRoutes?.tokens ?? []),
+        ...customTokens,
       ],
     }),
     [

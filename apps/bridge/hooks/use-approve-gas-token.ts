@@ -10,6 +10,7 @@ import { useCustomGasTokenAddress } from "./custom-gas-token/use-custom-gas-toke
 import { useDeployment } from "./deployments/use-deployment";
 import { useBridgeRoutes } from "./routes/use-bridge-routes";
 import { APPROVE_ABI_WITHOUT_RETURN } from "./use-approve";
+import { useTokenBalances } from "./use-balances";
 import { useFromChain } from "./use-chain";
 import { useRequiredCustomGasTokenBalance } from "./use-required-custom-gas-token-balance";
 import { useWeiAmount } from "./use-wei-amount";
@@ -38,6 +39,7 @@ export function useApproveGasToken(refreshAllowance: () => void) {
   const deployment = useDeployment();
   const gasTokenAddress = useCustomGasTokenAddress(deployment?.id);
   const from = useFromChain();
+  const balances = useTokenBalances();
 
   const gasTokenApprovalAmount = useGasTokenApprovalAmount();
 
@@ -58,11 +60,10 @@ export function useApproveGasToken(refreshAllowance: () => void) {
           hash,
           chainId: from?.id,
         });
-        refreshAllowance();
-        routes.refetch();
         setTimeout(() => {
           refreshAllowance();
           routes.refetch();
+          balances.refetch();
         }, 200);
       } catch {
       } finally {

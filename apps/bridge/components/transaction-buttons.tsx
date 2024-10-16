@@ -127,7 +127,11 @@ export const MintCctp: FC<{
   const { t } = useTranslation();
 
   return (
-    <Button onClick={mint.write} size={"sm"} disabled={mint.loading}>
+    <Button
+      onClick={mint.write}
+      size={"sm"}
+      disabled={mint.loading || !enabled}
+    >
       {t("buttons.mint")}
     </Button>
   );

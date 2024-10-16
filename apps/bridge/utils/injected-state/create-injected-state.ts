@@ -36,5 +36,7 @@ export const createInjectedState = (props: {
     chains: dto?.chains ?? [],
     host,
     widget,
+    isPaid: dto.isPaid,
+    deletedAt: dto.deletedAt,
   };
 };

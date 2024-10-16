@@ -18,8 +18,8 @@ export const StatusContactModal = ({
   open: boolean;
   setOpen: (b: boolean) => void;
 
-  rollupChain: string;
-  settlementChain: string;
+  rollupChain: string | undefined;
+  settlementChain: string | undefined;
   finalizationPeriod: Period;
 }) => {
   const [checkbox1, setCheckbox1] = useState(false);

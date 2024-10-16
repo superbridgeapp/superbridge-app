@@ -40,6 +40,7 @@ import { Skeleton } from "./ui/skeleton";
 
 function WaitLineItem({
   step,
+  tx,
 }: {
   step: WaitStep;
   tx?: Pick<Transaction, "type">;
@@ -72,12 +73,14 @@ function WaitLineItem({
   return (
     <div className="flex gap-4 justify-start items-center w-full">
       <div className="flex items-center gap-2 w-full">
-        <div className="w-4 h-4 rounded-full bg-card">
-          <IconTime className="w-4 h-4 fill-foreground" />
+        <div className="w-6 h-6 rounded-full bg-card mx-1">
+          <IconTime className="w-6 h-6 fill-foreground" />
         </div>
 
         <span className="text-sm font-heading leading-none">
-          Wait {formatDurationToNow(Date.now() + step.duration)}
+          {tx?.type === "across-bridge"
+            ? "Wait a short moment"
+            : `Wait ${formatDurationToNow(Date.now() + step.duration)}`}
         </span>
 
         <span className="ml-auto">
@@ -121,8 +124,8 @@ function TransactionLineItem({
   return (
     <div className="flex flex-col">
       <div className="flex gap-1 justify-between items-center relative">
-        <div className="flex gap-1.5">
-          <NetworkIcon chain={step.chain} className="w-4 h-4 rounded-xs" />
+        <div className="flex items-center gap-1.5">
+          <NetworkIcon chain={step.chain} className="w-8 h-8 rounded-[10px]" />
           <div className="flex flex-col gap-1 justify-center">
             <span className="text-sm font-heading leading-none">
               {step.label}
@@ -133,7 +136,7 @@ function TransactionLineItem({
               <a
                 href={transactionLink(step.hash, step.chain)}
                 target="_blank"
-                className="text-muted-foreground flex gap-1.5 items-center text-xs group hover:text-foreground"
+                className="text-muted-foreground flex gap-1 items-center text-xs group hover:text-foreground -mt-0.5"
               >
                 <span>View in explorer</span>
                 <IconArrowUpRight className="w-2 h-2 fill-muted-foreground group-hover:fill-foreground" />

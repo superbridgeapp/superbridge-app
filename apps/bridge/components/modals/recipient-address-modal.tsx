@@ -49,7 +49,7 @@ const Profile = ({
   return (
     <div
       className={clsx(
-        "flex items-center space-x-1 px-2 py-1 border rounded-full",
+        "flex items-center space-x-1 px-2 py-1 bg-muted rounded-full",
         data.avatar && "pr-1"
       )}
     >
@@ -145,7 +145,7 @@ export const RecipientAddressModal = () => {
 
           <div className="space-y-4 p-6">
             <div className="flex flex-col gap-6">
-              <div className="flex flex-col gap-1">
+              <div className="flex flex-col gap-2">
                 <div className="flex items-center justify-between">
                   <h3 className="font-heading text-sm mb-2">
                     {t("recipient.toAddress")}
@@ -159,7 +159,7 @@ export const RecipientAddressModal = () => {
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                 />
-                <div className="mt-2">
+                <div className="flex items-center justify-between">
                   {match({
                     transactions,
                     debouncedInput,
@@ -173,7 +173,7 @@ export const RecipientAddressModal = () => {
                     account: account.address,
                   })
                     .with({ isLoading: true }, () => (
-                      <div className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-muted">
+                      <div className="inline-flex items-center gap-1 pl-2 pr-3 py-2 rounded-full border">
                         <IconSpinner className="w-3.5 h-3.5 text-foreground" />
                         <span className="text-xs leading-none text-muted-foreground">
                           {t("recipient.checkingAddress")}
@@ -182,9 +182,9 @@ export const RecipientAddressModal = () => {
                     ))
                     .with({ debouncedInput: "" }, () => null)
                     .with({ isValidProfile: false }, () => (
-                      <div className="inline-flex items-center gap-1 pr-2 pl-1 py-1 rounded-full bg-muted">
-                        <IconCloseCircle className="w-3.5 h-3.5 fill-red-400" />
-                        <span className="text-xs leading-none text-red-400">
+                      <div className="inline-flex items-center gap-1 pl-2 pr-3 py-2 rounded-full border border-red-500">
+                        <IconCloseCircle className="w-3.5 h-3.5 fill-red-500" />
+                        <span className="text-xs leading-none text-red-500">
                           {t("recipient.invalidAddress")}
                         </span>
                       </div>
@@ -197,9 +197,9 @@ export const RecipientAddressModal = () => {
                         !!x.account &&
                         isAddressEqual(x.account, x.profile.address),
                       () => (
-                        <div className="inline-flex items-center gap-1 pr-2 pl-1 py-1 rounded-full bg-muted">
+                        <div className="inline-flex items-center gap-1 pl-2 pr-3 py-2 rounded-full border">
                           <IconCheckCircle className="w-3.5 h-3.5 fill-primary" />
-                          <span className="text-xs leading-none text-primary">
+                          <span className="text-xs leading-none text-foreground">
                             {t("recipient.yourChainAddress", {
                               chain: toChain?.name,
                             })}
@@ -237,9 +237,9 @@ export const RecipientAddressModal = () => {
 
                         if (count === 1) {
                           return (
-                            <div className="inline-flex gap-1 pr-2 pl-1 py-1 rounded-full bg-muted">
+                            <div className="inline-flex items-center gap-1 px-2 py-1 rounded-full border">
                               <IconCheckCircle className="w-3.5 h-3.5 fill-primary" />
-                              <span className="text-xs leading-none text-green-500">
+                              <span className="text-xs leading-none text-foreground">
                                 {t("recipient.usedBefore")}
                               </span>
                             </div>
@@ -248,9 +248,9 @@ export const RecipientAddressModal = () => {
 
                         if (count > 1) {
                           return (
-                            <div className="inline-flex gap-1 pr-2 pl-1 py-1 rounded-full bg-muted">
+                            <div className="inline-flex items-center gap-1 pl-2 pr-3 py-2 rounded-full border">
                               <IconCheckCircle className="w-3.5 h-3.5 fill-primary" />
-                              <span className="text-xs leading-none text-primary">
+                              <span className="text-xs leading-none text-foreground">
                                 {t("recipient.usedBeforeMultiple", { count })}
                               </span>
                             </div>
@@ -258,9 +258,9 @@ export const RecipientAddressModal = () => {
                         }
 
                         return (
-                          <div className="inline-flex gap-1 pr-2 pl-1 py-1 rounded-full bg-muted">
-                            <IconAlert className="w-3.5 h-3.5 fill-orange-500" />
-                            <span className="text-xs leading-none text-orange-500">
+                          <div className="inline-flex items-center gap-1 pl-2 pr-3 py-2 rounded-full border">
+                            <IconAlert className="w-3.5 h-3.5" />
+                            <span className="text-xs leading-none text-foreground">
                               {t("recipient.newAddress")}
                             </span>
                           </div>
@@ -268,6 +268,16 @@ export const RecipientAddressModal = () => {
                       }
                     )
                     .otherwise(() => null)}
+
+                  {!isContractAccount.data && !!account.address && (
+                    <Button
+                      size={"xs"}
+                      variant={"outline"}
+                      onClick={() => setInput(account.address!)}
+                    >
+                      {t("buttons.reset")}
+                    </Button>
+                  )}
                 </div>
               </div>
 

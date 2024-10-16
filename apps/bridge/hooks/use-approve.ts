@@ -7,6 +7,7 @@ import { useAllowance } from "./approvals/use-allowance";
 import { useApprovalAddress } from "./approvals/use-approval-address";
 import { useBridgeRoutes } from "./routes/use-bridge-routes";
 import { useSelectedToken } from "./tokens/use-token";
+import { useEthBalance } from "./use-balances";
 import { useWeiAmount } from "./use-wei-amount";
 
 // Trying to approve USDT with the vanilla Wagmi ERC20 ABI
@@ -43,6 +44,7 @@ export function useApprove() {
   const approvalAddress = useApprovalAddress();
   const { writeContractAsync } = useWriteContract();
   const config = useConfig();
+  const ethBalance = useEthBalance();
   const [isLoading, setIsLoading] = useState(false);
 
   return {
@@ -66,11 +68,10 @@ export function useApprove() {
       } catch (e) {
         console.log(e);
       } finally {
-        allowance.refetch();
-        routes.refetch();
         setTimeout(() => {
-          allowance.refetch();
           routes.refetch();
+          allowance.refetch();
+          ethBalance.refetch();
         }, 200);
         setIsLoading(false);
       }

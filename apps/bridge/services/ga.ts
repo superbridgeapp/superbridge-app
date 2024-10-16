@@ -1,6 +1,6 @@
 import { sendGAEvent } from "@next/third-parties/google";
 
-import { useIsSuperbridge } from "@/hooks/apps/use-is-superbridge";
+import { useApp } from "@/hooks/use-metadata";
 
 type FromChainSelect = {
   event: "from-chain-select";
@@ -87,7 +87,7 @@ type CctpMint = {
 };
 
 export const useTrackEvent = () => {
-  const isSuperbridge = useIsSuperbridge();
+  const gId = useApp().metadata.gId;
 
   return (
     args:
@@ -109,7 +109,7 @@ export const useTrackEvent = () => {
       | FinalizeWithdrawal
       | CctpMint
   ) => {
-    if (isSuperbridge) {
+    if (gId) {
       sendGAEvent("event", args.event, args);
     }
   };

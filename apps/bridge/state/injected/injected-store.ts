@@ -29,6 +29,9 @@ export type InjectedState = {
   host: string;
 
   widget: boolean;
+
+  isPaid: boolean;
+  deletedAt: number | null;
 };
 
 export type InjectedActions = {

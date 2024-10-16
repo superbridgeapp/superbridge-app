@@ -40,6 +40,7 @@ import {
   useSelectedToken,
 } from "@/hooks/tokens/use-token";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
+import { useInitiatingChain } from "@/hooks/use-initiating-chain-id";
 import { useReceiveAmount } from "@/hooks/use-receive-amount";
 import { useRequiredCustomGasTokenBalance } from "@/hooks/use-required-custom-gas-token-balance";
 import { useSwitchChain } from "@/hooks/use-switch-chain";
@@ -47,6 +48,7 @@ import { useWeiAmount } from "@/hooks/use-wei-amount";
 import { useIsArbitrumDeposit, useIsWithdrawal } from "@/hooks/use-withdrawing";
 import { useConfigState } from "@/state/config";
 import {
+  isRouteForcedWithdrawalStep,
   isRouteQuote,
   isRouteReceiveStep,
   isRouteTransactionStep,
@@ -81,6 +83,7 @@ export const ConfirmationModalStartTab = () => {
   const submitting = useConfigState.useSubmittingBridge();
   const submittedHash = useConfigState.useSubmittedHash();
   const setSubmittedHash = useConfigState.useSetSubmittedHash();
+  const initiatingChain = useInitiatingChain();
 
   const from = useFromChain();
   const to = useToChain();
@@ -271,7 +274,9 @@ export const ConfirmationModalStartTab = () => {
             if (isRouteTransactionStep(x)) {
               const label =
                 x.type === RouteStepType.Initiate
-                  ? t("confirmationModal.startBridgeOn", { from: from?.name })
+                  ? t("confirmationModal.startBridgeOn", {
+                      from: initiatingChain?.name,
+                    })
                   : x.type === RouteStepType.Prove
                     ? t("confirmationModal.proveOn", { to: to?.name })
                     : t("confirmationModal.getAmountOn", {
@@ -294,6 +299,7 @@ export const ConfirmationModalStartTab = () => {
                   : x.type === RouteStepType.Prove
                     ? undefined
                     : receiveAmount;
+
               const gasLimit =
                 x.type === RouteStepType.Initiate
                   ? bridgeGasEstimate || 500_000
@@ -312,12 +318,11 @@ export const ConfirmationModalStartTab = () => {
                   <ProveButton onClick={() => {}} disabled />
                 ) : x.type === RouteStepType.Finalize ? (
                   <ClaimButton onClick={() => {}} disabled />
-                ) : x.type === RouteStepType.Mint ? (
-                  <ClaimButton onClick={() => {}} disabled />
                 ) : undefined;
+
               const a: TransactionStep = {
                 label,
-                gasLimit,
+                gasLimit: x.estimatedGasLimit,
                 chain: x.chainId === from?.id.toString() ? from! : to!,
                 buttonComponent,
                 hash: undefined,
@@ -342,6 +347,18 @@ export const ConfirmationModalStartTab = () => {
                   formatted: receive.data?.token.formatted,
                 }),
                 chain: to!,
+                hash: undefined,
+                pendingHash: undefined,
+                token,
+                amount: receiveAmount,
+              };
+              return step;
+            }
+
+            if (isRouteForcedWithdrawalStep(x)) {
+              const step: TransactionStep = {
+                label: "Withdrawal initiated",
+                chain: from!,
                 hash: undefined,
                 pendingHash: undefined,
                 token,
@@ -388,7 +405,9 @@ export const ConfirmationModalStartTab = () => {
                     symbol: fromToken?.symbol,
                   }),
                   chain: from,
-                  gasLimit: approveGasTokenGasEstimate || 100_000,
+                  gasLimit: approvedGasToken
+                    ? undefined
+                    : approveGasTokenGasEstimate || 100_000,
                   buttonComponent: approvedGasToken ? (
                     <IconCheckCircle className="w-6 h-6 fill-primary" />
                   ) : (
@@ -418,7 +437,9 @@ export const ConfirmationModalStartTab = () => {
                     symbol: fromToken?.symbol,
                   }),
                   chain: from,
-                  gasLimit: approveGasEstimate || 100_000,
+                  gasLimit: approved
+                    ? undefined
+                    : approveGasEstimate || 100_000,
                   buttonComponent: approved ? (
                     <IconCheckCircle className="w-6 h-6 fill-primary" />
                   ) : (

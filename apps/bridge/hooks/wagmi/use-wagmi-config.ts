@@ -29,14 +29,13 @@ export function useWagmiConfig() {
       if (chainIcons[c.id]) {
         // @ts-expect-error
         c.iconUrl = chainIcons[c.id];
+      } else {
+        const d = allDeployments.find((x) => x.l2.id === c.id);
+        if (d?.theme?.theme.imageNetwork || d?.rollupNetworkIcon) {
+          // @ts-expect-error
+          c.iconUrl = d.rollupNetworkIcon || d.theme.theme.imageNetwork;
+        }
       }
-
-      const d = allDeployments.find((x) => x.l2.id === c.id);
-      if (d?.theme?.theme.imageNetwork) {
-        // @ts-expect-error
-        d.l2.iconUrl = d.theme.theme.imageNetwork;
-      }
-
       return c as unknown as Chain;
     });
 

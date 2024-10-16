@@ -26,7 +26,7 @@ export const useNavIcon = () => {
   const theme = useContext(ThemeContext);
   const { resolvedTheme } = useNextTheme();
 
-  if (resolvedTheme === "light") {
+  if (!resolvedTheme || resolvedTheme === "light") {
     return theme?.imageLogo || defaultImages.nav;
   }
 
@@ -48,7 +48,7 @@ export const useBackgroundIcon = () => {
   const theme = useContext(ThemeContext);
   const { resolvedTheme } = useNextTheme();
 
-  if (resolvedTheme === "light") {
+  if (!resolvedTheme || resolvedTheme === "light") {
     return theme?.imageBackground;
   } else {
     return theme?.imageBackgroundDark;
@@ -63,7 +63,7 @@ export const useBackgroundImageBlendMode = () => {
   const { resolvedTheme } = useNextTheme();
   const theme = useContext(ThemeContext);
 
-  if (resolvedTheme === "light") {
+  if (!resolvedTheme || resolvedTheme === "light") {
     return theme?.backgroundImageBlendMode;
   } else {
     return theme?.backgroundImageBlendModeDark;
@@ -74,7 +74,7 @@ export const useBackgroundImageOpacity = () => {
   const { resolvedTheme } = useNextTheme();
   const theme = useContext(ThemeContext);
 
-  if (resolvedTheme === "light") {
+  if (!resolvedTheme || resolvedTheme === "light") {
     return theme?.backgroundImageOpacity;
   } else {
     return theme?.backgroundImageOpacityDark;

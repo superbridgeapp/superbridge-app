@@ -48,6 +48,8 @@ import {
   scroll,
   sei,
   sepolia,
+  snax,
+  snaxTestnet,
   syscoin,
   taiko,
   xLayer,
@@ -132,4 +134,7 @@ export const chainIcons: { [chainId: number]: string | undefined } = {
   [1946]: "/img/networks/sonieum.svg",
   [1996]: "/img/networks/sanko.svg",
   [984122]: "/img/networks/forma.svg",
+  [1301]: "/img/networks/unichain.svg",
+  [snax.id]: "/img/networks/snaxchain.svg",
+  [snaxTestnet.id]: "/img/networks/snaxchain.svg",
 };

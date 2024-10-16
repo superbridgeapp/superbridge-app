@@ -1,4 +1,7 @@
+import clsx from "clsx";
 import { HTMLMotionProps, motion } from "framer-motion";
+
+import { useIsWidget } from "@/hooks/use-is-widget";
 
 type PageTransitionProps = HTMLMotionProps<"div">;
 
@@ -24,13 +27,17 @@ const container = {
 };
 
 export function PageTransition({ children, ...rest }: PageTransitionProps) {
+  const isWidget = useIsWidget();
   return (
     <motion.div
       variants={container}
-      initial="hidden"
+      initial={isWidget ? "show" : "hidden"}
       animate={"show"}
       exit={"hidden"}
-      className="flex items-start justify-center fixed inset-0 h-screen w-screen overflow-y-auto"
+      className={clsx(
+        "flex items-start justify-center fixed inset-0 h-screen w-screen overflow-x-hidden",
+        isWidget ? "overflow-y-hidden" : "overflow-y-auto"
+      )}
       {...rest}
     >
       {children}

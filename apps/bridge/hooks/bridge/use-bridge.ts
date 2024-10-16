@@ -5,16 +5,14 @@ import { useEstimateFeesPerGas, useSendTransaction } from "wagmi";
 import { isRouteQuote } from "@/utils/guards";
 
 import { useSelectedBridgeRoute } from "../routes/use-selected-bridge-route";
-import { useFromChain } from "../use-chain";
+import { useFromChain, useToChain } from "../use-chain";
 import { useInitiatingChainId } from "../use-initiating-chain-id";
-import {
-  useBridgeGasEstimate,
-  useBridgeGasEstimateForRoute,
-} from "./use-bridge-gas-estimate";
+import { useBridgeGasEstimateForRoute } from "./use-bridge-gas-estimate";
 
 export const useBridge = () => {
   const initiatingChainId = useInitiatingChainId();
   const from = useFromChain();
+  const to = useToChain();
 
   const selectedRoute = useSelectedBridgeRoute();
   const { sendTransactionAsync, isPending } = useSendTransaction();

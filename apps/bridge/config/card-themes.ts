@@ -36,6 +36,11 @@ import {
   scroll,
   sepolia,
   shapeSepolia,
+  snax,
+  snaxTestnet,
+  swan,
+  swanProximaTestnet,
+  swanSaturnTestnet,
   zircuitTestnet,
   zora,
   zoraSepolia,
@@ -354,7 +359,7 @@ const polygonAmoyTheme = {
   icon: "/img/polygon/icon.svg",
 };
 
-const shapeTheme = {
+export const shapeTheme = {
   icon: "/img/shape/icon.svg",
   card: {
     className: "bg-[#31E3DF]",
@@ -522,7 +527,7 @@ const enduranceTheme = {
   },
 };
 
-const moltenTheme = {
+export const moltenTheme = {
   icon: "/img/molten/icon.svg",
   card: {
     className: "bg-zinc-900",
@@ -601,6 +606,48 @@ const formaTheme = {
     title: "text-white",
   },
 };
+const unichainTheme = {
+  icon: "/img/unichain/icon.svg",
+  card: {
+    className: "bg-[#F50DB4]",
+    title: "text-black",
+    overlay: {
+      className: "bg-[url('/img/unichain/bg-card.jpg')] bg-bottom bg-cover",
+    },
+  },
+};
+
+const snaxTheme = {
+  icon: "/img/snax/icon.svg",
+  card: {
+    className: "bg-gradient-to-b from-[#06061B] to-[#170C34]",
+    title: "text-white",
+  },
+};
+
+const raceTheme = {
+  icon: "/img/race/icon.svg",
+  card: {
+    className: "bg-[#05141B]",
+    title: "text-white",
+    overlay: {
+      image: "/img/race/bg-card.jpg",
+      className: "bg-cover bg-bottom bg-no-repeat",
+    },
+  },
+};
+
+const swanTheme = {
+  icon: "/img/swanchain/icon.svg",
+  card: {
+    className: "bg-[#447DFF]",
+    title: "text-white",
+    overlay: {
+      image: "/img/swanchain/bg-card.svg",
+      className: "bg-cover bg-bottom bg-no-repeat mix-blend-multiply",
+    },
+  },
+};
 
 export const cardThemes: {
   [chainId: string]: { card: CardTheme; icon: string } | undefined;
@@ -655,6 +702,15 @@ export const cardThemes: {
   [celoAlfajores.id]: celoTheme,
   [48900]: zircuitTheme,
   [zircuitTestnet.id]: zircuitTheme,
+  [swan.id]: swanTheme,
+  [swanSaturnTestnet.id]: swanTheme,
+  [swanProximaTestnet.id]: swanTheme,
+  [snax.id]: snaxTheme,
+  [snaxTestnet.id]: snaxTheme,
+  // Race
+  [6805]: raceTheme,
+  // Race Testnet
+  [6806]: raceTheme,
   // Degen Chain
   [666666666]: degenTheme,
   // Fuse
@@ -707,4 +763,5 @@ export const cardThemes: {
   [1946]: soneiumTheme,
   [80084]: beraTheme,
   [984122]: formaTheme,
+  [1301]: unichainTheme,
 };

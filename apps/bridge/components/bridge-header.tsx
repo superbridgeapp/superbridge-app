@@ -12,7 +12,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useIsHyperlanePlayground } from "@/hooks/apps/use-is-hyperlane";
 import { useIsSuperbridge } from "@/hooks/apps/use-is-superbridge";
-import { useDeployments } from "@/hooks/deployments/use-deployments";
 import { useChains } from "@/hooks/use-chains";
 import { useIsWidget } from "@/hooks/use-is-widget";
 import { useModal } from "@/hooks/use-modal";
@@ -38,7 +37,6 @@ export const BridgeHeader = () => {
 
   const { inProgressCount, actionRequiredCount } = useTransactions();
 
-  const deployments = useDeployments();
   const superbridgeTestnets = useInjectedStore((s) => s.superbridgeTestnets);
   const isSuperbridge = useIsSuperbridge();
   const isHyperlanePlayground = useIsHyperlanePlayground();

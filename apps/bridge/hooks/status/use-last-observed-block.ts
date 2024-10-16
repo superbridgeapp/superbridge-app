@@ -5,16 +5,16 @@ import { useBlock } from "wagmi";
 import { ChainDto } from "@/codegen/model";
 import { SupportCheckStatus } from "@/components/status/types";
 
-export const useLastObservedBlock = (chain: ChainDto) => {
+export const useLastObservedBlock = (chain: ChainDto | undefined) => {
   const latestBlock = useBlock({
     blockTag: "latest",
-    chainId: chain.id,
+    chainId: chain?.id,
     query: {
       refetchInterval: 30_000,
     },
   });
 
-  const title = `${chain.name} block production`;
+  const title = `${chain?.name} block production`;
 
   const { description, status } = useMemo(() => {
     const now = Date.now();
@@ -33,8 +33,8 @@ export const useLastObservedBlock = (chain: ChainDto) => {
 
       return {
         description: stale
-          ? `Last observed ${chain.name} block was more than ${distance} ago. This could affect bridging operations to and from ${chain.name}`
-          : `Last observed ${chain.name} block was ${distance} ago`,
+          ? `Last observed ${chain?.name} block was more than ${distance} ago. This could affect bridging operations to and from ${chain?.name}`
+          : `Last observed ${chain?.name} block was ${distance} ago`,
         status: stale ? SupportCheckStatus.Warning : SupportCheckStatus.Ok,
       };
     }
