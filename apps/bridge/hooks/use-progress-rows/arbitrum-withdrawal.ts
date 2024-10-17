@@ -9,7 +9,7 @@ import { useChain } from "@/hooks/use-chain";
 import { usePendingTransactions } from "@/state/pending-txs";
 import { Transaction } from "@/types/transaction";
 
-import { isArbitrumWithdrawal } from "../guards";
+import { isArbitrumWithdrawal } from "../../utils/guards";
 import {
   ActivityStep,
   ButtonComponent,

@@ -1,7 +1,7 @@
 import { DeploymentDto } from "@/codegen/model";
 import { Transaction } from "@/types/transaction";
 
-import { isOptimismForcedWithdrawal } from "../guards";
+import { isOptimismForcedWithdrawal } from "../../utils/guards";
 import { ActivityStep } from "./common";
 import { useOptimismDepositProgressRows } from "./deposit";
 import { useOptimismWithdrawalProgressRows } from "./withdrawal";
@@ -17,7 +17,7 @@ export const useOptimismForcedWithdrawalProgressRows = (
     ) || [];
   let withdrawalRows =
     useOptimismWithdrawalProgressRows(
-      fw && isOptimismForcedWithdrawal(fw) ? fw.withdrawal ?? null : null,
+      fw && isOptimismForcedWithdrawal(fw) ? (fw.withdrawal ?? null) : null,
       deployment
     ) || [];
 

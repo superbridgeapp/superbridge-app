@@ -1,3 +1,5 @@
+import { useQuery } from "@tanstack/react-query";
+
 import { RouteResultDto } from "@/codegen/model";
 
 import { useSelectedBridgeRoute } from "../routes/use-selected-bridge-route";
@@ -14,7 +16,12 @@ export const useBridgeGasEstimateForRoute = (route: RouteResultDto | null) => {
     return null;
   }
 
-  return estimate.data[estimate.data.length - 1];
+  return useQuery({
+    queryKey: ["bridge gas estimate", ...estimate.data],
+    queryFn: () => {
+      return estimate.data?.[estimate.data.length - 1];
+    },
+  });
 
   // const estimate = useEstimateGas({
   //   data: initiatingTransaction?.data as Address,

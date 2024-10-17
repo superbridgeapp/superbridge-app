@@ -9,6 +9,15 @@ import {
 } from "@/components/icons";
 import { NetworkIcon } from "@/components/network-icon";
 import { useNetworkFeeForGasLimit } from "@/hooks/gas/use-network-fee";
+import {
+  ActivityStep,
+  ButtonComponent,
+  TransactionStep,
+  WaitStep,
+  isWaitStep,
+  isWaitStepDone,
+  isWaitStepInProgress,
+} from "@/hooks/use-progress-rows/common";
 import { Transaction } from "@/types/transaction";
 import { formatDuration, formatDurationToNow } from "@/utils/get-period";
 import {
@@ -18,15 +27,6 @@ import {
   isOptimismForcedWithdrawal,
   isOptimismWithdrawal,
 } from "@/utils/guards";
-import {
-  ActivityStep,
-  ButtonComponent,
-  TransactionStep,
-  WaitStep,
-  isWaitStep,
-  isWaitStepDone,
-  isWaitStepInProgress,
-} from "@/utils/progress-rows/common";
 import { transactionLink } from "@/utils/transaction-link";
 
 import {

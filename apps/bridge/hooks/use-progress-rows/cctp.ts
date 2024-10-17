@@ -6,7 +6,7 @@ import { useTxMultichainToken } from "@/hooks/activity/use-tx-token";
 import { usePendingTransactions } from "@/state/pending-txs";
 import { Transaction } from "@/types/transaction";
 
-import { isCctpBridge } from "../guards";
+import { isCctpBridge } from "../../utils/guards";
 import {
   ActivityStep,
   ButtonComponent,

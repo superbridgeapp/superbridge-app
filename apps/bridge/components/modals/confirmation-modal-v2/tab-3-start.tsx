@@ -41,6 +41,13 @@ import {
 } from "@/hooks/tokens/use-token";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
 import { useInitiatingChain } from "@/hooks/use-initiating-chain-id";
+import { useProgressRows } from "@/hooks/use-progress-rows";
+import {
+  ActivityStep,
+  TransactionStep,
+  WaitStepNotStarted,
+  isWaitStep,
+} from "@/hooks/use-progress-rows/common";
 import { useReceiveAmount } from "@/hooks/use-receive-amount";
 import { useRequiredCustomGasTokenBalance } from "@/hooks/use-required-custom-gas-token-balance";
 import { useSwitchChain } from "@/hooks/use-switch-chain";
@@ -54,181 +61,100 @@ import {
   isRouteTransactionStep,
   isRouteWaitStep,
 } from "@/utils/guards";
-import { useProgressRows } from "@/utils/progress-rows";
-import {
-  ActivityStep,
-  TransactionStep,
-  WaitStepNotStarted,
-  isWaitStep,
-} from "@/utils/progress-rows/common";
 import { isEth } from "@/utils/tokens/is-eth";
 
-export const ConfirmationModalStartTab = () => {
-  const bridge = useBridge();
+const useNeedsApprove = () => {
+  const fromToken = useSelectedToken();
+  const toToken = useDestinationToken();
+  const isArbitrumDeposit = useIsArbitrumDeposit();
+  const deployment = useDeployment();
+
+  if (isEth(fromToken)) return false;
+  if (isArbitrumDeposit && deployment?.arbitrumNativeToken && isEth(toToken)) {
+    // gets handled by gasTokenApproval
+    return false;
+  }
+  if (
+    fromToken?.address &&
+    fromToken.lz?.adapter &&
+    fromToken?.address === fromToken.lz?.adapter
+  ) {
+    return false;
+  }
+
+  if (
+    fromToken?.address &&
+    fromToken.hyperlane?.router &&
+    fromToken?.address === fromToken.hyperlane?.router
+  ) {
+    return false;
+  }
+
+  return true;
+};
+
+const useApproved = () => {
   const allowance = useAllowance();
-  const approve = useApprove();
+  const submittedHash = useConfigState.useSubmittedHash();
+  const weiAmount = useWeiAmount();
+
+  if (submittedHash) {
+    return true;
+  }
+
+  return typeof allowance.data !== "undefined" && allowance.data >= weiAmount;
+};
+
+const useApprovedGasToken = () => {
+  const submittedHash = useConfigState.useSubmittedHash();
+  const gasTokenAllowance = useAllowanceGasToken();
+  const requiredCustomGasTokenBalance = useRequiredCustomGasTokenBalance();
+
+  if (submittedHash) {
+    return true;
+  }
+
+  if (
+    typeof gasTokenAllowance.data === "undefined" ||
+    !requiredCustomGasTokenBalance
+  ) {
+    return false;
+  }
+
+  return gasTokenAllowance.data >= requiredCustomGasTokenBalance;
+};
+
+const useNeedsGasTokenApprove = () => {
+  const isArbitrumDeposit = useIsArbitrumDeposit();
+  const deployment = useDeployment();
+
+  return isArbitrumDeposit && !!deployment?.arbitrumNativeToken;
+};
+
+const usePreSubmissionProgressRows = () => {
   const { t } = useTranslation();
 
   const bridgeGasEstimate = useBridgeGasEstimate();
-  const approveGasEstimate = useApproveGasEstimate();
-  const approveGasTokenGasEstimate = useApproveGasTokenGasEstimate();
 
-  const open = useConfigState.useDisplayConfirmationModal();
   const fromToken = useSelectedToken();
-  const toToken = useDestinationToken();
   const token = useMultichainToken();
   const withdrawing = useIsWithdrawal();
-  const escapeHatch = useConfigState.useForceViaL1();
-  const rawAmount = useConfigState.useRawAmount();
   const submitting = useConfigState.useSubmittingBridge();
-  const submittedHash = useConfigState.useSubmittedHash();
-  const setSubmittedHash = useConfigState.useSetSubmittedHash();
   const initiatingChain = useInitiatingChain();
 
   const from = useFromChain();
   const to = useToChain();
   const weiAmount = useWeiAmount();
-  const account = useAccount();
   const receive = useReceiveAmount();
-  const deployment = useDeployment();
-  const customGasToken = useCustomGasTokenAddress(deployment?.id);
   const route = useSelectedBridgeRoute();
-  const isArbitrumDeposit = useIsArbitrumDeposit();
-
-  const recipientAddress = useConfigState.useRecipientAddress();
 
   const onSubmitBridge = useSubmitBridge();
 
+  const needsApprove = useNeedsApprove();
+  const approved = useApproved();
+  const needsGasTokenApprove = useNeedsGasTokenApprove();
+  const approvedGasToken = useApprovedGasToken();
   const gasTokenAllowance = useAllowanceGasToken();
-  const approveGasToken = useApproveGasToken(gasTokenAllowance.refetch);
-
-  const switchChain = useSwitchChain();
-
-  useEffect(() => {
-    setSubmittedHash(null);
-  }, [open]);
-
-  const approved = (() => {
-    if (submittedHash) {
-      return true;
-    }
-    return typeof allowance.data !== "undefined" && allowance.data >= weiAmount;
-  })();
-
-  const requiredCustomGasTokenBalance = useRequiredCustomGasTokenBalance();
-  const approvedGasToken = (() => {
-    if (submittedHash) {
-      return true;
-    }
-
-    if (
-      typeof gasTokenAllowance.data === "undefined" ||
-      !deployment ||
-      !requiredCustomGasTokenBalance
-    ) {
-      return false;
-    }
-
-    return gasTokenAllowance.data >= requiredCustomGasTokenBalance;
-  })();
-
-  const needsApprove = (() => {
-    if (isEth(fromToken)) return false;
-    if (
-      isArbitrumDeposit &&
-      deployment?.arbitrumNativeToken &&
-      isEth(toToken)
-    ) {
-      // gets handled by gasTokenApproval
-      return false;
-    }
-    if (
-      fromToken?.address &&
-      fromToken.lz?.adapter &&
-      fromToken?.address === fromToken.lz?.adapter
-    ) {
-      return false;
-    }
-    if (
-      fromToken?.address &&
-      fromToken.hyperlane?.router &&
-      fromToken?.address === fromToken.hyperlane?.router
-    ) {
-      return false;
-    }
-
-    return true;
-  })();
-  const needsGasTokenApprove = (() => {
-    return isArbitrumDeposit && !!deployment?.arbitrumNativeToken;
-  })();
-
-  const approveGasTokenButton = match({
-    withdrawing,
-    customGasToken,
-    family: deployment?.family,
-    approved: approvedGasToken,
-    approving: approveGasToken.isLoading,
-    needsGasTokenApprove,
-  })
-    .with({ needsGasTokenApprove: false }, () => null)
-    .with({ approving: true }, () => ({
-      onSubmit: () => {},
-      buttonText: t("buttons.approving"),
-      disabled: true,
-    }))
-    .with({ approved: false }, () => ({
-      onSubmit: async () => {
-        if (account.chainId !== from?.id) {
-          await switchChain(from!);
-        }
-
-        approveGasToken.write();
-      },
-      buttonText: t("buttons.approve"),
-      disabled: false,
-    }))
-    .with({ approved: true }, () => ({
-      onSubmit: () => {},
-      buttonText: t("buttons.approved"),
-      disabled: true,
-    }))
-    .exhaustive();
-
-  const approveButton = match({
-    approved,
-    approving: approve.isLoading,
-    bridge,
-    withdrawing,
-    needsApprove,
-  })
-    .with({ needsApprove: false }, () => null)
-    .with({ approving: true }, () => ({
-      onSubmit: () => {},
-      buttonText: t("buttons.approving"),
-      disabled: true,
-    }))
-    .with({ approved: false }, () => {
-      // this kind of sucks for forced withdrawals, but we do approvals on the from chain for now
-      if (from && account.chainId !== from?.id) {
-        return {
-          onSubmit: () => switchChain(from),
-          buttonText: t("switchToApprove"),
-          disabled: false,
-        };
-      }
-      return {
-        onSubmit: () => approve.write(),
-        buttonText: t("buttons.approve"),
-        disabled: false,
-      };
-    })
-    .with({ approved: true }, () => ({
-      onSubmit: () => {},
-      buttonText: t("buttons.approved"),
-      disabled: true,
-    }))
-    .exhaustive();
 
   const initiateButton = match({
     needsApprove,
@@ -370,7 +296,212 @@ export const ConfirmationModalStartTab = () => {
           .filter(isPresent)
       : [];
 
-  const lineItems = submittedHash ? submittedLineItems : preSubmissionLineItems;
+  return preSubmissionLineItems;
+};
+
+const ApproveButton = () => {
+  const bridge = useBridge();
+  const approve = useApprove();
+  const { t } = useTranslation();
+
+  const approveGasEstimate = useApproveGasEstimate();
+
+  const fromToken = useSelectedToken();
+  const withdrawing = useIsWithdrawal();
+
+  const from = useFromChain();
+  const account = useAccount();
+
+  const switchChain = useSwitchChain();
+
+  const approved = useApproved();
+  const needsApprove = useNeedsApprove();
+
+  if (!needsApprove || !from) {
+    return null;
+  }
+
+  const { onSubmit, buttonText, disabled } = match({
+    approved,
+    approving: approve.isLoading,
+    bridge,
+    withdrawing,
+  })
+    .with({ approving: true }, () => ({
+      onSubmit: () => {},
+      buttonText: t("buttons.approving"),
+      disabled: true,
+    }))
+    .with({ approved: false }, () => {
+      // this kind of sucks for forced withdrawals, but we do approvals on the from chain for now
+      if (from && account.chainId !== from?.id) {
+        return {
+          onSubmit: () => switchChain(from),
+          buttonText: t("switchToApprove"),
+          disabled: false,
+        };
+      }
+      return {
+        onSubmit: () => approve.write(),
+        buttonText: t("buttons.approve"),
+        disabled: false,
+      };
+    })
+    .with({ approved: true }, () => ({
+      onSubmit: () => {},
+      buttonText: t("buttons.approved"),
+      disabled: true,
+    }))
+    .exhaustive();
+
+  return (
+    <LineItem
+      step={{
+        label: t("confirmationModal.approve", {
+          symbol: fromToken?.symbol,
+        }),
+        chain: from,
+        gasLimit: approved ? undefined : approveGasEstimate || 100_000,
+        buttonComponent: approved ? (
+          <IconCheckCircle className="w-6 h-6 fill-primary" />
+        ) : (
+          <Button onClick={onSubmit} disabled={disabled} size="sm">
+            {buttonText}
+            {approved && (
+              <IconCheck className="w-3 h-3 fill-primary-foreground" />
+            )}
+          </Button>
+        ),
+        pendingHash: undefined,
+        hash: undefined,
+      }}
+    />
+  );
+};
+
+export const ApproveGasTokenButton = () => {
+  const bridge = useBridge();
+  const approve = useApprove();
+  const { t } = useTranslation();
+
+  const approveGasEstimate = useApproveGasEstimate();
+  const approveGasTokenGasEstimate = useApproveGasTokenGasEstimate();
+
+  const open = useConfigState.useDisplayConfirmationModal();
+  const fromToken = useSelectedToken();
+  const token = useMultichainToken();
+  const withdrawing = useIsWithdrawal();
+  const rawAmount = useConfigState.useRawAmount();
+  const submittedHash = useConfigState.useSubmittedHash();
+  const setSubmittedHash = useConfigState.useSetSubmittedHash();
+
+  const from = useFromChain();
+  const to = useToChain();
+  const account = useAccount();
+  const receive = useReceiveAmount();
+  const deployment = useDeployment();
+  const customGasToken = useCustomGasTokenAddress(deployment?.id);
+  const route = useSelectedBridgeRoute();
+
+  const gasTokenAllowance = useAllowanceGasToken();
+  const approveGasToken = useApproveGasToken(gasTokenAllowance.refetch);
+
+  const switchChain = useSwitchChain();
+
+  const approvedGasToken = useApprovedGasToken();
+  const needsGasTokenApprove = useNeedsGasTokenApprove();
+
+  if (!needsGasTokenApprove || !from) {
+    return null;
+  }
+
+  const { onSubmit, buttonText, disabled } = match({
+    withdrawing,
+    customGasToken,
+    family: deployment?.family,
+    approved: approvedGasToken,
+    approving: approveGasToken.isLoading,
+    needsGasTokenApprove,
+  })
+    .with({ approving: true }, () => ({
+      onSubmit: () => {},
+      buttonText: t("buttons.approving"),
+      disabled: true,
+    }))
+    .with({ approved: false }, () => ({
+      onSubmit: async () => {
+        if (account.chainId !== from?.id) {
+          await switchChain(from!);
+        }
+
+        approveGasToken.write();
+      },
+      buttonText: t("buttons.approve"),
+      disabled: false,
+    }))
+    .with({ approved: true }, () => ({
+      onSubmit: () => {},
+      buttonText: t("buttons.approved"),
+      disabled: true,
+    }))
+    .exhaustive();
+
+  return (
+    <LineItem
+      step={{
+        label: t("confirmationModal.approveGasToken", {
+          symbol: fromToken?.symbol,
+        }),
+        chain: from,
+        gasLimit: approvedGasToken
+          ? undefined
+          : approveGasTokenGasEstimate || 100_000,
+        buttonComponent: approvedGasToken ? (
+          <IconCheckCircle className="w-6 h-6 fill-primary" />
+        ) : (
+          <Button onClick={onSubmit} disabled={disabled} size="sm">
+            {buttonText}
+            {approvedGasToken && (
+              <IconCheck className="w-3 h-3 fill-primary-foreground" />
+            )}
+          </Button>
+        ),
+        pendingHash: undefined,
+        hash: undefined,
+      }}
+    />
+  );
+};
+
+export const ConfirmationModalStartTab = () => {
+  const { t } = useTranslation();
+
+  const open = useConfigState.useDisplayConfirmationModal();
+  const token = useMultichainToken();
+  const rawAmount = useConfigState.useRawAmount();
+  const submittedHash = useConfigState.useSubmittedHash();
+  const setSubmittedHash = useConfigState.useSetSubmittedHash();
+
+  const from = useFromChain();
+  const to = useToChain();
+  const account = useAccount();
+  const receive = useReceiveAmount();
+  const route = useSelectedBridgeRoute();
+
+  const recipientAddress = useConfigState.useRecipientAddress();
+
+  useEffect(() => {
+    setSubmittedHash(null);
+  }, [open]);
+
+  const lastSubmittedTx = useLatestSubmittedTx();
+  const submittedLineItems = useProgressRows(lastSubmittedTx) || [];
+
+  const preSubmissionProgressRows = usePreSubmissionProgressRows();
+
+  const lineItems = submittedHash
+    ? submittedLineItems
+    : preSubmissionProgressRows;
 
   const helpCenterLink = useHelpCenterLinkByProvider(route.data?.id ?? null);
   return (
@@ -397,69 +528,8 @@ export const ConfirmationModalStartTab = () => {
 
       <TabsContent value="steps">
         <div className="flex flex-col px-6 gap-1">
-          {approveGasTokenButton && from && (
-            <>
-              <LineItem
-                step={{
-                  label: t("confirmationModal.approveGasToken", {
-                    symbol: fromToken?.symbol,
-                  }),
-                  chain: from,
-                  gasLimit: approvedGasToken
-                    ? undefined
-                    : approveGasTokenGasEstimate || 100_000,
-                  buttonComponent: approvedGasToken ? (
-                    <IconCheckCircle className="w-6 h-6 fill-primary" />
-                  ) : (
-                    <Button
-                      onClick={approveGasTokenButton.onSubmit}
-                      disabled={approveGasTokenButton.disabled}
-                      size="sm"
-                    >
-                      {approveGasTokenButton.buttonText}
-                      {approvedGasToken && (
-                        <IconCheck className="w-3 h-3 fill-primary-foreground" />
-                      )}
-                    </Button>
-                  ),
-                  pendingHash: undefined,
-                  hash: undefined,
-                }}
-              />
-            </>
-          )}
-
-          {approveButton && from && (
-            <>
-              <LineItem
-                step={{
-                  label: t("confirmationModal.approve", {
-                    symbol: fromToken?.symbol,
-                  }),
-                  chain: from,
-                  gasLimit: approved
-                    ? undefined
-                    : approveGasEstimate || 100_000,
-                  buttonComponent: approved ? (
-                    <IconCheckCircle className="w-6 h-6 fill-primary" />
-                  ) : (
-                    <Button
-                      onClick={approveButton.onSubmit}
-                      disabled={approveButton.disabled}
-                      size="sm"
-                    >
-                      {approveButton.buttonText}
-                      {approved && (
-                        <IconCheck className="w-3 h-3 fill-primary-foreground" />
-                      )}
-                    </Button>
-                  ),
-                  pendingHash: undefined,
-                  hash: undefined,
-                }}
-              />
-            </>
-          )}
+          <ApproveGasTokenButton />
+          <ApproveButton />
 
           {lineItems.filter(isPresent).map((step) => (
             <LineItem

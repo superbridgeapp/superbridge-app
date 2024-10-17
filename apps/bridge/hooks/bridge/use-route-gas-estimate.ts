@@ -55,8 +55,6 @@ export const useRouteGasEstimate = (route: RouteResultDto | null) => {
     },
   });
 
-  console.log("estiamte", a.data);
-
   return a;
 
   // const estimate = useEstimateGas({
