@@ -89,6 +89,8 @@ export const useBridge = () => {
   if (gas) {
     if (to?.id === 1301 && gas < BigInt(1_600_000)) {
       params.gas = BigInt(1_600_000);
+    } else if (to?.id === 480 && gas < BigInt(300_000)) {
+      params.gas = BigInt(300_000);
     } else {
       params.gas = gas + gas / BigInt("75");
     }
