@@ -8,7 +8,6 @@ import { MultiChainToken } from "@/types/token";
 
 import { useDeployment } from "../deployments/use-deployment";
 import { useActiveTokens } from "../tokens/use-active-tokens";
-import { useSetToken } from "../tokens/use-set-token";
 import { useFromChain, useToChain } from "../use-chain";
 
 /**
@@ -29,7 +28,7 @@ import { useFromChain, useToChain } from "../use-chain";
 export const useInitialiseQueryParams = () => {
   const router = useRouter();
 
-  const setToken = useSetToken();
+  const setToken = useConfigState.useSetToken();
   const setRawAmount = useConfigState.useSetRawAmount();
   const deployment = useDeployment();
   const from = useFromChain();
@@ -99,7 +98,7 @@ export const useInitialiseQueryParams = () => {
       });
 
       if (token) {
-        setToken(token[from.id]!);
+        setToken(token);
       }
     } else {
       const tokenAddress = router.query.tokenAddress as string | undefined;
@@ -118,7 +117,7 @@ export const useInitialiseQueryParams = () => {
       }
 
       if (token) {
-        setToken(token[from.id]!);
+        setToken(token);
       }
     }
   }, [router.asPath, deployment, tokens]);

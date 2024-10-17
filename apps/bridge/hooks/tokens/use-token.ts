@@ -8,11 +8,11 @@ import { useActiveTokens } from "./use-active-tokens";
 
 export const useMultichainToken = () => {
   const tokens = useActiveTokens();
-  const tokenId = useConfigState.useTokenId();
+  const token = useConfigState.useToken();
   const to = useToChain();
   const from = useFromChain();
 
-  if (!tokenId) {
+  if (!token) {
     return (
       tokens.data?.find(
         (x) => isEth(x[from?.id ?? 0] ?? null) || isEth(x[to?.id ?? 0] ?? null)
@@ -24,10 +24,33 @@ export const useMultichainToken = () => {
 
   return (
     tokens.data?.find((x) => {
-      for (const { address } of Object.values(x)) {
-        if (isAddressEqual(address, tokenId as Address)) {
-          return x;
-        }
+      const potentialFrom = x[from?.id ?? 0]?.address;
+      const potentialTo = x[from?.id ?? 0]?.address;
+
+      const selectedFrom = token?.[from?.id ?? 0]?.address;
+      const selectedTo = token?.[to?.id ?? 0]?.address;
+
+      // full match
+      if (
+        selectedFrom &&
+        selectedTo &&
+        potentialFrom &&
+        potentialTo &&
+        isAddressEqual(potentialFrom as Address, selectedFrom as Address) &&
+        isAddressEqual(potentialTo as Address, selectedFrom as Address)
+      ) {
+        return x;
+      }
+
+      // partial match, like in the case of switching USDC -> USDC.e
+      if (
+        selectedFrom &&
+        potentialFrom &&
+        selectedTo &&
+        potentialTo &&
+        isAddressEqual(potentialFrom as Address, selectedFrom as Address)
+      ) {
+        return x;
       }
     }) ??
     tokens.data?.[0] ??

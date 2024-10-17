@@ -1,11 +1,11 @@
 import { useDeployments } from "@/hooks/deployments/use-deployments";
 import { useAllTokens } from "@/hooks/tokens";
-import { useSetToken } from "@/hooks/tokens/use-set-token";
 import { useTrackEvent } from "@/services/ga";
+import { useConfigState } from "@/state/config";
 import { useInjectedStore } from "@/state/injected";
 
 export function TokenBanner() {
-  const setToken = useSetToken();
+  const setToken = useConfigState.useSetToken();
   const deployments = useDeployments();
   const superbridgeConfig = useInjectedStore(
     (store) => store.superbridgeConfig
@@ -33,7 +33,7 @@ export function TokenBanner() {
         const l1 = token[deployment.l1ChainId];
         const l2 = token[deployment.l2ChainId];
         if (l1 && l2) {
-          setToken(l1);
+          setToken(token);
         }
       }
     }, 500);

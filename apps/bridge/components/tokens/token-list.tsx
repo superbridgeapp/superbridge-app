@@ -6,11 +6,11 @@ import { Address, isAddress, isAddressEqual } from "viem";
 
 import { Input } from "@/components/ui/input";
 import { useDeployment } from "@/hooks/deployments/use-deployment";
-import { useSetToken } from "@/hooks/tokens/use-set-token";
 import { useTokenBalances } from "@/hooks/use-balances";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
 import { useModal } from "@/hooks/use-modal";
 import { useTrackEvent } from "@/services/ga";
+import { useConfigState } from "@/state/config";
 import { useInjectedStore } from "@/state/injected";
 import { MultiChainToken } from "@/types/token";
 
@@ -29,7 +29,7 @@ export const TokenList = () => {
   const from = useFromChain();
   const to = useToChain();
   const deployment = useDeployment();
-  const setToken = useSetToken();
+  const setToken = useConfigState.useSetToken();
   const tokens = useTokenBalances();
   const { t } = useTranslation();
   const modal = useModal("TokenSelector");
@@ -63,7 +63,7 @@ export const TokenList = () => {
       return;
     }
 
-    setToken(fromToken);
+    setToken(t);
     modal.close();
 
     if (
