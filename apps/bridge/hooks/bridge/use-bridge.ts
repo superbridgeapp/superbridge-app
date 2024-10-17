@@ -1,5 +1,5 @@
-import { Address, Hex } from "viem";
-import { scroll } from "viem/chains";
+import { Address, Hex, parseUnits } from "viem";
+import { berachainTestnetbArtio, scroll } from "viem/chains";
 import {
   useEstimateFeesPerGas,
   useEstimateGas,
@@ -45,11 +45,36 @@ export const useBridge = () => {
     value?: bigint;
   } = {
     gasPrice: fromFeeData.data?.gasPrice,
-    maxFeePerGas:
-      from?.id === scroll.id && fromFeeData.data?.maxFeePerGas
-        ? fromFeeData.data.maxFeePerGas * BigInt(10)
-        : fromFeeData.data?.maxFeePerGas,
-    maxPriorityFeePerGas: fromFeeData.data?.maxPriorityFeePerGas,
+    maxFeePerGas: (() => {
+      if (!fromFeeData.data?.maxFeePerGas || !from || !to) return undefined;
+
+      if (from.id === scroll.id)
+        return fromFeeData.data.maxFeePerGas * BigInt(10);
+
+      if (
+        from.id === berachainTestnetbArtio.id &&
+        to.id === 50333 /* pretzel */
+      )
+        return fromFeeData.data.maxFeePerGas < parseUnits("0.2", 9)
+          ? parseUnits("0.2", 9)
+          : fromFeeData.data.maxFeePerGas;
+
+      return fromFeeData.data.maxFeePerGas;
+    })(),
+    maxPriorityFeePerGas: (() => {
+      if (!fromFeeData.data?.maxPriorityFeePerGas || !from || !to)
+        return undefined;
+
+      if (
+        from.id === berachainTestnetbArtio.id &&
+        to.id === 50333 /* pretzel */
+      )
+        return fromFeeData.data.maxPriorityFeePerGas < parseUnits("0.2", 9)
+          ? parseUnits("0.2", 9)
+          : fromFeeData.data.maxPriorityFeePerGas;
+
+      return fromFeeData.data.maxPriorityFeePerGas;
+    })(),
   };
 
   if (tx) {
