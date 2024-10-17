@@ -2,6 +2,7 @@ import { createSelectorHooks } from "auto-zustand-selectors-hook";
 import { Address, Hex } from "viem";
 import { create } from "zustand";
 
+import { RouteProvider } from "@/codegen/model";
 import { MultiChainToken } from "@/types/token";
 
 interface ConfigState {
@@ -42,8 +43,8 @@ interface ConfigState {
   networkSelectorDirection: "from" | "to";
   setNetworkSelectorDirection: (x: "from" | "to") => void;
 
-  routeId: string | null;
-  setRouteId: (n: string | null) => void;
+  routeId: RouteProvider | null;
+  setRouteId: (n: RouteProvider | null) => void;
 }
 
 const ConfigState = create<ConfigState>()((set, get) => ({
