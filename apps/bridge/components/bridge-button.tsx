@@ -189,7 +189,8 @@ export const BridgeButton = () => {
       }),
       // Let's not disable here because people could actually submit with
       // a lower gas price via their wallet. A little power-usery but important imo
-      disabled: false,
+      // temp disable before we ship a better gas estimation flow
+      disabled: true,
     }))
     .with({ hasInsufficientBaseNativeTokenBalance: true }, (d) => ({
       onSubmit: handleSubmitClick,
