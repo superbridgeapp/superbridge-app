@@ -3,6 +3,7 @@ import { FeeValuesType } from "viem";
 
 import { RouteStepTransactionDto } from "@/codegen/model";
 import { isRouteQuote } from "@/utils/guards";
+import { scaleToNativeTokenDecimals } from "@/utils/native-token-scaling";
 
 import { useBridgeGasEstimateForRoute } from "../bridge/use-bridge-gas-estimate";
 import { useSelectedBridgeRoute } from "../routes/use-selected-bridge-route";
@@ -54,8 +55,13 @@ export const useNetworkFeeForGasLimit = (
     (feeData.data.gasPrice ?? feeData.data.maxFeePerGas ?? BigInt(0)) *
     BigInt(gasLimit);
 
+  const nativeTokenAmount = scaleToNativeTokenDecimals({
+    amount: gwei,
+    decimals: nativeToken?.decimals ?? 18,
+  });
+
   return {
     isLoading: false,
-    data: getFormattedAmount(gwei.toString()),
+    data: getFormattedAmount(nativeTokenAmount.toString()),
   };
 };

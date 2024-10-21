@@ -44,10 +44,7 @@ export function useSendTransactionDto(
         domain: host,
         from: account.address,
         transactions: [result],
-      }).then((x) => {
-        console.log(x.data);
-        return BigInt(x.data.estimates[0].limit);
-      });
+      }).then((x) => BigInt(x.data.estimates[0].limit));
 
       return await wallet.data.sendTransaction({
         to,
