@@ -28,7 +28,7 @@ export function useApproveGasEstimate() {
   }
 
   if (routeGasEstimate.data.estimates.length === 3) {
-    return routeGasEstimate.data.estimates[0].limit;
+    return routeGasEstimate.data.estimates[1].limit;
   }
 
   return null;

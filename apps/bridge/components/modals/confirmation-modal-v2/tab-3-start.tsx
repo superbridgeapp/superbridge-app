@@ -352,7 +352,7 @@ const ApproveButton = () => {
           symbol: fromToken?.symbol,
         }),
         chain: from,
-        gasLimit: approved ? undefined : approveGasEstimate || 100_000,
+        gasLimit: approved ? undefined : approveGasEstimate || undefined,
         buttonComponent: approved ? (
           <IconCheckCircle className="w-6 h-6 fill-primary" />
         ) : (
@@ -379,8 +379,7 @@ export const ApproveGasTokenButton = () => {
   const account = useAccount();
   const deployment = useDeployment();
   const customGasToken = useCustomGasTokenAddress(deployment?.id);
-  const gasTokenAllowance = useAllowanceGasToken();
-  const approveGasToken = useApproveGasToken(gasTokenAllowance.refetch);
+  const approveGasToken = useApproveGasToken();
   const switchChain = useSwitchChain();
   const approvedGasToken = useApprovedGasToken();
   const needsGasTokenApprove = useNeedsGasTokenApprove();
@@ -402,17 +401,21 @@ export const ApproveGasTokenButton = () => {
       buttonText: t("buttons.approving"),
       disabled: true,
     }))
-    .with({ approved: false }, () => ({
-      onSubmit: async () => {
-        if (account.chainId !== from?.id) {
-          await switchChain(from!);
-        }
+    .with({ approved: false }, () => {
+      if (account.chainId !== from?.id) {
+        return {
+          onSubmit: () => switchChain(from),
+          buttonText: t("switchToApprove"),
+          disabled: false,
+        };
+      }
 
-        approveGasToken.write();
-      },
-      buttonText: t("buttons.approve"),
-      disabled: false,
-    }))
+      return {
+        onSubmit: () => approveGasToken.write(),
+        buttonText: t("buttons.approve"),
+        disabled: false,
+      };
+    })
     .with({ approved: true }, () => ({
       onSubmit: () => {},
       buttonText: t("buttons.approved"),
@@ -429,7 +432,7 @@ export const ApproveGasTokenButton = () => {
         chain: from,
         gasLimit: approvedGasToken
           ? undefined
-          : approveGasTokenGasEstimate || 100_000,
+          : approveGasTokenGasEstimate || undefined,
         buttonComponent: approvedGasToken ? (
           <IconCheckCircle className="w-6 h-6 fill-primary" />
         ) : (
