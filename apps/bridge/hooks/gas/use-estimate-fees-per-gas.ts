@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { FeeValuesType, parseUnits } from "viem";
-import { berachainTestnetbArtio, scroll, sepolia } from "viem/chains";
+import { berachainTestnetbArtio, scroll } from "viem/chains";
 import { useEstimateFeesPerGas as useWagmiEstimateFeesPerGas } from "wagmi";
 
 export const useEstimateFeesPerGas = (
@@ -21,10 +21,6 @@ export const useEstimateFeesPerGas = (
 
     const copy = { ...fees.data };
     if (copy.maxFeePerGas) {
-      if (chainId === sepolia.id) {
-        copy.maxFeePerGas *= BigInt(10);
-      }
-
       if (chainId === scroll.id) {
         copy.maxFeePerGas *= BigInt(10);
       }
@@ -45,5 +41,5 @@ export const useEstimateFeesPerGas = (
       ...fees,
       data: copy,
     };
-  }, [fees.data]);
+  }, [fees.data, fees.error, fees.isFetching]);
 };

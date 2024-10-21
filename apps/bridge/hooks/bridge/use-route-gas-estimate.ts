@@ -41,7 +41,6 @@ export const useRouteGasEstimate = (route: RouteResultDto | null) => {
     queryFn: async () => {
       if (!initiatingTransaction) return null;
 
-      console.log("useRouteGasEstimate queryFn start");
       const result = await bridgeControllerGetGasEstimate({
         from: account.address ?? deadAddress,
         domain: host,
@@ -54,7 +53,6 @@ export const useRouteGasEstimate = (route: RouteResultDto | null) => {
           },
         ].filter(isPresent),
       });
-      console.log("useRouteGasEstimate queryFn end");
 
       return result.data;
     },
