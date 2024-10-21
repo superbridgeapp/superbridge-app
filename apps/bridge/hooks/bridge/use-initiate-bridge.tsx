@@ -1,4 +1,5 @@
 import { waitForTransactionReceipt } from "@wagmi/core";
+import { zeroAddress } from "viem";
 import { useAccount, useConfig, useWalletClient } from "wagmi";
 
 import { RouteProvider } from "@/codegen/model";
@@ -15,12 +16,14 @@ import { useConfigState } from "@/state/config";
 import { usePendingTransactions } from "@/state/pending-txs";
 import { buildPendingTx } from "@/utils/build-pending-tx";
 import { isRouteQuote } from "@/utils/guards";
+import { nativeTokenDecimalsTo18Decimals } from "@/utils/native-token-scaling";
 
 import { useAllowanceGasToken } from "../approvals/use-allowance-gas-token";
 import { useDeployment } from "../deployments/use-deployment";
 import { useHyperlaneMailboxes } from "../hyperlane/use-hyperlane-mailboxes";
 import { useLzDomains } from "../lz/use-lz-domains";
 import { useSelectedBridgeRoute } from "../routes/use-selected-bridge-route";
+import { useNativeToken } from "../tokens/use-native-token";
 import { useTokenBalances } from "../use-balances";
 import { useInitiatingChainId } from "../use-initiating-chain-id";
 import { useReceiveAmount } from "../use-receive-amount";
@@ -56,6 +59,8 @@ export const useInitiateBridge = () => {
   const lzDomains = useLzDomains();
   const balances = useTokenBalances();
   const receive = useReceiveAmount();
+
+  const gasToken = useNativeToken();
 
   const initiatingChainId = useInitiatingChainId();
   const initiatingChain = useChain(initiatingChainId);
@@ -111,11 +116,19 @@ export const useInitiateBridge = () => {
         transactionHash: hash,
       });
 
+      const inputAmount =
+        fromToken?.address === zeroAddress
+          ? nativeTokenDecimalsTo18Decimals({
+              amount: weiAmount,
+              decimals: gasToken?.decimals ?? 18,
+            })
+          : weiAmount;
+
       const pending = buildPendingTx(
         deployment,
         account.address,
         recipient,
-        weiAmount,
+        inputAmount,
         receive.data?.token.amount
           ? BigInt(receive.data.token.amount * 10 ** (toToken?.decimals ?? 18))
           : BigInt(0),

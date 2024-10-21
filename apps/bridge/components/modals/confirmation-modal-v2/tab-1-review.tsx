@@ -91,7 +91,7 @@ export const ConfirmationModalReviewTab = ({
             <div className="flex items-center gap-1 leading-none">
               <TokenIcon
                 token={selectedToken}
-                className="h-7 w-7 rounded-full text-[6px]"
+                className="h-7 w-7 rounded-full !text-[8px]"
               />
               <span className="text-2xl leading-none">
                 {rawAmount} {selectedToken?.symbol}
@@ -110,7 +110,7 @@ export const ConfirmationModalReviewTab = ({
             <div className="flex items-center gap-1 leading-none">
               <TokenIcon
                 token={destinationToken}
-                className="h-7 w-7 rounded-full text-[6px]"
+                className="h-7 w-7 rounded-full !text-[8px]"
               />
               <span className="text-2xl leading-none">
                 {/* only Across has fees, so we'd prefer to show the same input
