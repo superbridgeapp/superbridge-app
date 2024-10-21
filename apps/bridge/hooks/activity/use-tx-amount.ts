@@ -49,7 +49,7 @@ export function useTxAmount(
 
     if (metadata.type === "eth-deposit") {
       amount = (metadata as EthDepositDto).data.amount;
-      decimals = token?.decimals ?? 18;
+      decimals = 18;
       symbol = token?.symbol ?? "ETH";
     } else {
       const dto = metadata as TokenDepositDto;
