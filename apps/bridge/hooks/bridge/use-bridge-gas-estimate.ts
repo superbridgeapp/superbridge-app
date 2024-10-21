@@ -12,34 +12,16 @@ export const useBridgeGasEstimate = () => {
 
 export const useBridgeGasEstimateForRoute = (route: RouteResultDto | null) => {
   const estimate = useRouteGasEstimate(route);
-  if (!estimate.data) {
-    return null;
-  }
 
   return useQuery({
-    queryKey: ["bridge gas estimate", ...estimate.data],
+    queryKey: [
+      "bridge gas estimate",
+      route?.id,
+      ...(estimate?.data?.estimates.map((x) => x.limit) ?? []),
+    ],
     queryFn: () => {
-      return estimate.data?.[estimate.data.length - 1];
+      if (!estimate.data) return null;
+      return estimate.data.estimates[estimate.data.estimates.length - 1].limit;
     },
   });
-
-  // const estimate = useEstimateGas({
-  //   data: initiatingTransaction?.data as Address,
-  //   to: initiatingTransaction?.to as Address,
-  //   chainId: parseInt(initiatingTransaction?.chainId ?? "0"),
-  //   value: BigInt(initiatingTransaction?.value ?? "0"),
-  //   query: {
-  //     enabled: !!initiatingTransaction && !initiatingTransaction.gas,
-  //   },
-  // });
-
-  // console.log(">>>", initiatingTransaction?.gas, estimate.data);
-
-  // if (initiatingTransaction?.gas) {
-  //   return BigInt(initiatingTransaction.gas);
-  // }
-
-  // return estimate.data
-  //   ? estimate.data + estimate.data / BigInt("50")
-  //   : undefined;
 };

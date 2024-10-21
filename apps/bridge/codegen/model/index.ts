@@ -6,7 +6,6 @@
  * OpenAPI spec version: 1.0
  */
 
-export * from './acrossAvailableRouteDto';
 export * from './acrossBridgeDto';
 export * from './acrossBridgeMetadataDataDto';
 export * from './acrossBridgeMetadataDto';
@@ -70,7 +69,9 @@ export * from './deploymentType';
 export * from './deploymentsQueryDto';
 export * from './disabledRouteErrorDto';
 export * from './disputeGameDto';
+export * from './estimateDto';
 export * from './estimateGasDto';
+export * from './estimateGasResponseDto';
 export * from './ethDepositDataDto';
 export * from './ethDepositDto';
 export * from './fetchedMultichainTokenDto';

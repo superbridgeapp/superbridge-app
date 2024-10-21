@@ -56,24 +56,4 @@ export const useRouteGasEstimate = (route: RouteResultDto | null) => {
   });
 
   return a;
-
-  // const estimate = useEstimateGas({
-  //   data: initiatingTransaction?.data as Address,
-  //   to: initiatingTransaction?.to as Address,
-  //   chainId: parseInt(initiatingTransaction?.chainId ?? "0"),
-  //   value: BigInt(initiatingTransaction?.value ?? "0"),
-  //   query: {
-  //     enabled: !!initiatingTransaction && !initiatingTransaction.gas,
-  //   },
-  // });
-
-  // console.log(">>>", initiatingTransaction?.gas, estimate.data);
-
-  // if (initiatingTransaction?.gas) {
-  //   return BigInt(initiatingTransaction.gas);
-  // }
-
-  // return estimate.data
-  //   ? estimate.data + estimate.data / BigInt("50")
-  //   : undefined;
 };

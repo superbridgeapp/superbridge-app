@@ -154,7 +154,6 @@ const usePreSubmissionProgressRows = () => {
   const approved = useApproved();
   const needsGasTokenApprove = useNeedsGasTokenApprove();
   const approvedGasToken = useApprovedGasToken();
-  const gasTokenAllowance = useAllowanceGasToken();
 
   const initiateButton = match({
     needsApprove,
@@ -183,9 +182,6 @@ const usePreSubmissionProgressRows = () => {
       buttonText: t("buttons.start"),
       disabled: false,
     }));
-
-  const lastSubmittedTx = useLatestSubmittedTx();
-  const submittedLineItems = useProgressRows(lastSubmittedTx) || [];
 
   const preSubmissionLineItems: ActivityStep[] =
     route.data?.result && isRouteQuote(route.data.result)
@@ -228,7 +224,7 @@ const usePreSubmissionProgressRows = () => {
 
               const gasLimit =
                 x.type === RouteStepType.Initiate
-                  ? bridgeGasEstimate || 500_000
+                  ? bridgeGasEstimate.data
                   : 500_000;
 
               const buttonComponent =
@@ -248,7 +244,7 @@ const usePreSubmissionProgressRows = () => {
 
               const a: TransactionStep = {
                 label,
-                gasLimit: x.estimatedGasLimit,
+                gasLimit: gasLimit || 500_000,
                 chain: x.chainId === from?.id.toString() ? from! : to!,
                 buttonComponent,
                 hash: undefined,
@@ -303,17 +299,12 @@ const ApproveButton = () => {
   const bridge = useBridge();
   const approve = useApprove();
   const { t } = useTranslation();
-
   const approveGasEstimate = useApproveGasEstimate();
-
   const fromToken = useSelectedToken();
   const withdrawing = useIsWithdrawal();
-
   const from = useFromChain();
   const account = useAccount();
-
   const switchChain = useSwitchChain();
-
   const approved = useApproved();
   const needsApprove = useNeedsApprove();
 
@@ -380,34 +371,17 @@ const ApproveButton = () => {
 };
 
 export const ApproveGasTokenButton = () => {
-  const bridge = useBridge();
-  const approve = useApprove();
   const { t } = useTranslation();
-
-  const approveGasEstimate = useApproveGasEstimate();
   const approveGasTokenGasEstimate = useApproveGasTokenGasEstimate();
-
-  const open = useConfigState.useDisplayConfirmationModal();
   const fromToken = useSelectedToken();
-  const token = useMultichainToken();
   const withdrawing = useIsWithdrawal();
-  const rawAmount = useConfigState.useRawAmount();
-  const submittedHash = useConfigState.useSubmittedHash();
-  const setSubmittedHash = useConfigState.useSetSubmittedHash();
-
   const from = useFromChain();
-  const to = useToChain();
   const account = useAccount();
-  const receive = useReceiveAmount();
   const deployment = useDeployment();
   const customGasToken = useCustomGasTokenAddress(deployment?.id);
-  const route = useSelectedBridgeRoute();
-
   const gasTokenAllowance = useAllowanceGasToken();
   const approveGasToken = useApproveGasToken(gasTokenAllowance.refetch);
-
   const switchChain = useSwitchChain();
-
   const approvedGasToken = useApprovedGasToken();
   const needsGasTokenApprove = useNeedsGasTokenApprove();
 

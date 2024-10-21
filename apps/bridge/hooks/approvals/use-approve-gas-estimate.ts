@@ -13,22 +13,22 @@ export function useApproveGasEstimate() {
   }
 
   // eth bridge, no approval needed
-  if (routeGasEstimate.data.length === 1) {
+  if (routeGasEstimate.data.estimates.length === 1) {
     return null;
   }
 
   // token bridge
-  if (routeGasEstimate.data.length === 2) {
+  if (routeGasEstimate.data.estimates.length === 2) {
     // custom gas token, no approval needed
     if (gasTokenApproveAddress) {
       return null;
     } else {
-      return routeGasEstimate.data[0];
+      return routeGasEstimate.data.estimates[0].limit;
     }
   }
 
-  if (routeGasEstimate.data.length === 3) {
-    return routeGasEstimate.data[0];
+  if (routeGasEstimate.data.estimates.length === 3) {
+    return routeGasEstimate.data.estimates[0].limit;
   }
 
   return null;

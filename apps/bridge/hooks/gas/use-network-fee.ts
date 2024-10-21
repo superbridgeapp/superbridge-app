@@ -9,10 +9,7 @@ import { useSettingsState } from "@/state/settings";
 import { formatDecimals } from "@/utils/format-decimals";
 import { isRouteQuote } from "@/utils/guards";
 
-import {
-  useBridgeGasEstimate,
-  useBridgeGasEstimateForRoute,
-} from "../bridge/use-bridge-gas-estimate";
+import { useBridgeGasEstimateForRoute } from "../bridge/use-bridge-gas-estimate";
 import { useSelectedBridgeRoute } from "../routes/use-selected-bridge-route";
 import { useNativeTokenForChainId } from "../tokens/use-native-token";
 
@@ -24,7 +21,7 @@ export const useNetworkFee = () => {
     ? parseInt((route.data.result.steps[0] as RouteStepTransactionDto).chainId)
     : undefined;
 
-  return useNetworkFeeForGasLimit(chainId, gasEstimate);
+  return useNetworkFeeForGasLimit(chainId, gasEstimate.data);
 };
 
 export const useNetworkFeeForGasLimit = (
