@@ -54,13 +54,14 @@ export const Route = ({
     result: quote,
   });
 
-  console.log(">>> Route", provider, quote, gasEstimate.data);
-  const estimate = BigInt(gasEstimate.data || 500_000);
-  let gasLimit = estimate;
   const networkFee = useNetworkFeeForGasLimit(
     parseInt((quote.steps[0] as RouteStepTransactionDto).chainId),
-    gasLimit
+    gasEstimate.data
   );
+  console.log({
+    gasEstimate: gasEstimate.isFetching,
+    networkFee: networkFee.isLoading,
+  });
 
   const route = {
     isLoading: false,
@@ -176,12 +177,12 @@ export const Route = ({
           onClick={() => (allowDetailClicks ? gasInfoModal.open() : null)}
         >
           <IconSimpleGas className="h-3.5 w-3.5 fill-muted-foreground group-hover:fill-foreground" />{" "}
-          {networkFee.isLoading ? (
-            <Skeleton className="h-3 w-[60px]" />
-          ) : (
+          {networkFee.data?.token.formatted ? (
             <span className="text-xs leading-none text-muted-foreground group-hover:text-foreground">
               {networkFee.data?.token.formatted}
             </span>
+          ) : (
+            <Skeleton className="h-3 w-[60px]" />
           )}
           {transactionStepCount > 1 && (
             <span className="rounded-full text-[10px] leading-none bg-primary text-primary-foreground py-1 px-1.5">

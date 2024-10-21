@@ -9,8 +9,10 @@ import { deadAddress } from "@/utils/tokens/is-eth";
 
 import { useApproveGasTokenTx } from "../approvals/use-approve-gas-token-tx";
 import { useApproveTx } from "../approvals/use-approve-tx";
+import { useHost } from "../use-metadata";
 
 export const useRouteGasEstimate = (route: RouteResultDto | null) => {
+  const host = useHost();
   const gasTokenApprovalTx = useApproveGasTokenTx(route);
   const approvalTx = useApproveTx(route);
 
@@ -37,10 +39,12 @@ export const useRouteGasEstimate = (route: RouteResultDto | null) => {
       initiatingTransaction?.value,
     ],
     queryFn: async () => {
-      if (!initiatingTransaction || !account.address) return null;
+      if (!initiatingTransaction) return null;
 
+      console.log("useRouteGasEstimate queryFn start");
       const result = await bridgeControllerGetGasEstimate({
         from: account.address ?? deadAddress,
+        domain: host,
         transactions: [
           gasTokenApprovalTx,
           approvalTx,
@@ -50,9 +54,11 @@ export const useRouteGasEstimate = (route: RouteResultDto | null) => {
           },
         ].filter(isPresent),
       });
+      console.log("useRouteGasEstimate queryFn end");
 
       return result.data;
     },
+    enabled: !!initiatingTransaction,
   });
 
   return a;

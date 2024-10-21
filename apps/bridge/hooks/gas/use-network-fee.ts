@@ -1,17 +1,14 @@
 import { useEffect, useState } from "react";
-import { FeeValuesType, formatUnits } from "viem";
+import { FeeValuesType } from "viem";
 import { useEstimateFeesPerGas } from "wagmi";
 
 import { RouteStepTransactionDto } from "@/codegen/model";
-import { currencySymbolMap } from "@/constants/currency-symbol-map";
-import { useTokenPrice } from "@/hooks/use-prices";
-import { useSettingsState } from "@/state/settings";
-import { formatDecimals } from "@/utils/format-decimals";
 import { isRouteQuote } from "@/utils/guards";
 
 import { useBridgeGasEstimateForRoute } from "../bridge/use-bridge-gas-estimate";
 import { useSelectedBridgeRoute } from "../routes/use-selected-bridge-route";
 import { useNativeTokenForChainId } from "../tokens/use-native-token";
+import { useGetFormattedAmount } from "../use-get-formatted-amount";
 
 export const useNetworkFee = () => {
   const route = useSelectedBridgeRoute();
@@ -29,9 +26,8 @@ export const useNetworkFeeForGasLimit = (
   gasLimit: number | bigint | undefined | null
 ) => {
   const [type, setType] = useState<FeeValuesType>("eip1559");
-  const currency = useSettingsState.useCurrency();
   const nativeToken = useNativeTokenForChainId(chainId);
-  const nativeTokenUsdPrice = useTokenPrice(nativeToken ?? null);
+  const getFormattedAmount = useGetFormattedAmount(nativeToken);
 
   const feeData = useEstimateFeesPerGas({
     chainId,
@@ -61,33 +57,12 @@ export const useNetworkFeeForGasLimit = (
     };
   }
 
-  const gwei = parseFloat(
-    formatUnits(
-      (feeData.data.gasPrice ?? feeData.data.maxFeePerGas ?? BigInt(0)) *
-        BigInt(gasLimit),
-      18
-    )
-  );
+  const gwei =
+    (feeData.data.gasPrice ?? feeData.data.maxFeePerGas ?? BigInt(0)) *
+    BigInt(gasLimit);
 
   return {
     isLoading: false,
-    data: {
-      fiat: nativeTokenUsdPrice
-        ? {
-            raw: gwei * nativeTokenUsdPrice,
-            formatted: nativeTokenUsdPrice
-              ? `${currencySymbolMap[currency]}${(
-                  gwei * nativeTokenUsdPrice
-                ).toLocaleString("en", {
-                  maximumFractionDigits: 4,
-                })}`
-              : undefined,
-          }
-        : null,
-      token: {
-        raw: gwei,
-        formatted: `${formatDecimals(gwei)} ${nativeToken?.symbol}`,
-      },
-    },
+    data: getFormattedAmount(gwei.toString()),
   };
 };

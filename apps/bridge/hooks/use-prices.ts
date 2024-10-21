@@ -7,19 +7,20 @@ import {
 } from "@/codegen";
 import { useSettingsState } from "@/state/settings";
 
+export interface PartialToken {
+  coinGeckoId?: string;
+  address?: string;
+  name?: string;
+  decimals?: number;
+}
+
 export const useGetTokenPrice = () => {
   const prices = useBridgeControllerGetTokenPrices();
   const fiat = useBridgeControllerFiatPrices();
   const currency = useSettingsState.useCurrency();
 
   return useCallback(
-    (
-      t: {
-        coinGeckoId?: string;
-        address?: string;
-        name?: string;
-      } | null
-    ) => {
+    (t: PartialToken | null | undefined) => {
       const fiatPriceInUsd = fiat.data?.data?.[currency] ?? null;
       let tokenPrice = null;
 
@@ -54,13 +55,7 @@ export const useGetTokenPrice = () => {
   );
 };
 
-export const useTokenPrice = (
-  t: {
-    coinGeckoId?: string;
-    address?: string;
-    name: string;
-  } | null
-) => {
+export const useTokenPrice = (t: PartialToken | null | undefined) => {
   const getTokenPrice = useGetTokenPrice();
   return getTokenPrice(t);
 };
