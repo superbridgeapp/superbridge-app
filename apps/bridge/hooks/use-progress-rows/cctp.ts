@@ -54,7 +54,7 @@ export const useCctpProgressRows = (
           pendingHash: pendingFinalise,
           hash: undefined,
           chain: tx.to,
-          gasLimit: BigInt(200_000),
+          gasLimit: BigInt(300_000),
           token,
           amount,
         }
@@ -70,7 +70,7 @@ export const useCctpProgressRows = (
             type: ButtonComponent.Mint,
             enabled: false,
           },
-          gasLimit: tx.relay ? undefined : BigInt(200_000),
+          gasLimit: tx.relay ? undefined : BigInt(300_000),
           token,
           amount,
         };

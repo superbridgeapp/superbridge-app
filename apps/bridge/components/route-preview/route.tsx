@@ -58,10 +58,6 @@ export const Route = ({
     parseInt((quote.steps[0] as RouteStepTransactionDto).chainId),
     gasEstimate.data
   );
-  console.log({
-    gasEstimate: gasEstimate.isFetching,
-    networkFee: networkFee.isLoading,
-  });
 
   const route = {
     isLoading: false,

@@ -110,10 +110,7 @@ function TransactionLineItem({
   step: TransactionStep;
   tx?: Pick<Transaction, "type">;
 }) {
-  const fee = useNetworkFeeForGasLimit(
-    step.chain.id,
-    BigInt(step.gasLimit ?? 500_000)
-  );
+  const fee = useNetworkFeeForGasLimit(step.chain.id, step.gasLimit);
 
   // transaction steps have three basic states
   // done, has a transaction hash

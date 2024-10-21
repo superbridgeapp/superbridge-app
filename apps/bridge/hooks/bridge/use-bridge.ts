@@ -1,9 +1,10 @@
 import { Address, Hex, parseUnits } from "viem";
 import { berachainTestnetbArtio, scroll } from "viem/chains";
-import { useEstimateFeesPerGas, useSendTransaction } from "wagmi";
+import { useSendTransaction } from "wagmi";
 
 import { isRouteQuote } from "@/utils/guards";
 
+import { useEstimateFeesPerGas } from "../gas/use-estimate-fees-per-gas";
 import { useSelectedBridgeRoute } from "../routes/use-selected-bridge-route";
 import { useFromChain, useToChain } from "../use-chain";
 import { useInitiatingChainId } from "../use-initiating-chain-id";
@@ -17,9 +18,7 @@ export const useBridge = () => {
   const selectedRoute = useSelectedBridgeRoute();
   const { sendTransactionAsync, isPending } = useSendTransaction();
 
-  const fromFeeData = useEstimateFeesPerGas({
-    chainId: initiatingChainId || undefined,
-  });
+  const fromFeeData = useEstimateFeesPerGas(initiatingChainId);
 
   const route = isRouteQuote(selectedRoute?.data?.result)
     ? selectedRoute.data.result

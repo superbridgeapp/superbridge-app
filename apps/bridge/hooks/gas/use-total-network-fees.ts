@@ -1,5 +1,4 @@
 import { formatUnits } from "viem";
-import { useEstimateFeesPerGas } from "wagmi";
 
 import {
   useNativeToken,
@@ -11,13 +10,14 @@ import { isRouteQuote, isRouteTransactionStep } from "@/utils/guards";
 import { scaleToNativeTokenDecimals } from "@/utils/native-token-scaling";
 
 import { useSelectedBridgeRoute } from "../routes/use-selected-bridge-route";
+import { useEstimateFeesPerGas } from "./use-estimate-fees-per-gas";
 
 export const useEstimateTotalNetworkFees = () => {
   const from = useFromChain();
   const to = useToChain();
 
-  const fromFeeData = useEstimateFeesPerGas({ chainId: from?.id });
-  const toFeeData = useEstimateFeesPerGas({ chainId: to?.id });
+  const fromFeeData = useEstimateFeesPerGas(from?.id);
+  const toFeeData = useEstimateFeesPerGas(to?.id);
 
   const fromNativeToken = useNativeToken();
   const toNativeToken = useToNativeToken();

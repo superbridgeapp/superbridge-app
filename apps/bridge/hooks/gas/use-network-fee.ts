@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { FeeValuesType } from "viem";
-import { useEstimateFeesPerGas } from "wagmi";
 
 import { RouteStepTransactionDto } from "@/codegen/model";
 import { isRouteQuote } from "@/utils/guards";
@@ -9,6 +8,7 @@ import { useBridgeGasEstimateForRoute } from "../bridge/use-bridge-gas-estimate"
 import { useSelectedBridgeRoute } from "../routes/use-selected-bridge-route";
 import { useNativeTokenForChainId } from "../tokens/use-native-token";
 import { useGetFormattedAmount } from "../use-get-formatted-amount";
+import { useEstimateFeesPerGas } from "./use-estimate-fees-per-gas";
 
 export const useNetworkFee = () => {
   const route = useSelectedBridgeRoute();
@@ -28,14 +28,7 @@ export const useNetworkFeeForGasLimit = (
   const [type, setType] = useState<FeeValuesType>("eip1559");
   const nativeToken = useNativeTokenForChainId(chainId);
   const getFormattedAmount = useGetFormattedAmount(nativeToken);
-
-  const feeData = useEstimateFeesPerGas({
-    chainId,
-    type,
-    query: {
-      enabled: !!gasLimit,
-    },
-  });
+  const feeData = useEstimateFeesPerGas(chainId, type, !!gasLimit);
 
   useEffect(() => {
     if (feeData.failureReason?.message.includes("does not support")) {
