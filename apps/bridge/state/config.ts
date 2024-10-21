@@ -2,6 +2,9 @@ import { createSelectorHooks } from "auto-zustand-selectors-hook";
 import { Address, Hex } from "viem";
 import { create } from "zustand";
 
+import { RouteProvider } from "@/codegen/model";
+import { MultiChainToken } from "@/types/token";
+
 interface ConfigState {
   displayConfirmationModal: boolean;
   setDisplayConfirmationModal: (x: boolean) => void;
@@ -20,8 +23,8 @@ interface ConfigState {
   toggleEasyMode: () => void;
   setEasyMode: (b: boolean) => void;
 
-  tokenId: string | null;
-  setTokenId: (tokenId: string) => void;
+  token: MultiChainToken | null;
+  setToken: (token: MultiChainToken) => void;
 
   rawAmount: string;
   setRawAmount: (raw: string) => void;
@@ -40,8 +43,8 @@ interface ConfigState {
   networkSelectorDirection: "from" | "to";
   setNetworkSelectorDirection: (x: "from" | "to") => void;
 
-  routeId: string | null;
-  setRouteId: (n: string | null) => void;
+  routeId: RouteProvider | null;
+  setRouteId: (n: RouteProvider | null) => void;
 }
 
 const ConfigState = create<ConfigState>()((set, get) => ({
@@ -53,8 +56,8 @@ const ConfigState = create<ConfigState>()((set, get) => ({
   toggleEasyMode: () => set((s) => ({ easyMode: !s.easyMode })),
   setEasyMode: (easyMode) => set({ easyMode }),
 
-  tokenId: null,
-  setTokenId: (tokenId) => set({ tokenId }),
+  token: null,
+  setToken: (token) => set({ token }),
 
   rawAmount: "",
   setRawAmount: (rawAmount) => set({ rawAmount }),

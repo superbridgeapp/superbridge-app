@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
 
+import { RouteProvider } from "@/codegen/model";
 import { useBridgeRoutes } from "@/hooks/routes/use-bridge-routes";
 import { useModal } from "@/hooks/use-modal";
 import { useConfigState } from "@/state/config";
@@ -14,7 +15,7 @@ export const RouteSelectorModal = () => {
   const modal = useModal("RouteSelector");
   const setRouteId = useConfigState.useSetRouteId();
 
-  const onSelect = (id: string) => {
+  const onSelect = (id: RouteProvider) => {
     setRouteId(id);
     modal.close();
   };

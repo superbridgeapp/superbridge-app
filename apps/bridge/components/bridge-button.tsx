@@ -14,7 +14,7 @@ import { useNetworkFee } from "@/hooks/gas/use-network-fee";
 import { useRouteRequest } from "@/hooks/routes/use-route-request";
 import { useSelectedBridgeRoute } from "@/hooks/routes/use-selected-bridge-route";
 import { useNativeToken } from "@/hooks/tokens/use-native-token";
-import { useSelectedToken } from "@/hooks/tokens/use-token";
+import { useMultichainToken, useSelectedToken } from "@/hooks/tokens/use-token";
 import { useTokenBalance } from "@/hooks/use-balances";
 import { useBaseNativeTokenBalance } from "@/hooks/use-base-native-token-balance";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
@@ -189,7 +189,8 @@ export const BridgeButton = () => {
       }),
       // Let's not disable here because people could actually submit with
       // a lower gas price via their wallet. A little power-usery but important imo
-      disabled: false,
+      // temp disable before we ship a better gas estimation flow
+      disabled: true,
     }))
     .with({ hasInsufficientBaseNativeTokenBalance: true }, (d) => ({
       onSubmit: handleSubmitClick,
