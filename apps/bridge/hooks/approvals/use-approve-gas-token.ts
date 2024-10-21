@@ -1,68 +1,73 @@
 import { waitForTransactionReceipt } from "@wagmi/core";
 import { useState } from "react";
-import { Address } from "viem";
-import { useConfig, useWriteContract } from "wagmi";
-
-import { isArbitrum, isOptimism } from "@/utils/deployments/is-mainnet";
+import { useConfig, useWalletClient } from "wagmi";
 
 import { useCustomGasTokenAddress } from "../custom-gas-token/use-custom-gas-token-address";
 import { useDeployment } from "../deployments/use-deployment";
+import { useEstimateFeesPerGas } from "../gas/use-estimate-fees-per-gas";
 import { useBridgeRoutes } from "../routes/use-bridge-routes";
-import { APPROVE_ABI_WITHOUT_RETURN } from "../use-approve";
+import { useSelectedBridgeRoute } from "../routes/use-selected-bridge-route";
+import { useTokenBalances } from "../use-balances";
 import { useFromChain } from "../use-chain";
 import { useRequiredCustomGasTokenBalance } from "../use-required-custom-gas-token-balance";
-import { useWeiAmount } from "../use-wei-amount";
+import { useAllowanceGasToken } from "./use-allowance-gas-token";
 import { useApprovalAddressGasToken } from "./use-approval-address-gas-token";
+import { useApproveGasTokenGasEstimate } from "./use-approve-gas-token-gas-estimate";
+import { useApproveGasTokenTx } from "./use-approve-gas-token-tx";
 
-const useGasTokenApprovalAmount = () => {
-  const deployment = useDeployment();
-  const weiAmount = useWeiAmount();
-  const requiredGasTokenBalance = useRequiredCustomGasTokenBalance();
-
-  if (deployment && isOptimism(deployment)) {
-    return weiAmount;
-  }
-
-  if (deployment && isArbitrum(deployment)) {
-    return requiredGasTokenBalance;
-  }
-
-  return null;
-};
-
-export function useApproveGasToken(refreshAllowance: () => void) {
+export function useApproveGasToken() {
   const routes = useBridgeRoutes();
-  const { writeContractAsync } = useWriteContract();
   const config = useConfig();
   const [isLoading, setIsLoading] = useState(false);
   const deployment = useDeployment();
   const gasTokenAddress = useCustomGasTokenAddress(deployment?.id);
   const from = useFromChain();
-
-  const gasTokenApprovalAmount = useGasTokenApprovalAmount();
-
+  const balances = useTokenBalances();
+  const allowance = useAllowanceGasToken();
+  const wallet = useWalletClient();
+  const fees = useEstimateFeesPerGas(from?.id);
+  const gasTokenApprovalAmount = useRequiredCustomGasTokenBalance();
+  const route = useSelectedBridgeRoute();
+  const tx = useApproveGasTokenTx(route.data);
   const approvalAddress = useApprovalAddressGasToken();
+  const estimate = useApproveGasTokenGasEstimate();
+
   return {
     write: async () => {
-      if (!gasTokenAddress || !deployment || !approvalAddress) return;
+      if (
+        !gasTokenAddress ||
+        !approvalAddress ||
+        !gasTokenApprovalAmount ||
+        !wallet.data ||
+        !tx ||
+        !estimate
+      )
+        return;
       setIsLoading(true);
+
       try {
-        const hash = await writeContractAsync({
-          abi: APPROVE_ABI_WITHOUT_RETURN,
-          address: gasTokenAddress as Address,
-          args: [approvalAddress, gasTokenApprovalAmount],
-          functionName: "approve",
-          chainId: from?.id,
+        const hash = await wallet.data.sendTransaction({
+          ...tx,
+          value: BigInt(tx.value ?? "0"),
+          gas: BigInt(estimate),
+          ...(fees.data?.gasPrice
+            ? {
+                gasPrice: fees.data?.gasPrice,
+              }
+            : {
+                maxFeePerGas: fees.data?.maxFeePerGas,
+                maxPriorityFeePerGas: fees.data?.maxPriorityFeePerGas,
+              }),
         });
         await waitForTransactionReceipt(config, {
           hash,
           chainId: from?.id,
+          pollingInterval: 5_000,
+          timeout: 60_000,
         });
-        refreshAllowance();
-        routes.refetch();
         setTimeout(() => {
-          refreshAllowance();
-          routes.refetch();
+          allowance.refetch();
+          balances.refetch();
         }, 200);
       } catch {
       } finally {

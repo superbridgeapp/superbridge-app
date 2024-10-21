@@ -1,7 +1,6 @@
 import { Address, isAddressEqual } from "viem";
 
 import { useDeployment } from "@/hooks/deployments/use-deployment";
-import { useBaseNativeTokenBalance } from "@/hooks/use-base-native-token-balance";
 import { useWeiAmount } from "@/hooks/use-wei-amount";
 
 import { useArbitrumGasCostsInWei } from "./arbitrum/use-arbitrum-gas-costs";
@@ -26,15 +25,9 @@ export const useRequiredCustomGasTokenBalance = () => {
   const arbitrumGasCosts = useArbitrumGasCostsInWei();
   const deployment = useDeployment();
   const customGasToken = useCustomGasTokenAddress(deployment?.id);
-  const baseNativeTokenBalance = useBaseNativeTokenBalance();
   const isArbitrumDeposit = useIsArbitrumDeposit();
 
-  if (
-    !isArbitrumDeposit ||
-    !customGasToken ||
-    typeof baseNativeTokenBalance.data === "undefined" ||
-    !token
-  ) {
+  if (!isArbitrumDeposit || !customGasToken || !token) {
     return null;
   }
 

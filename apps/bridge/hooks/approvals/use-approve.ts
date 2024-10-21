@@ -3,18 +3,18 @@ import { useState } from "react";
 import { Address, Chain, Hex } from "viem";
 import { useConfig, useWalletClient } from "wagmi";
 
-import { useBridgeRoutes } from "../routes/use-bridge-routes";
 import { useSelectedBridgeRoute } from "../routes/use-selected-bridge-route";
 import { useSelectedToken } from "../tokens/use-token";
+import { useTokenBalances } from "../use-balances";
 import { useFromChain } from "../use-chain";
 import { useAllowance } from "./use-allowance";
 import { useApproveGasEstimate } from "./use-approve-gas-estimate";
 import { useApproveTx } from "./use-approve-tx";
 
 export function useApprove() {
-  const routes = useBridgeRoutes();
   const route = useSelectedBridgeRoute();
   const allowance = useAllowance();
+  const balances = useTokenBalances();
   const token = useSelectedToken();
   const config = useConfig();
   const [isLoading, setIsLoading] = useState(false);
@@ -47,11 +47,9 @@ export function useApprove() {
       } catch (e) {
         console.log(e);
       } finally {
-        allowance.refetch();
-        routes.refetch();
         setTimeout(() => {
           allowance.refetch();
-          routes.refetch();
+          balances.refetch();
         }, 200);
         setIsLoading(false);
       }
