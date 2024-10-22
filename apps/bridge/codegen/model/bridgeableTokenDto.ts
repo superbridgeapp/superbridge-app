@@ -7,6 +7,7 @@
  */
 import type { HyperlaneRouterDto } from './hyperlaneRouterDto';
 import type { OpBridgedUsdcDto } from './opBridgedUsdcDto';
+import type { BridgeableTokenDtoOpBridgedUsdcV2 } from './bridgeableTokenDtoOpBridgedUsdcV2';
 
 export interface BridgeableTokenDto {
   address: string;
@@ -19,5 +20,6 @@ export interface BridgeableTokenDto {
   lz?: OpBridgedUsdcDto;
   name: string;
   opBridgedUsdc?: OpBridgedUsdcDto;
+  opBridgedUsdcV2?: BridgeableTokenDtoOpBridgedUsdcV2;
   symbol: string;
 }

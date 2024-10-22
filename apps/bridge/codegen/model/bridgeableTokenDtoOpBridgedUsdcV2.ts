@@ -6,7 +6,4 @@
  * OpenAPI spec version: 1.0
  */
 
-export interface EstimateDto {
-  chainId: number;
-  limit: number;
-}
+export type BridgeableTokenDtoOpBridgedUsdcV2 = {[key: string]: string};

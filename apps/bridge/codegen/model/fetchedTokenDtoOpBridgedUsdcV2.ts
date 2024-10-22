@@ -6,7 +6,4 @@
  * OpenAPI spec version: 1.0
  */
 
-export interface EstimateDto {
-  chainId: number;
-  limit: number;
-}
+export type FetchedTokenDtoOpBridgedUsdcV2 = { [key: string]: unknown };

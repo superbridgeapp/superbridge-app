@@ -9,6 +9,7 @@
 export interface TransactionDto {
   chainId: number;
   data: string;
+  gasPrice?: string;
   to: string;
   value?: string;
 }
