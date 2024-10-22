@@ -9,7 +9,26 @@ import { deadAddress } from "@/utils/tokens/is-eth";
 
 import { useApproveGasTokenTx } from "../approvals/use-approve-gas-token-tx";
 import { useApproveTx } from "../approvals/use-approve-tx";
+import { useGasPrice } from "../gas/use-gas-price";
 import { useHost } from "../use-metadata";
+
+const useTenderlyGasPrice = () => {
+  const gasPrice = useGasPrice();
+
+  // @ts-expect-error
+  if (gasPrice.gasPrice) {
+    // @ts-expect-error
+    return { gasPrice: gasPrice.gasPrice.toString() };
+  }
+
+  // @ts-expect-error
+  if (gasPrice.maxFeePerGas) {
+    // @ts-expect-error
+    return { gasPrice: gasPrice.maxFeePerGas.toString() };
+  }
+
+  return {};
+};
 
 export const useRouteGasEstimate = (route: RouteResultDto | null) => {
   const host = useHost();
@@ -20,6 +39,8 @@ export const useRouteGasEstimate = (route: RouteResultDto | null) => {
     route?.result && isRouteQuote(route.result)
       ? route.result.initiatingTransaction
       : null;
+
+  const gasPrice = useTenderlyGasPrice();
 
   const account = useAccount();
 
@@ -37,6 +58,7 @@ export const useRouteGasEstimate = (route: RouteResultDto | null) => {
       initiatingTransaction?.to,
       initiatingTransaction?.data,
       initiatingTransaction?.value,
+      gasPrice.gasPrice,
     ],
     queryFn: async () => {
       if (!initiatingTransaction) return null;
@@ -45,11 +67,22 @@ export const useRouteGasEstimate = (route: RouteResultDto | null) => {
         from: account.address ?? deadAddress,
         domain: host,
         transactions: [
-          gasTokenApprovalTx,
-          approvalTx,
+          gasTokenApprovalTx
+            ? {
+                ...gasTokenApprovalTx,
+                gasPrice: gasPrice.gasPrice,
+              }
+            : null,
+          approvalTx
+            ? {
+                ...approvalTx,
+                gasPrice: gasPrice.gasPrice,
+              }
+            : null,
           {
             ...initiatingTransaction,
             chainId: parseInt(initiatingTransaction.chainId),
+            gasPrice: gasPrice.gasPrice,
           },
         ].filter(isPresent),
       });
