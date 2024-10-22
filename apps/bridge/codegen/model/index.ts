@@ -6,7 +6,6 @@
  * OpenAPI spec version: 1.0
  */
 
-export * from './acrossAvailableRouteDto';
 export * from './acrossBridgeDto';
 export * from './acrossBridgeMetadataDataDto';
 export * from './acrossBridgeMetadataDto';
@@ -44,6 +43,7 @@ export * from './bridgeControllerGetTokens200Item';
 export * from './bridgeWithdrawalDto';
 export * from './bridgeWithdrawalDtoMetadata';
 export * from './bridgeableTokenDto';
+export * from './bridgeableTokenDtoOpBridgedUsdcV2';
 export * from './cctpBridgeDto';
 export * from './cctpContractAddressesDto';
 export * from './cctpDomainDto';
@@ -70,11 +70,14 @@ export * from './deploymentType';
 export * from './deploymentsQueryDto';
 export * from './disabledRouteErrorDto';
 export * from './disputeGameDto';
+export * from './estimateDto';
 export * from './estimateGasDto';
+export * from './estimateGasResponseDto';
 export * from './ethDepositDataDto';
 export * from './ethDepositDto';
 export * from './fetchedMultichainTokenDto';
 export * from './fetchedTokenDto';
+export * from './fetchedTokenDtoOpBridgedUsdcV2';
 export * from './fiatPricesDto';
 export * from './forcedWithdrawalDto';
 export * from './genericRouteErrorDto';

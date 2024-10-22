@@ -77,7 +77,7 @@ export const useBridgeRoutes = () => {
               }
             : undefined,
 
-        opBridgedUsdcAdapter: fromToken?.opBridgedUsdc?.adapter,
+        opBridgedUsdcAdapter: fromToken?.opBridgedUsdcV2?.[to?.id ?? 0],
         lzAdapter: fromToken?.lz?.adapter,
       });
     },

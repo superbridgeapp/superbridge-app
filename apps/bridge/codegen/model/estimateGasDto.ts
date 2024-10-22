@@ -8,6 +8,7 @@
 import type { TransactionDto } from './transactionDto';
 
 export interface EstimateGasDto {
+  domain: string;
   from: string;
   transactions: TransactionDto[];
 }
