@@ -33,13 +33,13 @@ export const getServerSideProps = async ({
 
   let requestHost = req.headers.host;
 
-  if (
-    req.headers.host?.includes("localhost") ||
-    req.headers.host?.includes("ngrok")
-  ) {
-    // change this to load different apps
-    requestHost = "testnets.superbridge.app";
-  }
+  // if (
+  // req.headers.host?.includes("localhost") ||
+  // req.headers.host?.includes("ngrok")
+  // ) {
+  // change this to load different apps
+  requestHost = "stacks-base-sepolia-0.testnets.rollbridge.app";
+  // }
 
   const config = await bridgeControllerGetBridgeConfigByDomainV2(
     requestHost
