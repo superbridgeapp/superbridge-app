@@ -9,22 +9,19 @@ import { deadAddress } from "@/utils/tokens/is-eth";
 
 import { useApproveGasTokenTx } from "../approvals/use-approve-gas-token-tx";
 import { useApproveTx } from "../approvals/use-approve-tx";
-import { useGasPrice } from "../gas/use-gas-price";
+import { useEstimateFeesPerGas } from "../gas/use-estimate-fees-per-gas";
+import { useFromChain } from "../use-chain";
 import { useHost } from "../use-metadata";
 
 const useTenderlyGasPrice = () => {
-  const gasPrice = useGasPrice();
+  const gasPrice = useEstimateFeesPerGas(useFromChain()?.id);
 
-  // @ts-expect-error
-  if (gasPrice.gasPrice) {
-    // @ts-expect-error
-    return { gasPrice: gasPrice.gasPrice.toString() };
+  if (gasPrice.data?.gasPrice) {
+    return { gasPrice: gasPrice.data.gasPrice.toString() };
   }
 
-  // @ts-expect-error
-  if (gasPrice.maxFeePerGas) {
-    // @ts-expect-error
-    return { gasPrice: gasPrice.maxFeePerGas.toString() };
+  if (gasPrice.data?.maxFeePerGas) {
+    return { gasPrice: gasPrice.data.maxFeePerGas.toString() };
   }
 
   return {};

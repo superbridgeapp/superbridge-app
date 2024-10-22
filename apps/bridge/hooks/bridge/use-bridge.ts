@@ -3,14 +3,15 @@ import { useSendTransaction } from "wagmi";
 
 import { isRouteQuote } from "@/utils/guards";
 
-import { useGasPrice } from "../gas/use-gas-price";
+import { useEstimateFeesPerGas } from "../gas/use-estimate-fees-per-gas";
 import { useSelectedBridgeRoute } from "../routes/use-selected-bridge-route";
+import { useFromChain } from "../use-chain";
 import { useBridgeGasEstimateForRoute } from "./use-bridge-gas-estimate";
 
 export const useBridge = () => {
   const selectedRoute = useSelectedBridgeRoute();
   const { sendTransactionAsync, isPending } = useSendTransaction();
-  const gasPriceParams = useGasPrice();
+  const gasPriceParams = useEstimateFeesPerGas(useFromChain()?.id);
 
   const route = isRouteQuote(selectedRoute?.data?.result)
     ? selectedRoute.data.result
