@@ -21,7 +21,7 @@ export const useBridge = () => {
   const estimate = useBridgeGasEstimateForRoute(selectedRoute.data);
 
   const params: any = {
-    ...gasPriceParams,
+    ...gasPriceParams.data,
   };
 
   if (tx && estimate?.data) {
