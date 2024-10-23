@@ -107,10 +107,10 @@ export function useTxMultichainToken(tx: Transaction | null | undefined) {
   if (isLzBridge(tx)) {
     const t = tokens.data.find((x) => {
       const src = x[from.id];
-      if (!src) {
+      if (!src?.lz?.adapter) {
         return false;
       }
-      return isAddressEqual(src.lz?.adapter as Address, tx.token as Address);
+      return isAddressEqual(src.lz.adapter as Address, tx.token as Address);
     });
 
     return t ?? null;
