@@ -85,7 +85,7 @@ export const FinaliseArbitrum: FC<{
       size={"sm"}
       disabled={finalise.loading || !enabled}
     >
-      {t("buttons.finalize")}
+      {t("buttons.get")}
     </Button>
   );
 };
