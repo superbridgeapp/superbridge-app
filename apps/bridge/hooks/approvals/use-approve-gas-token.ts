@@ -5,7 +5,6 @@ import { useConfig, useWalletClient } from "wagmi";
 import { useCustomGasTokenAddress } from "../custom-gas-token/use-custom-gas-token-address";
 import { useDeployment } from "../deployments/use-deployment";
 import { useEstimateFeesPerGas } from "../gas/use-estimate-fees-per-gas";
-import { useBridgeRoutes } from "../routes/use-bridge-routes";
 import { useSelectedBridgeRoute } from "../routes/use-selected-bridge-route";
 import { useTokenBalances } from "../use-balances";
 import { useFromChain } from "../use-chain";
@@ -61,7 +60,7 @@ export function useApproveGasToken() {
         await waitForTransactionReceipt(config, {
           hash,
           chainId: from?.id,
-          pollingInterval: 5_000,
+          pollingInterval: 2_000,
           timeout: 60_000,
         });
         setTimeout(() => {

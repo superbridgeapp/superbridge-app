@@ -41,17 +41,18 @@ export const useNetworkFeeForGasLimit = (
     };
   }
 
-  const gwei =
-    (feeData.data.gasPrice ?? feeData.data.maxFeePerGas ?? BigInt(0)) *
-    BigInt(gasLimit);
-
-  const nativeTokenAmount = scaleToNativeTokenDecimals({
-    amount: gwei,
-    decimals: nativeToken?.decimals ?? 18,
-  });
+  const fee = feeData.data.maxFeePerGas
+    ? feeData.data.maxFeePerGas + feeData.data.maxPriorityFeePerGas
+    : (feeData.data.gasPrice ?? BigInt(0));
+  const gwei = fee * BigInt(gasLimit);
 
   return {
     isLoading: false,
-    data: getFormattedAmount(nativeTokenAmount.toString()),
+    data: getFormattedAmount(
+      scaleToNativeTokenDecimals({
+        amount: gwei,
+        decimals: nativeToken?.decimals ?? 18,
+      }).toString()
+    ),
   };
 };

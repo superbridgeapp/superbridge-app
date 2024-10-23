@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Address, Chain, Hex } from "viem";
 import { useConfig, useWalletClient } from "wagmi";
 
+import { useEstimateFeesPerGas } from "../gas/use-estimate-fees-per-gas";
 import { useSelectedBridgeRoute } from "../routes/use-selected-bridge-route";
 import { useSelectedToken } from "../tokens/use-token";
 import { useTokenBalances } from "../use-balances";
@@ -19,8 +20,8 @@ export function useApprove() {
   const config = useConfig();
   const [isLoading, setIsLoading] = useState(false);
   const wallet = useWalletClient();
-
   const from = useFromChain();
+  const fees = useEstimateFeesPerGas(from?.id);
 
   const gasEstimate = useApproveGasEstimate();
 
@@ -37,11 +38,19 @@ export function useApprove() {
           to: tx.to as Address,
           chain: from as unknown as Chain,
           gas: BigInt(gasEstimate),
+          ...(fees.data?.gasPrice
+            ? {
+                gasPrice: fees.data?.gasPrice,
+              }
+            : {
+                maxFeePerGas: fees.data?.maxFeePerGas,
+                maxPriorityFeePerGas: fees.data?.maxPriorityFeePerGas,
+              }),
         });
         await waitForTransactionReceipt(config, {
           hash,
           chainId: token.chainId,
-          pollingInterval: 5_000,
+          pollingInterval: 2_000,
           timeout: 60_000,
         });
       } catch (e) {

@@ -2,9 +2,9 @@ import { Address, Hex, encodeFunctionData } from "viem";
 
 import { RouteResultDto } from "@/codegen/model";
 
+import { APPROVE_ABI_WITHOUT_RETURN } from "../approvals/use-approve-tx";
 import { useCustomGasTokenAddress } from "../custom-gas-token/use-custom-gas-token-address";
 import { useDeployment } from "../deployments/use-deployment";
-import { APPROVE_ABI_WITHOUT_RETURN } from "../use-approve";
 import { useFromChain } from "../use-chain";
 import { useRequiredCustomGasTokenBalance } from "../use-required-custom-gas-token-balance";
 import { useGasTokenApproveAddressForRoute } from "./use-approval-address-gas-token";

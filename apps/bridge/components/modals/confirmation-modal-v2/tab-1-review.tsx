@@ -182,9 +182,7 @@ export const ConfirmationModalReviewTab = ({
               </div>
             </div>
             <div className="flex items-center justify-between">
-              {networkFee.isLoading ? (
-                <Skeleton className="h-3 w-[60px]" />
-              ) : (
+              {networkFee.data?.token.formatted ? (
                 <div
                   className="flex gap-1 items-center cursor-pointer"
                   onClick={() => gasInfoModal.open()}
@@ -199,6 +197,8 @@ export const ConfirmationModalReviewTab = ({
                   </span>
                   <IconHelp className="fill-muted-foreground h-4 w-auto" />
                 </div>
+              ) : (
+                <Skeleton className="h-3 w-[60px]" />
               )}
             </div>
           </div>

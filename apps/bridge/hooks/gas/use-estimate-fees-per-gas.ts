@@ -30,9 +30,7 @@ export const useEstimateFeesPerGas = (
     if (copy.maxFeePerGas) {
       if (chainId === scroll.id) {
         copy.maxFeePerGas *= BigInt(10);
-      }
-
-      if (chainId === berachainTestnetbArtio.id) {
+      } else if (chainId === berachainTestnetbArtio.id) {
         copy.maxFeePerGas =
           copy.maxFeePerGas < parseUnits("0.2", 9)
             ? parseUnits("0.2", 9)
@@ -41,6 +39,8 @@ export const useEstimateFeesPerGas = (
           copy.maxPriorityFeePerGas < parseUnits("0.2", 9)
             ? parseUnits("0.2", 9)
             : copy.maxPriorityFeePerGas;
+      } else {
+        copy.maxFeePerGas += copy.maxFeePerGas / BigInt(20);
       }
     }
 
