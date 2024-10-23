@@ -42,6 +42,8 @@ export const useTransactions = () => {
       hyperlane.mailboxIds,
       hyperlane.routers,
       superbridgeTestnetsEnabled,
+      lz.domainIds,
+      lz.adapters,
     ],
     queryFn: async ({ pageParam }) => {
       if (!address) {
