@@ -1,6 +1,3 @@
-import { useEffect, useState } from "react";
-import { FeeValuesType } from "viem";
-
 import { RouteStepTransactionDto } from "@/codegen/model";
 import { isRouteQuote } from "@/utils/guards";
 import { scaleToNativeTokenDecimals } from "@/utils/native-token-scaling";
@@ -26,16 +23,9 @@ export const useNetworkFeeForGasLimit = (
   chainId: number | undefined,
   gasLimit: number | bigint | undefined | null
 ) => {
-  const [type, setType] = useState<FeeValuesType>("eip1559");
   const nativeToken = useNativeTokenForChainId(chainId);
   const getFormattedAmount = useGetFormattedAmount(nativeToken);
-  const feeData = useEstimateFeesPerGas(chainId, type, !!gasLimit);
-
-  useEffect(() => {
-    if (feeData.failureReason?.message.includes("does not support")) {
-      setType("legacy");
-    }
-  }, [feeData.failureReason]);
+  const feeData = useEstimateFeesPerGas(chainId, !!gasLimit);
 
   if (feeData.isFetching) {
     return {

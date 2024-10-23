@@ -16,7 +16,6 @@ import { useApproveGasTokenGasEstimate } from "./use-approve-gas-token-gas-estim
 import { useApproveGasTokenTx } from "./use-approve-gas-token-tx";
 
 export function useApproveGasToken() {
-  const routes = useBridgeRoutes();
   const config = useConfig();
   const [isLoading, setIsLoading] = useState(false);
   const deployment = useDeployment();

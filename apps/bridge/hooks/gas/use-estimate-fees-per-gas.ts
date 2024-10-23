@@ -1,13 +1,14 @@
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { FeeValuesType, parseUnits } from "viem";
 import { berachainTestnetbArtio, scroll } from "viem/chains";
 import { useEstimateFeesPerGas as useWagmiEstimateFeesPerGas } from "wagmi";
 
 export const useEstimateFeesPerGas = (
   chainId: number | undefined | null,
-  type: FeeValuesType = "eip1559",
   enabled = true
 ) => {
+  const [type, setType] = useState<FeeValuesType>("eip1559");
+
   const fees = useWagmiEstimateFeesPerGas({
     chainId: chainId || undefined,
     type,
@@ -15,6 +16,12 @@ export const useEstimateFeesPerGas = (
       enabled,
     },
   });
+
+  useEffect(() => {
+    if (fees.failureReason?.message.includes("does not support")) {
+      setType("legacy");
+    }
+  }, [fees.failureReason]);
 
   return useMemo(() => {
     if (!fees.data) return fees;
