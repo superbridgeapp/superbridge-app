@@ -4,6 +4,7 @@ import {
   isCctpBridge,
   isDeposit,
   isHyperlaneBridge,
+  isLzBridge,
 } from "@/utils/guards";
 
 import { useTxDeployment } from "./use-tx-deployment";
@@ -17,4 +18,5 @@ export const useTxDuration = (
   if (isAcrossBridge(tx)) return tx.duration;
   if (isHyperlaneBridge(tx)) return tx.duration;
   if (isCctpBridge(tx)) return tx.duration;
+  if (isLzBridge(tx)) return tx.duration;
 };

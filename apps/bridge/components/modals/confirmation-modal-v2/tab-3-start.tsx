@@ -48,6 +48,10 @@ import { useTokenPrice } from "@/hooks/use-prices";
 import { useReceiveAmount } from "@/hooks/use-receive-amount";
 import { useRequiredCustomGasTokenBalance } from "@/hooks/use-required-custom-gas-token-balance";
 import { useSwitchChain } from "@/hooks/use-switch-chain";
+import {
+  useApproxTotalBridgeTime,
+  useApproxTotalBridgeTimeText,
+} from "@/hooks/use-transfer-time";
 import { useWeiAmount } from "@/hooks/use-wei-amount";
 import { useIsArbitrumDeposit, useIsWithdrawal } from "@/hooks/use-withdrawing";
 import { useConfigState } from "@/state/config";
@@ -97,6 +101,7 @@ export const ConfirmationModalStartTab = () => {
   const customGasToken = useCustomGasTokenAddress(deployment?.id);
   const route = useSelectedBridgeRoute();
   const isArbitrumDeposit = useIsArbitrumDeposit();
+  const transferTime = useApproxTotalBridgeTimeText();
 
   const recipientAddress = useConfigState.useRecipientAddress();
 
@@ -356,11 +361,11 @@ export const ConfirmationModalStartTab = () => {
                       from: initiatingChain?.name,
                     })
                   : x.type === RouteStepType.Prove
-                  ? t("confirmationModal.proveOn", { to: to?.name })
-                  : t("confirmationModal.getAmountOn", {
-                      to: to?.name,
-                      formatted: receive.data?.token.formatted,
-                    });
+                    ? t("confirmationModal.proveOn", { to: to?.name })
+                    : t("confirmationModal.getAmountOn", {
+                        to: to?.name,
+                        formatted: receive.data?.token.formatted,
+                      });
               const amount: TransactionStep["amount"] =
                 x.type === RouteStepType.Initiate
                   ? {
@@ -375,8 +380,8 @@ export const ConfirmationModalStartTab = () => {
                       )} ${fromToken?.symbol}`,
                     }
                   : x.type === RouteStepType.Prove
-                  ? undefined
-                  : receiveAmount;
+                    ? undefined
+                    : receiveAmount;
 
               const buttonComponent =
                 x.type === RouteStepType.Initiate ? (
@@ -552,7 +557,7 @@ export const ConfirmationModalStartTab = () => {
           provider={route.data?.id ?? null}
           sender={account.address ?? "0x"}
           recipient={recipientAddress}
-          transferTime="10 mins"
+          transferTime={transferTime.data ?? ""}
         />
       </TabsContent>
 
