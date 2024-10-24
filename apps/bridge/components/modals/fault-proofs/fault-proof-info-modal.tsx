@@ -1,13 +1,10 @@
-import { IconAlert } from "@/components/icons";
 import { optimismFaultProofsUpgrade } from "@/constants/links";
-import { useDeployment } from "@/hooks/deployments/use-deployment";
 import { useModal } from "@/hooks/use-modal";
 
 import { Button } from "../../ui/button";
 import { Dialog, DialogContent } from "../../ui/dialog";
 
 export const FaultProofInfoModal = () => {
-  const deployment = useDeployment();
   const modal = useModal("FaultProofInfo");
 
   return (
@@ -48,12 +45,12 @@ export const FaultProofInfoModal = () => {
               </svg>
             </div>
             <h1 className="font-heading text-xl  text-left">
-              {deployment?.l2.name} Fault Proof upgrade
+              Base Mainnet Fault Proof upgrade
             </h1>
             <div className="text-xs text-left md:text-sm prose-sm  leading-relaxed  text-muted-foreground text-pretty">
               <p>
-                The {deployment?.l2.name} Fault Proof upgrade has been targeted
-                for June.
+                The Base Mainnet Fault Proof upgrade has been targeted for
+                October 30th.
               </p>
               <p>
                 Withdrawals submitted now cannot be proved and therefore

@@ -1,11 +1,9 @@
-import { useDeployment } from "@/hooks/deployments/use-deployment";
 import { useModal } from "@/hooks/use-modal";
 
 import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 import { Button } from "../ui/button";
 
 export const FaultProofsBanner = () => {
-  const deployment = useDeployment();
   const modal = useModal("FaultProofInfo");
 
   return (
@@ -40,18 +38,17 @@ export const FaultProofsBanner = () => {
         />
       </svg>
 
-      {/* <AlertTitle>{deployment?.l2.name} Fault Proof upgrade</AlertTitle> */}
       <div className="flex items-start justify-between gap-6">
         <div>
           <AlertTitle>Base Fault Proof upgrade</AlertTitle>
           <AlertDescription className="text-foreground opacity-60">
-            Be sure to finalize your withdrawals before XXXX date and time...
+            Be sure to finalize any pending withdrawals before October 30th.
           </AlertDescription>
         </div>
         <Button
           variant={"secondary"}
           size={"xs"}
-          onClick={modal.close}
+          onClick={() => modal.open()}
           className="-mr-1"
         >
           More
