@@ -2,37 +2,31 @@ import { useTranslation } from "react-i18next";
 
 import { useTxAmount } from "@/hooks/activity/use-tx-amount";
 import { useTxMultichainToken } from "@/hooks/activity/use-tx-token";
-import { useHyperlaneMailboxes } from "@/hooks/hyperlane/use-hyperlane-mailboxes";
+import { useLzDomains } from "@/hooks/lz/use-lz-domains";
 import { useChain } from "@/hooks/use-chain";
 import { Transaction } from "@/types/transaction";
 
-import { isHyperlaneBridge } from "../guards";
+import { isLzBridge } from "../../utils/guards";
 import { ActivityStep, buildWaitStep } from "./common";
 
-export const useHyperlaneProgressRows = (
+export const useLzProgressRows = (
   tx: Transaction | null
 ): ActivityStep[] | null => {
+  const domains = useLzDomains();
   const { t } = useTranslation();
+
+  const fromDomain =
+    tx && isLzBridge(tx) ? domains.find((x) => x.eId === tx.fromEid) : null;
+  const toDomain =
+    tx && isLzBridge(tx) ? domains.find((x) => x.eId === tx.toEid) : null;
+
+  const fromChain = useChain(fromDomain?.chainId);
+  const toChain = useChain(toDomain?.chainId);
   const token = useTxMultichainToken(tx);
+  const inputAmount = useTxAmount(tx, token?.[fromChain?.id ?? 0]);
+  const outputAmount = useTxAmount(tx, token?.[toChain?.id ?? 0]);
 
-  const hyperlaneMailboxes = useHyperlaneMailboxes();
-
-  const fromMailbox =
-    tx && isHyperlaneBridge(tx)
-      ? hyperlaneMailboxes.find((x) => x.domain === tx.fromDomain)
-      : null;
-  const toMailbox =
-    tx && isHyperlaneBridge(tx)
-      ? hyperlaneMailboxes.find((x) => x.domain === tx.toDomain)
-      : null;
-
-  const inputAmount = useTxAmount(tx, token?.[fromMailbox?.chainId ?? 0]);
-  const outputAmount = useTxAmount(tx, token?.[toMailbox?.chainId ?? 0]);
-
-  const fromChain = useChain(fromMailbox?.chainId);
-  const toChain = useChain(toMailbox?.chainId);
-
-  if (!tx || !isHyperlaneBridge(tx) || !fromChain || !toChain) {
+  if (!tx || !isLzBridge(tx) || !fromChain || !toChain) {
     return null;
   }
 

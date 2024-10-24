@@ -22,40 +22,54 @@ export const useMultichainToken = () => {
     );
   }
 
-  return (
-    tokens.data?.find((x) => {
-      const potentialFrom = x[from?.id ?? 0]?.address;
-      const potentialTo = x[from?.id ?? 0]?.address;
+  const fullMatch = tokens.data?.find((x) => {
+    const potentialFrom = x[from?.id ?? 0]?.address;
+    const potentialTo = x[to?.id ?? 0]?.address;
 
-      const selectedFrom = token?.[from?.id ?? 0]?.address;
-      const selectedTo = token?.[to?.id ?? 0]?.address;
+    const selectedFrom = token?.[from?.id ?? 0]?.address;
+    const selectedTo = token?.[to?.id ?? 0]?.address;
 
-      // full match
-      if (
-        selectedFrom &&
-        selectedTo &&
-        potentialFrom &&
-        potentialTo &&
-        isAddressEqual(potentialFrom as Address, selectedFrom as Address) &&
-        isAddressEqual(potentialTo as Address, selectedFrom as Address)
-      ) {
-        return x;
-      }
+    // full match
+    if (
+      selectedFrom &&
+      selectedTo &&
+      potentialFrom &&
+      potentialTo &&
+      isAddressEqual(potentialFrom as Address, selectedFrom as Address) &&
+      isAddressEqual(potentialTo as Address, selectedTo as Address)
+    ) {
+      return x;
+    }
+  });
 
-      // partial match, like in the case of switching USDC -> USDC.e
-      if (
-        selectedFrom &&
-        potentialFrom &&
-        selectedTo &&
-        potentialTo &&
-        isAddressEqual(potentialFrom as Address, selectedFrom as Address)
-      ) {
-        return x;
-      }
-    }) ??
-    tokens.data?.[0] ??
-    null
-  );
+  if (fullMatch) {
+    return fullMatch;
+  }
+
+  const partialMatch = tokens.data?.find((x) => {
+    const potentialFrom = x[from?.id ?? 0]?.address;
+    const potentialTo = x[to?.id ?? 0]?.address;
+
+    const selectedFrom = token?.[from?.id ?? 0]?.address;
+    const selectedTo = token?.[to?.id ?? 0]?.address;
+
+    // partial match, like in the case of switching USDC -> USDC.e
+    if (
+      selectedFrom &&
+      potentialFrom &&
+      selectedTo &&
+      potentialTo &&
+      isAddressEqual(potentialFrom as Address, selectedFrom as Address)
+    ) {
+      return x;
+    }
+  });
+
+  if (partialMatch) {
+    return partialMatch;
+  }
+
+  return tokens.data?.[0] ?? null;
 };
 
 export const useSelectedToken = () => {

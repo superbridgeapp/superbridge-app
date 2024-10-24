@@ -91,7 +91,7 @@ export const ConfirmationModalReviewTab = ({
             <div className="flex items-center gap-1 leading-none">
               <TokenIcon
                 token={selectedToken}
-                className="h-7 w-7 rounded-full text-[7px]"
+                className="h-7 w-7 rounded-full !text-[8px]"
               />
               <span className="text-2xl leading-none">
                 {rawAmount} {selectedToken?.symbol}
@@ -110,7 +110,7 @@ export const ConfirmationModalReviewTab = ({
             <div className="flex items-center gap-1 leading-none">
               <TokenIcon
                 token={destinationToken}
-                className="h-7 w-7 rounded-full text-[7px]"
+                className="h-7 w-7 rounded-full !text-[8px]"
               />
               <span className="text-2xl leading-none">
                 {/* only Across has fees, so we'd prefer to show the same input
@@ -182,9 +182,7 @@ export const ConfirmationModalReviewTab = ({
               </div>
             </div>
             <div className="flex items-center justify-between">
-              {networkFee.isLoading ? (
-                <Skeleton className="h-3 w-[60px]" />
-              ) : (
+              {networkFee.data?.token.formatted ? (
                 <div
                   className="flex gap-1 items-center cursor-pointer"
                   onClick={() => gasInfoModal.open()}
@@ -199,6 +197,8 @@ export const ConfirmationModalReviewTab = ({
                   </span>
                   <IconHelp className="fill-muted-foreground h-4 w-auto" />
                 </div>
+              ) : (
+                <Skeleton className="h-3 w-[60px]" />
               )}
             </div>
           </div>

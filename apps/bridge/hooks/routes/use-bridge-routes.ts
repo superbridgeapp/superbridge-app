@@ -93,5 +93,6 @@ export const useBridgeRoutes = () => {
   return {
     isLoading: routes.isFetching,
     data: routes.data?.data ?? null,
+    refetch: routes.refetch,
   };
 };

@@ -1,10 +1,10 @@
 import { Address, erc20Abi } from "viem";
 import { useAccount, useReadContract } from "wagmi";
 
-import { useCustomGasTokenAddress } from "./custom-gas-token/use-custom-gas-token-address";
-import { useDeployment } from "./deployments/use-deployment";
+import { useCustomGasTokenAddress } from "../custom-gas-token/use-custom-gas-token-address";
+import { useDeployment } from "../deployments/use-deployment";
+import { useFromChain } from "../use-chain";
 import { useApprovalAddressGasToken } from "./use-approval-address-gas-token";
-import { useFromChain } from "./use-chain";
 
 export function useAllowanceGasToken() {
   const account = useAccount();

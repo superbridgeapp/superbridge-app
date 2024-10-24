@@ -1,10 +1,11 @@
 import { useConnectModal } from "@rainbow-me/rainbowkit";
 import { useTranslation } from "react-i18next";
 import { match } from "ts-pattern";
-import { Address, formatUnits, isAddressEqual, parseUnits } from "viem";
+import { Address, formatUnits, isAddressEqual } from "viem";
 import { useAccount, useBalance } from "wagmi";
 
 import { useIsAcrossRoute } from "@/hooks/across/use-is-across-route";
+import { useHasInsufficientBalance } from "@/hooks/balances/use-has-insufficient-balance";
 import { useBridge } from "@/hooks/bridge/use-bridge";
 import { useBridgeDisabled } from "@/hooks/bridge/use-bridge-disabled";
 import { useBridgeMax } from "@/hooks/bridge/use-bridge-max";
@@ -14,7 +15,7 @@ import { useNetworkFee } from "@/hooks/gas/use-network-fee";
 import { useRouteRequest } from "@/hooks/routes/use-route-request";
 import { useSelectedBridgeRoute } from "@/hooks/routes/use-selected-bridge-route";
 import { useNativeToken } from "@/hooks/tokens/use-native-token";
-import { useMultichainToken, useSelectedToken } from "@/hooks/tokens/use-token";
+import { useSelectedToken } from "@/hooks/tokens/use-token";
 import { useTokenBalance } from "@/hooks/use-balances";
 import { useBaseNativeTokenBalance } from "@/hooks/use-base-native-token-balance";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
@@ -59,11 +60,10 @@ export const BridgeButton = () => {
     chainId: initiatingChain?.id || from?.id,
   });
   const baseNativeTokenBalance = useBaseNativeTokenBalance();
-  const tokenBalance = useTokenBalance(token);
 
   const networkFee = useNetworkFee();
 
-  const hasInsufficientBalance = weiAmount > tokenBalance.data;
+  const hasInsufficientBalance = useHasInsufficientBalance();
   const hasInsufficientGas = (() => {
     if (
       !networkFee.data ||
@@ -76,10 +76,7 @@ export const BridgeButton = () => {
       fromEthBalance.data.value -
       BigInt(route.data.result.initiatingTransaction.value);
 
-    return (
-      availableGasBalance <
-      BigInt(parseUnits(networkFee.data.token.raw.toFixed(18), 18))
-    );
+    return availableGasBalance < BigInt(networkFee.data.token.raw);
   })();
 
   const requiredCustomGasTokenBalance = useRequiredCustomGasTokenBalance();
