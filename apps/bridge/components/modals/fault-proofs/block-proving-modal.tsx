@@ -19,12 +19,12 @@ export const BlockProvingModal = () => {
               <IconAlert className="w-16 h-16" />
             </div>
             <h1 className="font-heading text-xl  text-left">
-              {deployment?.l2.name} Fault Proof upgrade
+              Base Mainnet Fault Proof upgrade
             </h1>
             <div className="text-xs text-left md:text-sm prose-sm  leading-relaxed  text-muted-foreground text-pretty">
               <p>
-                The {deployment?.l2.name} Fault Proof upgrade has been targeted
-                for June.
+                The Base Mainnet Fault Proof upgrade has been targeted for
+                October 30th.
               </p>
               <p>
                 Please come back after the upgrade is complete to prove your

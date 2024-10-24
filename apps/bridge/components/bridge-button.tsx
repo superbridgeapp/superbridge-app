@@ -16,7 +16,6 @@ import { useRouteRequest } from "@/hooks/routes/use-route-request";
 import { useSelectedBridgeRoute } from "@/hooks/routes/use-selected-bridge-route";
 import { useNativeToken } from "@/hooks/tokens/use-native-token";
 import { useSelectedToken } from "@/hooks/tokens/use-token";
-import { useTokenBalance } from "@/hooks/use-balances";
 import { useBaseNativeTokenBalance } from "@/hooks/use-base-native-token-balance";
 import { useFromChain, useToChain } from "@/hooks/use-chain";
 import { useInitiatingChain } from "@/hooks/use-initiating-chain-id";

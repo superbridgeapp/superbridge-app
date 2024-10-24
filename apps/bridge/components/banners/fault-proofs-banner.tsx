@@ -1,3 +1,4 @@
+import { useHasWithdrawalReadyToFinalize } from "@/hooks/use-has-withdrawal-ready-to-finalize";
 import { useModal } from "@/hooks/use-modal";
 
 import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
@@ -5,6 +6,8 @@ import { Button } from "../ui/button";
 
 export const FaultProofsBanner = () => {
   const modal = useModal("FaultProofInfo");
+
+  const hasWithdrawalReadyToFinalize = useHasWithdrawalReadyToFinalize();
 
   return (
     <Alert className="[&>svg~*]:pl-10">
@@ -42,7 +45,9 @@ export const FaultProofsBanner = () => {
         <div>
           <AlertTitle>Base Fault Proof upgrade</AlertTitle>
           <AlertDescription className="text-foreground opacity-60">
-            Be sure to finalize any pending withdrawals before October 30th.
+            {hasWithdrawalReadyToFinalize
+              ? "Be sure sure to finalize any pending withdrawals before October 30th."
+              : "Withdrawals from Base via the Native Bridge are paused until after the upgrade is complete."}
           </AlertDescription>
         </div>
         <Button
