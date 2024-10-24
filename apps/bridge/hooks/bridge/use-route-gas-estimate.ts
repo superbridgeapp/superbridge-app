@@ -9,6 +9,7 @@ import { deadAddress } from "@/utils/tokens/is-eth";
 
 import { useApproveGasTokenTx } from "../approvals/use-approve-gas-token-tx";
 import { useApproveTx } from "../approvals/use-approve-tx";
+import { useHasInsufficientBalance } from "../balances/use-has-insufficient-balance";
 import { useEstimateFeesPerGas } from "../gas/use-estimate-fees-per-gas";
 import { useFromChain } from "../use-chain";
 import { useHost } from "../use-metadata";
@@ -31,6 +32,8 @@ export const useRouteGasEstimate = (route: RouteResultDto | null) => {
   const host = useHost();
   const gasTokenApprovalTx = useApproveGasTokenTx(route);
   const approvalTx = useApproveTx(route);
+
+  const hasInsufficientBalance = useHasInsufficientBalance();
 
   const initiatingTransaction =
     route?.result && isRouteQuote(route.result)
@@ -56,32 +59,45 @@ export const useRouteGasEstimate = (route: RouteResultDto | null) => {
       initiatingTransaction?.data,
       initiatingTransaction?.value,
       gasPrice.gasPrice,
+      hasInsufficientBalance,
     ],
     queryFn: async () => {
       if (!initiatingTransaction) return null;
 
+      const transactions = [
+        gasTokenApprovalTx
+          ? {
+              ...gasTokenApprovalTx,
+              gasPrice: gasPrice.gasPrice,
+            }
+          : null,
+        approvalTx
+          ? {
+              ...approvalTx,
+              gasPrice: gasPrice.gasPrice,
+            }
+          : null,
+        {
+          ...initiatingTransaction,
+          chainId: parseInt(initiatingTransaction.chainId),
+          gasPrice: gasPrice.gasPrice,
+        },
+      ].filter(isPresent);
+
+      if (hasInsufficientBalance) {
+        return {
+          success: false,
+          estimates: transactions.map((tx) => ({
+            limit: 500_000,
+            chainId: tx.chainId,
+          })),
+        };
+      }
+
       const result = await bridgeControllerGetGasEstimate({
         from: account.address ?? deadAddress,
         domain: host,
-        transactions: [
-          gasTokenApprovalTx
-            ? {
-                ...gasTokenApprovalTx,
-                gasPrice: gasPrice.gasPrice,
-              }
-            : null,
-          approvalTx
-            ? {
-                ...approvalTx,
-                gasPrice: gasPrice.gasPrice,
-              }
-            : null,
-          {
-            ...initiatingTransaction,
-            chainId: parseInt(initiatingTransaction.chainId),
-            gasPrice: gasPrice.gasPrice,
-          },
-        ].filter(isPresent),
+        transactions,
       });
 
       return result.data;

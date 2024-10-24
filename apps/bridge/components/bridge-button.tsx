@@ -5,6 +5,7 @@ import { Address, formatUnits, isAddressEqual } from "viem";
 import { useAccount, useBalance } from "wagmi";
 
 import { useIsAcrossRoute } from "@/hooks/across/use-is-across-route";
+import { useHasInsufficientBalance } from "@/hooks/balances/use-has-insufficient-balance";
 import { useBridge } from "@/hooks/bridge/use-bridge";
 import { useBridgeDisabled } from "@/hooks/bridge/use-bridge-disabled";
 import { useBridgeMax } from "@/hooks/bridge/use-bridge-max";
@@ -63,7 +64,7 @@ export const BridgeButton = () => {
 
   const networkFee = useNetworkFee();
 
-  const hasInsufficientBalance = weiAmount > tokenBalance.data;
+  const hasInsufficientBalance = useHasInsufficientBalance();
   const hasInsufficientGas = (() => {
     if (
       !networkFee.data ||
