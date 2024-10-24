@@ -14,6 +14,7 @@ export const useEstimateFeesPerGas = (
     type,
     query: {
       enabled,
+      staleTime: 30_000,
     },
   });
 
