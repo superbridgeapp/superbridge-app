@@ -51,10 +51,7 @@ import {
 import { useReceiveAmount } from "@/hooks/use-receive-amount";
 import { useRequiredCustomGasTokenBalance } from "@/hooks/use-required-custom-gas-token-balance";
 import { useSwitchChain } from "@/hooks/use-switch-chain";
-import {
-  useApproxTotalBridgeTime,
-  useApproxTotalBridgeTimeText,
-} from "@/hooks/use-transfer-time";
+import { useApproxTotalBridgeTimeText } from "@/hooks/use-transfer-time";
 import { useWeiAmount } from "@/hooks/use-wei-amount";
 import { useIsArbitrumDeposit, useIsWithdrawal } from "@/hooks/use-withdrawing";
 import { useConfigState } from "@/state/config";
@@ -462,6 +459,7 @@ export const ConfirmationModalStartTab = () => {
   const rawAmount = useConfigState.useRawAmount();
   const submittedHash = useConfigState.useSubmittedHash();
   const setSubmittedHash = useConfigState.useSetSubmittedHash();
+  const transferTime = useApproxTotalBridgeTimeText();
 
   const from = useFromChain();
   const to = useToChain();
