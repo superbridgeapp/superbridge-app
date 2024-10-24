@@ -4,20 +4,16 @@ import { IconAlert } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { optimismFaultProofsUpgrade } from "@/constants/links";
-import { useIsSuperbridge } from "@/hooks/apps/use-is-superbridge";
 import { useCancelBridge } from "@/hooks/bridge/use-cancel-bridge";
 import { useDismissAlert } from "@/hooks/bridge/use-dismiss-alert";
-import { useDeployment } from "@/hooks/deployments/use-deployment";
 import { useModalsState } from "@/state/modals";
 
 export const FaultProofsModal = () => {
   const onProceed = useDismissAlert("fault-proofs");
   const onCancel = useCancelBridge();
   const open = useModalsState.useAlerts().includes("fault-proofs");
-  const isSuperbridge = useIsSuperbridge();
 
   const { t } = useTranslation();
-  const deployment = useDeployment();
 
   return (
     <Dialog open={open} onOpenChange={onCancel}>
@@ -28,12 +24,11 @@ export const FaultProofsModal = () => {
               <IconAlert className="w-16 h-16" />
             </div>
             <h1 className="font-heading text-xl  text-left">
-              {deployment?.l2.name} Fault Proof upgrade
+              Base Mainnet Fault Proof upgrade
             </h1>
             <div className="text-xs text-left md:text-sm prose-sm  leading-relaxed  text-muted-foreground text-pretty">
               <p>
-                The {deployment?.l2.name} Fault Proof upgrade has been targeted
-                for June.
+                The Base Mainnet Fault Proof upgrade has been targeted for June.
               </p>
               <p>
                 Any withdrawals initiated cannot be proved until the upgrade is

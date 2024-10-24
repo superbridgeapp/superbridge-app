@@ -1,3 +1,13 @@
+import { useDeployment } from "../deployments/use-deployment";
+import {
+  useIsOptimismForcedWithdrawal,
+  useIsOptimismWithdrawal,
+} from "../use-withdrawing";
+
 export const useBridgeDisabled = () => {
-  return false;
+  const isWithdrawal = useIsOptimismWithdrawal();
+  const isForcedWithdrawal = useIsOptimismForcedWithdrawal();
+  const deployment = useDeployment();
+
+  return (isWithdrawal || isForcedWithdrawal) && deployment?.name === "base";
 };
