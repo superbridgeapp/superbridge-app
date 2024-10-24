@@ -37,7 +37,7 @@ export const getPeriod = (seconds: number): Period => {
 };
 
 export const formatDuration = (start: number, end: number): string | null => {
-  const durationInSeconds = Math.ceil((end - start) / 1000);
+  const durationInSeconds = Math.floor((end - start) / 1000);
 
   if (durationInSeconds < 0) {
     return null;
@@ -54,7 +54,7 @@ export const formatDuration = (start: number, end: number): string | null => {
   }
 
   if (durationInSeconds >= ONE_MINUTE) {
-    const minutes = Math.ceil(durationInSeconds / ONE_MINUTE);
+    const minutes = Math.floor(durationInSeconds / ONE_MINUTE);
     return `${minutes} min${minutes > 1 ? "s" : ""}`;
   }
 

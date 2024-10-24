@@ -38,7 +38,7 @@ export const getServerSideProps = async ({
     req.headers.host?.includes("ngrok")
   ) {
     // change this to load different apps
-    requestHost = "stacks-base-sepolia-0.testnets.rollbridge.app";
+    requestHost = "superbridge.app";
   }
 
   const config = await bridgeControllerGetBridgeConfigByDomainV2(

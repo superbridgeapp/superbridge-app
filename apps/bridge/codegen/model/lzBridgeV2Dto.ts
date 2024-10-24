@@ -11,6 +11,7 @@ import type { LzTransactionType } from './lzTransactionType';
 export interface LzBridgeV2Dto {
   amount: string;
   createdAt: string;
+  duration: number;
   from: string;
   fromEid: number;
   id: string;
