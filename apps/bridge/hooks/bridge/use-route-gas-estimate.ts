@@ -5,7 +5,6 @@ import { useAccount } from "wagmi";
 import { bridgeControllerGetGasEstimate } from "@/codegen/index";
 import { RouteResultDto } from "@/codegen/model";
 import { isRouteQuote } from "@/utils/guards";
-import { deadAddress } from "@/utils/tokens/is-eth";
 
 import { useApproveGasTokenTx } from "../approvals/use-approve-gas-token-tx";
 import { useApproveTx } from "../approvals/use-approve-tx";
@@ -60,6 +59,7 @@ export const useRouteGasEstimate = (route: RouteResultDto | null) => {
       initiatingTransaction?.value,
       gasPrice.gasPrice,
       hasInsufficientBalance,
+      account.address,
     ],
     queryFn: async () => {
       if (!initiatingTransaction) return null;
@@ -84,7 +84,7 @@ export const useRouteGasEstimate = (route: RouteResultDto | null) => {
         },
       ].filter(isPresent);
 
-      if (hasInsufficientBalance) {
+      if (hasInsufficientBalance || !account.address) {
         return {
           success: false,
           estimates: transactions.map((tx) => ({
@@ -95,7 +95,7 @@ export const useRouteGasEstimate = (route: RouteResultDto | null) => {
       }
 
       const result = await bridgeControllerGetGasEstimate({
-        from: account.address ?? deadAddress,
+        from: account.address,
         domain: host,
         transactions,
       });

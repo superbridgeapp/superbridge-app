@@ -60,7 +60,6 @@ export const BridgeButton = () => {
     chainId: initiatingChain?.id || from?.id,
   });
   const baseNativeTokenBalance = useBaseNativeTokenBalance();
-  const tokenBalance = useTokenBalance(token);
 
   const networkFee = useNetworkFee();
 
