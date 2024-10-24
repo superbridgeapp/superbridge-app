@@ -26,9 +26,8 @@ export const Bridge = () => {
             : "relative px-2 md:px-0  md:w-[468px] mb-24 mt-24 2xl:mt-32"
         )}
       >
-        <div className="flex flex-col gap-2 items-center h-full">
-          <Banners />
-          <>
+        <div className="flex flex-col gap-4 items-center h-full">
+          <div className="flex flex-col gap-2">
             {deletedAt && deletedAt < Date.now() ? (
               <div className="w-full bg-card mx-auto rounded-[24px] md:rounded-[32px] shadow-sm shrink-0 backdrop-blur-sm">
                 <BridgeDeleted />
@@ -48,9 +47,11 @@ export const Bridge = () => {
                 </div>
               </>
             )}
-          </>
-
-          <UpgradePromo />
+          </div>
+          <div className="flex flex-col gap-2">
+            <Banners />
+            <UpgradePromo />
+          </div>
         </div>
       </div>
     </main>

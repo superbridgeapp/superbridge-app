@@ -21,6 +21,8 @@ export const Banners = () => {
       {/* {withdrawalsPaused && <WithdrawalsPaused />} */}
       {faultProofUpgradeTime && <FaultProofsBanner />}
       {hasWithdrawalReadyToFinalize && <HasWithdrawalReadyToFinalizeBanner />}
+      <FaultProofsBanner />
+      {/* <HasWithdrawalReadyToFinalizeBanner /> */}
     </>
   );
 };
