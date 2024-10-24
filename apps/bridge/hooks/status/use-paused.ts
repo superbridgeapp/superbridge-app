@@ -39,5 +39,5 @@ export const usePaused = (deployment: OptimismDeploymentDto | undefined) => {
       description: `Withdrawals are enabled and processing as normal`,
       status: SupportCheckStatus.Ok,
     };
-  }, [paused.isFetching, paused.data, deployment?.name]);
+  }, [paused.isFetching, paused.data]);
 };
