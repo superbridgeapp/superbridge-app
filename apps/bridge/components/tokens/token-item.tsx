@@ -1,11 +1,12 @@
 import clsx from "clsx";
 import { useTranslation } from "react-i18next";
-import { formatUnits } from "viem";
+import { Address, formatUnits, isAddressEqual } from "viem";
 
-import { useSelectedToken } from "@/hooks/tokens";
+import { useDestinationToken, useSelectedToken } from "@/hooks/tokens";
 import { useIsCustomToken } from "@/hooks/tokens/use-is-custom-token";
 import { useIsCustomTokenFromList } from "@/hooks/tokens/use-is-custom-token-from-list";
-import { Token } from "@/types/token";
+import { useFromChain, useToChain } from "@/hooks/use-chain";
+import { MultiChainToken } from "@/types/token";
 import { formatDecimals } from "@/utils/format-decimals";
 
 import { TokenIcon } from "../token-icon";
@@ -15,39 +16,57 @@ export const TokenItem = ({
   onClick,
   token,
 }: {
-  token: Token;
+  token: MultiChainToken;
   balance: bigint;
   onClick: () => void;
 }) => {
   const selectedToken = useSelectedToken();
+  const destinationToken = useDestinationToken();
   const { t } = useTranslation();
+  const from = useFromChain();
+  const to = useToChain();
 
-  const isCustomToken = useIsCustomToken(token);
-  const isCustomTokenFromList = useIsCustomTokenFromList(token);
+  const fromToken = token[from?.id ?? 0] ?? null;
+  const toToken = token[to?.id ?? 0] ?? null;
+
+  const isCustomToken = useIsCustomToken(fromToken);
+  const isCustomTokenFromList = useIsCustomTokenFromList(fromToken);
 
   return (
     <div
       className={clsx(
         "flex justify-between hover:bg-muted transition cursor-pointer p-4 relative",
-        selectedToken?.address === token?.address && "bg-muted"
+        selectedToken &&
+          destinationToken &&
+          fromToken &&
+          toToken &&
+          isAddressEqual(
+            selectedToken.address as Address,
+            fromToken.address as Address
+          ) &&
+          isAddressEqual(
+            destinationToken.address as Address,
+            toToken.address as Address
+          ) &&
+          "bg-muted"
       )}
       onClick={onClick}
     >
       <div className="flex items-center space-x-4">
-        <TokenIcon token={token ?? null} className="h-8 w-8" />
+        <TokenIcon token={fromToken} className="h-8 w-8" />
         <div className="flex flex-col">
           <div className="flex items-center gap-1">
-            <span className="text-sm font-heading">{token?.name}</span>
+            <span className="text-sm font-heading">{fromToken?.name}</span>
           </div>
           <span className="text-xs  text-muted-foreground">
-            {token?.symbol}
+            {fromToken?.symbol}
           </span>
         </div>
       </div>
       <div className="ml-auto flex flex-col text-right gap-1">
         <span className="text-sm  text-muted-foreground">
           {formatDecimals(
-            parseFloat(formatUnits(balance, token?.decimals ?? 18))
+            parseFloat(formatUnits(balance, fromToken?.decimals ?? 18))
           )}
         </span>
         {(isCustomToken || isCustomTokenFromList) && (

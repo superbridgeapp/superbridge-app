@@ -11,7 +11,7 @@ export const useInitiatingChainId = () => {
     route.data.result.steps[0] &&
     isRouteTransactionStep(route.data.result.steps[0])
     ? parseInt(route.data.result.steps[0].chainId)
-    : null;
+    : undefined;
 };
 
 export const useInitiatingChain = () => {

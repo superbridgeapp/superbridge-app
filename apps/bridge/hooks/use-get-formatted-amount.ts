@@ -1,17 +1,18 @@
 import { formatUnits } from "viem";
 
-import { BridgeableTokenDto } from "@/codegen/model";
 import { currencySymbolMap } from "@/constants/currency-symbol-map";
 import { useSettingsState } from "@/state/settings";
 import { formatDecimals } from "@/utils/format-decimals";
 
-import { useTokenPrice } from "./use-prices";
+import { PartialToken, useTokenPrice } from "./use-prices";
 
-export const useGetFormattedAmount = (token: BridgeableTokenDto | null) => {
+export const useGetFormattedAmount = (
+  token: (PartialToken & { symbol: string }) | null | undefined
+) => {
   const currency = useSettingsState.useCurrency();
   const usdPrice = useTokenPrice(token);
 
-  return (raw: string | undefined) => {
+  return (raw: string) => {
     const amount = parseFloat(
       formatUnits(BigInt(raw ?? "0"), token?.decimals ?? 18)
     );
@@ -25,7 +26,7 @@ export const useGetFormattedAmount = (token: BridgeableTokenDto | null) => {
 
     return {
       fiat: fiat ? { formatted: fiatFormatted, amount: fiat } : null,
-      token: { formatted: tokenFormatted, amount },
+      token: { formatted: tokenFormatted, amount, raw },
     };
   };
 };

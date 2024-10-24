@@ -178,8 +178,8 @@ export const TokenList = () => {
             () =>
               filteredTokens?.map(({ token, balance }) => (
                 <TokenItem
-                  key={token[from!.id]!.address}
-                  token={token[from!.id]!}
+                  key={`${token[from?.id ?? 0]?.address}-${token[to?.id ?? 0]?.address}`}
+                  token={token}
                   balance={balance}
                   onClick={() => onClickToken(token)}
                 />

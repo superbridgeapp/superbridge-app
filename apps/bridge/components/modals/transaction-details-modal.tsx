@@ -16,13 +16,13 @@ import {
 } from "@/hooks/activity/use-tx-token";
 import { useHelpCenterLinkByProvider } from "@/hooks/help/use-help-center-link";
 import { useModal } from "@/hooks/use-modal";
+import { useProgressRows } from "@/hooks/use-progress-rows";
+import { isWaitStep } from "@/hooks/use-progress-rows/common";
 import { useTransactions } from "@/hooks/use-transactions";
 import { useTransformPeriodText } from "@/hooks/use-transform-period-text";
 import { usePendingTransactions } from "@/state/pending-txs";
 import { getPeriod } from "@/utils/get-period";
 import { getInitiatingHash } from "@/utils/initiating-tx-hash";
-import { useProgressRows } from "@/utils/progress-rows";
-import { isWaitStep } from "@/utils/progress-rows/common";
 
 import { BridgeInfo } from "../bridge-info";
 import { IconArrowUpRight, IconEscapeHatch, IconHelp } from "../icons";

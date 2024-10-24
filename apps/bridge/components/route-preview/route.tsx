@@ -5,10 +5,9 @@ import {
   RouteQuoteDto,
   RouteStepTransactionDto,
 } from "@/codegen/model";
-import { useBridge } from "@/hooks/bridge/use-bridge";
+import { useBridgeGasEstimateForRoute } from "@/hooks/bridge/use-bridge-gas-estimate";
 import { useFeesForRoute } from "@/hooks/fees/use-fees";
 import { useNetworkFeeForGasLimit } from "@/hooks/gas/use-network-fee";
-import { useSelectedBridgeRoute } from "@/hooks/routes/use-selected-bridge-route";
 import {
   useDestinationToken,
   useSelectedToken,
@@ -48,21 +47,16 @@ export const Route = ({
   const feeBreakdownModal = useModal("FeeBreakdown");
   const gasInfoModal = useModal("GasInfo");
 
-  const bridge = useBridge();
-  const selected = useSelectedBridgeRoute();
-
   const receive = getFormattedAmount(quote.receive);
 
-  const estimate = BigInt(
-    (quote.steps[0] as RouteStepTransactionDto).estimatedGasLimit
-  );
-  let gasLimit = estimate;
-  if (selected.data?.id === provider && bridge.gas) {
-    gasLimit = bridge.gas;
-  }
+  const gasEstimate = useBridgeGasEstimateForRoute({
+    id: provider,
+    result: quote,
+  });
+
   const networkFee = useNetworkFeeForGasLimit(
     parseInt((quote.steps[0] as RouteStepTransactionDto).chainId),
-    gasLimit
+    gasEstimate.data
   );
 
   const route = {
@@ -179,12 +173,12 @@ export const Route = ({
           onClick={() => (allowDetailClicks ? gasInfoModal.open() : null)}
         >
           <IconSimpleGas className="h-3.5 w-3.5 fill-muted-foreground group-hover:fill-foreground" />{" "}
-          {networkFee.isLoading ? (
-            <Skeleton className="h-3 w-[60px]" />
-          ) : (
+          {networkFee.data?.token.formatted ? (
             <span className="text-xs leading-none text-muted-foreground group-hover:text-foreground">
               {networkFee.data?.token.formatted}
             </span>
+          ) : (
+            <Skeleton className="h-3 w-[60px]" />
           )}
           {transactionStepCount > 1 && (
             <span className="rounded-full text-[10px] leading-none bg-primary text-primary-foreground py-1 px-1.5">

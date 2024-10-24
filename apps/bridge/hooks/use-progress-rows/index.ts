@@ -1,13 +1,13 @@
 import { useTxDeployment } from "@/hooks/activity/use-tx-deployment";
+import { useArbitrumDepositProgressRows } from "@/hooks/use-progress-rows/arbitrum-deposit";
+import { useArbitrumWithdrawalProgressRows } from "@/hooks/use-progress-rows/arbitrum-withdrawal";
+import { useCctpProgressRows } from "@/hooks/use-progress-rows/cctp";
+import { useOptimismDepositProgressRows } from "@/hooks/use-progress-rows/deposit";
+import { useOptimismForcedWithdrawalProgressRows } from "@/hooks/use-progress-rows/forced-withdrawal";
+import { useOptimismWithdrawalProgressRows } from "@/hooks/use-progress-rows/withdrawal";
 import { Transaction } from "@/types/transaction";
-import { useArbitrumDepositProgressRows } from "@/utils/progress-rows/arbitrum-deposit";
-import { useArbitrumWithdrawalProgressRows } from "@/utils/progress-rows/arbitrum-withdrawal";
-import { useCctpProgressRows } from "@/utils/progress-rows/cctp";
-import { useOptimismDepositProgressRows } from "@/utils/progress-rows/deposit";
-import { useOptimismForcedWithdrawalProgressRows } from "@/utils/progress-rows/forced-withdrawal";
-import { useOptimismWithdrawalProgressRows } from "@/utils/progress-rows/withdrawal";
 
-import { isOptimismWithdrawal } from "../guards";
+import { isOptimismWithdrawal } from "../../utils/guards";
 import { useAcrossProgressRows } from "./across";
 import { useHyperlaneProgressRows } from "./hyperlane";
 import { useLzProgressRows } from "./lz";

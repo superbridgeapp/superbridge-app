@@ -7,7 +7,7 @@ import { useChain } from "@/hooks/use-chain";
 import { usePendingTransactions } from "@/state/pending-txs";
 import { Transaction } from "@/types/transaction";
 
-import { isArbitrumDeposit } from "../guards";
+import { isArbitrumDeposit } from "../../utils/guards";
 import { ActivityStep, ButtonComponent, buildWaitStep } from "./common";
 
 export const useArbitrumDepositProgressRows = (
